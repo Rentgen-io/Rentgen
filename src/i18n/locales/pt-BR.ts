@@ -403,6 +403,7 @@ const ptBR = {
     dateYYYYMMDD: 'Data (AAAA-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Número',
     phone: 'Telefone',
     string: 'String',

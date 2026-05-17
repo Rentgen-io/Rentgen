@@ -401,6 +401,7 @@ const uk = {
     dateYYYYMMDD: 'Дата (РРРР-ММ-ДД)',
     email: 'Email',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Число',
     phone: 'Телефон',
     string: 'Рядок',

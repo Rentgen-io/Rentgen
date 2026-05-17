@@ -398,6 +398,7 @@ const hi = {
     dateYYYYMMDD: 'तिथि (YYYY-MM-DD)',
     email: 'ईमेल',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'संख्या',
     phone: 'फ़ोन',
     string: 'स्ट्रिंग',

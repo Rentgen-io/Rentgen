@@ -399,6 +399,7 @@ const en = {
     dateYYYYMMDD: 'Date (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Number',
     phone: 'Phone',
     string: 'String',

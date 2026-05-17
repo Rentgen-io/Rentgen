@@ -400,6 +400,7 @@ const lt = {
     dateYYYYMMDD: 'Data (YYYY-MM-DD)',
     email: 'El. paštas',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Skaičius',
     phone: 'Telefonas',
     string: 'Eilutė',

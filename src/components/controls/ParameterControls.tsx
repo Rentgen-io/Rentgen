@@ -35,6 +35,7 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
     { value: 'date_yyyy_mm_dd', label: t('parameterTypes.dateYYYYMMDD') },
     { value: 'email', label: t('parameterTypes.email') },
     { value: 'enum', label: t('parameterTypes.enum') },
+    { value: 'ipv4', label: t('parameterTypes.ipv4') },
     { value: 'number', label: t('parameterTypes.number') },
     { value: 'phone', label: t('parameterTypes.phone') },
     { value: 'string', label: t('parameterTypes.string') },
@@ -147,14 +148,14 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
 
   function onMinChange(value: string) {
     let min = clamp(Number(value), -MAX_INT32, MAX_INT32) || null;
-    if (TRAILING_ZEROS_PATTERN.test(value)) min += 0.001; // to preserve trailing zeros in decimals
+    if (TRAILING_ZEROS_PATTERN.test(value) && min !== null) min += 0.001; // to preserve trailing zeros in decimals
 
     onChange({ ...dynamicValue, value: { ...(dynamicValue.value as Interval), min } });
   }
 
   function onMaxChange(value: string) {
     let max = clamp(Number(value), -MAX_INT32, MAX_INT32) || null;
-    if (TRAILING_ZEROS_PATTERN.test(value)) max += 0.001; // to preserve trailing zeros in decimals
+    if (TRAILING_ZEROS_PATTERN.test(value) && max !== null) max += 0.001; // to preserve trailing zeros in decimals
 
     onChange({ ...dynamicValue, value: { ...(dynamicValue.value as Interval), max } });
   }

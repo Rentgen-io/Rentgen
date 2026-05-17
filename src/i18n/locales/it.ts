@@ -403,6 +403,7 @@ const it = {
     dateYYYYMMDD: 'Data (AAAA-MM-GG)',
     email: 'Email',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Numero',
     phone: 'Telefono',
     string: 'Stringa',

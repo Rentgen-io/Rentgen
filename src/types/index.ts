@@ -1,16 +1,17 @@
 import { Method } from 'axios';
 
 export type DataType =
-  | 'email'
-  | 'enum'
-  | 'url'
-  | 'ftp_url'
-  | 'phone'
-  | 'number'
   | 'boolean'
   | 'currency'
   | 'date_yyyy_mm_dd'
+  | 'email'
+  | 'enum'
+  | 'ftp_url'
+  | 'ipv4'
+  | 'number'
+  | 'phone'
   | 'string'
+  | 'url'
   | 'do-not-test'
   | 'randomString'
   | 'randomInt'

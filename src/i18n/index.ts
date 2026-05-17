@@ -1,23 +1,24 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import en from './locales/en';
-import lt from './locales/lt';
-import pl from './locales/pl';
-import uk from './locales/uk';
-import es from './locales/es';
 import de from './locales/de';
-import ptBR from './locales/pt-BR';
-import zhCN from './locales/zh-CN';
+import en from './locales/en';
+import es from './locales/es';
 import fr from './locales/fr';
-import th from './locales/th';
+import hi from './locales/hi';
+import id from './locales/id';
+import it from './locales/it';
 import ja from './locales/ja';
 import ko from './locales/ko';
-import it from './locales/it';
-import tr from './locales/tr';
-import id from './locales/id';
-import vi from './locales/vi';
-import hi from './locales/hi';
+import lt from './locales/lt';
 import nl from './locales/nl';
+import pl from './locales/pl';
+import ptBR from './locales/pt-BR';
+import ru from './locales/ru';
+import th from './locales/th';
+import tr from './locales/tr';
+import uk from './locales/uk';
+import vi from './locales/vi';
+import zhCN from './locales/zh-CN';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -39,6 +40,7 @@ i18n.use(initReactI18next).init({
     vi: { translation: vi },
     hi: { translation: hi },
     nl: { translation: nl },
+    ru: { translation: ru },
   },
   lng: 'en',
   fallbackLng: 'en',

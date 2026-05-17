@@ -403,6 +403,7 @@ const nl = {
     dateYYYYMMDD: 'Datum (JJJJ-MM-DD)',
     email: 'E-mail',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Getal',
     phone: 'Telefoon',
     string: 'String',

@@ -402,6 +402,7 @@ const tr = {
     dateYYYYMMDD: 'Tarih (YYYY-AA-GG)',
     email: 'E-posta',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Sayı',
     phone: 'Telefon',
     string: 'Dize',

@@ -402,6 +402,7 @@ const es = {
     dateYYYYMMDD: 'Fecha (AAAA-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Número',
     phone: 'Teléfono',
     string: 'Cadena',

@@ -403,6 +403,7 @@ const de = {
     dateYYYYMMDD: 'Datum (JJJJ-MM-TT)',
     email: 'E-Mail',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Zahl',
     phone: 'Telefon',
     string: 'Zeichenkette',

@@ -9,6 +9,7 @@ export const LANGUAGES = [
   { code: 'nl', label: 'Nederlands' },
   { code: 'pl', label: 'Polski' },
   { code: 'pt-BR', label: 'Português (Brasil)' },
+  { code: 'ru', label: 'Русский' },
   { code: 'vi', label: 'Tiếng Việt' },
   { code: 'tr', label: 'Türkçe' },
   { code: 'uk', label: 'Українська' },

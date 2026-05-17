@@ -398,6 +398,7 @@ const ko = {
     dateYYYYMMDD: '날짜 (YYYY-MM-DD)',
     email: '이메일',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: '숫자',
     phone: '전화번호',
     string: '문자열',

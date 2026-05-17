@@ -398,6 +398,7 @@ const th = {
     dateYYYYMMDD: 'วันที่ (YYYY-MM-DD)',
     email: 'อีเมล',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'จำนวน',
     phone: 'โทรศัพท์',
     string: 'สตริง',

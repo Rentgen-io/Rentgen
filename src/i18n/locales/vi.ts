@@ -398,6 +398,7 @@ const vi = {
     dateYYYYMMDD: 'Ngày (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Số',
     phone: 'Điện thoại',
     string: 'Chuỗi',

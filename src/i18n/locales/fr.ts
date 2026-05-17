@@ -409,6 +409,7 @@ const fr = {
     dateYYYYMMDD: 'Date (AAAA-MM-JJ)',
     email: 'E-mail',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Nombre',
     phone: 'Téléphone',
     string: 'Chaîne',

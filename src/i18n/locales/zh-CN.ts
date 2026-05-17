@@ -393,6 +393,7 @@ const zhCN = {
     dateYYYYMMDD: '日期 (YYYY-MM-DD)',
     email: '邮箱',
     enum: '枚举',
+    ipv4: 'IPv4',
     number: '数字',
     phone: '电话',
     string: '字符串',

@@ -398,6 +398,7 @@ const id = {
     dateYYYYMMDD: 'Tanggal (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: 'Angka',
     phone: 'Telepon',
     string: 'String',

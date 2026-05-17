@@ -401,6 +401,7 @@ const ja = {
     dateYYYYMMDD: '日付 (YYYY-MM-DD)',
     email: 'メールアドレス',
     enum: 'Enum',
+    ipv4: 'IPv4',
     number: '数値',
     phone: '電話番号',
     string: '文字列',
