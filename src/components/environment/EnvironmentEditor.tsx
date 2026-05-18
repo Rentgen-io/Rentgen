@@ -31,11 +31,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const valueOptions: SelectOption<DataType>[] = [
-    { value: 'randomEmail', label: t('environment.randomEmail') },
-    { value: 'randomInt', label: t('environment.randomInteger') },
-    { value: 'randomString', label: t('environment.randomString') },
-  ];
   const collection = useAppSelector(selectCollectionData);
   const allDynamicVariables = useAppSelector(selectDynamicVariables);
   const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
@@ -135,18 +130,14 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
       const result = updated.filter((v, i) => {
         const isEmpty = v.key.trim() === '' && v.value.trim() === '';
-        if (!isEmpty) {
-          return true;
-        }
+        if (!isEmpty) return true;
 
         return i === index;
       });
 
       const lastRow = result[result.length - 1];
       const lastIsEmpty = lastRow && lastRow.key.trim() === '' && lastRow.value.trim() === '';
-      if (!lastIsEmpty) {
-        result.push({ key: '', value: '' });
-      }
+      if (!lastIsEmpty) result.push({ key: '', value: '' });
 
       return result;
     });
@@ -325,27 +316,10 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                   cell: (row) => {
                     if (row.type === 'static')
                       return (
-                        <Select
-                          classNames={{
-                            container: () => 'w-full text-xs overflow-hidden',
-                            control: () =>
-                              'min-h-auto! border-none! bg-white! dark:bg-dark-input! shadow-none! transition-none! overflow-hidden!',
-                            singleValue: () =>
-                              'm-0! text-text! dark:text-dark-text! overflow-hidden! text-ellipsis! whitespace-nowrap!',
-                          }}
-                          isCreatable={true}
-                          menuPosition="fixed"
-                          options={valueOptions}
-                          placeholder={t('environment.value')}
-                          value={
-                            valueOptions.find((option) => option.value == (row as EnvironmentVariable).value) || {
-                              value: (row as EnvironmentVariable).value,
-                              label: (row as EnvironmentVariable).value,
-                            }
-                          }
-                          onChange={(option: SelectOption<DataType>) =>
-                            handleVariableChange(row.index, 'value', option.value)
-                          }
+                        <EnvironmentVariableSelect
+                          key={(row as EnvironmentVariable).value}
+                          value={(row as EnvironmentVariable).value}
+                          handleVariableChange={(value) => handleVariableChange(row.index, 'value', value)}
                         />
                       );
 
@@ -464,5 +438,49 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
         )}
       </div>
     </Panel>
+  );
+}
+
+function EnvironmentVariableSelect({
+  value,
+  handleVariableChange,
+}: {
+  value: string;
+  handleVariableChange: (value: string) => void;
+}) {
+  const { t } = useTranslation();
+  const options: SelectOption<DataType>[] = [
+    { value: 'randomEmail', label: t('environment.randomEmail') },
+    { value: 'randomInt', label: t('environment.randomInteger') },
+    { value: 'randomString', label: t('environment.randomString') },
+  ];
+  const selected = options.find((option) => option.value == value) || {
+    value: value,
+    label: value,
+  };
+  const [inputValue, setInputValue] = useState(selected.label);
+
+  return (
+    <Select
+      classNames={{
+        container: () => 'w-full text-xs overflow-hidden',
+        control: () =>
+          'min-h-auto! border-none! bg-white! dark:bg-dark-input! shadow-none! transition-none! overflow-hidden!',
+        input: () => 'm-0! p-0! text-text! dark:text-dark-text! [&>*]:opacity-100!',
+        singleValue: () => 'm-0! text-text! dark:text-dark-text! overflow-hidden! text-ellipsis! whitespace-nowrap!',
+      }}
+      isCreatable={true}
+      menuPosition="fixed"
+      options={options}
+      placeholder={t('environment.value')}
+      value={selected}
+      defaultInputValue={selected.label}
+      inputValue={inputValue}
+      onInputChange={(value, meta) => {
+        if (meta.action === 'input-change') setInputValue(value);
+        if (meta.action === 'input-blur') setInputValue(selected.label);
+      }}
+      onChange={(option: SelectOption<DataType>) => handleVariableChange(option.value)}
+    />
   );
 }
