@@ -1,74 +1,102 @@
-## 🚀 Release v1.20.0
+## 🚀 Release v1.21.0
 
-### 🔥 Project Export / Import (Main Feature)
+### 🖥 Rentgen CLI (MVP Release)
 
-You can now fully export and import your Rentgen projects and share it with a team.
+Rentgen now works from the terminal.
 
-- Export everything:
-  - requests
-  - collections
-  - environment variables (static + dynamic)
-  - history
+You can export a `.rentgen` project from the desktop app and run API reality checks locally, inside Docker, or directly in CI/CD pipelines.
 
-- Import back anytime
+Main command:
 
-No accounts. No cloud. No vendor lock-in. Use whatever you want:
+- `rentgen xray`
 
-- Dropbox
-- GitHub
-- local storage, etc
+Current MVP scope:
+
+- folder / collection execution
+- environment support
+- Docker support
+- CI/CD support
+- JSON reports
+
+Supported:
+
+- GitHub Actions
+- GitLab CI
+- Bitbucket Pipelines
+- Jenkins
+- Docker
+
+CLI page: https://rentgen.io/cli
+
+Example:
+
+```bash
+rentgen xray ./project.rentgen \
+ --collection="Smoke Tests" \
+ --env=staging \
+ --report=json
+```
+
+Docker:
+
+```bash
+docker run --rm -v "$PWD":/work -w /work \
+ ghcr.io/rentgen-io/rentgen-cli:1.21.0 \
+ xray ./project.rentgen
+```
+
+No cloud runners.
+No hosted sync.
+Same local-first philosophy.
 
 ---
 
-### 🔐 New Test: Invalid Authorization Cookie / Token
+### 🌍 Multi-language Support
 
-Automatically triggered if request contains headers:
+Rentgen now supports multiple interface languages.
 
-- Authorization
-- X-API-Key
-- X-Auth-Token
-- Api-Key
-- ApiKey
+Supported languages:
 
-Or uses Bearer token.
+- English
+- Bahasa Indonesia
+- Deutsch
+- Español
+- Français
+- Italiano
+- Lietuvių
+- Nederlands
+- Polski
+- Português (Brasil)
+- Русский
+- Tiếng Việt
+- Türkçe
+- Українська
+- हिन्दी
+- ไทย
+- 中文 (简体)
+- 日本語
+- 한국어
 
-What it does:
+Found a translation issue or want to help add another language?
 
-- Takes existing token
-- Modifies it (invalidates)
-- Sends request
-
-Expected result: `401 Unauthorized`
+Open a GitHub issue with details and we will do our best.
 
 ---
 
-### ⏱ Response Time Everywhere
+### 🌐 New Field Type: IPv4
 
-Response time is now visible across the entire workflow.
+New supported field type:
 
-- Each test now shows response time
-- Manual requests show response time next to status code
+- IPv4
 
----
-
-### ⚙️ Test Engine Settings (Mapping Control)
-
-New: `Settings → Test Engine`
-
-You can now control how test data is generated.
-
-- Random Email `[length]`
-- Random Integer `[min] [max]`
-- Random String `[length]`
-- Email (custom domain) [domain]` → default: rentgen.io
-- Enum `value1,value2,value3`
-- Number `[min] [max]`
-- String `[max length]`
+Rentgen can now generate and validate IPv4-related test cases automatically.
 
 ---
 
 ### 🛠 Bug Fixes & Improvements
 
-- Stability improvements across test execution
+- Fixed variable editing issue where variables could only be created, not edited
+- General CLI stability improvements
+- UX improvements across project handling
 - Performance optimizations
-- General UX improvements
+- Various internal fixes and cleanup
