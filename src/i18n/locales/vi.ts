@@ -401,6 +401,7 @@ const vi = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Số',
+    numericString: 'Chuỗi số',
     phone: 'Điện thoại',
     string: 'Chuỗi',
     url: 'URL',

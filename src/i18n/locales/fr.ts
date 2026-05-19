@@ -412,6 +412,7 @@ const fr = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Nombre',
+    numericString: 'Chaîne numérique',
     phone: 'Téléphone',
     string: 'Chaîne',
     url: 'URL',

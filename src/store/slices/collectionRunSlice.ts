@@ -3,7 +3,7 @@ import { HttpResponse, RequestParameters } from '../../types';
 
 export interface CollectionRunResult {
   requestId: string;
-  status: number;
+  status: number | null;
   response: HttpResponse | null;
   bodyParameters: RequestParameters | null;
   queryParameters: RequestParameters | null;
@@ -13,7 +13,7 @@ export interface CollectionRunResult {
 
 interface CollectionRunState {
   runningFolderId: string | null;
-  runningRequestId: string;
+  runningRequestId: string | null;
   results: Record<string, CollectionRunResult>;
 }
 

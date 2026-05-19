@@ -200,6 +200,7 @@ export function getInitialParameterValue(type: DataType, value = '', mandatory =
     case 'enum':
       return { ...dynamicValue, value: settings.enum };
     case 'number':
+    case 'numeric_string':
       return { ...dynamicValue, value: settings.number };
     case 'string':
       return {

@@ -401,6 +401,7 @@ const th = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'จำนวน',
+    numericString: 'สตริงตัวเลข',
     phone: 'โทรศัพท์',
     string: 'สตริง',
     url: 'URL',

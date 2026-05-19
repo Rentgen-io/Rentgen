@@ -402,6 +402,7 @@ const ru = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Число',
+    numericString: 'Числовая строка',
     phone: 'Телефон',
     string: 'Строка',
     url: 'URL',

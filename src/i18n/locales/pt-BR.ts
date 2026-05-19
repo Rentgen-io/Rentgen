@@ -406,6 +406,7 @@ const ptBR = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Número',
+    numericString: 'String numérica',
     phone: 'Telefone',
     string: 'String',
     url: 'URL',

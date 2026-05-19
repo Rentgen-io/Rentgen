@@ -9,6 +9,7 @@ export type DataType =
   | 'ftp_url'
   | 'ipv4'
   | 'number'
+  | 'numeric_string'
   | 'phone'
   | 'string'
   | 'url'

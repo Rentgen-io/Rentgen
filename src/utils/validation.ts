@@ -4,16 +4,17 @@ const DATA_TYPE_DETECTORS: ReadonlyArray<{
   type: DataType;
   regex: RegExp;
 }> = [
-  { type: 'email', regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
+  { type: 'email', regex: /^["']?[^\s@]+@[^\s@]+\.[^\s@]+["']?$/ },
   { type: 'enum', regex: /^[A-Z_]{1,10}$/ },
   { type: 'url', regex: /^https?:\/\/[^\s$.?#].[^\s]*$/i },
   { type: 'ftp_url', regex: /^ftp:\/\/[^\s$.?#].[^\s]*$/i },
-  { type: 'phone', regex: /^\+\d{7,20}$/ },
+  { type: 'phone', regex: /^["']?\+\d{7,20}["']?$/ },
   { type: 'number', regex: /^-?\d+(\.\d+)?$/ },
+  { type: 'numeric_string', regex: /^["']-?\d+(\.\d+)?["']$/ },
   { type: 'boolean', regex: /^(true|false)$/i },
   { type: 'currency', regex: /^[A-Z]{3}$/ },
-  { type: 'date_yyyy_mm_dd', regex: /^\d{4}-\d{2}-\d{2}$/ },
-  { type: 'ipv4', regex: /^\d{1,3}(\.\d{1,3}){3}$/ },
+  { type: 'date_yyyy_mm_dd', regex: /^["']?\d{4}-\d{2}-\d{2}["']?$/ },
+  { type: 'ipv4', regex: /^["']?\d{1,3}(\.\d{1,3}){3}["']?$/ },
   { type: 'string', regex: /.+/ },
 ];
 
@@ -21,7 +22,7 @@ export function detectDataType(value: unknown, strict = false): DataType {
   if (typeof value === 'boolean') return 'boolean';
   if (typeof value === 'number') return 'number';
   if (typeof value === 'string' && value.length > 0) {
-    if (strict && !isNaN(Number(value)) && !isPhoneNumber(value)) return 'string';
+    if (strict && !isNaN(Number(value)) && !isPhoneNumber(value)) return 'numeric_string';
 
     for (const detector of DATA_TYPE_DETECTORS) if (detector.regex.test(value)) return detector.type;
   }

@@ -480,7 +480,7 @@ function EnvironmentVariableSelect({
         if (meta.action === 'input-change') setInputValue(value);
         if (meta.action === 'input-blur') setInputValue(selected.label);
       }}
-      onChange={(option: SelectOption<DataType>) => handleVariableChange(option.value)}
+      onChange={(option) => handleVariableChange((option as SelectOption<DataType>).value)}
     />
   );
 }

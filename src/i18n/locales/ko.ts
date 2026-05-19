@@ -401,6 +401,7 @@ const ko = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: '숫자',
+    numericString: '숫자 문자열',
     phone: '전화번호',
     string: '문자열',
     url: 'URL',

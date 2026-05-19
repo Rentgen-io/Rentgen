@@ -406,6 +406,7 @@ const nl = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Getal',
+    numericString: 'Numerieke string',
     phone: 'Telefoon',
     string: 'String',
     url: 'URL',

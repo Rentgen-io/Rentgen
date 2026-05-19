@@ -404,6 +404,7 @@ const ja = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: '数値',
+    numericString: '数値文字列',
     phone: '電話番号',
     string: '文字列',
     url: 'URL',

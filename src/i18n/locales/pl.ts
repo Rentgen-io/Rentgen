@@ -402,6 +402,7 @@ const pl = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Liczba',
+    numericString: 'Ciąg numeryczny',
     phone: 'Telefon',
     string: 'Ciąg znaków',
     url: 'URL',

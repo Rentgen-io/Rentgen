@@ -405,6 +405,7 @@ const tr = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Sayı',
+    numericString: 'Sayısal Dize',
     phone: 'Telefon',
     string: 'Dize',
     url: 'URL',
