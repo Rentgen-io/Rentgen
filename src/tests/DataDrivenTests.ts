@@ -134,7 +134,7 @@ export class DataDrivenTests extends BaseTests {
 
         return {
           ...dataset,
-          value: (dataset.value as string).substring(0, value as number),
+          value: (dataset.value as string).padEnd((value as Interval).min, 'x').substring(0, (value as Interval).max),
         };
       }),
     ];
@@ -187,7 +187,11 @@ export async function runDataDrivenTests(
 async function testRequestParameter(
   options: TestOptions,
   expected: string,
-  determine: (response: HttpResponse, statusCode: number, testData: TestData) => { actual: string; status: TestStatus },
+  determine: (
+    response: HttpResponse,
+    statusCode: number,
+    testData?: TestData,
+  ) => { actual: string; status: TestStatus },
   onTestStart?: () => void,
 ): Promise<TestResult> {
   onTestStart?.();
@@ -208,29 +212,35 @@ async function testRequestParameter(
       status,
       request,
       response,
-      testData.value,
+      testData?.value,
     );
   } catch (error) {
-    return createErrorTestResult(`${parameterType}.${parameterName}`, expected, String(error), request, testData.value);
+    return createErrorTestResult(
+      `${parameterType}.${parameterName}`,
+      expected,
+      String(error),
+      request,
+      testData?.value,
+    );
   }
 }
 
 function determineValueNormalizationTestStatus(
   response: HttpResponse,
   statusCode: number,
-  testData: TestData,
+  testData?: TestData,
 ): { actual: string; status: TestStatus } {
   if (statusCode === RESPONSE_STATUS.BAD_REQUEST || statusCode === RESPONSE_STATUS.UNPROCESSABLE_ENTITY)
     return { actual: response.status, status: TestStatus.Pass };
 
   const responseBody = typeof response.body === 'string' ? response.body : JSON.stringify(response.body);
-  if (!responseBody || !responseBody.includes(String(testData.value).trim()))
+  if (!responseBody || !responseBody.includes(String(testData?.value).trim()))
     return {
       actual: `${response.status} → Check Manually via GET Method or Database`,
       status: TestStatus.Info,
     };
 
-  if (!responseBody.includes(String(testData.value)))
+  if (!responseBody.includes(String(testData?.value)))
     return { actual: `${response.status} + Trimmed/Normalized Value`, status: TestStatus.Pass };
 
   return { actual: `${response.status} + Not Trimmed/Normalized Value`, status: TestStatus.Fail };
@@ -239,12 +249,12 @@ function determineValueNormalizationTestStatus(
 function determineRequestParameterTestStatus(
   response: HttpResponse,
   statusCode: number,
-  testData: TestData,
+  testData?: TestData,
 ): { actual: string; status: TestStatus } {
   const testStatus = { actual: response.status, status: TestStatus.Fail };
   if (
-    (testData.valid && statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.REDIRECT) ||
-    (!testData.valid && statusCode >= RESPONSE_STATUS.BAD_REQUEST && statusCode < RESPONSE_STATUS.SERVER_ERROR)
+    (testData?.valid && statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.REDIRECT) ||
+    (!testData?.valid && statusCode >= RESPONSE_STATUS.BAD_REQUEST && statusCode < RESPONSE_STATUS.SERVER_ERROR)
   )
     testStatus.status = TestStatus.Pass;
 
@@ -267,7 +277,10 @@ export function generateDynamicTestData({ mandatory, type, value }: DynamicValue
       results.push(...generateNumberBoundaryTestData(value as Interval));
       break;
     case 'string':
-      results.push({ value: generateRandomString((value as number) + 1), valid: false });
+      if ((value as Interval).min > 1)
+        results.push({ value: generateRandomString((value as Interval).min - 1), valid: false });
+
+      results.push({ value: generateRandomString((value as Interval).max + 1), valid: false });
       break;
     default:
   }

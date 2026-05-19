@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import merge from 'deepmerge';
+import { appConfig } from '../../constants/appConfig';
 import i18n from '../../i18n';
 import { Language } from '../../i18n/languages';
-import { appConfig } from '../../constants/appConfig';
 import { Interval } from '../../types';
 
 export type HistoryRetention = '1w' | '1m' | '3m' | '6m' | '1y' | 'none';
@@ -31,6 +32,7 @@ export interface SettingsState {
       number: Interval;
       string: {
         maxLength: number;
+        minLength: number;
       };
     };
     securityTests: {
@@ -71,6 +73,7 @@ export const initialState: SettingsState = {
         max: 10000,
       },
       string: {
+        minLength: 1,
         maxLength: 128,
       },
     },
@@ -123,6 +126,9 @@ export const settingsSlice = createSlice({
     setNumberMax: (state, action: PayloadAction<number>) => {
       state.testEngine.configuration.number.max = action.payload;
     },
+    setStringMinLength: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.string.minLength = action.payload;
+    },
     setStringMaxLength: (state, action: PayloadAction<number>) => {
       state.testEngine.configuration.string.maxLength = action.payload;
     },
@@ -154,7 +160,8 @@ export const settingsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loadSettings.fulfilled, (state, action: PayloadAction<SettingsState>) => {
       state.cli = action.payload.cli;
-      state.testEngine = { ...state.testEngine, ...action.payload.testEngine };
+      state.general = merge(state.general, action.payload.general);
+      state.testEngine = merge(state.testEngine, action.payload.testEngine);
       state.theme = action.payload.theme;
       state.language = action.payload.language || 'en';
 

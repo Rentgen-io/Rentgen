@@ -53,7 +53,7 @@ export function MappingSettings() {
               }}
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), 1, 256);
-                dispatch(settingsActions.setRandomEmailLength(isNaN(value) ? null : value));
+                dispatch(settingsActions.setRandomEmailLength(value));
               }}
             />
           </div>
@@ -84,7 +84,7 @@ export function MappingSettings() {
               }
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), -MAX_INT32, MAX_INT32);
-                dispatch(settingsActions.setNumberMin(isNaN(value) ? null : value));
+                dispatch(settingsActions.setNumberMin(value));
               }}
             />
           </div>
@@ -101,7 +101,7 @@ export function MappingSettings() {
               }
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), -MAX_INT32, MAX_INT32);
-                dispatch(settingsActions.setNumberMax(isNaN(value) ? null : value));
+                dispatch(settingsActions.setNumberMax(value));
               }}
             />
           </div>
@@ -109,18 +109,40 @@ export function MappingSettings() {
         <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
           <label className="m-0 font-bold">{t('settings.configuration.string')}</label>
           <div className="flex items-center justify-between">
+            <span>{t('settings.configuration.minimumValueLength')}</span>
+            <Input
+              type="number"
+              className="w-32 py-1.5"
+              value={stringConfiguration.minLength ?? ''}
+              onBlur={() =>
+                dispatch(
+                  settingsActions.setStringMinLength(
+                    Math.min(stringConfiguration.minLength || 1, stringConfiguration.maxLength),
+                  ),
+                )
+              }
+              onChange={(event) => {
+                const value = clamp(parseInt(event.target.value), 1, 1000000);
+                dispatch(settingsActions.setStringMinLength(value));
+              }}
+            />
+          </div>
+          <div className="flex items-center justify-between">
             <span>{t('settings.configuration.maximumValueLength')}</span>
             <Input
               type="number"
               className="w-32 py-1.5"
               value={stringConfiguration.maxLength ?? ''}
-              onBlur={() => {
-                if (stringConfiguration.maxLength) return;
-                dispatch(settingsActions.setStringMaxLength(1));
-              }}
+              onBlur={() =>
+                dispatch(
+                  settingsActions.setStringMaxLength(
+                    Math.max(stringConfiguration.minLength, stringConfiguration.maxLength || 1000000),
+                  ),
+                )
+              }
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), 1, 1000000);
-                dispatch(settingsActions.setStringMaxLength(isNaN(value) ? null : value));
+                dispatch(settingsActions.setStringMaxLength(value));
               }}
             />
           </div>
@@ -142,7 +164,7 @@ export function MappingSettings() {
               }
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), 0, MAX_INT32);
-                dispatch(settingsActions.setRandomIntMin(isNaN(value) ? null : value));
+                dispatch(settingsActions.setRandomIntMin(value));
               }}
             />
           </div>
@@ -163,7 +185,7 @@ export function MappingSettings() {
               }
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), 0, MAX_INT32);
-                dispatch(settingsActions.setRandomIntMax(isNaN(value) ? null : value));
+                dispatch(settingsActions.setRandomIntMax(value));
               }}
             />
           </div>
@@ -182,7 +204,7 @@ export function MappingSettings() {
               }}
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), 1, 4096);
-                dispatch(settingsActions.setRandomStringLength(isNaN(value) ? null : value));
+                dispatch(settingsActions.setRandomStringLength(value));
               }}
             />
           </div>

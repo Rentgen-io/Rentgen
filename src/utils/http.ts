@@ -202,7 +202,13 @@ export function getInitialParameterValue(type: DataType, value = '', mandatory =
     case 'number':
       return { ...dynamicValue, value: settings.number };
     case 'string':
-      return { ...dynamicValue, value: settings.string.maxLength };
+      return {
+        ...dynamicValue,
+        value: {
+          min: settings.string.minLength,
+          max: settings.string.maxLength,
+        },
+      };
     default:
       return dynamicValue;
   }
@@ -217,7 +223,7 @@ export function isUrlEncodedContentTypeString(value: string): boolean {
 }
 
 export function parseBody(
-  body: string,
+  body: string | null,
   headers: Record<string, string>,
   messageType: string,
   protoFile: File | null,
@@ -236,7 +242,7 @@ export function parseBody(
   return paredBody;
 }
 
-export function parseFormData(rawFormData: string): Array<[string, string]> {
+export function parseFormData(rawFormData: string | null): Array<[string, string]> {
   return (rawFormData || '')
     .split(/\r?\n/)
     .map((line) => line.trim())

@@ -63,16 +63,8 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
               step={0.01}
               type="number"
               value={normalizeDecimal((value as Interval).min) ?? ''}
-              onBlur={() => {
-                const min = (value as Interval).min;
-                const max = (value as Interval).max;
-
-                onChange({
-                  ...dynamicValue,
-                  value: { ...(value as Interval), min: Math.min(min || testEngineConfiguration.number.min, max) },
-                });
-              }}
-              onChange={(event) => onMinChange(event.target.value)}
+              onBlur={() => onMinBlur(testEngineConfiguration.number.min)}
+              onChange={(event) => onMinChange(event.target.value, -MAX_INT32, MAX_INT32)}
             />
             <Input
               className={inputClassName}
@@ -80,27 +72,32 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
               step={0.01}
               type="number"
               value={normalizeDecimal((value as Interval).max) ?? ''}
-              onBlur={() => {
-                const min = (value as Interval).min;
-                const max = (value as Interval).max;
-
-                onChange({
-                  ...dynamicValue,
-                  value: { ...(value as Interval), max: Math.max(min, max || testEngineConfiguration.number.max) },
-                });
-              }}
-              onChange={(event) => onMaxChange(event.target.value)}
+              onBlur={() => onMaxBlur(testEngineConfiguration.number.max)}
+              onChange={(event) => onMaxChange(event.target.value, -MAX_INT32, MAX_INT32)}
             />
           </div>
         )}
         {type === 'string' && (
-          <Input
-            className={inputClassName}
-            step={1}
-            type="number"
-            value={value as number}
-            onChange={(event) => onChange({ ...dynamicValue, value: clamp(Number(event.target.value), 1, 1000000) })}
-          />
+          <div className="flex items-center gap-2">
+            <Input
+              className={inputClassName}
+              placeholder={t('controls.minPlaceholder')}
+              step={1}
+              type="number"
+              value={(value as Interval).min ?? ''}
+              onBlur={() => onMinBlur(testEngineConfiguration.string.minLength)}
+              onChange={(event) => onMinChange(event.target.value, 1, 1000000)}
+            />
+            <Input
+              className={inputClassName}
+              placeholder={t('controls.maxPlaceholder')}
+              step={1}
+              type="number"
+              value={(value as Interval).max ?? ''}
+              onBlur={() => onMaxBlur(testEngineConfiguration.string.maxLength)}
+              onChange={(event) => onMaxChange(event.target.value, 1, 1000000)}
+            />
+          </div>
         )}
         <div className="col-start-2 flex items-center gap-1">
           <SimpleSelect
@@ -146,15 +143,35 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
     return <div className="mb-1 text-xs text-text-secondary">{label}</div>;
   }
 
-  function onMinChange(value: string) {
-    let min = clamp(Number(value), -MAX_INT32, MAX_INT32) || null;
+  function onMinBlur(minValue: number) {
+    const min = (value as Interval).min;
+    const max = (value as Interval).max;
+
+    onChange({
+      ...dynamicValue,
+      value: { ...(value as Interval), min: Math.min(min || minValue, max) },
+    });
+  }
+
+  function onMaxBlur(maxValue: number) {
+    const min = (value as Interval).min;
+    const max = (value as Interval).max;
+
+    onChange({
+      ...dynamicValue,
+      value: { ...(value as Interval), max: Math.max(min, max || maxValue) },
+    });
+  }
+
+  function onMinChange(value: string, minValue: number, maxValue: number) {
+    let min = clamp(Number(value), minValue, maxValue);
     if (TRAILING_ZEROS_PATTERN.test(value) && min !== null) min += 0.001; // to preserve trailing zeros in decimals
 
     onChange({ ...dynamicValue, value: { ...(dynamicValue.value as Interval), min } });
   }
 
-  function onMaxChange(value: string) {
-    let max = clamp(Number(value), -MAX_INT32, MAX_INT32) || null;
+  function onMaxChange(value: string, minValue: number, maxValue: number) {
+    let max = clamp(Number(value), minValue, maxValue);
     if (TRAILING_ZEROS_PATTERN.test(value) && max !== null) max += 0.001; // to preserve trailing zeros in decimals
 
     onChange({ ...dynamicValue, value: { ...(dynamicValue.value as Interval), max } });

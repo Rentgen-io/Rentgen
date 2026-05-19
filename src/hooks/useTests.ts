@@ -89,7 +89,7 @@ const useTests = () => {
 
   const executeSecurityTests = useCallback(
     async (options: TestOptions, execute = true): Promise<{ crudTests: TestResult[]; securityTests: TestResult[] }> => {
-      if (!execute) return;
+      if (!execute) return { crudTests: [], securityTests: [] };
 
       dispatch(testActions.setSecurityRunning(true));
       dispatch(testActions.setSecurityTests([]));
@@ -109,7 +109,7 @@ const useTests = () => {
 
   const executeDataDrivenTests = useCallback(
     async (options: TestOptions, execute = true): Promise<TestResult[]> => {
-      if (!execute) return;
+      if (!execute) return [];
 
       dispatch(testActions.setDataDrivenRunning(true));
       dispatch(testActions.setDataDrivenTests([]));
@@ -127,7 +127,7 @@ const useTests = () => {
 
   const executePerformanceTests = useCallback(
     async (options: TestOptions, testResults: TestResult[] = [], execute = true): Promise<TestResult[]> => {
-      if (!execute) return;
+      if (!execute) return [];
 
       dispatch(testActions.setPerformanceRunning(true));
       dispatch(testActions.setPerformanceTests([]));
