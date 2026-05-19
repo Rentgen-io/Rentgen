@@ -276,6 +276,9 @@ export function generateDynamicTestData({ mandatory, type, value }: DynamicValue
     case 'number':
       results.push(...generateNumberBoundaryTestData(value as Interval));
       break;
+    case 'numeric_string':
+      results.push(...generateNumberBoundaryTestData(value as Interval, true));
+      break;
     case 'string':
       if ((value as Interval).min > 1)
         results.push({ value: generateRandomString((value as Interval).min - 1), valid: false });
@@ -307,7 +310,7 @@ export function generateEnumTestData(value: string): TestData[] {
     ]);
 }
 
-export function generateNumberBoundaryTestData({ min, max }: Interval): TestData[] {
+export function generateNumberBoundaryTestData({ min, max }: Interval, stringify: boolean = false): TestData[] {
   const dataset: TestData[] = [];
   const delta = Number.isInteger(min) && Number.isInteger(max) ? 1 : 0.01;
   const normalizedMin = normalizeDecimal(min);
@@ -344,6 +347,8 @@ export function generateNumberBoundaryTestData({ min, max }: Interval): TestData
 
   dataset.push({ value: normalizeDecimal(normalizedMin - delta), valid: false });
   dataset.push({ value: normalizeDecimal(normalizedMax + delta), valid: false });
+
+  if (stringify) return dataset.map(({ value, valid }) => ({ value: String(value), valid }));
 
   return dataset;
 }

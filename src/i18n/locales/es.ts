@@ -405,6 +405,7 @@ const es = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Número',
+    numericString: 'Cadena numérica',
     phone: 'Teléfono',
     string: 'Cadena',
     url: 'URL',

@@ -403,6 +403,7 @@ const lt = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Skaičius',
+    numericString: 'Skaitinė eilutė',
     phone: 'Telefonas',
     string: 'Eilutė',
     url: 'URL',

@@ -401,6 +401,7 @@ const hi = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'संख्या',
+    numericString: 'संख्यात्मक स्ट्रिंग',
     phone: 'फ़ोन',
     string: 'स्ट्रिंग',
     url: 'URL',

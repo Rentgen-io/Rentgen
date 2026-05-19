@@ -396,6 +396,7 @@ const zhCN = {
     enum: '枚举',
     ipv4: 'IPv4',
     number: '数字',
+    numericString: '数字字符串',
     phone: '电话',
     string: '字符串',
     url: 'URL',

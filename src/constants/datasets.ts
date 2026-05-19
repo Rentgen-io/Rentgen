@@ -191,6 +191,17 @@ export const getDatasets = (emailDomain: string = appConfig.domain): Record<stri
     { value: '!@#$%^&*()_+{}|":><?,./;\'[]\\', valid: false },
     { value: '<b>100</b>', valid: false },
   ],
+  numeric_string: [
+    { value: '-', valid: false },
+    { value: true, valid: false },
+    { value: false, valid: false },
+    { value: '--1', valid: false },
+    { value: '++12', valid: false },
+    { value: '+', valid: false },
+    { value: '/', valid: false },
+    { value: '!@#$%^&*()_+{}|":><?,./;\'[]\\', valid: false },
+    { value: '<b>100</b>', valid: false },
+  ],
   phone: [
     { value: '+37064034810', valid: true },
     { value: '+3706403481', valid: false },

@@ -406,6 +406,7 @@ const it = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Numero',
+    numericString: 'Stringa numerica',
     phone: 'Telefono',
     string: 'Stringa',
     url: 'URL',

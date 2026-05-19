@@ -401,6 +401,7 @@ const id = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Angka',
+    numericString: 'String Numerik',
     phone: 'Telepon',
     string: 'String',
     url: 'URL',

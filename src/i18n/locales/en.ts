@@ -402,6 +402,7 @@ const en = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Number',
+    numericString: 'Numeric String',
     phone: 'Phone',
     string: 'String',
     url: 'Url',

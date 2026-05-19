@@ -37,6 +37,7 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
     { value: 'enum', label: t('parameterTypes.enum') },
     { value: 'ipv4', label: t('parameterTypes.ipv4') },
     { value: 'number', label: t('parameterTypes.number') },
+    { value: 'numeric_string', label: t('parameterTypes.numericString') },
     { value: 'phone', label: t('parameterTypes.phone') },
     { value: 'string', label: t('parameterTypes.string') },
     { value: 'url', label: t('parameterTypes.url') },
@@ -55,7 +56,7 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
             onChange={(event) => onChange({ ...dynamicValue, value: event.target.value })}
           />
         )}
-        {type === 'number' && (
+        {(type === 'number' || type === 'numeric_string') && (
           <div className="flex items-center gap-2">
             <Input
               className={inputClassName}
@@ -131,6 +132,7 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
         label = t('controls.enumLabel');
         break;
       case 'number':
+      case 'numeric_string':
         label = t('controls.numberLabel');
         break;
       case 'string':

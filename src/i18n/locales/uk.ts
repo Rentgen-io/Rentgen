@@ -404,6 +404,7 @@ const uk = {
     enum: 'Enum',
     ipv4: 'IPv4',
     number: 'Число',
+    numericString: 'Числовий рядок',
     phone: 'Телефон',
     string: 'Рядок',
     url: 'URL',
