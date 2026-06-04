@@ -363,6 +363,11 @@ const id = {
       enabledCount: '{{enabled}}/{{total}} aktif',
       description: 'Aktifkan atau nonaktifkan tes keamanan individual untuk mengustomisasi pengalaman tes Anda.',
     },
+    performanceInsights: {
+      title: 'Wawasan Performa',
+      enabledCount: '{{enabled}}/{{total}} aktif',
+      description: 'Aktifkan atau nonaktifkan wawasan performa individual untuk mengustomisasi pengalaman tes Anda.',
+    },
     languageSection: {
       title: 'Bahasa',
       description: 'Pilih bahasa pilihan Anda untuk antarmuka aplikasi.',

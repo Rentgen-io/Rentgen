@@ -368,6 +368,12 @@ const it = {
       enabledCount: '{{enabled}}/{{total}} abilitati',
       description: 'Attiva o disattiva i singoli test di sicurezza per personalizzare la tua esperienza di test.',
     },
+    performanceInsights: {
+      title: 'Analisi delle prestazioni',
+      enabledCount: '{{enabled}}/{{total}} abilitati',
+      description:
+        'Attiva o disattiva le singole analisi delle prestazioni per personalizzare la tua esperienza di test.',
+    },
     languageSection: {
       title: 'Lingua',
       description: "Seleziona la lingua preferita per l'interfaccia dell'applicazione.",

@@ -26,6 +26,8 @@ const de = {
     reload: 'Neu laden',
     cut: 'Ausschneiden',
     paste: 'Einfügen',
+    enable: 'Aktivieren',
+    disable: 'Deaktivieren',
   },
 
   // Sidebar
@@ -367,6 +369,11 @@ const de = {
       title: 'Sicherheitstests',
       enabledCount: '{{enabled}}/{{total}} aktiviert',
       description: 'Schalten Sie einzelne Sicherheitstests ein oder aus, um Ihre Testerfahrung anzupassen.',
+    },
+    performanceInsights: {
+      title: 'Performance-Analysen',
+      enabledCount: '{{enabled}}/{{total}} aktiviert',
+      description: 'Schalten Sie einzelne Performance-Analysen ein oder aus, um Ihre Testerfahrung anzupassen.',
     },
     languageSection: {
       title: 'Sprache',

@@ -26,6 +26,8 @@ const fr = {
     reload: 'Recharger',
     cut: 'Couper',
     paste: 'Coller',
+    enable: 'Activer',
+    disable: 'Désactiver',
   },
 
   // Sidebar
@@ -373,6 +375,12 @@ const fr = {
       enabledCount: '{{enabled}}/{{total}} activés',
       description:
         'Activez ou désactivez les tests de sécurité individuels pour personnaliser votre expérience de test.',
+    },
+    performanceInsights: {
+      title: 'Analyses de performance',
+      enabledCount: '{{enabled}}/{{total}} activées',
+      description:
+        'Activez ou désactivez les analyses de performance individuelles pour personnaliser votre expérience de test.',
     },
     languageSection: {
       title: 'Langue',

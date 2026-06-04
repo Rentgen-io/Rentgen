@@ -368,6 +368,11 @@ const ptBR = {
       enabledCount: '{{enabled}}/{{total}} ativados',
       description: 'Ative ou desative testes de segurança individuais para personalizar sua experiência de testes.',
     },
+    performanceInsights: {
+      title: 'Insights de desempenho',
+      enabledCount: '{{enabled}}/{{total}} ativados',
+      description: 'Ative ou desative insights de desempenho individuais para personalizar sua experiência de testes.',
+    },
     languageSection: {
       title: 'Idioma',
       description: 'Selecione seu idioma preferido para a interface do aplicativo.',

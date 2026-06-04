@@ -5,7 +5,7 @@ import VariableHighlighter from '../VariableHighlighter';
 const DEFAULT_HIGHLIGHT_COLOR = '#6B7280';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  highlightColor: string;
+  highlightColor?: string;
   variables?: string[];
 }
 

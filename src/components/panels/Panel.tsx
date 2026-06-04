@@ -1,8 +1,8 @@
 import cn from 'classnames';
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
-export interface Props extends HTMLAttributes<HTMLDivElement> {
-  title: string;
+export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+  title: ReactNode;
 }
 
 export default function Panel({ children, className, title, ...otherProps }: Props) {

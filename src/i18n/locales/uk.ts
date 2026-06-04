@@ -366,6 +366,11 @@ const uk = {
       enabledCount: '{{enabled}}/{{total}} увімкнено',
       description: 'Вмикайте або вимикайте окремі тести безпеки для налаштування тестування.',
     },
+    performanceInsights: {
+      title: 'Аналіз продуктивності',
+      enabledCount: '{{enabled}}/{{total}} увімкнено',
+      description: 'Вмикайте або вимикайте окремі елементи аналізу продуктивності для налаштування тестування.',
+    },
     languageSection: {
       title: 'Мова',
       description: 'Оберіть бажану мову інтерфейсу застосунку.',

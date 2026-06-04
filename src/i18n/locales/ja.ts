@@ -366,6 +366,11 @@ const ja = {
       enabledCount: '{{enabled}}/{{total}} 有効',
       description: '個々のセキュリティテストを有効または無効にして、テスト体験をカスタマイズできます。',
     },
+    performanceInsights: {
+      title: 'パフォーマンスインサイト',
+      enabledCount: '{{enabled}}/{{total}} 有効',
+      description: '個々のパフォーマンスインサイトを有効または無効にして、テスト体験をカスタマイズできます。',
+    },
     languageSection: {
       title: '言語',
       description: 'アプリケーションインターフェースで使用する言語を選択してください。',

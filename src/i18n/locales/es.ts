@@ -367,6 +367,12 @@ const es = {
       enabledCount: '{{enabled}}/{{total}} activadas',
       description: 'Activa o desactiva pruebas de seguridad individuales para personalizar tu experiencia de pruebas.',
     },
+    performanceInsights: {
+      title: 'Análisis de rendimiento',
+      enabledCount: '{{enabled}}/{{total}} activados',
+      description:
+        'Activa o desactiva análisis de rendimiento individuales para personalizar tu experiencia de pruebas.',
+    },
     languageSection: {
       title: 'Idioma',
       description: 'Selecciona tu idioma preferido para la interfaz de la aplicación.',

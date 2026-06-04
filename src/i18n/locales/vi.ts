@@ -363,6 +363,11 @@ const vi = {
       enabledCount: '{{enabled}}/{{total}} đã bật',
       description: 'Bật hoặc tắt từng kiểm thử bảo mật để tùy chỉnh trải nghiệm kiểm thử của bạn.',
     },
+    performanceInsights: {
+      title: 'Thông tin chi tiết về hiệu suất',
+      enabledCount: '{{enabled}}/{{total}} đã bật',
+      description: 'Bật hoặc tắt từng thông tin chi tiết về hiệu suất để tùy chỉnh trải nghiệm kiểm thử của bạn.',
+    },
     languageSection: {
       title: 'Ngôn ngữ',
       description: 'Chọn ngôn ngữ ưa thích cho giao diện ứng dụng.',

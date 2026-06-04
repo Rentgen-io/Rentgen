@@ -367,6 +367,11 @@ const tr = {
       enabledCount: '{{enabled}}/{{total}} etkin',
       description: 'Test deneyiminizi kişiselleştirmek için bireysel güvenlik testlerini açıp kapatın.',
     },
+    performanceInsights: {
+      title: 'Performans Analizleri',
+      enabledCount: '{{enabled}}/{{total}} etkin',
+      description: 'Test deneyiminizi kişiselleştirmek için bireysel performans analizlerini açıp kapatın.',
+    },
     languageSection: {
       title: 'Dil',
       description: 'Uygulama arayüzü için tercih ettiğiniz dili seçin.',

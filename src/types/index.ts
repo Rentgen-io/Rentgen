@@ -81,7 +81,7 @@ export interface TestOptions {
 export interface TestResult {
   actual: string;
   expected: string;
-  name?: string;
+  name: string;
   request?: HttpRequest | null;
   response?: HttpResponse | null;
   status: TestStatus;

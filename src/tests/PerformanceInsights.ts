@@ -50,33 +50,48 @@ export class PerformanceInsights extends BaseTests {
   constructor(
     private testResults: TestResult[],
     protected options: TestOptions,
+    private disabledTests: string[],
     protected onTestStart?: () => void,
   ) {
     super(options, onTestStart);
 
     this.testResults = testResults;
+    this.disabledTests = disabledTests;
   }
 
   public async run(): Promise<TestResult[]> {
-    const results: TestResult[] = [];
     const medianResponseTime = calculateMedian(
-      this.testResults.map((result: TestResult) => result.response?.time).filter(Boolean),
+      this.testResults.map((result: TestResult) => result.response?.time).filter(Boolean) as number[],
     );
-    const medianTestResult = this.testMedianResponseTime(medianResponseTime);
-    const pingTestResult = await this.testNetworkPingLatency();
-    const pingTimes = pingTestResult.value as number[];
-    const bestPingTime = pingTimes?.length > 0 ? Math.min(...pingTimes) : null;
+    const medianTestResult = this.disabledTests.includes(MEDIAN_RESPONSE_TIME_TEST_NAME)
+      ? null
+      : this.testMedianResponseTime(medianResponseTime);
+    const pingTestResult = this.disabledTests.includes(PING_LATENCY_TEST_NAME)
+      ? null
+      : await this.testNetworkPingLatency();
+    const pingTimes = pingTestResult?.value as number[] | undefined;
+    const bestPingTime = pingTimes && pingTimes?.length > 0 ? Math.min(...pingTimes) : null;
+    const networkShareTestResult =
+      this.disabledTests.includes(MEDIAN_RESPONSE_TIME_TEST_NAME) ||
+      this.disabledTests.includes(PING_LATENCY_TEST_NAME) ||
+      this.disabledTests.includes(NETWORK_SHARE_TEST_NAME)
+        ? null
+        : this.testNetworkSharing(medianResponseTime, bestPingTime);
+    const responseSizeTestResult = this.disabledTests.includes(RESPONSE_SIZE_CHECK_TEST_NAME)
+      ? null
+      : this.testResponseSize();
+    const arrayListWithoutPaginationTestResult = this.disabledTests.includes(ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME)
+      ? null
+      : this.testArrayListWithoutPagination();
 
-    results.push(
+    return [
       medianTestResult,
       pingTestResult,
-      this.testNetworkSharing(medianResponseTime, bestPingTime),
-      this.testResponseSize(),
-      this.testArrayListWithoutPagination(),
+      networkShareTestResult,
+      responseSizeTestResult,
+      arrayListWithoutPaginationTestResult,
       ...getManualTests(),
-    );
-
-    return results.filter(Boolean);
+    ].filter(Boolean) as TestResult[];
   }
 
   @Abortable
@@ -171,7 +186,7 @@ export class PerformanceInsights extends BaseTests {
 
       return new TextEncoder().encode(response.body).length > 100 * 1024;
     });
-    const size = result ? (new TextEncoder().encode(result.response.body).length / 1024).toFixed(2) : null;
+    const size = result?.response ? (new TextEncoder().encode(result.response.body).length / 1024).toFixed(2) : null;
 
     return createTestResult(
       RESPONSE_SIZE_CHECK_TEST_NAME,
@@ -239,8 +254,8 @@ export async function runLoadTest(
     server5xxFailures = 0,
     client4xxFailures = 0,
     isAborted = false,
-    request: HttpRequest = null,
-    response: HttpResponse = null;
+    request: HttpRequest | null = null,
+    response: HttpResponse | null = null;
 
   async function executeSingleRequest(): Promise<void> {
     if (isAborted) return;

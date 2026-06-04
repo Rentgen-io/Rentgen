@@ -21,7 +21,7 @@ import {
 } from '../../tests';
 import Toggle from '../inputs/Toggle';
 
-const securityTests: string[] = [
+export const SECURITY_TESTS: string[] = [
   AUTHORIZATION_TEST_NAME,
   CACHE_CONTROL_PRIVATE_API_TEST_NAME,
   CLICKJACKING_PROTECTION_TEST_NAME,
@@ -49,14 +49,14 @@ export function SecurityTestsSettings() {
         <span>{t('settings.securityTests.title')}</span>
         <span className="font-normal text-xs text-text-secondary">
           {t('settings.securityTests.enabledCount', {
-            enabled: securityTests.length - disabledSecurityTests.length,
-            total: securityTests.length,
+            enabled: SECURITY_TESTS.length - disabledSecurityTests.length,
+            total: SECURITY_TESTS.length,
           })}
         </span>
       </h5>
       <p className="m-0 text-xs text-text-secondary">{t('settings.securityTests.description')}</p>
       <div className="flex flex-col border border-border dark:border-dark-border rounded-md divide-y divide-border dark:divide-dark-border overflow-hidden">
-        {securityTests.sort().map((test) => (
+        {SECURITY_TESTS.sort().map((test) => (
           <Toggle
             key={test}
             className="p-3 text-xs justify-between hover:bg-button-secondary dark:hover:bg-dark-input"

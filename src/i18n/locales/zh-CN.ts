@@ -359,6 +359,11 @@ const zhCN = {
       enabledCount: '已启用 {{enabled}}/{{total}}',
       description: '逐项开启或关闭安全测试，以定制你的测试体验。',
     },
+    performanceInsights: {
+      title: '性能洞察',
+      enabledCount: '已启用 {{enabled}}/{{total}}',
+      description: '逐项开启或关闭性能洞察，以定制你的测试体验。',
+    },
     languageSection: {
       title: '语言',
       description: '为应用界面选择你偏好的语言。',

@@ -31,7 +31,7 @@ export async function loadProtoSchema(file: File): Promise<protobuf.Root> {
   }
 }
 
-export function encodeMessage(path: string, data: unknown): Uint8Array {
+export function encodeMessage(path: string, data: { [key: string]: any }): Uint8Array {
   if (!root) throw new Error('Protobuf schema not loaded. Call loadProtoSchema() first.');
   if (!path || typeof path !== 'string') throw new Error('Invalid path provided');
 
@@ -73,8 +73,10 @@ export function decodeMessage(path: string, buffer: Uint8Array): Record<string, 
   }
 }
 
-export function decodeProtobufResponse(messageType: string, response: HttpResponse): string | null {
+export function decodeProtobufResponse(messageType: string, response?: HttpResponse | null): string | null {
   try {
+    if (!response) return null;
+
     return JSON.stringify(decodeMessage(messageType, new Uint8Array(response.body as any)), null, 2);
   } catch {
     return null;

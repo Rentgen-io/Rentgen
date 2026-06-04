@@ -363,6 +363,11 @@ const ko = {
       enabledCount: '{{enabled}}/{{total}} 사용 중',
       description: '개별 보안 테스트를 켜거나 꺼서 테스트 경험을 맞춤 설정하세요.',
     },
+    performanceInsights: {
+      title: '성능 인사이트',
+      enabledCount: '{{enabled}}/{{total}} 사용 중',
+      description: '개별 성능 인사이트를 켜거나 꺼서 테스트 경험을 맞춤 설정하세요.',
+    },
     languageSection: {
       title: '언어',
       description: '애플리케이션 인터페이스에 사용할 언어를 선택하세요.',

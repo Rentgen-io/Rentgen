@@ -26,6 +26,8 @@ const pl = {
     reload: 'Odśwież',
     cut: 'Wytnij',
     paste: 'Wklej',
+    enable: 'Włącz',
+    disable: 'Wyłącz',
   },
 
   // Sidebar
@@ -363,6 +365,11 @@ const pl = {
       title: 'Testy bezpieczeństwa',
       enabledCount: '{{enabled}}/{{total}} włączonych',
       description: 'Włączaj lub wyłączaj poszczególne testy bezpieczeństwa, aby dostosować testowanie.',
+    },
+    performanceInsights: {
+      title: 'Analiza wydajności',
+      enabledCount: '{{enabled}}/{{total}} włączonych',
+      description: 'Włączaj lub wyłączaj poszczególne analizy wydajności, aby dostosować testowanie.',
     },
     languageSection: {
       title: 'Język',

@@ -26,6 +26,8 @@ const en = {
     reload: 'Reload',
     cut: 'Cut',
     paste: 'Paste',
+    enable: 'Enable',
+    disable: 'Disable',
   },
 
   // Sidebar
@@ -363,6 +365,11 @@ const en = {
       title: 'Security Tests',
       enabledCount: '{{enabled}}/{{total}} enabled',
       description: 'Toggle individual security tests on or off to customize your testing experience.',
+    },
+    performanceInsights: {
+      title: 'Performance Insights',
+      enabledCount: '{{enabled}}/{{total}} enabled',
+      description: 'Toggle individual performance insights on or off to customize your testing experience.',
     },
     languageSection: {
       title: 'Language',

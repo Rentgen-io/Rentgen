@@ -6,7 +6,7 @@ import VariableHighlighter from '../VariableHighlighter';
 const DEFAULT_HIGHLIGHT_COLOR = '#6B7280';
 
 interface Props extends TextareaAutosizeProps {
-  highlightColor: string;
+  highlightColor?: string;
   variables?: string[];
 }
 

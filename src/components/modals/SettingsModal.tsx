@@ -9,6 +9,7 @@ import { CliSettings } from '../settings/CliSettings';
 import { GeneralSettings } from '../settings/GeneralSettings';
 import { LanguageSettings } from '../settings/LanguageSettings';
 import { MappingSettings } from '../settings/MappingSettings';
+import { PerformanceInsightsSettings } from '../settings/PerformanceInsightsSettings';
 import { SecurityTestsSettings } from '../settings/SecurityTestsSettings';
 import { ThemeSettings } from '../settings/ThemeSettings';
 import Modal from './Modal';
@@ -16,8 +17,8 @@ import Modal from './Modal';
 import ClearCrossIcon from '../../assets/icons/clear-cross-icon.svg';
 import CliIcon from '../../assets/icons/cli-icon.svg';
 import EngineIcon from '../../assets/icons/engine-icon.svg';
-import GearIcon from '../../assets/icons/gear-icon.svg';
 import LanguageIcon from '../../assets/icons/environment-icon.svg';
+import GearIcon from '../../assets/icons/gear-icon.svg';
 import ThemeIcon from '../../assets/icons/theme-icon.svg';
 
 export default function SettingsModal() {
@@ -33,6 +34,7 @@ export default function SettingsModal() {
         <div className="flex flex-col gap-8">
           <MappingSettings />
           <SecurityTestsSettings />
+          <PerformanceInsightsSettings />
         </div>
       ),
     },

@@ -368,6 +368,11 @@ const nl = {
       enabledCount: '{{enabled}}/{{total}} ingeschakeld',
       description: 'Schakel afzonderlijke beveiligingstests in of uit om je testervaring aan te passen.',
     },
+    performanceInsights: {
+      title: 'Prestatie-inzichten',
+      enabledCount: '{{enabled}}/{{total}} ingeschakeld',
+      description: 'Schakel afzonderlijke prestatie-inzichten in of uit om je testervaring aan te passen.',
+    },
     languageSection: {
       title: 'Taal',
       description: 'Selecteer je voorkeurstaal voor de interface van de applicatie.',

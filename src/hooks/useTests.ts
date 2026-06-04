@@ -6,6 +6,7 @@ import {
   selectCrudTests,
   selectCurrentTest,
   selectDataDrivenTests,
+  selectDisabledPerformanceInsights,
   selectDisabledSecurityTests,
   selectIsDataDrivenRunning,
   selectIsLargePayloadTestRunning,
@@ -61,6 +62,7 @@ const useTests = () => {
 
   const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
+  const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
   const emailConfiguration = testEngineConfiguration.email;
 
   const incrementCurrentTest = useCallback(() => {
@@ -132,7 +134,12 @@ const useTests = () => {
       dispatch(testActions.setPerformanceRunning(true));
       dispatch(testActions.setPerformanceTests([]));
 
-      performanceInsightsInstance = new PerformanceInsights(testResults, options, incrementCurrentTest);
+      performanceInsightsInstance = new PerformanceInsights(
+        testResults,
+        options,
+        disabledPerformanceInsights,
+        incrementCurrentTest,
+      );
       const performanceTestResults = await performanceInsightsInstance.run();
 
       dispatch(testActions.setPerformanceTests(performanceTestResults));
@@ -140,7 +147,7 @@ const useTests = () => {
 
       return performanceTestResults;
     },
-    [dispatch, incrementCurrentTest],
+    [disabledPerformanceInsights, dispatch, incrementCurrentTest],
   );
 
   const executeAllTests = useCallback(
@@ -156,7 +163,8 @@ const useTests = () => {
         getTestCount(SecurityTests) +
         getTestCount(PerformanceInsights) -
         disabledSecurityTests.length +
-        (disabledSecurityTests.includes(OPTIONS_METHOD_HANDLING_TEST_NAME) ? -1 : 0);
+        (disabledSecurityTests.includes(OPTIONS_METHOD_HANDLING_TEST_NAME) ? -1 : 0) -
+        disabledPerformanceInsights.length;
       const timestamp = new Date().getTime();
 
       dispatch(testActions.setCount(count));
@@ -183,6 +191,7 @@ const useTests = () => {
         );
     },
     [
+      disabledPerformanceInsights,
       disabledSecurityTests,
       selectedRequestId,
       dispatch,

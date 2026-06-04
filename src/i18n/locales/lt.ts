@@ -26,6 +26,8 @@ const lt = {
     reload: 'Perkrauti',
     cut: 'Iškirpti',
     paste: 'Įklijuoti',
+    enable: 'Įjungti',
+    disable: 'Išjungti',
   },
 
   // Sidebar
@@ -364,6 +366,11 @@ const lt = {
       title: 'Saugumo testai',
       enabledCount: '{{enabled}}/{{total}} įjungta',
       description: 'Įjunkite arba išjunkite atskirus saugumo testus, kad pritaikytumėte savo testavimo patirtį.',
+    },
+    performanceInsights: {
+      title: 'Našumo įžvalgos',
+      enabledCount: '{{enabled}}/{{total}} įjungta',
+      description: 'Įjunkite arba išjunkite atskiras našumo įžvalgas, kad pritaikytumėte savo testavimo patirtį.',
     },
     languageSection: {
       title: 'Kalba',

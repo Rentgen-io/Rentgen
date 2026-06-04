@@ -363,6 +363,11 @@ const hi = {
       enabledCount: '{{enabled}}/{{total}} सक्षम',
       description: 'अपने टेस्टिंग अनुभव को अनुकूलित करने के लिए व्यक्तिगत सुरक्षा टेस्ट चालू या बंद करें।',
     },
+    performanceInsights: {
+      title: 'परफ़ॉर्मेंस इनसाइट्स',
+      enabledCount: '{{enabled}}/{{total}} सक्षम',
+      description: 'अपने टेस्टिंग अनुभव को अनुकूलित करने के लिए व्यक्तिगत परफ़ॉर्मेंस इनसाइट्स चालू या बंद करें।',
+    },
     languageSection: {
       title: 'भाषा',
       description: 'एप्लिकेशन इंटरफ़ेस के लिए अपनी पसंदीदा भाषा चुनें।',

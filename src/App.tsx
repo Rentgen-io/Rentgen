@@ -16,17 +16,20 @@ import HighlightedInput from './components/inputs/HighlightedInput';
 import HighlightedTextarea from './components/inputs/HighlightedTextarea';
 import Select, { SelectOption } from './components/inputs/Select';
 import Textarea from './components/inputs/Textarea';
+import Toggle from './components/inputs/Toggle';
 import Loader from './components/loaders/Loader';
 import TestRunningLoader from './components/loaders/TestRunningLoader';
 import ConfirmationModal from './components/modals/ConfirmationModal';
 import ImportConflictModal from './components/modals/ImportConflictModal';
-import ProjectImportConfirmModal from './components/modals/ProjectImportConfirmModal';
 import Modal from './components/modals/Modal';
+import ProjectImportConfirmModal from './components/modals/ProjectImportConfirmModal';
 import SetAsDynamicVariableModal from './components/modals/SetAsDynamicVariableModal';
 import SettingsModal from './components/modals/SettingsModal';
 import Panel from './components/panels/Panel';
 import ParametersPanel from './components/panels/ParametersPanel';
 import TestResultsComparisonPanel from './components/panels/TestResultsComparisonPanel';
+import { PERFORMANCE_INSIGHTS } from './components/settings/PerformanceInsightsSettings';
+import { SECURITY_TESTS } from './components/settings/SecurityTestsSettings';
 import Sidebar from './components/sidebar/Sidebar';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns } from './components/tables/TestsTable';
 import { JsonViewer } from './components/viewers/JsonViewer';
@@ -74,7 +77,9 @@ import {
   selectCurl,
   selectCurlError,
   selectDeleteFolderModal,
+  selectDisabledPerformanceInsights,
   selectDisabledRunTests,
+  selectDisabledSecurityTests,
   selectDynamicVariables,
   selectEditingEnvironmentId,
   selectEnvironments,
@@ -118,8 +123,10 @@ import { websocketActions } from './store/slices/websocketSlice';
 
 import ClearCrossIcon from './assets/icons/clear-cross-icon.svg';
 import DarkModeIcon from './assets/icons/dark-mode-icon.svg';
+import GearIcon from './assets/icons/gear-icon.svg';
 import LightModeIcon from './assets/icons/light-mode-icon.svg';
 import ReloadIcon from './assets/icons/reload-icon.svg';
+import SidebarButton from './components/sidebar/SidebarButton';
 
 type Mode = 'HTTP' | 'WSS';
 
@@ -232,6 +239,10 @@ export default function App() {
   const curlError = useAppSelector(selectCurlError);
   const exportFormat = useAppSelector(selectExportFormat);
   const certificateError = useAppSelector(selectCertificateError);
+
+  // Settings state
+  const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
+  const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
 
   // Tests hook
   const {
@@ -1112,12 +1123,31 @@ export default function App() {
 
             {testResults && (
               <>
-                <Panel title={t('tests.securityTests')}>
+                <Panel
+                  className="relative"
+                  title={
+                    <>
+                      {t('tests.securityTests')}{' '}
+                      {disabledSecurityTests.length > 0 && (
+                        <span className="font-normal text-text-secondary lowercase">
+                          ({disabledSecurityTests.length} {t('common.disabled')})
+                        </span>
+                      )}
+                    </>
+                  }
+                >
+                  <SidebarButton
+                    className="absolute top-0 right-0 py-1.75 px-2.5"
+                    label={t('sidebar.settings')}
+                    onClick={() => dispatch(uiActions.openSettingsModal())}
+                  >
+                    <GearIcon className="w-5 h-5" />
+                  </SidebarButton>
                   <TestsTable
                     columns={[
                       ...getTestsTableColumns(['Check', 'Expected', 'Actual'], t),
                       {
-                        name: 'Result',
+                        name: t('tables.result'),
                         selector: (row) => row.status,
                         width: securityTests.find((test) =>
                           [TestStatus.Bug, TestStatus.Fail, TestStatus.Warning].includes(test.status),
@@ -1150,9 +1180,26 @@ export default function App() {
                           </TestResultControls>
                         ),
                       },
+                      {
+                        width: '70px',
+                        cell: (row, id) => (
+                          <div data-column-id={id} data-tag="allowRowEvents">
+                            {SECURITY_TESTS.includes(row.name) && (
+                              <Toggle
+                                key={id}
+                                title={!disabledSecurityTests.includes(row.name) ? t('common.disable') : undefined}
+                                disabled={disabledSecurityTests.includes(row.name)}
+                                checked={!disabledSecurityTests.includes(row.name)}
+                                onChange={() => dispatch(settingsActions.toggleSecurityTest(row.name))}
+                              />
+                            )}
+                          </div>
+                        ),
+                      },
                     ]}
                     expandableRows
                     expandableRowsComponent={ExpandedTestComponent}
+                    expandableRowDisabled={(row) => disabledSecurityTests.includes(row.name)}
                     expandableRowsComponentProps={{ headers: parseHeaders(headers), protoFile, messageType }}
                     expandOnRowClicked
                     data={securityTests}
@@ -1161,17 +1208,36 @@ export default function App() {
                   />
                 </Panel>
 
-                <Panel title={t('tests.performanceInsights')}>
+                <Panel
+                  className="relative"
+                  title={
+                    <>
+                      {t('tests.performanceInsights')}{' '}
+                      {disabledPerformanceInsights.length > 0 && (
+                        <span className="font-normal text-text-secondary lowercase">
+                          ({disabledPerformanceInsights.length} {t('common.disabled')})
+                        </span>
+                      )}
+                    </>
+                  }
+                >
+                  <SidebarButton
+                    className="absolute top-0 right-0 py-1.75 px-2.5"
+                    label={t('sidebar.settings')}
+                    onClick={() => dispatch(uiActions.openSettingsModal())}
+                  >
+                    <GearIcon className="w-5 h-5" />
+                  </SidebarButton>
                   <TestsTable
                     columns={[
                       ...getTestsTableColumns(['Check', 'Expected'], t),
                       {
-                        name: 'Actual',
+                        name: t('tables.actual'),
                         selector: (row) => row.actual,
                         cell: (row) => <div className="py-1">{row.actual}</div>,
                       },
                       {
-                        name: 'Result',
+                        name: t('tables.result'),
                         selector: (row) => row.status,
                         width: performanceTests.find((test) =>
                           [TestStatus.Bug, TestStatus.Fail, TestStatus.Warning].includes(test.status),
@@ -1199,6 +1265,24 @@ export default function App() {
                               <p className="m-0 mr-2 whitespace-nowrap">{row.status}</p>
                             )}
                           </TestResultControls>
+                        ),
+                      },
+                      {
+                        width: '70px',
+                        cell: (row, id) => (
+                          <div data-column-id={id} data-tag="allowRowEvents">
+                            {PERFORMANCE_INSIGHTS.includes(row.name) && (
+                              <Toggle
+                                key={id}
+                                title={
+                                  !disabledPerformanceInsights.includes(row.name) ? t('common.disable') : undefined
+                                }
+                                disabled={disabledPerformanceInsights.includes(row.name)}
+                                checked={!disabledPerformanceInsights.includes(row.name)}
+                                onChange={() => dispatch(settingsActions.togglePerformanceInsight(row.name))}
+                              />
+                            )}
+                          </div>
                         ),
                       },
                     ]}

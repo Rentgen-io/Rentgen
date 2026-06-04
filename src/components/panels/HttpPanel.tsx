@@ -6,7 +6,7 @@ import { JsonViewer } from '../viewers/JsonViewer';
 import { Props as PanelProps } from './Panel';
 
 interface Props extends PanelProps {
-  source: HttpRequest | HttpResponse | string;
+  source?: HttpRequest | HttpResponse | string | null;
 }
 
 export function HttpPanel({ className, children, source, title, ...otherProps }: Props) {
@@ -24,7 +24,7 @@ export function HttpPanel({ className, children, source, title, ...otherProps }:
           'flex-auto m-0 p-2.5 bg-white border border-border rounded dark:bg-dark-input dark:border-dark-border',
         )}
       >
-        <JsonViewer source={source} />
+        {source && <JsonViewer source={source} />}
       </div>
       {children}
     </div>
