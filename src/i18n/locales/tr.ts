@@ -26,6 +26,8 @@ const tr = {
     reload: 'Yeniden Yükle',
     cut: 'Kes',
     paste: 'Yapıştır',
+    enable: 'Etkinleştir',
+    disable: 'Devre dışı bırak',
   },
 
   // Sidebar

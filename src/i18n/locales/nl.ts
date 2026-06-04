@@ -26,6 +26,8 @@ const nl = {
     reload: 'Opnieuw laden',
     cut: 'Knippen',
     paste: 'Plakken',
+    enable: 'Inschakelen',
+    disable: 'Uitschakelen',
   },
 
   // Sidebar

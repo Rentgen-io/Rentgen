@@ -26,6 +26,8 @@ const th = {
     reload: 'โหลดใหม่',
     cut: 'ตัด',
     paste: 'วาง',
+    enable: 'เปิดใช้งาน',
+    disable: 'ปิดใช้งาน',
   },
 
   // Sidebar

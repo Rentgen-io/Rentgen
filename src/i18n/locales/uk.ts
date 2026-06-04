@@ -26,6 +26,8 @@ const uk = {
     reload: 'Перезавантажити',
     cut: 'Вирізати',
     paste: 'Вставити',
+    enable: 'Увімкнути',
+    disable: 'Вимкнути',
   },
 
   // Sidebar

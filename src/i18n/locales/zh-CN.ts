@@ -26,6 +26,8 @@ const zhCN = {
     reload: '重新加载',
     cut: '剪切',
     paste: '粘贴',
+    enable: '启用',
+    disable: '禁用',
   },
 
   // Sidebar

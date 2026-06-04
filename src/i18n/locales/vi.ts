@@ -26,6 +26,8 @@ const vi = {
     reload: 'Tải lại',
     cut: 'Cắt',
     paste: 'Dán',
+    enable: 'Bật',
+    disable: 'Tắt',
   },
 
   // Sidebar

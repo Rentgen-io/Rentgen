@@ -26,6 +26,8 @@ const ru = {
     reload: 'Перезагрузить',
     cut: 'Вырезать',
     paste: 'Вставить',
+    enable: 'Включить',
+    disable: 'Отключить',
   },
 
   // Sidebar

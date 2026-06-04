@@ -26,6 +26,8 @@ const ja = {
     reload: '再読み込み',
     cut: '切り取り',
     paste: '貼り付け',
+    enable: '有効にする',
+    disable: '無効にする',
   },
 
   // Sidebar

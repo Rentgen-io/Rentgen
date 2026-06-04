@@ -26,6 +26,8 @@ const hi = {
     reload: 'पुनः लोड करें',
     cut: 'काटें',
     paste: 'पेस्ट करें',
+    enable: 'सक्षम करें',
+    disable: 'अक्षम करें',
   },
 
   // Sidebar

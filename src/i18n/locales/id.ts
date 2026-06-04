@@ -26,6 +26,8 @@ const id = {
     reload: 'Muat ulang',
     cut: 'Potong',
     paste: 'Tempel',
+    enable: 'Aktifkan',
+    disable: 'Nonaktifkan',
   },
 
   // Sidebar

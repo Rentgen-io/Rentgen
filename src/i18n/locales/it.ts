@@ -26,6 +26,8 @@ const it = {
     reload: 'Ricarica',
     cut: 'Taglia',
     paste: 'Incolla',
+    enable: 'Abilita',
+    disable: 'Disabilita',
   },
 
   // Sidebar

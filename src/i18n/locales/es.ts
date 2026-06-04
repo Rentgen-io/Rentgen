@@ -26,6 +26,8 @@ const es = {
     reload: 'Recargar',
     cut: 'Cortar',
     paste: 'Pegar',
+    enable: 'Activar',
+    disable: 'Desactivar',
   },
 
   // Sidebar

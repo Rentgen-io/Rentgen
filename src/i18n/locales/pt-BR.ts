@@ -26,6 +26,8 @@ const ptBR = {
     reload: 'Recarregar',
     cut: 'Recortar',
     paste: 'Colar',
+    enable: 'Ativar',
+    disable: 'Desativar',
   },
 
   // Sidebar

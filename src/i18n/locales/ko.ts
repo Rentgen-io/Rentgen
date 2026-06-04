@@ -26,6 +26,8 @@ const ko = {
     reload: '새로 고침',
     cut: '잘라내기',
     paste: '붙여넣기',
+    enable: '활성화',
+    disable: '비활성화',
   },
 
   // Sidebar
