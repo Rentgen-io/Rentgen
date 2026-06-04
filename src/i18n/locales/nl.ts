@@ -19,7 +19,6 @@ const nl = {
     overwrite: 'Overschrijven',
     enabled: 'Ingeschakeld',
     disabled: 'Uitgeschakeld',
-    warning: 'Waarschuwing:',
     connect: 'Verbinden',
     disconnect: 'Verbinding verbreken',
     beautify: 'Opmaken',
@@ -28,6 +27,13 @@ const nl = {
     paste: 'Plakken',
     enable: 'Inschakelen',
     disable: 'Uitschakelen',
+    passed: 'Geslaagd',
+    failed: 'Mislukt',
+    bug: 'Bug',
+    bugs: 'Bugs',
+    warning: 'Waarschuwing',
+    warnings: 'Waarschuwingen',
+    ignored: 'Genegeerd',
   },
 
   // Sidebar

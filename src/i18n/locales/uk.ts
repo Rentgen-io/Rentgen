@@ -19,7 +19,6 @@ const uk = {
     overwrite: 'Перезаписати',
     enabled: 'Увімкнено',
     disabled: 'Вимкнено',
-    warning: 'Попередження:',
     connect: "З'єднати",
     disconnect: "Від'єднати",
     beautify: 'Форматувати',
@@ -28,6 +27,13 @@ const uk = {
     paste: 'Вставити',
     enable: 'Увімкнути',
     disable: 'Вимкнути',
+    passed: 'Пройдено',
+    failed: 'Провалено',
+    bug: 'Помилка',
+    bugs: 'Помилки',
+    warning: 'Попередження',
+    warnings: 'Попередження',
+    ignored: 'Проігноровано',
   },
 
   // Sidebar

@@ -19,7 +19,6 @@ const th = {
     overwrite: 'เขียนทับ',
     enabled: 'เปิดใช้งาน',
     disabled: 'ปิดใช้งาน',
-    warning: 'คำเตือน:',
     connect: 'เชื่อมต่อ',
     disconnect: 'ตัดการเชื่อมต่อ',
     beautify: 'จัดรูปแบบ',
@@ -28,6 +27,13 @@ const th = {
     paste: 'วาง',
     enable: 'เปิดใช้งาน',
     disable: 'ปิดใช้งาน',
+    passed: 'ผ่าน',
+    failed: 'ล้มเหลว',
+    bug: 'บั๊ก',
+    bugs: 'บั๊ก',
+    warning: 'คำเตือน',
+    warnings: 'คำเตือน',
+    ignored: 'ละเว้น',
   },
 
   // Sidebar

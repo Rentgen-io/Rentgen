@@ -19,7 +19,6 @@ const id = {
     overwrite: 'Timpa',
     enabled: 'Aktif',
     disabled: 'Nonaktif',
-    warning: 'Peringatan:',
     connect: 'Hubungkan',
     disconnect: 'Putuskan',
     beautify: 'Rapikan',
@@ -28,6 +27,13 @@ const id = {
     paste: 'Tempel',
     enable: 'Aktifkan',
     disable: 'Nonaktifkan',
+    passed: 'Berhasil',
+    failed: 'Gagal',
+    bug: 'Bug',
+    bugs: 'Bug',
+    warning: 'Peringatan',
+    warnings: 'Peringatan',
+    ignored: 'Diabaikan',
   },
 
   // Sidebar

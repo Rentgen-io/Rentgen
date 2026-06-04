@@ -19,7 +19,6 @@ const ko = {
     overwrite: '덮어쓰기',
     enabled: '사용',
     disabled: '사용 안 함',
-    warning: '경고:',
     connect: '연결',
     disconnect: '연결 해제',
     beautify: '정리',
@@ -28,6 +27,13 @@ const ko = {
     paste: '붙여넣기',
     enable: '활성화',
     disable: '비활성화',
+    passed: '통과',
+    failed: '실패',
+    bug: '버그',
+    bugs: '버그',
+    warning: '경고',
+    warnings: '경고',
+    ignored: '무시됨',
   },
 
   // Sidebar

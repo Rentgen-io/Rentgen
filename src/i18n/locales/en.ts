@@ -19,7 +19,6 @@ const en = {
     overwrite: 'Overwrite',
     enabled: 'Enabled',
     disabled: 'Disabled',
-    warning: 'Warning:',
     connect: 'Connect',
     disconnect: 'Disconnect',
     beautify: 'Beautify',
@@ -28,6 +27,13 @@ const en = {
     paste: 'Paste',
     enable: 'Enable',
     disable: 'Disable',
+    passed: 'Passed',
+    failed: 'Failed',
+    bug: 'Bug',
+    bugs: 'Bugs',
+    warning: 'Warning',
+    warnings: 'Warnings',
+    ignored: 'Ignored',
   },
 
   // Sidebar

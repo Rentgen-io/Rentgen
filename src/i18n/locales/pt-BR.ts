@@ -19,7 +19,6 @@ const ptBR = {
     overwrite: 'Sobrescrever',
     enabled: 'Ativado',
     disabled: 'Desativado',
-    warning: 'Aviso:',
     connect: 'Conectar',
     disconnect: 'Desconectar',
     beautify: 'Formatar',
@@ -28,6 +27,13 @@ const ptBR = {
     paste: 'Colar',
     enable: 'Ativar',
     disable: 'Desativar',
+    passed: 'Aprovado',
+    failed: 'Falhou',
+    bug: 'Bug',
+    bugs: 'Bugs',
+    warning: 'Aviso',
+    warnings: 'Avisos',
+    ignored: 'Ignorado',
   },
 
   // Sidebar

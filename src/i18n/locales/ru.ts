@@ -19,7 +19,6 @@ const ru = {
     overwrite: 'Перезаписать',
     enabled: 'Включено',
     disabled: 'Отключено',
-    warning: 'Предупреждение:',
     connect: 'Подключиться',
     disconnect: 'Отключиться',
     beautify: 'Форматировать',
@@ -28,6 +27,13 @@ const ru = {
     paste: 'Вставить',
     enable: 'Включить',
     disable: 'Отключить',
+    passed: 'Пройдено',
+    failed: 'Провалено',
+    bug: 'Ошибка',
+    bugs: 'Ошибки',
+    warning: 'Предупреждение',
+    warnings: 'Предупреждения',
+    ignored: 'Игнорируется',
   },
 
   // Sidebar

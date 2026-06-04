@@ -19,7 +19,6 @@ const tr = {
     overwrite: 'Üzerine Yaz',
     enabled: 'Etkin',
     disabled: 'Devre dışı',
-    warning: 'Uyarı:',
     connect: 'Bağlan',
     disconnect: 'Bağlantıyı Kes',
     beautify: 'Güzelleştir',
@@ -28,6 +27,13 @@ const tr = {
     paste: 'Yapıştır',
     enable: 'Etkinleştir',
     disable: 'Devre dışı bırak',
+    passed: 'Başarılı',
+    failed: 'Başarısız',
+    bug: 'Hata',
+    bugs: 'Hatalar',
+    warning: 'Uyarı',
+    warnings: 'Uyarılar',
+    ignored: 'Yoksayıldı',
   },
 
   // Sidebar

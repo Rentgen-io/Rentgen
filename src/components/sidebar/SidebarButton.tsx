@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { HTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   label: string;
@@ -8,11 +9,13 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 export default function SidebarButton({ children, className, label, onClick, ...otherProps }: Props) {
   return (
     <div
-      className={cn(
-        'py-2.5 flex flex-col items-center gap-1 cursor-pointer text-center',
-        'text-button-text-secondary hover:bg-button-secondary hover:text-button-text-secondary-hover',
-        'dark:text-dark-text dark:hover:bg-dark-input dark:hover:text-dark-text',
-        className,
+      className={twMerge(
+        cn(
+          'py-2.5 flex flex-col items-center gap-1 cursor-pointer text-center',
+          'text-button-text-secondary hover:bg-button-secondary hover:text-button-text-secondary-hover',
+          'dark:text-dark-text dark:hover:bg-dark-input dark:hover:text-dark-text',
+          className,
+        ),
       )}
       onClick={onClick}
       {...otherProps}

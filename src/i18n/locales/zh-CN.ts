@@ -19,7 +19,6 @@ const zhCN = {
     overwrite: '覆盖',
     enabled: '已启用',
     disabled: '已禁用',
-    warning: '警告：',
     connect: '连接',
     disconnect: '断开',
     beautify: '格式化',
@@ -28,6 +27,13 @@ const zhCN = {
     paste: '粘贴',
     enable: '启用',
     disable: '禁用',
+    passed: '通过',
+    failed: '失败',
+    bug: '缺陷',
+    bugs: '缺陷',
+    warning: '警告',
+    warnings: '警告',
+    ignored: '已忽略',
   },
 
   // Sidebar

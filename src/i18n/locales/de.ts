@@ -19,7 +19,6 @@ const de = {
     overwrite: 'Überschreiben',
     enabled: 'Aktiviert',
     disabled: 'Deaktiviert',
-    warning: 'Warnung:',
     connect: 'Verbinden',
     disconnect: 'Trennen',
     beautify: 'Formatieren',
@@ -28,6 +27,13 @@ const de = {
     paste: 'Einfügen',
     enable: 'Aktivieren',
     disable: 'Deaktivieren',
+    passed: 'Erfolgreich',
+    failed: 'Fehlgeschlagen',
+    bug: 'Fehler',
+    bugs: 'Fehler',
+    warning: 'Warnung',
+    warnings: 'Warnungen',
+    ignored: 'Ignoriert',
   },
 
   // Sidebar

@@ -19,7 +19,6 @@ const vi = {
     overwrite: 'Ghi đè',
     enabled: 'Đã bật',
     disabled: 'Đã tắt',
-    warning: 'Cảnh báo:',
     connect: 'Kết nối',
     disconnect: 'Ngắt kết nối',
     beautify: 'Định dạng đẹp',
@@ -28,6 +27,13 @@ const vi = {
     paste: 'Dán',
     enable: 'Bật',
     disable: 'Tắt',
+    passed: 'Thành công',
+    failed: 'Thất bại',
+    bug: 'Lỗi',
+    bugs: 'Lỗi',
+    warning: 'Cảnh báo',
+    warnings: 'Cảnh báo',
+    ignored: 'Đã bỏ qua',
   },
 
   // Sidebar

@@ -31,7 +31,11 @@ import TestResultsComparisonPanel from './components/panels/TestResultsCompariso
 import { PERFORMANCE_INSIGHTS } from './components/settings/PerformanceInsightsSettings';
 import { SECURITY_TESTS } from './components/settings/SecurityTestsSettings';
 import Sidebar from './components/sidebar/Sidebar';
-import TestsTable, { ExpandedTestComponent, getTestsTableColumns } from './components/tables/TestsTable';
+import TestsTable, {
+  ExpandedTestComponent,
+  getTestsTableColumns,
+  TestsTableHeader,
+} from './components/tables/TestsTable';
 import { JsonViewer } from './components/viewers/JsonViewer';
 import { appConfig } from './constants/appConfig';
 import { useCtrlS } from './hooks/useCtrlS';
@@ -942,7 +946,7 @@ export default function App() {
                 </div>
                 {runResult?.warning && (
                   <div className="px-4 py-2 text-xs bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border-t border-yellow-200 dark:border-yellow-800">
-                    <span className="font-semibold">{t('common.warning')}</span> {runResult.warning}
+                    <span className="font-semibold">{t('common.warning')}:</span> {runResult.warning}
                   </div>
                 )}
                 {httpResponse.status !== SENDING && (
@@ -1124,25 +1128,22 @@ export default function App() {
             {testResults && (
               <>
                 <Panel
-                  className="relative"
                   title={
-                    <>
-                      {t('tests.securityTests')}{' '}
-                      {disabledSecurityTests.length > 0 && (
-                        <span className="font-normal text-text-secondary lowercase">
-                          ({disabledSecurityTests.length} {t('common.disabled')})
-                        </span>
-                      )}
-                    </>
+                    <TestsTableHeader
+                      disabledTests={disabledSecurityTests}
+                      tests={securityTests}
+                      title={t('tests.securityTests')}
+                    >
+                      <SidebarButton
+                        className="py-1.75 px-2.5"
+                        label={t('sidebar.settings')}
+                        onClick={() => dispatch(uiActions.openSettingsModal())}
+                      >
+                        <GearIcon className="w-5 h-5" />
+                      </SidebarButton>
+                    </TestsTableHeader>
                   }
                 >
-                  <SidebarButton
-                    className="absolute top-0 right-0 py-1.75 px-2.5"
-                    label={t('sidebar.settings')}
-                    onClick={() => dispatch(uiActions.openSettingsModal())}
-                  >
-                    <GearIcon className="w-5 h-5" />
-                  </SidebarButton>
                   <TestsTable
                     columns={[
                       ...getTestsTableColumns(['Check', 'Expected', 'Actual'], t),
@@ -1209,25 +1210,22 @@ export default function App() {
                 </Panel>
 
                 <Panel
-                  className="relative"
                   title={
-                    <>
-                      {t('tests.performanceInsights')}{' '}
-                      {disabledPerformanceInsights.length > 0 && (
-                        <span className="font-normal text-text-secondary lowercase">
-                          ({disabledPerformanceInsights.length} {t('common.disabled')})
-                        </span>
-                      )}
-                    </>
+                    <TestsTableHeader
+                      disabledTests={disabledPerformanceInsights}
+                      tests={performanceTests}
+                      title={t('tests.performanceInsights')}
+                    >
+                      <SidebarButton
+                        className="py-1.75 px-2.5"
+                        label={t('sidebar.settings')}
+                        onClick={() => dispatch(uiActions.openSettingsModal())}
+                      >
+                        <GearIcon className="w-5 h-5" />
+                      </SidebarButton>
+                    </TestsTableHeader>
                   }
                 >
-                  <SidebarButton
-                    className="absolute top-0 right-0 py-1.75 px-2.5"
-                    label={t('sidebar.settings')}
-                    onClick={() => dispatch(uiActions.openSettingsModal())}
-                  >
-                    <GearIcon className="w-5 h-5" />
-                  </SidebarButton>
                   <TestsTable
                     columns={[
                       ...getTestsTableColumns(['Check', 'Expected'], t),
@@ -1301,7 +1299,7 @@ export default function App() {
                   />
                 </Panel>
 
-                <Panel title={t('tests.dataDrivenTests')}>
+                <Panel title={<TestsTableHeader tests={dataDrivenTests} title={t('tests.dataDrivenTests')} />}>
                   <TestsTable
                     columns={getTestsTableColumns(['Parameter', 'Value', 'Expected', 'Actual', 'Result'], t)}
                     expandableRows
@@ -1316,7 +1314,7 @@ export default function App() {
                   />
                 </Panel>
 
-                <Panel title={t('tests.crud')}>
+                <Panel title={<TestsTableHeader tests={crudTests} title={t('tests.crud')} />}>
                   <TestsTable
                     columns={getTestsTableColumns(['Method', 'Expected', 'Actual', 'Result'], t)}
                     expandableRows

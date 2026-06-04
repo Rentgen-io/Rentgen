@@ -1,8 +1,9 @@
 import cn from 'classnames';
 import { TFunction } from 'i18next';
-import { memo } from 'react';
+import { memo, PropsWithChildren } from 'react';
 import DataTable, { ExpanderComponentProps, TableColumn, TableProps } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
+import { twMerge } from 'tailwind-merge';
 import { useAppSelector } from '../../store/hooks';
 import { selectDisabledPerformanceInsights, selectDisabledSecurityTests } from '../../store/selectors';
 import { TestResult, TestStatus } from '../../types';
@@ -69,6 +70,86 @@ export default function TestsTable({ columns, data, className, ...otherProps }: 
       data={definedData}
       {...otherProps}
     />
+  );
+}
+
+export function TestsTableHeader({
+  children,
+  disabledTests,
+  tests,
+  title,
+}: {
+  disabledTests?: string[];
+  tests: TestResult[];
+  title: string;
+} & PropsWithChildren) {
+  const { t } = useTranslation();
+  const { bugs, failed, passed, warnings } = tests.reduce(
+    (acc, test) => {
+      switch (test.status) {
+        case TestStatus.Fail:
+        case TestStatus.FailNoResponse:
+          acc.failed += 1;
+          break;
+        case TestStatus.Warning:
+          acc.warnings += 1;
+          break;
+        case TestStatus.Bug:
+          acc.bugs += 1;
+          break;
+        case TestStatus.Pass:
+          acc.passed += 1;
+          break;
+      }
+      return acc;
+    },
+    { bugs: 0, failed: 0, passed: 0, warnings: 0 },
+  );
+
+  return (
+    <div className="flex items-center">
+      <h4 className="flex items-center gap-2 flex-auto m-0 p-4">
+        <span
+          className={twMerge(
+            cn('w-2 h-2 rounded-full shrink-0 bg-gray-400', {
+              'bg-green-500': passed > 0 && failed === 0 && warnings === 0 && bugs === 0,
+              'bg-yellow-500': warnings > 0 && failed === 0 && bugs === 0,
+              'bg-red-500': failed > 0 && bugs === 0,
+              'bg-purple-500': bugs > 0,
+            }),
+          )}
+        />
+        {title}
+        <div className="flex-auto flex items-center justify-end gap-2 font-normal lowercase">
+          {passed > 0 && (
+            <span className="text-green-500">
+              {passed} {t('common.passed')}
+            </span>
+          )}
+          {warnings > 0 && (
+            <span className="text-yellow-500">
+              {warnings} {warnings === 1 ? t('common.warning') : t('common.warnings')}
+            </span>
+          )}
+          {failed > 0 && (
+            <span className="text-red-500">
+              {failed} {t('common.failed')}
+            </span>
+          )}
+          {bugs > 0 && (
+            <span className="text-purple-500">
+              {bugs} {bugs === 1 ? t('common.bug') : t('common.bugs')}
+            </span>
+          )}
+          {!!disabledTests?.length && (
+            <span className="text-text-secondary">
+              {disabledTests.length} {t('common.ignored')}
+            </span>
+          )}
+        </div>
+      </h4>
+      {children}
+    </div>
   );
 }
 

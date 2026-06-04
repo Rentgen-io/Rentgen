@@ -19,7 +19,6 @@ const fr = {
     overwrite: 'Écraser',
     enabled: 'Activé',
     disabled: 'Désactivé',
-    warning: 'Avertissement :',
     connect: 'Connecter',
     disconnect: 'Déconnecter',
     beautify: 'Embellir',
@@ -28,6 +27,13 @@ const fr = {
     paste: 'Coller',
     enable: 'Activer',
     disable: 'Désactiver',
+    passed: 'Réussi',
+    failed: 'Échoué',
+    bug: 'Bug',
+    bugs: 'Bugs',
+    warning: 'Avertissement',
+    warnings: 'Avertissements',
+    ignored: 'Ignore',
   },
 
   // Sidebar

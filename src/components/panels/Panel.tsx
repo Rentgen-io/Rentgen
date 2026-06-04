@@ -15,7 +15,7 @@ export default function Panel({ children, className, title, ...otherProps }: Pro
       )}
       {...otherProps}
     >
-      <h4 className="m-0 p-4">{title}</h4>
+      {typeof title === 'string' ? <h4 className="m-0 p-4">{title}</h4> : title}
       {children}
     </div>
   );

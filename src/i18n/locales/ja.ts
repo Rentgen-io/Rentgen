@@ -19,7 +19,6 @@ const ja = {
     overwrite: '上書き',
     enabled: '有効',
     disabled: '無効',
-    warning: '警告:',
     connect: '接続',
     disconnect: '切断',
     beautify: '整形',
@@ -28,6 +27,13 @@ const ja = {
     paste: '貼り付け',
     enable: '有効にする',
     disable: '無効にする',
+    passed: '成功',
+    failed: '失敗',
+    bug: 'バグ',
+    bugs: 'バグ',
+    warning: '警告',
+    warnings: '警告',
+    ignored: '無視',
   },
 
   // Sidebar

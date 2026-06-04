@@ -19,7 +19,6 @@ const lt = {
     overwrite: 'Perrašyti',
     enabled: 'Įjungta',
     disabled: 'Išjungta',
-    warning: 'Įspėjimas:',
     connect: 'Prisijungti',
     disconnect: 'Atsijungti',
     beautify: 'Formatuoti',
@@ -28,6 +27,13 @@ const lt = {
     paste: 'Įklijuoti',
     enable: 'Įjungti',
     disable: 'Išjungti',
+    passed: 'Praėjo',
+    failed: 'Nepraėjo',
+    bug: 'Klaida',
+    bugs: 'Klaidos',
+    warning: 'Įspėjimas',
+    warnings: 'Įspėjimai',
+    ignored: 'Ignoruota',
   },
 
   // Sidebar

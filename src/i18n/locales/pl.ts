@@ -19,7 +19,6 @@ const pl = {
     overwrite: 'Nadpisz',
     enabled: 'Włączone',
     disabled: 'Wyłączone',
-    warning: 'Ostrzeżenie:',
     connect: 'Połącz',
     disconnect: 'Rozłącz',
     beautify: 'Formatuj',
@@ -28,6 +27,13 @@ const pl = {
     paste: 'Wklej',
     enable: 'Włącz',
     disable: 'Wyłącz',
+    passed: 'Zaliczone',
+    failed: 'Nieudane',
+    bug: 'Błąd',
+    bugs: 'Błędy',
+    warning: 'Ostrzeżenie',
+    warnings: 'Ostrzeżenia',
+    ignored: 'Zignorowano',
   },
 
   // Sidebar

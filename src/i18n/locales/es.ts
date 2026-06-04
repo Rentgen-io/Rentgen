@@ -19,7 +19,6 @@ const es = {
     overwrite: 'Sobrescribir',
     enabled: 'Activado',
     disabled: 'Desactivado',
-    warning: 'Advertencia:',
     connect: 'Conectar',
     disconnect: 'Desconectar',
     beautify: 'Formatear',
@@ -28,6 +27,13 @@ const es = {
     paste: 'Pegar',
     enable: 'Activar',
     disable: 'Desactivar',
+    passed: 'Aprobado',
+    failed: 'Fallido',
+    bug: 'Error',
+    bugs: 'Errores',
+    warning: 'Advertencia',
+    warnings: 'Advertencias',
+    ignored: 'Ignorado',
   },
 
   // Sidebar

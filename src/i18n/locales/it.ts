@@ -19,7 +19,6 @@ const it = {
     overwrite: 'Sovrascrivi',
     enabled: 'Abilitato',
     disabled: 'Disabilitato',
-    warning: 'Attenzione:',
     connect: 'Connetti',
     disconnect: 'Disconnetti',
     beautify: 'Formatta',
@@ -28,6 +27,13 @@ const it = {
     paste: 'Incolla',
     enable: 'Abilita',
     disable: 'Disabilita',
+    passed: 'Superato',
+    failed: 'Fallito',
+    bug: 'Bug',
+    bugs: 'Bug',
+    warning: 'Avviso',
+    warnings: 'Avvisi',
+    ignored: 'Ignorato',
   },
 
   // Sidebar

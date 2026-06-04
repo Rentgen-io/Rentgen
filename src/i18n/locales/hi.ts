@@ -19,7 +19,6 @@ const hi = {
     overwrite: 'अधिलेखित करें',
     enabled: 'सक्षम',
     disabled: 'अक्षम',
-    warning: 'चेतावनी:',
     connect: 'कनेक्ट करें',
     disconnect: 'डिस्कनेक्ट करें',
     beautify: 'सुंदर बनाएँ',
@@ -28,6 +27,13 @@ const hi = {
     paste: 'पेस्ट करें',
     enable: 'सक्षम करें',
     disable: 'अक्षम करें',
+    passed: 'सफल',
+    failed: 'विफल',
+    bug: 'बग',
+    bugs: 'बग',
+    warning: 'चेतावनी',
+    warnings: 'चेतावनियाँ',
+    ignored: 'अनदेखा',
   },
 
   // Sidebar
