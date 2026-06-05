@@ -33,6 +33,7 @@ const tr = {
     bugs: 'Hatalar',
     warning: 'Uyarı',
     warnings: 'Uyarılar',
+    ignore: 'Yoksay',
     ignored: 'Yoksayıldı',
   },
 

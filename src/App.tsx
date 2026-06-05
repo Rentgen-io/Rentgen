@@ -1182,14 +1182,13 @@ export default function App() {
                         ),
                       },
                       {
-                        width: '70px',
+                        name: t('common.ignore'),
+                        width: '80px',
                         cell: (row, id) => (
                           <div data-column-id={id} data-tag="allowRowEvents">
                             {SECURITY_TESTS.includes(row.name) && (
                               <Toggle
                                 key={id}
-                                title={!disabledSecurityTests.includes(row.name) ? t('common.disable') : undefined}
-                                disabled={disabledSecurityTests.includes(row.name)}
                                 checked={!disabledSecurityTests.includes(row.name)}
                                 onChange={() => dispatch(settingsActions.toggleSecurityTest(row.name))}
                               />
@@ -1266,16 +1265,13 @@ export default function App() {
                         ),
                       },
                       {
-                        width: '70px',
+                        name: t('common.ignore'),
+                        width: '80px',
                         cell: (row, id) => (
                           <div data-column-id={id} data-tag="allowRowEvents">
                             {PERFORMANCE_INSIGHTS.includes(row.name) && (
                               <Toggle
                                 key={id}
-                                title={
-                                  !disabledPerformanceInsights.includes(row.name) ? t('common.disable') : undefined
-                                }
-                                disabled={disabledPerformanceInsights.includes(row.name)}
                                 checked={!disabledPerformanceInsights.includes(row.name)}
                                 onChange={() => dispatch(settingsActions.togglePerformanceInsight(row.name))}
                               />

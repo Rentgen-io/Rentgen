@@ -33,6 +33,7 @@ const en = {
     bugs: 'Bugs',
     warning: 'Warning',
     warnings: 'Warnings',
+    ignore: 'Ignore',
     ignored: 'Ignored',
   },
 

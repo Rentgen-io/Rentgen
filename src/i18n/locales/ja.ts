@@ -33,6 +33,7 @@ const ja = {
     bugs: 'バグ',
     warning: '警告',
     warnings: '警告',
+    ignore: '無視する',
     ignored: '無視',
   },
 

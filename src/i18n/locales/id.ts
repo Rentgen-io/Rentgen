@@ -33,6 +33,7 @@ const id = {
     bugs: 'Bug',
     warning: 'Peringatan',
     warnings: 'Peringatan',
+    ignore: 'Abaikan',
     ignored: 'Diabaikan',
   },
 

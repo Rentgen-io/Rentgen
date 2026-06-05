@@ -33,6 +33,7 @@ const lt = {
     bugs: 'Klaidos',
     warning: 'Įspėjimas',
     warnings: 'Įspėjimai',
+    ignore: 'Ignoruoti',
     ignored: 'Ignoruota',
   },
 

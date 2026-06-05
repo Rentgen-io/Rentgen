@@ -33,6 +33,7 @@ const th = {
     bugs: 'บั๊ก',
     warning: 'คำเตือน',
     warnings: 'คำเตือน',
+    ignore: 'ละเว้น',
     ignored: 'ละเว้น',
   },
 

@@ -33,6 +33,7 @@ const es = {
     bugs: 'Errores',
     warning: 'Advertencia',
     warnings: 'Advertencias',
+    ignore: 'Ignorar',
     ignored: 'Ignorado',
   },
 

@@ -33,6 +33,7 @@ const it = {
     bugs: 'Bug',
     warning: 'Avviso',
     warnings: 'Avvisi',
+    ignore: 'Ignora',
     ignored: 'Ignorato',
   },
 

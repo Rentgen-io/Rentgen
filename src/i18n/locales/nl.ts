@@ -33,6 +33,7 @@ const nl = {
     bugs: 'Bugs',
     warning: 'Waarschuwing',
     warnings: 'Waarschuwingen',
+    ignore: 'Negeren',
     ignored: 'Genegeerd',
   },
 

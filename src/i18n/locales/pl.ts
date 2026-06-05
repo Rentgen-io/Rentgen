@@ -33,6 +33,7 @@ const pl = {
     bugs: 'Błędy',
     warning: 'Ostrzeżenie',
     warnings: 'Ostrzeżenia',
+    ignore: 'Ignoruj',
     ignored: 'Zignorowano',
   },
 

@@ -33,6 +33,7 @@ const ptBR = {
     bugs: 'Bugs',
     warning: 'Aviso',
     warnings: 'Avisos',
+    ignore: 'Ignorar',
     ignored: 'Ignorado',
   },
 

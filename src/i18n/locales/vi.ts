@@ -33,6 +33,7 @@ const vi = {
     bugs: 'Lỗi',
     warning: 'Cảnh báo',
     warnings: 'Cảnh báo',
+    ignore: 'Bỏ qua',
     ignored: 'Đã bỏ qua',
   },
 

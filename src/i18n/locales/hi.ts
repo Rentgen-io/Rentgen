@@ -33,6 +33,7 @@ const hi = {
     bugs: 'बग',
     warning: 'चेतावनी',
     warnings: 'चेतावनियाँ',
+    ignore: 'अनदेखा करें',
     ignored: 'अनदेखा',
   },
 

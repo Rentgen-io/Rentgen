@@ -31,9 +31,7 @@ export default function TestsTable({ columns, data, className, ...otherProps }: 
         {
           when: () => true,
           style: (row) => {
-            const styles = disabledTests.includes(row.name)
-              ? { opacity: 0.5, cursor: 'not-allowed', '> *': { 'pointer-events': 'none' } }
-              : {};
+            const styles = disabledTests.includes(row.name) ? { opacity: 0.5, cursor: 'not-allowed' } : {};
 
             switch (row.status) {
               case TestStatus.Pass:
@@ -85,20 +83,20 @@ export function TestsTableHeader({
 } & PropsWithChildren) {
   const { t } = useTranslation();
   const { bugs, failed, passed, warnings } = tests.reduce(
-    (acc, test) => {
-      switch (test.status) {
+    (acc, { name, status }) => {
+      switch (status) {
         case TestStatus.Fail:
         case TestStatus.FailNoResponse:
-          acc.failed += 1;
+          if (!disabledTests?.includes(name)) acc.failed += 1;
           break;
         case TestStatus.Warning:
-          acc.warnings += 1;
+          if (!disabledTests?.includes(name)) acc.warnings += 1;
           break;
         case TestStatus.Bug:
-          acc.bugs += 1;
+          if (!disabledTests?.includes(name)) acc.bugs += 1;
           break;
         case TestStatus.Pass:
-          acc.passed += 1;
+          if (!disabledTests?.includes(name)) acc.passed += 1;
           break;
       }
       return acc;

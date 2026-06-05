@@ -33,6 +33,7 @@ const zhCN = {
     bugs: '缺陷',
     warning: '警告',
     warnings: '警告',
+    ignore: '忽略',
     ignored: '已忽略',
   },
 
