@@ -24,7 +24,7 @@ export function HttpPanel({ className, children, source, title, ...otherProps }:
           'flex-auto m-0 p-2.5 bg-white border border-border rounded dark:bg-dark-input dark:border-dark-border',
         )}
       >
-        {source && <JsonViewer source={source} />}
+        <JsonViewer source={source} />
       </div>
       {children}
     </div>
