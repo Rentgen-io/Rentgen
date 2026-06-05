@@ -1286,7 +1286,8 @@ export default function App() {
                     expandableRowDisabled={(row) =>
                       (row.name !== RESPONSE_SIZE_CHECK_TEST_NAME &&
                         row.name !== ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME) ||
-                      !row.response
+                      !row.response ||
+                      disabledPerformanceInsights.includes(row.name)
                     }
                     expandOnRowClicked
                     data={performanceTests}
