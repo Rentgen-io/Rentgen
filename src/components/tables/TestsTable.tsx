@@ -120,27 +120,27 @@ export function TestsTableHeader({
         {title}
         <div className="flex-auto flex items-center justify-end gap-2 font-normal lowercase">
           {passed > 0 && (
-            <span className="text-green-500">
+            <span className="py-px px-2 text-sm text-green-500 bg-green-500/10 rounded">
               {passed} {t('common.passed')}
             </span>
           )}
           {warnings > 0 && (
-            <span className="text-yellow-500">
+            <span className="py-px px-2 text-sm text-yellow-500 bg-yellow-500/10 rounded">
               {warnings} {warnings === 1 ? t('common.warning') : t('common.warnings')}
             </span>
           )}
           {failed > 0 && (
-            <span className="text-red-500">
+            <span className="py-px px-2 text-sm text-red-500 bg-red-500/10 rounded">
               {failed} {t('common.failed')}
             </span>
           )}
           {bugs > 0 && (
-            <span className="text-purple-500">
+            <span className="py-px px-2 text-sm text-purple-500 bg-purple-500/10 rounded">
               {bugs} {bugs === 1 ? t('common.bug') : t('common.bugs')}
             </span>
           )}
           {!!disabledTests?.length && (
-            <span className="text-text-secondary">
+            <span className="py-px px-2 text-sm text-text-secondary bg-text-secondary/10 rounded">
               {disabledTests.length} {t('common.ignored')}
             </span>
           )}
