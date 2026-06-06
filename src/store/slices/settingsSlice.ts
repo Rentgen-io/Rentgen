@@ -182,9 +182,10 @@ export const settingsSlice = createSlice({
       i18n.changeLanguage(action.payload);
     },
     replaceSettings: (state, action: PayloadAction<SettingsState>) => {
-      Object.assign(state, action.payload);
-      applyTheme(state);
+      Object.assign(state, merge(initialState, action.payload));
+
       if (action.payload.language) i18n.changeLanguage(action.payload.language);
+      applyTheme(state);
     },
   },
   extraReducers: (builder) => {
@@ -196,7 +197,7 @@ export const settingsSlice = createSlice({
       state.language = action.payload.language || 'en';
 
       if (action.payload.language) i18n.changeLanguage(action.payload.language);
-      if (action.payload.theme === 'dark') document.documentElement.classList.add('dark');
+      applyTheme(state);
     });
   },
 });
