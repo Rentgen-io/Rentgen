@@ -151,7 +151,7 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
 
     onChange({
       ...dynamicValue,
-      value: { ...(value as Interval), min: Math.min(min || minValue, max) },
+      value: { ...(value as Interval), min: Math.min(min ?? minValue, max) },
     });
   }
 
@@ -161,11 +161,16 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
 
     onChange({
       ...dynamicValue,
-      value: { ...(value as Interval), max: Math.max(min, max || maxValue) },
+      value: { ...(value as Interval), max: Math.max(min, max ?? maxValue) },
     });
   }
 
   function onMinChange(value: string, minValue: number, maxValue: number) {
+    if (!value) {
+      onChange({ ...dynamicValue, value: { ...(dynamicValue.value as Interval), min: null } });
+      return;
+    }
+
     let min = clamp(Number(value), minValue, maxValue);
     if (TRAILING_ZEROS_PATTERN.test(value) && min !== null) min += 0.001; // to preserve trailing zeros in decimals
 
@@ -173,6 +178,11 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
   }
 
   function onMaxChange(value: string, minValue: number, maxValue: number) {
+    if (!value) {
+      onChange({ ...dynamicValue, value: { ...(dynamicValue.value as Interval), max: null } });
+      return;
+    }
+
     let max = clamp(Number(value), minValue, maxValue);
     if (TRAILING_ZEROS_PATTERN.test(value) && max !== null) max += 0.001; // to preserve trailing zeros in decimals
 
