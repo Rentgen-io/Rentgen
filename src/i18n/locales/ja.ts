@@ -237,6 +237,7 @@ const ja = {
       dynamicVariablesCount: '動的バリアブル ({{count}} 件のバリアブル)',
       historyCount: '履歴 ({{count}} 件のエントリ)',
       settingsInfo: '設定 (テーマ、テストエンジン、履歴設定)',
+      mappingsInfo: 'マッピング (ボディおよびクエリパラメータ)',
       cannotBeUndone: 'この操作は取り消せません。',
       backupBefore: 'インポート前に現在のプロジェクトをバックアップしてください:',
       exportedCheck: 'エクスポート済み ✓',

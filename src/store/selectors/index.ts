@@ -154,3 +154,6 @@ export const selectHistoryEnabled = (state: RootState) => state.settings.general
 export const selectHistorySize = (state: RootState) => state.settings.general.history.size;
 export const selectHistoryRetention = (state: RootState) => state.settings.general.history.retention;
 export const selectTestEngineConfiguration = (state: RootState) => state.settings.testEngine.configuration;
+
+// Mappings selectors
+export const selectMappings = (state: RootState) => state.mappings;

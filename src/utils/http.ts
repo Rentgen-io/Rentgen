@@ -145,7 +145,7 @@ export function extractBodyFromResponse(response: HttpResponse): Record<string, 
   return response?.body ?? '';
 }
 
-export function extractStatusCode(response: HttpResponse): number {
+export function extractStatusCode(response: HttpResponse | null): number {
   const status = (response?.status || '').toString();
   const parsedStatus = parseInt(status.split(' ')[0] || '0', 10);
   return Number.isFinite(parsedStatus) ? parsedStatus : 0;

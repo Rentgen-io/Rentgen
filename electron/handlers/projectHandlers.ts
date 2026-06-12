@@ -30,7 +30,6 @@ function validateProjectFile(parsed: unknown): parsed is ProjectFile {
 export function registerProjectHandlers(): void {
   ipcMain.handle('export-project', async (): Promise<ProjectExportResult> => {
     const base = userDataPath();
-
     const data: ProjectData = {
       collection: (readJsonFile(path.join(base, 'collection.json')) as ProjectData['collection']) ?? {
         info: {
@@ -46,10 +45,11 @@ export function registerProjectHandlers(): void {
       history: (readJsonFile(path.join(base, 'history.json')) as ProjectData['history']) ?? [],
       settings:
         (readJsonFile(path.join(base, 'settings.json')) as ProjectData['settings']) ?? ({} as ProjectData['settings']),
+      mappings:
+        (readJsonFile(path.join(base, 'mappings.json')) as ProjectData['mappings']) ?? ({} as ProjectData['mappings']),
     };
 
     const checksum = computeChecksum(data);
-
     const projectFile: ProjectFile = {
       meta: {
         version: 1,
@@ -95,9 +95,8 @@ export function registerProjectHandlers(): void {
       const content = fs.readFileSync(result.filePaths[0], 'utf-8');
       const parsed = JSON.parse(content);
 
-      if (!validateProjectFile(parsed)) {
+      if (!validateProjectFile(parsed))
         return { error: 'Invalid Rentgen project file. Missing required data sections.' };
-      }
 
       const integrityStatus = verifyChecksum(parsed.meta.checksum, parsed.data);
 

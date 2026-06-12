@@ -237,6 +237,7 @@ const de = {
       dynamicVariablesCount: 'Dynamische Variablen ({{count}} Variablen)',
       historyCount: 'Verlauf ({{count}} Einträge)',
       settingsInfo: 'Einstellungen (Design, Test-Engine, Verlaufskonfiguration)',
+      mappingsInfo: 'Zuordnungen (Body- und Abfrageparameter)',
       cannotBeUndone: 'Diese Aktion kann nicht rückgängig gemacht werden.',
       backupBefore: 'Sichern Sie Ihr aktuelles Projekt vor dem Import:',
       exportedCheck: 'Exportiert ✓',

@@ -95,6 +95,7 @@ import {
   selectIsComparingTestResults,
   selectIsEditingEnvironment,
   selectIsRunningTests,
+  selectMappings,
   selectMessageType,
   selectMethod,
   selectMode,
@@ -118,6 +119,7 @@ import { collectionRunActions } from './store/slices/collectionRunSlice';
 import { collectionActions, loadCollection } from './store/slices/collectionSlice';
 import { environmentActions, loadDynamicVariables, loadEnvironments } from './store/slices/environmentSlice';
 import { historyActions, loadHistory } from './store/slices/historySlice';
+import { loadMappings, mappingsActions } from './store/slices/mappingsSlice';
 import { requestActions } from './store/slices/requestSlice';
 import { responseActions } from './store/slices/responseSlice';
 import { loadSettings, settingsActions } from './store/slices/settingsSlice';
@@ -248,6 +250,9 @@ export default function App() {
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
 
+  // Mappings state
+  const mappings = useAppSelector(selectMappings);
+
   // Tests hook
   const {
     crudTests,
@@ -289,18 +294,10 @@ export default function App() {
   // Load initial data
   useEffect(() => {
     dispatch(loadCollection());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(loadEnvironments());
     dispatch(loadDynamicVariables());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(loadSettings());
-  }, [dispatch]);
-
-  useEffect(() => {
+    dispatch(loadMappings());
     dispatch(loadHistory());
   }, [dispatch]);
 
@@ -309,15 +306,11 @@ export default function App() {
     if (!window.electronAPI.onWssEvent) return;
 
     const messagesListener = (event: any) => {
-      if (event.type === 'open') {
-        dispatch(websocketActions.handleWssOpen(event.data));
-      } else if (event.type === 'close') {
-        dispatch(websocketActions.handleWssClose(event.data));
-      } else if (event.type === 'message') {
+      if (event.type === 'open') dispatch(websocketActions.handleWssOpen(event.data));
+      else if (event.type === 'close') dispatch(websocketActions.handleWssClose(event.data));
+      else if (event.type === 'message')
         dispatch(websocketActions.handleWssMessage({ data: String(event.data), decoded: event.decoded }));
-      } else if (event.type === 'error') {
-        dispatch(websocketActions.handleWssError(event.error));
-      }
+      else if (event.type === 'error') dispatch(websocketActions.handleWssError(event.error));
     };
 
     return window.electronAPI.onWssEvent(messagesListener);
@@ -401,13 +394,22 @@ export default function App() {
       let queryParameters = {};
 
       if (status >= 200 && status < 300) {
-        bodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
-        queryParameters = Object.fromEntries(
+        const extractedBodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
+        bodyParameters = {
+          ...extractedBodyParameters,
+          ...(selectedRequestId ? mappings[selectedRequestId]?.body || {} : {}),
+        };
+
+        const extractedQueryParameters = Object.fromEntries(
           Object.entries(extractQueryParameters(url)).map(([key, value]) => [
             key,
             getInitialParameterValue(detectDataType(value), value),
           ]),
         );
+        queryParameters = {
+          ...extractedQueryParameters,
+          ...(selectedRequestId ? mappings[selectedRequestId]?.query || {} : {}),
+        };
 
         dispatch(requestActions.setBodyParameters(bodyParameters));
         dispatch(requestActions.setQueryParameters(queryParameters));
@@ -473,17 +475,19 @@ export default function App() {
     selectedRequestId,
     protoFile,
     method,
+    mappings,
     dispatch,
   ]);
 
   // Save request
   const saveRequest = useCallback(async () => {
+    let requestId: string | null = selectedRequestId;
     const parsedHeaders = parseHeaders(headers);
 
-    if (selectedRequestId && findRequestById(collection, selectedRequestId)) {
+    if (requestId && findRequestById(collection, requestId)) {
       dispatch(
         collectionActions.updateRequest({
-          requestId: selectedRequestId,
+          requestId,
           method,
           url,
           headers: parsedHeaders,
@@ -501,20 +505,8 @@ export default function App() {
         }),
       );
 
-      const requestId = store.getState().collection.selectedRequestId;
-      if (httpResponse)
-        dispatch(
-          collectionRunActions.addResult({
-            requestId,
-            status: extractStatusCode(httpResponse),
-            response: httpResponse,
-            bodyParameters,
-            queryParameters,
-            error: null,
-          }),
-        );
-
-      if (testResults)
+      requestId = store.getState().collection.selectedRequestId;
+      if (requestId && testResults)
         dispatch(
           testActions.addResults({
             requestId,
@@ -522,6 +514,18 @@ export default function App() {
           }),
         );
     }
+
+    if (requestId && httpResponse)
+      dispatch(
+        collectionRunActions.addResult({
+          requestId,
+          status: extractStatusCode(httpResponse),
+          response: httpResponse,
+          bodyParameters,
+          queryParameters,
+          error: null,
+        }),
+      );
 
     dispatch(uiActions.setSaved(true));
     clearTimeout(savedTimeout);
@@ -684,7 +688,7 @@ export default function App() {
     }
   }, [testResults, dispatch]);
 
-  useCtrlS(!disabled && saveRequest);
+  useCtrlS(!disabled ? saveRequest : undefined);
 
   return (
     <div className="flex">
@@ -1035,7 +1039,14 @@ export default function App() {
                   <ParametersPanel
                     title={t('tests.bodyParameters')}
                     parameters={bodyParameters}
-                    onChange={(parameters) => dispatch(requestActions.mergeBodyParameters(parameters))}
+                    onBlur={autoSaveRequest}
+                    onChange={(parameters) => {
+                      dispatch(requestActions.setBodyParameters(parameters));
+                      if (selectedRequestId)
+                        dispatch(
+                          mappingsActions.setBodyMappings({ requestId: selectedRequestId, mappings: parameters }),
+                        );
+                    }}
                   />
                 )}
 
@@ -1043,7 +1054,14 @@ export default function App() {
                   <ParametersPanel
                     title={t('tests.queryParameters')}
                     parameters={queryParameters}
-                    onChange={(parameters) => dispatch(requestActions.mergeQueryParameters(parameters))}
+                    onBlur={autoSaveRequest}
+                    onChange={(parameters) => {
+                      dispatch(requestActions.setQueryParameters(parameters));
+                      if (selectedRequestId)
+                        dispatch(
+                          mappingsActions.setQueryMappings({ requestId: selectedRequestId, mappings: parameters }),
+                        );
+                    }}
                   />
                 )}
               </div>

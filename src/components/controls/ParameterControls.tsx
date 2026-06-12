@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../store/hooks';
@@ -6,6 +5,7 @@ import { selectTestEngineConfiguration } from '../../store/selectors';
 import { isParameterTestSkipped } from '../../tests';
 import { DataType, DynamicValue, Interval } from '../../types';
 import { clamp, getInitialParameterValue, normalizeDecimal } from '../../utils';
+import { IconButton } from '../buttons/IconButton';
 import Input from '../inputs/Input';
 import { SelectOption } from '../inputs/Select';
 import SimpleSelect from '../inputs/SimpleSelect';
@@ -107,19 +107,18 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
             value={type}
             onChange={onSelectTypeChange}
           />
-          <ClearCrossIcon
-            className={cn(
-              'h-4.5 w-4.5 shrink-0 text-button-text-secondary hover:text-button-text-secondary-hover',
-              'dark:text-text-secondary dark:hover:text-dark-text cursor-pointer',
-            )}
-            onClick={() => onChange({ type: 'do-not-test', value: '', mandatory: false })}
-          />
           <Toggle
             checked={mandatory}
             disabled={isParameterTestSkipped(type)}
             title={!isParameterTestSkipped(type) ? t('controls.mandatoryToggle') : undefined}
             onChange={(e) => onChange({ ...dynamicValue, mandatory: e.target.checked })}
           />
+          <IconButton
+            className="h-7 w-7 shrink-0"
+            onClick={() => onChange({ type: 'do-not-test', value: '', mandatory: false })}
+          >
+            <ClearCrossIcon className="h-4.5 w-4.5" />
+          </IconButton>
         </div>
       </div>
     </div>

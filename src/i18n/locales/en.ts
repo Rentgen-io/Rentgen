@@ -236,6 +236,7 @@ const en = {
       dynamicVariablesCount: 'Dynamic Variables ({{count}} variables)',
       historyCount: 'History ({{count}} entries)',
       settingsInfo: 'Settings (theme, test engine, history config)',
+      mappingsInfo: 'Mappings (body & query parameters)',
       cannotBeUndone: 'This action cannot be undone.',
       backupBefore: 'Back up your current project before importing:',
       exportedCheck: 'Exported ✓',

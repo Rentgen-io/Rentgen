@@ -12,6 +12,7 @@ import {
   registerHistoryHandlers,
   registerHttpHandlers,
   registerImportExportHandlers,
+  registerMappingsHandlers,
   registerProjectHandlers,
   registerSettingsHandlers,
   registerWssHandlers,
@@ -146,6 +147,7 @@ registerImportExportHandlers();
 registerProjectHandlers();
 registerCertificateHandlers();
 registerCliHandlers();
+registerMappingsHandlers();
 
 ipcMain.handle('get-app-version', () => app.getVersion());
 ipcMain.on('open-external', (_, url: string) => shell.openExternal(url));

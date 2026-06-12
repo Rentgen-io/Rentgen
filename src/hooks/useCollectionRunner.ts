@@ -1,6 +1,11 @@
 import { useCallback, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectCollectionData, selectDynamicVariables, selectSelectedEnvironment } from '../store/selectors';
+import {
+  selectCollectionData,
+  selectDynamicVariables,
+  selectMappings,
+  selectSelectedEnvironment,
+} from '../store/selectors';
 import { collectionRunActions } from '../store/slices/collectionRunSlice';
 import { environmentActions } from '../store/slices/environmentSlice';
 import { DynamicVariable, ExtractionFailure, HttpResponse, PostmanItem } from '../types';
@@ -22,6 +27,7 @@ export function useCollectionRunner() {
   const dispatch = useAppDispatch();
   const collection = useAppSelector(selectCollectionData);
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
+  const mappings = useAppSelector(selectMappings);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
   const dynamicVariablesRef = useRef<DynamicVariable[]>(dynamicVariables);
   dynamicVariablesRef.current = dynamicVariables;
@@ -55,7 +61,7 @@ export function useCollectionRunner() {
 
       dispatch(collectionRunActions.finishRun());
     },
-    [collection, selectedEnvironment, dispatch],
+    [collection, mappings, selectedEnvironment, dispatch],
   );
 
   const runRequest = useCallback(
@@ -67,7 +73,7 @@ export function useCollectionRunner() {
       await executeRequest(item);
       dispatch(collectionRunActions.finishRequestRun());
     },
-    [collection, selectedEnvironment],
+    [collection, mappings, selectedEnvironment, dispatch],
   );
 
   const executeRequest = useCallback(
@@ -100,13 +106,16 @@ export function useCollectionRunner() {
         let queryParameters = {};
 
         if (status >= 200 && status < 300) {
-          bodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
-          queryParameters = Object.fromEntries(
+          const extractedBodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
+          bodyParameters = { ...extractedBodyParameters, ...(mappings[item.id]?.body || {}) };
+
+          const extractedQueryParameters = Object.fromEntries(
             Object.entries(extractQueryParameters(request.url)).map(([key, value]) => [
               key,
               getInitialParameterValue(detectDataType(value), value),
             ]),
           );
+          queryParameters = { ...extractedQueryParameters, ...(mappings[item.id]?.query || {}) };
         }
 
         // Extract and update dynamic variables for this request
@@ -170,7 +179,7 @@ export function useCollectionRunner() {
         );
       }
     },
-    [selectedEnvironment, dispatch],
+    [mappings, selectedEnvironment, dispatch],
   );
 
   const cancelRun = useCallback(() => {

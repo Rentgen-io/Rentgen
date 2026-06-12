@@ -50,14 +50,8 @@ export const requestSlice = createSlice({
     setBodyParameters: (state, action: PayloadAction<RequestParameters>) => {
       state.bodyParameters = action.payload;
     },
-    mergeBodyParameters: (state, action: PayloadAction<RequestParameters>) => {
-      state.bodyParameters = { ...state.bodyParameters, ...action.payload };
-    },
     setQueryParameters: (state, action: PayloadAction<RequestParameters>) => {
       state.queryParameters = action.payload;
-    },
-    mergeQueryParameters: (state, action: PayloadAction<RequestParameters>) => {
-      state.queryParameters = { ...state.queryParameters, ...action.payload };
     },
     setProtoFile: (state, action: PayloadAction<File | null>) => {
       state.protoFile = action.payload;

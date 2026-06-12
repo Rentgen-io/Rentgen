@@ -95,9 +95,7 @@ export const initialState: SettingsState = {
   language: 'en',
 };
 
-export const loadSettings = createAsyncThunk('settings/load', async () => {
-  return await window.electronAPI.loadSettings();
-});
+export const loadSettings = createAsyncThunk('settings/load', async () => await window.electronAPI.loadSettings());
 
 export const settingsSlice = createSlice({
   name: 'settings',

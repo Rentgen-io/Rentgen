@@ -237,6 +237,7 @@ const pl = {
       dynamicVariablesCount: 'Zmienne dynamiczne ({{count}} zmiennych)',
       historyCount: 'Historia ({{count}} wpisów)',
       settingsInfo: 'Ustawienia (motyw, silnik testów, konfiguracja historii)',
+      mappingsInfo: 'Mapowania (parametry body i query)',
       cannotBeUndone: 'Tej akcji nie można cofnąć.',
       backupBefore: 'Wykonaj kopię zapasową obecnego projektu przed importem:',
       exportedCheck: 'Wyeksportowano ✓',

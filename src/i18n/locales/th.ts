@@ -236,6 +236,7 @@ const th = {
       dynamicVariablesCount: 'ตัวแปรไดนามิก ({{count}} ตัวแปร)',
       historyCount: 'ประวัติ ({{count}} รายการ)',
       settingsInfo: 'การตั้งค่า (ธีม, เทสต์เอนจิน, การตั้งค่าประวัติ)',
+      mappingsInfo: 'การแมป (พารามิเตอร์ของบอดีและคิวรี)',
       cannotBeUndone: 'การกระทำนี้ไม่สามารถยกเลิกได้',
       backupBefore: 'สำรองโปรเจกต์ปัจจุบันก่อนนำเข้า:',
       exportedCheck: 'ส่งออกแล้ว ✓',
