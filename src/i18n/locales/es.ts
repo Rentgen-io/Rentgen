@@ -238,6 +238,7 @@ const es = {
       dynamicVariablesCount: 'Variables dinámicas ({{count}} variables)',
       historyCount: 'Historial ({{count}} entradas)',
       settingsInfo: 'Ajustes (tema, motor de pruebas, configuración de historial)',
+      mappingsInfo: 'Mapeos (parámetros del cuerpo y de la consulta)',
       cannotBeUndone: 'Esta acción no se puede deshacer.',
       backupBefore: 'Haz una copia de seguridad de tu proyecto actual antes de importar:',
       exportedCheck: 'Exportado ✓',

@@ -236,6 +236,7 @@ const ko = {
       dynamicVariablesCount: '동적 변수 (변수 {{count}}개)',
       historyCount: '기록 (항목 {{count}}개)',
       settingsInfo: '설정 (테마, 테스트 엔진, 기록 구성)',
+      mappingsInfo: '매핑 (본문 및 쿼리 파라미터)',
       cannotBeUndone: '이 작업은 되돌릴 수 없습니다.',
       backupBefore: '가져오기 전에 현재 프로젝트를 백업하세요:',
       exportedCheck: '내보냈음 ✓',

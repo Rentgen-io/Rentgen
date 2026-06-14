@@ -239,6 +239,7 @@ const fr = {
       dynamicVariablesCount: 'Variables dynamiques ({{count}} variables)',
       historyCount: 'Historique ({{count}} entrées)',
       settingsInfo: "Paramètres (thème, moteur de test, configuration de l'historique)",
+      mappingsInfo: 'Correspondances (paramètres du corps et de la requête)',
       cannotBeUndone: 'Cette action ne peut pas être annulée.',
       backupBefore: "Sauvegardez votre projet actuel avant d'importer :",
       exportedCheck: 'Exporté ✓',

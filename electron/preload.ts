@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import type { CliActionResult, CliStatus } from './handlers/cliHandlers';
+import { MappingsState } from '../src/store/slices/mappingsSlice';
 import type { SettingsState } from '../src/store/slices/settingsSlice';
 import type {
   ExportResult,
@@ -10,6 +10,7 @@ import type {
   ProjectImportResult,
   TestResults,
 } from '../src/types';
+import type { CliActionResult, CliStatus } from './handlers/cliHandlers';
 
 interface ElectronApi {
   connectWss: (payload: any) => void;
@@ -22,6 +23,7 @@ interface ElectronApi {
   loadEnvironments: () => Promise<any>;
   loadDynamicVariables: () => Promise<any>;
   loadHistory: () => Promise<any>;
+  loadMappings: () => Promise<MappingsState>;
   loadSettings: () => Promise<SettingsState>;
   onWssEvent: (callback: (data: any) => void) => () => void;
   openExternal: (url: string) => void;
@@ -35,6 +37,7 @@ interface ElectronApi {
     content: string;
     filters?: Electron.FileFilter[];
   }) => Promise<{ canceled: boolean; filePath?: string; error?: string }>;
+  saveMappings: (mappings: MappingsState) => void;
   saveSettings: (settings: SettingsState) => void;
   sendHttp: (payload: any) => Promise<HttpResponse>;
   sendWss: (message: string) => void;
@@ -58,6 +61,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   loadEnvironments: (): Promise<any> => ipcRenderer.invoke('load-environments'),
   loadDynamicVariables: (): Promise<any> => ipcRenderer.invoke('load-dynamic-variables'),
   loadHistory: (): Promise<any> => ipcRenderer.invoke('load-history'),
+  loadMappings: (): Promise<MappingsState> => ipcRenderer.invoke('load-mappings'),
   loadSettings: (): Promise<SettingsState> => ipcRenderer.invoke('load-settings'),
   onWssEvent: (callback): (() => void) => {
     const handler = (_: Electron.IpcRendererEvent, data: any) => callback(data);
@@ -78,6 +82,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('save-history', entries),
   saveReport: (payload: { defaultPath?: string; content: string; filters?: Electron.FileFilter[] }) =>
     ipcRenderer.invoke('save-report', payload),
+  saveMappings: (mappings: MappingsState): void => ipcRenderer.send('save-mappings', mappings),
   saveSettings: (settings: SettingsState): void => ipcRenderer.send('save-settings', settings),
   sendHttp: (payload: any): Promise<HttpResponse> => ipcRenderer.invoke('http-request', payload),
   sendWss: (message: string): void => ipcRenderer.send('wss-send', message),

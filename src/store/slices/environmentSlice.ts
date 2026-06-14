@@ -31,13 +31,15 @@ function generateDynamicVariableId(): string {
   return `dvar_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 }
 
-export const loadEnvironments = createAsyncThunk('environment/load', async () => {
-  return await window.electronAPI.loadEnvironments();
-});
+export const loadEnvironments = createAsyncThunk(
+  'environment/load',
+  async () => await window.electronAPI.loadEnvironments(),
+);
 
-export const loadDynamicVariables = createAsyncThunk('environment/loadDynamicVariables', async () => {
-  return await window.electronAPI.loadDynamicVariables();
-});
+export const loadDynamicVariables = createAsyncThunk(
+  'environment/loadDynamicVariables',
+  async () => await window.electronAPI.loadDynamicVariables(),
+);
 
 export const environmentSlice = createSlice({
   name: 'environment',

@@ -236,6 +236,7 @@ const vi = {
       dynamicVariablesCount: 'Biến động ({{count}} biến)',
       historyCount: 'Lịch sử ({{count}} mục)',
       settingsInfo: 'Cài đặt (giao diện, công cụ kiểm thử, cấu hình lịch sử)',
+      mappingsInfo: 'Ánh xạ (tham số body và query)',
       cannotBeUndone: 'Không thể hoàn tác hành động này.',
       backupBefore: 'Sao lưu dự án hiện tại của bạn trước khi nhập:',
       exportedCheck: 'Đã xuất ✓',

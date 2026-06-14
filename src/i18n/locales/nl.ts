@@ -237,6 +237,7 @@ const nl = {
       dynamicVariablesCount: 'Dynamische variabelen ({{count}} variabelen)',
       historyCount: 'Geschiedenis ({{count}} items)',
       settingsInfo: 'Instellingen (thema, testengine, geschiedenisconfiguratie)',
+      mappingsInfo: 'Toewijzingen (body- en queryparameters)',
       cannotBeUndone: 'Deze actie kan niet ongedaan worden gemaakt.',
       backupBefore: 'Maak een back-up van je huidige project voordat je importeert:',
       exportedCheck: 'Geëxporteerd ✓',

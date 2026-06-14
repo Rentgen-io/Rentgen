@@ -236,6 +236,7 @@ const lt = {
       dynamicVariablesCount: 'Dinaminiai kintamieji ({{count}} kintamųjų)',
       historyCount: 'Istorija ({{count}} įrašų)',
       settingsInfo: 'Nustatymai (tema, testų variklis, istorijos konfigūracija)',
+      mappingsInfo: 'Susiejimai (turinio ir užklausos parametrai)',
       cannotBeUndone: 'Šio veiksmo negalima atšaukti.',
       backupBefore: 'Prieš importuodami sukurkite atsarginę kopiją:',
       exportedCheck: 'Eksportuota ✓',

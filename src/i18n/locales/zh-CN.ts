@@ -234,6 +234,7 @@ const zhCN = {
       dynamicVariablesCount: '动态变量（{{count}} 个变量）',
       historyCount: '历史（{{count}} 条记录）',
       settingsInfo: '设置（主题、测试引擎、历史配置）',
+      mappingsInfo: '映射（请求体和查询参数）',
       cannotBeUndone: '此操作无法撤销。',
       backupBefore: '导入前请先备份你当前的项目：',
       exportedCheck: '已导出 ✓',

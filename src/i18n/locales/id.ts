@@ -236,6 +236,7 @@ const id = {
       dynamicVariablesCount: 'Variabel Dinamis ({{count}} variabel)',
       historyCount: 'Riwayat ({{count}} entri)',
       settingsInfo: 'Pengaturan (tema, mesin tes, konfigurasi riwayat)',
+      mappingsInfo: 'Pemetaan (parameter body dan query)',
       cannotBeUndone: 'Tindakan ini tidak dapat dibatalkan.',
       backupBefore: 'Cadangkan proyek Anda saat ini sebelum mengimpor:',
       exportedCheck: 'Diekspor ✓',

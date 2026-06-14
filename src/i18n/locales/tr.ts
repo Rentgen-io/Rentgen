@@ -236,6 +236,7 @@ const tr = {
       dynamicVariablesCount: 'Dinamik Değişkenler ({{count}} değişken)',
       historyCount: 'Geçmiş ({{count}} kayıt)',
       settingsInfo: 'Ayarlar (tema, test motoru, geçmiş yapılandırması)',
+      mappingsInfo: 'Eşlemeler (gövde ve sorgu parametreleri)',
       cannotBeUndone: 'Bu işlem geri alınamaz.',
       backupBefore: 'İçe aktarmadan önce mevcut projenizi yedekleyin:',
       exportedCheck: 'Dışa Aktarıldı ✓',

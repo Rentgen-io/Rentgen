@@ -5,12 +5,13 @@ import { selectProjectImportConfirmModal } from '../../store/selectors';
 import { collectionActions } from '../../store/slices/collectionSlice';
 import { environmentActions } from '../../store/slices/environmentSlice';
 import { historyActions } from '../../store/slices/historySlice';
+import { mappingsActions, MappingsState } from '../../store/slices/mappingsSlice';
 import { settingsActions, SettingsState } from '../../store/slices/settingsSlice';
 import { uiActions } from '../../store/slices/uiSlice';
 import { HistoryEntry } from '../../types/history';
 import IntegrityBadge from '../badges/IntegrityBadge';
-import Modal from './Modal';
 import Button, { ButtonSize, ButtonType } from '../buttons/Button';
+import Modal from './Modal';
 
 function formatDate(isoString: string): string {
   try {
@@ -51,6 +52,7 @@ export default function ProjectImportConfirmModal() {
     dispatch(environmentActions.replaceDynamicVariables(data.dynamicVariables));
     dispatch(historyActions.setEntries(data.history as HistoryEntry[]));
     dispatch(settingsActions.replaceSettings(data.settings as unknown as SettingsState));
+    dispatch(mappingsActions.replaceMappings(data.mappings ? (data.mappings as MappingsState) : {}));
     dispatch(uiActions.closeProjectImportConfirmModal());
 
     dispatch(collectionActions.selectRequest(null));
@@ -100,6 +102,7 @@ export default function ProjectImportConfirmModal() {
             <li>{t('modals.projectImport.dynamicVariablesCount', { count: dynamicVariableCount })}</li>
             <li>{t('modals.projectImport.historyCount', { count: historyCount })}</li>
             <li>{t('modals.projectImport.settingsInfo')}</li>
+            <li>{t('modals.projectImport.mappingsInfo')}</li>
           </ul>
           <p className="m-0 mt-2 text-xs text-red-700 dark:text-red-400 font-medium">
             {t('modals.projectImport.cannotBeUndone')}

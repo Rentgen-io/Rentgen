@@ -238,6 +238,7 @@ const ptBR = {
       dynamicVariablesCount: 'Variáveis dinâmicas ({{count}} variáveis)',
       historyCount: 'Histórico ({{count}} entradas)',
       settingsInfo: 'Configurações (tema, motor de testes, configuração do histórico)',
+      mappingsInfo: 'Mapeamentos (parâmetros do corpo e da query)',
       cannotBeUndone: 'Esta ação não pode ser desfeita.',
       backupBefore: 'Faça backup do seu projeto atual antes de importar:',
       exportedCheck: 'Exportado ✓',

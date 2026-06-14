@@ -238,6 +238,7 @@ const it = {
       dynamicVariablesCount: 'Variabili dinamiche ({{count}} variabili)',
       historyCount: 'Cronologia ({{count}} voci)',
       settingsInfo: 'Impostazioni (tema, motore di test, configurazione cronologia)',
+      mappingsInfo: 'Mappature (parametri del body e della query)',
       cannotBeUndone: 'Questa azione non può essere annullata.',
       backupBefore: "Esegui il backup del progetto attuale prima dell'importazione:",
       exportedCheck: 'Esportato ✓',

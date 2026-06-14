@@ -236,6 +236,7 @@ const hi = {
       dynamicVariablesCount: 'डायनामिक वैरिएबल ({{count}} वैरिएबल)',
       historyCount: 'इतिहास ({{count}} प्रविष्टियाँ)',
       settingsInfo: 'सेटिंग्स (थीम, टेस्ट इंजन, इतिहास कॉन्फ़िगरेशन)',
+      mappingsInfo: 'मैपिंग्स (बॉडी और क्वेरी पैरामीटर)',
       cannotBeUndone: 'यह क्रिया वापस नहीं की जा सकती।',
       backupBefore: 'आयात करने से पहले अपने मौजूदा प्रोजेक्ट का बैकअप लें:',
       exportedCheck: 'निर्यात किया गया ✓',
