@@ -182,7 +182,7 @@ export default function App() {
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
 
   const runResult = useMemo(
-    () => collectionRunResults[selectedRequestId] || null,
+    () => (selectedRequestId && collectionRunResults[selectedRequestId]) || null,
     [collectionRunResults, selectedRequestId],
   );
 
@@ -403,10 +403,14 @@ export default function App() {
 
       if (status >= 200 && status < 300) {
         const extractedBodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
-        bodyParameters = {
-          ...extractedBodyParameters,
-          ...(selectedRequestId ? mappings[selectedRequestId]?.body || {} : {}),
-        };
+        const mappedBodyParameters = selectedRequestId ? mappings[selectedRequestId]?.body || {} : {};
+
+        bodyParameters = Object.fromEntries(
+          Object.keys(extractedBodyParameters).map((key) => [
+            key,
+            key in mappedBodyParameters ? mappedBodyParameters[key] : extractedBodyParameters[key],
+          ]),
+        );
 
         const extractedQueryParameters = Object.fromEntries(
           Object.entries(extractQueryParameters(url)).map(([key, value]) => [
@@ -414,10 +418,14 @@ export default function App() {
             getInitialParameterValue(detectDataType(value), value),
           ]),
         );
-        queryParameters = {
-          ...extractedQueryParameters,
-          ...(selectedRequestId ? mappings[selectedRequestId]?.query || {} : {}),
-        };
+        const mappedQueryParameters = selectedRequestId ? mappings[selectedRequestId]?.query || {} : {};
+
+        queryParameters = Object.fromEntries(
+          Object.keys(extractedQueryParameters).map((key) => [
+            key,
+            key in mappedQueryParameters ? mappedQueryParameters[key] : extractedQueryParameters[key],
+          ]),
+        );
 
         dispatch(uiActions.openSendHttpSuccessModal());
       }

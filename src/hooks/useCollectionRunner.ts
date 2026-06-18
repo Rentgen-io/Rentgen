@@ -107,7 +107,14 @@ export function useCollectionRunner() {
 
         if (status >= 200 && status < 300) {
           const extractedBodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
-          bodyParameters = { ...extractedBodyParameters, ...(mappings[item.id]?.body || {}) };
+          const mappedBodyParameters = mappings[item.id]?.body || {};
+
+          bodyParameters = Object.fromEntries(
+            Object.keys(extractedBodyParameters).map((key) => [
+              key,
+              key in mappedBodyParameters ? mappedBodyParameters[key] : extractedBodyParameters[key],
+            ]),
+          );
 
           const extractedQueryParameters = Object.fromEntries(
             Object.entries(extractQueryParameters(request.url)).map(([key, value]) => [
@@ -115,7 +122,14 @@ export function useCollectionRunner() {
               getInitialParameterValue(detectDataType(value), value),
             ]),
           );
-          queryParameters = { ...extractedQueryParameters, ...(mappings[item.id]?.query || {}) };
+          const mappedQueryParameters = mappings[item.id]?.query || {};
+
+          queryParameters = Object.fromEntries(
+            Object.keys(extractedQueryParameters).map((key) => [
+              key,
+              key in mappedQueryParameters ? mappedQueryParameters[key] : extractedQueryParameters[key],
+            ]),
+          );
         }
 
         // Extract and update dynamic variables for this request

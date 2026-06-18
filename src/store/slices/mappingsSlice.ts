@@ -20,13 +20,13 @@ export const mappingsSlice = createSlice({
       const { requestId, mappings } = action.payload;
       if (!state[requestId]) state[requestId] = { body: {}, query: {} };
 
-      state[requestId].body = { ...state[requestId].body, ...mappings };
+      state[requestId].body = mappings;
     },
     setQueryMappings: (state, action: PayloadAction<{ requestId: string; mappings: RequestParameters }>) => {
       const { requestId, mappings } = action.payload;
       if (!state[requestId]) state[requestId] = { body: {}, query: {} };
 
-      state[requestId].query = { ...state[requestId].query, ...mappings };
+      state[requestId].query = mappings;
     },
     removeMappings: (state, action: PayloadAction<string>) => {
       delete state[action.payload];
