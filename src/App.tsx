@@ -15,6 +15,7 @@ import FileInput from './components/inputs/FileInput';
 import HighlightedInput from './components/inputs/HighlightedInput';
 import HighlightedTextarea from './components/inputs/HighlightedTextarea';
 import Select, { SelectOption } from './components/inputs/Select';
+import SimpleSelect from './components/inputs/SimpleSelect';
 import Textarea from './components/inputs/Textarea';
 import Toggle from './components/inputs/Toggle';
 import Loader from './components/loaders/Loader';
@@ -31,6 +32,7 @@ import TestResultsComparisonPanel from './components/panels/TestResultsCompariso
 import { PERFORMANCE_INSIGHTS } from './components/settings/PerformanceInsightsSettings';
 import { SECURITY_TESTS } from './components/settings/SecurityTestsSettings';
 import Sidebar from './components/sidebar/Sidebar';
+import SidebarButton from './components/sidebar/SidebarButton';
 import TestsTable, {
   ExpandedTestComponent,
   getTestsTableColumns,
@@ -38,14 +40,19 @@ import TestsTable, {
 } from './components/tables/TestsTable';
 import { JsonViewer } from './components/viewers/JsonViewer';
 import { appConfig } from './constants/appConfig';
+import { getDatasets } from './constants/datasets';
 import { useCtrlS } from './hooks/useCtrlS';
 import { useReset } from './hooks/useReset';
 import useTests from './hooks/useTests';
 import {
   ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
+  determineRequestParameterTestStatus,
+  determineTestStatus,
+  ERROR_RESPONSE_EXPECTED,
   LARGE_PAYLOAD_TEST_NAME,
   LOAD_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
+  SUCCESS_RESPONSE_EXPECTED,
 } from './tests';
 import { Environment, ExportReport, ExtractionFailure, HttpResponse, ReportFormat, TestStatus } from './types';
 import {
@@ -109,6 +116,7 @@ import {
   selectSelectedEnvironmentId,
   selectSelectedFolderId,
   selectSelectedRequestId,
+  selectTestEngineConfiguration,
   selectTestOptions,
   selectTestResultsToCompare,
   selectUrl,
@@ -119,7 +127,7 @@ import { collectionRunActions } from './store/slices/collectionRunSlice';
 import { collectionActions, loadCollection } from './store/slices/collectionSlice';
 import { environmentActions, loadDynamicVariables, loadEnvironments } from './store/slices/environmentSlice';
 import { historyActions, loadHistory } from './store/slices/historySlice';
-import { loadMappings, mappingsActions } from './store/slices/mappingsSlice';
+import { loadMappings } from './store/slices/mappingsSlice';
 import { requestActions } from './store/slices/requestSlice';
 import { responseActions } from './store/slices/responseSlice';
 import { loadSettings, settingsActions } from './store/slices/settingsSlice';
@@ -132,7 +140,6 @@ import DarkModeIcon from './assets/icons/dark-mode-icon.svg';
 import GearIcon from './assets/icons/gear-icon.svg';
 import LightModeIcon from './assets/icons/light-mode-icon.svg';
 import ReloadIcon from './assets/icons/reload-icon.svg';
-import SidebarButton from './components/sidebar/SidebarButton';
 
 type Mode = 'HTTP' | 'WSS';
 
@@ -249,6 +256,7 @@ export default function App() {
   // Settings state
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
+  const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
 
   // Mappings state
   const mappings = useAppSelector(selectMappings);
@@ -290,6 +298,8 @@ export default function App() {
       testOptions,
     };
   }, [testsCount, testsTimestamp, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions]);
+
+  const datasets = getDatasets(testEngineConfiguration.email.domain);
 
   // Load initial data
   useEffect(() => {
@@ -362,8 +372,6 @@ export default function App() {
   // Send HTTP request
   const sendHttp = useCallback(async () => {
     dispatch(responseActions.setResponse({ status: 'Sending...', body: '', headers: {}, time: 0 }));
-    dispatch(requestActions.setBodyParameters({}));
-    dispatch(requestActions.setQueryParameters({}));
 
     const historyEntry = {
       id: `hist_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
@@ -411,10 +419,11 @@ export default function App() {
           ...(selectedRequestId ? mappings[selectedRequestId]?.query || {} : {}),
         };
 
-        dispatch(requestActions.setBodyParameters(bodyParameters));
-        dispatch(requestActions.setQueryParameters(queryParameters));
         dispatch(uiActions.openSendHttpSuccessModal());
       }
+
+      dispatch(requestActions.setBodyParameters(bodyParameters));
+      dispatch(requestActions.setQueryParameters(queryParameters));
 
       // Extract dynamic variables and track failures
       let warning: string | null = null;
@@ -923,79 +932,104 @@ export default function App() {
             )}
 
             {mode === 'HTTP' && httpResponse && (
-              <Panel title={t('response.title')}>
-                <div
-                  className={cn(
-                    'flex items-center justify-between gap-4 p-4 font-bold bg-body dark:bg-dark-body border-t border-border dark:border-dark-body',
-                    {
-                      'text-green-500': httpResponse.status.startsWith('2') && !runResult?.warning,
-                      'text-yellow-500': httpResponse.status.startsWith('2') && runResult?.warning,
-                      'text-blue-500': httpResponse.status.startsWith('3'),
-                      'text-orange-500': httpResponse.status.startsWith('4'),
-                      'text-red-500':
-                        httpResponse.status.startsWith('5') ||
-                        httpResponse.status === NETWORK_ERROR ||
-                        httpResponse.status === 'Error',
-                    },
-                  )}
-                >
-                  {httpResponse.status === SENDING ? (
-                    <Loader className="h-5 w-5" />
-                  ) : (
-                    <>
-                      {httpResponse.status === NETWORK_ERROR ? t('response.networkError') : httpResponse.status}{' '}
-                      <span className="text-xs text-text dark:text-dark-text">{httpResponse.time.toFixed(2)} ms</span>
-                    </>
-                  )}
-                </div>
-                {runResult?.warning && (
-                  <div className="px-4 py-2 text-xs bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border-t border-yellow-200 dark:border-yellow-800">
-                    <span className="font-semibold">{t('common.warning')}:</span> {runResult.warning}
+              <>
+                <Panel title={t('response.title')}>
+                  <div
+                    className={cn(
+                      'flex items-center justify-between gap-4 p-4 font-bold bg-body dark:bg-dark-body border-t border-border dark:border-dark-body',
+                      {
+                        'text-green-500': httpResponse.status.startsWith('2') && !runResult?.warning,
+                        'text-yellow-500': httpResponse.status.startsWith('2') && runResult?.warning,
+                        'text-blue-500': httpResponse.status.startsWith('3'),
+                        'text-orange-500': httpResponse.status.startsWith('4'),
+                        'text-red-500':
+                          httpResponse.status.startsWith('5') ||
+                          httpResponse.status === NETWORK_ERROR ||
+                          httpResponse.status === 'Error',
+                      },
+                    )}
+                  >
+                    {httpResponse.status === SENDING ? (
+                      <Loader className="h-5 w-5" />
+                    ) : (
+                      <>
+                        {httpResponse.status === NETWORK_ERROR ? t('response.networkError') : httpResponse.status}{' '}
+                        <span className="text-xs text-text dark:text-dark-text">{httpResponse.time.toFixed(2)} ms</span>
+                      </>
+                    )}
                   </div>
-                )}
-                {httpResponse.status !== SENDING && (
-                  <div className="grid grid-cols-2 items-stretch max-h-100 py-4 border-t border-border dark:border-dark-body overflow-hidden">
-                    <div className="relative flex-1 px-4">
-                      <h4 className="m-0 mb-4">{t('request.headers')}</h4>
-                      {httpResponse.headers && (
-                        <CopyButton
-                          className="absolute top-0 right-4"
-                          textToCopy={JSON.stringify(httpResponse.headers, null, 2)}
-                        >
-                          {t('common.copy')}
-                        </CopyButton>
-                      )}
-                      <JsonViewer
-                        source={httpResponse.headers}
-                        responsePanelContext={{ isResponsePanel: true, source: 'header' }}
-                        showVariableButtons={!!currentRequestWithFolder}
-                        onSetVariable={(path, value) => handleSetVariable(path, value, 'header')}
-                      />
+                  {runResult?.warning && (
+                    <div className="px-4 py-2 text-xs bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border-t border-yellow-200 dark:border-yellow-800">
+                      <span className="font-semibold">{t('common.warning')}:</span> {runResult.warning}
                     </div>
-                    <div className="relative flex-1 px-4 border-l border-border dark:border-dark-body">
-                      <h4 className="m-0 mb-4">{t('request.body')}</h4>
-                      {httpResponse.body && (
-                        <CopyButton
-                          className="absolute top-0 right-4"
-                          textToCopy={
-                            typeof httpResponse.body === 'string'
-                              ? httpResponse.body
-                              : JSON.stringify(httpResponse.body, null, 2)
-                          }
-                        >
-                          {t('common.copy')}
-                        </CopyButton>
-                      )}
-                      <JsonViewer
-                        source={extractBodyFromResponse(httpResponse)}
-                        responsePanelContext={{ isResponsePanel: true, source: 'body' }}
-                        showVariableButtons={!!currentRequestWithFolder}
-                        onSetVariable={(path, value) => handleSetVariable(path, value, 'body')}
-                      />
+                  )}
+                  {httpResponse.status !== SENDING && (
+                    <div className="grid grid-cols-2 items-stretch max-h-100 py-4 border-t border-border dark:border-dark-body overflow-hidden">
+                      <div className="relative flex-1 px-4">
+                        <h4 className="m-0 mb-4">{t('request.headers')}</h4>
+                        {httpResponse.headers && (
+                          <CopyButton
+                            className="absolute top-0 right-4"
+                            textToCopy={JSON.stringify(httpResponse.headers, null, 2)}
+                          >
+                            {t('common.copy')}
+                          </CopyButton>
+                        )}
+                        <JsonViewer
+                          source={httpResponse.headers}
+                          responsePanelContext={{ isResponsePanel: true, source: 'header' }}
+                          showVariableButtons={!!currentRequestWithFolder}
+                          onSetVariable={(path, value) => handleSetVariable(path, value, 'header')}
+                        />
+                      </div>
+                      <div className="relative flex-1 px-4 border-l border-border dark:border-dark-body">
+                        <h4 className="m-0 mb-4">{t('request.body')}</h4>
+                        {httpResponse.body && (
+                          <CopyButton
+                            className="absolute top-0 right-4"
+                            textToCopy={
+                              typeof httpResponse.body === 'string'
+                                ? httpResponse.body
+                                : JSON.stringify(httpResponse.body, null, 2)
+                            }
+                          >
+                            {t('common.copy')}
+                          </CopyButton>
+                        )}
+                        <JsonViewer
+                          source={extractBodyFromResponse(httpResponse)}
+                          responsePanelContext={{ isResponsePanel: true, source: 'body' }}
+                          showVariableButtons={!!currentRequestWithFolder}
+                          onSetVariable={(path, value) => handleSetVariable(path, value, 'body')}
+                        />
+                      </div>
                     </div>
-                  </div>
-                )}
-              </Panel>
+                  )}
+                </Panel>
+
+                {httpResponse.status !== SENDING &&
+                  (Object.keys(bodyParameters).length > 0 || Object.keys(queryParameters).length > 0) && (
+                    <div ref={parametersRef} className="grid lg:grid-cols-2 gap-4 items-stretch">
+                      {Object.keys(bodyParameters).length > 0 && (
+                        <ParametersPanel
+                          title={t('tests.bodyParameters')}
+                          parameters={bodyParameters}
+                          onBlur={autoSaveRequest}
+                          onChange={(parameters) => dispatch(requestActions.setBodyParameters(parameters))}
+                        />
+                      )}
+
+                      {Object.keys(queryParameters).length > 0 && (
+                        <ParametersPanel
+                          title={t('tests.queryParameters')}
+                          parameters={queryParameters}
+                          onBlur={autoSaveRequest}
+                          onChange={(parameters) => dispatch(requestActions.setQueryParameters(parameters))}
+                        />
+                      )}
+                    </div>
+                  )}
+              </>
             )}
 
             {messages.length > 0 && (
@@ -1031,40 +1065,6 @@ export default function App() {
                   ))}
                 </div>
               </Panel>
-            )}
-
-            {(Object.keys(bodyParameters).length > 0 || Object.keys(queryParameters).length > 0) && (
-              <div ref={parametersRef} className="grid lg:grid-cols-2 gap-4 items-stretch">
-                {Object.keys(bodyParameters).length > 0 && (
-                  <ParametersPanel
-                    title={t('tests.bodyParameters')}
-                    parameters={bodyParameters}
-                    onBlur={autoSaveRequest}
-                    onChange={(parameters) => {
-                      dispatch(requestActions.setBodyParameters(parameters));
-                      if (selectedRequestId)
-                        dispatch(
-                          mappingsActions.setBodyMappings({ requestId: selectedRequestId, mappings: parameters }),
-                        );
-                    }}
-                  />
-                )}
-
-                {Object.keys(queryParameters).length > 0 && (
-                  <ParametersPanel
-                    title={t('tests.queryParameters')}
-                    parameters={queryParameters}
-                    onBlur={autoSaveRequest}
-                    onChange={(parameters) => {
-                      dispatch(requestActions.setQueryParameters(parameters));
-                      if (selectedRequestId)
-                        dispatch(
-                          mappingsActions.setQueryMappings({ requestId: selectedRequestId, mappings: parameters }),
-                        );
-                    }}
-                  />
-                )}
-              </div>
             )}
 
             {mode === 'HTTP' && (
@@ -1316,7 +1316,90 @@ export default function App() {
 
                 <Panel title={<TestsTableHeader tests={dataDrivenTests} title={t('tests.dataDrivenTests')} />}>
                   <TestsTable
-                    columns={getTestsTableColumns(['Parameter', 'Value', 'Expected', 'Actual', 'Result'], t)}
+                    columns={[
+                      ...getTestsTableColumns(['Parameter', 'Value'], t),
+                      {
+                        name: t('tables.expected'),
+                        selector: (row) => row.expected,
+                        cell: (row, id) => {
+                          const readOnlyCell = (
+                            <div className="pl-0.5" data-column-id={id} data-tag="allowRowEvents">
+                              {row.expected}
+                            </div>
+                          );
+
+                          const isBodyParameter = row.name.startsWith('body.');
+                          const isQueryParameter = row.name.startsWith('query.');
+
+                          if (!isBodyParameter && !isQueryParameter) return readOnlyCell;
+
+                          const parameters = isBodyParameter ? bodyParameters : queryParameters;
+                          const name = row.name.replace(/^(body|query)\./, '');
+                          const parameter = parameters[name];
+
+                          if (!parameter) return readOnlyCell;
+
+                          const dataset = datasets[parameter.type]?.find((item) => item.value === row.value);
+                          if (!dataset) return readOnlyCell;
+
+                          return (
+                            <SimpleSelect
+                              className="pl-0 text-[13px] bg-transparent border-none"
+                              options={[
+                                { value: SUCCESS_RESPONSE_EXPECTED, label: SUCCESS_RESPONSE_EXPECTED },
+                                { value: ERROR_RESPONSE_EXPECTED, label: ERROR_RESPONSE_EXPECTED },
+                              ]}
+                              value={row.expected}
+                              onChange={(event) => {
+                                const expected = event.target.value as string;
+                                const valid = expected === SUCCESS_RESPONSE_EXPECTED;
+                                const testData = { value: row.value, valid };
+                                const overrides = [...(parameter.overrides ?? [])];
+                                const index = overrides.findIndex((item) => item.value === testData.value);
+
+                                if (index !== -1) {
+                                  if (dataset.valid === testData.valid) overrides.splice(index, 1);
+                                  else overrides[index] = testData;
+                                } else overrides.push(testData);
+
+                                if (isBodyParameter)
+                                  dispatch(
+                                    requestActions.setBodyParameters({
+                                      ...bodyParameters,
+                                      [name]: { ...parameter, overrides },
+                                    }),
+                                  );
+                                else
+                                  dispatch(
+                                    requestActions.setQueryParameters({
+                                      ...queryParameters,
+                                      [name]: { ...parameter, overrides },
+                                    }),
+                                  );
+
+                                if (!row.response) return;
+
+                                const { actual, status } = determineTestStatus(row.response, (response, statusCode) =>
+                                  determineRequestParameterTestStatus(response, statusCode, testData),
+                                );
+                                const testResult = { ...row, actual, expected, status };
+
+                                dispatch(testActions.updateDataDrivenTest(testResult));
+
+                                if (selectedRequestId)
+                                  dispatch(
+                                    testActions.updateDataDrivenTestResults({
+                                      requestId: selectedRequestId,
+                                      result: testResult,
+                                    }),
+                                  );
+                              }}
+                            />
+                          );
+                        },
+                      },
+                      ...getTestsTableColumns(['Actual', 'Result'], t),
+                    ]}
                     expandableRows
                     expandableRowsComponent={ExpandedTestComponent}
                     expandableRowsComponentProps={{ headers: parseHeaders(headers), protoFile, messageType }}

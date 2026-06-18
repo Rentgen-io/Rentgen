@@ -4,10 +4,10 @@ import { Abortable, Test } from '../decorators';
 import { store } from '../store';
 import {
   DataType,
-  DynamicValue,
   HttpRequest,
   HttpResponse,
   Interval,
+  ParameterValue,
   TestData,
   TestOptions,
   TestResult,
@@ -26,10 +26,10 @@ import {
 } from '../utils';
 import {
   BaseTests,
-  CLIENT_ERROR_RESPONSE_EXPECTED,
   createErrorTestResult,
   createTestResult,
   determineTestStatus,
+  ERROR_RESPONSE_EXPECTED,
   ORIGINAL_REQUEST_TEST_PARAMETER_NAME,
   SUCCESS_RESPONSE_EXPECTED,
 } from './BaseTests';
@@ -49,7 +49,7 @@ export class DataDrivenTests extends BaseTests {
 
     await runDataDrivenTests(
       this.options,
-      async (parameterName: string, { type }: DynamicValue) => {
+      async (parameterName: string, { type }: ParameterValue) => {
         const testData: TestData = {
           value: `   ${getBodyParameterValue(parsedBody, parameterName, parsedHeaders)}   `,
           valid: false,
@@ -57,13 +57,13 @@ export class DataDrivenTests extends BaseTests {
         results.push(
           await testRequestParameter(
             { ...this.options, parameterName, parameterType: 'body', testData },
-            type === 'enum' ? CLIENT_ERROR_RESPONSE_EXPECTED : VALUE_NORMALIZATION_TEST_EXPECTED,
+            type === 'enum' ? ERROR_RESPONSE_EXPECTED : VALUE_NORMALIZATION_TEST_EXPECTED,
             type === 'enum' ? determineRequestParameterTestStatus : determineValueNormalizationTestStatus,
             this.onTestStart,
           ),
         );
       },
-      async (parameterName: string, parameterValue: DynamicValue) => {
+      async (parameterName: string, parameterValue: ParameterValue) => {
         results.push(
           ...((await this.testRequestParameterWithDataset(
             { ...this.options, parameterName, parameterType: 'body' },
@@ -71,7 +71,7 @@ export class DataDrivenTests extends BaseTests {
           )) ?? []),
         );
       },
-      async (parameterName: string, parameterValue: DynamicValue) => {
+      async (parameterName: string, parameterValue: ParameterValue) => {
         results.push(
           ...((await this.testRequestParameterWithDataset(
             { ...this.options, parameterName, parameterType: 'query' },
@@ -122,9 +122,9 @@ export class DataDrivenTests extends BaseTests {
   @Abortable
   private async testRequestParameterWithDataset(
     options: TestOptions,
-    parameterValue: DynamicValue,
+    parameterValue: ParameterValue,
   ): Promise<TestResult[]> {
-    const { type, value } = parameterValue;
+    const { type, value, overrides } = parameterValue;
     const results: TestResult[] = [];
     const datasets = getDatasets(store.getState().settings.testEngine.configuration.email.domain);
     const dataset = [
@@ -139,15 +139,18 @@ export class DataDrivenTests extends BaseTests {
       }),
     ];
 
-    for (const data of dataset)
+    for (const data of dataset) {
+      const updateData = overrides?.find((override) => override.value === data.value) || data;
+
       results.push(
         await testRequestParameter(
-          { ...options, testData: data },
-          data.valid ? SUCCESS_RESPONSE_EXPECTED : CLIENT_ERROR_RESPONSE_EXPECTED,
+          { ...options, testData: updateData },
+          updateData.valid ? SUCCESS_RESPONSE_EXPECTED : ERROR_RESPONSE_EXPECTED,
           determineRequestParameterTestStatus,
           this.onTestStart,
         ),
       );
+    }
 
     return results;
   }
@@ -155,9 +158,9 @@ export class DataDrivenTests extends BaseTests {
 
 export async function runDataDrivenTests(
   options: TestOptions,
-  onValueNormalizationTest: (key: string, value: DynamicValue) => Promise<void>,
-  onBodyParameterTest: (key: string, value: DynamicValue) => Promise<void>,
-  onQueryParameterTest: (key: string, value: DynamicValue) => Promise<void>,
+  onValueNormalizationTest: (key: string, value: ParameterValue) => Promise<void>,
+  onBodyParameterTest: (key: string, value: ParameterValue) => Promise<void>,
+  onQueryParameterTest: (key: string, value: ParameterValue) => Promise<void>,
 ) {
   const { body, headers, messageType, protoFile, bodyParameters, queryParameters } = options;
   const parsedHeaders = parseHeaders(headers);
@@ -246,7 +249,7 @@ function determineValueNormalizationTestStatus(
   return { actual: `${response.status} + Not Trimmed/Normalized Value`, status: TestStatus.Fail };
 }
 
-function determineRequestParameterTestStatus(
+export function determineRequestParameterTestStatus(
   response: HttpResponse,
   statusCode: number,
   testData?: TestData,
@@ -261,7 +264,7 @@ function determineRequestParameterTestStatus(
   return testStatus;
 }
 
-export function generateDynamicTestData({ mandatory, type, value }: DynamicValue): TestData[] {
+export function generateDynamicTestData({ mandatory, type, value }: ParameterValue): TestData[] {
   const results: TestData[] = [];
   if (mandatory !== undefined) {
     results.push({ value: null, valid: !mandatory });

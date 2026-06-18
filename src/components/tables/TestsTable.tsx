@@ -258,7 +258,7 @@ export function getTestsTableColumns(
       omit: true,
       style: {
         'div:first-child': {
-          padding: '0.5rem 0',
+          padding: '0.25rem 0',
           whiteSpace: 'normal !important',
         },
       },

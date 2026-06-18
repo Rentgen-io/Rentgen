@@ -1,5 +1,5 @@
 import { Action, Middleware, PayloadAction } from '@reduxjs/toolkit';
-import { DynamicVariable, HttpResponse, PostmanFolder, PostmanItem } from '../../types';
+import { DynamicVariable, HttpResponse, PostmanFolder, PostmanItem, RequestParameters } from '../../types';
 import { extractDynamicVariableFromResponseWithDetails } from '../../utils/dynamicVariable';
 import { environmentActions } from '../slices/environmentSlice';
 import { historyActions } from '../slices/historySlice';
@@ -149,6 +149,17 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
         // Note: Extraction failures are tracked in collectionRunResult.warning
       }
     }
+  }
+
+  // Auto-update mappings when body or query parameters are set for a request
+  if (actionType === 'request/setBodyParameters' || actionType === 'request/setQueryParameters') {
+    const parameters = (action as PayloadAction<RequestParameters>).payload;
+    const selectedRequestId = store.getState().collection.selectedRequestId;
+
+    if (selectedRequestId)
+      if (actionType === 'request/setBodyParameters')
+        store.dispatch(mappingsActions.setBodyMappings({ requestId: selectedRequestId, mappings: parameters }));
+      else store.dispatch(mappingsActions.setQueryMappings({ requestId: selectedRequestId, mappings: parameters }));
   }
 
   return result;

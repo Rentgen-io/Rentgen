@@ -33,7 +33,7 @@ import {
   runLoadTest,
   SecurityTests,
 } from '../tests';
-import { DynamicValue, TestOptions, TestResult } from '../types';
+import { ParameterValue, TestOptions, TestResult } from '../types';
 
 let abortAllTests = false;
 let dataDrivenTestsInstance: DataDrivenTests | null = null;
@@ -78,10 +78,10 @@ const useTests = () => {
       async () => {
         dataDrivenTestsCount += 1;
       },
-      async (_, value: DynamicValue) => {
+      async (_, value: ParameterValue) => {
         dataDrivenTestsCount += [...generateDynamicTestData(value), ...(datasets[value.type] || [])].length;
       },
-      async (_, value: DynamicValue) => {
+      async (_, value: ParameterValue) => {
         dataDrivenTestsCount += [...generateDynamicTestData(value), ...(datasets[value.type] || [])].length;
       },
     );

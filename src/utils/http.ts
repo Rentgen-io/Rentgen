@@ -1,6 +1,6 @@
 import { Method } from 'axios';
 import { store } from '../store';
-import { DataType, DynamicValue, HttpRequest, HttpResponse, RequestParameters, TestOptions } from '../types';
+import { DataType, HttpRequest, HttpResponse, ParameterValue, RequestParameters, TestOptions } from '../types';
 import { isObject, setDeepObjectProperty, stringifyValue, tryParseJsonObject } from './object';
 import { encodeMessage } from './proto';
 import { generateRandomValue } from './random';
@@ -192,26 +192,26 @@ export function getBodyParameterValue(body: unknown, parameterName: string, head
   return value;
 }
 
-export function getInitialParameterValue(type: DataType, value = '', mandatory = true): DynamicValue {
-  const dynamicValue: DynamicValue = { mandatory, type, value };
+export function getInitialParameterValue(type: DataType, value = '', mandatory = true): ParameterValue {
+  const parameterValue: ParameterValue = { mandatory, type, value };
   const settings = store.getState().settings.testEngine.configuration;
 
   switch (type) {
     case 'enum':
-      return { ...dynamicValue, value: settings.enum };
+      return { ...parameterValue, value: settings.enum };
     case 'number':
     case 'numeric_string':
-      return { ...dynamicValue, value: settings.number };
+      return { ...parameterValue, value: settings.number };
     case 'string':
       return {
-        ...dynamicValue,
+        ...parameterValue,
         value: {
           min: settings.string.minLength,
           max: settings.string.maxLength,
         },
       };
     default:
-      return dynamicValue;
+      return parameterValue;
   }
 }
 

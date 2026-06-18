@@ -22,10 +22,11 @@ export type ParameterType = 'body' | 'query';
 
 export type ReportFormat = 'json' | 'md' | 'csv';
 
-export interface DynamicValue {
+export interface ParameterValue {
   mandatory?: boolean;
   type: DataType;
   value?: number | string | Interval;
+  overrides?: TestData[];
 }
 
 export interface HttpRequest {
@@ -56,7 +57,7 @@ export interface ParsedCurlResult {
 }
 
 export interface RequestParameters {
-  [key: string]: DynamicValue;
+  [key: string]: ParameterValue;
 }
 
 export interface TestData {

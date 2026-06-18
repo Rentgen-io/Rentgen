@@ -244,7 +244,6 @@ export const getDatasets = (emailDomain: string = appConfig.domain): Record<stri
     { value: 'UsD', valid: false },
     { value: 'US', valid: false },
     { value: 'USDT', valid: false },
-    { value: '', valid: false },
     { value: '$', valid: false },
     { value: '€', valid: false },
     { value: 840, valid: false },
