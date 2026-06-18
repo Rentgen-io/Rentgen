@@ -723,7 +723,7 @@ export default function App() {
             </IconButton>
           </div>
         )}
-        {!isEditingEnvironment && isComparingTestResults && (
+        {!isEditingEnvironment && isComparingTestResults && compareResponse && (
           <div className="relative">
             <TestResultsComparisonPanel
               items={testResultsToCompare}
@@ -748,8 +748,8 @@ export default function App() {
                   options={modeOptions}
                   placeholder={t('request.modePlaceholder')}
                   value={modeOptions.find((option) => option.value == mode)}
-                  onChange={(option: SelectOption<Mode>) => {
-                    dispatch(requestActions.setMode(option.value));
+                  onChange={(option) => {
+                    dispatch(requestActions.setMode((option as SelectOption<Mode>).value));
                     reset();
                   }}
                 />
@@ -821,7 +821,7 @@ export default function App() {
                     options={methodOptions}
                     placeholder={t('request.methodPlaceholder')}
                     value={methodOptions.find((option) => option.value == method) || { value: method, label: method }}
-                    onChange={(option: SelectOption<Method>) => dispatch(requestActions.setMethod(option.value))}
+                    onChange={(option) => dispatch(requestActions.setMethod((option as SelectOption<Method>).value))}
                   />
                 )}
                 <HighlightedInput
@@ -1126,8 +1126,8 @@ export default function App() {
                           options={exportFormatOptions}
                           placeholder={t('tests.formatPlaceholder')}
                           value={exportFormatOptions.find((option) => option.value === exportFormat)}
-                          onChange={(option: SelectOption<ReportFormat>) =>
-                            dispatch(uiActions.setExportFormat(option.value))
+                          onChange={(option) =>
+                            dispatch(uiActions.setExportFormat((option as SelectOption<ReportFormat>).value))
                           }
                         />
                         <Button
