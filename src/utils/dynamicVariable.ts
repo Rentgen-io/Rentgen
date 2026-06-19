@@ -100,7 +100,6 @@ export function extractMultipleDynamicVariablesFromResponse(
   for (const variable of variables) {
     try {
       let extractedValue: unknown;
-
       if (variable.source === 'body' && parsedBody !== null) {
         extractedValue = extractValue(parsedBody, variable.selector);
       } else if (variable.source === 'header' && response.headers) {

@@ -209,7 +209,7 @@ const hi = {
       editTitle: 'डायनामिक वैरिएबल संपादित करें',
       variableName: 'वैरिएबल का नाम',
       variableNamePlaceholder: 'variable_name',
-      preview: 'प्रीव्यू:',
+      preview: 'प्रीव्यू',
       environment: 'एनवायरनमेंट',
       allEnvironments: 'सभी एनवायरनमेंट',
       untitledEnvironment: 'बिना शीर्षक एनवायरनमेंट',

@@ -2,12 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectDynamicVariables, selectEnvironments, selectSetAsDynamicVariableModal } from '../../store/selectors';
-import { uiActions } from '../../store/slices/uiSlice';
 import { environmentActions } from '../../store/slices/environmentSlice';
-import Modal from './Modal';
+import { uiActions } from '../../store/slices/uiSlice';
+import { ButtonType } from '../buttons/Button';
 import Input from '../inputs/Input';
 import Select from '../inputs/Select';
-import Button, { ButtonType } from '../buttons/Button';
+import ConfirmationModal from './ConfirmationModal';
 
 const ALL_ENVIRONMENTS_VALUE = 'all';
 
@@ -65,10 +65,6 @@ export default function SetAsDynamicVariableModal() {
     return options;
   }, [environments]);
 
-  const handleClose = () => {
-    dispatch(uiActions.closeSetAsDynamicVariableModal());
-  };
-
   // Check for existing dynamic variable with same name and return its ID for overwriting
   const findDuplicateDynamicVariable = (): string | null => {
     const sanitizedName = name.trim();
@@ -92,7 +88,7 @@ export default function SetAsDynamicVariableModal() {
     return existingDynamic?.id || null;
   };
 
-  const handleSave = () => {
+  const onConfirm = () => {
     const sanitizedName = name.trim();
     const sanitizedSelector = selector.trim();
 
@@ -167,16 +163,26 @@ export default function SetAsDynamicVariableModal() {
       );
     }
 
-    handleClose();
+    dispatch(uiActions.closeSetAsDynamicVariableModal());
   };
 
   return (
-    <Modal isOpen={modalState.isOpen} onClose={handleClose}>
-      <div className="flex flex-col gap-4 min-w-100">
-        <h2 className="text-lg font-bold text-text dark:text-dark-text m-0">
-          {isEditing ? t('modals.setDynamicVariable.editTitle') : t('modals.setDynamicVariable.title')}
-        </h2>
-
+    <ConfirmationModal
+      className="[&>div]:w-150!"
+      confirmText={
+        duplicateToOverwrite
+          ? t('common.overwrite')
+          : isEditing
+            ? t('modals.setDynamicVariable.updateVariable')
+            : t('modals.setDynamicVariable.saveVariable')
+      }
+      title={isEditing ? t('modals.setDynamicVariable.editTitle') : t('modals.setDynamicVariable.title')}
+      isOpen={modalState.isOpen}
+      confirmType={ButtonType.PRIMARY}
+      onClose={() => dispatch(uiActions.closeSetAsDynamicVariableModal())}
+      onConfirm={onConfirm}
+    >
+      <>
         {/* Variable Name */}
         <div className="flex flex-col gap-1">
           <label className="text-xs text-text dark:text-dark-text">{t('modals.setDynamicVariable.variableName')}</label>
@@ -192,17 +198,14 @@ export default function SetAsDynamicVariableModal() {
           />
         </div>
 
-        {/* Selector */}
+        {/* Preview */}
         <div className="flex flex-col gap-1">
-          {modalState.initialValue && (
-            <p className="text-xs text-text-secondary dark:text-dark-text-secondary m-0">
-              {t('modals.setDynamicVariable.preview')} &quot;
-              {modalState.initialValue.length > 50
-                ? modalState.initialValue.substring(0, 47) + '...'
-                : modalState.initialValue}
-              &quot;
-            </p>
-          )}
+          <label className="text-xs text-text dark:text-dark-text">{t('modals.setDynamicVariable.preview')}</label>
+          <div className="px-3 py-2 bg-body dark:bg-dark-body rounded-md text-sm text-text-secondary dark:text-dark-text-secondary">
+            {modalState.initialValue.length > 50
+              ? modalState.initialValue.substring(0, 47) + '...'
+              : modalState.initialValue}
+          </div>
         </div>
 
         {/* Environment */}
@@ -238,20 +241,7 @@ export default function SetAsDynamicVariableModal() {
             {t('modals.setDynamicVariable.duplicateWarning')}
           </p>
         )}
-
-        <div className="flex justify-end gap-2 mt-2">
-          <Button buttonType={ButtonType.SECONDARY} onClick={handleClose}>
-            {t('common.cancel')}
-          </Button>
-          <Button onClick={handleSave}>
-            {duplicateToOverwrite
-              ? t('common.overwrite')
-              : isEditing
-                ? t('modals.setDynamicVariable.updateVariable')
-                : t('modals.setDynamicVariable.saveVariable')}
-          </Button>
-        </div>
-      </div>
-    </Modal>
+      </>
+    </ConfirmationModal>
   );
 }

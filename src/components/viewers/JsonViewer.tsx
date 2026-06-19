@@ -349,9 +349,7 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
         e.preventDefault();
         e.stopPropagation();
         const valueStr = stringifyExtractedValue(position.value);
-        if (valueStr !== null && onSetVariableRef.current) {
-          onSetVariableRef.current(position.path, valueStr);
-        }
+        if (valueStr !== null && onSetVariableRef.current) onSetVariableRef.current(position.path, valueStr);
       };
 
       const widgetId = `plus-${position.line}-${position.endColumn}`;

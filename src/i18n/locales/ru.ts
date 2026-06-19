@@ -209,7 +209,7 @@ const ru = {
       editTitle: 'Редактировать динамическую переменную',
       variableName: 'Имя переменной',
       variableNamePlaceholder: 'variable_name',
-      preview: 'Предпросмотр:',
+      preview: 'Предпросмотр',
       environment: 'Окружение',
       allEnvironments: 'Все окружения',
       untitledEnvironment: 'Окружение без названия',

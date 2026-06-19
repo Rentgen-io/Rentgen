@@ -210,7 +210,7 @@ const ja = {
       editTitle: '動的バリアブルを編集',
       variableName: 'バリアブル名',
       variableNamePlaceholder: 'variable_name',
-      preview: 'プレビュー:',
+      preview: 'プレビュー',
       environment: '環境',
       allEnvironments: 'すべての環境',
       untitledEnvironment: '無題の環境',

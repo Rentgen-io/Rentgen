@@ -211,7 +211,7 @@ const es = {
       editTitle: 'Editar variable dinámica',
       variableName: 'Nombre de variable',
       variableNamePlaceholder: 'nombre_variable',
-      preview: 'Vista previa:',
+      preview: 'Vista previa',
       environment: 'Entorno',
       allEnvironments: 'Todos los entornos',
       untitledEnvironment: 'Entorno sin título',

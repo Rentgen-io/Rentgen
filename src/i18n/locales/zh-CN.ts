@@ -208,7 +208,7 @@ const zhCN = {
       editTitle: '编辑动态变量',
       variableName: '变量名',
       variableNamePlaceholder: 'variable_name',
-      preview: '预览：',
+      preview: '预览',
       environment: '环境',
       allEnvironments: '所有环境',
       untitledEnvironment: '未命名环境',

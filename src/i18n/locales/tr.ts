@@ -209,7 +209,7 @@ const tr = {
       editTitle: 'Dinamik Değişkeni Düzenle',
       variableName: 'Değişken Adı',
       variableNamePlaceholder: 'degisken_adi',
-      preview: 'Önizleme:',
+      preview: 'Önizleme',
       environment: 'Ortam',
       allEnvironments: 'Tüm Ortamlar',
       untitledEnvironment: 'Adsız Ortam',

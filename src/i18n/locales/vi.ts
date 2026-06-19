@@ -209,7 +209,7 @@ const vi = {
       editTitle: 'Chỉnh sửa biến động',
       variableName: 'Tên biến',
       variableNamePlaceholder: 'tên_biến',
-      preview: 'Xem trước:',
+      preview: 'Xem trước',
       environment: 'Môi trường',
       allEnvironments: 'Tất cả môi trường',
       untitledEnvironment: 'Môi trường không có tiêu đề',

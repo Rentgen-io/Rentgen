@@ -226,8 +226,8 @@ export function isUrlEncodedContentTypeString(value: string): boolean {
 export function parseBody(
   body: string | null,
   headers: Record<string, string>,
-  messageType: string,
-  protoFile: File | null,
+  messageType: string | null = null,
+  protoFile: File | null = null,
 ): any {
   if (isUrlEncodedContentType(headers)) return convertFormEntriesToUrlEncoded(parseFormData(body));
 

@@ -209,7 +209,7 @@ const th = {
       editTitle: 'แก้ไขตัวแปรไดนามิก',
       variableName: 'ชื่อตัวแปร',
       variableNamePlaceholder: 'variable_name',
-      preview: 'ตัวอย่าง:',
+      preview: 'ตัวอย่าง',
       environment: 'เอนไวรอนเมนต์',
       allEnvironments: 'เอนไวรอนเมนต์ทั้งหมด',
       untitledEnvironment: 'เอนไวรอนเมนต์ที่ไม่มีชื่อ',

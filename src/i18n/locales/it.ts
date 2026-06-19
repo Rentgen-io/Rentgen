@@ -211,7 +211,7 @@ const it = {
       editTitle: 'Modifica variabile dinamica',
       variableName: 'Nome variabile',
       variableNamePlaceholder: 'nome_variabile',
-      preview: 'Anteprima:',
+      preview: 'Anteprima',
       environment: 'Ambiente',
       allEnvironments: 'Tutti gli ambienti',
       untitledEnvironment: 'Ambiente senza titolo',

@@ -211,7 +211,7 @@ const ptBR = {
       editTitle: 'Editar variável dinâmica',
       variableName: 'Nome da variável',
       variableNamePlaceholder: 'nome_da_variavel',
-      preview: 'Pré-visualização:',
+      preview: 'Pré-visualização',
       environment: 'Ambiente',
       allEnvironments: 'Todos os ambientes',
       untitledEnvironment: 'Ambiente sem título',

@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   selectCollectionData,
@@ -10,14 +11,16 @@ import {
 } from '../../store/selectors';
 import { environmentActions } from '../../store/slices/environmentSlice';
 import { DataType, DynamicVariable, Environment, EnvironmentVariable } from '../../types';
-import { generateEnvironmentId } from '../../utils';
+import { generateEnvironmentId, parseBody } from '../../utils';
 import { findRequestWithFolder } from '../../utils/collection';
 import { extractMultipleDynamicVariablesFromResponse } from '../../utils/dynamicVariable';
-import { useTranslation } from 'react-i18next';
 import Button, { ButtonType } from '../buttons/Button';
+import { IconButton } from '../buttons/IconButton';
 import Input from '../inputs/Input';
 import Select, { SelectOption } from '../inputs/Select';
 import Panel from '../panels/Panel';
+
+import ReloadIcon from '../../assets/icons/reload-icon.svg';
 
 const COLOR_OPTIONS = ['#EF4444', '#F97316', '#EAB308', '#22C55E', '#3B82F6', '#8B5CF6', '#EC4899', '#6B7280'];
 
@@ -181,69 +184,47 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
   );
 
   const handleRefreshDynamicVariable = useCallback(
-    async (dv: DynamicVariable) => {
-      const result = findRequestWithFolder(collection, dv.requestId);
-      if (!result) return;
-
-      try {
-        const response = await window.electronAPI.sendHttp({
-          method: result.request.request.method,
-          url: result.request.request.url,
-          headers: Object.fromEntries((result.request.request.header || []).map((h) => [h.key, h.value])),
-          body: result.request.request.body?.raw || null,
-        });
-
-        const extractedValues = extractMultipleDynamicVariablesFromResponse([dv], response);
-        for (const [variableId, value] of extractedValues) {
-          dispatch(
-            environmentActions.updateDynamicVariableValue({
-              id: variableId,
-              value,
-            }),
-          );
-        }
-      } catch (error) {
-        console.error('Failed to refresh dynamic variable:', error);
-      }
-    },
+    async (dynamicVariable: DynamicVariable) =>
+      await refreshDynamicVariable(dynamicVariable.requestId, [dynamicVariable]),
     [collection, dispatch],
   );
 
   const handleRefreshAllDynamicVariables = useCallback(async () => {
     // Group variables by request to avoid duplicate HTTP calls
-    const variablesByRequest = new Map<string, DynamicVariable[]>();
-    for (const dv of dynamicVariables) {
-      const existing = variablesByRequest.get(dv.requestId) || [];
-      existing.push(dv);
-      variablesByRequest.set(dv.requestId, existing);
+    const groupedDynamicVariables = new Map<string, DynamicVariable[]>();
+    for (const dynamicVariable of dynamicVariables) {
+      const existing = groupedDynamicVariables.get(dynamicVariable.requestId) || [];
+      existing.push(dynamicVariable);
+      groupedDynamicVariables.set(dynamicVariable.requestId, existing);
     }
 
-    for (const [requestId, vars] of variablesByRequest) {
-      const result = findRequestWithFolder(collection, requestId);
-      if (!result) continue;
+    for (const [requestId, variables] of groupedDynamicVariables) await refreshDynamicVariable(requestId, variables);
+  }, [dynamicVariables, collection, dispatch]);
+
+  const refreshDynamicVariable = useCallback(
+    async (requestId: string, variables: DynamicVariable[]) => {
+      const folder = findRequestWithFolder(collection, requestId);
+      if (!folder) return;
 
       try {
+        const headers = Object.fromEntries((folder.request.request.header || []).map((h) => [h.key, h.value]));
+        const body = parseBody(folder.request.request.body?.raw || null, headers);
         const response = await window.electronAPI.sendHttp({
-          method: result.request.request.method,
-          url: result.request.request.url,
-          headers: Object.fromEntries((result.request.request.header || []).map((h) => [h.key, h.value])),
-          body: result.request.request.body?.raw || null,
+          method: folder.request.request.method,
+          url: folder.request.request.url,
+          headers,
+          body,
         });
+        const extractedDynamicVariables = extractMultipleDynamicVariablesFromResponse(variables, response);
 
-        const extractedValues = extractMultipleDynamicVariablesFromResponse(vars, response);
-        for (const [variableId, value] of extractedValues) {
-          dispatch(
-            environmentActions.updateDynamicVariableValue({
-              id: variableId,
-              value,
-            }),
-          );
-        }
+        for (const [id, value] of extractedDynamicVariables)
+          dispatch(environmentActions.updateDynamicVariableValue({ id, value }));
       } catch (error) {
         console.error('Failed to refresh dynamic variables:', error);
       }
-    }
-  }, [dynamicVariables, collection, dispatch]);
+    },
+    [collection, dispatch],
+  );
 
   return (
     <Panel title={isNew ? t('environment.newEnvironment') : t('environment.editEnvironment')}>
@@ -339,20 +320,13 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                     if (row.type === 'static') return null;
 
                     return (
-                      <button
-                        className="p-1 hover:bg-body dark:hover:bg-dark-body rounded text-text-secondary hover:text-text dark:text-dark-text-secondary dark:hover:text-dark-text"
-                        onClick={() => handleRefreshDynamicVariable(row as DynamicVariable)}
+                      <IconButton
+                        className="h-6.5 w-6.5"
                         title={t('environment.refreshValue')}
+                        onClick={() => handleRefreshDynamicVariable(row as DynamicVariable)}
                       >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                          />
-                        </svg>
-                      </button>
+                        <ReloadIcon className="h-4 w-4" />
+                      </IconButton>
                     );
                   },
                   grow: 0,

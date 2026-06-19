@@ -210,7 +210,7 @@ const de = {
       editTitle: 'Dynamische Variable bearbeiten',
       variableName: 'Variablenname',
       variableNamePlaceholder: 'variablen_name',
-      preview: 'Vorschau:',
+      preview: 'Vorschau',
       environment: 'Umgebung',
       allEnvironments: 'Alle Umgebungen',
       untitledEnvironment: 'Umgebung ohne Titel',

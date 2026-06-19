@@ -210,7 +210,7 @@ const nl = {
       editTitle: 'Dynamische variabele bewerken',
       variableName: 'Naam variabele',
       variableNamePlaceholder: 'variabele_naam',
-      preview: 'Voorbeeld:',
+      preview: 'Voorbeeld',
       environment: 'Omgeving',
       allEnvironments: 'Alle omgevingen',
       untitledEnvironment: 'Naamloze omgeving',

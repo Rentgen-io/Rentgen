@@ -209,7 +209,7 @@ const lt = {
       editTitle: 'Redaguoti dinaminį kintamąjį',
       variableName: 'Kintamojo pavadinimas',
       variableNamePlaceholder: 'kintamojo_pavadinimas',
-      preview: 'Peržiūra:',
+      preview: 'Peržiūra',
       environment: 'Aplinka',
       allEnvironments: 'Visos aplinkos',
       untitledEnvironment: 'Aplinka be pavadinimo',

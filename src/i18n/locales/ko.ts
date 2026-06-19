@@ -209,7 +209,7 @@ const ko = {
       editTitle: '동적 변수 편집',
       variableName: '변수 이름',
       variableNamePlaceholder: 'variable_name',
-      preview: '미리보기:',
+      preview: '미리보기',
       environment: '환경',
       allEnvironments: '모든 환경',
       untitledEnvironment: '제목 없는 환경',

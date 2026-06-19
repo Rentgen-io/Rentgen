@@ -209,7 +209,7 @@ const en = {
       editTitle: 'Edit Dynamic Variable',
       variableName: 'Variable Name',
       variableNamePlaceholder: 'variable_name',
-      preview: 'Preview:',
+      preview: 'Preview',
       environment: 'Environment',
       allEnvironments: 'All Environments',
       untitledEnvironment: 'Untitled Environment',

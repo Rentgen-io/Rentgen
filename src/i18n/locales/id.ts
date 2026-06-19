@@ -209,7 +209,7 @@ const id = {
       editTitle: 'Edit Variabel Dinamis',
       variableName: 'Nama Variabel',
       variableNamePlaceholder: 'nama_variabel',
-      preview: 'Pratinjau:',
+      preview: 'Pratinjau',
       environment: 'Lingkungan',
       allEnvironments: 'Semua Lingkungan',
       untitledEnvironment: 'Lingkungan Tanpa Judul',

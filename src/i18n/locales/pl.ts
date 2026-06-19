@@ -210,7 +210,7 @@ const pl = {
       editTitle: 'Edytuj zmienną dynamiczną',
       variableName: 'Nazwa zmiennej',
       variableNamePlaceholder: 'nazwa_zmiennej',
-      preview: 'Podgląd:',
+      preview: 'Podgląd',
       environment: 'Środowisko',
       allEnvironments: 'Wszystkie środowiska',
       untitledEnvironment: 'Środowisko bez nazwy',

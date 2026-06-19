@@ -212,7 +212,7 @@ const fr = {
       editTitle: 'Modifier la variable dynamique',
       variableName: 'Nom de la variable',
       variableNamePlaceholder: 'nom_variable',
-      preview: 'Aperçu :',
+      preview: 'Aperçu',
       environment: 'Environnement',
       allEnvironments: 'Tous les environnements',
       untitledEnvironment: 'Environnement sans titre',

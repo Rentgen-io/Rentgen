@@ -600,7 +600,7 @@ export default function App() {
   // Handler to open the Set as Dynamic Variable modal from JsonViewer
   const handleSetVariable = useCallback(
     (path: string, value: string, source: 'body' | 'header') => {
-      if (!currentRequestWithFolder) return;
+      if (!currentRequestWithFolder || !selectedRequestId) return;
       const { folder, request } = currentRequestWithFolder;
       dispatch(
         uiActions.openSetAsDynamicVariableModal({

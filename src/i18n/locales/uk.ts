@@ -210,7 +210,7 @@ const uk = {
       editTitle: 'Редагувати динамічну змінну',
       variableName: 'Назва змінної',
       variableNamePlaceholder: 'назва_змінної',
-      preview: 'Попередній перегляд:',
+      preview: 'Попередній перегляд',
       environment: 'Середовище',
       allEnvironments: 'Усі середовища',
       untitledEnvironment: 'Середовище без назви',
