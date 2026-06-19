@@ -207,7 +207,6 @@ const nl = {
     },
     setDynamicVariable: {
       title: 'Instellen als dynamische variabele',
-      editTitle: 'Dynamische variabele bewerken',
       variableName: 'Naam variabele',
       variableNamePlaceholder: 'variabele_naam',
       preview: 'Voorbeeld',
@@ -221,7 +220,6 @@ const nl = {
       selectEnvironmentError: 'Selecteer een omgeving',
       duplicateWarning: 'Er bestaat al een variabele met deze naam. Deze wordt overschreven.',
       saveVariable: 'Variabele opslaan',
-      updateVariable: 'Variabele bijwerken',
     },
     projectImport: {
       title: 'Project importeren',

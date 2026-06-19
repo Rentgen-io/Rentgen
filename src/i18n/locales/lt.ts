@@ -206,7 +206,6 @@ const lt = {
     },
     setDynamicVariable: {
       title: 'Nustatyti kaip dinaminį kintamąjį',
-      editTitle: 'Redaguoti dinaminį kintamąjį',
       variableName: 'Kintamojo pavadinimas',
       variableNamePlaceholder: 'kintamojo_pavadinimas',
       preview: 'Peržiūra',
@@ -220,7 +219,6 @@ const lt = {
       selectEnvironmentError: 'Prašome pasirinkti aplinką',
       duplicateWarning: 'Kintamasis su šiuo pavadinimu jau egzistuoja. Jis bus perrašytas.',
       saveVariable: 'Išsaugoti kintamąjį',
-      updateVariable: 'Atnaujinti kintamąjį',
     },
     projectImport: {
       title: 'Importuoti projektą',

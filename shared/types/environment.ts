@@ -54,6 +54,9 @@ export interface DynamicVariable {
    * - string: Applies only to specific environment ID
    */
   environmentId: string | null;
+
+  /** IDs of other requests that link to this dynamic variable */
+  otherRequestsIds?: string[];
 }
 
 /**

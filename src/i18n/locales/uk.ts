@@ -207,7 +207,6 @@ const uk = {
     },
     setDynamicVariable: {
       title: 'Встановити як динамічну змінну',
-      editTitle: 'Редагувати динамічну змінну',
       variableName: 'Назва змінної',
       variableNamePlaceholder: 'назва_змінної',
       preview: 'Попередній перегляд',
@@ -221,7 +220,6 @@ const uk = {
       selectEnvironmentError: 'Будь ласка, оберіть середовище',
       duplicateWarning: 'Змінна з такою назвою вже існує. Її буде перезаписано.',
       saveVariable: 'Зберегти змінну',
-      updateVariable: 'Оновити змінну',
     },
     projectImport: {
       title: 'Імпортувати проєкт',

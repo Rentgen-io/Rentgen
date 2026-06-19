@@ -130,7 +130,9 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
 
     if (selectedRequestId) {
       const filteredDynamicVariables = (state.environment.dynamicVariables as DynamicVariable[]).filter(
-        (dynamicVariable) => dynamicVariable.requestId === selectedRequestId,
+        (dynamicVariable) =>
+          dynamicVariable.requestId === selectedRequestId ||
+          dynamicVariable.otherRequestsIds?.includes(selectedRequestId),
       );
       const response = (action as PayloadAction<HttpResponse>).payload;
 

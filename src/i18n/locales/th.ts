@@ -206,7 +206,6 @@ const th = {
     },
     setDynamicVariable: {
       title: 'ตั้งเป็นตัวแปรไดนามิก',
-      editTitle: 'แก้ไขตัวแปรไดนามิก',
       variableName: 'ชื่อตัวแปร',
       variableNamePlaceholder: 'variable_name',
       preview: 'ตัวอย่าง',
@@ -220,7 +219,6 @@ const th = {
       selectEnvironmentError: 'กรุณาเลือกเอนไวรอนเมนต์',
       duplicateWarning: 'มีตัวแปรชื่อนี้อยู่แล้ว ตัวแปรจะถูกเขียนทับ',
       saveVariable: 'บันทึกตัวแปร',
-      updateVariable: 'อัปเดตตัวแปร',
     },
     projectImport: {
       title: 'นำเข้าโปรเจกต์',

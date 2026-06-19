@@ -206,7 +206,6 @@ const ko = {
     },
     setDynamicVariable: {
       title: '동적 변수로 설정',
-      editTitle: '동적 변수 편집',
       variableName: '변수 이름',
       variableNamePlaceholder: 'variable_name',
       preview: '미리보기',
@@ -220,7 +219,6 @@ const ko = {
       selectEnvironmentError: '환경을 선택해 주세요',
       duplicateWarning: '같은 이름의 변수가 이미 있습니다. 덮어쓰여집니다.',
       saveVariable: '변수 저장',
-      updateVariable: '변수 업데이트',
     },
     projectImport: {
       title: '프로젝트 가져오기',

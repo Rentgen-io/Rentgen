@@ -206,7 +206,6 @@ const hi = {
     },
     setDynamicVariable: {
       title: 'डायनामिक वैरिएबल के रूप में सेट करें',
-      editTitle: 'डायनामिक वैरिएबल संपादित करें',
       variableName: 'वैरिएबल का नाम',
       variableNamePlaceholder: 'variable_name',
       preview: 'प्रीव्यू',
@@ -220,7 +219,6 @@ const hi = {
       selectEnvironmentError: 'कृपया एक एनवायरनमेंट चुनें',
       duplicateWarning: 'इस नाम का वैरिएबल पहले से मौजूद है। इसे अधिलेखित किया जाएगा।',
       saveVariable: 'वैरिएबल सहेजें',
-      updateVariable: 'वैरिएबल अपडेट करें',
     },
     projectImport: {
       title: 'प्रोजेक्ट आयात करें',

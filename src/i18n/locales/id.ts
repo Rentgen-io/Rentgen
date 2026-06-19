@@ -206,7 +206,6 @@ const id = {
     },
     setDynamicVariable: {
       title: 'Tetapkan sebagai Variabel Dinamis',
-      editTitle: 'Edit Variabel Dinamis',
       variableName: 'Nama Variabel',
       variableNamePlaceholder: 'nama_variabel',
       preview: 'Pratinjau',
@@ -220,7 +219,6 @@ const id = {
       selectEnvironmentError: 'Mohon pilih lingkungan',
       duplicateWarning: 'Variabel dengan nama ini sudah ada. Akan ditimpa.',
       saveVariable: 'Simpan Variabel',
-      updateVariable: 'Perbarui Variabel',
     },
     projectImport: {
       title: 'Impor Proyek',

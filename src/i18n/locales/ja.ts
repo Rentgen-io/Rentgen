@@ -207,7 +207,6 @@ const ja = {
     },
     setDynamicVariable: {
       title: '動的バリアブルとして設定',
-      editTitle: '動的バリアブルを編集',
       variableName: 'バリアブル名',
       variableNamePlaceholder: 'variable_name',
       preview: 'プレビュー',
@@ -221,7 +220,6 @@ const ja = {
       selectEnvironmentError: '環境を選択してください',
       duplicateWarning: 'この名前のバリアブルはすでに存在します。上書きされます。',
       saveVariable: 'バリアブルを保存',
-      updateVariable: 'バリアブルを更新',
     },
     projectImport: {
       title: 'プロジェクトをインポート',

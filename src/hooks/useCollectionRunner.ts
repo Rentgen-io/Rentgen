@@ -133,7 +133,10 @@ export function useCollectionRunner() {
         }
 
         // Extract and update dynamic variables for this request
-        const filteredDynamicVariables = dynamicVariablesRef.current.filter((dv) => dv.requestId === item.id);
+        const filteredDynamicVariables = dynamicVariablesRef.current.filter(
+          (dynamicVariable) =>
+            dynamicVariable.requestId === item.id || dynamicVariable.otherRequestsIds?.includes(item.id),
+        );
         const extractionFailures: ExtractionFailure[] = [];
 
         for (const dynamicVariable of filteredDynamicVariables) {

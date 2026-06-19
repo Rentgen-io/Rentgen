@@ -206,7 +206,6 @@ const ru = {
     },
     setDynamicVariable: {
       title: 'Назначить как динамическую переменную',
-      editTitle: 'Редактировать динамическую переменную',
       variableName: 'Имя переменной',
       variableNamePlaceholder: 'variable_name',
       preview: 'Предпросмотр',
@@ -220,7 +219,6 @@ const ru = {
       selectEnvironmentError: 'Пожалуйста, выберите окружение',
       duplicateWarning: 'Переменная с таким именем уже существует. Она будет перезаписана.',
       saveVariable: 'Сохранить переменную',
-      updateVariable: 'Обновить переменную',
     },
     projectImport: {
       title: 'Импорт проекта',

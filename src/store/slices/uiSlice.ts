@@ -36,8 +36,6 @@ interface SetAsDynamicVariableModalState {
   requestId: string;
   collectionName: string;
   requestName: string;
-  editingVariableId: string | null;
-  editingVariableName: string | null;
   source: 'body' | 'header';
 }
 
@@ -101,8 +99,6 @@ const initialState: UIState = {
     requestId: '',
     collectionName: '',
     requestName: '',
-    editingVariableId: null,
-    editingVariableName: null,
     source: 'body',
   },
   projectImportConfirmModal: {
@@ -190,8 +186,6 @@ export const uiSlice = createSlice({
         requestId: '',
         collectionName: '',
         requestName: '',
-        editingVariableId: null,
-        editingVariableName: null,
         source: 'body',
       };
     },

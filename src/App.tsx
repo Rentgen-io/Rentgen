@@ -437,7 +437,9 @@ export default function App() {
       let warning: string | null = null;
       if (selectedRequestId) {
         const filteredDynamicVariables = dynamicVariables.filter(
-          (dynamicVariable) => dynamicVariable.requestId === selectedRequestId,
+          (dynamicVariable) =>
+            dynamicVariable.requestId === selectedRequestId ||
+            dynamicVariable.otherRequestsIds?.includes(selectedRequestId),
         );
         const extractionFailures: ExtractionFailure[] = [];
 
@@ -611,8 +613,6 @@ export default function App() {
           requestId: selectedRequestId,
           collectionName: folder.name,
           requestName: request.name,
-          editingVariableId: null,
-          editingVariableName: null,
           source,
         }),
       );

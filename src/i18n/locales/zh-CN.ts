@@ -205,7 +205,6 @@ const zhCN = {
     },
     setDynamicVariable: {
       title: '设为动态变量',
-      editTitle: '编辑动态变量',
       variableName: '变量名',
       variableNamePlaceholder: 'variable_name',
       preview: '预览',
@@ -219,7 +218,6 @@ const zhCN = {
       selectEnvironmentError: '请选择一个环境',
       duplicateWarning: '已存在同名变量。它将被覆盖。',
       saveVariable: '保存变量',
-      updateVariable: '更新变量',
     },
     projectImport: {
       title: '导入项目',

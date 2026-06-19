@@ -61,8 +61,8 @@ export default function CollectionGroup({
     if (itemResults.length === 0) return null;
 
     const hasRed = itemResults.some((r) => !r.status || r.status < 200 || r.status >= 500);
-    const hasOrange = itemResults.some((r) => r.status >= 400 && r.status < 500);
-    const hasYellow = itemResults.some((r) => r.warning && r.status >= 200 && r.status < 400);
+    const hasOrange = itemResults.some((r) => r.status && r.status >= 400 && r.status < 500);
+    const hasYellow = itemResults.some((r) => r.warning && r.status && r.status >= 200 && r.status < 400);
 
     if (hasRed) return 'red';
     if (hasOrange) return 'orange';

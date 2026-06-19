@@ -207,7 +207,6 @@ const pl = {
     },
     setDynamicVariable: {
       title: 'Ustaw jako zmienną dynamiczną',
-      editTitle: 'Edytuj zmienną dynamiczną',
       variableName: 'Nazwa zmiennej',
       variableNamePlaceholder: 'nazwa_zmiennej',
       preview: 'Podgląd',
@@ -221,7 +220,6 @@ const pl = {
       selectEnvironmentError: 'Proszę wybrać środowisko',
       duplicateWarning: 'Zmienna o tej nazwie już istnieje. Zostanie nadpisana.',
       saveVariable: 'Zapisz zmienną',
-      updateVariable: 'Zaktualizuj zmienną',
     },
     projectImport: {
       title: 'Importuj projekt',

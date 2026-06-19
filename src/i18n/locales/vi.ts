@@ -206,7 +206,6 @@ const vi = {
     },
     setDynamicVariable: {
       title: 'Đặt làm biến động',
-      editTitle: 'Chỉnh sửa biến động',
       variableName: 'Tên biến',
       variableNamePlaceholder: 'tên_biến',
       preview: 'Xem trước',
@@ -220,7 +219,6 @@ const vi = {
       selectEnvironmentError: 'Vui lòng chọn một môi trường',
       duplicateWarning: 'Một biến với tên này đã tồn tại. Nó sẽ bị ghi đè.',
       saveVariable: 'Lưu biến',
-      updateVariable: 'Cập nhật biến',
     },
     projectImport: {
       title: 'Nhập dự án',

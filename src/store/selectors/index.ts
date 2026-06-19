@@ -8,7 +8,6 @@ import { RESPONSE_STATUS } from '../../constants/responseStatus';
 export const selectCollectionData = (state: RootState) => state.collection.data;
 export const selectSelectedRequestId = (state: RootState) => state.collection.selectedRequestId;
 export const selectSelectedFolderId = (state: RootState) => state.collection.selectedFolderId;
-
 export const selectSidebarFolders = createSelector([selectCollectionData], (collection) =>
   collectionToGroupedSidebarData(collection),
 );
@@ -19,7 +18,6 @@ export const selectSelectedEnvironmentId = (state: RootState) => state.environme
 export const selectIsEditingEnvironment = (state: RootState) => state.environment.isEditing;
 export const selectEditingEnvironmentId = (state: RootState) => state.environment.editingEnvironmentId;
 export const selectEnvironmentToDelete = (state: RootState) => state.environment.environmentToDelete;
-
 export const selectSelectedEnvironment = createSelector(
   [selectEnvironments, selectSelectedEnvironmentId],
   (environments, selectedId) => environments.find((env) => env.id === selectedId) || null,
@@ -27,40 +25,6 @@ export const selectSelectedEnvironment = createSelector(
 
 // Dynamic variables selectors
 export const selectDynamicVariables = (state: RootState) => state.environment.dynamicVariables;
-
-export const selectDynamicVariablesForEnvironment = createSelector(
-  [selectDynamicVariables, (_: RootState, envId: string | null) => envId],
-  (dynamicVariables, envId) => dynamicVariables.filter((dv) => dv.environmentId === null || dv.environmentId === envId),
-);
-
-export const selectDynamicVariablesByRequest = createSelector(
-  [selectDynamicVariables, (_: RootState, requestId: string) => requestId],
-  (dynamicVariables, requestId) => dynamicVariables.filter((dv) => dv.requestId === requestId),
-);
-
-export const selectVariableNameExists = createSelector(
-  [
-    selectEnvironments,
-    selectDynamicVariables,
-    (_: RootState, name: string) => name,
-    (_: RootState, _name: string, envId: string | null) => envId,
-  ],
-  (environments, dynamicVariables, name, envId) => {
-    // Check static variables
-    const staticExists = environments.some((env) => {
-      if (envId !== null && env.id !== envId) return false;
-      return env.variables.some((v) => v.key === name);
-    });
-
-    // Check dynamic variables
-    const dynamicExists = dynamicVariables.some((dv) => {
-      if (envId !== null && dv.environmentId !== null && dv.environmentId !== envId) return false;
-      return dv.key === name;
-    });
-
-    return staticExists || dynamicExists;
-  },
-);
 
 // Request selectors
 export const selectMode = (state: RootState) => state.request.mode;
@@ -75,7 +39,6 @@ export const selectMessageType = (state: RootState) => state.request.messageType
 
 // Response selectors
 export const selectHttpResponse = (state: RootState) => state.response.httpResponse;
-
 export const selectStatusCode = createSelector([selectHttpResponse], (response) => extractStatusCode(response));
 
 // WebSocket selectors
@@ -97,23 +60,19 @@ export const selectIsPerformanceRunning = (state: RootState) => state.tests.isPe
 export const selectIsDataDrivenRunning = (state: RootState) => state.tests.isDataDrivenRunning;
 export const selectIsLoadTestRunning = (state: RootState) => state.tests.isLoadTestRunning;
 export const selectIsLargePayloadTestRunning = (state: RootState) => state.tests.isLargePayloadTestRunning;
-
 export const selectIsRunningTests = createSelector(
   [selectIsSecurityRunning, selectIsPerformanceRunning, selectIsDataDrivenRunning],
   (isSecurityRunning, isPerformanceRunning, isDataDrivenRunning) =>
     isSecurityRunning || isPerformanceRunning || isDataDrivenRunning,
 );
-
 export const selectDisabledRunTests = createSelector(
   [selectIsRunningTests, selectHttpResponse, selectStatusCode],
   (isRunning, response, statusCode) =>
     isRunning || !response || statusCode < RESPONSE_STATUS.OK || statusCode >= RESPONSE_STATUS.BAD_REQUEST,
 );
-
 export const selectAllTestResults = (state: RootState) => state.tests.results;
 export const selectRequestTestResults = (requestId: string) =>
   createSelector([selectAllTestResults], (results) => results[requestId] || null);
-
 export const selectCompareResponse = (state: RootState) => state.tests.compareResponse;
 export const selectIsComparingTestResults = (state: RootState) => state.tests.isComparing;
 export const selectTestResultsToCompare = (state: RootState) => state.tests.resultsToCompare;

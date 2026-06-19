@@ -206,7 +206,6 @@ const tr = {
     },
     setDynamicVariable: {
       title: 'Dinamik Değişken Olarak Ayarla',
-      editTitle: 'Dinamik Değişkeni Düzenle',
       variableName: 'Değişken Adı',
       variableNamePlaceholder: 'degisken_adi',
       preview: 'Önizleme',
@@ -220,7 +219,6 @@ const tr = {
       selectEnvironmentError: 'Lütfen bir ortam seçin',
       duplicateWarning: 'Bu ada sahip bir değişken zaten var. Üzerine yazılacak.',
       saveVariable: 'Değişkeni Kaydet',
-      updateVariable: 'Değişkeni Güncelle',
     },
     projectImport: {
       title: 'Projeyi İçe Aktar',
