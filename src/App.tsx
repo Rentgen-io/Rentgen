@@ -436,17 +436,19 @@ export default function App() {
       // Extract dynamic variables and track failures
       let warning: string | null = null;
       if (selectedRequestId) {
-        const requestDynamicVars = dynamicVariables.filter((dv) => dv.requestId === selectedRequestId);
+        const filteredDynamicVariables = dynamicVariables.filter(
+          (dynamicVariable) => dynamicVariable.requestId === selectedRequestId,
+        );
         const extractionFailures: ExtractionFailure[] = [];
 
-        for (const dvar of requestDynamicVars) {
-          const extractionResult = extractDynamicVariableFromResponseWithDetails(dvar, response);
+        for (const dynamicVariable of filteredDynamicVariables) {
+          const extractionResult = extractDynamicVariableFromResponseWithDetails(dynamicVariable, response);
 
           if (!extractionResult.success) {
             extractionFailures.push({
-              variableName: dvar.key,
-              selector: dvar.selector,
-              source: dvar.source,
+              variableName: dynamicVariable.key,
+              selector: dynamicVariable.selector,
+              source: dynamicVariable.source,
               reason: extractionResult.error || 'unknown error',
             });
           }
