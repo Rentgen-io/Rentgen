@@ -198,7 +198,7 @@ export default function CollectionGroup({
 
           {!isEditing && (
             <ClearCrossIcon
-              className="h-4.5 w-4.5 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+              className="h-4 w-4 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
               onClick={handleDeleteClick}
             />
           )}

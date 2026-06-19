@@ -117,7 +117,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
             className="h-7 w-7 shrink-0"
             onClick={() => onChange({ type: 'do-not-test', value: '', mandatory: false })}
           >
-            <ClearCrossIcon className="h-4.5 w-4.5" />
+            <ClearCrossIcon className="h-4 w-4" />
           </IconButton>
         </div>
       </div>

@@ -185,7 +185,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
               onClick={() => setIsEditing(true)}
             />
             <ClearCrossIcon
-              className="h-4.5 w-4.5 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+              className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
               onClick={(event: MouseEvent) => {
                 event.stopPropagation();
                 dispatch(collectionActions.removeRequest(item.id));
