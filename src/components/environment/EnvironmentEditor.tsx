@@ -3,24 +3,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import {
-  selectCollectionData,
-  selectDynamicVariables,
-  selectSelectedEnvironmentId,
-  selectTheme,
-} from '../../store/selectors';
+import { selectDynamicVariables, selectSelectedEnvironmentId, selectTheme } from '../../store/selectors';
 import { environmentActions } from '../../store/slices/environmentSlice';
 import { DataType, DynamicVariable, Environment, EnvironmentVariable } from '../../types';
-import { generateEnvironmentId, parseBody } from '../../utils';
-import { findRequestWithFolder } from '../../utils/collection';
-import { extractMultipleDynamicVariablesFromResponse } from '../../utils/dynamicVariable';
-import Button, { ButtonType } from '../buttons/Button';
-import { IconButton } from '../buttons/IconButton';
+import { generateEnvironmentId } from '../../utils';
+import Button from '../buttons/Button';
 import Input from '../inputs/Input';
 import Select, { SelectOption } from '../inputs/Select';
 import Panel from '../panels/Panel';
-
-import ReloadIcon from '../../assets/icons/reload-icon.svg';
 
 const COLOR_OPTIONS = ['#EF4444', '#F97316', '#EAB308', '#22C55E', '#3B82F6', '#8B5CF6', '#EC4899', '#6B7280'];
 
@@ -34,7 +24,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const collection = useAppSelector(selectCollectionData);
   const allDynamicVariables = useAppSelector(selectDynamicVariables);
   const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
   const theme = useAppSelector(selectTheme);
@@ -107,11 +96,8 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
     return () => clearTimeout(timeoutId);
   }, [title, color, variables, isNew, environment, onSave]);
 
-  // Cleanup on unmount
   useEffect(() => {
-    return () => {
-      clearTimeout(savedTimeoutRef.current);
-    };
+    return () => clearTimeout(savedTimeoutRef.current);
   }, []);
 
   useEffect(() => {
@@ -148,7 +134,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
   const handleSave = () => {
     const nonEmptyVariables = variables.filter((v) => v.key.trim() !== '');
-
     const savedEnvironment: Environment = {
       id: environment?.id || generateEnvironmentId(),
       title: title.trim() || t('environment.untitled'),
@@ -181,49 +166,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
       }
     },
     [dispatch],
-  );
-
-  const handleRefreshDynamicVariable = useCallback(
-    async (dynamicVariable: DynamicVariable) =>
-      await refreshDynamicVariable(dynamicVariable.requestId, [dynamicVariable]),
-    [collection, dispatch],
-  );
-
-  const handleRefreshAllDynamicVariables = useCallback(async () => {
-    // Group variables by request to avoid duplicate HTTP calls
-    const groupedDynamicVariables = new Map<string, DynamicVariable[]>();
-    for (const dynamicVariable of dynamicVariables) {
-      const existing = groupedDynamicVariables.get(dynamicVariable.requestId) || [];
-      existing.push(dynamicVariable);
-      groupedDynamicVariables.set(dynamicVariable.requestId, existing);
-    }
-
-    for (const [requestId, variables] of groupedDynamicVariables) await refreshDynamicVariable(requestId, variables);
-  }, [dynamicVariables, collection, dispatch]);
-
-  const refreshDynamicVariable = useCallback(
-    async (requestId: string, variables: DynamicVariable[]) => {
-      const folder = findRequestWithFolder(collection, requestId);
-      if (!folder) return;
-
-      try {
-        const headers = Object.fromEntries((folder.request.request.header || []).map((h) => [h.key, h.value]));
-        const body = parseBody(folder.request.request.body?.raw || null, headers);
-        const response = await window.electronAPI.sendHttp({
-          method: folder.request.request.method,
-          url: folder.request.request.url,
-          headers,
-          body,
-        });
-        const extractedDynamicVariables = extractMultipleDynamicVariablesFromResponse(variables, response);
-
-        for (const [id, value] of extractedDynamicVariables)
-          dispatch(environmentActions.updateDynamicVariableValue({ id, value }));
-      } catch (error) {
-        console.error('Failed to refresh dynamic variables:', error);
-      }
-    },
-    [collection, dispatch],
   );
 
   return (
@@ -314,25 +256,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                     );
                   },
                 },
-                {
-                  name: '',
-                  cell: (row) => {
-                    if (row.type === 'static') return null;
-
-                    return (
-                      <IconButton
-                        className="h-6.5 w-6.5"
-                        title={t('environment.refreshValue')}
-                        onClick={() => handleRefreshDynamicVariable(row as DynamicVariable)}
-                      >
-                        <ReloadIcon className="h-4 w-4" />
-                      </IconButton>
-                    );
-                  },
-                  grow: 0,
-                  width: '50px',
-                  style: { justifyContent: 'center' },
-                },
               ]}
               customStyles={{
                 headRow: {
@@ -385,15 +308,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
               fixedHeader={true}
               fixedHeaderScrollHeight="440px"
             />
-
-            {/* Footer with Refresh All button */}
-            {dynamicVariables.length > 0 && (
-              <div className="flex justify-end p-2 border-t border-border dark:border-dark-body bg-body dark:bg-dark-body">
-                <Button buttonType={ButtonType.SECONDARY} onClick={handleRefreshAllDynamicVariables}>
-                  {t('environment.refreshAll')}
-                </Button>
-              </div>
-            )}
           </div>
         </div>
 

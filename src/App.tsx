@@ -442,14 +442,13 @@ export default function App() {
         const extractionFailures: ExtractionFailure[] = [];
 
         for (const dynamicVariable of filteredDynamicVariables) {
-          const extractionResult = extractDynamicVariableFromResponseWithDetails(dynamicVariable, response);
-
-          if (!extractionResult.success) {
+          const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(dynamicVariable, response);
+          if (!extractedDynamicVariables.success) {
             extractionFailures.push({
               variableName: dynamicVariable.key,
               selector: dynamicVariable.selector,
               source: dynamicVariable.source,
-              reason: extractionResult.error || 'unknown error',
+              reason: extractedDynamicVariables.error || 'unknown error',
             });
           }
           // Note: The actual variable update is handled by the electronMiddleware

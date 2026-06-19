@@ -133,25 +133,24 @@ export function useCollectionRunner() {
         }
 
         // Extract and update dynamic variables for this request
-        const requestDynamicVars = dynamicVariablesRef.current.filter((dv) => dv.requestId === item.id);
+        const filteredDynamicVariables = dynamicVariablesRef.current.filter((dv) => dv.requestId === item.id);
         const extractionFailures: ExtractionFailure[] = [];
 
-        for (const dvar of requestDynamicVars) {
-          const extractionResult = extractDynamicVariableFromResponseWithDetails(dvar, response);
-
-          if (extractionResult.success && extractionResult.value !== null) {
+        for (const dynamicVariable of filteredDynamicVariables) {
+          const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(dynamicVariable, response);
+          if (extractedDynamicVariables.success && extractedDynamicVariables.value !== null) {
             dispatch(
               environmentActions.updateDynamicVariableValue({
-                id: dvar.id,
-                value: extractionResult.value,
+                id: dynamicVariable.id,
+                value: extractedDynamicVariables.value,
               }),
             );
           } else {
             extractionFailures.push({
-              variableName: dvar.key,
-              selector: dvar.selector,
-              source: dvar.source,
-              reason: extractionResult.error || 'unknown error',
+              variableName: dynamicVariable.key,
+              selector: dynamicVariable.selector,
+              source: dynamicVariable.source,
+              reason: extractedDynamicVariables.error || 'unknown error',
             });
           }
         }

@@ -126,23 +126,21 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
   // Auto-update dynamic variables when a response is received
   if (actionType === 'response/setResponse') {
     const state = store.getState();
-    const currentRequestId = state.collection.selectedRequestId;
+    const selectedRequestId = state.collection.selectedRequestId;
 
-    if (currentRequestId) {
-      const dynamicVars = (state.environment.dynamicVariables as DynamicVariable[]).filter(
-        (dv) => dv.requestId === currentRequestId,
+    if (selectedRequestId) {
+      const filteredDynamicVariables = (state.environment.dynamicVariables as DynamicVariable[]).filter(
+        (dynamicVariable) => dynamicVariable.requestId === selectedRequestId,
       );
-
       const response = (action as PayloadAction<HttpResponse>).payload;
 
-      for (const dvar of dynamicVars) {
-        const extractionResult = extractDynamicVariableFromResponseWithDetails(dvar, response);
-
-        if (extractionResult.success && extractionResult.value !== null) {
+      for (const dynamicVariable of filteredDynamicVariables) {
+        const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(dynamicVariable, response);
+        if (extractedDynamicVariables.success && extractedDynamicVariables.value !== null) {
           store.dispatch(
             environmentActions.updateDynamicVariableValue({
-              id: dvar.id,
-              value: extractionResult.value,
+              id: dynamicVariable.id,
+              value: extractedDynamicVariables.value,
             }),
           );
         }
