@@ -41,8 +41,8 @@ export default function CollectionSearch({ value, onChange, placeholder }: Props
   };
 
   return (
-    <div className="relative flex items-center px-3 py-2 border-b border-border dark:border-dark-border">
-      <SearchIcon className="absolute left-5 w-3.5 h-3.5 text-text-secondary dark:text-dark-text-secondary pointer-events-none" />
+    <div className="relative border-b border-border dark:border-dark-border">
+      <SearchIcon className="absolute -translate-y-1/2 top-1/2 left-3 w-3.5 h-3.5 text-text-secondary dark:text-dark-text-secondary pointer-events-none" />
       <input
         ref={inputRef}
         type="text"
@@ -50,11 +50,11 @@ export default function CollectionSearch({ value, onChange, placeholder }: Props
         onChange={(e) => handleChange(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder || t('collections.searchCollections')}
-        className="w-full pl-5.5 pr-6 py-1 text-xs bg-transparent border border-border dark:border-dark-input dark:text-dark-text rounded outline-none placeholder:text-text-secondary dark:placeholder:text-dark-text-secondary focus:border-button-primary dark:focus:border-button-primary transition-colors"
+        className="w-full py-2.5 px-8 text-xs bg-transparent border-none dark:text-dark-text outline-none placeholder:text-text-secondary dark:placeholder:text-dark-text-secondary box-border"
       />
       {localValue && (
         <ClearCrossIcon
-          className="absolute right-5 w-3.5 h-3.5 text-text-secondary dark:text-dark-text-secondary hover:text-text dark:hover:text-dark-text cursor-pointer"
+          className="absolute -translate-y-1/2 top-1/2 right-3 w-3.5 h-3.5 text-text-secondary dark:text-dark-text-secondary hover:text-text dark:hover:text-dark-text cursor-pointer"
           onClick={() => handleChange('')}
         />
       )}

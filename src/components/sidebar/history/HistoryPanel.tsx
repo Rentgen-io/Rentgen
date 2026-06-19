@@ -94,7 +94,7 @@ export default function HistoryPanel() {
         <span className="text-xs text-text-secondary dark:text-dark-text-secondary">{t('history.title')}</span>
         {entries.length > 0 && (
           <ClearCrossIcon
-            className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary hover:text-button-danger cursor-pointer transition-colors"
+            className="h-4.5 w-4.5 text-text-secondary dark:text-dark-text-secondary hover:text-button-danger cursor-pointer"
             onClick={() => dispatch(historyActions.clearHistory())}
             title={t('history.clearAll')}
           />
