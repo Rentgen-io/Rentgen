@@ -23,6 +23,9 @@ export interface DynamicVariable {
   /** Unique identifier: "dvar_{timestamp}_{random}" */
   id: string;
 
+  /** ID of the linked request within the collection */
+  requestId: string;
+
   /** Variable name used in {{variable}} syntax */
   key: string;
 
@@ -35,12 +38,6 @@ export interface DynamicVariable {
 
   /** Where to extract the value from */
   source: 'body' | 'header';
-
-  /** ID of the collection containing the linked request */
-  collectionId: string;
-
-  /** ID of the linked request within the collection */
-  requestId: string;
 
   /** Last successfully extracted value (null if never extracted) */
   currentValue: string | null;
@@ -55,8 +52,12 @@ export interface DynamicVariable {
    */
   environmentId: string | null;
 
-  /** IDs of other requests that link to this dynamic variable */
-  otherRequestsIds?: string[];
+  /** Details of previous requests that linked to this dynamic variable */
+  previousRequests?: {
+    requestId: string;
+    selector: string;
+    source: 'body' | 'header';
+  }[];
 }
 
 /**

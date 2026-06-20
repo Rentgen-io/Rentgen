@@ -133,29 +133,39 @@ export function useCollectionRunner() {
         }
 
         // Extract and update dynamic variables for this request
-        const filteredDynamicVariables = dynamicVariablesRef.current.filter(
-          (dynamicVariable) =>
-            dynamicVariable.requestId === item.id || dynamicVariable.otherRequestsIds?.includes(item.id),
-        );
         const extractionFailures: ExtractionFailure[] = [];
 
-        for (const dynamicVariable of filteredDynamicVariables) {
-          const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(dynamicVariable, response);
-          if (extractedDynamicVariables.success && extractedDynamicVariables.value !== null) {
+        for (const dynamicVariable of dynamicVariablesRef.current) {
+          const previousRequest = dynamicVariable.previousRequests?.find(({ requestId }) => requestId === item.id);
+          if (dynamicVariable.requestId !== item.id && !previousRequest) continue;
+
+          const currentDynamicVariable =
+            dynamicVariable.requestId === item.id
+              ? dynamicVariable
+              : {
+                  ...dynamicVariable,
+                  selector: previousRequest!.selector,
+                  source: previousRequest!.source,
+                };
+          const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(
+            currentDynamicVariable,
+            response,
+          );
+
+          if (extractedDynamicVariables.success && extractedDynamicVariables.value !== null)
             dispatch(
               environmentActions.updateDynamicVariableValue({
-                id: dynamicVariable.id,
+                id: currentDynamicVariable.id,
                 value: extractedDynamicVariables.value,
               }),
             );
-          } else {
+          else
             extractionFailures.push({
-              variableName: dynamicVariable.key,
-              selector: dynamicVariable.selector,
-              source: dynamicVariable.source,
+              variableName: currentDynamicVariable.key,
+              selector: currentDynamicVariable.selector,
+              source: currentDynamicVariable.source,
               reason: extractedDynamicVariables.error || 'unknown error',
             });
-          }
         }
 
         // Build warning message if any extractions failed
@@ -165,7 +175,7 @@ export function useCollectionRunner() {
             const f = extractionFailures[0];
             warning = `Failed to extract {{${f.variableName}}}: ${f.reason}`;
           } else {
-            const details = extractionFailures.map((f) => `{{${f.variableName}}})`).join(', ');
+            const details = extractionFailures.map((f) => `{{${f.variableName}}}`).join(', ');
             warning = `Failed to extract: ${details}`;
           }
         }

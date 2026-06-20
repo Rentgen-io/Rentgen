@@ -436,23 +436,34 @@ export default function App() {
       // Extract dynamic variables and track failures
       let warning: string | null = null;
       if (selectedRequestId) {
-        const filteredDynamicVariables = dynamicVariables.filter(
-          (dynamicVariable) =>
-            dynamicVariable.requestId === selectedRequestId ||
-            dynamicVariable.otherRequestsIds?.includes(selectedRequestId),
-        );
         const extractionFailures: ExtractionFailure[] = [];
 
-        for (const dynamicVariable of filteredDynamicVariables) {
-          const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(dynamicVariable, response);
-          if (!extractedDynamicVariables.success) {
+        for (const dynamicVariable of dynamicVariables) {
+          const previousRequest = dynamicVariable.previousRequests?.find(
+            ({ requestId }) => requestId === selectedRequestId,
+          );
+          if (dynamicVariable.requestId !== selectedRequestId && !previousRequest) continue;
+
+          const currentDynamicVariable =
+            dynamicVariable.requestId === selectedRequestId
+              ? dynamicVariable
+              : {
+                  ...dynamicVariable,
+                  selector: previousRequest!.selector,
+                  source: previousRequest!.source,
+                };
+          const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(
+            currentDynamicVariable,
+            response,
+          );
+
+          if (!extractedDynamicVariables.success)
             extractionFailures.push({
-              variableName: dynamicVariable.key,
-              selector: dynamicVariable.selector,
-              source: dynamicVariable.source,
+              variableName: currentDynamicVariable.key,
+              selector: currentDynamicVariable.selector,
+              source: currentDynamicVariable.source,
               reason: extractedDynamicVariables.error || 'unknown error',
             });
-          }
           // Note: The actual variable update is handled by the electronMiddleware
         }
 
@@ -609,9 +620,8 @@ export default function App() {
         uiActions.openSetAsDynamicVariableModal({
           initialSelector: path,
           initialValue: value,
-          collectionId: folder.id,
-          requestId: selectedRequestId,
           collectionName: folder.name,
+          requestId: selectedRequestId,
           requestName: request.name,
           source,
         }),

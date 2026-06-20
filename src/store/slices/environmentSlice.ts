@@ -129,20 +129,13 @@ export const environmentSlice = createSlice({
     },
 
     // Dynamic Variables CRUD actions
-    addDynamicVariable: (
-      state,
-      action: PayloadAction<
-        Omit<DynamicVariable, 'id' | 'currentValue' | 'lastUpdated'> & { initialValue?: string | null }
-      >,
-    ) => {
-      const { initialValue, ...rest } = action.payload;
-      const newVariable: DynamicVariable = {
-        ...rest,
+    addDynamicVariable: (state, action: PayloadAction<Omit<DynamicVariable, 'id' | 'lastUpdated'>>) => {
+      state.dynamicVariables.push({
+        ...action.payload,
         id: generateDynamicVariableId(),
-        currentValue: initialValue || null,
-        lastUpdated: initialValue ? Date.now() : null,
-      };
-      state.dynamicVariables.push(newVariable);
+        lastUpdated: Date.now(),
+        previousRequests: [],
+      });
     },
     updateDynamicVariable: (
       state,
@@ -164,9 +157,6 @@ export const environmentSlice = createSlice({
         variable.currentValue = value;
         variable.lastUpdated = Date.now();
       }
-    },
-    setDynamicVariables: (state, action: PayloadAction<DynamicVariable[]>) => {
-      state.dynamicVariables = action.payload;
     },
     replaceDynamicVariables: (state, action: PayloadAction<DynamicVariable[]>) => {
       state.dynamicVariables = action.payload;

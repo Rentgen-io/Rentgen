@@ -129,23 +129,35 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
     const selectedRequestId = state.collection.selectedRequestId;
 
     if (selectedRequestId) {
-      const filteredDynamicVariables = (state.environment.dynamicVariables as DynamicVariable[]).filter(
-        (dynamicVariable) =>
-          dynamicVariable.requestId === selectedRequestId ||
-          dynamicVariable.otherRequestsIds?.includes(selectedRequestId),
-      );
       const response = (action as PayloadAction<HttpResponse>).payload;
+      const dynamicVariables = state.environment.dynamicVariables as DynamicVariable[];
 
-      for (const dynamicVariable of filteredDynamicVariables) {
-        const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(dynamicVariable, response);
-        if (extractedDynamicVariables.success && extractedDynamicVariables.value !== null) {
+      for (const dynamicVariable of dynamicVariables) {
+        const previousRequest = dynamicVariable.previousRequests?.find(
+          ({ requestId }) => requestId === selectedRequestId,
+        );
+        if (dynamicVariable.requestId !== selectedRequestId && !previousRequest) continue;
+
+        const currentDynamicVariable =
+          dynamicVariable.requestId === selectedRequestId
+            ? dynamicVariable
+            : {
+                ...dynamicVariable,
+                selector: previousRequest!.selector,
+                source: previousRequest!.source,
+              };
+        const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(
+          currentDynamicVariable,
+          response,
+        );
+
+        if (extractedDynamicVariables.success && extractedDynamicVariables.value !== null)
           store.dispatch(
             environmentActions.updateDynamicVariableValue({
-              id: dynamicVariable.id,
+              id: currentDynamicVariable.id,
               value: extractedDynamicVariables.value,
             }),
           );
-        }
         // Note: Extraction failures are tracked in collectionRunResult.warning
       }
     }

@@ -111,9 +111,8 @@ export default function GlobalContextMenuProvider({ children }: PropsWithChildre
       uiActions.openSetAsDynamicVariableModal({
         initialSelector: responsePanelContext?.jsonPath || menuState.selectedText,
         initialValue: responsePanelContext?.jsonValue || menuState.selectedText,
-        collectionId: folder.id,
-        requestId: selectedRequestId,
         collectionName: folder.name,
+        requestId: selectedRequestId,
         requestName: request.name,
         source: responsePanelContext?.source || 'body',
       }),

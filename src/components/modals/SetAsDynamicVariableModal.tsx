@@ -98,11 +98,15 @@ export default function SetAsDynamicVariableModal() {
     }
 
     if (duplicateToOverwrite) {
-      const otherRequestsIds = (duplicateToOverwrite.otherRequestsIds ?? []).filter(
-        (id) => id !== modalState.requestId && id !== duplicateToOverwrite.requestId,
+      const previousRequests = (duplicateToOverwrite.previousRequests ?? []).filter(
+        ({ requestId }) => requestId !== modalState.requestId && requestId !== duplicateToOverwrite.requestId,
       );
       if (modalState.requestId !== duplicateToOverwrite.requestId)
-        otherRequestsIds.push(duplicateToOverwrite.requestId);
+        previousRequests.push({
+          requestId: duplicateToOverwrite.requestId,
+          selector: duplicateToOverwrite.selector,
+          source: duplicateToOverwrite.source,
+        });
 
       dispatch(
         environmentActions.updateDynamicVariable({
@@ -111,12 +115,11 @@ export default function SetAsDynamicVariableModal() {
             key: sanitizedName,
             selector,
             source: modalState.source,
-            collectionId: modalState.collectionId,
             requestId: modalState.requestId,
             environmentId: envId,
             currentValue: modalState.initialValue || null,
             lastUpdated: modalState.initialValue ? Date.now() : null,
-            otherRequestsIds,
+            previousRequests,
           },
         }),
       );
@@ -126,11 +129,9 @@ export default function SetAsDynamicVariableModal() {
           key: sanitizedName,
           selector,
           source: modalState.source,
-          collectionId: modalState.collectionId,
           requestId: modalState.requestId,
           environmentId: envId,
-          initialValue: modalState.initialValue || null,
-          otherRequestsIds: [],
+          currentValue: modalState.initialValue || null,
         }),
       );
     }
