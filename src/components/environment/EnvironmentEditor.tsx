@@ -46,17 +46,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
     ];
   }, [dynamicVariables, variables]);
 
-  const nameColumnWidth = useMemo(() => {
-    const CHAR_WIDTH = 7.2;
-    const PADDING = 32;
-    const MIN_CHARS = 13;
-    const MAX_CHARS = 30;
-
-    const longestName = Math.max(MIN_CHARS, ...allVariables.map((v) => v.key.length));
-    const cappedLength = Math.min(longestName, MAX_CHARS);
-    return `${Math.ceil(cappedLength * CHAR_WIDTH + PADDING)}px`;
-  }, [allVariables]);
-
   const isDark = theme === 'dark';
 
   // Check if current state differs from environment prop
@@ -150,20 +139,20 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
     }
   };
 
-  // Dynamic variable handlers
   const handleDynamicVariableKeyChange = useCallback(
     (dv: DynamicVariable, newKey: string) => {
-      if (newKey.trim() === '') {
-        // Delete by clearing name
-        dispatch(environmentActions.removeDynamicVariable({ id: dv.id }));
-      } else {
+      if (newKey.trim() === '') dispatch(environmentActions.removeDynamicVariable({ id: dv.id }));
+      else
         dispatch(
           environmentActions.updateDynamicVariable({
             id: dv.id,
             updates: { key: newKey },
           }),
         );
-      }
+
+      clearTimeout(savedTimeoutRef.current);
+      setSaved(true);
+      savedTimeoutRef.current = setTimeout(() => setSaved(false), 1000);
     },
     [dispatch],
   );
@@ -171,7 +160,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
   return (
     <Panel title={isNew ? t('environment.newEnvironment') : t('environment.editEnvironment')}>
       <div className="p-4 border-t border-border dark:border-dark-body">
-        {/* Title Input */}
         <div className="mb-4">
           <label className="block mb-1 font-bold text-sm">{t('environment.environmentName')}</label>
           <Input
@@ -182,7 +170,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           />
         </div>
 
-        {/* Color Picker */}
         <div className="mb-4">
           <label className="block mb-1 font-bold text-sm">{t('environment.color')}</label>
           <div className="flex items-center gap-2">
@@ -198,7 +185,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                 type="button"
               />
             ))}
-            {/* Custom color input */}
             <input
               className="w-10 h-8 cursor-pointer border-0 p-0 rounded-md"
               type="color"
@@ -208,7 +194,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           </div>
         </div>
 
-        {/* Variables Table */}
         <div className="mb-4">
           <label className="block mb-1 font-bold text-sm">{t('environment.variables')}</label>
           <div className="border border-border dark:border-dark-body rounded-md overflow-hidden">
@@ -217,8 +202,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
               columns={[
                 {
                   name: t('environment.variableName'),
-                  grow: 0,
-                  width: nameColumnWidth,
                   cell: (row) => (
                     <Input
                       className="w-full border-0 bg-transparent"
@@ -311,14 +294,12 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           </div>
         </div>
 
-        {/* Action Buttons - only show Create for new environments */}
         {isNew && (
           <div className="flex items-center justify-end gap-2">
             <Button onClick={handleSave}>{t('common.create')}</Button>
           </div>
         )}
 
-        {/* Saved indicator for existing environments */}
         {!isNew && saved && (
           <div className="flex items-center justify-end">
             <span className="text-xs text-green-500">{t('common.saved')}</span>
