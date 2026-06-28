@@ -1,103 +1,60 @@
-## 🚀 Release v1.21.0
+## 🚀 Release v1.22.0
 
-### 🖥 Rentgen CLI (MVP Release)
-
-Rentgen now works from the terminal.
-
-You can export a `.rentgen` project from the desktop app and run API reality checks locally, inside Docker, or directly in CI/CD pipelines.
-
-Main command:
-
-- `rentgen xray`
-
-Current MVP scope:
-
-- folder / collection execution
-- environment support
-- Docker support
-- CI/CD support
-- JSON reports
-
-Supported:
-
-- GitHub Actions
-- GitLab CI
-- Bitbucket Pipelines
-- Jenkins
-- Docker
-
-CLI page: https://rentgen.io/cli
-
-Example:
-
-```bash
-rentgen xray ./project.rentgen \
- --collection="Smoke Tests" \
- --env=staging \
- --report=json
-```
-
-Docker:
-
-```bash
-docker run --rm -v "$PWD":/work -w /work \
- ghcr.io/rentgen-io/rentgen-cli:1.21.0 \
- xray ./project.rentgen
-```
-
-No cloud runners.
-No hosted sync.
-Same local-first philosophy.
+This release introduces persistent project configuration and makes Rentgen significantly more configurable for real-world API testing.
 
 ---
 
-### 🌍 Multi-language Support
+### 💾 Persistent Project Configuration
 
-Rentgen now supports multiple interface languages.
+All project configuration is now saved inside the `.rentgen` project.
 
-Supported languages:
+This includes:
 
-- English
-- Bahasa Indonesia
-- Deutsch
-- Español
-- Français
-- Italiano
-- Lietuvių
-- Nederlands
-- Polski
-- Português (Brasil)
-- Русский
-- Tiếng Việt
-- Türkçe
-- Українська
-- हिन्दी
-- ไทย
-- 中文 (简体)
-- 日本語
-- 한국어
+- field mappings
+- expected results
+- ignored tests
 
-Found a translation issue or want to help add another language?
+Everything is automatically restored after reopening the project.
 
-Open a GitHub issue with details and we will do our best.
+When you export a project and share it with teammates, the entire configuration travels with it.
+
+No more repeating the same setup.
 
 ---
 
-### 🌐 New Fields Type:
+### ⚙️ Configurable Security Checks
 
-New supported fields type:
+Every security check can now be enabled or ignored individually.
 
-- IPv4
-- Numeric String
+Typical workflow:
 
-Rentgen can now generate and validate IPv4-related test cases automatically, also numbers as strings.
+- run all security tests
+- review findings
+- decide which ones are relevant
+- ignore the rest with a single click
+
+Ignored checks are always visible in the statistics and can be re-enabled at any time from **Settings**.
+
+---
+
+### 🎯 Configurable Expected Results
+
+Data-driven tests are no longer fixed.
+
+If Rentgen expects a request to fail but your API intentionally accepts it (or vice versa), simply change the expected result directly from the UI.
+
+Supported expectations:
+
+- 2xx
+- 4xx
+
+All custom expectations are stored inside the project and shared with your team, providing a single source of truth.
 
 ---
 
 ### 🛠 Bug Fixes & Improvements
 
-- Fixed variable editing issue where variables could only be created, not edited
-- General CLI stability improvements
-- UX improvements across project handling
+- UX improvements across the application
+- Various bug fixes
 - Performance optimizations
-- Various internal fixes and cleanup
+- General stability improvements
