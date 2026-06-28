@@ -1,7 +1,7 @@
 {
   "name": "rentgen",
   "productName": "Rentgen",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "description": "Automation before automation. Finding API bugs when you have no tests.",
   "main": ".webpack/main",
   "bin": {
