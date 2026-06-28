@@ -207,10 +207,9 @@ const uk = {
     },
     setDynamicVariable: {
       title: 'Встановити як динамічну змінну',
-      editTitle: 'Редагувати динамічну змінну',
       variableName: 'Назва змінної',
       variableNamePlaceholder: 'назва_змінної',
-      preview: 'Попередній перегляд:',
+      preview: 'Попередній перегляд',
       environment: 'Середовище',
       allEnvironments: 'Усі середовища',
       untitledEnvironment: 'Середовище без назви',
@@ -221,7 +220,6 @@ const uk = {
       selectEnvironmentError: 'Будь ласка, оберіть середовище',
       duplicateWarning: 'Змінна з такою назвою вже існує. Її буде перезаписано.',
       saveVariable: 'Зберегти змінну',
-      updateVariable: 'Оновити змінну',
     },
     projectImport: {
       title: 'Імпортувати проєкт',
@@ -237,6 +235,7 @@ const uk = {
       dynamicVariablesCount: 'Динамічні змінні ({{count}} змінних)',
       historyCount: 'Історія ({{count}} записів)',
       settingsInfo: 'Налаштування (тема, рушій тестів, конфігурація історії)',
+      mappingsInfo: 'Зіставлення (параметри тіла та запиту)',
       cannotBeUndone: 'Цю дію неможливо скасувати.',
       backupBefore: 'Створіть резервну копію поточного проєкту перед імпортом:',
       exportedCheck: 'Експортовано ✓',

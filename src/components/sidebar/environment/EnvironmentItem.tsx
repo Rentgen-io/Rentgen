@@ -51,7 +51,7 @@ export default function EnvironmentItem({ environment }: Props) {
       <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: environment.color }} />
       <span className="flex-1 text-xs truncate">{environment.title}</span>
       <ClearCrossIcon
-        className="h-4.5 w-4.5 p-0.5 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+        className="h-4 w-4 p-0.5 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
         onClick={(e: React.MouseEvent) => {
           e.stopPropagation();
           dispatch(environmentActions.setEnvironmentToDelete(environment.id));

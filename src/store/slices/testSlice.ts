@@ -82,6 +82,12 @@ export const testSlice = createSlice({
     setDataDrivenTests: (state, action: PayloadAction<TestResult[]>) => {
       state.dataDrivenTests = action.payload;
     },
+    updateDataDrivenTest: (state, action: PayloadAction<TestResult>) => {
+      const index = state.dataDrivenTests.findIndex(
+        (t) => t.name === action.payload.name && t.value === action.payload.value,
+      );
+      if (index !== -1) state.dataDrivenTests[index] = action.payload;
+    },
 
     // Performance tests
     setPerformanceRunning: (state, action: PayloadAction<boolean>) => {
@@ -167,6 +173,15 @@ export const testSlice = createSlice({
 
       const index = testResults.performanceTests.findIndex((t) => t.name === action.payload.testName);
       if (index !== -1) testResults.performanceTests[index] = action.payload.result;
+    },
+    updateDataDrivenTestResults: (state, action: PayloadAction<{ requestId: string; result: TestResult }>) => {
+      const testResults = state.results[action.payload.requestId];
+      if (!testResults) return;
+
+      const index = testResults.dataDrivenTests.findIndex(
+        (t) => t.name === action.payload.result.name && t.value === action.payload.result.value,
+      );
+      if (index !== -1) testResults.dataDrivenTests[index] = action.payload.result;
     },
 
     addResultToCompare: (state, action: PayloadAction<TestResults>) => {

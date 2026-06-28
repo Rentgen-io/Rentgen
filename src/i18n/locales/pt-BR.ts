@@ -208,10 +208,9 @@ const ptBR = {
     },
     setDynamicVariable: {
       title: 'Definir como variável dinâmica',
-      editTitle: 'Editar variável dinâmica',
       variableName: 'Nome da variável',
       variableNamePlaceholder: 'nome_da_variavel',
-      preview: 'Pré-visualização:',
+      preview: 'Pré-visualização',
       environment: 'Ambiente',
       allEnvironments: 'Todos os ambientes',
       untitledEnvironment: 'Ambiente sem título',
@@ -222,7 +221,6 @@ const ptBR = {
       selectEnvironmentError: 'Por favor, selecione um ambiente',
       duplicateWarning: 'Já existe uma variável com este nome. Ela será sobrescrita.',
       saveVariable: 'Salvar variável',
-      updateVariable: 'Atualizar variável',
     },
     projectImport: {
       title: 'Importar projeto',
@@ -238,6 +236,7 @@ const ptBR = {
       dynamicVariablesCount: 'Variáveis dinâmicas ({{count}} variáveis)',
       historyCount: 'Histórico ({{count}} entradas)',
       settingsInfo: 'Configurações (tema, motor de testes, configuração do histórico)',
+      mappingsInfo: 'Mapeamentos (parâmetros do corpo e da query)',
       cannotBeUndone: 'Esta ação não pode ser desfeita.',
       backupBefore: 'Faça backup do seu projeto atual antes de importar:',
       exportedCheck: 'Exportado ✓',

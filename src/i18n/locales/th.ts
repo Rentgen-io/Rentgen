@@ -206,10 +206,9 @@ const th = {
     },
     setDynamicVariable: {
       title: 'ตั้งเป็นตัวแปรไดนามิก',
-      editTitle: 'แก้ไขตัวแปรไดนามิก',
       variableName: 'ชื่อตัวแปร',
       variableNamePlaceholder: 'variable_name',
-      preview: 'ตัวอย่าง:',
+      preview: 'ตัวอย่าง',
       environment: 'เอนไวรอนเมนต์',
       allEnvironments: 'เอนไวรอนเมนต์ทั้งหมด',
       untitledEnvironment: 'เอนไวรอนเมนต์ที่ไม่มีชื่อ',
@@ -220,7 +219,6 @@ const th = {
       selectEnvironmentError: 'กรุณาเลือกเอนไวรอนเมนต์',
       duplicateWarning: 'มีตัวแปรชื่อนี้อยู่แล้ว ตัวแปรจะถูกเขียนทับ',
       saveVariable: 'บันทึกตัวแปร',
-      updateVariable: 'อัปเดตตัวแปร',
     },
     projectImport: {
       title: 'นำเข้าโปรเจกต์',
@@ -236,6 +234,7 @@ const th = {
       dynamicVariablesCount: 'ตัวแปรไดนามิก ({{count}} ตัวแปร)',
       historyCount: 'ประวัติ ({{count}} รายการ)',
       settingsInfo: 'การตั้งค่า (ธีม, เทสต์เอนจิน, การตั้งค่าประวัติ)',
+      mappingsInfo: 'การแมป (พารามิเตอร์ของบอดีและคิวรี)',
       cannotBeUndone: 'การกระทำนี้ไม่สามารถยกเลิกได้',
       backupBefore: 'สำรองโปรเจกต์ปัจจุบันก่อนนำเข้า:',
       exportedCheck: 'ส่งออกแล้ว ✓',

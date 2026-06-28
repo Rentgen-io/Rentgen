@@ -206,10 +206,9 @@ const tr = {
     },
     setDynamicVariable: {
       title: 'Dinamik Değişken Olarak Ayarla',
-      editTitle: 'Dinamik Değişkeni Düzenle',
       variableName: 'Değişken Adı',
       variableNamePlaceholder: 'degisken_adi',
-      preview: 'Önizleme:',
+      preview: 'Önizleme',
       environment: 'Ortam',
       allEnvironments: 'Tüm Ortamlar',
       untitledEnvironment: 'Adsız Ortam',
@@ -220,7 +219,6 @@ const tr = {
       selectEnvironmentError: 'Lütfen bir ortam seçin',
       duplicateWarning: 'Bu ada sahip bir değişken zaten var. Üzerine yazılacak.',
       saveVariable: 'Değişkeni Kaydet',
-      updateVariable: 'Değişkeni Güncelle',
     },
     projectImport: {
       title: 'Projeyi İçe Aktar',
@@ -236,6 +234,7 @@ const tr = {
       dynamicVariablesCount: 'Dinamik Değişkenler ({{count}} değişken)',
       historyCount: 'Geçmiş ({{count}} kayıt)',
       settingsInfo: 'Ayarlar (tema, test motoru, geçmiş yapılandırması)',
+      mappingsInfo: 'Eşlemeler (gövde ve sorgu parametreleri)',
       cannotBeUndone: 'Bu işlem geri alınamaz.',
       backupBefore: 'İçe aktarmadan önce mevcut projenizi yedekleyin:',
       exportedCheck: 'Dışa Aktarıldı ✓',

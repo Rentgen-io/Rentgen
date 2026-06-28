@@ -1,8 +1,9 @@
-import { Middleware, Action, PayloadAction } from '@reduxjs/toolkit';
-import { DynamicVariable, HttpResponse } from '../../types';
+import { Action, Middleware, PayloadAction } from '@reduxjs/toolkit';
+import { DynamicVariable, HttpResponse, PostmanFolder, PostmanItem, RequestParameters } from '../../types';
 import { extractDynamicVariableFromResponseWithDetails } from '../../utils/dynamicVariable';
 import { environmentActions } from '../slices/environmentSlice';
 import { historyActions } from '../slices/historySlice';
+import { mappingsActions } from '../slices/mappingsSlice';
 
 // History actions that should NOT trigger auto-save (read-only or loading actions)
 const historyReadOnlyActions = [
@@ -11,6 +12,9 @@ const historyReadOnlyActions = [
   'history/load/rejected',
   'history/enforceRetention',
 ];
+
+// Mappings actions that should NOT trigger auto-save (read-only or loading actions)
+const mappingsReadOnlyActions = ['mappings/load/pending', 'mappings/load/fulfilled', 'mappings/load/rejected'];
 
 // Settings actions that should NOT trigger auto-save (read-only or loading actions)
 const settingsReadOnlyActions = ['settings/load/pending', 'settings/load/fulfilled', 'settings/load/rejected'];
@@ -48,15 +52,21 @@ const dynamicVariableActions = [
   'environment/replaceDynamicVariables',
 ];
 
-export const electronMiddleware: Middleware = (store) => (next) => (action: Action) => {
-  const actionType = action.type as string;
+export const electronMiddleware: Middleware = (store) => (next) => (action) => {
+  const actionType = (action as Action).type;
 
   // Gate history collection: skip adding entries when history is disabled
   if (actionType === 'history/addEntry') {
     const state = store.getState();
-    if (!state.settings.general.history.enabled) {
-      return;
-    }
+    if (!state.settings.general.history.enabled) return;
+  }
+
+  // When a folder is removed, also remove mappings for all requests within that folder
+  if (actionType === 'collection/removeFolder') {
+    const folderId = (action as PayloadAction<string>).payload;
+    const folder = store.getState().collection.data.item.find((folder: PostmanFolder) => folder.id === folderId);
+
+    folder?.item.forEach((item: PostmanItem) => store.dispatch(mappingsActions.removeMappings(item.id)));
   }
 
   const result = next(action);
@@ -65,6 +75,10 @@ export const electronMiddleware: Middleware = (store) => (next) => (action: Acti
   if (actionType && actionType.startsWith('collection/') && !collectionReadOnlyActions.includes(actionType)) {
     const state = store.getState();
     window.electronAPI.saveCollection(state.collection.data);
+
+    // When a request is removed, also remove its mappings
+    if (actionType === 'collection/removeRequest')
+      store.dispatch(mappingsActions.removeMappings((action as PayloadAction<string>).payload));
   }
 
   // Auto-save environments after mutation actions (excluding dynamic variable actions)
@@ -73,16 +87,12 @@ export const electronMiddleware: Middleware = (store) => (next) => (action: Acti
     actionType.startsWith('environment/') &&
     !environmentReadOnlyActions.includes(actionType) &&
     !dynamicVariableActions.includes(actionType)
-  ) {
-    const state = store.getState();
-    window.electronAPI.saveEnvironments(state.environment.environments);
-  }
+  )
+    window.electronAPI.saveEnvironments(store.getState().environment.environments);
 
   // Auto-save dynamic variables after their mutation actions
-  if (actionType && dynamicVariableActions.includes(actionType)) {
-    const state = store.getState();
-    window.electronAPI.saveDynamicVariables(state.environment.dynamicVariables);
-  }
+  if (actionType && dynamicVariableActions.includes(actionType))
+    window.electronAPI.saveDynamicVariables(store.getState().environment.dynamicVariables);
 
   // Auto-save history after mutation actions
   if (actionType && actionType.startsWith('history/') && !historyReadOnlyActions.includes(actionType)) {
@@ -94,6 +104,10 @@ export const electronMiddleware: Middleware = (store) => (next) => (action: Acti
     const stateToSave = store.getState();
     window.electronAPI.saveHistory(stateToSave.history.entries);
   }
+
+  // Auto-save mappings after mutation actions
+  if (actionType && actionType.startsWith('mappings/') && !mappingsReadOnlyActions.includes(actionType))
+    window.electronAPI.saveMappings(store.getState().mappings);
 
   // Auto-save settings after mutation actions
   if (actionType && actionType.startsWith('settings/') && !settingsReadOnlyActions.includes(actionType)) {
@@ -112,29 +126,52 @@ export const electronMiddleware: Middleware = (store) => (next) => (action: Acti
   // Auto-update dynamic variables when a response is received
   if (actionType === 'response/setResponse') {
     const state = store.getState();
-    const currentRequestId = state.collection.selectedRequestId;
+    const selectedRequestId = state.collection.selectedRequestId;
 
-    if (currentRequestId) {
-      const dynamicVars = (state.environment.dynamicVariables as DynamicVariable[]).filter(
-        (dv) => dv.requestId === currentRequestId,
-      );
-
+    if (selectedRequestId) {
       const response = (action as PayloadAction<HttpResponse>).payload;
+      const dynamicVariables = state.environment.dynamicVariables as DynamicVariable[];
 
-      for (const dvar of dynamicVars) {
-        const extractionResult = extractDynamicVariableFromResponseWithDetails(dvar, response);
+      for (const dynamicVariable of dynamicVariables) {
+        const previousRequest = dynamicVariable.previousRequests?.find(
+          ({ requestId }) => requestId === selectedRequestId,
+        );
+        if (dynamicVariable.requestId !== selectedRequestId && !previousRequest) continue;
 
-        if (extractionResult.success && extractionResult.value !== null) {
+        const currentDynamicVariable =
+          dynamicVariable.requestId === selectedRequestId
+            ? dynamicVariable
+            : {
+                ...dynamicVariable,
+                selector: previousRequest!.selector,
+                source: previousRequest!.source,
+              };
+        const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(
+          currentDynamicVariable,
+          response,
+        );
+
+        if (extractedDynamicVariables.success && extractedDynamicVariables.value !== null)
           store.dispatch(
             environmentActions.updateDynamicVariableValue({
-              id: dvar.id,
-              value: extractionResult.value,
+              id: currentDynamicVariable.id,
+              value: extractedDynamicVariables.value,
             }),
           );
-        }
         // Note: Extraction failures are tracked in collectionRunResult.warning
       }
     }
+  }
+
+  // Auto-update mappings when body or query parameters are set for a request
+  if (actionType === 'request/setBodyParameters' || actionType === 'request/setQueryParameters') {
+    const parameters = (action as PayloadAction<RequestParameters>).payload;
+    const selectedRequestId = store.getState().collection.selectedRequestId;
+
+    if (selectedRequestId)
+      if (actionType === 'request/setBodyParameters')
+        store.dispatch(mappingsActions.setBodyMappings({ requestId: selectedRequestId, mappings: parameters }));
+      else store.dispatch(mappingsActions.setQueryMappings({ requestId: selectedRequestId, mappings: parameters }));
   }
 
   return result;

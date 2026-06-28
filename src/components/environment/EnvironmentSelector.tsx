@@ -40,7 +40,7 @@ export default function EnvironmentSelector({ className, environments, selectedE
       options={options}
       placeholder={t('environment.selectEnvironment')}
       value={options.find((opt) => opt.value === selectedEnvironmentId) || options[0]}
-      onChange={(option: unknown) => onSelect((option as SelectOption<string | null>).value)}
+      onChange={(option) => onSelect((option as SelectOption<string | null>).value)}
       styles={
         hasColor
           ? {

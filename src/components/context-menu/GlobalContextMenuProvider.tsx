@@ -24,7 +24,7 @@ interface ContextMenuValue extends MenuState {
   showContextMenu: (x: number, y: number, text: string, responsePanelContext?: ResponsePanelContext) => void;
 }
 
-const ContextMenuContext = createContext<ContextMenuValue | undefined>(undefined);
+const ContextMenuContext = createContext<ContextMenuValue>({} as ContextMenuValue);
 
 export const useContextMenu = () => useContext(ContextMenuContext);
 
@@ -33,7 +33,7 @@ export default function GlobalContextMenuProvider({ children }: PropsWithChildre
   const collection = useAppSelector(selectCollectionData);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const { t } = useTranslation();
-  const [htmlElement, setHtmlElement] = useState<HTMLElement>(null);
+  const [htmlElement, setHtmlElement] = useState<HTMLElement | null>(null);
   const [menuState, setMenuState] = useState<MenuState>({
     isOpen: false,
     position: { x: 0, y: 0 },
@@ -111,12 +111,9 @@ export default function GlobalContextMenuProvider({ children }: PropsWithChildre
       uiActions.openSetAsDynamicVariableModal({
         initialSelector: responsePanelContext?.jsonPath || menuState.selectedText,
         initialValue: responsePanelContext?.jsonValue || menuState.selectedText,
-        collectionId: folder.id,
-        requestId: selectedRequestId,
         collectionName: folder.name,
+        requestId: selectedRequestId,
         requestName: request.name,
-        editingVariableId: null,
-        editingVariableName: null,
         source: responsePanelContext?.source || 'body',
       }),
     );

@@ -292,7 +292,7 @@ function getAllJsonValuePositions(jsonString: string, sourceObject: object): Jso
 }
 
 interface Props {
-  source: string | object;
+  source?: string | object | null;
   className?: string;
   responsePanelContext?: ResponsePanelContext;
   showVariableButtons?: boolean;
@@ -306,7 +306,7 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
   const isDark = theme === 'dark';
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const responsePanelContextRef = useRef<ResponsePanelContext | undefined>(responsePanelContext);
-  const sourceRef = useRef<string | object>(source);
+  const sourceRef = useRef<string | object | null>(source);
   const widgetsRef = useRef<Map<string, monaco.editor.IContentWidget>>(new Map());
   const widgetDomNodesRef = useRef<Map<string, HTMLButtonElement>>(new Map());
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
@@ -349,9 +349,7 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
         e.preventDefault();
         e.stopPropagation();
         const valueStr = stringifyExtractedValue(position.value);
-        if (valueStr !== null && onSetVariableRef.current) {
-          onSetVariableRef.current(position.path, valueStr);
-        }
+        if (valueStr !== null && onSetVariableRef.current) onSetVariableRef.current(position.path, valueStr);
       };
 
       const widgetId = `plus-${position.line}-${position.endColumn}`;
@@ -384,7 +382,7 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
   // Create widgets when showVariableButtons is enabled
   useEffect(() => {
     const editor = editorRef.current;
-    if (!editor || !showVariableButtons || typeof source !== 'object') {
+    if (!editor || !showVariableButtons || typeof source !== 'object' || source === null) {
       disposeAllWidgets();
       return;
     }

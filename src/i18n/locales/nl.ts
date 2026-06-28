@@ -207,10 +207,9 @@ const nl = {
     },
     setDynamicVariable: {
       title: 'Instellen als dynamische variabele',
-      editTitle: 'Dynamische variabele bewerken',
       variableName: 'Naam variabele',
       variableNamePlaceholder: 'variabele_naam',
-      preview: 'Voorbeeld:',
+      preview: 'Voorbeeld',
       environment: 'Omgeving',
       allEnvironments: 'Alle omgevingen',
       untitledEnvironment: 'Naamloze omgeving',
@@ -221,7 +220,6 @@ const nl = {
       selectEnvironmentError: 'Selecteer een omgeving',
       duplicateWarning: 'Er bestaat al een variabele met deze naam. Deze wordt overschreven.',
       saveVariable: 'Variabele opslaan',
-      updateVariable: 'Variabele bijwerken',
     },
     projectImport: {
       title: 'Project importeren',
@@ -237,6 +235,7 @@ const nl = {
       dynamicVariablesCount: 'Dynamische variabelen ({{count}} variabelen)',
       historyCount: 'Geschiedenis ({{count}} items)',
       settingsInfo: 'Instellingen (thema, testengine, geschiedenisconfiguratie)',
+      mappingsInfo: 'Toewijzingen (body- en queryparameters)',
       cannotBeUndone: 'Deze actie kan niet ongedaan worden gemaakt.',
       backupBefore: 'Maak een back-up van je huidige project voordat je importeert:',
       exportedCheck: 'Geëxporteerd ✓',

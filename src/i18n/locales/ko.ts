@@ -206,10 +206,9 @@ const ko = {
     },
     setDynamicVariable: {
       title: '동적 변수로 설정',
-      editTitle: '동적 변수 편집',
       variableName: '변수 이름',
       variableNamePlaceholder: 'variable_name',
-      preview: '미리보기:',
+      preview: '미리보기',
       environment: '환경',
       allEnvironments: '모든 환경',
       untitledEnvironment: '제목 없는 환경',
@@ -220,7 +219,6 @@ const ko = {
       selectEnvironmentError: '환경을 선택해 주세요',
       duplicateWarning: '같은 이름의 변수가 이미 있습니다. 덮어쓰여집니다.',
       saveVariable: '변수 저장',
-      updateVariable: '변수 업데이트',
     },
     projectImport: {
       title: '프로젝트 가져오기',
@@ -236,6 +234,7 @@ const ko = {
       dynamicVariablesCount: '동적 변수 (변수 {{count}}개)',
       historyCount: '기록 (항목 {{count}}개)',
       settingsInfo: '설정 (테마, 테스트 엔진, 기록 구성)',
+      mappingsInfo: '매핑 (본문 및 쿼리 파라미터)',
       cannotBeUndone: '이 작업은 되돌릴 수 없습니다.',
       backupBefore: '가져오기 전에 현재 프로젝트를 백업하세요:',
       exportedCheck: '내보냈음 ✓',

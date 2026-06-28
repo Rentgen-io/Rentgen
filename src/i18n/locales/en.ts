@@ -206,10 +206,9 @@ const en = {
     },
     setDynamicVariable: {
       title: 'Set as Dynamic Variable',
-      editTitle: 'Edit Dynamic Variable',
       variableName: 'Variable Name',
       variableNamePlaceholder: 'variable_name',
-      preview: 'Preview:',
+      preview: 'Preview',
       environment: 'Environment',
       allEnvironments: 'All Environments',
       untitledEnvironment: 'Untitled Environment',
@@ -220,7 +219,6 @@ const en = {
       selectEnvironmentError: 'Please select an environment',
       duplicateWarning: 'A variable with this name already exists. It will be overwritten.',
       saveVariable: 'Save Variable',
-      updateVariable: 'Update Variable',
     },
     projectImport: {
       title: 'Import Project',
@@ -236,6 +234,7 @@ const en = {
       dynamicVariablesCount: 'Dynamic Variables ({{count}} variables)',
       historyCount: 'History ({{count}} entries)',
       settingsInfo: 'Settings (theme, test engine, history config)',
+      mappingsInfo: 'Mappings (body & query parameters)',
       cannotBeUndone: 'This action cannot be undone.',
       backupBefore: 'Back up your current project before importing:',
       exportedCheck: 'Exported ✓',

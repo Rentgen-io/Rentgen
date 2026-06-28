@@ -207,10 +207,9 @@ const ja = {
     },
     setDynamicVariable: {
       title: '動的バリアブルとして設定',
-      editTitle: '動的バリアブルを編集',
       variableName: 'バリアブル名',
       variableNamePlaceholder: 'variable_name',
-      preview: 'プレビュー:',
+      preview: 'プレビュー',
       environment: '環境',
       allEnvironments: 'すべての環境',
       untitledEnvironment: '無題の環境',
@@ -221,7 +220,6 @@ const ja = {
       selectEnvironmentError: '環境を選択してください',
       duplicateWarning: 'この名前のバリアブルはすでに存在します。上書きされます。',
       saveVariable: 'バリアブルを保存',
-      updateVariable: 'バリアブルを更新',
     },
     projectImport: {
       title: 'プロジェクトをインポート',
@@ -237,6 +235,7 @@ const ja = {
       dynamicVariablesCount: '動的バリアブル ({{count}} 件のバリアブル)',
       historyCount: '履歴 ({{count}} 件のエントリ)',
       settingsInfo: '設定 (テーマ、テストエンジン、履歴設定)',
+      mappingsInfo: 'マッピング (ボディおよびクエリパラメータ)',
       cannotBeUndone: 'この操作は取り消せません。',
       backupBefore: 'インポート前に現在のプロジェクトをバックアップしてください:',
       exportedCheck: 'エクスポート済み ✓',

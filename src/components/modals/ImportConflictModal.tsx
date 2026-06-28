@@ -38,7 +38,7 @@ export default function ImportConflictModal() {
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       <div className="flex flex-col gap-4">
-        <h2 className="text-lg font-bold text-text dark:text-dark-text m-0">{t('modals.importConflict.title')}</h2>
+        <h4 className="m-0">{t('modals.importConflict.title')}</h4>
 
         <div className="text-sm text-text-secondary dark:text-dark-text-secondary">
           <p className="m-0 mb-2">
@@ -71,7 +71,7 @@ export default function ImportConflictModal() {
         <div className="flex flex-col gap-3 mt-2">
           {/* Replace Option */}
           <div className="p-3 border border-border dark:border-dark-border rounded-md">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-4">
               <div>
                 <h4 className="m-0 text-sm font-bold text-text dark:text-dark-text">{t('common.replace')}</h4>
                 <p className="m-0 text-xs text-text-secondary dark:text-dark-text-secondary">
@@ -89,7 +89,7 @@ export default function ImportConflictModal() {
 
           {/* Merge Option */}
           <div className="p-3 border border-border dark:border-dark-border rounded-md">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-4">
               <div>
                 <h4 className="m-0 text-sm font-bold text-text dark:text-dark-text">{t('common.merge')}</h4>
                 <p className="m-0 text-xs text-text-secondary dark:text-dark-text-secondary">
@@ -115,7 +115,7 @@ export default function ImportConflictModal() {
 
           {/* Import as Copy Option */}
           <div className="p-3 border border-border dark:border-dark-border rounded-md">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-4">
               <div>
                 <h4 className="m-0 text-sm font-bold text-text dark:text-dark-text">
                   {t('modals.importConflict.importAsCopy')}
@@ -134,7 +134,7 @@ export default function ImportConflictModal() {
           </div>
         </div>
 
-        <div className="flex justify-end mt-2">
+        <div className="flex justify-end">
           <Button buttonType={ButtonType.SECONDARY} onClick={handleClose}>
             {t('common.cancel')}
           </Button>

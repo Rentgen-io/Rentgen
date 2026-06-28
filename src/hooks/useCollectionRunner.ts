@@ -1,6 +1,11 @@
 import { useCallback, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectCollectionData, selectDynamicVariables, selectSelectedEnvironment } from '../store/selectors';
+import {
+  selectCollectionData,
+  selectDynamicVariables,
+  selectMappings,
+  selectSelectedEnvironment,
+} from '../store/selectors';
 import { collectionRunActions } from '../store/slices/collectionRunSlice';
 import { environmentActions } from '../store/slices/environmentSlice';
 import { DynamicVariable, ExtractionFailure, HttpResponse, PostmanItem } from '../types';
@@ -22,6 +27,7 @@ export function useCollectionRunner() {
   const dispatch = useAppDispatch();
   const collection = useAppSelector(selectCollectionData);
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
+  const mappings = useAppSelector(selectMappings);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
   const dynamicVariablesRef = useRef<DynamicVariable[]>(dynamicVariables);
   dynamicVariablesRef.current = dynamicVariables;
@@ -55,7 +61,7 @@ export function useCollectionRunner() {
 
       dispatch(collectionRunActions.finishRun());
     },
-    [collection, selectedEnvironment, dispatch],
+    [collection, mappings, selectedEnvironment, dispatch],
   );
 
   const runRequest = useCallback(
@@ -67,7 +73,7 @@ export function useCollectionRunner() {
       await executeRequest(item);
       dispatch(collectionRunActions.finishRequestRun());
     },
-    [collection, selectedEnvironment],
+    [collection, mappings, selectedEnvironment, dispatch],
   );
 
   const executeRequest = useCallback(
@@ -100,37 +106,66 @@ export function useCollectionRunner() {
         let queryParameters = {};
 
         if (status >= 200 && status < 300) {
-          bodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
-          queryParameters = Object.fromEntries(
+          const extractedBodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
+          const mappedBodyParameters = mappings[item.id]?.body || {};
+
+          bodyParameters = Object.fromEntries(
+            Object.keys(extractedBodyParameters).map((key) => [
+              key,
+              key in mappedBodyParameters ? mappedBodyParameters[key] : extractedBodyParameters[key],
+            ]),
+          );
+
+          const extractedQueryParameters = Object.fromEntries(
             Object.entries(extractQueryParameters(request.url)).map(([key, value]) => [
               key,
               getInitialParameterValue(detectDataType(value), value),
             ]),
           );
+          const mappedQueryParameters = mappings[item.id]?.query || {};
+
+          queryParameters = Object.fromEntries(
+            Object.keys(extractedQueryParameters).map((key) => [
+              key,
+              key in mappedQueryParameters ? mappedQueryParameters[key] : extractedQueryParameters[key],
+            ]),
+          );
         }
 
         // Extract and update dynamic variables for this request
-        const requestDynamicVars = dynamicVariablesRef.current.filter((dv) => dv.requestId === item.id);
         const extractionFailures: ExtractionFailure[] = [];
 
-        for (const dvar of requestDynamicVars) {
-          const extractionResult = extractDynamicVariableFromResponseWithDetails(dvar, response);
+        for (const dynamicVariable of dynamicVariablesRef.current) {
+          const previousRequest = dynamicVariable.previousRequests?.find(({ requestId }) => requestId === item.id);
+          if (dynamicVariable.requestId !== item.id && !previousRequest) continue;
 
-          if (extractionResult.success && extractionResult.value !== null) {
+          const currentDynamicVariable =
+            dynamicVariable.requestId === item.id
+              ? dynamicVariable
+              : {
+                  ...dynamicVariable,
+                  selector: previousRequest!.selector,
+                  source: previousRequest!.source,
+                };
+          const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(
+            currentDynamicVariable,
+            response,
+          );
+
+          if (extractedDynamicVariables.success && extractedDynamicVariables.value !== null)
             dispatch(
               environmentActions.updateDynamicVariableValue({
-                id: dvar.id,
-                value: extractionResult.value,
+                id: currentDynamicVariable.id,
+                value: extractedDynamicVariables.value,
               }),
             );
-          } else {
+          else
             extractionFailures.push({
-              variableName: dvar.key,
-              selector: dvar.selector,
-              source: dvar.source,
-              reason: extractionResult.error || 'unknown error',
+              variableName: currentDynamicVariable.key,
+              selector: currentDynamicVariable.selector,
+              source: currentDynamicVariable.source,
+              reason: extractedDynamicVariables.error || 'unknown error',
             });
-          }
         }
 
         // Build warning message if any extractions failed
@@ -140,7 +175,7 @@ export function useCollectionRunner() {
             const f = extractionFailures[0];
             warning = `Failed to extract {{${f.variableName}}}: ${f.reason}`;
           } else {
-            const details = extractionFailures.map((f) => `{{${f.variableName}}})`).join(', ');
+            const details = extractionFailures.map((f) => `{{${f.variableName}}}`).join(', ');
             warning = `Failed to extract: ${details}`;
           }
         }
@@ -170,7 +205,7 @@ export function useCollectionRunner() {
         );
       }
     },
-    [selectedEnvironment, dispatch],
+    [mappings, selectedEnvironment, dispatch],
   );
 
   const cancelRun = useCallback(() => {

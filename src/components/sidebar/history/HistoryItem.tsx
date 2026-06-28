@@ -56,7 +56,7 @@ export default function HistoryItem({ entry, searchTerm }: Props) {
       <span className="text-xs text-text-secondary dark:text-dark-text-secondary shrink-0">{time}</span>
       <div className="absolute top-0 bottom-0 right-0 pl-2 pr-3 flex items-center bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100">
         <ClearCrossIcon
-          className="h-4.5 w-4.5 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+          className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
           onClick={(event: MouseEvent) => {
             event.stopPropagation();
             dispatch(historyActions.removeEntry(entry.id));

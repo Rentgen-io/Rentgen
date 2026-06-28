@@ -31,13 +31,15 @@ function generateDynamicVariableId(): string {
   return `dvar_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 }
 
-export const loadEnvironments = createAsyncThunk('environment/load', async () => {
-  return await window.electronAPI.loadEnvironments();
-});
+export const loadEnvironments = createAsyncThunk(
+  'environment/load',
+  async () => await window.electronAPI.loadEnvironments(),
+);
 
-export const loadDynamicVariables = createAsyncThunk('environment/loadDynamicVariables', async () => {
-  return await window.electronAPI.loadDynamicVariables();
-});
+export const loadDynamicVariables = createAsyncThunk(
+  'environment/loadDynamicVariables',
+  async () => await window.electronAPI.loadDynamicVariables(),
+);
 
 export const environmentSlice = createSlice({
   name: 'environment',
@@ -127,20 +129,13 @@ export const environmentSlice = createSlice({
     },
 
     // Dynamic Variables CRUD actions
-    addDynamicVariable: (
-      state,
-      action: PayloadAction<
-        Omit<DynamicVariable, 'id' | 'currentValue' | 'lastUpdated'> & { initialValue?: string | null }
-      >,
-    ) => {
-      const { initialValue, ...rest } = action.payload;
-      const newVariable: DynamicVariable = {
-        ...rest,
+    addDynamicVariable: (state, action: PayloadAction<Omit<DynamicVariable, 'id' | 'lastUpdated'>>) => {
+      state.dynamicVariables.push({
+        ...action.payload,
         id: generateDynamicVariableId(),
-        currentValue: initialValue || null,
-        lastUpdated: initialValue ? Date.now() : null,
-      };
-      state.dynamicVariables.push(newVariable);
+        lastUpdated: Date.now(),
+        previousRequests: [],
+      });
     },
     updateDynamicVariable: (
       state,
@@ -162,9 +157,6 @@ export const environmentSlice = createSlice({
         variable.currentValue = value;
         variable.lastUpdated = Date.now();
       }
-    },
-    setDynamicVariables: (state, action: PayloadAction<DynamicVariable[]>) => {
-      state.dynamicVariables = action.payload;
     },
     replaceDynamicVariables: (state, action: PayloadAction<DynamicVariable[]>) => {
       state.dynamicVariables = action.payload;

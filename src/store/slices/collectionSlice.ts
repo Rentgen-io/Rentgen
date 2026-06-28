@@ -34,9 +34,10 @@ const initialState: CollectionState = {
   error: null,
 };
 
-export const loadCollection = createAsyncThunk('collection/load', async () => {
-  return await window.electronAPI.loadCollection();
-});
+export const loadCollection = createAsyncThunk(
+  'collection/load',
+  async () => await window.electronAPI.loadCollection(),
+);
 
 export const collectionSlice = createSlice({
   name: 'collection',

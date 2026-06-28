@@ -206,10 +206,9 @@ const id = {
     },
     setDynamicVariable: {
       title: 'Tetapkan sebagai Variabel Dinamis',
-      editTitle: 'Edit Variabel Dinamis',
       variableName: 'Nama Variabel',
       variableNamePlaceholder: 'nama_variabel',
-      preview: 'Pratinjau:',
+      preview: 'Pratinjau',
       environment: 'Lingkungan',
       allEnvironments: 'Semua Lingkungan',
       untitledEnvironment: 'Lingkungan Tanpa Judul',
@@ -220,7 +219,6 @@ const id = {
       selectEnvironmentError: 'Mohon pilih lingkungan',
       duplicateWarning: 'Variabel dengan nama ini sudah ada. Akan ditimpa.',
       saveVariable: 'Simpan Variabel',
-      updateVariable: 'Perbarui Variabel',
     },
     projectImport: {
       title: 'Impor Proyek',
@@ -236,6 +234,7 @@ const id = {
       dynamicVariablesCount: 'Variabel Dinamis ({{count}} variabel)',
       historyCount: 'Riwayat ({{count}} entri)',
       settingsInfo: 'Pengaturan (tema, mesin tes, konfigurasi riwayat)',
+      mappingsInfo: 'Pemetaan (parameter body dan query)',
       cannotBeUndone: 'Tindakan ini tidak dapat dibatalkan.',
       backupBefore: 'Cadangkan proyek Anda saat ini sebelum mengimpor:',
       exportedCheck: 'Diekspor ✓',

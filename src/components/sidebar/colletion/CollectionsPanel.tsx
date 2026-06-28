@@ -178,9 +178,9 @@ export default function CollectionsPanel() {
 
   return (
     <>
-      <div className="flex items-center justify-between px-3 py-2 border-b border-border dark:border-dark-border gap-2">
+      <div className="flex items-center justify-between border-b border-border dark:border-dark-border gap-2">
         <div
-          className="flex items-center gap-2 hover:bg-button-secondary dark:hover:bg-dark-input cursor-pointer rounded px-1 py-0.5 h-6.5 w-full"
+          className="flex items-center gap-2 w-full px-3 py-2 hover:bg-button-secondary dark:hover:bg-dark-input cursor-pointer outline-none"
           onClick={() => dispatch(collectionActions.addFolder('New Folder'))}
           title={t('collections.newFolder')}
         >
@@ -189,14 +189,14 @@ export default function CollectionsPanel() {
             {t('collections.newFolder')}
           </span>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 pe-2">
           <ImportIcon
-            className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary hover:text-button-primary cursor-pointer transition-colors"
+            className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary hover:text-button-primary cursor-pointer"
             onClick={handleImport}
             title={t('collections.importCollection')}
           />
           <ExportIcon
-            className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary hover:text-button-primary cursor-pointer transition-colors"
+            className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary hover:text-button-primary cursor-pointer"
             onClick={handleExport}
             title={t('collections.exportCollection')}
           />

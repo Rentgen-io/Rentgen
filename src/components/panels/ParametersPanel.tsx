@@ -15,7 +15,7 @@ export default function ParametersPanel({ title, parameters, onChange, ...otherP
           <span className="flex-1 min-w-1/5 mb-2 font-monospace truncate" title={key}>
             {key}
           </span>
-          <ParameterControls dynamicValue={value} onChange={(value) => onChange({ ...parameters, [key]: value })} />
+          <ParameterControls parameterValue={value} onChange={(value) => onChange({ ...parameters, [key]: value })} />
         </div>
       ))}
     </Panel>

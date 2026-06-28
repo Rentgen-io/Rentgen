@@ -137,9 +137,9 @@ export default function CollectionItem({ item, searchTerm }: Props) {
         <span
           title={runResult.warning || undefined}
           className={cn('w-2 h-2 rounded-full shrink-0', {
-            'bg-yellow-500': runResult.warning && runResult.status >= 200 && runResult.status < 400,
-            'bg-green-500': !runResult.warning && runResult.status >= 200 && runResult.status < 400,
-            'bg-orange-500': runResult.status >= 400 && runResult.status < 500,
+            'bg-yellow-500': runResult.warning && runResult.status && runResult.status >= 200 && runResult.status < 400,
+            'bg-green-500': !runResult.warning && runResult.status && runResult.status >= 200 && runResult.status < 400,
+            'bg-orange-500': runResult.status && runResult.status >= 400 && runResult.status < 500,
             'bg-red-500': !runResult.status || runResult.status < 200 || runResult.status >= 500,
           })}
         />
@@ -185,7 +185,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
               onClick={() => setIsEditing(true)}
             />
             <ClearCrossIcon
-              className="h-4.5 w-4.5 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+              className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
               onClick={(event: MouseEvent) => {
                 event.stopPropagation();
                 dispatch(collectionActions.removeRequest(item.id));

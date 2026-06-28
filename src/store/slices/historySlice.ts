@@ -26,9 +26,7 @@ const initialState: HistoryState = {
   error: null,
 };
 
-export const loadHistory = createAsyncThunk('history/load', async () => {
-  return await window.electronAPI.loadHistory();
-});
+export const loadHistory = createAsyncThunk('history/load', async () => await window.electronAPI.loadHistory());
 
 export const historySlice = createSlice({
   name: 'history',

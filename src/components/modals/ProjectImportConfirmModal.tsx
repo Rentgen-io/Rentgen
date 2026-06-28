@@ -5,12 +5,13 @@ import { selectProjectImportConfirmModal } from '../../store/selectors';
 import { collectionActions } from '../../store/slices/collectionSlice';
 import { environmentActions } from '../../store/slices/environmentSlice';
 import { historyActions } from '../../store/slices/historySlice';
+import { mappingsActions, MappingsState } from '../../store/slices/mappingsSlice';
 import { settingsActions, SettingsState } from '../../store/slices/settingsSlice';
 import { uiActions } from '../../store/slices/uiSlice';
 import { HistoryEntry } from '../../types/history';
 import IntegrityBadge from '../badges/IntegrityBadge';
-import Modal from './Modal';
 import Button, { ButtonSize, ButtonType } from '../buttons/Button';
+import ConfirmationModal from './ConfirmationModal';
 
 function formatDate(isoString: string): string {
   try {
@@ -34,35 +35,28 @@ export default function ProjectImportConfirmModal() {
   const dynamicVariableCount = data.dynamicVariables?.length ?? 0;
   const historyCount = data.history?.length ?? 0;
 
-  const handleClose = () => {
-    dispatch(uiActions.closeProjectImportConfirmModal());
-  };
-
-  const handleExportFirst = async () => {
-    const result = await window.electronAPI.exportProject();
-    if (result) {
-      setExported(true);
-    }
-  };
-
-  const handleConfirmImport = () => {
-    dispatch(collectionActions.setCollection(data.collection));
-    dispatch(environmentActions.setEnvironments(data.environments));
-    dispatch(environmentActions.replaceDynamicVariables(data.dynamicVariables));
-    dispatch(historyActions.setEntries(data.history as HistoryEntry[]));
-    dispatch(settingsActions.replaceSettings(data.settings as unknown as SettingsState));
-    dispatch(uiActions.closeProjectImportConfirmModal());
-
-    dispatch(collectionActions.selectRequest(null));
-    dispatch(collectionActions.selectFolder('default'));
-    dispatch(environmentActions.selectEnvironment(null));
-  };
-
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
-      <div className="flex flex-col gap-4">
-        <h4 className="m-0">{t('modals.projectImport.title')}</h4>
+    <ConfirmationModal
+      className="[&>div]:w-150!"
+      confirmText={t('modals.projectImport.importProject')}
+      title={t('modals.projectImport.title')}
+      isOpen={isOpen}
+      onClose={() => dispatch(uiActions.closeProjectImportConfirmModal())}
+      onConfirm={() => {
+        dispatch(collectionActions.setCollection(data.collection));
+        dispatch(environmentActions.setEnvironments(data.environments));
+        dispatch(environmentActions.replaceDynamicVariables(data.dynamicVariables));
+        dispatch(historyActions.setEntries(data.history as HistoryEntry[]));
+        dispatch(settingsActions.replaceSettings(data.settings as unknown as SettingsState));
+        dispatch(mappingsActions.replaceMappings(data.mappings ? (data.mappings as MappingsState) : {}));
+        dispatch(uiActions.closeProjectImportConfirmModal());
 
+        dispatch(collectionActions.selectRequest(null));
+        dispatch(collectionActions.selectFolder('default'));
+        dispatch(environmentActions.selectEnvironment(null));
+      }}
+    >
+      <>
         <div className="flex flex-col gap-2 text-xs text-text-secondary dark:text-dark-text-secondary">
           <div className="flex justify-between">
             <span>{t('modals.projectImport.file')}</span>
@@ -100,13 +94,14 @@ export default function ProjectImportConfirmModal() {
             <li>{t('modals.projectImport.dynamicVariablesCount', { count: dynamicVariableCount })}</li>
             <li>{t('modals.projectImport.historyCount', { count: historyCount })}</li>
             <li>{t('modals.projectImport.settingsInfo')}</li>
+            <li>{t('modals.projectImport.mappingsInfo')}</li>
           </ul>
           <p className="m-0 mt-2 text-xs text-red-700 dark:text-red-400 font-medium">
             {t('modals.projectImport.cannotBeUndone')}
           </p>
         </div>
 
-        <div className="flex items-center gap-2 pb-6">
+        <div className="flex items-center gap-4">
           <span className="text-xs text-text-secondary dark:text-dark-text-secondary">
             {t('modals.projectImport.backupBefore')}
           </span>
@@ -115,21 +110,19 @@ export default function ProjectImportConfirmModal() {
               {t('modals.projectImport.exportedCheck')}
             </span>
           ) : (
-            <Button buttonType={ButtonType.SECONDARY} buttonSize={ButtonSize.SMALL} onClick={handleExportFirst}>
+            <Button
+              buttonType={ButtonType.SECONDARY}
+              buttonSize={ButtonSize.SMALL}
+              onClick={async () => {
+                const result = await window.electronAPI.exportProject();
+                if (result.success) setExported(true);
+              }}
+            >
               {t('modals.projectImport.exportCurrentProject')}
             </Button>
           )}
         </div>
-
-        <div className="flex items-center justify-end gap-4">
-          <Button buttonType={ButtonType.DANGER} onClick={handleConfirmImport}>
-            {t('modals.projectImport.importProject')}
-          </Button>
-          <Button buttonType={ButtonType.SECONDARY} onClick={handleClose}>
-            {t('common.cancel')}
-          </Button>
-        </div>
-      </div>
-    </Modal>
+      </>
+    </ConfirmationModal>
   );
 }

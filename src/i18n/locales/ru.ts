@@ -206,10 +206,9 @@ const ru = {
     },
     setDynamicVariable: {
       title: 'Назначить как динамическую переменную',
-      editTitle: 'Редактировать динамическую переменную',
       variableName: 'Имя переменной',
       variableNamePlaceholder: 'variable_name',
-      preview: 'Предпросмотр:',
+      preview: 'Предпросмотр',
       environment: 'Окружение',
       allEnvironments: 'Все окружения',
       untitledEnvironment: 'Окружение без названия',
@@ -220,7 +219,6 @@ const ru = {
       selectEnvironmentError: 'Пожалуйста, выберите окружение',
       duplicateWarning: 'Переменная с таким именем уже существует. Она будет перезаписана.',
       saveVariable: 'Сохранить переменную',
-      updateVariable: 'Обновить переменную',
     },
     projectImport: {
       title: 'Импорт проекта',
@@ -236,6 +234,7 @@ const ru = {
       dynamicVariablesCount: 'Динамические переменные ({{count}} переменных)',
       historyCount: 'История ({{count}} записей)',
       settingsInfo: 'Настройки (тема, движок тестов, настройки истории)',
+      mappingsInfo: 'Сопоставления (параметры тела и запроса)',
       cannotBeUndone: 'Это действие нельзя отменить.',
       backupBefore: 'Сделайте резервную копию текущего проекта перед импортом:',
       exportedCheck: 'Экспортировано ✓',

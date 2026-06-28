@@ -32,12 +32,9 @@ interface SetAsDynamicVariableModalState {
   isOpen: boolean;
   initialSelector: string;
   initialValue: string;
-  collectionId: string;
   requestId: string;
   collectionName: string;
   requestName: string;
-  editingVariableId: string | null;
-  editingVariableName: string | null;
   source: 'body' | 'header';
 }
 
@@ -97,12 +94,9 @@ const initialState: UIState = {
     isOpen: false,
     initialSelector: '',
     initialValue: '',
-    collectionId: '',
-    requestId: '',
     collectionName: '',
+    requestId: '',
     requestName: '',
-    editingVariableId: null,
-    editingVariableName: null,
     source: 'body',
   },
   projectImportConfirmModal: {
@@ -186,12 +180,9 @@ export const uiSlice = createSlice({
         isOpen: false,
         initialSelector: '',
         initialValue: '',
-        collectionId: '',
-        requestId: '',
         collectionName: '',
+        requestId: '',
         requestName: '',
-        editingVariableId: null,
-        editingVariableName: null,
         source: 'body',
       };
     },

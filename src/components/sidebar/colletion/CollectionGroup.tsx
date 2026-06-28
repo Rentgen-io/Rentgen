@@ -61,8 +61,8 @@ export default function CollectionGroup({
     if (itemResults.length === 0) return null;
 
     const hasRed = itemResults.some((r) => !r.status || r.status < 200 || r.status >= 500);
-    const hasOrange = itemResults.some((r) => r.status >= 400 && r.status < 500);
-    const hasYellow = itemResults.some((r) => r.warning && r.status >= 200 && r.status < 400);
+    const hasOrange = itemResults.some((r) => r.status && r.status >= 400 && r.status < 500);
+    const hasYellow = itemResults.some((r) => r.warning && r.status && r.status >= 200 && r.status < 400);
 
     if (hasRed) return 'red';
     if (hasOrange) return 'orange';
@@ -198,7 +198,7 @@ export default function CollectionGroup({
 
           {!isEditing && (
             <ClearCrossIcon
-              className="h-4.5 w-4.5 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+              className="h-4 w-4 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
               onClick={handleDeleteClick}
             />
           )}

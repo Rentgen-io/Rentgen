@@ -206,10 +206,9 @@ const hi = {
     },
     setDynamicVariable: {
       title: 'डायनामिक वैरिएबल के रूप में सेट करें',
-      editTitle: 'डायनामिक वैरिएबल संपादित करें',
       variableName: 'वैरिएबल का नाम',
       variableNamePlaceholder: 'variable_name',
-      preview: 'प्रीव्यू:',
+      preview: 'प्रीव्यू',
       environment: 'एनवायरनमेंट',
       allEnvironments: 'सभी एनवायरनमेंट',
       untitledEnvironment: 'बिना शीर्षक एनवायरनमेंट',
@@ -220,7 +219,6 @@ const hi = {
       selectEnvironmentError: 'कृपया एक एनवायरनमेंट चुनें',
       duplicateWarning: 'इस नाम का वैरिएबल पहले से मौजूद है। इसे अधिलेखित किया जाएगा।',
       saveVariable: 'वैरिएबल सहेजें',
-      updateVariable: 'वैरिएबल अपडेट करें',
     },
     projectImport: {
       title: 'प्रोजेक्ट आयात करें',
@@ -236,6 +234,7 @@ const hi = {
       dynamicVariablesCount: 'डायनामिक वैरिएबल ({{count}} वैरिएबल)',
       historyCount: 'इतिहास ({{count}} प्रविष्टियाँ)',
       settingsInfo: 'सेटिंग्स (थीम, टेस्ट इंजन, इतिहास कॉन्फ़िगरेशन)',
+      mappingsInfo: 'मैपिंग्स (बॉडी और क्वेरी पैरामीटर)',
       cannotBeUndone: 'यह क्रिया वापस नहीं की जा सकती।',
       backupBefore: 'आयात करने से पहले अपने मौजूदा प्रोजेक्ट का बैकअप लें:',
       exportedCheck: 'निर्यात किया गया ✓',

@@ -205,10 +205,9 @@ const zhCN = {
     },
     setDynamicVariable: {
       title: '设为动态变量',
-      editTitle: '编辑动态变量',
       variableName: '变量名',
       variableNamePlaceholder: 'variable_name',
-      preview: '预览：',
+      preview: '预览',
       environment: '环境',
       allEnvironments: '所有环境',
       untitledEnvironment: '未命名环境',
@@ -219,7 +218,6 @@ const zhCN = {
       selectEnvironmentError: '请选择一个环境',
       duplicateWarning: '已存在同名变量。它将被覆盖。',
       saveVariable: '保存变量',
-      updateVariable: '更新变量',
     },
     projectImport: {
       title: '导入项目',
@@ -234,6 +232,7 @@ const zhCN = {
       dynamicVariablesCount: '动态变量（{{count}} 个变量）',
       historyCount: '历史（{{count}} 条记录）',
       settingsInfo: '设置（主题、测试引擎、历史配置）',
+      mappingsInfo: '映射（请求体和查询参数）',
       cannotBeUndone: '此操作无法撤销。',
       backupBefore: '导入前请先备份你当前的项目：',
       exportedCheck: '已导出 ✓',

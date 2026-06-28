@@ -206,10 +206,9 @@ const vi = {
     },
     setDynamicVariable: {
       title: 'Đặt làm biến động',
-      editTitle: 'Chỉnh sửa biến động',
       variableName: 'Tên biến',
       variableNamePlaceholder: 'tên_biến',
-      preview: 'Xem trước:',
+      preview: 'Xem trước',
       environment: 'Môi trường',
       allEnvironments: 'Tất cả môi trường',
       untitledEnvironment: 'Môi trường không có tiêu đề',
@@ -220,7 +219,6 @@ const vi = {
       selectEnvironmentError: 'Vui lòng chọn một môi trường',
       duplicateWarning: 'Một biến với tên này đã tồn tại. Nó sẽ bị ghi đè.',
       saveVariable: 'Lưu biến',
-      updateVariable: 'Cập nhật biến',
     },
     projectImport: {
       title: 'Nhập dự án',
@@ -236,6 +234,7 @@ const vi = {
       dynamicVariablesCount: 'Biến động ({{count}} biến)',
       historyCount: 'Lịch sử ({{count}} mục)',
       settingsInfo: 'Cài đặt (giao diện, công cụ kiểm thử, cấu hình lịch sử)',
+      mappingsInfo: 'Ánh xạ (tham số body và query)',
       cannotBeUndone: 'Không thể hoàn tác hành động này.',
       backupBefore: 'Sao lưu dự án hiện tại của bạn trước khi nhập:',
       exportedCheck: 'Đã xuất ✓',

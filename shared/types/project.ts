@@ -1,5 +1,5 @@
-import { PostmanCollection } from './postman';
 import { DynamicVariable, Environment } from './environment';
+import { PostmanCollection } from './postman';
 
 /** Data payload inside a .rentgen export file. `history` and `settings`
  *  are opaque to shared consumers (the CLI does not interpret them). The
@@ -10,6 +10,7 @@ export interface ProjectData {
   dynamicVariables: DynamicVariable[];
   history: unknown[];
   settings: Record<string, unknown>;
+  mappings: Record<string, unknown>;
 }
 
 /** Metadata header of a .rentgen export file */

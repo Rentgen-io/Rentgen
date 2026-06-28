@@ -207,10 +207,9 @@ const pl = {
     },
     setDynamicVariable: {
       title: 'Ustaw jako zmienną dynamiczną',
-      editTitle: 'Edytuj zmienną dynamiczną',
       variableName: 'Nazwa zmiennej',
       variableNamePlaceholder: 'nazwa_zmiennej',
-      preview: 'Podgląd:',
+      preview: 'Podgląd',
       environment: 'Środowisko',
       allEnvironments: 'Wszystkie środowiska',
       untitledEnvironment: 'Środowisko bez nazwy',
@@ -221,7 +220,6 @@ const pl = {
       selectEnvironmentError: 'Proszę wybrać środowisko',
       duplicateWarning: 'Zmienna o tej nazwie już istnieje. Zostanie nadpisana.',
       saveVariable: 'Zapisz zmienną',
-      updateVariable: 'Zaktualizuj zmienną',
     },
     projectImport: {
       title: 'Importuj projekt',
@@ -237,6 +235,7 @@ const pl = {
       dynamicVariablesCount: 'Zmienne dynamiczne ({{count}} zmiennych)',
       historyCount: 'Historia ({{count}} wpisów)',
       settingsInfo: 'Ustawienia (motyw, silnik testów, konfiguracja historii)',
+      mappingsInfo: 'Mapowania (parametry body i query)',
       cannotBeUndone: 'Tej akcji nie można cofnąć.',
       backupBefore: 'Wykonaj kopię zapasową obecnego projektu przed importem:',
       exportedCheck: 'Wyeksportowano ✓',

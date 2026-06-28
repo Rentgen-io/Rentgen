@@ -207,10 +207,9 @@ const de = {
     },
     setDynamicVariable: {
       title: 'Als dynamische Variable festlegen',
-      editTitle: 'Dynamische Variable bearbeiten',
       variableName: 'Variablenname',
       variableNamePlaceholder: 'variablen_name',
-      preview: 'Vorschau:',
+      preview: 'Vorschau',
       environment: 'Umgebung',
       allEnvironments: 'Alle Umgebungen',
       untitledEnvironment: 'Umgebung ohne Titel',
@@ -221,7 +220,6 @@ const de = {
       selectEnvironmentError: 'Bitte wählen Sie eine Umgebung aus',
       duplicateWarning: 'Eine Variable mit diesem Namen existiert bereits. Sie wird überschrieben.',
       saveVariable: 'Variable speichern',
-      updateVariable: 'Variable aktualisieren',
     },
     projectImport: {
       title: 'Projekt importieren',
@@ -237,6 +235,7 @@ const de = {
       dynamicVariablesCount: 'Dynamische Variablen ({{count}} Variablen)',
       historyCount: 'Verlauf ({{count}} Einträge)',
       settingsInfo: 'Einstellungen (Design, Test-Engine, Verlaufskonfiguration)',
+      mappingsInfo: 'Zuordnungen (Body- und Abfrageparameter)',
       cannotBeUndone: 'Diese Aktion kann nicht rückgängig gemacht werden.',
       backupBefore: 'Sichern Sie Ihr aktuelles Projekt vor dem Import:',
       exportedCheck: 'Exportiert ✓',

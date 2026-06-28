@@ -206,10 +206,9 @@ const lt = {
     },
     setDynamicVariable: {
       title: 'Nustatyti kaip dinaminį kintamąjį',
-      editTitle: 'Redaguoti dinaminį kintamąjį',
       variableName: 'Kintamojo pavadinimas',
       variableNamePlaceholder: 'kintamojo_pavadinimas',
-      preview: 'Peržiūra:',
+      preview: 'Peržiūra',
       environment: 'Aplinka',
       allEnvironments: 'Visos aplinkos',
       untitledEnvironment: 'Aplinka be pavadinimo',
@@ -220,7 +219,6 @@ const lt = {
       selectEnvironmentError: 'Prašome pasirinkti aplinką',
       duplicateWarning: 'Kintamasis su šiuo pavadinimu jau egzistuoja. Jis bus perrašytas.',
       saveVariable: 'Išsaugoti kintamąjį',
-      updateVariable: 'Atnaujinti kintamąjį',
     },
     projectImport: {
       title: 'Importuoti projektą',
@@ -236,6 +234,7 @@ const lt = {
       dynamicVariablesCount: 'Dinaminiai kintamieji ({{count}} kintamųjų)',
       historyCount: 'Istorija ({{count}} įrašų)',
       settingsInfo: 'Nustatymai (tema, testų variklis, istorijos konfigūracija)',
+      mappingsInfo: 'Susiejimai (turinio ir užklausos parametrai)',
       cannotBeUndone: 'Šio veiksmo negalima atšaukti.',
       backupBefore: 'Prieš importuodami sukurkite atsarginę kopiją:',
       exportedCheck: 'Eksportuota ✓',

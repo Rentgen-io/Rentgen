@@ -2,12 +2,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectDynamicVariables, selectEnvironments, selectSetAsDynamicVariableModal } from '../../store/selectors';
-import { uiActions } from '../../store/slices/uiSlice';
 import { environmentActions } from '../../store/slices/environmentSlice';
-import Modal from './Modal';
+import { uiActions } from '../../store/slices/uiSlice';
+import { DynamicVariable } from '../../types';
+import { ButtonType } from '../buttons/Button';
 import Input from '../inputs/Input';
 import Select from '../inputs/Select';
-import Button, { ButtonType } from '../buttons/Button';
+import ConfirmationModal from './ConfirmationModal';
 
 const ALL_ENVIRONMENTS_VALUE = 'all';
 
@@ -33,27 +34,20 @@ export default function SetAsDynamicVariableModal() {
   const [name, setName] = useState('');
   const [selector, setSelector] = useState('');
   const [selectedEnvironment, setSelectedEnvironment] = useState<EnvironmentOption | null>(null);
-  const [duplicateToOverwrite, setDuplicateToOverwrite] = useState<string | null>(null); // ID of dynamic var to overwrite
+  const [duplicateToOverwrite, setDuplicateToOverwrite] = useState<DynamicVariable | null>(null);
   const [error, setError] = useState('');
   const { t } = useTranslation();
-
-  const isEditing = !!modalState.editingVariableId;
 
   // Reset form when modal opens
   useEffect(() => {
     if (modalState.isOpen) {
-      // When editing, use the existing variable name
-      if (modalState.editingVariableName) {
-        setName(modalState.editingVariableName);
-      } else {
-        setName(sanitizeToVariableName(modalState.initialSelector));
-      }
+      setName(sanitizeToVariableName(modalState.initialSelector));
       setSelector(modalState.initialSelector);
       setSelectedEnvironment({ value: ALL_ENVIRONMENTS_VALUE, label: t('modals.setDynamicVariable.allEnvironments') });
       setDuplicateToOverwrite(null);
       setError('');
     }
-  }, [modalState.isOpen, modalState.initialSelector, modalState.editingVariableName]);
+  }, [modalState.isOpen, modalState.initialSelector]);
 
   const environmentOptions: EnvironmentOption[] = useMemo(() => {
     const options: EnvironmentOption[] = [
@@ -65,44 +59,27 @@ export default function SetAsDynamicVariableModal() {
     return options;
   }, [environments]);
 
-  const handleClose = () => {
-    dispatch(uiActions.closeSetAsDynamicVariableModal());
-  };
-
-  // Check for existing dynamic variable with same name and return its ID for overwriting
-  const findDuplicateDynamicVariable = (): string | null => {
-    const sanitizedName = name.trim();
+  const findDuplicateDynamicVariable = (): DynamicVariable | null => {
     if (!selectedEnvironment) return null;
 
-    // When editing and name hasn't changed, no duplicate
-    if (isEditing && sanitizedName === modalState.editingVariableName) {
-      return null;
-    }
-
+    const sanitizedName = name.trim();
     const envId = selectedEnvironment.value === ALL_ENVIRONMENTS_VALUE ? null : selectedEnvironment.value;
-
-    // Find existing dynamic variable with same name (excluding the one being edited)
-    const existingDynamic = dynamicVariables.find((dv) => {
-      if (isEditing && dv.id === modalState.editingVariableId) return false;
-      // Match if either is global (null) or same environment
+    const existingDynamicVariable = dynamicVariables.find((dv) => {
       if (envId !== null && dv.environmentId !== null && dv.environmentId !== envId) return false;
       return dv.key === sanitizedName;
     });
 
-    return existingDynamic?.id || null;
+    return existingDynamicVariable || null;
   };
 
-  const handleSave = () => {
+  const onConfirm = () => {
     const sanitizedName = name.trim();
-    const sanitizedSelector = selector.trim();
-
-    // Validation
     if (!sanitizedName) {
       setError(t('modals.setDynamicVariable.variableNameRequired'));
       return;
     }
 
-    if (!sanitizedSelector) {
+    if (!selector) {
       setError(t('modals.setDynamicVariable.selectorRequired'));
       return;
     }
@@ -113,71 +90,66 @@ export default function SetAsDynamicVariableModal() {
     }
 
     const envId = selectedEnvironment.value === ALL_ENVIRONMENTS_VALUE ? null : selectedEnvironment.value;
+    const existingDynamicVariable = findDuplicateDynamicVariable();
 
-    // Check for existing variable to overwrite
-    const existingId = findDuplicateDynamicVariable();
-    if (existingId && !duplicateToOverwrite) {
-      // Show overwrite message and set the ID to overwrite on next save
-      setDuplicateToOverwrite(existingId);
+    if (existingDynamicVariable && !duplicateToOverwrite) {
+      setDuplicateToOverwrite(existingDynamicVariable);
       return;
     }
 
-    if (isEditing && modalState.editingVariableId) {
-      // Update existing dynamic variable
-      dispatch(
-        environmentActions.updateDynamicVariable({
-          id: modalState.editingVariableId,
-          updates: {
-            key: sanitizedName,
-            selector: sanitizedSelector,
-            source: modalState.source,
-            environmentId: envId,
-          },
-        }),
+    if (duplicateToOverwrite) {
+      const previousRequests = (duplicateToOverwrite.previousRequests ?? []).filter(
+        ({ requestId }) => requestId !== modalState.requestId && requestId !== duplicateToOverwrite.requestId,
       );
-    } else if (duplicateToOverwrite) {
-      // Overwrite existing dynamic variable
+      if (modalState.requestId !== duplicateToOverwrite.requestId)
+        previousRequests.push({
+          requestId: duplicateToOverwrite.requestId,
+          selector: duplicateToOverwrite.selector,
+          source: duplicateToOverwrite.source,
+        });
+
       dispatch(
         environmentActions.updateDynamicVariable({
-          id: duplicateToOverwrite,
+          id: duplicateToOverwrite.id,
           updates: {
             key: sanitizedName,
-            selector: sanitizedSelector,
+            selector,
             source: modalState.source,
-            collectionId: modalState.collectionId,
             requestId: modalState.requestId,
             environmentId: envId,
             currentValue: modalState.initialValue || null,
             lastUpdated: modalState.initialValue ? Date.now() : null,
+            previousRequests,
           },
         }),
       );
     } else {
-      // Save new dynamic variable
       dispatch(
         environmentActions.addDynamicVariable({
           key: sanitizedName,
-          selector: sanitizedSelector,
+          selector,
           source: modalState.source,
-          collectionId: modalState.collectionId,
           requestId: modalState.requestId,
           environmentId: envId,
-          initialValue: modalState.initialValue || null,
+          currentValue: modalState.initialValue || null,
         }),
       );
     }
 
-    handleClose();
+    dispatch(uiActions.closeSetAsDynamicVariableModal());
   };
 
   return (
-    <Modal isOpen={modalState.isOpen} onClose={handleClose}>
-      <div className="flex flex-col gap-4 min-w-100">
-        <h2 className="text-lg font-bold text-text dark:text-dark-text m-0">
-          {isEditing ? t('modals.setDynamicVariable.editTitle') : t('modals.setDynamicVariable.title')}
-        </h2>
-
-        {/* Variable Name */}
+    <ConfirmationModal
+      className="[&>div]:w-150!"
+      confirmText={duplicateToOverwrite ? t('common.overwrite') : t('modals.setDynamicVariable.saveVariable')}
+      title={t('modals.setDynamicVariable.title')}
+      isOpen={modalState.isOpen}
+      confirmType={ButtonType.PRIMARY}
+      onClose={() => dispatch(uiActions.closeSetAsDynamicVariableModal())}
+      onConfirm={onConfirm}
+    >
+      <>
         <div className="flex flex-col gap-1">
           <label className="text-xs text-text dark:text-dark-text">{t('modals.setDynamicVariable.variableName')}</label>
           <Input
@@ -192,20 +164,15 @@ export default function SetAsDynamicVariableModal() {
           />
         </div>
 
-        {/* Selector */}
         <div className="flex flex-col gap-1">
-          {modalState.initialValue && (
-            <p className="text-xs text-text-secondary dark:text-dark-text-secondary m-0">
-              {t('modals.setDynamicVariable.preview')} &quot;
-              {modalState.initialValue.length > 50
-                ? modalState.initialValue.substring(0, 47) + '...'
-                : modalState.initialValue}
-              &quot;
-            </p>
-          )}
+          <label className="text-xs text-text dark:text-dark-text">{t('modals.setDynamicVariable.preview')}</label>
+          <div className="px-3 py-2 bg-body dark:bg-dark-body rounded-md text-sm text-text-secondary dark:text-dark-text-secondary">
+            {modalState.initialValue.length > 50
+              ? modalState.initialValue.substring(0, 47) + '...'
+              : modalState.initialValue}
+          </div>
         </div>
 
-        {/* Environment */}
         <div className="flex flex-col gap-1">
           <label className="text-xs text-text dark:text-dark-text">{t('modals.setDynamicVariable.environment')}</label>
           <Select
@@ -220,7 +187,6 @@ export default function SetAsDynamicVariableModal() {
           />
         </div>
 
-        {/* Linked Request (read-only) */}
         <div className="flex flex-col gap-1">
           <label className="text-xs text-text dark:text-dark-text">
             {t('modals.setDynamicVariable.linkedRequest')}
@@ -238,20 +204,7 @@ export default function SetAsDynamicVariableModal() {
             {t('modals.setDynamicVariable.duplicateWarning')}
           </p>
         )}
-
-        <div className="flex justify-end gap-2 mt-2">
-          <Button buttonType={ButtonType.SECONDARY} onClick={handleClose}>
-            {t('common.cancel')}
-          </Button>
-          <Button onClick={handleSave}>
-            {duplicateToOverwrite
-              ? t('common.overwrite')
-              : isEditing
-                ? t('modals.setDynamicVariable.updateVariable')
-                : t('modals.setDynamicVariable.saveVariable')}
-          </Button>
-        </div>
-      </div>
-    </Modal>
+      </>
+    </ConfirmationModal>
   );
 }

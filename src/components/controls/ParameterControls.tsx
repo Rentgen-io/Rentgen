@@ -1,11 +1,11 @@
-import cn from 'classnames';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../store/hooks';
 import { selectTestEngineConfiguration } from '../../store/selectors';
 import { isParameterTestSkipped } from '../../tests';
-import { DataType, DynamicValue, Interval } from '../../types';
+import { DataType, Interval, ParameterValue } from '../../types';
 import { clamp, getInitialParameterValue, normalizeDecimal } from '../../utils';
+import { IconButton } from '../buttons/IconButton';
 import Input from '../inputs/Input';
 import { SelectOption } from '../inputs/Select';
 import SimpleSelect from '../inputs/SimpleSelect';
@@ -17,11 +17,11 @@ const MAX_INT32 = 2147483647;
 const TRAILING_ZEROS_PATTERN = /^-?\d+[.,]0+$/;
 
 interface Props {
-  dynamicValue: DynamicValue;
-  onChange: (value: DynamicValue) => void;
+  parameterValue: ParameterValue;
+  onChange: (value: ParameterValue) => void;
 }
 
-export function ParameterControls({ dynamicValue, onChange }: Props) {
+export function ParameterControls({ parameterValue, onChange }: Props) {
   const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
   const { t } = useTranslation();
 
@@ -42,7 +42,7 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
     { value: 'string', label: t('parameterTypes.string') },
     { value: 'url', label: t('parameterTypes.url') },
   ];
-  const { mandatory, type, value } = dynamicValue;
+  const { mandatory, type, value } = parameterValue;
   const inputClassName = 'w-full p-[5px] rounded-none dark:border-border/20';
 
   return (
@@ -53,7 +53,7 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
           <Input
             className={inputClassName}
             value={value as string}
-            onChange={(event) => onChange({ ...dynamicValue, value: event.target.value })}
+            onChange={(event) => onChange({ ...parameterValue, value: event.target.value })}
           />
         )}
         {(type === 'number' || type === 'numeric_string') && (
@@ -107,19 +107,18 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
             value={type}
             onChange={onSelectTypeChange}
           />
-          <ClearCrossIcon
-            className={cn(
-              'h-4.5 w-4.5 shrink-0 text-button-text-secondary hover:text-button-text-secondary-hover',
-              'dark:text-text-secondary dark:hover:text-dark-text cursor-pointer',
-            )}
-            onClick={() => onChange({ type: 'do-not-test', value: '', mandatory: false })}
-          />
           <Toggle
             checked={mandatory}
             disabled={isParameterTestSkipped(type)}
             title={!isParameterTestSkipped(type) ? t('controls.mandatoryToggle') : undefined}
-            onChange={(e) => onChange({ ...dynamicValue, mandatory: e.target.checked })}
+            onChange={(e) => onChange({ ...parameterValue, mandatory: e.target.checked })}
           />
+          <IconButton
+            className="h-7 w-7 shrink-0"
+            onClick={() => onChange({ type: 'do-not-test', value: '', mandatory: false })}
+          >
+            <ClearCrossIcon className="h-4 w-4" />
+          </IconButton>
         </div>
       </div>
     </div>
@@ -150,7 +149,7 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
     const max = (value as Interval).max;
 
     onChange({
-      ...dynamicValue,
+      ...parameterValue,
       value: { ...(value as Interval), min: Math.min(min ?? minValue, max) },
     });
   }
@@ -160,33 +159,33 @@ export function ParameterControls({ dynamicValue, onChange }: Props) {
     const max = (value as Interval).max;
 
     onChange({
-      ...dynamicValue,
+      ...parameterValue,
       value: { ...(value as Interval), max: Math.max(min, max ?? maxValue) },
     });
   }
 
   function onMinChange(value: string, minValue: number, maxValue: number) {
     if (!value) {
-      onChange({ ...dynamicValue, value: { ...(dynamicValue.value as Interval), min: null } });
+      onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), min: null } });
       return;
     }
 
     let min = clamp(Number(value), minValue, maxValue);
     if (TRAILING_ZEROS_PATTERN.test(value) && min !== null) min += 0.001; // to preserve trailing zeros in decimals
 
-    onChange({ ...dynamicValue, value: { ...(dynamicValue.value as Interval), min } });
+    onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), min } });
   }
 
   function onMaxChange(value: string, minValue: number, maxValue: number) {
     if (!value) {
-      onChange({ ...dynamicValue, value: { ...(dynamicValue.value as Interval), max: null } });
+      onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), max: null } });
       return;
     }
 
     let max = clamp(Number(value), minValue, maxValue);
     if (TRAILING_ZEROS_PATTERN.test(value) && max !== null) max += 0.001; // to preserve trailing zeros in decimals
 
-    onChange({ ...dynamicValue, value: { ...(dynamicValue.value as Interval), max } });
+    onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), max } });
   }
 
   function onSelectTypeChange(event: ChangeEvent<HTMLSelectElement>) {

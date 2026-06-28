@@ -1,6 +1,6 @@
 import { Method } from 'axios';
 import { store } from '../store';
-import { DataType, DynamicValue, HttpRequest, HttpResponse, RequestParameters, TestOptions } from '../types';
+import { DataType, HttpRequest, HttpResponse, ParameterValue, RequestParameters, TestOptions } from '../types';
 import { isObject, setDeepObjectProperty, stringifyValue, tryParseJsonObject } from './object';
 import { encodeMessage } from './proto';
 import { generateRandomValue } from './random';
@@ -145,7 +145,7 @@ export function extractBodyFromResponse(response: HttpResponse): Record<string, 
   return response?.body ?? '';
 }
 
-export function extractStatusCode(response: HttpResponse): number {
+export function extractStatusCode(response: HttpResponse | null): number {
   const status = (response?.status || '').toString();
   const parsedStatus = parseInt(status.split(' ')[0] || '0', 10);
   return Number.isFinite(parsedStatus) ? parsedStatus : 0;
@@ -192,26 +192,26 @@ export function getBodyParameterValue(body: unknown, parameterName: string, head
   return value;
 }
 
-export function getInitialParameterValue(type: DataType, value = '', mandatory = true): DynamicValue {
-  const dynamicValue: DynamicValue = { mandatory, type, value };
+export function getInitialParameterValue(type: DataType, value = '', mandatory = true): ParameterValue {
+  const parameterValue: ParameterValue = { mandatory, type, value };
   const settings = store.getState().settings.testEngine.configuration;
 
   switch (type) {
     case 'enum':
-      return { ...dynamicValue, value: settings.enum };
+      return { ...parameterValue, value: settings.enum };
     case 'number':
     case 'numeric_string':
-      return { ...dynamicValue, value: settings.number };
+      return { ...parameterValue, value: settings.number };
     case 'string':
       return {
-        ...dynamicValue,
+        ...parameterValue,
         value: {
           min: settings.string.minLength,
           max: settings.string.maxLength,
         },
       };
     default:
-      return dynamicValue;
+      return parameterValue;
   }
 }
 
@@ -226,8 +226,8 @@ export function isUrlEncodedContentTypeString(value: string): boolean {
 export function parseBody(
   body: string | null,
   headers: Record<string, string>,
-  messageType: string,
-  protoFile: File | null,
+  messageType: string | null = null,
+  protoFile: File | null = null,
 ): any {
   if (isUrlEncodedContentType(headers)) return convertFormEntriesToUrlEncoded(parseFormData(body));
 

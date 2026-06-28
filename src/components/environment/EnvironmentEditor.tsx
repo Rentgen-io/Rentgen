@@ -1,20 +1,13 @@
 import cn from 'classnames';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import {
-  selectCollectionData,
-  selectDynamicVariables,
-  selectSelectedEnvironmentId,
-  selectTheme,
-} from '../../store/selectors';
+import { selectDynamicVariables, selectSelectedEnvironmentId, selectTheme } from '../../store/selectors';
 import { environmentActions } from '../../store/slices/environmentSlice';
 import { DataType, DynamicVariable, Environment, EnvironmentVariable } from '../../types';
 import { generateEnvironmentId } from '../../utils';
-import { findRequestWithFolder } from '../../utils/collection';
-import { extractMultipleDynamicVariablesFromResponse } from '../../utils/dynamicVariable';
-import { useTranslation } from 'react-i18next';
-import Button, { ButtonType } from '../buttons/Button';
+import Button from '../buttons/Button';
 import Input from '../inputs/Input';
 import Select, { SelectOption } from '../inputs/Select';
 import Panel from '../panels/Panel';
@@ -31,7 +24,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const collection = useAppSelector(selectCollectionData);
   const allDynamicVariables = useAppSelector(selectDynamicVariables);
   const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
   const theme = useAppSelector(selectTheme);
@@ -53,17 +45,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
       ...variables.map((variable, index) => ({ ...variable, type: 'static', index })),
     ];
   }, [dynamicVariables, variables]);
-
-  const nameColumnWidth = useMemo(() => {
-    const CHAR_WIDTH = 7.2;
-    const PADDING = 32;
-    const MIN_CHARS = 13;
-    const MAX_CHARS = 30;
-
-    const longestName = Math.max(MIN_CHARS, ...allVariables.map((v) => v.key.length));
-    const cappedLength = Math.min(longestName, MAX_CHARS);
-    return `${Math.ceil(cappedLength * CHAR_WIDTH + PADDING)}px`;
-  }, [allVariables]);
 
   const isDark = theme === 'dark';
 
@@ -104,11 +85,8 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
     return () => clearTimeout(timeoutId);
   }, [title, color, variables, isNew, environment, onSave]);
 
-  // Cleanup on unmount
   useEffect(() => {
-    return () => {
-      clearTimeout(savedTimeoutRef.current);
-    };
+    return () => clearTimeout(savedTimeoutRef.current);
   }, []);
 
   useEffect(() => {
@@ -145,7 +123,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
   const handleSave = () => {
     const nonEmptyVariables = variables.filter((v) => v.key.trim() !== '');
-
     const savedEnvironment: Environment = {
       id: environment?.id || generateEnvironmentId(),
       title: title.trim() || t('environment.untitled'),
@@ -162,93 +139,27 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
     }
   };
 
-  // Dynamic variable handlers
   const handleDynamicVariableKeyChange = useCallback(
     (dv: DynamicVariable, newKey: string) => {
-      if (newKey.trim() === '') {
-        // Delete by clearing name
-        dispatch(environmentActions.removeDynamicVariable({ id: dv.id }));
-      } else {
+      if (newKey.trim() === '') dispatch(environmentActions.removeDynamicVariable({ id: dv.id }));
+      else
         dispatch(
           environmentActions.updateDynamicVariable({
             id: dv.id,
             updates: { key: newKey },
           }),
         );
-      }
+
+      clearTimeout(savedTimeoutRef.current);
+      setSaved(true);
+      savedTimeoutRef.current = setTimeout(() => setSaved(false), 1000);
     },
     [dispatch],
   );
 
-  const handleRefreshDynamicVariable = useCallback(
-    async (dv: DynamicVariable) => {
-      const result = findRequestWithFolder(collection, dv.requestId);
-      if (!result) return;
-
-      try {
-        const response = await window.electronAPI.sendHttp({
-          method: result.request.request.method,
-          url: result.request.request.url,
-          headers: Object.fromEntries((result.request.request.header || []).map((h) => [h.key, h.value])),
-          body: result.request.request.body?.raw || null,
-        });
-
-        const extractedValues = extractMultipleDynamicVariablesFromResponse([dv], response);
-        for (const [variableId, value] of extractedValues) {
-          dispatch(
-            environmentActions.updateDynamicVariableValue({
-              id: variableId,
-              value,
-            }),
-          );
-        }
-      } catch (error) {
-        console.error('Failed to refresh dynamic variable:', error);
-      }
-    },
-    [collection, dispatch],
-  );
-
-  const handleRefreshAllDynamicVariables = useCallback(async () => {
-    // Group variables by request to avoid duplicate HTTP calls
-    const variablesByRequest = new Map<string, DynamicVariable[]>();
-    for (const dv of dynamicVariables) {
-      const existing = variablesByRequest.get(dv.requestId) || [];
-      existing.push(dv);
-      variablesByRequest.set(dv.requestId, existing);
-    }
-
-    for (const [requestId, vars] of variablesByRequest) {
-      const result = findRequestWithFolder(collection, requestId);
-      if (!result) continue;
-
-      try {
-        const response = await window.electronAPI.sendHttp({
-          method: result.request.request.method,
-          url: result.request.request.url,
-          headers: Object.fromEntries((result.request.request.header || []).map((h) => [h.key, h.value])),
-          body: result.request.request.body?.raw || null,
-        });
-
-        const extractedValues = extractMultipleDynamicVariablesFromResponse(vars, response);
-        for (const [variableId, value] of extractedValues) {
-          dispatch(
-            environmentActions.updateDynamicVariableValue({
-              id: variableId,
-              value,
-            }),
-          );
-        }
-      } catch (error) {
-        console.error('Failed to refresh dynamic variables:', error);
-      }
-    }
-  }, [dynamicVariables, collection, dispatch]);
-
   return (
     <Panel title={isNew ? t('environment.newEnvironment') : t('environment.editEnvironment')}>
       <div className="p-4 border-t border-border dark:border-dark-body">
-        {/* Title Input */}
         <div className="mb-4">
           <label className="block mb-1 font-bold text-sm">{t('environment.environmentName')}</label>
           <Input
@@ -259,7 +170,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           />
         </div>
 
-        {/* Color Picker */}
         <div className="mb-4">
           <label className="block mb-1 font-bold text-sm">{t('environment.color')}</label>
           <div className="flex items-center gap-2">
@@ -275,7 +185,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                 type="button"
               />
             ))}
-            {/* Custom color input */}
             <input
               className="w-10 h-8 cursor-pointer border-0 p-0 rounded-md"
               type="color"
@@ -285,7 +194,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           </div>
         </div>
 
-        {/* Variables Table */}
         <div className="mb-4">
           <label className="block mb-1 font-bold text-sm">{t('environment.variables')}</label>
           <div className="border border-border dark:border-dark-body rounded-md overflow-hidden">
@@ -294,8 +202,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
               columns={[
                 {
                   name: t('environment.variableName'),
-                  grow: 0,
-                  width: nameColumnWidth,
                   cell: (row) => (
                     <Input
                       className="w-full border-0 bg-transparent"
@@ -332,32 +238,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                       </span>
                     );
                   },
-                },
-                {
-                  name: '',
-                  cell: (row) => {
-                    if (row.type === 'static') return null;
-
-                    return (
-                      <button
-                        className="p-1 hover:bg-body dark:hover:bg-dark-body rounded text-text-secondary hover:text-text dark:text-dark-text-secondary dark:hover:text-dark-text"
-                        onClick={() => handleRefreshDynamicVariable(row as DynamicVariable)}
-                        title={t('environment.refreshValue')}
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                          />
-                        </svg>
-                      </button>
-                    );
-                  },
-                  grow: 0,
-                  width: '50px',
-                  style: { justifyContent: 'center' },
                 },
               ]}
               customStyles={{
@@ -411,26 +291,15 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
               fixedHeader={true}
               fixedHeaderScrollHeight="440px"
             />
-
-            {/* Footer with Refresh All button */}
-            {dynamicVariables.length > 0 && (
-              <div className="flex justify-end p-2 border-t border-border dark:border-dark-body bg-body dark:bg-dark-body">
-                <Button buttonType={ButtonType.SECONDARY} onClick={handleRefreshAllDynamicVariables}>
-                  {t('environment.refreshAll')}
-                </Button>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Action Buttons - only show Create for new environments */}
         {isNew && (
           <div className="flex items-center justify-end gap-2">
             <Button onClick={handleSave}>{t('common.create')}</Button>
           </div>
         )}
 
-        {/* Saved indicator for existing environments */}
         {!isNew && saved && (
           <div className="flex items-center justify-end">
             <span className="text-xs text-green-500">{t('common.saved')}</span>
