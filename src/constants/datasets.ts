@@ -1,6 +1,8 @@
 import { TestData } from '../types';
 import { appConfig } from './appConfig';
 
+export const MAX_INT32 = 9007199254740991;
+
 export const getDatasets = (emailDomain: string = appConfig.domain): Record<string, TestData[]> => ({
   email: [
     { value: `email@${emailDomain}`, valid: true },

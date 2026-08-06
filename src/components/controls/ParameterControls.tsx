@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { MAX_INT32 } from '../../constants/datasets';
 import { useAppSelector } from '../../store/hooks';
 import { selectTestEngineConfiguration } from '../../store/selectors';
 import { isParameterTestSkipped } from '../../tests';
@@ -13,7 +14,6 @@ import Toggle from '../inputs/Toggle';
 
 import ClearCrossIcon from '../../assets/icons/clear-cross-icon.svg';
 
-const MAX_INT32 = 2147483647;
 const TRAILING_ZEROS_PATTERN = /^-?\d+[.,]0+$/;
 
 interface Props {

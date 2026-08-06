@@ -162,6 +162,7 @@ const methodOptions: SelectOption<Method>[] = [
   { value: 'PATCH', label: 'PATCH', className: 'text-method-patch! dark:text-dark-method-patch!' },
   { value: 'DELETE', label: 'DELETE', className: 'text-method-delete! dark:text-dark-method-delete!' },
   { value: 'HEAD', label: 'HEAD', className: 'text-method-head! dark:text-dark-method-head!' },
+  { value: 'QUERY', label: 'QUERY', className: 'text-method-query! dark:text-dark-method-query!' },
   { value: 'OPTIONS', label: 'OPTIONS', className: 'text-method-options! dark:text-dark-method-options!' },
 ];
 
