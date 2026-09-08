@@ -50,7 +50,7 @@ export default function FollowModal() {
           <Button buttonType={ButtonType.SECONDARY} onClick={() => onClose(new Date(Date.now() + WEEK_MS))}>
             {t('modals.follow.later')}
           </Button>
-          <Button buttonType={ButtonType.DANGER} onClick={() => onClose()}>
+          <Button buttonType={ButtonType.SECONDARY} onClick={() => onClose()}>
             {t('modals.follow.neverAskAgain')}
           </Button>
         </div>
