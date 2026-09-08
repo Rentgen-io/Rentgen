@@ -244,6 +244,15 @@ const es = {
       exportCurrentProject: 'Exportar proyecto actual',
       importProject: 'Importar proyecto',
     },
+    follow: {
+      title: 'Posible error detectado',
+      message: 'Se ha detectado un posible error: puede que Rentgen te haya ayudado a descubrir un problema real.',
+      followUs:
+        '¿Te gusta Rentgen? Síguenos en LinkedIn para ideas de pruebas, nuevas funciones y novedades de cada versión.',
+      followOnLinkedIn: 'Seguir en LinkedIn',
+      later: 'Más tarde',
+      neverAskAgain: 'No volver a preguntar',
+    },
   },
 
   // Settings

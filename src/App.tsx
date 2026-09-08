@@ -21,6 +21,7 @@ import Toggle from './components/inputs/Toggle';
 import Loader from './components/loaders/Loader';
 import TestRunningLoader from './components/loaders/TestRunningLoader';
 import ConfirmationModal from './components/modals/ConfirmationModal';
+import FollowModal from './components/modals/FollowModal';
 import ImportConflictModal from './components/modals/ImportConflictModal';
 import Modal from './components/modals/Modal';
 import ProjectImportConfirmModal from './components/modals/ProjectImportConfirmModal';
@@ -1511,6 +1512,7 @@ export default function App() {
       <ImportConflictModal />
       <ProjectImportConfirmModal />
       <SettingsModal />
+      <FollowModal />
     </div>
   );
 }

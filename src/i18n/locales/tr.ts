@@ -242,6 +242,15 @@ const tr = {
       exportCurrentProject: 'Mevcut Projeyi Dışa Aktar',
       importProject: 'Projeyi İçe Aktar',
     },
+    follow: {
+      title: 'Olası Hata Tespit Edildi',
+      message: 'Olası bir hata tespit edildi - Rentgen gerçek bir sorunu keşfetmenize yardımcı olmuş olabilir.',
+      followUs:
+        "Rentgen'i beğendiniz mi? Test fikirleri, yeni özellikler ve sürüm güncellemeleri için bizi LinkedIn'de takip edin.",
+      followOnLinkedIn: "LinkedIn'de Takip Et",
+      later: 'Daha Sonra',
+      neverAskAgain: 'Bir Daha Sorma',
+    },
   },
 
   // Settings

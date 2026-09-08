@@ -243,6 +243,15 @@ const nl = {
       exportCurrentProject: 'Huidig project exporteren',
       importProject: 'Project importeren',
     },
+    follow: {
+      title: 'Mogelijke bug gedetecteerd',
+      message:
+        'Er is een mogelijke bug gedetecteerd - Rentgen heeft je misschien geholpen een echt probleem te ontdekken.',
+      followUs: 'Bevalt Rentgen? Volg ons op LinkedIn voor testideeën, nieuwe functies en release-updates.',
+      followOnLinkedIn: 'Volgen op LinkedIn',
+      later: 'Later',
+      neverAskAgain: 'Niet meer vragen',
+    },
   },
 
   // Settings

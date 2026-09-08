@@ -242,6 +242,14 @@ const th = {
       exportCurrentProject: 'ส่งออกโปรเจกต์ปัจจุบัน',
       importProject: 'นำเข้าโปรเจกต์',
     },
+    follow: {
+      title: 'ตรวจพบบั๊กที่เป็นไปได้',
+      message: 'ตรวจพบบั๊กที่เป็นไปได้ - Rentgen อาจช่วยให้คุณค้นพบปัญหาจริง',
+      followUs: 'ชอบ Rentgen ไหม? ติดตามเราบน LinkedIn เพื่อรับไอเดียการทดสอบ ฟีเจอร์ใหม่ และอัปเดตเวอร์ชัน',
+      followOnLinkedIn: 'ติดตามบน LinkedIn',
+      later: 'ภายหลัง',
+      neverAskAgain: 'ไม่ต้องถามอีก',
+    },
   },
 
   // Settings

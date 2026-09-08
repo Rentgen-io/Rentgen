@@ -242,6 +242,14 @@ const id = {
       exportCurrentProject: 'Ekspor Proyek Saat Ini',
       importProject: 'Impor Proyek',
     },
+    follow: {
+      title: 'Potensi Bug Terdeteksi',
+      message: 'Potensi bug terdeteksi - Rentgen mungkin telah membantu Anda menemukan masalah nyata.',
+      followUs: 'Menikmati Rentgen? Ikuti kami di LinkedIn untuk ide pengujian, fitur baru, dan pembaruan rilis.',
+      followOnLinkedIn: 'Ikuti di LinkedIn',
+      later: 'Nanti',
+      neverAskAgain: 'Jangan Tanya Lagi',
+    },
   },
 
   // Settings

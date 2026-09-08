@@ -242,6 +242,14 @@ const lt = {
       exportCurrentProject: 'Eksportuoti dabartinį projektą',
       importProject: 'Importuoti projektą',
     },
+    follow: {
+      title: 'Aptikta galima klaida',
+      message: 'Aptikta galima klaida - Rentgen galbūt padėjo jums rasti tikrą problemą.',
+      followUs: 'Patinka Rentgen? Sekite mus LinkedIn dėl testavimo idėjų, naujų funkcijų ir laidų naujienų.',
+      followOnLinkedIn: 'Sekti LinkedIn',
+      later: 'Vėliau',
+      neverAskAgain: 'Daugiau neklausti',
+    },
   },
 
   // Settings

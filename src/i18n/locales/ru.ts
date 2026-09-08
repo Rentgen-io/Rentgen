@@ -242,6 +242,15 @@ const ru = {
       exportCurrentProject: 'Экспортировать текущий проект',
       importProject: 'Импортировать проект',
     },
+    follow: {
+      title: 'Обнаружена возможная ошибка',
+      message: 'Обнаружена возможная ошибка - Rentgen мог помочь вам найти реальную проблему.',
+      followUs:
+        'Нравится Rentgen? Подписывайтесь на нас в LinkedIn: идеи для тестирования, новые функции и обновления.',
+      followOnLinkedIn: 'Подписаться в LinkedIn',
+      later: 'Позже',
+      neverAskAgain: 'Больше не спрашивать',
+    },
   },
 
   // Settings

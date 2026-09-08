@@ -240,6 +240,14 @@ const zhCN = {
       exportCurrentProject: '导出当前项目',
       importProject: '导入项目',
     },
+    follow: {
+      title: '检测到潜在缺陷',
+      message: '检测到潜在缺陷 - Rentgen 可能帮你发现了一个真实的问题。',
+      followUs: '喜欢 Rentgen 吗？在 LinkedIn 关注我们，获取测试思路、新功能和版本更新。',
+      followOnLinkedIn: '在 LinkedIn 关注',
+      later: '稍后',
+      neverAskAgain: '不再询问',
+    },
   },
 
   // Settings

@@ -242,6 +242,14 @@ const ko = {
       exportCurrentProject: '현재 프로젝트 내보내기',
       importProject: '프로젝트 가져오기',
     },
+    follow: {
+      title: '잠재적 버그 감지됨',
+      message: '잠재적 버그가 감지되었습니다 - Rentgen이 실제 문제를 발견하는 데 도움이 되었을 수 있습니다.',
+      followUs: 'Rentgen이 마음에 드시나요? 테스트 아이디어, 새로운 기능, 릴리스 소식을 LinkedIn에서 팔로우하세요.',
+      followOnLinkedIn: 'LinkedIn에서 팔로우',
+      later: '나중에',
+      neverAskAgain: '다시 묻지 않기',
+    },
   },
 
   // Settings

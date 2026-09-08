@@ -243,6 +243,15 @@ const ja = {
       exportCurrentProject: '現在のプロジェクトをエクスポート',
       importProject: 'プロジェクトをインポート',
     },
+    follow: {
+      title: '潜在的なバグを検出',
+      message: '潜在的なバグが検出されました - Rentgen が実際の問題の発見に役立ったかもしれません。',
+      followUs:
+        'Rentgen を気に入りましたか？テストのアイデア、新機能、リリース情報は LinkedIn でフォローしてください。',
+      followOnLinkedIn: 'LinkedIn でフォロー',
+      later: '後で',
+      neverAskAgain: '今後表示しない',
+    },
   },
 
   // Settings

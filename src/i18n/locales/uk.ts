@@ -243,6 +243,14 @@ const uk = {
       exportCurrentProject: 'Експортувати поточний проєкт',
       importProject: 'Імпортувати проєкт',
     },
+    follow: {
+      title: 'Виявлено можливу помилку',
+      message: 'Виявлено можливу помилку - Rentgen міг допомогти вам знайти справжню проблему.',
+      followUs: 'Подобається Rentgen? Підписуйтесь на нас у LinkedIn: ідеї для тестування, нові функції та оновлення.',
+      followOnLinkedIn: 'Підписатися в LinkedIn',
+      later: 'Пізніше',
+      neverAskAgain: 'Більше не запитувати',
+    },
   },
 
   // Settings

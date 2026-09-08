@@ -242,6 +242,15 @@ const vi = {
       exportCurrentProject: 'Xuất dự án hiện tại',
       importProject: 'Nhập dự án',
     },
+    follow: {
+      title: 'Phát hiện lỗi tiềm ẩn',
+      message: 'Đã phát hiện một lỗi tiềm ẩn - Rentgen có thể đã giúp bạn tìm ra vấn đề thực sự.',
+      followUs:
+        'Bạn thích Rentgen? Theo dõi chúng tôi trên LinkedIn để nhận ý tưởng kiểm thử, tính năng mới và cập nhật phiên bản.',
+      followOnLinkedIn: 'Theo dõi trên LinkedIn',
+      later: 'Để sau',
+      neverAskAgain: 'Không hỏi lại',
+    },
   },
 
   // Settings

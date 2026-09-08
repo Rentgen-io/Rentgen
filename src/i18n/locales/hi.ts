@@ -242,6 +242,14 @@ const hi = {
       exportCurrentProject: 'मौजूदा प्रोजेक्ट निर्यात करें',
       importProject: 'प्रोजेक्ट आयात करें',
     },
+    follow: {
+      title: 'संभावित बग मिला',
+      message: 'एक संभावित बग का पता चला है - हो सकता है Rentgen ने आपको एक वास्तविक समस्या खोजने में मदद की हो।',
+      followUs: 'Rentgen पसंद आया? टेस्टिंग आइडिया, नई सुविधाओं और रिलीज़ अपडेट के लिए LinkedIn पर हमें फ़ॉलो करें।',
+      followOnLinkedIn: 'LinkedIn पर फ़ॉलो करें',
+      later: 'बाद में',
+      neverAskAgain: 'फिर कभी न पूछें',
+    },
   },
 
   // Settings
