@@ -7,6 +7,7 @@ export type DataType =
   | 'email'
   | 'enum'
   | 'ftp_url'
+  | 'guid'
   | 'ipv4'
   | 'number'
   | 'numeric_string'
@@ -16,7 +17,8 @@ export type DataType =
   | 'do-not-test'
   | 'randomString'
   | 'randomInt'
-  | 'randomEmail';
+  | 'randomEmail'
+  | 'randomGuid';
 
 export type ParameterType = 'body' | 'query';
 

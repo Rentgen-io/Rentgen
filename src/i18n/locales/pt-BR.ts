@@ -79,6 +79,7 @@ const ptBR = {
     noEnvironment: 'Sem ambiente',
     selectEnvironment: 'Selecionar ambiente',
     randomEmail: 'Email aleatório',
+    randomGuid: 'Guid aleatório (UUID)',
     randomInteger: 'Inteiro aleatório',
     randomString: 'String aleatória',
     deleteEnvironmentConfirm: 'Tem certeza de que deseja excluir este ambiente?',
@@ -410,6 +411,7 @@ const ptBR = {
   parameterTypes: {
     doNotTest: 'Não testar',
     randomEmail: 'Email aleatório',
+    randomGuid: 'Guid aleatório (UUID)',
     randomInteger: 'Inteiro aleatório',
     randomString: 'String aleatória',
     boolean: 'Boolean',
@@ -417,6 +419,7 @@ const ptBR = {
     dateYYYYMMDD: 'Data (AAAA-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Número',
     numericString: 'String numérica',

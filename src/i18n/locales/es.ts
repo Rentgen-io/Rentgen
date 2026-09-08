@@ -79,6 +79,7 @@ const es = {
     noEnvironment: 'Sin entorno',
     selectEnvironment: 'Seleccionar entorno',
     randomEmail: 'Email aleatorio',
+    randomGuid: 'Guid aleatorio (UUID)',
     randomInteger: 'Entero aleatorio',
     randomString: 'Cadena aleatoria',
     deleteEnvironmentConfirm: '¿Estás seguro de que deseas eliminar este entorno?',
@@ -410,6 +411,7 @@ const es = {
   parameterTypes: {
     doNotTest: 'No probar',
     randomEmail: 'Email aleatorio',
+    randomGuid: 'Guid aleatorio (UUID)',
     randomInteger: 'Entero aleatorio',
     randomString: 'Cadena aleatoria',
     boolean: 'Boolean',
@@ -417,6 +419,7 @@ const es = {
     dateYYYYMMDD: 'Fecha (AAAA-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Número',
     numericString: 'Cadena numérica',

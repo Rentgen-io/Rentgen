@@ -79,6 +79,7 @@ const de = {
     noEnvironment: 'Keine Umgebung',
     selectEnvironment: 'Umgebung auswählen',
     randomEmail: 'Zufällige E-Mail',
+    randomGuid: 'Zufällige Guid (UUID)',
     randomInteger: 'Zufällige Ganzzahl',
     randomString: 'Zufällige Zeichenkette',
     deleteEnvironmentConfirm: 'Möchten Sie diese Umgebung wirklich löschen?',
@@ -410,6 +411,7 @@ const de = {
   parameterTypes: {
     doNotTest: 'Nicht testen',
     randomEmail: 'Zufällige E-Mail',
+    randomGuid: 'Zufällige guid (UUID)',
     randomInteger: 'Zufällige Ganzzahl',
     randomString: 'Zufällige Zeichenkette',
     boolean: 'Boolean',
@@ -417,6 +419,7 @@ const de = {
     dateYYYYMMDD: 'Datum (JJJJ-MM-TT)',
     email: 'E-Mail',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Zahl',
     numericString: 'Numerische Zeichenkette',

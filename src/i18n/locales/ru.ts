@@ -79,6 +79,7 @@ const ru = {
     noEnvironment: 'Без окружения',
     selectEnvironment: 'Выбрать окружение',
     randomEmail: 'Случайный email',
+    randomGuid: 'Случайный guid (UUID)',
     randomInteger: 'Случайное целое число',
     randomString: 'Случайная строка',
     deleteEnvironmentConfirm: 'Вы уверены, что хотите удалить это окружение?',
@@ -407,6 +408,7 @@ const ru = {
   parameterTypes: {
     doNotTest: 'Не тестировать',
     randomEmail: 'Случайный email',
+    randomGuid: 'Случайный guid (UUID)',
     randomInteger: 'Случайное целое число',
     randomString: 'Случайная строка',
     boolean: 'Boolean',
@@ -414,6 +416,7 @@ const ru = {
     dateYYYYMMDD: 'Дата (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Число',
     numericString: 'Числовая строка',

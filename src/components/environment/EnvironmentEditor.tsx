@@ -12,6 +12,8 @@ import Input from '../inputs/Input';
 import Select, { SelectOption } from '../inputs/Select';
 import Panel from '../panels/Panel';
 
+import ClearCrossIcon from '../../assets/icons/clear-cross-icon.svg';
+
 const COLOR_OPTIONS = ['#EF4444', '#F97316', '#EAB308', '#22C55E', '#3B82F6', '#8B5CF6', '#EC4899', '#6B7280'];
 
 interface Props {
@@ -54,10 +56,10 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
     if (title !== environment.title) return true;
     if (color !== environment.color) return true;
 
-    const nonEmptyVars = variables.filter((v) => v.key.trim() !== '');
-    if (nonEmptyVars.length !== environment.variables.length) return true;
+    const nonEmptyVariables = variables.filter((v) => v.key.trim() !== '');
+    if (nonEmptyVariables.length !== environment.variables.length) return true;
 
-    return nonEmptyVars.some((v, i) => {
+    return nonEmptyVariables.some((v, i) => {
       const envVar = environment.variables[i];
       return !envVar || v.key !== envVar.key || v.value !== envVar.value;
     });
@@ -70,12 +72,11 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
     if (!hasChanges()) return;
 
     const timeoutId = setTimeout(() => {
-      const nonEmptyVariables = variables.filter((v) => v.key.trim() !== '');
       onSave({
         id: environment.id,
         title: title.trim() || t('environment.untitled'),
         color,
-        variables: nonEmptyVariables,
+        variables: variables.filter((v) => v.key.trim() !== ''),
       });
       setSaved(true);
       clearTimeout(savedTimeoutRef.current);
@@ -203,17 +204,29 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                 {
                   name: t('environment.variableName'),
                   cell: (row) => (
-                    <Input
-                      className="w-full border-0 bg-transparent"
-                      placeholder={t('environment.addVariable')}
-                      title={row.key}
-                      value={row.key}
-                      onChange={(e) =>
-                        row.type === 'static'
-                          ? handleVariableChange(row.index, 'key', e.target.value)
-                          : handleDynamicVariableKeyChange(row as DynamicVariable, e.target.value)
-                      }
-                    />
+                    <div className="relative flex items-center w-full group">
+                      <Input
+                        className="w-full border-0 bg-transparent"
+                        placeholder={t('environment.addVariable')}
+                        title={row.key}
+                        value={row.key}
+                        onChange={(e) =>
+                          row.type === 'static'
+                            ? handleVariableChange(row.index, 'key', e.target.value)
+                            : handleDynamicVariableKeyChange(row as DynamicVariable, e.target.value)
+                        }
+                      />
+                      {row.key && (
+                        <ClearCrossIcon
+                          className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-danger opacity-0 group-hover:opacity-100 cursor-pointer"
+                          onClick={() =>
+                            row.type === 'static'
+                              ? handleVariableChange(row.index, 'key', '')
+                              : handleDynamicVariableKeyChange(row as DynamicVariable, '')
+                          }
+                        />
+                      )}
+                    </div>
                   ),
                 },
                 {
@@ -320,6 +333,7 @@ function EnvironmentVariableSelect({
   const { t } = useTranslation();
   const options: SelectOption<DataType>[] = [
     { value: 'randomEmail', label: t('environment.randomEmail') },
+    { value: 'randomGuid', label: t('environment.randomGuid') },
     { value: 'randomInt', label: t('environment.randomInteger') },
     { value: 'randomString', label: t('environment.randomString') },
   ];

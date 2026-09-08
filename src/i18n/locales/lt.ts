@@ -79,6 +79,7 @@ const lt = {
     noEnvironment: 'Be aplinkos',
     selectEnvironment: 'Pasirinkti aplinką',
     randomEmail: 'Atsitiktinis el. paštas',
+    randomGuid: 'Atsitiktinis guid (UUID)',
     randomInteger: 'Atsitiktinis sveikasis skaičius',
     randomString: 'Atsitiktinė eilutė',
     deleteEnvironmentConfirm: 'Ar tikrai norite ištrinti šią aplinką?',
@@ -407,6 +408,7 @@ const lt = {
   parameterTypes: {
     doNotTest: 'Netestuoti',
     randomEmail: 'Atsitiktinis el. paštas',
+    randomGuid: 'Atsitiktinis guid (UUID)',
     randomInteger: 'Atsitiktinis sveikasis skaičius',
     randomString: 'Atsitiktinė eilutė',
     boolean: 'Boolean',
@@ -414,6 +416,7 @@ const lt = {
     dateYYYYMMDD: 'Data (YYYY-MM-DD)',
     email: 'El. paštas',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Skaičius',
     numericString: 'Skaitinė eilutė',

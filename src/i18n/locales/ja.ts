@@ -79,6 +79,7 @@ const ja = {
     noEnvironment: '環境なし',
     selectEnvironment: '環境を選択',
     randomEmail: 'ランダムメールアドレス',
+    randomGuid: 'ランダムguid (UUID)',
     randomInteger: 'ランダム整数',
     randomString: 'ランダム文字列',
     deleteEnvironmentConfirm: 'この環境を削除してもよろしいですか?',
@@ -408,6 +409,7 @@ const ja = {
   parameterTypes: {
     doNotTest: 'テストしない',
     randomEmail: 'ランダムメールアドレス',
+    randomGuid: 'ランダムguid (UUID)',
     randomInteger: 'ランダム整数',
     randomString: 'ランダム文字列',
     boolean: 'ブール値',
@@ -415,6 +417,7 @@ const ja = {
     dateYYYYMMDD: '日付 (YYYY-MM-DD)',
     email: 'メールアドレス',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: '数値',
     numericString: '数値文字列',

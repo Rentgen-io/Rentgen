@@ -79,6 +79,7 @@ const en = {
     noEnvironment: 'No Environment',
     selectEnvironment: 'Select Environment',
     randomEmail: 'Random email',
+    randomGuid: 'Random guid (UUID)',
     randomInteger: 'Random integer',
     randomString: 'Random string',
     deleteEnvironmentConfirm: 'Are you sure you want to delete this environment?',
@@ -406,6 +407,7 @@ const en = {
   parameterTypes: {
     doNotTest: 'Do not test',
     randomEmail: 'Random email',
+    randomGuid: 'Random guid (UUID)',
     randomInteger: 'Random integer',
     randomString: 'Random string',
     boolean: 'Boolean',
@@ -413,6 +415,7 @@ const en = {
     dateYYYYMMDD: 'Date (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Number',
     numericString: 'Numeric String',

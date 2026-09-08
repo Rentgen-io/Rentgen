@@ -79,6 +79,7 @@ const th = {
     noEnvironment: 'ไม่มีเอนไวรอนเมนต์',
     selectEnvironment: 'เลือกเอนไวรอนเมนต์',
     randomEmail: 'อีเมลสุ่ม',
+    randomGuid: 'Guid แบบสุ่ม (UUID)',
     randomInteger: 'จำนวนเต็มสุ่ม',
     randomString: 'สตริงสุ่ม',
     deleteEnvironmentConfirm: 'คุณแน่ใจหรือไม่ว่าต้องการลบเอนไวรอนเมนต์นี้?',
@@ -405,6 +406,7 @@ const th = {
   parameterTypes: {
     doNotTest: 'ไม่ทดสอบ',
     randomEmail: 'อีเมลสุ่ม',
+    randomGuid: 'Guid แบบสุ่ม (UUID)',
     randomInteger: 'จำนวนเต็มสุ่ม',
     randomString: 'สตริงสุ่ม',
     boolean: 'บูลีน',
@@ -412,6 +414,7 @@ const th = {
     dateYYYYMMDD: 'วันที่ (YYYY-MM-DD)',
     email: 'อีเมล',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'จำนวน',
     numericString: 'สตริงตัวเลข',

@@ -79,6 +79,7 @@ const vi = {
     noEnvironment: 'Không có môi trường',
     selectEnvironment: 'Chọn môi trường',
     randomEmail: 'Email ngẫu nhiên',
+    randomGuid: 'Guid ngẫu nhiên (UUID)',
     randomInteger: 'Số nguyên ngẫu nhiên',
     randomString: 'Chuỗi ngẫu nhiên',
     deleteEnvironmentConfirm: 'Bạn có chắc chắn muốn xóa môi trường này?',
@@ -405,6 +406,7 @@ const vi = {
   parameterTypes: {
     doNotTest: 'Không kiểm thử',
     randomEmail: 'Email ngẫu nhiên',
+    randomGuid: 'Guid ngẫu nhiên (UUID)',
     randomInteger: 'Số nguyên ngẫu nhiên',
     randomString: 'Chuỗi ngẫu nhiên',
     boolean: 'Boolean',
@@ -412,6 +414,7 @@ const vi = {
     dateYYYYMMDD: 'Ngày (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Số',
     numericString: 'Chuỗi số',

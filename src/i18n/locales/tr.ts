@@ -79,6 +79,7 @@ const tr = {
     noEnvironment: 'Ortam Yok',
     selectEnvironment: 'Ortam Seçin',
     randomEmail: 'Rastgele e-posta',
+    randomGuid: 'Rastgele guid (UUID)',
     randomInteger: 'Rastgele tam sayı',
     randomString: 'Rastgele dize',
     deleteEnvironmentConfirm: 'Bu ortamı silmek istediğinizden emin misiniz?',
@@ -409,6 +410,7 @@ const tr = {
   parameterTypes: {
     doNotTest: 'Test etme',
     randomEmail: 'Rastgele e-posta',
+    randomGuid: 'Rastgele guid (UUID)',
     randomInteger: 'Rastgele tam sayı',
     randomString: 'Rastgele dize',
     boolean: 'Boolean',
@@ -416,6 +418,7 @@ const tr = {
     dateYYYYMMDD: 'Tarih (YYYY-AA-GG)',
     email: 'E-posta',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Sayı',
     numericString: 'Sayısal Dize',

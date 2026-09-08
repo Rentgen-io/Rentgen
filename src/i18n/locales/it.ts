@@ -79,6 +79,7 @@ const it = {
     noEnvironment: 'Nessun ambiente',
     selectEnvironment: 'Seleziona ambiente',
     randomEmail: 'Email casuale',
+    randomGuid: 'Guid casuale (UUID)',
     randomInteger: 'Intero casuale',
     randomString: 'Stringa casuale',
     deleteEnvironmentConfirm: 'Sei sicuro di voler eliminare questo ambiente?',
@@ -411,6 +412,7 @@ const it = {
   parameterTypes: {
     doNotTest: 'Non testare',
     randomEmail: 'Email casuale',
+    randomGuid: 'Guid casuale (UUID)',
     randomInteger: 'Intero casuale',
     randomString: 'Stringa casuale',
     boolean: 'Booleano',
@@ -418,6 +420,7 @@ const it = {
     dateYYYYMMDD: 'Data (AAAA-MM-GG)',
     email: 'Email',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Numero',
     numericString: 'Stringa numerica',

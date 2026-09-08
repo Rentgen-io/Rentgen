@@ -88,29 +88,14 @@ export default function CollectionGroup({
 
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (folder.items.length === 0) {
-      dispatch(collectionActions.removeFolder(folder.id));
-    } else {
-      dispatch(uiActions.openDeleteFolderModal(folder.id));
-    }
+    if (folder.items.length === 0) dispatch(collectionActions.removeFolder(folder.id));
+    else dispatch(uiActions.openDeleteFolderModal(folder.id));
   };
 
   const handlePlayClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isThisFolderRunning) {
-      cancelRun();
-    } else {
-      runFolder(folder.id);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.stopPropagation();
-    if (e.key === 'Enter') {
-      onSaveEdit(folder.id, editingName);
-    } else if (e.key === 'Escape') {
-      onCancelEdit();
-    }
+    if (isThisFolderRunning) cancelRun();
+    else runFolder(folder.id);
   };
 
   return (
@@ -161,10 +146,15 @@ export default function CollectionGroup({
               value={editingName}
               type="text"
               onBlur={() => !isOpen && onSaveEdit(folder.id, editingName)}
-              onChange={(e) => onEditingNameChange(e.target.value)}
-              onClick={(e) => e.stopPropagation()}
-              onKeyDown={handleKeyDown}
-              onPointerDown={(e) => e.stopPropagation()}
+              onChange={(event) => onEditingNameChange(event.target.value)}
+              onClick={(event) => event.stopPropagation()}
+              onFocus={(event) => event.target.select()}
+              onKeyDown={(event) => {
+                event.stopPropagation();
+                if (event.key === 'Enter') onSaveEdit(folder.id, editingName);
+                else if (event.key === 'Escape') onCancelEdit();
+              }}
+              onPointerDown={(event) => event.stopPropagation()}
             />
           ) : (
             <span className="text-xs truncate">

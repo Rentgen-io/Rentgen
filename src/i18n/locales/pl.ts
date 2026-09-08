@@ -79,6 +79,7 @@ const pl = {
     noEnvironment: 'Brak środowiska',
     selectEnvironment: 'Wybierz środowisko',
     randomEmail: 'Losowy e-mail',
+    randomGuid: 'Losowy guid (UUID)',
     randomInteger: 'Losowa liczba całkowita',
     randomString: 'Losowy ciąg znaków',
     deleteEnvironmentConfirm: 'Czy na pewno chcesz usunąć to środowisko?',
@@ -406,6 +407,7 @@ const pl = {
   parameterTypes: {
     doNotTest: 'Nie testuj',
     randomEmail: 'Losowy e-mail',
+    randomGuid: 'Losowy guid (UUID)',
     randomInteger: 'Losowa liczba całkowita',
     randomString: 'Losowy ciąg znaków',
     boolean: 'Boolean',
@@ -413,6 +415,7 @@ const pl = {
     dateYYYYMMDD: 'Data (RRRR-MM-DD)',
     email: 'E-mail',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Liczba',
     numericString: 'Ciąg numeryczny',

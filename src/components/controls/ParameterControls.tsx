@@ -28,6 +28,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
   const parameterOptions: SelectOption<DataType>[] = [
     { value: 'do-not-test', label: t('parameterTypes.doNotTest') },
     { value: 'randomEmail', label: t('parameterTypes.randomEmail') },
+    { value: 'randomGuid', label: t('parameterTypes.randomGuid') },
     { value: 'randomInt', label: t('parameterTypes.randomInteger') },
     { value: 'randomString', label: t('parameterTypes.randomString') },
     { value: 'boolean', label: t('parameterTypes.boolean') },
@@ -35,6 +36,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
     { value: 'date_yyyy_mm_dd', label: t('parameterTypes.dateYYYYMMDD') },
     { value: 'email', label: t('parameterTypes.email') },
     { value: 'enum', label: t('parameterTypes.enum') },
+    { value: 'guid', label: t('parameterTypes.guid') },
     { value: 'ipv4', label: t('parameterTypes.ipv4') },
     { value: 'number', label: t('parameterTypes.number') },
     { value: 'numeric_string', label: t('parameterTypes.numericString') },

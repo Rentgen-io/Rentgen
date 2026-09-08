@@ -79,6 +79,7 @@ const nl = {
     noEnvironment: 'Geen omgeving',
     selectEnvironment: 'Selecteer omgeving',
     randomEmail: 'Willekeurig e-mailadres',
+    randomGuid: 'Willekeurige guid (UUID)',
     randomInteger: 'Willekeurig geheel getal',
     randomString: 'Willekeurige string',
     deleteEnvironmentConfirm: 'Weet je zeker dat je deze omgeving wilt verwijderen?',
@@ -410,6 +411,7 @@ const nl = {
   parameterTypes: {
     doNotTest: 'Niet testen',
     randomEmail: 'Willekeurig e-mailadres',
+    randomGuid: 'Willekeurige guid (UUID)',
     randomInteger: 'Willekeurig geheel getal',
     randomString: 'Willekeurige string',
     boolean: 'Boolean',
@@ -417,6 +419,7 @@ const nl = {
     dateYYYYMMDD: 'Datum (JJJJ-MM-DD)',
     email: 'E-mail',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Getal',
     numericString: 'Numerieke string',

@@ -79,6 +79,7 @@ const hi = {
     noEnvironment: 'कोई एनवायरनमेंट नहीं',
     selectEnvironment: 'एनवायरनमेंट चुनें',
     randomEmail: 'रैंडम ईमेल',
+    randomGuid: 'रैंडम guid (UUID)',
     randomInteger: 'रैंडम पूर्णांक',
     randomString: 'रैंडम स्ट्रिंग',
     deleteEnvironmentConfirm: 'क्या आप वाकई इस एनवायरनमेंट को हटाना चाहते हैं?',
@@ -405,6 +406,7 @@ const hi = {
   parameterTypes: {
     doNotTest: 'टेस्ट न करें',
     randomEmail: 'रैंडम ईमेल',
+    randomGuid: 'रैंडम guid (UUID)',
     randomInteger: 'रैंडम पूर्णांक',
     randomString: 'रैंडम स्ट्रिंग',
     boolean: 'बूलियन',
@@ -412,6 +414,7 @@ const hi = {
     dateYYYYMMDD: 'तिथि (YYYY-MM-DD)',
     email: 'ईमेल',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'संख्या',
     numericString: 'संख्यात्मक स्ट्रिंग',

@@ -79,6 +79,7 @@ const zhCN = {
     noEnvironment: '无环境',
     selectEnvironment: '选择环境',
     randomEmail: '随机邮箱',
+    randomGuid: '随机 guid (UUID)',
     randomInteger: '随机整数',
     randomString: '随机字符串',
     deleteEnvironmentConfirm: '确定要删除此环境吗？',
@@ -400,6 +401,7 @@ const zhCN = {
   parameterTypes: {
     doNotTest: '不测试',
     randomEmail: '随机邮箱',
+    randomGuid: '随机 guid (UUID)',
     randomInteger: '随机整数',
     randomString: '随机字符串',
     boolean: '布尔值',
@@ -407,6 +409,7 @@ const zhCN = {
     dateYYYYMMDD: '日期 (YYYY-MM-DD)',
     email: '邮箱',
     enum: '枚举',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: '数字',
     numericString: '数字字符串',

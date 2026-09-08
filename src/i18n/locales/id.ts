@@ -79,6 +79,7 @@ const id = {
     noEnvironment: 'Tanpa Lingkungan',
     selectEnvironment: 'Pilih Lingkungan',
     randomEmail: 'Email acak',
+    randomGuid: 'Guid acak (UUID)',
     randomInteger: 'Bilangan bulat acak',
     randomString: 'String acak',
     deleteEnvironmentConfirm: 'Yakin ingin menghapus lingkungan ini?',
@@ -405,6 +406,7 @@ const id = {
   parameterTypes: {
     doNotTest: 'Jangan tes',
     randomEmail: 'Email acak',
+    randomGuid: 'Guid acak (UUID)',
     randomInteger: 'Bilangan bulat acak',
     randomString: 'String acak',
     boolean: 'Boolean',
@@ -412,6 +414,7 @@ const id = {
     dateYYYYMMDD: 'Tanggal (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Angka',
     numericString: 'String Numerik',

@@ -79,6 +79,7 @@ const ko = {
     noEnvironment: '환경 없음',
     selectEnvironment: '환경 선택',
     randomEmail: '랜덤 이메일',
+    randomGuid: '랜덤 guid (UUID)',
     randomInteger: '랜덤 정수',
     randomString: '랜덤 문자열',
     deleteEnvironmentConfirm: '이 환경을 정말 삭제하시겠어요?',
@@ -405,6 +406,7 @@ const ko = {
   parameterTypes: {
     doNotTest: '테스트 안 함',
     randomEmail: '랜덤 이메일',
+    randomGuid: '랜덤 guid (UUID)',
     randomInteger: '랜덤 정수',
     randomString: '랜덤 문자열',
     boolean: 'Boolean',
@@ -412,6 +414,7 @@ const ko = {
     dateYYYYMMDD: '날짜 (YYYY-MM-DD)',
     email: '이메일',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: '숫자',
     numericString: '숫자 문자열',

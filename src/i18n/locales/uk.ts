@@ -79,6 +79,7 @@ const uk = {
     noEnvironment: 'Без середовища',
     selectEnvironment: 'Обрати середовище',
     randomEmail: 'Випадковий email',
+    randomGuid: 'Випадковий guid (UUID)',
     randomInteger: 'Випадкове ціле число',
     randomString: 'Випадковий рядок',
     deleteEnvironmentConfirm: 'Ви впевнені, що хочете видалити це середовище?',
@@ -408,6 +409,7 @@ const uk = {
   parameterTypes: {
     doNotTest: 'Не тестувати',
     randomEmail: 'Випадковий email',
+    randomGuid: 'Випадковий guid (UUID)',
     randomInteger: 'Випадкове ціле число',
     randomString: 'Випадковий рядок',
     boolean: 'Boolean',
@@ -415,6 +417,7 @@ const uk = {
     dateYYYYMMDD: 'Дата (РРРР-ММ-ДД)',
     email: 'Email',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Число',
     numericString: 'Числовий рядок',

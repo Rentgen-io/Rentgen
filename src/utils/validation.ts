@@ -15,6 +15,7 @@ const DATA_TYPE_DETECTORS: ReadonlyArray<{
   { type: 'boolean', regex: /^(true|false)$/i },
   { type: 'date_yyyy_mm_dd', regex: /^["']?\d{4}-\d{2}-\d{2}["']?$/ },
   { type: 'ipv4', regex: /^["']?\d{1,3}(\.\d{1,3}){3}["']?$/ },
+  { type: 'guid', regex: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i },
   { type: 'string', regex: /.+/ },
 ];
 
