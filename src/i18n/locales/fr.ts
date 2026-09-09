@@ -254,6 +254,13 @@ const fr = {
       later: 'Plus tard',
       neverAskAgain: 'Ne plus demander',
     },
+    gitHub: {
+      title: 'Mettez une étoile sur GitHub',
+      message: "Si Rentgen vous a aidé aujourd'hui, une étoile sur GitHub nous aide à continuer à le développer.",
+      starOnGitHub: 'Mettre une étoile sur GitHub',
+      later: 'Plus tard',
+      neverAskAgain: 'Ne plus demander',
+    },
   },
 
   // Settings

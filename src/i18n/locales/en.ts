@@ -250,6 +250,13 @@ const en = {
       later: 'Later',
       neverAskAgain: 'Never Ask Again',
     },
+    gitHub: {
+      title: 'Star on GitHub',
+      message: 'If Rentgen helped today, a GitHub Star helps us continue building it.',
+      starOnGitHub: 'Star on GitHub',
+      later: 'Later',
+      neverAskAgain: 'Never Ask Again',
+    },
   },
 
   // Settings

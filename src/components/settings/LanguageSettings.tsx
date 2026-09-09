@@ -46,7 +46,7 @@ export function LanguageSettings() {
         {t('settings.languageSection.feedback')}{' '}
         <a
           className="text-button-primary hover:underline cursor-pointer"
-          onClick={() => window.electronAPI.openExternal('https://github.com/LiudasJan/Rentgen/issues/new')}
+          onClick={() => window.electronAPI.openExternal('https://github.com/Rentgen-io/Rentgen/issues/new')}
         >
           {t('settings.languageSection.feedbackLink')}
         </a>

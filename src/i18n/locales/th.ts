@@ -250,6 +250,13 @@ const th = {
       later: 'ภายหลัง',
       neverAskAgain: 'ไม่ต้องถามอีก',
     },
+    gitHub: {
+      title: 'ให้ดาวบน GitHub',
+      message: 'ถ้า Rentgen ช่วยคุณได้ในวันนี้ การให้ดาวบน GitHub ช่วยให้เราพัฒนาต่อไปได้',
+      starOnGitHub: 'ให้ดาวบน GitHub',
+      later: 'ภายหลัง',
+      neverAskAgain: 'ไม่ต้องถามอีก',
+    },
   },
 
   // Settings

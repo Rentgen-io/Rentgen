@@ -253,6 +253,13 @@ const es = {
       later: 'Más tarde',
       neverAskAgain: 'No volver a preguntar',
     },
+    gitHub: {
+      title: 'Danos una estrella en GitHub',
+      message: 'Si Rentgen te ayudó hoy, una estrella en GitHub nos ayuda a seguir construyéndolo.',
+      starOnGitHub: 'Dar estrella en GitHub',
+      later: 'Más tarde',
+      neverAskAgain: 'No volver a preguntar',
+    },
   },
 
   // Settings

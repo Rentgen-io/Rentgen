@@ -251,6 +251,13 @@ const uk = {
       later: 'Пізніше',
       neverAskAgain: 'Більше не запитувати',
     },
+    gitHub: {
+      title: 'Поставте зірку на GitHub',
+      message: 'Якщо Rentgen допоміг вам сьогодні, зірка на GitHub допоможе нам розвивати його далі.',
+      starOnGitHub: 'Поставити зірку на GitHub',
+      later: 'Пізніше',
+      neverAskAgain: 'Більше не запитувати',
+    },
   },
 
   // Settings

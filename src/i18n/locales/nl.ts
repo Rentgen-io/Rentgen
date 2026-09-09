@@ -252,6 +252,13 @@ const nl = {
       later: 'Later',
       neverAskAgain: 'Niet meer vragen',
     },
+    gitHub: {
+      title: 'Geef een ster op GitHub',
+      message: 'Als Rentgen je vandaag heeft geholpen, helpt een ster op GitHub ons om ermee door te gaan.',
+      starOnGitHub: 'Ster geven op GitHub',
+      later: 'Later',
+      neverAskAgain: 'Niet meer vragen',
+    },
   },
 
   // Settings

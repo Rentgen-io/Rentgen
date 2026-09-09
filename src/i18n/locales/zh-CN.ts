@@ -248,6 +248,13 @@ const zhCN = {
       later: '稍后',
       neverAskAgain: '不再询问',
     },
+    gitHub: {
+      title: '在 GitHub 上点亮 Star',
+      message: '如果 Rentgen 今天帮到了你，一个 GitHub Star 能帮助我们继续开发。',
+      starOnGitHub: '在 GitHub 上点 Star',
+      later: '稍后',
+      neverAskAgain: '不再询问',
+    },
   },
 
   // Settings

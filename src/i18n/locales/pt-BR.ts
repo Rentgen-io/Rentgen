@@ -253,6 +253,13 @@ const ptBR = {
       later: 'Mais tarde',
       neverAskAgain: 'Não perguntar novamente',
     },
+    gitHub: {
+      title: 'Dê uma estrela no GitHub',
+      message: 'Se o Rentgen te ajudou hoje, uma estrela no GitHub nos ajuda a continuar desenvolvendo.',
+      starOnGitHub: 'Dar estrela no GitHub',
+      later: 'Mais tarde',
+      neverAskAgain: 'Não perguntar novamente',
+    },
   },
 
   // Settings

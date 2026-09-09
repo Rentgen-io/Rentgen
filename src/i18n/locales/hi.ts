@@ -250,6 +250,13 @@ const hi = {
       later: 'बाद में',
       neverAskAgain: 'फिर कभी न पूछें',
     },
+    gitHub: {
+      title: 'GitHub पर स्टार दें',
+      message: 'अगर Rentgen ने आज आपकी मदद की, तो GitHub पर एक स्टार हमें इसे बनाते रहने में मदद करता है।',
+      starOnGitHub: 'GitHub पर स्टार दें',
+      later: 'बाद में',
+      neverAskAgain: 'फिर कभी न पूछें',
+    },
   },
 
   // Settings

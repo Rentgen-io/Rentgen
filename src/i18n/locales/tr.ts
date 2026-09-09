@@ -251,6 +251,13 @@ const tr = {
       later: 'Daha Sonra',
       neverAskAgain: 'Bir Daha Sorma',
     },
+    gitHub: {
+      title: "GitHub'da Yıldız Verin",
+      message: "Rentgen bugün işinize yaradıysa, GitHub'da bir yıldız geliştirmeye devam etmemize yardımcı olur.",
+      starOnGitHub: "GitHub'da Yıldız Ver",
+      later: 'Daha Sonra',
+      neverAskAgain: 'Bir Daha Sorma',
+    },
   },
 
   // Settings

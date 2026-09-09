@@ -250,6 +250,13 @@ const id = {
       later: 'Nanti',
       neverAskAgain: 'Jangan Tanya Lagi',
     },
+    gitHub: {
+      title: 'Beri Bintang di GitHub',
+      message: 'Jika Rentgen membantu Anda hari ini, bintang di GitHub membantu kami terus mengembangkannya.',
+      starOnGitHub: 'Beri Bintang di GitHub',
+      later: 'Nanti',
+      neverAskAgain: 'Jangan Tanya Lagi',
+    },
   },
 
   // Settings

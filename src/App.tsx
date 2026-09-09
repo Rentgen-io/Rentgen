@@ -22,6 +22,7 @@ import Loader from './components/loaders/Loader';
 import TestRunningLoader from './components/loaders/TestRunningLoader';
 import ConfirmationModal from './components/modals/ConfirmationModal';
 import FollowModal from './components/modals/FollowModal';
+import GitHubModal from './components/modals/GitHubModal';
 import ImportConflictModal from './components/modals/ImportConflictModal';
 import Modal from './components/modals/Modal';
 import ProjectImportConfirmModal from './components/modals/ProjectImportConfirmModal';
@@ -1513,6 +1514,7 @@ export default function App() {
       <ProjectImportConfirmModal />
       <SettingsModal />
       <FollowModal />
+      <GitHubModal />
     </div>
   );
 }

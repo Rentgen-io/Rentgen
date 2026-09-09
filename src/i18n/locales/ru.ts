@@ -251,6 +251,13 @@ const ru = {
       later: 'Позже',
       neverAskAgain: 'Больше не спрашивать',
     },
+    gitHub: {
+      title: 'Поставьте звезду на GitHub',
+      message: 'Если Rentgen помог вам сегодня, звезда на GitHub поможет нам продолжать его развивать.',
+      starOnGitHub: 'Поставить звезду на GitHub',
+      later: 'Позже',
+      neverAskAgain: 'Больше не спрашивать',
+    },
   },
 
   // Settings

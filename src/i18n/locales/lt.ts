@@ -250,6 +250,13 @@ const lt = {
       later: 'Vėliau',
       neverAskAgain: 'Daugiau neklausti',
     },
+    gitHub: {
+      title: 'Pažymėkite žvaigždute GitHub',
+      message: 'Jei Rentgen šiandien padėjo, žvaigždutė GitHub padeda mums tęsti jo kūrimą.',
+      starOnGitHub: 'Pažymėti žvaigždute GitHub',
+      later: 'Vėliau',
+      neverAskAgain: 'Daugiau neklausti',
+    },
   },
 
   // Settings

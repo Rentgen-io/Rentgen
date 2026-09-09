@@ -251,6 +251,13 @@ const vi = {
       later: 'Để sau',
       neverAskAgain: 'Không hỏi lại',
     },
+    gitHub: {
+      title: 'Gắn sao trên GitHub',
+      message: 'Nếu Rentgen đã giúp bạn hôm nay, một ngôi sao trên GitHub giúp chúng tôi tiếp tục phát triển.',
+      starOnGitHub: 'Gắn sao trên GitHub',
+      later: 'Để sau',
+      neverAskAgain: 'Không hỏi lại',
+    },
   },
 
   // Settings

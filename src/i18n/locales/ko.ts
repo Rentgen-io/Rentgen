@@ -250,6 +250,13 @@ const ko = {
       later: '나중에',
       neverAskAgain: '다시 묻지 않기',
     },
+    gitHub: {
+      title: 'GitHub에서 스타 주기',
+      message: 'Rentgen이 오늘 도움이 되었다면, GitHub 스타가 개발을 계속하는 데 큰 힘이 됩니다.',
+      starOnGitHub: 'GitHub에서 스타 주기',
+      later: '나중에',
+      neverAskAgain: '다시 묻지 않기',
+    },
   },
 
   // Settings

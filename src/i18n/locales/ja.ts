@@ -252,6 +252,13 @@ const ja = {
       later: '後で',
       neverAskAgain: '今後表示しない',
     },
+    gitHub: {
+      title: 'GitHub でスターを',
+      message: 'Rentgen が今日役に立ったなら、GitHub のスターが開発の継続を後押しします。',
+      starOnGitHub: 'GitHub でスターを付ける',
+      later: '後で',
+      neverAskAgain: '今後表示しない',
+    },
   },
 
   // Settings

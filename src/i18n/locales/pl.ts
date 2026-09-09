@@ -252,6 +252,13 @@ const pl = {
       later: 'Później',
       neverAskAgain: 'Nie pytaj ponownie',
     },
+    gitHub: {
+      title: 'Zostaw gwiazdkę na GitHubie',
+      message: 'Jeśli Rentgen dziś pomógł, gwiazdka na GitHubie pomaga nam rozwijać go dalej.',
+      starOnGitHub: 'Zostaw gwiazdkę na GitHubie',
+      later: 'Później',
+      neverAskAgain: 'Nie pytaj ponownie',
+    },
   },
 
   // Settings
