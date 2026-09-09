@@ -168,7 +168,7 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
     const parameters = (action as PayloadAction<RequestParameters>).payload;
     const selectedRequestId = store.getState().collection.selectedRequestId;
 
-    if (selectedRequestId)
+    if (selectedRequestId && parameters && Object.keys(parameters).length > 0)
       if (actionType === 'request/setBodyParameters')
         store.dispatch(mappingsActions.setBodyMappings({ requestId: selectedRequestId, mappings: parameters }));
       else store.dispatch(mappingsActions.setQueryMappings({ requestId: selectedRequestId, mappings: parameters }));
