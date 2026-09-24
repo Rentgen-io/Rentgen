@@ -301,13 +301,13 @@ export function generateEnumTestData(value: string): TestData[] {
     .split(',')
     .map((value) => value.trim())
     .flatMap((value) => [
-      { value: value.trim(), valid: true },
-      { value: value[0] + ' ' + value.slice(1), valid: false },
+      { value: value, valid: true },
+      { value: value[0] + ' ' + value.slice(1), valid: false }, // Configurable in Data Driven Tests table: 2xx or 4xx
       {
         value:
-          value[0].toLowerCase() === value[0]
-            ? value[0].toUpperCase() + value.slice(1)
-            : value[0].toLowerCase() + value.slice(1),
+          value.match(/[A-Za-z]/)?.[0].toLowerCase() === value.match(/[A-Za-z]/)?.[0]
+            ? value.toUpperCase()
+            : value.toLowerCase(),
         valid: false,
       },
     ]);

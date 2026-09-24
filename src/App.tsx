@@ -1361,8 +1361,18 @@ export default function App() {
 
                           if (!parameter) return readOnlyCell;
 
-                          const dataset = datasets[parameter.type]?.find((item) => item.value === row.value);
-                          if (!dataset) return readOnlyCell;
+                          let dataset = datasets[parameter.type]?.find((item) => item.value === row.value);
+                          if (!dataset) {
+                            if (parameter.type !== 'enum') return readOnlyCell;
+
+                            // Handle enum values with a space inserted after the first character
+                            // Should be configurable: 2xx or 4xx
+                            // TODO: implement configurability (2xx or 4xx) for dynamic tests
+                            const value = row.value?.trim();
+                            if (value?.[1] !== ' ') return readOnlyCell;
+
+                            dataset = { value, valid: false };
+                          }
 
                           return (
                             <SimpleSelect
