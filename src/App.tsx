@@ -21,6 +21,8 @@ import Toggle from './components/inputs/Toggle';
 import Loader from './components/loaders/Loader';
 import TestRunningLoader from './components/loaders/TestRunningLoader';
 import ConfirmationModal from './components/modals/ConfirmationModal';
+import FollowModal from './components/modals/FollowModal';
+import GitHubModal from './components/modals/GitHubModal';
 import ImportConflictModal from './components/modals/ImportConflictModal';
 import Modal from './components/modals/Modal';
 import ProjectImportConfirmModal from './components/modals/ProjectImportConfirmModal';
@@ -49,6 +51,7 @@ import {
   determineRequestParameterTestStatus,
   determineTestStatus,
   ERROR_RESPONSE_EXPECTED,
+  generateEnumTestData,
   LARGE_PAYLOAD_TEST_NAME,
   LOAD_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
@@ -162,6 +165,7 @@ const methodOptions: SelectOption<Method>[] = [
   { value: 'PATCH', label: 'PATCH', className: 'text-method-patch! dark:text-dark-method-patch!' },
   { value: 'DELETE', label: 'DELETE', className: 'text-method-delete! dark:text-dark-method-delete!' },
   { value: 'HEAD', label: 'HEAD', className: 'text-method-head! dark:text-dark-method-head!' },
+  { value: 'QUERY', label: 'QUERY', className: 'text-method-query! dark:text-dark-method-query!' },
   { value: 'OPTIONS', label: 'OPTIONS', className: 'text-method-options! dark:text-dark-method-options!' },
 ];
 
@@ -1358,8 +1362,19 @@ export default function App() {
 
                           if (!parameter) return readOnlyCell;
 
-                          const dataset = datasets[parameter.type]?.find((item) => item.value === row.value);
-                          if (!dataset) return readOnlyCell;
+                          let dataset = datasets[parameter.type]?.find((item) => item.value === row.value);
+                          if (!dataset) {
+                            // Dynamic test configurability: 2xx and 4xx.
+                            // Handle enum types specifically for dynamically configured tests.
+                            if (parameter.type === 'enum') {
+                              const enumDatasets = generateEnumTestData(parameter.value as string);
+                              dataset = enumDatasets.find(
+                                (enumDataset) => enumDataset.value === row.value && enumDataset.configurable,
+                              );
+
+                              if (!dataset) return readOnlyCell;
+                            } else return readOnlyCell;
+                          }
 
                           return (
                             <SimpleSelect
@@ -1510,6 +1525,8 @@ export default function App() {
       <ImportConflictModal />
       <ProjectImportConfirmModal />
       <SettingsModal />
+      <FollowModal />
+      <GitHubModal />
     </div>
   );
 }

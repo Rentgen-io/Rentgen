@@ -79,6 +79,7 @@ const ru = {
     noEnvironment: 'Без окружения',
     selectEnvironment: 'Выбрать окружение',
     randomEmail: 'Случайный email',
+    randomGuid: 'Случайный guid (UUID)',
     randomInteger: 'Случайное целое число',
     randomString: 'Случайная строка',
     deleteEnvironmentConfirm: 'Вы уверены, что хотите удалить это окружение?',
@@ -240,6 +241,22 @@ const ru = {
       exportedCheck: 'Экспортировано ✓',
       exportCurrentProject: 'Экспортировать текущий проект',
       importProject: 'Импортировать проект',
+    },
+    follow: {
+      title: 'Обнаружена возможная ошибка',
+      message: 'Обнаружена возможная ошибка - Rentgen мог помочь вам найти реальную проблему.',
+      followUs:
+        'Нравится Rentgen? Подписывайтесь на нас в LinkedIn: идеи для тестирования, новые функции и обновления.',
+      followOnLinkedIn: 'Подписаться в LinkedIn',
+      later: 'Позже',
+      neverAskAgain: 'Больше не спрашивать',
+    },
+    gitHub: {
+      title: 'Поставьте звезду на GitHub',
+      message: 'Если Rentgen помог вам сегодня, звезда на GitHub поможет нам продолжать его развивать.',
+      starOnGitHub: 'Поставить звезду на GitHub',
+      later: 'Позже',
+      neverAskAgain: 'Больше не спрашивать',
     },
   },
 
@@ -407,6 +424,7 @@ const ru = {
   parameterTypes: {
     doNotTest: 'Не тестировать',
     randomEmail: 'Случайный email',
+    randomGuid: 'Случайный guid (UUID)',
     randomInteger: 'Случайное целое число',
     randomString: 'Случайная строка',
     boolean: 'Boolean',
@@ -414,6 +432,7 @@ const ru = {
     dateYYYYMMDD: 'Дата (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Число',
     numericString: 'Числовая строка',

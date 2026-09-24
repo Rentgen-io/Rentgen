@@ -79,6 +79,7 @@ const ja = {
     noEnvironment: '環境なし',
     selectEnvironment: '環境を選択',
     randomEmail: 'ランダムメールアドレス',
+    randomGuid: 'ランダムguid (UUID)',
     randomInteger: 'ランダム整数',
     randomString: 'ランダム文字列',
     deleteEnvironmentConfirm: 'この環境を削除してもよろしいですか?',
@@ -241,6 +242,22 @@ const ja = {
       exportedCheck: 'エクスポート済み ✓',
       exportCurrentProject: '現在のプロジェクトをエクスポート',
       importProject: 'プロジェクトをインポート',
+    },
+    follow: {
+      title: '潜在的なバグを検出',
+      message: '潜在的なバグが検出されました - Rentgen が実際の問題の発見に役立ったかもしれません。',
+      followUs:
+        'Rentgen を気に入りましたか？テストのアイデア、新機能、リリース情報は LinkedIn でフォローしてください。',
+      followOnLinkedIn: 'LinkedIn でフォロー',
+      later: '後で',
+      neverAskAgain: '今後表示しない',
+    },
+    gitHub: {
+      title: 'GitHub でスターを',
+      message: 'Rentgen が今日役に立ったなら、GitHub のスターが開発の継続を後押しします。',
+      starOnGitHub: 'GitHub でスターを付ける',
+      later: '後で',
+      neverAskAgain: '今後表示しない',
     },
   },
 
@@ -408,6 +425,7 @@ const ja = {
   parameterTypes: {
     doNotTest: 'テストしない',
     randomEmail: 'ランダムメールアドレス',
+    randomGuid: 'ランダムguid (UUID)',
     randomInteger: 'ランダム整数',
     randomString: 'ランダム文字列',
     boolean: 'ブール値',
@@ -415,6 +433,7 @@ const ja = {
     dateYYYYMMDD: '日付 (YYYY-MM-DD)',
     email: 'メールアドレス',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: '数値',
     numericString: '数値文字列',

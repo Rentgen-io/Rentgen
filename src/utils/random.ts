@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { store } from '../store';
 import { DataType } from '../types';
 
@@ -29,6 +30,7 @@ export function generateRandomValue(dataType: DataType): string | number | null 
   if (dataType === 'randomString') return generateRandomString(settings.randomString.length);
   if (dataType === 'randomInt') return generateRandomNumber(settings.randomInt.min, settings.randomInt.max);
   if (dataType === 'randomEmail') return generateRandomEmail(settings.email.domain, settings.randomEmail.length);
+  if (dataType === 'randomGuid') return uuidv4();
 
   return null;
 }

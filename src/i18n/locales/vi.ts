@@ -79,6 +79,7 @@ const vi = {
     noEnvironment: 'Không có môi trường',
     selectEnvironment: 'Chọn môi trường',
     randomEmail: 'Email ngẫu nhiên',
+    randomGuid: 'Guid ngẫu nhiên (UUID)',
     randomInteger: 'Số nguyên ngẫu nhiên',
     randomString: 'Chuỗi ngẫu nhiên',
     deleteEnvironmentConfirm: 'Bạn có chắc chắn muốn xóa môi trường này?',
@@ -240,6 +241,22 @@ const vi = {
       exportedCheck: 'Đã xuất ✓',
       exportCurrentProject: 'Xuất dự án hiện tại',
       importProject: 'Nhập dự án',
+    },
+    follow: {
+      title: 'Phát hiện lỗi tiềm ẩn',
+      message: 'Đã phát hiện một lỗi tiềm ẩn - Rentgen có thể đã giúp bạn tìm ra vấn đề thực sự.',
+      followUs:
+        'Bạn thích Rentgen? Theo dõi chúng tôi trên LinkedIn để nhận ý tưởng kiểm thử, tính năng mới và cập nhật phiên bản.',
+      followOnLinkedIn: 'Theo dõi trên LinkedIn',
+      later: 'Để sau',
+      neverAskAgain: 'Không hỏi lại',
+    },
+    gitHub: {
+      title: 'Gắn sao trên GitHub',
+      message: 'Nếu Rentgen đã giúp bạn hôm nay, một ngôi sao trên GitHub giúp chúng tôi tiếp tục phát triển.',
+      starOnGitHub: 'Gắn sao trên GitHub',
+      later: 'Để sau',
+      neverAskAgain: 'Không hỏi lại',
     },
   },
 
@@ -405,6 +422,7 @@ const vi = {
   parameterTypes: {
     doNotTest: 'Không kiểm thử',
     randomEmail: 'Email ngẫu nhiên',
+    randomGuid: 'Guid ngẫu nhiên (UUID)',
     randomInteger: 'Số nguyên ngẫu nhiên',
     randomString: 'Chuỗi ngẫu nhiên',
     boolean: 'Boolean',
@@ -412,6 +430,7 @@ const vi = {
     dateYYYYMMDD: 'Ngày (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Số',
     numericString: 'Chuỗi số',
