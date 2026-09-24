@@ -51,6 +51,7 @@ import {
   determineRequestParameterTestStatus,
   determineTestStatus,
   ERROR_RESPONSE_EXPECTED,
+  generateEnumTestData,
   LARGE_PAYLOAD_TEST_NAME,
   LOAD_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
@@ -1363,15 +1364,16 @@ export default function App() {
 
                           let dataset = datasets[parameter.type]?.find((item) => item.value === row.value);
                           if (!dataset) {
-                            if (parameter.type !== 'enum') return readOnlyCell;
+                            // Dynamic test configurability: 2xx and 4xx.
+                            // Handle enum types specifically for dynamically configured tests.
+                            if (parameter.type === 'enum') {
+                              const enumDatasets = generateEnumTestData(parameter.value as string);
+                              dataset = enumDatasets.find(
+                                (enumDataset) => enumDataset.value === row.value && !enumDataset.valid,
+                              );
 
-                            // Handle enum values with a space inserted after the first character
-                            // Should be configurable: 2xx or 4xx
-                            // TODO: implement configurability (2xx or 4xx) for dynamic tests
-                            const value = row.value?.trim();
-                            if (value?.[1] !== ' ') return readOnlyCell;
-
-                            dataset = { value, valid: false };
+                              if (!dataset) return readOnlyCell;
+                            } else return readOnlyCell;
                           }
 
                           return (
