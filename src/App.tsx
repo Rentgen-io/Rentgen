@@ -1369,7 +1369,7 @@ export default function App() {
                             if (parameter.type === 'enum') {
                               const enumDatasets = generateEnumTestData(parameter.value as string);
                               dataset = enumDatasets.find(
-                                (enumDataset) => enumDataset.value === row.value && !enumDataset.valid,
+                                (enumDataset) => enumDataset.value === row.value && enumDataset.configurable,
                               );
 
                               if (!dataset) return readOnlyCell;

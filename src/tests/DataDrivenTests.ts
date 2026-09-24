@@ -302,7 +302,7 @@ export function generateEnumTestData(value: string): TestData[] {
     .map((value) => value.trim())
     .flatMap((value) => [
       { value: value, valid: true },
-      { value: value[0] + ' ' + value.slice(1), valid: false },
+      { value: value[0] + ' ' + value.slice(1), valid: false, configurable: true },
       {
         value:
           value.match(/[A-Za-z]/)?.[0].toLowerCase() === value.match(/[A-Za-z]/)?.[0]
