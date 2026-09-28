@@ -69,7 +69,6 @@ import {
   extractStatusCode,
   formatBody,
   formatReport,
-  getBodyParameterValue,
   getInitialParameterValue,
   loadProtoSchema,
   parseBody,
