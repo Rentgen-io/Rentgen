@@ -65,7 +65,6 @@ export interface RequestParameters {
 export interface TestData {
   value: any;
   valid: boolean;
-  configurable?: boolean;
 }
 
 export interface TestOptions {

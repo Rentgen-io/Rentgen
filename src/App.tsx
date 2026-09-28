@@ -69,6 +69,7 @@ import {
   extractStatusCode,
   formatBody,
   formatReport,
+  getBodyParameterValue,
   getInitialParameterValue,
   loadProtoSchema,
   parseBody,
@@ -668,6 +669,12 @@ export default function App() {
         buildSuite('Data-Driven Tests', dataDrivenTests),
         buildSuite('CRUD', crudTests),
       ];
+      const parsedHeaders = parseHeaders(testOptions.headers);
+      const parsedBody = parseBody(testOptions.body, parsedHeaders, testOptions.messageType, testOptions.protoFile);
+      const modifiedResponse = httpResponse ? { ...httpResponse } : null;
+
+      if (modifiedResponse && modifiedResponse.body)
+        modifiedResponse.body = extractBodyFromResponse(modifiedResponse) as any;
 
       return {
         generatedAt: new Date().toISOString(),
@@ -675,25 +682,14 @@ export default function App() {
         target: {
           url: testOptions.url,
           method: testOptions.method,
-          headers: parseHeaders(testOptions.headers),
-          body: safeParseBody(testOptions.body),
+          headers: parsedHeaders,
+          body: parsedBody,
           messageType: testOptions.messageType,
           protoFileName: testOptions.protoFile?.name ?? null,
         },
-        lastHttpResponse: httpResponse,
+        lastHttpResponse: modifiedResponse,
         suites,
       };
-    }
-
-    function safeParseBody(rawBody: string | null) {
-      if (rawBody === null) return null;
-      const trimmed = rawBody.trim();
-      if (!trimmed) return '';
-      try {
-        return JSON.parse(trimmed);
-      } catch {
-        return rawBody;
-      }
     }
   }, [testResults, exportFormat, httpResponse, dispatch]);
 
@@ -1363,18 +1359,24 @@ export default function App() {
                           if (!parameter) return readOnlyCell;
 
                           let dataset = datasets[parameter.type]?.find((item) => item.value === row.value);
-                          if (!dataset) {
-                            // Dynamic test configurability: 2xx and 4xx.
-                            // Handle enum types specifically for dynamically configured tests.
-                            if (parameter.type === 'enum') {
+
+                          // Dynamic test configurability: 2xx and 4xx.
+                          // Handles dynamically generated test cases for enum type.
+                          if (!dataset && parameter.type === 'enum') {
+                            if (/^ {3}(.*) {3}$/.test(row.value))
+                              dataset = {
+                                value: row.value,
+                                valid: false,
+                              };
+                            else {
                               const enumDatasets = generateEnumTestData(parameter.value as string);
                               dataset = enumDatasets.find(
-                                (enumDataset) => enumDataset.value === row.value && enumDataset.configurable,
+                                (enumDataset) => enumDataset.value === row.value && !enumDataset.valid,
                               );
-
-                              if (!dataset) return readOnlyCell;
-                            } else return readOnlyCell;
+                            }
                           }
+
+                          if (!dataset) return readOnlyCell;
 
                           return (
                             <SimpleSelect
