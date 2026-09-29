@@ -49,6 +49,8 @@ interface ProjectImportConfirmModalState {
 interface UIState {
   // Modal states
   openCurlModal: boolean;
+  openFollowModal: boolean;
+  openGitHubModal: boolean;
   openReloadModal: boolean;
   openSendHttpSuccessModal: boolean;
   openSettingsModal: boolean;
@@ -81,6 +83,8 @@ interface UIState {
 
 const initialState: UIState = {
   openCurlModal: false,
+  openFollowModal: false,
+  openGitHubModal: false,
   openReloadModal: false,
   openSendHttpSuccessModal: false,
   deleteFolderModal: { isOpen: false, folderId: null },
@@ -129,6 +133,18 @@ export const uiSlice = createSlice({
       state.openCurlModal = false;
       state.curl = '';
       state.curlError = '';
+    },
+    openFollowModal: (state) => {
+      if (!state.openGitHubModal) state.openFollowModal = true;
+    },
+    closeFollowModal: (state) => {
+      state.openFollowModal = false;
+    },
+    openGitHubModal: (state) => {
+      if (!state.openFollowModal) state.openGitHubModal = true;
+    },
+    closeGitHubModal: (state) => {
+      state.openGitHubModal = false;
     },
     openReloadModal: (state) => {
       state.openReloadModal = true;

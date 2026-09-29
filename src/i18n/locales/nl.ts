@@ -79,6 +79,7 @@ const nl = {
     noEnvironment: 'Geen omgeving',
     selectEnvironment: 'Selecteer omgeving',
     randomEmail: 'Willekeurig e-mailadres',
+    randomGuid: 'Willekeurige guid (UUID)',
     randomInteger: 'Willekeurig geheel getal',
     randomString: 'Willekeurige string',
     deleteEnvironmentConfirm: 'Weet je zeker dat je deze omgeving wilt verwijderen?',
@@ -241,6 +242,22 @@ const nl = {
       exportedCheck: 'Geëxporteerd ✓',
       exportCurrentProject: 'Huidig project exporteren',
       importProject: 'Project importeren',
+    },
+    follow: {
+      title: 'Mogelijke bug gedetecteerd',
+      message:
+        'Er is een mogelijke bug gedetecteerd - Rentgen heeft je misschien geholpen een echt probleem te ontdekken.',
+      followUs: 'Bevalt Rentgen? Volg ons op LinkedIn voor testideeën, nieuwe functies en release-updates.',
+      followOnLinkedIn: 'Volgen op LinkedIn',
+      later: 'Later',
+      neverAskAgain: 'Niet meer vragen',
+    },
+    gitHub: {
+      title: 'Geef een ster op GitHub',
+      message: 'Als Rentgen je vandaag heeft geholpen, helpt een ster op GitHub ons om ermee door te gaan.',
+      starOnGitHub: 'Ster geven op GitHub',
+      later: 'Later',
+      neverAskAgain: 'Niet meer vragen',
     },
   },
 
@@ -410,6 +427,7 @@ const nl = {
   parameterTypes: {
     doNotTest: 'Niet testen',
     randomEmail: 'Willekeurig e-mailadres',
+    randomGuid: 'Willekeurige guid (UUID)',
     randomInteger: 'Willekeurig geheel getal',
     randomString: 'Willekeurige string',
     boolean: 'Boolean',
@@ -417,6 +435,7 @@ const nl = {
     dateYYYYMMDD: 'Datum (JJJJ-MM-DD)',
     email: 'E-mail',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Getal',
     numericString: 'Numerieke string',

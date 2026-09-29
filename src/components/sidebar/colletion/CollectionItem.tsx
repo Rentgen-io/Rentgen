@@ -154,6 +154,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
           onBlur={() => !isOpen && onSaveEdit()}
           onChange={(event) => setEditingName(event.target.value)}
           onClick={(event) => event.stopPropagation()}
+          onFocus={(event) => event.target.select()}
           onKeyDown={(event) => {
             event.stopPropagation();
             if (event.key === 'Enter') onSaveEdit();

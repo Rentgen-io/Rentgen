@@ -7,6 +7,7 @@ const methodColorMap: Record<string, string> = {
   PATCH: 'text-method-patch dark:text-dark-method-patch bg-method-patch/10',
   DELETE: 'text-method-delete dark:text-dark-method-delete bg-method-delete/10',
   HEAD: 'text-method-head dark:text-dark-method-head bg-method-head/10',
+  QUERY: 'text-method-query dark:text-dark-method-query bg-method-query/10',
   OPTIONS: 'text-method-options dark:text-dark-method-options bg-method-options/10',
 };
 

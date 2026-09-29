@@ -79,6 +79,7 @@ const fr = {
     noEnvironment: 'Aucun environnement',
     selectEnvironment: 'Sélectionner un environnement',
     randomEmail: 'E-mail aléatoire',
+    randomGuid: 'Guid aléatoire (UUID)',
     randomInteger: 'Entier aléatoire',
     randomString: 'Chaîne aléatoire',
     deleteEnvironmentConfirm: 'Êtes-vous sûr de vouloir supprimer cet environnement ?',
@@ -243,6 +244,22 @@ const fr = {
       exportedCheck: 'Exporté ✓',
       exportCurrentProject: 'Exporter le projet actuel',
       importProject: 'Importer le projet',
+    },
+    follow: {
+      title: 'Bug potentiel détecté',
+      message: 'Un bug potentiel a été détecté - Rentgen vous a peut-être aidé à découvrir un vrai problème.',
+      followUs:
+        'Vous aimez Rentgen ? Suivez-nous sur LinkedIn pour des idées de tests, les nouvelles fonctionnalités et les mises à jour.',
+      followOnLinkedIn: 'Suivre sur LinkedIn',
+      later: 'Plus tard',
+      neverAskAgain: 'Ne plus demander',
+    },
+    gitHub: {
+      title: 'Mettez une étoile sur GitHub',
+      message: "Si Rentgen vous a aidé aujourd'hui, une étoile sur GitHub nous aide à continuer à le développer.",
+      starOnGitHub: 'Mettre une étoile sur GitHub',
+      later: 'Plus tard',
+      neverAskAgain: 'Ne plus demander',
     },
   },
 
@@ -417,6 +434,7 @@ const fr = {
   parameterTypes: {
     doNotTest: 'Ne pas tester',
     randomEmail: 'E-mail aléatoire',
+    randomGuid: 'Guid aléatoire (UUID)',
     randomInteger: 'Entier aléatoire',
     randomString: 'Chaîne aléatoire',
     boolean: 'Booléen',
@@ -424,6 +442,7 @@ const fr = {
     dateYYYYMMDD: 'Date (AAAA-MM-JJ)',
     email: 'E-mail',
     enum: 'Enum',
+    guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Nombre',
     numericString: 'Chaîne numérique',

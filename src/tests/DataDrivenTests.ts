@@ -49,15 +49,21 @@ export class DataDrivenTests extends BaseTests {
 
     await runDataDrivenTests(
       this.options,
-      async (parameterName: string, { type }: ParameterValue) => {
+      async (parameterName: string, { type, overrides }: ParameterValue) => {
         const testData: TestData = {
           value: `   ${getBodyParameterValue(parsedBody, parameterName, parsedHeaders)}   `,
           valid: false,
         };
+        const updateData = overrides?.find((override) => override.value === testData.value) || testData;
+
         results.push(
           await testRequestParameter(
-            { ...this.options, parameterName, parameterType: 'body', testData },
-            type === 'enum' ? ERROR_RESPONSE_EXPECTED : VALUE_NORMALIZATION_TEST_EXPECTED,
+            { ...this.options, parameterName, parameterType: 'body', testData: updateData },
+            type === 'enum'
+              ? updateData.valid
+                ? SUCCESS_RESPONSE_EXPECTED
+                : ERROR_RESPONSE_EXPECTED
+              : VALUE_NORMALIZATION_TEST_EXPECTED,
             type === 'enum' ? determineRequestParameterTestStatus : determineValueNormalizationTestStatus,
             this.onTestStart,
           ),
@@ -301,13 +307,13 @@ export function generateEnumTestData(value: string): TestData[] {
     .split(',')
     .map((value) => value.trim())
     .flatMap((value) => [
-      { value: value.trim(), valid: true },
+      { value: value, valid: true },
       { value: value[0] + ' ' + value.slice(1), valid: false },
       {
         value:
-          value[0].toLowerCase() === value[0]
-            ? value[0].toUpperCase() + value.slice(1)
-            : value[0].toLowerCase() + value.slice(1),
+          value.match(/[A-Za-z]/)?.[0].toLowerCase() === value.match(/[A-Za-z]/)?.[0]
+            ? value.toUpperCase()
+            : value.toLowerCase(),
         valid: false,
       },
     ]);
@@ -358,7 +364,11 @@ export function generateNumberBoundaryTestData({ min, max }: Interval, stringify
 
 export function isParameterTestSkipped(dataType: DataType): boolean {
   return (
-    dataType === 'do-not-test' || dataType === 'randomString' || dataType === 'randomInt' || dataType === 'randomEmail'
+    dataType === 'do-not-test' ||
+    dataType === 'randomString' ||
+    dataType === 'randomInt' ||
+    dataType === 'randomEmail' ||
+    dataType === 'randomGuid'
   );
 }
 

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import merge from 'deepmerge';
 import { appConfig } from '../../constants/appConfig';
+import { MAX_INT32 } from '../../constants/datasets';
 import i18n from '../../i18n';
 import { Language } from '../../i18n/languages';
 import { Interval } from '../../types';
@@ -69,7 +70,7 @@ export const initialState: SettingsState = {
       },
       randomInt: {
         min: 0,
-        max: 2147483647,
+        max: MAX_INT32,
       },
       randomString: {
         length: 32,

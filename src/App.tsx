@@ -21,6 +21,8 @@ import Toggle from './components/inputs/Toggle';
 import Loader from './components/loaders/Loader';
 import TestRunningLoader from './components/loaders/TestRunningLoader';
 import ConfirmationModal from './components/modals/ConfirmationModal';
+import FollowModal from './components/modals/FollowModal';
+import GitHubModal from './components/modals/GitHubModal';
 import ImportConflictModal from './components/modals/ImportConflictModal';
 import Modal from './components/modals/Modal';
 import ProjectImportConfirmModal from './components/modals/ProjectImportConfirmModal';
@@ -49,6 +51,7 @@ import {
   determineRequestParameterTestStatus,
   determineTestStatus,
   ERROR_RESPONSE_EXPECTED,
+  generateEnumTestData,
   LARGE_PAYLOAD_TEST_NAME,
   LOAD_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
@@ -162,6 +165,7 @@ const methodOptions: SelectOption<Method>[] = [
   { value: 'PATCH', label: 'PATCH', className: 'text-method-patch! dark:text-dark-method-patch!' },
   { value: 'DELETE', label: 'DELETE', className: 'text-method-delete! dark:text-dark-method-delete!' },
   { value: 'HEAD', label: 'HEAD', className: 'text-method-head! dark:text-dark-method-head!' },
+  { value: 'QUERY', label: 'QUERY', className: 'text-method-query! dark:text-dark-method-query!' },
   { value: 'OPTIONS', label: 'OPTIONS', className: 'text-method-options! dark:text-dark-method-options!' },
 ];
 
@@ -664,6 +668,12 @@ export default function App() {
         buildSuite('Data-Driven Tests', dataDrivenTests),
         buildSuite('CRUD', crudTests),
       ];
+      const parsedHeaders = parseHeaders(testOptions.headers);
+      const parsedBody = parseBody(testOptions.body, parsedHeaders, testOptions.messageType, testOptions.protoFile);
+      const modifiedResponse = httpResponse ? { ...httpResponse } : null;
+
+      if (modifiedResponse && modifiedResponse.body)
+        modifiedResponse.body = extractBodyFromResponse(modifiedResponse) as any;
 
       return {
         generatedAt: new Date().toISOString(),
@@ -671,25 +681,14 @@ export default function App() {
         target: {
           url: testOptions.url,
           method: testOptions.method,
-          headers: parseHeaders(testOptions.headers),
-          body: safeParseBody(testOptions.body),
+          headers: parsedHeaders,
+          body: parsedBody,
           messageType: testOptions.messageType,
           protoFileName: testOptions.protoFile?.name ?? null,
         },
-        lastHttpResponse: httpResponse,
+        lastHttpResponse: modifiedResponse,
         suites,
       };
-    }
-
-    function safeParseBody(rawBody: string | null) {
-      if (rawBody === null) return null;
-      const trimmed = rawBody.trim();
-      if (!trimmed) return '';
-      try {
-        return JSON.parse(trimmed);
-      } catch {
-        return rawBody;
-      }
     }
   }, [testResults, exportFormat, httpResponse, dispatch]);
 
@@ -1358,7 +1357,24 @@ export default function App() {
 
                           if (!parameter) return readOnlyCell;
 
-                          const dataset = datasets[parameter.type]?.find((item) => item.value === row.value);
+                          let dataset = datasets[parameter.type]?.find((item) => item.value === row.value);
+
+                          // Dynamic test configurability: 2xx and 4xx.
+                          // Handles dynamically generated test cases for enum type.
+                          if (!dataset && parameter.type === 'enum') {
+                            if (/^ {3}(.*) {3}$/.test(row.value))
+                              dataset = {
+                                value: row.value,
+                                valid: false,
+                              };
+                            else {
+                              const enumDatasets = generateEnumTestData(parameter.value as string);
+                              dataset = enumDatasets.find(
+                                (enumDataset) => enumDataset.value === row.value && !enumDataset.valid,
+                              );
+                            }
+                          }
+
                           if (!dataset) return readOnlyCell;
 
                           return (
@@ -1510,6 +1526,8 @@ export default function App() {
       <ImportConflictModal />
       <ProjectImportConfirmModal />
       <SettingsModal />
+      <FollowModal />
+      <GitHubModal />
     </div>
   );
 }

@@ -1,12 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { appConfig } from '../../constants/appConfig';
+import { MAX_INT32 } from '../../constants/datasets';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectTestEngineConfiguration } from '../../store/selectors';
 import { settingsActions } from '../../store/slices/settingsSlice';
 import { clamp } from '../../utils';
 import Input from '../inputs/Input';
-
-const MAX_INT32 = 2147483647;
 
 export function MappingSettings() {
   const dispatch = useAppDispatch();

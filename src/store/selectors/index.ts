@@ -79,6 +79,8 @@ export const selectTestResultsToCompare = (state: RootState) => state.tests.resu
 
 // UI selectors
 export const selectOpenCurlModal = (state: RootState) => state.ui.openCurlModal;
+export const selectOpenFollowModal = (state: RootState) => state.ui.openFollowModal;
+export const selectOpenGitHubModal = (state: RootState) => state.ui.openGitHubModal;
 export const selectOpenReloadModal = (state: RootState) => state.ui.openReloadModal;
 export const selectOpenSendHttpSuccessModal = (state: RootState) => state.ui.openSendHttpSuccessModal;
 export const selectOpenSettingsModal = (state: RootState) => state.ui.openSettingsModal;
