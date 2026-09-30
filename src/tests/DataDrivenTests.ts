@@ -176,7 +176,7 @@ export async function runDataDrivenTests(
   // Test string value normalization (trimming)
   for (const [key, value] of Object.entries(bodyParameters)) {
     const originalBodyParameter = originalBodyParameters[key];
-    if (isParameterTestSkipped(value.type) || isNormalizationTestSkipped(originalBodyParameter.type)) continue;
+    if (isParameterTestSkipped(value.type) || isNormalizationTestSkipped(originalBodyParameter?.type)) continue;
     await onValueNormalizationTest(key, value);
   }
 
