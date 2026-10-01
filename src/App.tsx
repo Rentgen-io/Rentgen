@@ -56,12 +56,11 @@ import {
   RESPONSE_SIZE_CHECK_TEST_NAME,
   SUCCESS_RESPONSE_EXPECTED,
 } from './tests';
-import { Environment, ExportReport, ExtractionFailure, HttpResponse, ReportFormat, TestStatus } from './types';
+import { Environment, ExportReport, ExtractionFailure, ReportFormat, TestStatus } from './types';
 import {
   buildSuite,
   createHttpRequest,
   detectDataType,
-  extractBodyFromResponse,
   extractBodyParameters,
   extractCurl,
   extractQueryParameters,
@@ -69,7 +68,6 @@ import {
   formatBody,
   formatReport,
   getInitialParameterValue,
-  parseBody,
   parseHeaders,
   substituteRequestVariables,
 } from './utils';
@@ -368,7 +366,7 @@ export default function App() {
 
   // Send HTTP request
   const sendHttp = useCallback(async () => {
-    dispatch(responseActions.setResponse({ status: 'Sending...', body: '', headers: {}, time: 0 }));
+    dispatch(responseActions.setResponse({ status: 'Sending...', body: null, headers: {}, time: 0 }));
 
     const historyEntry = {
       id: `hist_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
@@ -385,11 +383,8 @@ export default function App() {
         headers: substitutedHeaders,
         body: substitutedBody,
       } = substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables);
-
-      const parsedHeaders = parseHeaders(substitutedHeaders);
-      const parsedBody = parseBody(substitutedBody, parsedHeaders);
-      const request = createHttpRequest(parsedBody, parsedHeaders, method, substitutedUrl);
-      const response: HttpResponse = await window.electronAPI.sendHttp(request);
+      const request = createHttpRequest(substitutedBody, substitutedHeaders, method, substitutedUrl);
+      const response = await window.electronAPI.sendHttp(request);
       const status = extractStatusCode(response);
 
       dispatch(responseActions.setResponse(response));
@@ -398,7 +393,7 @@ export default function App() {
       let queryParameters = {};
 
       if (status >= 200 && status < 300) {
-        const extractedBodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
+        const extractedBodyParameters = extractBodyParameters(substitutedBody, substitutedHeaders);
         const mappedBodyParameters = selectedRequestId ? mappings[selectedRequestId]?.body || {} : {};
 
         bodyParameters = Object.fromEntries(
@@ -648,12 +643,6 @@ export default function App() {
         buildSuite('Data-Driven Tests', dataDrivenTests),
         buildSuite('CRUD', crudTests),
       ];
-      const parsedHeaders = parseHeaders(testOptions.headers);
-      const parsedBody = parseBody(testOptions.body, parsedHeaders);
-      const modifiedResponse = httpResponse ? { ...httpResponse } : null;
-
-      if (modifiedResponse && modifiedResponse.body)
-        modifiedResponse.body = extractBodyFromResponse(modifiedResponse) as any;
 
       return {
         generatedAt: new Date().toISOString(),
@@ -661,10 +650,10 @@ export default function App() {
         target: {
           url: testOptions.url,
           method: testOptions.method,
-          headers: parsedHeaders,
-          body: parsedBody,
+          headers: testOptions.headers,
+          body: testOptions.body,
         },
-        lastHttpResponse: modifiedResponse,
+        lastHttpResponse: httpResponse,
         suites,
       };
     }
@@ -877,6 +866,7 @@ export default function App() {
                   className="absolute top-3 right-4 z-10"
                   buttonSize={ButtonSize.SMALL}
                   buttonType={ButtonType.SECONDARY}
+                  onBlur={autoSaveRequest}
                   onClick={() => dispatch(requestActions.setBody(formatBody(body, parseHeaders(headers))))}
                 >
                   {t('common.beautify')}
@@ -950,7 +940,7 @@ export default function App() {
                           </CopyButton>
                         )}
                         <JsonViewer
-                          source={extractBodyFromResponse(httpResponse)}
+                          source={httpResponse.body}
                           responsePanelContext={{ isResponsePanel: true, source: 'body' }}
                           showVariableButtons={!!currentRequestWithFolder}
                           onSetVariable={(path, value) => handleSetVariable(path, value, 'body')}

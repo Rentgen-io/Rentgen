@@ -3,14 +3,7 @@ import { appConfig } from '../constants/appConfig';
 import { getResponseStatusTitle, RESPONSE_STATUS } from '../constants/responseStatus';
 import { Abortable, Test } from '../decorators';
 import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from '../types';
-import {
-  createHttpRequest,
-  createTestHttpRequest,
-  extractBodyFromResponse,
-  getHeaderValue,
-  uppercaseDomain,
-  uppercasePath,
-} from '../utils';
+import { createHttpRequest, createTestHttpRequest, getHeaderValue, uppercaseDomain, uppercasePath } from '../utils';
 import {
   BaseTests,
   createErrorTestResult,
@@ -598,7 +591,6 @@ export class SecurityTests extends BaseTests {
         .split(',')
         .map((s) => s.trim().toUpperCase())
         .filter(Boolean);
-      const body = extractBodyFromResponse(response);
       const methodDescriptions: Record<string, string> = {
         GET: 'Fetch Data',
         POST: 'Create Resource',
@@ -615,7 +607,7 @@ export class SecurityTests extends BaseTests {
             name: method,
             actual: NOT_AVAILABLE_TEST,
             expected: methodDescriptions[method] || 'Custom method',
-            request: createHttpRequest(body, headers, method, url),
+            request: createHttpRequest(response.body, headers, method, url),
             response: null,
             status: TestStatus.Manual,
           }) as TestResult,

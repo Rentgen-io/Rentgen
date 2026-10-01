@@ -1,10 +1,10 @@
 import { isPhoneNumber } from './validation';
 
-export function containsArray(value: string): boolean {
+export function containsArray(value: unknown): boolean {
   let parsed;
 
   try {
-    parsed = JSON.parse(value);
+    parsed = !isObject(value) ? JSON.parse(JSON.stringify(value, null, 2)) : value;
   } catch {
     return false;
   }
@@ -27,7 +27,7 @@ export function detectObjectType(value: unknown): string {
 }
 
 export function isObject(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === 'object' && !Array.isArray(value);
+  return value !== null && typeof value === 'object';
 }
 
 export function setDeepObjectProperty(targetObject: any, propertyPath: string, newValue: any): void {
@@ -46,8 +46,7 @@ export function stringifyValue(value: any): string {
   if (
     (typeof value === 'string' &&
       (value === 'false' || value === 'true' || (!isNaN(Number(value)) && !isPhoneNumber(String(value))))) ||
-    isObject(value) ||
-    Array.isArray(value)
+    isObject(value)
   )
     return JSON.stringify(value);
 

@@ -11,6 +11,7 @@ interface Props extends PanelProps {
 
 export function HttpPanel({ className, children, source, title, ...otherProps }: Props) {
   const { t } = useTranslation();
+
   return (
     <div className={cn('relative flex flex-col gap-2.5', className)} {...otherProps}>
       <h4 className="m-0 text-text dark:text-dark-text">{title}</h4>

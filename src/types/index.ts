@@ -1,4 +1,5 @@
 import { Method } from 'axios';
+import { HttpBody, HttpRequest, HttpResponse } from '../../shared/types/http';
 
 export type DataType =
   | 'boolean'
@@ -31,20 +32,6 @@ export interface ParameterValue {
   overrides?: TestData[];
 }
 
-export interface HttpRequest {
-  body?: Record<string, unknown> | string | Uint8Array | null;
-  headers: Record<string, string>;
-  method: Method | string;
-  url: string;
-}
-
-export interface HttpResponse {
-  body: string;
-  headers: Record<string, string>;
-  status: string;
-  time: number;
-}
-
 export interface Interval {
   min: number;
   max: number;
@@ -68,9 +55,9 @@ export interface TestData {
 }
 
 export interface TestOptions {
-  body: string | null;
+  body: HttpBody;
   bodyParameters: RequestParameters;
-  headers: string;
+  headers: Record<string, string>;
   method: Method | string;
   parameterName?: string;
   parameterType?: ParameterType;
@@ -83,8 +70,8 @@ export interface TestResult {
   actual: string;
   expected: string;
   name: string;
-  request?: HttpRequest | null;
-  response?: HttpResponse | null;
+  request: HttpRequest | null;
+  response: HttpResponse | null;
   status: TestStatus;
   value?: any;
 }
@@ -129,7 +116,8 @@ export interface ExportReport {
 }
 
 export * from '../../shared/types/environment';
-export * from './ipc';
+export * from '../../shared/types/http';
 export * from '../../shared/types/postman';
-export * from './postman-full';
 export * from '../../shared/types/project';
+export * from './ipc';
+export * from './postman-full';

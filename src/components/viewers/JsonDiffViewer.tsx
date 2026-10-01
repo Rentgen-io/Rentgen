@@ -11,7 +11,7 @@ import { rentgenDarkTheme, rentgenLightTheme } from '../monaco/themes';
 
 interface Props {
   className?: string;
-  data: object[];
+  data: (object | null)[];
   calculateStatistics?(statistics: { percent: number; added: number; removed: number; unchanged: number }): void;
   isDiffReady?(ready: boolean): void;
 }
@@ -29,11 +29,11 @@ export function JsonDiffViewer({ className, data, calculateStatistics, isDiffRea
       diffEditorRef.current
         .getOriginalEditor()
         .getModel()
-        .setValue(JSON.stringify(data[0], null, 2));
+        ?.setValue(JSON.stringify(data[0], null, 2));
       diffEditorRef.current
         .getModifiedEditor()
         .getModel()
-        .setValue(JSON.stringify(data[1], null, 2));
+        ?.setValue(JSON.stringify(data[1], null, 2));
     }
   }, [data]);
 
@@ -48,8 +48,8 @@ export function JsonDiffViewer({ className, data, calculateStatistics, isDiffRea
     if (!editor) return;
 
     const changes = editor.getLineChanges() || [];
-    const originalLines = editor.getOriginalEditor().getModel().getLineCount();
-    const modifiedLines = editor.getModifiedEditor().getModel().getLineCount();
+    const originalLines = editor.getOriginalEditor().getModel()?.getLineCount() ?? 0;
+    const modifiedLines = editor.getModifiedEditor().getModel()?.getLineCount() ?? 0;
 
     let added = 0;
     let removed = 0;

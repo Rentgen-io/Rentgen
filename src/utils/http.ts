@@ -1,6 +1,14 @@
 import { Method } from 'axios';
 import { store } from '../store';
-import { DataType, HttpRequest, HttpResponse, ParameterValue, RequestParameters, TestOptions } from '../types';
+import {
+  DataType,
+  HttpBody,
+  HttpRequest,
+  HttpResponse,
+  ParameterValue,
+  RequestParameters,
+  TestOptions,
+} from '../types';
 import { isObject, setDeepObjectProperty, stringifyValue, tryParseJsonObject } from './object';
 import { generateRandomValue } from './random';
 import { detectDataType, extractPropertiesFromJson } from './validation';
@@ -18,7 +26,7 @@ export function convertUrlEncodedToFormEntries(encoded: string): Array<[string, 
 }
 
 export function createHttpRequest(
-  body: Record<string, unknown> | string | Uint8Array | null,
+  body: HttpBody,
   headers: Record<string, string>,
   method: Method | string,
   url: string,
@@ -33,13 +41,11 @@ export function createTestHttpRequest(options: TestOptions): HttpRequest {
   const { body, bodyParameters, headers, method, parameterName, parameterType, queryParameters, testData, url } =
     options;
 
-  let parsedBody: Record<string, unknown> | string | Uint8Array | null = null;
-  let formEntries: Array<[string, string]> = [];
+  let parsedBody = structuredClone(body);
 
-  if (isUrlEncodedContentType(parseHeaders(headers))) formEntries = parseFormData(body);
-  else parsedBody = tryParseJsonObject(body);
+  if (isUrlEncodedContentType(headers)) {
+    const formEntries = convertUrlEncodedToFormEntries(body as string);
 
-  if (formEntries.length > 0) {
     // Update the parameter being tested
     if (parameterType === 'body' && parameterName && testData)
       updateFormEntry(formEntries, parameterName, stringifyValue(testData.value));
@@ -84,7 +90,7 @@ export function createTestHttpRequest(options: TestOptions): HttpRequest {
     if (randomValue !== null) modifiedUrl.searchParams.set(key, String(randomValue));
   }
 
-  return createHttpRequest(parsedBody, parseHeaders(headers), method, modifiedUrl.toString());
+  return createHttpRequest(parsedBody, headers, method, modifiedUrl.toString());
 }
 
 export function extractBodyParameters(body: unknown, headers: Record<string, string>): RequestParameters {
@@ -113,16 +119,6 @@ export function extractBodyParameters(body: unknown, headers: Record<string, str
   }
 
   return parameters;
-}
-
-export function extractBodyFromResponse(response: HttpResponse): Record<string, unknown> | string {
-  try {
-    if (typeof response?.body === 'string') return JSON.parse(response.body);
-    if (response?.body && typeof response.body === 'object') return response.body;
-  } catch {
-    // JSON.parse failed
-  }
-  return response?.body ?? '';
 }
 
 export function extractStatusCode(response: HttpResponse | null): number {
@@ -155,7 +151,7 @@ export function getHeaderValue(headers: Record<string, string>, headerName: stri
   return matchingKey ? String(headers[matchingKey]) : '';
 }
 
-export function getBodyParameterValue(body: unknown, parameterName: string, headers: Record<string, string>): any {
+export function getBodyParameterValue(body: HttpBody, parameterName: string, headers: Record<string, string>): any {
   if (isUrlEncodedContentType(headers)) {
     const formEntries = convertUrlEncodedToFormEntries(body as string);
     return formEntries.find(([key]) => key === parameterName)?.[1];
@@ -203,7 +199,7 @@ export function isUrlEncodedContentTypeString(value: string): boolean {
   return /application\/x-www-form-urlencoded/i.test(value);
 }
 
-export function parseBody(body: string | null, headers: Record<string, string>): any {
+export function parseBody(body: string | null, headers: Record<string, string>): HttpBody {
   if (isUrlEncodedContentType(headers)) return convertFormEntriesToUrlEncoded(parseFormData(body));
 
   return tryParseJsonObject(body);

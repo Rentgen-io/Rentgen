@@ -292,7 +292,7 @@ function getAllJsonValuePositions(jsonString: string, sourceObject: object): Jso
 }
 
 interface Props {
-  source?: string | object | null;
+  source?: string | number | boolean | object | null;
   className?: string;
   responsePanelContext?: ResponsePanelContext;
   showVariableButtons?: boolean;
@@ -306,7 +306,7 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
   const isDark = theme === 'dark';
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const responsePanelContextRef = useRef<ResponsePanelContext | undefined>(responsePanelContext);
-  const sourceRef = useRef<string | object | null>(source);
+  const sourceRef = useRef<string | number | boolean | object | null>(source);
   const widgetsRef = useRef<Map<string, monaco.editor.IContentWidget>>(new Map());
   const widgetDomNodesRef = useRef<Map<string, HTMLButtonElement>>(new Map());
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);

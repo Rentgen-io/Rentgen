@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { ORIGINAL_REQUEST_TEST_PARAMETER_NAME } from '../../tests';
-import { HttpResponse, TestResult, TestResults } from '../../types';
-import { detectObjectType, extractBodyFromResponse, truncateValue } from '../../utils';
+import { HttpBody, HttpRequest, HttpResponse, TestResult, TestResults } from '../../types';
+import { detectObjectType, truncateValue } from '../../utils';
 import Button from '../buttons/Button';
 import Toggle from '../inputs/Toggle';
 import PotentialBugsTable, { PotentialBug } from '../tables/PotentialBugsTable';
@@ -35,22 +35,21 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
     )?.response;
     if (!originalResponse) return null;
 
-    return findNoiseFields(normalizeResponse(originalResponse), normalizeResponse(response));
+    return findNoiseFields(originalResponse, response);
   }, [items, response]);
 
   const filteredItems = useMemo(() => {
     const filterTestArray = (tests: TestResult[]) =>
       tests.map((test) => {
         const updatedTest = { ...test };
-        delete updatedTest.request;
+        delete (updatedTest as { request?: HttpRequest | null }).request;
 
-        const normalizedResponse = normalizeResponse(updatedTest.response);
         return {
           ...updatedTest,
           response:
-            !noisePaths || noisePaths.length === 0 || !normalizedResponse || showNoise
-              ? normalizedResponse
-              : removeNoiseFields(normalizedResponse, noisePaths),
+            !noisePaths || noisePaths.length === 0 || !updatedTest.response || showNoise
+              ? updatedTest.response
+              : removeNoiseFields(updatedTest.response, noisePaths),
         };
       });
 
@@ -74,10 +73,9 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
         const modifiedTest =
           modifiedTests.find(
             (test) => test.name === originalTest.name && (!matchByValue || test.value === originalTest.value),
-          ) ||
-          (matchByValue && modifiedTests[index]);
-        const originalResponse = normalizeResponse(originalTest?.response);
-        const modifiedResponse = normalizeResponse(modifiedTest?.response);
+          ) || (matchByValue ? modifiedTests[index] : null);
+        const originalResponse = originalTest?.response;
+        const modifiedResponse = modifiedTest?.response ?? null;
         const issues = compareHttpResponses(originalResponse, modifiedResponse);
 
         if (issues.length === 0) return [];
@@ -170,15 +168,6 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
   );
 }
 
-function normalizeResponse(response: HttpResponse): HttpResponse | null {
-  if (!response) return null;
-
-  return {
-    ...response,
-    body: response.body ? (extractBodyFromResponse(response) as any) : response.body,
-  };
-}
-
 function findNoiseFields(firstObject: Record<string, any>, secondObject: Record<string, any>, path = ''): string[] {
   if (!firstObject || !secondObject) return [];
 
@@ -227,25 +216,22 @@ function removeNoiseFields<T extends object>(object: T, noisePaths: string[]): T
   return clone;
 }
 
-export function compareHttpResponses(
-  originalResponse: HttpResponse | null,
-  modifiedResponse: HttpResponse | null,
-): string[] {
+function compareHttpResponses(originalResponse: HttpResponse | null, modifiedResponse: HttpResponse | null): string[] {
   const issues: string[] = [];
 
-  if (originalResponse == null && modifiedResponse == null) return issues;
-  if (originalResponse != null && modifiedResponse == null) return ['Entire response disappeared'];
-  if (originalResponse == null && modifiedResponse != null) return ['Entire response appeared'];
+  if (originalResponse === null && modifiedResponse === null) return issues;
+  if (originalResponse !== null && modifiedResponse === null) return ['Entire response disappeared'];
+  if (originalResponse === null && modifiedResponse !== null) return ['Entire response appeared'];
 
-  if (originalResponse.status !== modifiedResponse.status)
-    issues.push(`Status changed: '${originalResponse.status}' → '${modifiedResponse.status}'`);
+  if (originalResponse!.status !== modifiedResponse!.status)
+    issues.push(`Status changed: '${originalResponse!.status}' → '${modifiedResponse!.status}'`);
 
-  issues.push(...compareHttpResponseBodies(originalResponse.body, modifiedResponse.body));
+  issues.push(...compareHttpResponseBodies(originalResponse!.body, modifiedResponse!.body));
 
   return issues;
 }
 
-export function compareHttpResponseBodies(originalValue: any, modifiedValue: any, path: string = 'body'): string[] {
+function compareHttpResponseBodies(originalValue: HttpBody, modifiedValue: HttpBody, path: string = 'body'): string[] {
   const issues: string[] = [];
 
   const hasOwnKey = (record: Record<string, unknown>, key: string): boolean =>

@@ -9,7 +9,6 @@ interface EnvironmentState {
   environmentToDelete: string | null;
   loading: boolean;
   error: string | null;
-  // Dynamic variables stored at root level
   dynamicVariables: DynamicVariable[];
 }
 

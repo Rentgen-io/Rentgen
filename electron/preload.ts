@@ -1,8 +1,9 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { MappingsState } from '../src/store/slices/mappingsSlice';
 import type { SettingsState } from '../src/store/slices/settingsSlice';
-import type {
+import {
   ExportResult,
+  HttpRequest,
   HttpResponse,
   ImportResult,
   PostmanCollection,
@@ -39,7 +40,7 @@ interface ElectronApi {
   }) => Promise<{ canceled: boolean; filePath?: string; error?: string }>;
   saveMappings: (mappings: MappingsState) => void;
   saveSettings: (settings: SettingsState) => void;
-  sendHttp: (payload: any) => Promise<HttpResponse>;
+  sendHttp: (request: HttpRequest) => Promise<HttpResponse>;
   sendWss: (message: string) => void;
   exportProject: () => Promise<ProjectExportResult>;
   importProject: () => Promise<ProjectImportResult>;
@@ -84,7 +85,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('save-report', payload),
   saveMappings: (mappings: MappingsState): void => ipcRenderer.send('save-mappings', mappings),
   saveSettings: (settings: SettingsState): void => ipcRenderer.send('save-settings', settings),
-  sendHttp: (payload: any): Promise<HttpResponse> => ipcRenderer.invoke('http-request', payload),
+  sendHttp: (request: HttpRequest): Promise<HttpResponse> => ipcRenderer.invoke('http-request', request),
   sendWss: (message: string): void => ipcRenderer.send('wss-send', message),
   exportProject: (): Promise<ProjectExportResult> => ipcRenderer.invoke('export-project'),
   importProject: (): Promise<ProjectImportResult> => ipcRenderer.invoke('import-project'),

@@ -1,6 +1,5 @@
 export * from './curl';
 export * from './environment';
-export * from './error';
 export * from './http';
 export * from './number';
 export * from './object';

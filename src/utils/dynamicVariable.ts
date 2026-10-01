@@ -1,5 +1,6 @@
 import { DynamicVariable, ExtractionResult, HttpResponse } from '../types';
 import { extractValue, stringifyExtractedValue } from './environment';
+import { isObject } from './object';
 
 /**
  * Extract the value for a dynamic variable from an HTTP response with detailed result.
@@ -23,7 +24,7 @@ export function extractDynamicVariableFromResponseWithDetails(
 
       let body: unknown;
       try {
-        body = JSON.parse(response.body);
+        body = !isObject(response.body) ? JSON.parse(JSON.stringify(response.body, null, 2)) : response.body;
       } catch {
         return { value: null, success: false, error: 'response body is not valid JSON' };
       }

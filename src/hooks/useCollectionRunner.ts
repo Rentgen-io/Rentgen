@@ -16,8 +16,6 @@ import {
   extractQueryParameters,
   extractStatusCode,
   getInitialParameterValue,
-  parseBody,
-  parseHeaders,
   substituteRequestVariables,
 } from '../utils';
 import { findRequestById, headersRecordToString, postmanHeadersToRecord } from '../utils/collection';
@@ -82,22 +80,15 @@ export function useCollectionRunner() {
 
       try {
         const { request } = item;
-        const headers = postmanHeadersToRecord(request.header);
-        const headersString = headersRecordToString(headers);
-        const body = request.body?.raw || '';
-
-        // Apply environment variable substitution (including dynamic variables)
-        const substituted = substituteRequestVariables(
+        const { body, headers, url } = substituteRequestVariables(
           request.url,
-          headersString,
-          body,
+          headersRecordToString(postmanHeadersToRecord(request.header)),
+          request.body?.raw || '',
           selectedEnvironment,
           dynamicVariablesRef.current,
         );
 
-        const parsedHeaders = parseHeaders(substituted.headers);
-        const parsedBody = parseBody(substituted.body, parsedHeaders);
-        const httpRequest = createHttpRequest(parsedBody, parsedHeaders, request.method, substituted.url);
+        const httpRequest = createHttpRequest(body, headers, request.method, url);
         const response = await window.electronAPI.sendHttp(httpRequest);
         const status = extractStatusCode(response);
 
@@ -105,7 +96,7 @@ export function useCollectionRunner() {
         let queryParameters = {};
 
         if (status >= 200 && status < 300) {
-          const extractedBodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
+          const extractedBodyParameters = extractBodyParameters(body, headers);
           const mappedBodyParameters = mappings[item.id]?.body || {};
 
           bodyParameters = Object.fromEntries(

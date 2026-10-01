@@ -3,7 +3,7 @@ import 'reflect-metadata';
 export function Abortable(_target: any, _propertyKey: string, descriptor: PropertyDescriptor) {
   const original = descriptor.value;
 
-  descriptor.value = function (...args: any[]) {
+  descriptor.value = function (this: { readonly aborted: boolean }, ...args: any[]) {
     if (this.aborted) return;
     return original.apply(this, args);
   };

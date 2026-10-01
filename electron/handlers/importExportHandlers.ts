@@ -2,7 +2,7 @@ import { dialog, ipcMain } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
 import type { ExportResult, ImportResult, PostmanCollection } from '../../src/types';
-import { rentgenToPostman, postmanToRentgen, validatePostmanCollection } from '../../src/utils/postman-converter';
+import { postmanToRentgen, rentgenToPostman, validatePostmanCollection } from '../../src/utils/postman-converter';
 
 export function registerImportExportHandlers(): void {
   // Import Postman collection from file

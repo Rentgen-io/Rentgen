@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 import { useAppSelector } from '../../store/hooks';
 import { selectDisabledPerformanceInsights, selectDisabledSecurityTests } from '../../store/selectors';
 import { TestResult, TestStatus } from '../../types';
-import { extractBodyFromResponse, generateCurl, truncateValue } from '../../utils';
+import { generateCurl, truncateValue } from '../../utils';
 import { CopyButton } from '../buttons/CopyButton';
 import { HttpPanel } from '../panels/HttpPanel';
 
@@ -148,10 +148,6 @@ export function TestsTableHeader({
 export const ExpandedTestComponent = memo(({ data }: ExpanderComponentProps<TestResult>) => {
   const { t } = useTranslation();
   const { request, response } = data;
-  const modifiedResponse = response ? { ...response } : null;
-
-  if (modifiedResponse && modifiedResponse.body)
-    modifiedResponse.body = extractBodyFromResponse(modifiedResponse) as any;
 
   return (
     <div className="p-4 bg-body dark:bg-dark-body">
@@ -162,7 +158,7 @@ export const ExpandedTestComponent = memo(({ data }: ExpanderComponentProps<Test
       )}
       <div className="grid grid-cols-2 gap-4 items-stretch">
         <HttpPanel title={t('tables.request')} source={request} />
-        <HttpPanel title={t('response.title')} source={modifiedResponse} />
+        <HttpPanel title={t('response.title')} source={response} />
       </div>
     </div>
   );

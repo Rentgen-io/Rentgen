@@ -46,7 +46,7 @@ export default function HighlightedInput({
         {...otherProps}
       />
       <div
-        className="absolute inset-0 flex items-center mx-3 py-2 font-monospace text-xs whitespace-pre overflow-x-auto [scrollbar-width:none]"
+        className="absolute inset-0 flex items-center mx-3 py-2 font-monospace text-xs whitespace-pre overflow-x-auto scrollbar-none"
         ref={highlighterRef}
       >
         <VariableHighlighter

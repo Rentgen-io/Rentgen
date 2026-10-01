@@ -184,9 +184,16 @@ export class PerformanceInsights extends BaseTests {
       const contentType = getHeaderValue(response.headers, 'content-type');
       if (!contentType || !contentType.toLowerCase().includes('application/json')) return false;
 
-      return new TextEncoder().encode(response.body).length > 100 * 1024;
+      return (
+        new TextEncoder().encode(typeof response.body === 'string' ? response.body : JSON.stringify(response.body))
+          .length >
+        RESPONSE_SIZE_KB * 1024
+      );
     });
-    const size = result?.response ? (new TextEncoder().encode(result.response.body).length / 1024).toFixed(2) : null;
+    const body = result?.response?.body;
+    const size = body
+      ? (new TextEncoder().encode(typeof body === 'string' ? body : JSON.stringify(body)).length / 1024).toFixed(2)
+      : null;
 
     return createTestResult(
       RESPONSE_SIZE_CHECK_TEST_NAME,

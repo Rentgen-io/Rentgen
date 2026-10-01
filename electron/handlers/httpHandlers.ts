@@ -1,10 +1,42 @@
 import axios from 'axios';
 import { exec } from 'child_process';
 import { ipcMain } from 'electron';
-import { HttpResponse } from '../../src/types';
+import { HttpBody, HttpRequest, HttpResponse } from '../../shared/types/http';
+
+function decodeToText(data: unknown): string | null {
+  if (typeof data === 'string') return data;
+  if (data instanceof ArrayBuffer) return new TextDecoder().decode(new Uint8Array(data));
+  if (ArrayBuffer.isView(data))
+    return new TextDecoder().decode(new Uint8Array(data.buffer, data.byteOffset, data.byteLength));
+
+  return null;
+}
+
+function toBody(data: unknown, contentType: string): HttpBody {
+  if (data === null || data === undefined) return null;
+
+  const text = decodeToText(data);
+  if (text === null) {
+    if (Array.isArray(data)) return data;
+
+    if (typeof data === 'object') return data as Record<string, unknown>;
+
+    if (typeof data === 'number' || typeof data === 'boolean') return data;
+
+    return String(data);
+  }
+  if (text === '') return null;
+  if (!/\bapplication\/([\w.-]+\+)?json\b/i.test(contentType)) return text;
+
+  try {
+    return JSON.parse(text) as HttpBody;
+  } catch {
+    return text;
+  }
+}
 
 export function registerHttpHandlers(): void {
-  ipcMain.handle('http-request', async (_event, { url, method, headers, body }): Promise<HttpResponse> => {
+  ipcMain.handle('http-request', async (_event, { url, method, headers, body }: HttpRequest): Promise<HttpResponse> => {
     const requestStartTime = performance.now();
 
     try {
@@ -21,35 +53,13 @@ export function registerHttpHandlers(): void {
       const responseTime = performance.now() - requestStartTime;
       const contentTypeRaw = response.headers && (response.headers['content-type'] || response.headers['Content-Type']);
       const contentType = typeof contentTypeRaw === 'string' ? contentTypeRaw : '';
-      const data = response.data;
-      let responseBody: string;
+
+      let responseBody: HttpBody;
 
       try {
-        if (
-          data instanceof ArrayBuffer ||
-          (data && typeof data === 'object' && typeof (data as any).byteLength === 'number')
-        ) {
-          const uint8 = new Uint8Array(data as any);
-          responseBody = new TextDecoder().decode(uint8);
-
-          if (contentType.includes('application/json')) {
-            try {
-              responseBody = JSON.stringify(JSON.parse(responseBody), null, 2);
-            } catch {
-              // Keep as plain text if JSON parsing fails
-            }
-          }
-        } else if (typeof data === 'string') {
-          responseBody = data;
-        } else {
-          responseBody = typeof data === 'object' ? JSON.stringify(data, null, 2) : String(data);
-        }
+        responseBody = toBody(response.data, contentType);
       } catch {
-        try {
-          responseBody = String(data);
-        } catch {
-          responseBody = '[unprintable response]';
-        }
+        responseBody = '[unprintable response]';
       }
 
       return {
@@ -61,12 +71,12 @@ export function registerHttpHandlers(): void {
     } catch (error) {
       const responseTime = performance.now() - requestStartTime;
 
-      if (error.code === 'EPIPE')
+      if ((error as NodeJS.ErrnoException)?.code === 'EPIPE')
         return {
           status: '413 Payload Too Large (EPIPE)',
           time: responseTime,
           headers: {},
-          body: '',
+          body: null,
         };
 
       return { status: 'Error', time: responseTime, headers: {}, body: String(error) };

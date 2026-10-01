@@ -16,7 +16,6 @@ export const rentgenDarkTheme: editor.IStandaloneThemeData = {
   },
 };
 
-//text-[#0451a5] dark:text-[#ce9178]
 export const rentgenLightPlaintextTheme: editor.IStandaloneThemeData = {
   base: 'vs',
   inherit: true,

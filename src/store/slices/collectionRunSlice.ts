@@ -48,7 +48,6 @@ export const collectionRunSlice = createSlice({
       state.runningRequestId = null;
     },
     clearFolderResults: (state, action: PayloadAction<string[]>) => {
-      // action.payload is array of requestIds to clear
       action.payload.forEach((requestId) => {
         delete state.results[requestId];
       });

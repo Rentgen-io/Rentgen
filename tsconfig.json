@@ -2,17 +2,16 @@
   "compilerOptions": {
     "target": "ES2023",
     "allowJs": true,
-    "module": "commonjs",
+    "module": "preserve",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
-    "baseUrl": ".",
     "outDir": "dist",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "paths": {
-      "*": ["node_modules/*"]
+      "monaco-editor/*": ["./node_modules/monaco-editor/*"]
     },
     "jsx": "react-jsx",
     "experimentalDecorators": true,

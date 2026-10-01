@@ -21,8 +21,6 @@ import {
   generateRandomString,
   getBodyParameterValue,
   normalizeDecimal,
-  parseBody,
-  parseHeaders,
 } from '../utils';
 import {
   BaseTests,
@@ -38,11 +36,9 @@ const VALUE_NORMALIZATION_TEST_EXPECTED = `${RESPONSE_STATUS.BAD_REQUEST} ${getR
 
 export class DataDrivenTests extends BaseTests {
   public async run(): Promise<TestResult[]> {
-    const { body, headers, method, url } = this.options;
     const results: TestResult[] = [];
-    const parsedHeaders = parseHeaders(headers);
-    const parsedBody = parseBody(body, parsedHeaders);
-    const request = createHttpRequest(parsedBody, parsedHeaders, method, url);
+    const { body, headers, method, url } = this.options;
+    const request = createHttpRequest(body, headers, method, url);
 
     // Test original request first as baseline
     results.push(await this.testOriginalRequest(request));
@@ -51,7 +47,7 @@ export class DataDrivenTests extends BaseTests {
       this.options,
       async (parameterName: string, { type, overrides }: ParameterValue) => {
         const testData: TestData = {
-          value: `   ${getBodyParameterValue(parsedBody, parameterName, parsedHeaders)}   `,
+          value: `   ${getBodyParameterValue(body, parameterName, headers)}   `,
           valid: false,
         };
         const updateData = overrides?.find((override) => override.value === testData.value) || testData;
@@ -169,9 +165,7 @@ export async function runDataDrivenTests(
   onQueryParameterTest: (key: string, value: ParameterValue) => Promise<void>,
 ) {
   const { body, headers, bodyParameters, queryParameters } = options;
-  const parsedHeaders = parseHeaders(headers);
-  const parsedBody = parseBody(body, parsedHeaders);
-  const originalBodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
+  const originalBodyParameters = extractBodyParameters(body, headers);
 
   // Test string value normalization (trimming)
   for (const [key, value] of Object.entries(bodyParameters)) {

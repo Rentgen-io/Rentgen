@@ -62,7 +62,6 @@ export const testSlice = createSlice({
     setCurrentTest: (state, action: PayloadAction<number>) => {
       state.currentTest = action.payload;
     },
-
     // Security tests
     setSecurityRunning: (state, action: PayloadAction<boolean>) => {
       state.isSecurityRunning = action.payload;
@@ -74,7 +73,6 @@ export const testSlice = createSlice({
       const index = state.securityTests.findIndex((t) => t.name === action.payload.testName);
       if (index !== -1) state.securityTests[index] = action.payload.result;
     },
-
     // Data-driven tests
     setDataDrivenRunning: (state, action: PayloadAction<boolean>) => {
       state.isDataDrivenRunning = action.payload;
@@ -88,7 +86,6 @@ export const testSlice = createSlice({
       );
       if (index !== -1) state.dataDrivenTests[index] = action.payload;
     },
-
     // Performance tests
     setPerformanceRunning: (state, action: PayloadAction<boolean>) => {
       state.isPerformanceRunning = action.payload;
@@ -100,7 +97,6 @@ export const testSlice = createSlice({
       const index = state.performanceTests.findIndex((t) => t.name === action.payload.testName);
       if (index !== -1) state.performanceTests[index] = action.payload.result;
     },
-
     // Load test specific
     setLoadTestRunning: (state, action: PayloadAction<boolean>) => {
       state.isLoadTestRunning = action.payload;
@@ -108,17 +104,14 @@ export const testSlice = createSlice({
     setLoadProgress: (state, action: PayloadAction<number>) => {
       state.loadProgress = action.payload;
     },
-
     // Large payload test
     setLargePayloadTestRunning: (state, action: PayloadAction<boolean>) => {
       state.isLargePayloadTestRunning = action.payload;
     },
-
     // CRUD tests
     setCrudTests: (state, action: PayloadAction<TestResult[]>) => {
       state.crudTests = action.payload;
     },
-
     // Reset
     resetTests: (state) => {
       state.timestamp = null;
@@ -136,7 +129,6 @@ export const testSlice = createSlice({
       state.loadProgress = 0;
       state.testOptions = null;
     },
-
     // Start all tests
     startAllTests: (state) => {
       state.timestamp = null;
@@ -150,7 +142,6 @@ export const testSlice = createSlice({
       state.currentTest = 0;
       state.count = 0;
     },
-
     addResults: (state, action: PayloadAction<{ requestId: string; results: TestResults }>) => {
       state.results[action.payload.requestId] = action.payload.results;
     },
@@ -183,7 +174,6 @@ export const testSlice = createSlice({
       );
       if (index !== -1) testResults.dataDrivenTests[index] = action.payload.result;
     },
-
     addResultToCompare: (state, action: PayloadAction<TestResults>) => {
       state.resultsToCompare.push(action.payload);
       state.isComparing = state.resultsToCompare.length >= 2;

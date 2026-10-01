@@ -1,4 +1,5 @@
-import { DataType, DynamicVariable, Environment, EnvironmentVariable } from '../types';
+import { DataType, DynamicVariable, Environment, EnvironmentVariable, HttpBody } from '../types';
+import { parseBody, parseHeaders } from './http';
 import { generateRandomValue } from './random';
 
 /**
@@ -86,19 +87,26 @@ export function substituteRequestVariables(
   body: string,
   environment: Environment | null,
   dynamicVariables?: DynamicVariable[],
-): { url: string; headers: string; body: string } {
+): { body: HttpBody; headers: Record<string, string>; url: string } {
   const staticVars = environment?.variables || [];
   const dynamicVars = dynamicVariables || [];
 
-  if (staticVars.length === 0 && dynamicVars.length === 0) return { url, headers, body };
+  if (staticVars.length === 0 && dynamicVars.length === 0) {
+    const parsedHeaders = parseHeaders(headers);
+    const parsedBody = parseBody(body, parsedHeaders);
+
+    return { body: parsedBody, headers: parsedHeaders, url };
+  }
 
   // Build effective variables map (dynamic overrides static)
   const effectiveVars = buildEffectiveVariables(staticVars, dynamicVars, environment?.id || null);
+  const parsedHeaders = parseHeaders(substituteWithVariables(headers, effectiveVars));
+  const parsedBody = parseBody(substituteWithVariables(body, effectiveVars), parsedHeaders);
 
   return {
     url: substituteWithVariables(url, effectiveVars),
-    headers: substituteWithVariables(headers, effectiveVars),
-    body: substituteWithVariables(body, effectiveVars),
+    headers: parsedHeaders,
+    body: parsedBody,
   };
 }
 
