@@ -8,7 +8,7 @@ import {
 } from '../store/selectors';
 import { collectionRunActions } from '../store/slices/collectionRunSlice';
 import { environmentActions } from '../store/slices/environmentSlice';
-import { DynamicVariable, ExtractionFailure, HttpResponse, PostmanItem } from '../types';
+import { DynamicVariable, ExtractionFailure, PostmanItem } from '../types';
 import {
   createHttpRequest,
   detectDataType,
@@ -91,15 +91,14 @@ export function useCollectionRunner() {
           request.url,
           headersString,
           body,
-          '', // messageType - not stored in collection
           selectedEnvironment,
           dynamicVariablesRef.current,
         );
 
         const parsedHeaders = parseHeaders(substituted.headers);
-        const parsedBody = parseBody(substituted.body, parsedHeaders, '', null);
+        const parsedBody = parseBody(substituted.body, parsedHeaders);
         const httpRequest = createHttpRequest(parsedBody, parsedHeaders, request.method, substituted.url);
-        const response: HttpResponse = await window.electronAPI.sendHttp(httpRequest);
+        const response = await window.electronAPI.sendHttp(httpRequest);
         const status = extractStatusCode(response);
 
         let bodyParameters = {};

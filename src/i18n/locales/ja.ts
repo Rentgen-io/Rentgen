@@ -106,11 +106,6 @@ const ja = {
     body: 'ボディ',
     bodyPlaceholderHttp: 'リクエストボディを入力 (JSON または Form Data)',
     bodyPlaceholderWss: 'メッセージボディ',
-    protobufSchema: 'Protobuf スキーマとメッセージタイプ',
-    protobufDescription: '実験的なオプションのセクションです。使用する場合は両方のフィールドを入力する必要があります',
-    messageTypePlaceholder: 'メッセージタイプ (例: mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Proto スキーマを読み込みました',
-    protoSchemaParseFailed: '🔴 Proto の解析に失敗しました: ',
     wssUrlRequired: '🔴 ws:// または wss:// の URL を使用してください',
     modePlaceholder: 'モード',
     methodPlaceholder: 'メソッド',
@@ -474,11 +469,6 @@ const ja = {
   fileInput: {
     chooseFile: 'ファイルを選択',
     noFileChosen: 'ファイルが選択されていません',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'デコードされた Protobuf:',
   },
 
   // Messages panel

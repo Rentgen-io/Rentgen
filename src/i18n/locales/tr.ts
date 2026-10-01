@@ -106,11 +106,6 @@ const tr = {
     body: 'Gövde',
     bodyPlaceholderHttp: 'İstek gövdesini girin (JSON veya Form Data)',
     bodyPlaceholderWss: 'Mesaj gövdesi',
-    protobufSchema: 'Protobuf Şeması ve Mesaj Türü',
-    protobufDescription: 'Deneysel ve isteğe bağlı bölüm. Kullanılırsa her iki alan da doldurulmalıdır',
-    messageTypePlaceholder: 'Mesaj türü (örn. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Proto şeması yüklendi',
-    protoSchemaParseFailed: '🔴 Proto ayrıştırılamadı: ',
     wssUrlRequired: '🔴 Lütfen ws:// veya wss:// URL kullanın',
     modePlaceholder: 'MOD',
     methodPlaceholder: 'METOT',
@@ -475,11 +470,6 @@ const tr = {
   fileInput: {
     chooseFile: 'Dosya Seç',
     noFileChosen: 'Dosya seçilmedi',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Çözülmüş Protobuf:',
   },
 
   // Messages panel

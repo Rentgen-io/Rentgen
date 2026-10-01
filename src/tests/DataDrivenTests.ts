@@ -38,10 +38,10 @@ const VALUE_NORMALIZATION_TEST_EXPECTED = `${RESPONSE_STATUS.BAD_REQUEST} ${getR
 
 export class DataDrivenTests extends BaseTests {
   public async run(): Promise<TestResult[]> {
-    const { body, headers, messageType, method, protoFile, url } = this.options;
+    const { body, headers, method, url } = this.options;
     const results: TestResult[] = [];
     const parsedHeaders = parseHeaders(headers);
-    const parsedBody = parseBody(body, parsedHeaders, messageType, protoFile);
+    const parsedBody = parseBody(body, parsedHeaders);
     const request = createHttpRequest(parsedBody, parsedHeaders, method, url);
 
     // Test original request first as baseline
@@ -168,9 +168,9 @@ export async function runDataDrivenTests(
   onBodyParameterTest: (key: string, value: ParameterValue) => Promise<void>,
   onQueryParameterTest: (key: string, value: ParameterValue) => Promise<void>,
 ) {
-  const { body, headers, messageType, protoFile, bodyParameters, queryParameters } = options;
+  const { body, headers, bodyParameters, queryParameters } = options;
   const parsedHeaders = parseHeaders(headers);
-  const parsedBody = parseBody(body, parsedHeaders, messageType, protoFile);
+  const parsedBody = parseBody(body, parsedHeaders);
   const originalBodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
 
   // Test string value normalization (trimming)

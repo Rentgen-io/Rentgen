@@ -7,13 +7,7 @@ import { twMerge } from 'tailwind-merge';
 import { useAppSelector } from '../../store/hooks';
 import { selectDisabledPerformanceInsights, selectDisabledSecurityTests } from '../../store/selectors';
 import { TestResult, TestStatus } from '../../types';
-import {
-  decodeProtobufResponse,
-  extractBodyFromResponse,
-  generateCurl,
-  isUrlEncodedContentType,
-  truncateValue,
-} from '../../utils';
+import { extractBodyFromResponse, generateCurl, truncateValue } from '../../utils';
 import { CopyButton } from '../buttons/CopyButton';
 import { HttpPanel } from '../panels/HttpPanel';
 
@@ -151,45 +145,28 @@ export function TestsTableHeader({
   );
 }
 
-export const ExpandedTestComponent = memo(
-  ({
-    data,
-    headers,
-    messageType,
-    protoFile,
-  }: ExpanderComponentProps<TestResult> & {
-    headers: Record<string, string>;
-    messageType: string;
-    protoFile: File | null;
-  }) => {
-    const { t } = useTranslation();
-    const { request, response } = data;
-    const decoded =
-      headers && isUrlEncodedContentType(headers) && protoFile && messageType
-        ? decodeProtobufResponse(messageType, response)
-        : null;
-    const modifiedResponse = response ? { ...response } : null;
+export const ExpandedTestComponent = memo(({ data }: ExpanderComponentProps<TestResult>) => {
+  const { t } = useTranslation();
+  const { request, response } = data;
+  const modifiedResponse = response ? { ...response } : null;
 
-    if (modifiedResponse && modifiedResponse.body)
-      modifiedResponse.body = extractBodyFromResponse(modifiedResponse) as any;
+  if (modifiedResponse && modifiedResponse.body)
+    modifiedResponse.body = extractBodyFromResponse(modifiedResponse) as any;
 
-    return (
-      <div className="p-4 bg-body dark:bg-dark-body">
-        {request && (
-          <CopyButton className="mb-4" textToCopy={generateCurl(request)}>
-            {t('curl.copyCurl')}
-          </CopyButton>
-        )}
-        <div className="grid grid-cols-2 gap-4 items-stretch">
-          <HttpPanel title={t('tables.request')} source={request} />
-          <HttpPanel title={t('response.title')} source={modifiedResponse}>
-            {decoded && <HttpPanel title={t('protobuf.decodedProtobuf')} source={decoded} />}
-          </HttpPanel>
-        </div>
+  return (
+    <div className="p-4 bg-body dark:bg-dark-body">
+      {request && (
+        <CopyButton className="mb-4" textToCopy={generateCurl(request)}>
+          {t('curl.copyCurl')}
+        </CopyButton>
+      )}
+      <div className="grid grid-cols-2 gap-4 items-stretch">
+        <HttpPanel title={t('tables.request')} source={request} />
+        <HttpPanel title={t('response.title')} source={modifiedResponse} />
       </div>
-    );
-  },
-);
+    </div>
+  );
+});
 
 type TestsTableColumn = 'Parameter' | 'Value' | 'Check' | 'Method' | 'Expected' | 'Actual' | 'Result';
 

@@ -26,14 +26,7 @@ export const store = configureStore({
     websocket: websocketReducer,
     ui: uiReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        // Ignore File objects in protoFile
-        ignoredActions: ['request/setProtoFile'],
-        ignoredPaths: ['request.protoFile'],
-      },
-    }).concat(electronMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(electronMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -34,8 +34,6 @@ export const selectHeaders = (state: RootState) => state.request.headers;
 export const selectBody = (state: RootState) => state.request.body;
 export const selectBodyParameters = (state: RootState) => state.request.bodyParameters;
 export const selectQueryParameters = (state: RootState) => state.request.queryParameters;
-export const selectProtoFile = (state: RootState) => state.request.protoFile;
-export const selectMessageType = (state: RootState) => state.request.messageType;
 
 // Response selectors
 export const selectHttpResponse = (state: RootState) => state.response.httpResponse;

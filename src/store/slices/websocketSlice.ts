@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface WssMessage {
   direction: 'sent' | 'received' | 'system';
   data: string;
-  decoded?: string | null;
 }
 
 interface WebSocketState {
@@ -40,21 +39,19 @@ export const websocketSlice = createSlice({
       state.messages.unshift({ direction: 'system', data: `🔵 Disconnected from ${action.payload}` });
       state.connected = false;
     },
-    handleWssMessage: (state, action: PayloadAction<{ data: string; decoded?: string }>) => {
+    handleWssMessage: (state, action: PayloadAction<{ data: string }>) => {
       state.messages.unshift({
         direction: 'received',
         data: action.payload.data,
-        decoded: action.payload.decoded ?? null,
       });
     },
     handleWssError: (state, action: PayloadAction<string>) => {
       state.messages.unshift({ direction: 'system', data: `🔴 Error: ${action.payload}` });
     },
-    handleWssSent: (state, action: PayloadAction<{ data: string; decoded?: string }>) => {
+    handleWssSent: (state, action: PayloadAction<{ data: string }>) => {
       state.messages.unshift({
         direction: 'sent',
         data: action.payload.data,
-        decoded: action.payload.decoded ?? null,
       });
     },
   },

@@ -106,11 +106,6 @@ const vi = {
     body: 'Nội dung',
     bodyPlaceholderHttp: 'Nhập nội dung yêu cầu (JSON hoặc Form Data)',
     bodyPlaceholderWss: 'Nội dung tin nhắn',
-    protobufSchema: 'Lược đồ Protobuf và loại tin nhắn',
-    protobufDescription: 'Phần thử nghiệm và tùy chọn. Nếu sử dụng, cả hai trường đều phải được điền',
-    messageTypePlaceholder: 'Loại tin nhắn (ví dụ mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Đã tải lược đồ proto',
-    protoSchemaParseFailed: '🔴 Phân tích proto thất bại: ',
     wssUrlRequired: '🔴 Vui lòng sử dụng URL ws:// hoặc wss://',
     modePlaceholder: 'CHẾ ĐỘ',
     methodPlaceholder: 'PHƯƠNG THỨC',
@@ -471,11 +466,6 @@ const vi = {
   fileInput: {
     chooseFile: 'Chọn tệp',
     noFileChosen: 'Chưa chọn tệp nào',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Protobuf đã giải mã:',
   },
 
   // Messages panel

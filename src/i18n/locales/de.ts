@@ -106,11 +106,6 @@ const de = {
     body: 'Body',
     bodyPlaceholderHttp: 'Anfrage-Body eingeben (JSON oder Form Data)',
     bodyPlaceholderWss: 'Nachrichten-Body',
-    protobufSchema: 'Protobuf-Schema und Nachrichtentyp',
-    protobufDescription: 'Experimenteller und optionaler Bereich. Bei Verwendung müssen beide Felder ausgefüllt werden',
-    messageTypePlaceholder: 'Nachrichtentyp (z. B. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Proto-Schema geladen',
-    protoSchemaParseFailed: '🔴 Proto konnte nicht geparst werden: ',
     wssUrlRequired: '🔴 Bitte verwenden Sie eine ws:// oder wss:// URL',
     modePlaceholder: 'MODUS',
     methodPlaceholder: 'METHODE',
@@ -477,11 +472,6 @@ const de = {
   fileInput: {
     chooseFile: 'Datei auswählen',
     noFileChosen: 'Keine Datei ausgewählt',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Dekodiertes Protobuf:',
   },
 
   // Messages panel

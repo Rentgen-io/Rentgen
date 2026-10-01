@@ -106,12 +106,6 @@ const uk = {
     body: 'Тіло',
     bodyPlaceholderHttp: 'Введіть тіло запиту (JSON або Form Data)',
     bodyPlaceholderWss: 'Тіло повідомлення',
-    protobufSchema: 'Схема Protobuf та тип повідомлення',
-    protobufDescription:
-      'Експериментальний та необовʼязковий розділ. При використанні обидва поля мають бути заповнені',
-    messageTypePlaceholder: 'Тип повідомлення (напр. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Схему Proto завантажено',
-    protoSchemaParseFailed: '🔴 Не вдалося розібрати proto: ',
     wssUrlRequired: '🔴 Використовуйте URL з ws:// або wss://',
     modePlaceholder: 'РЕЖИМ',
     methodPlaceholder: 'МЕТОД',
@@ -473,11 +467,6 @@ const uk = {
   fileInput: {
     chooseFile: 'Обрати файл',
     noFileChosen: 'Файл не обрано',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Декодований Protobuf:',
   },
 
   // Messages panel

@@ -55,7 +55,6 @@ function toMarkdown(report: ExportReport) {
   lines.push(`## Target`);
   lines.push(`- URL: ${report.target.url}`);
   lines.push(`- Method: ${report.target.method}`);
-  lines.push(`- Proto file: ${report.target.protoFileName ?? 'n/a'}`);
   lines.push('');
 
   for (const suite of report.suites) {

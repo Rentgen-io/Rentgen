@@ -106,11 +106,6 @@ const nl = {
     body: 'Body',
     bodyPlaceholderHttp: 'Voer body van verzoek in (JSON of Form Data)',
     bodyPlaceholderWss: 'Body van bericht',
-    protobufSchema: 'Protobuf-schema & berichttype',
-    protobufDescription: 'Experimentele en optionele sectie. Bij gebruik moeten beide velden worden ingevuld',
-    messageTypePlaceholder: 'Berichttype (bijv. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Proto-schema geladen',
-    protoSchemaParseFailed: '🔴 Proto kon niet worden geparseerd: ',
     wssUrlRequired: '🔴 Gebruik een ws:// of wss:// URL',
     modePlaceholder: 'MODUS',
     methodPlaceholder: 'METHODE',
@@ -476,11 +471,6 @@ const nl = {
   fileInput: {
     chooseFile: 'Bestand kiezen',
     noFileChosen: 'Geen bestand gekozen',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Gedecodeerde Protobuf:',
   },
 
   // Messages panel

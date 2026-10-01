@@ -29,7 +29,7 @@ This is **behavior-first API testing**, not scripting.
 - Generate dozens of API tests from one request
 - Detect misleading HTTP statuses (401 vs 403, 400 vs 413, etc.)
 - Catch security and caching issues before production
-- Test HTTP, WebSockets (WSS), and Protobuf APIs
+- Test HTTP and WebSockets (WSS)
 - Run locally — your data never leaves your machine
 
 ---
@@ -67,8 +67,8 @@ rentgen xray ./rentgen-project.rentgen --collection="Smoke Tests" --env=staging 
 - **Linux** users get the command automatically after `apt install` / `dnf install`.
 - **macOS** and **Windows** users enable it with one click in **Settings → CLI → Install rentgen command in PATH**.
 
-| Before install | After install |
-|---|---|
+| Before install                                                                                                                                                       | After install                                                                                                                                                                |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <img src="./public/cli-settings-not-installed.png" alt="Settings → CLI panel showing 'Not installed' with the Install rentgen command in PATH button" width="420" /> | <img src="./public/cli-settings-installed.png" alt="Settings → CLI panel showing 'Installed' with the resolved symlink path, Uninstall and Reinstall buttons" width="420" /> |
 
 Or skip the desktop install entirely and run from Docker — every release publishes a multi-arch image to `ghcr.io/rentgen-io/rentgen-cli` for use in CI/CD pipelines (GitHub Actions, GitLab CI, Bitbucket, Jenkins).

@@ -106,11 +106,6 @@ const ru = {
     body: 'Тело',
     bodyPlaceholderHttp: 'Введите тело запроса (JSON или Form Data)',
     bodyPlaceholderWss: 'Тело сообщения',
-    protobufSchema: 'Схема Protobuf и тип сообщения',
-    protobufDescription: 'Экспериментальный и необязательный раздел. Если используется, оба поля должны быть заполнены',
-    messageTypePlaceholder: 'Тип сообщения (например, mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Схема proto загружена',
-    protoSchemaParseFailed: '🔴 Не удалось разобрать proto: ',
     wssUrlRequired: '🔴 Используйте URL с ws:// или wss://',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
@@ -473,11 +468,6 @@ const ru = {
   fileInput: {
     chooseFile: 'Выбрать файл',
     noFileChosen: 'Файл не выбран',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Декодированный Protobuf:',
   },
 
   // Messages panel

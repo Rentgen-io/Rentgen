@@ -106,11 +106,6 @@ const en = {
     body: 'Body',
     bodyPlaceholderHttp: 'Enter request body (JSON or Form Data)',
     bodyPlaceholderWss: 'Message body',
-    protobufSchema: 'Protobuf Schema & Message Type',
-    protobufDescription: 'Experimental and optional section. If used, both fields must be completed',
-    messageTypePlaceholder: 'Message type (e.g. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Proto schema loaded',
-    protoSchemaParseFailed: '🔴 Failed to parse proto: ',
     wssUrlRequired: '🔴 Please use ws:// or wss:// URL',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
@@ -471,11 +466,6 @@ const en = {
   fileInput: {
     chooseFile: 'Choose File',
     noFileChosen: 'No file chosen',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Decoded Protobuf:',
   },
 
   // Messages panel

@@ -106,11 +106,6 @@ const lt = {
     body: 'Turinys',
     bodyPlaceholderHttp: 'Įveskite užklausos turinį (JSON arba Form Data)',
     bodyPlaceholderWss: 'Žinutės turinys',
-    protobufSchema: 'Protobuf schema ir žinutės tipas',
-    protobufDescription: 'Eksperimentinė ir neprivaloma sekcija. Jei naudojama, abu laukai turi būti užpildyti',
-    messageTypePlaceholder: 'Žinutės tipas (pvz. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Proto schema įkelta',
-    protoSchemaParseFailed: '🔴 Nepavyko apdoroti proto: ',
     wssUrlRequired: '🔴 Prašome naudoti ws:// arba wss:// URL',
     modePlaceholder: 'REŽIMAS',
     methodPlaceholder: 'METODAS',
@@ -472,11 +467,6 @@ const lt = {
   fileInput: {
     chooseFile: 'Pasirinkti failą',
     noFileChosen: 'Failas nepasirinktas',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Dekoduotas Protobuf:',
   },
 
   // Messages panel

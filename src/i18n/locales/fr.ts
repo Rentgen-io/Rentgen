@@ -106,12 +106,6 @@ const fr = {
     body: 'Corps',
     bodyPlaceholderHttp: 'Saisir le corps de la requête (JSON ou Form Data)',
     bodyPlaceholderWss: 'Corps du message',
-    protobufSchema: 'Schéma Protobuf et type de message',
-    protobufDescription:
-      "Section expérimentale et facultative. En cas d'utilisation, les deux champs doivent être renseignés",
-    messageTypePlaceholder: 'Type de message (p. ex. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Schéma proto chargé',
-    protoSchemaParseFailed: "🔴 Échec de l'analyse du proto : ",
     wssUrlRequired: '🔴 Veuillez utiliser une URL ws:// ou wss://',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'MÉTHODE',
@@ -483,11 +477,6 @@ const fr = {
   fileInput: {
     chooseFile: 'Choisir un fichier',
     noFileChosen: 'Aucun fichier choisi',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Protobuf décodé :',
   },
 
   // Messages panel

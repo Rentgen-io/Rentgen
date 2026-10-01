@@ -2,7 +2,6 @@ import { Method } from 'axios';
 import { store } from '../store';
 import { DataType, HttpRequest, HttpResponse, ParameterValue, RequestParameters, TestOptions } from '../types';
 import { isObject, setDeepObjectProperty, stringifyValue, tryParseJsonObject } from './object';
-import { encodeMessage } from './proto';
 import { generateRandomValue } from './random';
 import { detectDataType, extractPropertiesFromJson } from './validation';
 
@@ -31,19 +30,8 @@ export function createHttpRequest(
 }
 
 export function createTestHttpRequest(options: TestOptions): HttpRequest {
-  const {
-    body,
-    bodyParameters,
-    headers,
-    messageType,
-    method,
-    parameterName,
-    parameterType,
-    protoFile,
-    queryParameters,
-    testData,
-    url,
-  } = options;
+  const { body, bodyParameters, headers, method, parameterName, parameterType, queryParameters, testData, url } =
+    options;
 
   let parsedBody: Record<string, unknown> | string | Uint8Array | null = null;
   let formEntries: Array<[string, string]> = [];
@@ -78,14 +66,6 @@ export function createTestHttpRequest(options: TestOptions): HttpRequest {
 
       const randomValue = generateRandomValue(type);
       if (randomValue !== null) setDeepObjectProperty(parsedBody, key, randomValue);
-    }
-
-    if (protoFile && messageType) {
-      try {
-        parsedBody = encodeMessage(messageType, parsedBody);
-      } catch {
-        // Ignore encoding errors and use the modified body as-is
-      }
     }
   }
 
@@ -223,24 +203,10 @@ export function isUrlEncodedContentTypeString(value: string): boolean {
   return /application\/x-www-form-urlencoded/i.test(value);
 }
 
-export function parseBody(
-  body: string | null,
-  headers: Record<string, string>,
-  messageType: string | null = null,
-  protoFile: File | null = null,
-): any {
+export function parseBody(body: string | null, headers: Record<string, string>): any {
   if (isUrlEncodedContentType(headers)) return convertFormEntriesToUrlEncoded(parseFormData(body));
 
-  const paredBody = tryParseJsonObject(body);
-  if (isObject(paredBody) && protoFile && messageType) {
-    try {
-      return encodeMessage(messageType, paredBody);
-    } catch {
-      return paredBody;
-    }
-  }
-
-  return paredBody;
+  return tryParseJsonObject(body);
 }
 
 export function parseFormData(rawFormData: string | null): Array<[string, string]> {

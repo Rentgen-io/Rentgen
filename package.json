@@ -90,7 +90,6 @@
     "monaco-editor": "^0.55.1",
     "parse-curl": "^0.2.6",
     "postcss": "^8.5.15",
-    "protobufjs": "^8.6.4",
     "react": "^19.2.7",
     "react-data-table-component": "^7.7.1",
     "react-dom": "^19.2.7",

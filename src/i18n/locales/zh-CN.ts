@@ -106,11 +106,6 @@ const zhCN = {
     body: '请求体',
     bodyPlaceholderHttp: '输入请求体 (JSON 或表单数据)',
     bodyPlaceholderWss: '消息内容',
-    protobufSchema: 'Protobuf 模式与消息类型',
-    protobufDescription: '实验性可选部分。如使用，两个字段都必须填写',
-    messageTypePlaceholder: '消息类型 (例如 mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Proto 模式已加载',
-    protoSchemaParseFailed: '🔴 Proto 解析失败：',
     wssUrlRequired: '🔴 请使用 ws:// 或 wss:// URL',
     modePlaceholder: '模式',
     methodPlaceholder: '方法',
@@ -465,11 +460,6 @@ const zhCN = {
   fileInput: {
     chooseFile: '选择文件',
     noFileChosen: '未选择文件',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: '已解码的 Protobuf：',
   },
 
   // Messages panel

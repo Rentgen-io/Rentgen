@@ -106,11 +106,6 @@ const hi = {
     body: 'बॉडी',
     bodyPlaceholderHttp: 'अनुरोध बॉडी दर्ज करें (JSON या Form Data)',
     bodyPlaceholderWss: 'संदेश बॉडी',
-    protobufSchema: 'Protobuf स्कीमा और संदेश प्रकार',
-    protobufDescription: 'प्रायोगिक और वैकल्पिक अनुभाग। यदि उपयोग करते हैं, तो दोनों फ़ील्ड भरना ज़रूरी है',
-    messageTypePlaceholder: 'संदेश प्रकार (उदा. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Proto स्कीमा लोड हुआ',
-    protoSchemaParseFailed: '🔴 Proto पार्स करने में विफल: ',
     wssUrlRequired: '🔴 कृपया ws:// या wss:// URL का उपयोग करें',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
@@ -470,11 +465,6 @@ const hi = {
   fileInput: {
     chooseFile: 'फ़ाइल चुनें',
     noFileChosen: 'कोई फ़ाइल नहीं चुनी गई',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'डिकोडेड Protobuf:',
   },
 
   // Messages panel

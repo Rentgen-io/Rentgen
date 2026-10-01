@@ -106,11 +106,6 @@ const th = {
     body: 'บอดี้',
     bodyPlaceholderHttp: 'ป้อนบอดี้ของคำขอ (JSON หรือ Form Data)',
     bodyPlaceholderWss: 'เนื้อหาข้อความ',
-    protobufSchema: 'Protobuf Schema และประเภทข้อความ',
-    protobufDescription: 'ส่วนทดลองและเป็นทางเลือก หากใช้งาน จะต้องกรอกข้อมูลทั้งสองช่อง',
-    messageTypePlaceholder: 'ประเภทข้อความ (เช่น mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 โหลด Proto schema แล้ว',
-    protoSchemaParseFailed: '🔴 แยกวิเคราะห์ Proto ไม่สำเร็จ: ',
     wssUrlRequired: '🔴 กรุณาใช้ URL แบบ ws:// หรือ wss://',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
@@ -470,11 +465,6 @@ const th = {
   fileInput: {
     chooseFile: 'เลือกไฟล์',
     noFileChosen: 'ยังไม่ได้เลือกไฟล์',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Protobuf ที่ถอดรหัสแล้ว:',
   },
 
   // Messages panel

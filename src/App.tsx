@@ -11,7 +11,6 @@ import { LoadTestControls } from './components/controls/LoadTestControls';
 import { TestResultControls } from './components/controls/TestResultControls';
 import EnvironmentEditor from './components/environment/EnvironmentEditor';
 import EnvironmentSelector from './components/environment/EnvironmentSelector';
-import FileInput from './components/inputs/FileInput';
 import HighlightedInput from './components/inputs/HighlightedInput';
 import HighlightedTextarea from './components/inputs/HighlightedTextarea';
 import Select, { SelectOption } from './components/inputs/Select';
@@ -70,7 +69,6 @@ import {
   formatBody,
   formatReport,
   getInitialParameterValue,
-  loadProtoSchema,
   parseBody,
   parseHeaders,
   substituteRequestVariables,
@@ -106,13 +104,11 @@ import {
   selectIsEditingEnvironment,
   selectIsRunningTests,
   selectMappings,
-  selectMessageType,
   selectMethod,
   selectMode,
   selectOpenCurlModal,
   selectOpenReloadModal,
   selectOpenSendHttpSuccessModal,
-  selectProtoFile,
   selectQueryParameters,
   selectSaved,
   selectSelectedEnvironment,
@@ -226,8 +222,6 @@ export default function App() {
   const body = useAppSelector(selectBody);
   const bodyParameters = useAppSelector(selectBodyParameters);
   const queryParameters = useAppSelector(selectQueryParameters);
-  const protoFile = useAppSelector(selectProtoFile);
-  const messageType = useAppSelector(selectMessageType);
 
   // Response state
   const httpResponse = useAppSelector(selectHttpResponse);
@@ -322,8 +316,7 @@ export default function App() {
     const messagesListener = (event: any) => {
       if (event.type === 'open') dispatch(websocketActions.handleWssOpen(event.data));
       else if (event.type === 'close') dispatch(websocketActions.handleWssClose(event.data));
-      else if (event.type === 'message')
-        dispatch(websocketActions.handleWssMessage({ data: String(event.data), decoded: event.decoded }));
+      else if (event.type === 'message') dispatch(websocketActions.handleWssMessage({ data: String(event.data) }));
       else if (event.type === 'error') dispatch(websocketActions.handleWssError(event.error));
     };
 
@@ -391,11 +384,10 @@ export default function App() {
         url: substitutedUrl,
         headers: substitutedHeaders,
         body: substitutedBody,
-        messageType: substitutedMessageType,
-      } = substituteRequestVariables(url, headers, body, messageType, selectedEnvironment, dynamicVariables);
+      } = substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables);
 
       const parsedHeaders = parseHeaders(substitutedHeaders);
-      const parsedBody = parseBody(substitutedBody, parsedHeaders, substitutedMessageType, protoFile);
+      const parsedBody = parseBody(substitutedBody, parsedHeaders);
       const request = createHttpRequest(parsedBody, parsedHeaders, method, substitutedUrl);
       const response: HttpResponse = await window.electronAPI.sendHttp(request);
       const status = extractStatusCode(response);
@@ -500,19 +492,7 @@ export default function App() {
       dispatch(responseActions.setResponse({ status: NETWORK_ERROR, body: String(error), headers: {}, time: 0 }));
       dispatch(historyActions.addEntry(historyEntry));
     }
-  }, [
-    url,
-    headers,
-    body,
-    messageType,
-    selectedEnvironment,
-    dynamicVariables,
-    selectedRequestId,
-    protoFile,
-    method,
-    mappings,
-    dispatch,
-  ]);
+  }, [url, headers, body, selectedEnvironment, dynamicVariables, selectedRequestId, method, mappings, dispatch]);
 
   // Save request
   const saveRequest = useCallback(async () => {
@@ -669,7 +649,7 @@ export default function App() {
         buildSuite('CRUD', crudTests),
       ];
       const parsedHeaders = parseHeaders(testOptions.headers);
-      const parsedBody = parseBody(testOptions.body, parsedHeaders, testOptions.messageType, testOptions.protoFile);
+      const parsedBody = parseBody(testOptions.body, parsedHeaders);
       const modifiedResponse = httpResponse ? { ...httpResponse } : null;
 
       if (modifiedResponse && modifiedResponse.body)
@@ -683,8 +663,6 @@ export default function App() {
           method: testOptions.method,
           headers: parsedHeaders,
           body: parsedBody,
-          messageType: testOptions.messageType,
-          protoFileName: testOptions.protoFile?.name ?? null,
         },
         lastHttpResponse: modifiedResponse,
         suites,
@@ -906,49 +884,6 @@ export default function App() {
               </div>
             </div>
 
-            {mode === 'HTTP' && (
-              <div>
-                <label className="block mb-1 font-bold text-sm">{t('request.protobufSchema')}</label>
-                <div className="mb-3 text-xs text-text-secondary">{t('request.protobufDescription')}</div>
-                <div className="flex flex-col @lg:flex-row @lg:items-center gap-2">
-                  <FileInput
-                    accept=".proto"
-                    onChange={async (event) => {
-                      const file = event.target.files?.[0];
-                      if (!file) return;
-
-                      const fileExtension = file.name.split('.').pop()?.toLowerCase();
-                      if (fileExtension !== 'proto') return;
-
-                      try {
-                        await loadProtoSchema(file);
-                        dispatch(requestActions.setProtoFile(file));
-                        dispatch(
-                          websocketActions.addMessage({ direction: 'system', data: t('request.protoSchemaLoaded') }),
-                        );
-                      } catch (error) {
-                        dispatch(
-                          websocketActions.addMessage({
-                            direction: 'system',
-                            data: t('request.protoSchemaParseFailed') + error,
-                          }),
-                        );
-                      }
-                    }}
-                  />
-
-                  <HighlightedInput
-                    className="flex-auto"
-                    highlightColor={selectedEnvironment?.color}
-                    placeholder={t('request.messageTypePlaceholder')}
-                    value={messageType}
-                    variables={variables}
-                    onChange={(event) => dispatch(requestActions.setMessageType(event.target.value))}
-                  />
-                </div>
-              </div>
-            )}
-
             {mode === 'HTTP' && httpResponse && (
               <>
                 <Panel title={t('response.title')}>
@@ -1053,7 +988,7 @@ export default function App() {
             {messages.length > 0 && (
               <Panel title={t('messages.title')}>
                 <div className="max-h-100 p-4 text-xs border-t border-border dark:border-dark-body overflow-y-auto">
-                  {messages.map(({ data, decoded, direction }, index) => (
+                  {messages.map(({ data, direction }, index) => (
                     <div
                       key={index}
                       className="not-first:pt-3 not-last:pb-3 border-b last:border-none border-border dark:border-dark-body"
@@ -1071,12 +1006,6 @@ export default function App() {
                         )}
                         <div>
                           <pre className="my-0 whitespace-pre-wrap break-all">{data}</pre>
-                          {decoded && (
-                            <>
-                              <div className="mt-2 font-monospace font-bold">{t('protobuf.decodedProtobuf')}</div>
-                              <pre className="my-0 whitespace-pre-wrap break-all">dfd</pre>
-                            </>
-                          )}
                         </div>
                       </div>
                     </div>
@@ -1094,17 +1023,9 @@ export default function App() {
                       disabled={disabledRunTests}
                       onClick={() =>
                         executeAllTests({
-                          ...substituteRequestVariables(
-                            url,
-                            headers,
-                            body,
-                            messageType,
-                            selectedEnvironment,
-                            dynamicVariables,
-                          ),
+                          ...substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables),
                           bodyParameters,
                           method,
-                          protoFile,
                           queryParameters,
                         })
                       }
@@ -1236,7 +1157,6 @@ export default function App() {
                     expandableRows
                     expandableRowsComponent={ExpandedTestComponent}
                     expandableRowDisabled={(row) => disabledSecurityTests.includes(row.name)}
-                    expandableRowsComponentProps={{ headers: parseHeaders(headers), protoFile, messageType }}
                     expandOnRowClicked
                     data={securityTests}
                     progressComponent={<TestRunningLoader text={t('tests.runningSecurityTests')} />}
@@ -1318,7 +1238,6 @@ export default function App() {
                     ]}
                     expandableRows
                     expandableRowsComponent={ExpandedTestComponent}
-                    expandableRowsComponentProps={{ headers: parseHeaders(headers), protoFile, messageType }}
                     expandableRowDisabled={(row) =>
                       (row.name !== RESPONSE_SIZE_CHECK_TEST_NAME &&
                         row.name !== ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME) ||
@@ -1437,7 +1356,6 @@ export default function App() {
                     ]}
                     expandableRows
                     expandableRowsComponent={ExpandedTestComponent}
-                    expandableRowsComponentProps={{ headers: parseHeaders(headers), protoFile, messageType }}
                     expandOnRowClicked
                     data={dataDrivenTests}
                     fixedHeader={true}
@@ -1452,7 +1370,6 @@ export default function App() {
                     columns={getTestsTableColumns(['Method', 'Expected', 'Actual', 'Result'], t)}
                     expandableRows
                     expandableRowsComponent={ExpandedTestComponent}
-                    expandableRowsComponentProps={{ headers: parseHeaders(headers), protoFile, messageType }}
                     expandOnRowClicked
                     data={crudTests}
                     progressComponent={<TestRunningLoader text={t('tests.preparingCrud')} />}

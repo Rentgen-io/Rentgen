@@ -106,11 +106,6 @@ const ko = {
     body: '바디',
     bodyPlaceholderHttp: '요청 바디를 입력하세요 (JSON 또는 Form Data)',
     bodyPlaceholderWss: '메시지 바디',
-    protobufSchema: 'Protobuf 스키마 및 메시지 타입',
-    protobufDescription: '실험적이며 선택적인 항목입니다. 사용한다면 두 필드를 모두 채워야 합니다',
-    messageTypePlaceholder: '메시지 타입 (예: mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Proto 스키마를 불러왔습니다',
-    protoSchemaParseFailed: '🔴 Proto 파싱에 실패했습니다: ',
     wssUrlRequired: '🔴 ws:// 또는 wss:// URL을 사용해 주세요',
     modePlaceholder: '모드',
     methodPlaceholder: '메서드',
@@ -470,11 +465,6 @@ const ko = {
   fileInput: {
     chooseFile: '파일 선택',
     noFileChosen: '선택된 파일 없음',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: '디코딩된 Protobuf:',
   },
 
   // Messages panel

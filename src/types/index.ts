@@ -72,10 +72,8 @@ export interface TestOptions {
   bodyParameters: RequestParameters;
   headers: string;
   method: Method | string;
-  messageType: string;
   parameterName?: string;
   parameterType?: ParameterType;
-  protoFile: File | null;
   queryParameters: RequestParameters;
   testData?: TestData;
   url: string;
@@ -125,8 +123,6 @@ export interface ExportReport {
     method: Method | string;
     headers: Record<string, string>;
     body: any;
-    messageType: string;
-    protoFileName: string | null;
   };
   lastHttpResponse: HttpResponse | null;
   suites: ReportSuite[];

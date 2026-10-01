@@ -12,8 +12,6 @@ interface RequestState {
   body: string;
   bodyParameters: RequestParameters;
   queryParameters: RequestParameters;
-  protoFile: File | null;
-  messageType: string;
 }
 
 const initialState: RequestState = {
@@ -24,8 +22,6 @@ const initialState: RequestState = {
   body: '{}',
   bodyParameters: {},
   queryParameters: {},
-  protoFile: null,
-  messageType: '',
 };
 
 export const requestSlice = createSlice({
@@ -53,12 +49,6 @@ export const requestSlice = createSlice({
     setQueryParameters: (state, action: PayloadAction<RequestParameters>) => {
       state.queryParameters = action.payload;
     },
-    setProtoFile: (state, action: PayloadAction<File | null>) => {
-      state.protoFile = action.payload;
-    },
-    setMessageType: (state, action: PayloadAction<string>) => {
-      state.messageType = action.payload;
-    },
     resetRequest: (state) => {
       state.method = 'GET';
       state.url = '';
@@ -66,8 +56,6 @@ export const requestSlice = createSlice({
       state.body = '{}';
       state.bodyParameters = {};
       state.queryParameters = {};
-      state.protoFile = null;
-      state.messageType = '';
     },
     loadFromCollection: (
       state,

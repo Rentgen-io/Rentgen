@@ -106,11 +106,6 @@ const id = {
     body: 'Body',
     bodyPlaceholderHttp: 'Masukkan body permintaan (JSON atau Form Data)',
     bodyPlaceholderWss: 'Body pesan',
-    protobufSchema: 'Skema Protobuf & Tipe Pesan',
-    protobufDescription: 'Bagian eksperimental dan opsional. Jika digunakan, kedua kolom harus diisi',
-    messageTypePlaceholder: 'Tipe pesan (mis. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Skema proto dimuat',
-    protoSchemaParseFailed: '🔴 Gagal memproses proto: ',
     wssUrlRequired: '🔴 Mohon gunakan URL ws:// atau wss://',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METODE',
@@ -470,11 +465,6 @@ const id = {
   fileInput: {
     chooseFile: 'Pilih File',
     noFileChosen: 'Tidak ada file dipilih',
-  },
-
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Protobuf terdekode:',
   },
 
   // Messages panel
