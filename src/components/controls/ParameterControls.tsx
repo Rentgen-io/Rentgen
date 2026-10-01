@@ -168,7 +168,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
 
   function onMinChange(value: string, minValue: number, maxValue: number) {
     if (!value) {
-      onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), min: null } });
+      onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), min: null as unknown as number } });
       return;
     }
 
@@ -180,7 +180,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
 
   function onMaxChange(value: string, minValue: number, maxValue: number) {
     if (!value) {
-      onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), max: null } });
+      onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), max: null as unknown as number } });
       return;
     }
 

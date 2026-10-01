@@ -7,12 +7,10 @@
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
+    "rootDir": ".",
     "outDir": "dist",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "paths": {
-      "monaco-editor/*": ["./node_modules/monaco-editor/*"]
-    },
     "jsx": "react-jsx",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true

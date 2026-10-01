@@ -16,7 +16,7 @@ function detectArch() {
 
 const platform = detectPlatform();
 const arch = detectArch();
-const target = `node20-${platform}-${arch}`;
+const target = `node22-${platform}-${arch}`;
 
 const repoRoot = path.resolve(__dirname, '..');
 const entry = path.join(repoRoot, 'dist', 'cli', 'index.js');

@@ -141,7 +141,7 @@ const MAX_5XX_COUNT_PER_SOURCE = 3;
 export function registerCertificateHandlers(): void {
   ipcMain.handle('generate-certificate', async (_, results: TestResults): Promise<ExportResult> => {
     const { dataDrivenTests, count, performanceTests, securityTests, testOptions, timestamp } = results;
-    const domain = new URL(testOptions.url).hostname;
+    const domain = new URL(testOptions?.url ?? '').hostname;
     const appliedPenalties: { title: string; points: number }[] = [];
 
     let score = 100;
@@ -515,7 +515,7 @@ export function registerCertificateHandlers(): void {
                   </div>
                   <div class="meta-row">
                     <span class="meta-k">Test date</span>
-                    <span class="meta-v">${new Date(timestamp).toLocaleString()}</span>
+                    <span class="meta-v">${new Date(timestamp ?? Date.now()).toLocaleString()}</span>
                   </div>
                 </div>
                 <div class="note">
