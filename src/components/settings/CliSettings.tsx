@@ -51,7 +51,7 @@ const exitCodes: ExitCode[] = [
 const transComponents = { c: <code />, e: <em /> };
 
 const CodeBlock = ({ children }: { children: string }) => (
-  <pre className="m-0 px-3 py-2 text-xs font-mono rounded-md bg-button-secondary dark:bg-dark-input overflow-x-auto whitespace-pre-wrap break-all">
+  <pre className="m-0 px-3 py-2 text-xs font-mono bg-button-secondary dark:bg-dark-input overflow-x-auto whitespace-pre-wrap break-all">
     <code>{children}</code>
   </pre>
 );
@@ -209,7 +209,7 @@ function ResultBanner({ result }: { result: CliActionResult }) {
   return (
     <div
       className={cn(
-        'flex flex-col gap-1 p-3 rounded-md border text-xs',
+        'flex flex-col gap-1 p-3 border text-xs',
         result.success
           ? 'bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300'
           : 'bg-red-500/10 border-red-500/30 text-red-700 dark:text-red-300',
@@ -298,7 +298,7 @@ export function CliSettings() {
         <p className="m-0 text-xs text-text-secondary">{t('settings.cli.checkingStatus')}</p>
       ) : (
         <>
-          <div className="flex flex-col gap-3 p-3 border border-border dark:border-dark-border rounded-md">
+          <div className="flex flex-col gap-3 p-3 border border-border dark:border-dark-border">
             <StatusBadge status={status} />
             <ActionRow status={status} busy={busy} onInstall={handleInstall} onUninstall={handleUninstall} />
           </div>
@@ -335,7 +335,7 @@ export function CliSettings() {
       </p>
 
       <SectionHeader>{t('settings.cli.options')}</SectionHeader>
-      <div className="flex flex-col border border-border dark:border-dark-border rounded-md divide-y divide-border dark:divide-dark-border overflow-hidden text-xs">
+      <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden text-xs">
         {flags.map((f) => (
           <div key={f.flag} className="grid grid-cols-[auto_1fr] items-start gap-4 py-2 px-3">
             <code className="font-mono whitespace-nowrap">{f.flag}</code>
@@ -376,7 +376,7 @@ export function CliSettings() {
       </p>
 
       <SectionHeader>{t('settings.cli.exitCodesTitle')}</SectionHeader>
-      <div className="flex flex-col border border-border dark:border-dark-border rounded-md divide-y divide-border dark:divide-dark-border overflow-hidden text-xs">
+      <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden text-xs">
         {exitCodes.map((e) => (
           <div key={e.code} className="grid grid-cols-[auto_1fr] items-start gap-4 py-2 px-3">
             <code className="font-mono whitespace-nowrap">{e.code}</code>

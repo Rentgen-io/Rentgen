@@ -59,7 +59,7 @@ export function GeneralSettings() {
       </h5>
       <p className="m-0 text-xs text-text-secondary">{t('settings.history.description')}</p>
 
-      <div className="flex flex-col border border-border dark:border-dark-border rounded-md divide-y divide-border dark:divide-dark-border overflow-hidden">
+      <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden">
         <Toggle
           className="p-3 text-xs justify-between hover:bg-button-secondary dark:hover:bg-dark-input"
           label={<span className={cn({ 'opacity-50': !historyEnabled })}>{t('settings.history.enableHistory')}</span>}

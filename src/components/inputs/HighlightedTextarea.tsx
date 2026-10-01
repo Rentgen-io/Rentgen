@@ -35,14 +35,14 @@ export default function HighlightedTextarea({
   return (
     <div
       className={cn(
-        'relative leading-0 text-text bg-white border border-border rounded-md',
+        'relative leading-0 text-text bg-white border border-border',
         'dark:text-dark-text dark:bg-dark-input dark:border-dark-border',
         className,
       )}
     >
       <AutosizeTextarea
         className={cn(
-          'relative w-full min-h-28 m-0 py-2 px-3 font-monospace text-xs text-transparent bg-transparent border-none caret-text box-border resize-y scrollbar-gutter-stable outline-none z-1',
+          'relative w-full min-h-28 m-0 py-2 px-3 font-monospace text-xs text-transparent bg-transparent border-none caret-text box-border resize-none scrollbar-gutter-stable outline-none z-1',
           'dark:placeholder:text-text-secondary dark:caret-dark-text',
         )}
         value={value}

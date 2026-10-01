@@ -77,14 +77,14 @@ export default function ProjectImportConfirmModal() {
         </div>
 
         {integrityStatus === 'modified' && (
-          <div className="p-3 rounded-md bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
+          <div className="p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
             <p className="m-0 text-xs text-yellow-700 dark:text-yellow-400">
               {t('modals.projectImport.integrityWarning')}
             </p>
           </div>
         )}
 
-        <div className="p-3 rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+        <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
           <p className="m-0 text-xs text-red-700 dark:text-red-400 font-medium mb-2">
             {t('modals.projectImport.overwriteWarning')}
           </p>

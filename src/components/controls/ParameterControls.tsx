@@ -45,7 +45,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
     { value: 'url', label: t('parameterTypes.url') },
   ];
   const { mandatory, type, value } = parameterValue;
-  const inputClassName = 'w-full p-[5px] rounded-none dark:border-border/20';
+  const inputClassName = 'w-full p-[5px] dark:border-border/20';
 
   return (
     <div className="w-full max-w-110">
@@ -104,7 +104,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
         )}
         <div className="col-start-2 flex items-center gap-1">
           <SimpleSelect
-            className="w-full p-1 rounded-none dark:border-border/20"
+            className="w-full p-1 dark:border-border/20"
             options={parameterOptions}
             value={type}
             onChange={onSelectTypeChange}

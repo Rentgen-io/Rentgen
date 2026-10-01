@@ -37,7 +37,7 @@ export function PerformanceInsightsSettings() {
         </span>
       </h5>
       <p className="m-0 text-xs text-text-secondary">{t('settings.performanceInsights.description')}</p>
-      <div className="flex flex-col border border-border dark:border-dark-border rounded-md divide-y divide-border dark:divide-dark-border overflow-hidden">
+      <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden">
         {PERFORMANCE_INSIGHTS.sort().map((insight) => (
           <Toggle
             key={insight}

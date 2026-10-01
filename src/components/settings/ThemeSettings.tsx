@@ -24,7 +24,7 @@ export function ThemeSettings() {
   };
 
   return (
-    <div className="flex border border-border dark:border-dark-border rounded-md divide-x divide-border dark:divide-dark-border overflow-hidden">
+    <div className="flex border border-border dark:border-dark-border divide-x divide-border dark:divide-dark-border overflow-hidden">
       {themes.map(({ Image, label, value }) => (
         <label
           key={value}
@@ -34,7 +34,7 @@ export function ThemeSettings() {
           )}
         >
           <Image
-            className={cn('p-0.5 border-2 rounded-lg', {
+            className={cn('p-0.5 border-2', {
               'border-amber-600': value === theme,
               'border-transparent': value !== theme,
             })}

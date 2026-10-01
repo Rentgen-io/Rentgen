@@ -19,11 +19,10 @@ export default function Toggle({
       <span className="relative inline-flex items-center">
         <input disabled={disabled} className="sr-only peer" {...otherProps} type="checkbox" />
         <span
-          className="w-10 h-5 bg-button-secondary-hover dark:bg-dark-button-secondary rounded-full
+          className="w-10 h-5 bg-button-secondary-hover dark:bg-dark-button-secondary
           peer-checked:bg-button-primary
             after:content-[''] after:absolute after:top-0.5 after:left-0.5
             after:bg-white after:h-4 after:w-4
-            after:rounded-full
             after:transition-all after:duration-300
             peer-checked:after:translate-x-5"
           title={title}

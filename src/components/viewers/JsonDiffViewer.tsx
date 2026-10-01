@@ -1,6 +1,6 @@
 import { DiffEditor, DiffOnMount } from '@monaco-editor/react';
 import cn from 'classnames';
-import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
+import { editor } from 'monaco-editor/esm/vs/editor/editor.api.js';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';

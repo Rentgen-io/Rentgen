@@ -28,7 +28,7 @@ export default function HighlightedInput({
   return (
     <div
       className={cn(
-        'relative leading-0 text-text bg-white border border-border rounded-md',
+        'relative leading-0 text-text bg-white border border-border',
         'dark:text-dark-text dark:bg-dark-input dark:border-dark-border',
         className,
       )}

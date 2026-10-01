@@ -19,7 +19,7 @@ export default function SearchHighlight({ text, term }: Props) {
   return (
     <>
       {before}
-      <mark className="bg-yellow-200/50 dark:bg-yellow-500/30 rounded-sm text-inherit">{match}</mark>
+      <mark className="bg-yellow-200/50 dark:bg-yellow-500/30 text-inherit">{match}</mark>
       {after}
     </>
   );

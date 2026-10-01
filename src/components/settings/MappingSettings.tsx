@@ -25,7 +25,7 @@ export function MappingSettings() {
         {t('settings.configuration.title')}
       </h5>
       <p className="m-0 text-xs text-text-secondary">{t('settings.configuration.description')}</p>
-      <div className="flex flex-col border border-border dark:border-dark-border rounded-md divide-y divide-border dark:divide-dark-border overflow-hidden">
+      <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden">
         <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
           <label className="m-0 font-bold">{t('settings.configuration.email')}</label>
           <div className="flex items-center justify-between">

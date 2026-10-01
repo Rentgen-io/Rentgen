@@ -148,7 +148,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       {isEditing && (
         <input
           autoFocus
-          className="flex-1 py-px px-1 text-xs leading-none bg-transparent border border-border dark:border-dark-input dark:text-dark-text rounded outline-none"
+          className="flex-1 py-px px-1 text-xs leading-none bg-transparent border border-border dark:border-dark-input dark:text-dark-text outline-none"
           value={editingName}
           type="text"
           onBlur={() => !isOpen && onSaveEdit()}

@@ -1,6 +1,6 @@
 import MonacoEditor, { OnMount, loader } from '@monaco-editor/react';
 import cn from 'classnames';
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../store/hooks';
@@ -465,7 +465,7 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
   };
 
   return (
-    <div className={cn('h-90', className)}>
+    <div className={cn('h-70', className)}>
       <MonacoEditor
         height="100%"
         language={editorLanguage}

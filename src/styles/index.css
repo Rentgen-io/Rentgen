@@ -53,6 +53,10 @@
   body {
     @apply m-0 font-segoe-ui bg-body dark:bg-dark-body text-text dark:text-dark-text;
   }
+
+  h5 {
+    @apply text-sm;
+  }
 }
 
 @layer components {

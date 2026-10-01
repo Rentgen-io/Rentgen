@@ -166,7 +166,7 @@ export default function SetAsDynamicVariableModal() {
 
         <div className="flex flex-col gap-1">
           <label className="text-xs text-text dark:text-dark-text">{t('modals.setDynamicVariable.preview')}</label>
-          <div className="px-3 py-2 bg-body dark:bg-dark-body rounded-md text-sm text-text-secondary dark:text-dark-text-secondary">
+          <div className="px-3 py-2 bg-body dark:bg-dark-body text-sm text-text-secondary dark:text-dark-text-secondary">
             {modalState.initialValue.length > 50
               ? modalState.initialValue.substring(0, 47) + '...'
               : modalState.initialValue}
@@ -191,7 +191,7 @@ export default function SetAsDynamicVariableModal() {
           <label className="text-xs text-text dark:text-dark-text">
             {t('modals.setDynamicVariable.linkedRequest')}
           </label>
-          <div className="px-3 py-2 bg-body dark:bg-dark-body rounded-md text-sm text-text-secondary dark:text-dark-text-secondary">
+          <div className="px-3 py-2 bg-body dark:bg-dark-body text-sm text-text-secondary dark:text-dark-text-secondary">
             <span className="mr-1">📁</span>
             {modalState.collectionName} → {modalState.requestName}
           </div>

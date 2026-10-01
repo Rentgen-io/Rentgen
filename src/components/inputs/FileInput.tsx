@@ -34,7 +34,7 @@ export default function FileInput({
       <Button
         buttonType={ButtonType.SECONDARY}
         className={cn(
-          'border-border dark:border-dark-button-secondary dark:hover:border-dark-button-secondary-hover rounded-r-none whitespace-nowrap',
+          'border-border dark:border-dark-button-secondary dark:hover:border-dark-button-secondary-hover whitespace-nowrap',
           buttonClassName,
         )}
         onClick={handleClick}
@@ -43,7 +43,7 @@ export default function FileInput({
       </Button>
       <span
         className={cn(
-          'flex-1 py-2 px-3 text-xs font-monospace border border-l-0 rounded-r-md truncate',
+          'flex-1 py-2 px-3 text-xs font-monospace border border-l-0 truncate',
           'bg-white border-border text-text',
           'dark:bg-dark-input dark:border-dark-input dark:text-dark-text',
           { 'text-text-secondary': !fileName },

@@ -695,7 +695,10 @@ export default function App() {
               isNew={editingEnvironmentId === null}
               onSave={handleSaveEnvironment}
             />
-            <IconButton className="absolute top-2.5 right-4" onClick={() => dispatch(environmentActions.stopEditing())}>
+            <IconButton
+              className="absolute top-1.5 right-1.5"
+              onClick={() => dispatch(environmentActions.stopEditing())}
+            >
               <ClearCrossIcon className="h-5 w-5" />
             </IconButton>
           </div>
@@ -708,7 +711,7 @@ export default function App() {
               title={t('comparison.title')}
             />
             <IconButton
-              className="absolute top-2.5 right-4"
+              className="absolute top-1.5 right-1.5"
               onClick={() => dispatch(testActions.clearResultsToCompare())}
             >
               <ClearCrossIcon className="h-5 w-5" />
@@ -789,7 +792,7 @@ export default function App() {
                     classNames={{
                       control: () =>
                         cn(
-                          'min-h-auto! bg-white! border! border-border! rounded-none! rounded-l-md! transition-none! shadow-none!',
+                          'min-h-auto! bg-white! border! border-border! rounded-none! transition-none! shadow-none!',
                           'dark:bg-dark-input! dark:border-dark-border! dark:border-r-dark-body!',
                         ),
                       input: () => 'm-0! p-0! [&>:first-child]:uppercase text-text! dark:text-dark-text!',
@@ -802,7 +805,7 @@ export default function App() {
                   />
                 )}
                 <HighlightedInput
-                  className={cn('flex-auto', { 'border-l-0 rounded-l-none': mode === 'HTTP' })}
+                  className={cn('flex-auto', { 'border-l-0': mode === 'HTTP' })}
                   highlightColor={selectedEnvironment?.color}
                   placeholder={t('request.enterUrl')}
                   value={url}
@@ -826,7 +829,7 @@ export default function App() {
                   <Button
                     buttonType={wssConnected ? ButtonType.SECONDARY : ButtonType.PRIMARY}
                     disabled={!wssConnected && !url}
-                    onClick={wssConnected ? window.electronAPI.disconnectWss : connectWss}
+                    onClick={wssConnected ? () => window.electronAPI.disconnectWss() : () => connectWss()}
                   >
                     {wssConnected ? t('common.disconnect') : t('common.connect')}
                   </Button>
@@ -837,40 +840,50 @@ export default function App() {
               )}
             </div>
 
-            <div>
-              <label className="block mb-1 font-bold text-sm">{t('request.headers')}</label>
-              <HighlightedTextarea
-                highlightColor={selectedEnvironment?.color}
-                maxRows={10}
-                placeholder={t('request.headersPlaceholder')}
-                value={headers}
-                variables={variables}
-                onBlur={autoSaveRequest}
-                onChange={(event) => dispatch(requestActions.setHeaders(event.target.value))}
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 font-bold text-sm">{t('request.body')}</label>
-              <div className="relative">
+            <div
+              className={cn(
+                'flex flex-col gap-4',
+                '@2xl:divide-x @2xl:divide-border @2xl:bg-white @2xl:grid @2xl:grid-cols-2 @2xl:items-stretch @2xl:gap-0 @2xl:border @2xl:border-border',
+                '@2xl:dark:divide-dark-body @2xl:dark:bg-dark-input @2xl:dark:border-dark-border',
+              )}
+            >
+              <div>
+                <label className="block mb-1 @2xl:p-3 @2xl:pb-0 font-bold text-sm">{t('request.headers')}</label>
                 <HighlightedTextarea
+                  className="@2xl:border-none"
                   highlightColor={selectedEnvironment?.color}
                   maxRows={15}
-                  placeholder={mode === 'HTTP' ? t('request.bodyPlaceholderHttp') : t('request.bodyPlaceholderWss')}
-                  value={body}
+                  placeholder={t('request.headersPlaceholder')}
+                  value={headers}
                   variables={variables}
                   onBlur={autoSaveRequest}
-                  onChange={(event) => dispatch(requestActions.setBody(event.target.value))}
+                  onChange={(event) => dispatch(requestActions.setHeaders(event.target.value))}
                 />
-                <Button
-                  className="absolute top-3 right-4 z-10"
-                  buttonSize={ButtonSize.SMALL}
-                  buttonType={ButtonType.SECONDARY}
-                  onBlur={autoSaveRequest}
-                  onClick={() => dispatch(requestActions.setBody(formatBody(body, parseHeaders(headers))))}
-                >
-                  {t('common.beautify')}
-                </Button>
+              </div>
+
+              <div className="@2xl:relative">
+                <label className="block mb-1 @2xl:p-3 @2xl:pb-0 font-bold text-sm">{t('request.body')}</label>
+                <div className="relative @2xl:static">
+                  <HighlightedTextarea
+                    className="@2xl:border-none"
+                    highlightColor={selectedEnvironment?.color}
+                    maxRows={15}
+                    placeholder={mode === 'HTTP' ? t('request.bodyPlaceholderHttp') : t('request.bodyPlaceholderWss')}
+                    value={body}
+                    variables={variables}
+                    onBlur={autoSaveRequest}
+                    onChange={(event) => dispatch(requestActions.setBody(event.target.value))}
+                  />
+                  <Button
+                    className="absolute top-3 right-4 z-10"
+                    buttonSize={ButtonSize.SMALL}
+                    buttonType={ButtonType.SECONDARY}
+                    onBlur={autoSaveRequest}
+                    onClick={() => dispatch(requestActions.setBody(formatBody(body, parseHeaders(headers))))}
+                  >
+                    {t('common.beautify')}
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -879,7 +892,7 @@ export default function App() {
                 <Panel title={t('response.title')}>
                   <div
                     className={cn(
-                      'flex items-center justify-between gap-4 p-4 font-bold bg-body dark:bg-dark-body border-t border-border dark:border-dark-body',
+                      'flex items-center justify-between gap-4 py-2 px-4 text-sm font-bold bg-body dark:bg-dark-body border-t border-border dark:border-dark-body',
                       {
                         'text-green-500': httpResponse.status.startsWith('2') && !runResult?.warning,
                         'text-yellow-500': httpResponse.status.startsWith('2') && runResult?.warning,
@@ -909,7 +922,7 @@ export default function App() {
                   {httpResponse.status !== SENDING && (
                     <div className="grid grid-cols-2 items-stretch max-h-100 py-4 border-t border-border dark:border-dark-body overflow-hidden">
                       <div className="relative flex-1 px-4">
-                        <h4 className="m-0 mb-4">{t('request.headers')}</h4>
+                        <h5 className="m-0 mb-4">{t('request.headers')}</h5>
                         {httpResponse.headers && (
                           <CopyButton
                             className="absolute top-0 right-4"
@@ -926,7 +939,7 @@ export default function App() {
                         />
                       </div>
                       <div className="relative flex-1 px-4 border-l border-border dark:border-dark-body">
-                        <h4 className="m-0 mb-4">{t('request.body')}</h4>
+                        <h5 className="m-0 mb-4">{t('request.body')}</h5>
                         {httpResponse.body && (
                           <CopyButton
                             className="absolute top-0 right-4"
@@ -986,7 +999,7 @@ export default function App() {
                       <div className="flex items-center gap-4">
                         {direction !== 'system' && (
                           <span
-                            className={cn('w-5 h-5 font-bold rounded-xs text-center leading-normal rotate-90', {
+                            className={cn('w-5 h-5 font-bold text-center leading-normal rotate-90', {
                               'text-method-post bg-method-post/10': direction === 'sent',
                               'text-method-put bg-method-put/10': direction === 'received',
                             })}
@@ -1082,9 +1095,12 @@ export default function App() {
                       title={t('tests.securityTests')}
                     >
                       <SidebarButton
-                        className="py-1.75 px-2.5"
+                        className="py-0.75 px-2.5"
                         label={t('sidebar.settings')}
-                        onClick={() => dispatch(uiActions.openSettingsModal())}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          dispatch(uiActions.openSettingsModal());
+                        }}
                       >
                         <GearIcon className="w-5 h-5" />
                       </SidebarButton>
@@ -1162,9 +1178,12 @@ export default function App() {
                       title={t('tests.performanceInsights')}
                     >
                       <SidebarButton
-                        className="py-1.75 px-2.5"
+                        className="py-0.75 px-2.5"
                         label={t('sidebar.settings')}
-                        onClick={() => dispatch(uiActions.openSettingsModal())}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          dispatch(uiActions.openSettingsModal());
+                        }}
                       >
                         <GearIcon className="w-5 h-5" />
                       </SidebarButton>

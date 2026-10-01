@@ -18,7 +18,7 @@ export function LanguageSettings() {
   return (
     <div className="flex flex-col gap-4">
       <p className="m-0 text-xs text-text-secondary">{t('settings.languageSection.description')}</p>
-      <div className="grid grid-cols-2 border border-border dark:border-dark-border rounded-md overflow-hidden">
+      <div className="grid grid-cols-2 border border-border dark:border-dark-border overflow-hidden">
         {LANGUAGES.map(({ label, code }, index) => (
           <label
             key={code}

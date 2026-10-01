@@ -14,16 +14,14 @@ export function HttpPanel({ className, children, source, title, ...otherProps }:
 
   return (
     <div className={cn('relative flex flex-col gap-2.5', className)} {...otherProps}>
-      <h4 className="m-0 text-text dark:text-dark-text">{title}</h4>
+      <h5 className="m-0 text-text dark:text-dark-text">{title}</h5>
       {source && (
         <CopyButton className="absolute top-0 right-0" textToCopy={JSON.stringify(source, null, 2)}>
           {t('common.copy')}
         </CopyButton>
       )}
       <div
-        className={cn(
-          'flex-auto m-0 p-2.5 bg-white border border-border rounded dark:bg-dark-input dark:border-dark-border',
-        )}
+        className={cn('flex-auto m-0 p-2.5 bg-white border border-border dark:bg-dark-input dark:border-dark-border')}
       >
         <JsonViewer source={source} />
       </div>

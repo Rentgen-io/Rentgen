@@ -34,8 +34,8 @@ export default function Button({
         cn(
           'm-0 font-segoe-ui text-xs font-bold border',
           {
-            'py-0.5 px-2 rounded-sm': buttonSize === ButtonSize.SMALL,
-            'min-w-24 py-2 px-3 rounded-md': buttonSize === ButtonSize.MEDIUM,
+            'py-0.5 px-2': buttonSize === ButtonSize.SMALL,
+            'min-w-24 py-2 px-3': buttonSize === ButtonSize.MEDIUM,
             'bg-button-primary border-button-primary text-white': buttonType === ButtonType.PRIMARY,
             'hover:bg-button-primary-hover hover:border-button-primary-hover':
               buttonType === ButtonType.PRIMARY && !disabled,

@@ -55,7 +55,7 @@ export function SecurityTestsSettings() {
         </span>
       </h5>
       <p className="m-0 text-xs text-text-secondary">{t('settings.securityTests.description')}</p>
-      <div className="flex flex-col border border-border dark:border-dark-border rounded-md divide-y divide-border dark:divide-dark-border overflow-hidden">
+      <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden">
         {SECURITY_TESTS.sort().map((test) => (
           <Toggle
             key={test}

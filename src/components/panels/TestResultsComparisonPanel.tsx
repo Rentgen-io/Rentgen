@@ -98,7 +98,12 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
   }, [items]);
 
   return (
-    <Panel className="flex flex-col h-[calc(100vh-2.5rem)] box-border" title={title} {...otherProps}>
+    <Panel
+      className="flex flex-col h-[calc(100vh-2.5rem)] box-border"
+      collapsible={false}
+      title={title}
+      {...otherProps}
+    >
       {items.length < 2 ? (
         <p className="p-4 m-0">{t('comparison.noTestResults')}</p>
       ) : (
@@ -106,7 +111,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
           className="flex flex-col h-full overflow-hidden"
           forceRenderTabPanel={true}
           selectedIndex={tabIndex}
-          selectedTabClassName="bg-body border-border! rounded-t-md text-text dark:bg-dark-body dark:border-dark-body! dark:text-dark-text"
+          selectedTabClassName="bg-body border-border! text-text dark:bg-dark-body dark:border-dark-body! dark:text-dark-text"
           selectedTabPanelClassName="block! h-full"
           onSelect={(index) => setTabIndex(index)}
         >
@@ -122,7 +127,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
           <TabPanel className="hidden p-4 bg-body dark:bg-dark-body overflow-hidden">
             <div className="flex flex-col gap-4 h-full">
               {!potentialBugs || potentialBugs.length === 0 ? (
-                <p className="m-0 p-2.5 text-sm text-white text-center rounded-md bg-green-600">
+                <p className="m-0 p-2.5 text-sm text-white text-center bg-green-600">
                   {t('comparison.noPotentialBugs')}
                 </p>
               ) : (

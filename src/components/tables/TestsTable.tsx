@@ -100,7 +100,7 @@ export function TestsTableHeader({
 
   return (
     <div className="flex items-center">
-      <h4 className="flex items-center gap-2 flex-auto m-0 p-4">
+      <h5 className="flex items-center gap-2 flex-auto m-0 py-3 px-4">
         <span
           className={twMerge(
             cn('w-2 h-2 rounded-full shrink-0 bg-gray-400', {
@@ -114,32 +114,32 @@ export function TestsTableHeader({
         {title}
         <div className="flex-auto flex items-center justify-end gap-2 font-normal lowercase">
           {passed > 0 && (
-            <span className="py-px px-2 text-sm text-green-500 bg-green-500/10 rounded">
+            <span className="py-px px-2 text-sm text-green-500 bg-green-500/10">
               {passed} {t('common.passed')}
             </span>
           )}
           {warnings > 0 && (
-            <span className="py-px px-2 text-sm text-yellow-500 bg-yellow-500/10 rounded">
+            <span className="py-px px-2 text-sm text-yellow-500 bg-yellow-500/10">
               {warnings} {warnings === 1 ? t('common.warning') : t('common.warnings')}
             </span>
           )}
           {failed > 0 && (
-            <span className="py-px px-2 text-sm text-red-500 bg-red-500/10 rounded">
+            <span className="py-px px-2 text-sm text-red-500 bg-red-500/10">
               {failed} {t('common.failed')}
             </span>
           )}
           {bugs > 0 && (
-            <span className="py-px px-2 text-sm text-purple-500 bg-purple-500/10 rounded">
+            <span className="py-px px-2 text-sm text-purple-500 bg-purple-500/10">
               {bugs} {bugs === 1 ? t('common.bug') : t('common.bugs')}
             </span>
           )}
           {!!disabledTests?.length && (
-            <span className="py-px px-2 text-sm text-text-secondary bg-text-secondary/10 rounded">
+            <span className="py-px px-2 text-sm text-text-secondary bg-text-secondary/10">
               {disabledTests.length} {t('common.ignored')}
             </span>
           )}
         </div>
-      </h4>
+      </h5>
       {children}
     </div>
   );

@@ -70,10 +70,10 @@ export default function ImportConflictModal() {
 
         <div className="flex flex-col gap-3 mt-2">
           {/* Replace Option */}
-          <div className="p-3 border border-border dark:border-dark-border rounded-md">
+          <div className="p-3 border border-border dark:border-dark-border">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h4 className="m-0 text-sm font-bold text-text dark:text-dark-text">{t('common.replace')}</h4>
+                <h5 className="m-0 font-bold text-text dark:text-dark-text">{t('common.replace')}</h5>
                 <p className="m-0 text-xs text-text-secondary dark:text-dark-text-secondary">
                   {t('modals.importConflict.replaceDescription', {
                     folders: totalImportedFolders,
@@ -88,10 +88,10 @@ export default function ImportConflictModal() {
           </div>
 
           {/* Merge Option */}
-          <div className="p-3 border border-border dark:border-dark-border rounded-md">
+          <div className="p-3 border border-border dark:border-dark-border">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h4 className="m-0 text-sm font-bold text-text dark:text-dark-text">{t('common.merge')}</h4>
+                <h5 className="m-0 font-bold text-text dark:text-dark-text">{t('common.merge')}</h5>
                 <p className="m-0 text-xs text-text-secondary dark:text-dark-text-secondary">
                   {t('modals.importConflict.mergeDescription')}
                   {mergeStats.folders > 0 &&
@@ -114,12 +114,12 @@ export default function ImportConflictModal() {
           </div>
 
           {/* Import as Copy Option */}
-          <div className="p-3 border border-border dark:border-dark-border rounded-md">
+          <div className="p-3 border border-border dark:border-dark-border">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h4 className="m-0 text-sm font-bold text-text dark:text-dark-text">
+                <h5 className="m-0 font-bold text-text dark:text-dark-text">
                   {t('modals.importConflict.importAsCopy')}
-                </h4>
+                </h5>
                 <p className="m-0 text-xs text-text-secondary dark:text-dark-text-secondary">
                   {t('modals.importConflict.copyDescription', {
                     folders: totalImportedFolders,

@@ -16,18 +16,18 @@ export default function Select({ classNames, styles, isCreatable, ...otherProps 
   const selectClassNames: ClassNamesConfig<unknown, boolean, GroupBase<unknown>> = {
     container: () => 'min-w-[110px] text-xs',
     control: () =>
-      cn('min-h-auto! rounded-md! border! shadow-none! transition-none!', {
+      cn('min-h-auto! rounded-none! border! shadow-none! transition-none!', {
         'bg-white! dark:bg-dark-input! border-border! dark:border-dark-border!': !styles?.control,
       }),
     dropdownIndicator: () =>
       cn('w-7! p-1.5! transition-none!', !styles?.dropdownIndicator && 'text-text/40! dark:text-dark-text/40!'),
     indicatorSeparator: () => 'hidden',
     input: () => 'm-0! p-0! text-text! dark:text-dark-text!',
-    menu: () => 'm-0! rounded-md! dark:bg-dark-input! transition-none! shadow-lg! z-50!',
+    menu: () => 'm-0! rounded-none! dark:bg-dark-input! transition-none! shadow-lg! z-50!',
     menuList: () => 'p-0!',
     option: ({ data, isSelected }) =>
       cn(
-        'first:rounded-t-md! last:rounded-b-md! transition-none! cursor-pointer!',
+        'rounded-none! transition-none! cursor-pointer!',
         {
           'text-white!': isSelected,
           'hover:bg-select-hover dark:bg-dark-input! dark:hover:bg-dark-button-secondary!': !isSelected,

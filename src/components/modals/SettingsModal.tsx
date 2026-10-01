@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -72,7 +71,7 @@ export default function SettingsModal() {
       className="[&>div]:h-[84vh] [&>div]:max-h-210 [&>div]:w-full! [&>div]:max-w-211.5! [&>div]:p-0! [&>div]:overflow-hidden"
       isOpen={isOpen}
     >
-      <IconButton className="absolute top-3 right-3" onClick={onClose}>
+      <IconButton className="absolute top-2.5 right-3" onClick={onClose}>
         <ClearCrossIcon className="h-5 w-5" />
       </IconButton>
       <Tabs
@@ -81,14 +80,11 @@ export default function SettingsModal() {
         selectedTabClassName="bg-white dark:bg-dark-body"
         selectedTabPanelClassName="block!"
       >
-        <TabList className="min-w-40 flex flex-col m-0 p-0 bg-button-secondary dark:bg-dark-input rounded-l-md">
-          {settingsTabs.map(({ name, icon }, index) => (
+        <TabList className="min-w-40 flex flex-col m-0 p-0 bg-button-secondary dark:bg-dark-input">
+          {settingsTabs.map(({ name, icon }) => (
             <Tab
               key={name}
-              className={cn(
-                'flex items-center gap-2 py-3 px-4 text-sm list-none outline-none cursor-pointer hover:bg-white dark:hover:bg-dark-body',
-                { 'rounded-tl-md': index === 0 },
-              )}
+              className="flex items-center gap-2 py-3 px-4 text-sm list-none outline-none cursor-pointer hover:bg-white dark:hover:bg-dark-body"
             >
               {icon}
               {name}
@@ -96,10 +92,10 @@ export default function SettingsModal() {
           ))}
         </TabList>
         {settingsTabs.map(({ name, component }) => (
-          <TabPanel key={name} className="flex-auto hidden p-4 overflow-y-auto">
-            <div className="flex flex-col gap-4">
-              <h4 className="m-0">{name}</h4>
-              {component}
+          <TabPanel key={name} className="flex-auto hidden">
+            <div className="h-full flex flex-col">
+              <h4 className="m-0 p-4">{name}</h4>
+              <div className="h-full flex flex-col gap-4 p-4 pt-0 overflow-y-auto">{component}</div>
             </div>
           </TabPanel>
         ))}

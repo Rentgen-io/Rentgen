@@ -159,7 +159,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
   );
 
   return (
-    <Panel title={isNew ? t('environment.newEnvironment') : t('environment.editEnvironment')}>
+    <Panel collapsible={false} title={isNew ? t('environment.newEnvironment') : t('environment.editEnvironment')}>
       <div className="p-4 border-t border-border dark:border-dark-body">
         <div className="mb-4">
           <label className="block mb-1 font-bold text-sm">{t('environment.environmentName')}</label>
@@ -178,7 +178,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
               <button
                 key={c}
                 className={cn(
-                  'w-8 h-8 rounded-md border-2 cursor-pointer',
+                  'w-8 h-8 border-2 cursor-pointer',
                   color === c ? 'border-text dark:border-dark-text' : 'border-transparent',
                 )}
                 style={{ backgroundColor: c }}
@@ -187,7 +187,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
               />
             ))}
             <input
-              className="w-10 h-8 cursor-pointer border-0 p-0 rounded-md"
+              className="w-10 h-8 cursor-pointer border-0 p-0"
               type="color"
               value={color}
               onChange={(e) => setColor(e.target.value)}
@@ -197,9 +197,8 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
         <div className="mb-4">
           <label className="block mb-1 font-bold text-sm">{t('environment.variables')}</label>
-          <div className="border border-border dark:border-dark-body rounded-md overflow-hidden">
+          <div className="border border-border dark:border-dark-body overflow-hidden">
             <DataTable
-              className="rounded-none!"
               columns={[
                 {
                   name: t('environment.variableName'),
