@@ -151,8 +151,9 @@ const it = {
     crudNoteText: 'Se il test di gestione del metodo OPTIONS è disabilitato, i CRUD non verranno generati.',
     copyBugReport: 'Copia segnalazione bug',
     computingDifferences: 'Calcolo delle differenze…',
-    bodyParameters: 'Parametri del corpo',
-    queryParameters: 'Parametri query',
+    parameters: 'Parametri',
+    bodyParameters: 'Corpo',
+    queryParameters: 'Query',
     formatPlaceholder: 'Formato',
   },
 

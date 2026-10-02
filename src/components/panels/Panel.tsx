@@ -1,6 +1,8 @@
 import cn from 'classnames';
 import { HTMLAttributes, ReactNode, useState } from 'react';
 
+import ChevronIcon from '../../assets/icons/chevron-icon.svg';
+
 export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title: ReactNode;
   collapsible?: boolean;
@@ -19,10 +21,17 @@ export default function Panel({ children, className, title, collapsible = true, 
       {...otherProps}
     >
       <div
-        className={cn(collapsible && 'cursor-pointer')}
+        className={cn(collapsible && 'relative cursor-pointer pl-10')}
         onClick={() => collapsible && setIsOpen((prevIsOpen) => !prevIsOpen)}
       >
-        {typeof title === 'string' ? <h5 className="m-0 py-3 px-4">{title}</h5> : title}
+        {collapsible && (
+          <ChevronIcon
+            className={cn('h-5 w-5 absolute left-2.5 top-1/2 transform -translate-y-1/2', {
+              'rotate-90': isOpen,
+            })}
+          />
+        )}
+        {typeof title === 'string' ? <h5 className={cn('m-0 py-3 px-4', collapsible && 'pl-0')}>{title}</h5> : title}
       </div>
       {isOpen && children}
     </div>

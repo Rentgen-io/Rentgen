@@ -150,8 +150,9 @@ const vi = {
     crudNoteText: 'Nếu kiểm thử xử lý phương thức OPTIONS bị tắt, CRUD sẽ không được tạo.',
     copyBugReport: 'Sao chép báo cáo lỗi',
     computingDifferences: 'Đang tính toán khác biệt…',
-    bodyParameters: 'Tham số nội dung',
-    queryParameters: 'Tham số truy vấn',
+    parameters: 'Tham số',
+    bodyParameters: 'Nội dung',
+    queryParameters: 'Truy vấn',
     formatPlaceholder: 'Định dạng',
   },
 

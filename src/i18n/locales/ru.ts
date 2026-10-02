@@ -150,8 +150,9 @@ const ru = {
     crudNoteText: 'Если тест обработки метода OPTIONS отключен, CRUD не будут сгенерированы.',
     copyBugReport: 'Скопировать отчет об ошибке',
     computingDifferences: 'Вычисление различий…',
-    bodyParameters: 'Параметры тела',
-    queryParameters: 'Параметры запроса',
+    parameters: 'Параметры',
+    bodyParameters: 'Тело',
+    queryParameters: 'Запрос',
     formatPlaceholder: 'Формат',
   },
 

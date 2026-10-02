@@ -150,8 +150,9 @@ const hi = {
     crudNoteText: 'यदि OPTIONS मेथड हैंडलिंग टेस्ट अक्षम है, तो CRUD जनरेट नहीं होंगे।',
     copyBugReport: 'बग रिपोर्ट कॉपी करें',
     computingDifferences: 'अंतर की गणना हो रही है…',
-    bodyParameters: 'बॉडी पैरामीटर',
-    queryParameters: 'क्वेरी पैरामीटर',
+    parameters: 'पैरामीटर',
+    bodyParameters: 'बॉडी',
+    queryParameters: 'क्वेरी',
     formatPlaceholder: 'फ़ॉर्मेट',
   },
 

@@ -151,8 +151,9 @@ const ptBR = {
     crudNoteText: 'Se o teste de tratamento do método OPTIONS estiver desativado, o CRUD não será gerado.',
     copyBugReport: 'Copiar relatório de bug',
     computingDifferences: 'Calculando diferenças…',
-    bodyParameters: 'Parâmetros do corpo',
-    queryParameters: 'Parâmetros de consulta',
+    parameters: 'Parâmetros',
+    bodyParameters: 'Corpo',
+    queryParameters: 'Consulta',
     formatPlaceholder: 'Formato',
   },
 

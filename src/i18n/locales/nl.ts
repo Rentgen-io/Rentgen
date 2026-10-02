@@ -151,8 +151,9 @@ const nl = {
     crudNoteText: 'Als de test voor de OPTIONS-methode is uitgeschakeld, wordt CRUD niet gegenereerd.',
     copyBugReport: 'Bugrapport kopiëren',
     computingDifferences: 'Verschillen worden berekend…',
-    bodyParameters: 'Body-parameters',
-    queryParameters: 'Queryparameters',
+    parameters: 'Parameters',
+    bodyParameters: 'Body',
+    queryParameters: 'Query',
     formatPlaceholder: 'Formaat',
   },
 

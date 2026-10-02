@@ -100,7 +100,7 @@ export function TestsTableHeader({
 
   return (
     <div className="flex items-center">
-      <h5 className="flex items-center gap-2 flex-auto m-0 py-3 px-4">
+      <h5 className="flex items-center gap-2 flex-auto m-0 py-3 pr-4">
         <span
           className={twMerge(
             cn('w-2 h-2 rounded-full shrink-0 bg-gray-400', {

@@ -150,8 +150,9 @@ const tr = {
     crudNoteText: 'OPTIONS metodu işleme testi devre dışı bırakılırsa, CRUD oluşturulmaz.',
     copyBugReport: 'Hata Raporunu Kopyala',
     computingDifferences: 'Farklar hesaplanıyor…',
-    bodyParameters: 'Gövde Parametreleri',
-    queryParameters: 'Sorgu Parametreleri',
+    parameters: 'Parametreler',
+    bodyParameters: 'Gövde',
+    queryParameters: 'Sorgu',
     formatPlaceholder: 'Format',
   },
 

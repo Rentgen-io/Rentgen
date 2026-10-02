@@ -150,8 +150,9 @@ const uk = {
     crudNoteText: 'Якщо тест обробки методу OPTIONS вимкнено, CRUD не буде згенеровано.',
     copyBugReport: 'Копіювати звіт про помилку',
     computingDifferences: 'Обчислення відмінностей…',
-    bodyParameters: 'Параметри тіла',
-    queryParameters: 'Параметри запиту',
+    parameters: 'Параметри',
+    bodyParameters: 'Тіло',
+    queryParameters: 'Запит',
     formatPlaceholder: 'Формат',
   },
 

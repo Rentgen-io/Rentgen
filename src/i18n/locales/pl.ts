@@ -151,8 +151,9 @@ const pl = {
     crudNoteText: 'Jeśli test obsługi metody OPTIONS jest wyłączony, CRUD nie zostanie wygenerowany.',
     copyBugReport: 'Kopiuj raport błędu',
     computingDifferences: 'Obliczanie różnic…',
-    bodyParameters: 'Parametry treści',
-    queryParameters: 'Parametry zapytania',
+    parameters: 'Parametry',
+    bodyParameters: 'Treść',
+    queryParameters: 'Zapytanie',
     formatPlaceholder: 'Format',
   },
 

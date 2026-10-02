@@ -150,8 +150,9 @@ const zhCN = {
     crudNoteText: '如果禁用了 OPTIONS 方法处理测试，将不会生成 CRUD。',
     copyBugReport: '复制缺陷报告',
     computingDifferences: '正在计算差异…',
-    bodyParameters: '请求体参数',
-    queryParameters: '查询参数',
+    parameters: '参数',
+    bodyParameters: '请求体',
+    queryParameters: '查询',
     formatPlaceholder: '格式',
   },
 

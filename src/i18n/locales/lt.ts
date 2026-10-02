@@ -150,8 +150,9 @@ const lt = {
     crudNoteText: 'Jei OPTIONS metodo apdorojimo testas išjungtas, CRUD nebus generuojami.',
     copyBugReport: 'Kopijuoti klaidos ataskaitą',
     computingDifferences: 'Skaičiuojami skirtumai…',
-    bodyParameters: 'Turinio parametrai',
-    queryParameters: 'Užklausos parametrai',
+    parameters: 'Parametrai',
+    bodyParameters: 'Turinys',
+    queryParameters: 'Užklausa',
     formatPlaceholder: 'Formatas',
   },
 

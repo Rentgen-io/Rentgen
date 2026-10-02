@@ -150,8 +150,9 @@ const en = {
     crudNoteText: 'If the OPTIONS method handling test is disabled, CRUD will not be generated.',
     copyBugReport: 'Copy Bug Report',
     computingDifferences: 'Computing differences…',
-    bodyParameters: 'Body Parameters',
-    queryParameters: 'Query Parameters',
+    parameters: 'Parameters',
+    bodyParameters: 'Body',
+    queryParameters: 'Query',
     formatPlaceholder: 'Format',
   },
 

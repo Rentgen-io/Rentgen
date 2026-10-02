@@ -965,25 +965,32 @@ export default function App() {
 
                 {httpResponse.status !== SENDING &&
                   (Object.keys(bodyParameters).length > 0 || Object.keys(queryParameters).length > 0) && (
-                    <div ref={parametersRef} className="grid lg:grid-cols-2 gap-4 items-stretch">
-                      {Object.keys(bodyParameters).length > 0 && (
-                        <ParametersPanel
-                          title={t('tests.bodyParameters')}
-                          parameters={bodyParameters}
-                          onBlur={autoSaveRequest}
-                          onChange={(parameters) => dispatch(requestActions.setBodyParameters(parameters))}
-                        />
-                      )}
+                    <Panel title={t('tests.parameters')}>
+                      <div
+                        ref={parametersRef}
+                        className="grid lg:grid-cols-2 items-stretch divide-x divide-border dark:divide-dark-body border-t border-border"
+                      >
+                        {Object.keys(bodyParameters).length > 0 && (
+                          <ParametersPanel
+                            className="border-t-0 border-b border-x-0 lg:border-l-0 lg:border-y-0 lg:border-r"
+                            title={t('tests.bodyParameters')}
+                            parameters={bodyParameters}
+                            onBlur={autoSaveRequest}
+                            onChange={(parameters) => dispatch(requestActions.setBodyParameters(parameters))}
+                          />
+                        )}
 
-                      {Object.keys(queryParameters).length > 0 && (
-                        <ParametersPanel
-                          title={t('tests.queryParameters')}
-                          parameters={queryParameters}
-                          onBlur={autoSaveRequest}
-                          onChange={(parameters) => dispatch(requestActions.setQueryParameters(parameters))}
-                        />
-                      )}
-                    </div>
+                        {Object.keys(queryParameters).length > 0 && (
+                          <ParametersPanel
+                            className="border-none"
+                            title={t('tests.queryParameters')}
+                            parameters={queryParameters}
+                            onBlur={autoSaveRequest}
+                            onChange={(parameters) => dispatch(requestActions.setQueryParameters(parameters))}
+                          />
+                        )}
+                      </div>
+                    </Panel>
                   )}
               </>
             )}

@@ -150,8 +150,9 @@ const ja = {
     crudNoteText: 'OPTIONS メソッド処理テストが無効になっている場合、CRUD は生成されません。',
     copyBugReport: 'バグレポートをコピー',
     computingDifferences: '差分を計算中…',
-    bodyParameters: 'ボディパラメータ',
-    queryParameters: 'クエリパラメータ',
+    parameters: 'パラメータ',
+    bodyParameters: 'ボディ',
+    queryParameters: 'クエリ',
     formatPlaceholder: 'フォーマット',
   },
 

@@ -151,8 +151,9 @@ const fr = {
     crudNoteText: 'Si le test de gestion de la méthode OPTIONS est désactivé, le CRUD ne sera pas généré.',
     copyBugReport: 'Copier le rapport de bug',
     computingDifferences: 'Calcul des différences…',
-    bodyParameters: 'Paramètres du corps',
-    queryParameters: 'Paramètres de requête',
+    parameters: 'Paramètres',
+    bodyParameters: 'Corps',
+    queryParameters: 'Requête',
     formatPlaceholder: 'Format',
   },
 

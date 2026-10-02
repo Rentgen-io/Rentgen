@@ -151,8 +151,9 @@ const es = {
     crudNoteText: 'Si la prueba de manejo del método OPTIONS está desactivada, CRUD no se generará.',
     copyBugReport: 'Copiar informe de error',
     computingDifferences: 'Calculando diferencias…',
-    bodyParameters: 'Parámetros del cuerpo',
-    queryParameters: 'Parámetros de consulta',
+    parameters: 'Parámetros',
+    bodyParameters: 'Cuerpo',
+    queryParameters: 'Consulta',
     formatPlaceholder: 'Formato',
   },
 

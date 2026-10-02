@@ -150,8 +150,9 @@ const id = {
     crudNoteText: 'Jika tes penanganan metode OPTIONS dinonaktifkan, CRUD tidak akan dihasilkan.',
     copyBugReport: 'Salin Laporan Bug',
     computingDifferences: 'Menghitung perbedaan…',
-    bodyParameters: 'Parameter Body',
-    queryParameters: 'Parameter Query',
+    parameters: 'Parameter',
+    bodyParameters: 'Body',
+    queryParameters: 'Query',
     formatPlaceholder: 'Format',
   },
 

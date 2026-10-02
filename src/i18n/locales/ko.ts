@@ -150,8 +150,9 @@ const ko = {
     crudNoteText: 'OPTIONS 메서드 처리 테스트가 비활성화되어 있으면 CRUD는 생성되지 않습니다.',
     copyBugReport: '버그 리포트 복사',
     computingDifferences: '차이점 계산 중…',
-    bodyParameters: '바디 파라미터',
-    queryParameters: '쿼리 파라미터',
+    parameters: '파라미터',
+    bodyParameters: '바디',
+    queryParameters: '쿼리',
     formatPlaceholder: '포맷',
   },
 

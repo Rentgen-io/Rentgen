@@ -150,8 +150,9 @@ const th = {
     crudNoteText: 'หากปิดใช้งานเทสต์การจัดการเมธอด OPTIONS จะไม่มีการสร้าง CRUD',
     copyBugReport: 'คัดลอกรายงานบั๊ก',
     computingDifferences: 'กำลังคำนวณความแตกต่าง…',
-    bodyParameters: 'พารามิเตอร์ของบอดี้',
-    queryParameters: 'พารามิเตอร์ของ Query',
+    parameters: 'พารามิเตอร์',
+    bodyParameters: 'บอดี้',
+    queryParameters: 'Query',
     formatPlaceholder: 'รูปแบบ',
   },
 

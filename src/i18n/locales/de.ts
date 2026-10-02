@@ -151,8 +151,9 @@ const de = {
     crudNoteText: 'Wenn der OPTIONS-Methodentest deaktiviert ist, wird CRUD nicht generiert.',
     copyBugReport: 'Fehlerbericht kopieren',
     computingDifferences: 'Unterschiede werden berechnet…',
-    bodyParameters: 'Body-Parameter',
-    queryParameters: 'Query-Parameter',
+    parameters: 'Parameter',
+    bodyParameters: 'Body',
+    queryParameters: 'Query',
     formatPlaceholder: 'Format',
   },
 
