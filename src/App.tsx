@@ -481,10 +481,9 @@ export default function App() {
           }),
         );
       }
-
-      dispatch(historyActions.addEntry(historyEntry));
     } catch (error) {
       dispatch(responseActions.setResponse({ status: NETWORK_ERROR, body: String(error), headers: {}, time: 0 }));
+    } finally {
       dispatch(historyActions.addEntry(historyEntry));
     }
   }, [url, headers, body, selectedEnvironment, dynamicVariables, selectedRequestId, method, mappings, dispatch]);
