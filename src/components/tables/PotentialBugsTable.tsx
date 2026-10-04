@@ -86,5 +86,5 @@ export default function PotentialBugsTable({ data, ...otherProps }: Omit<TablePr
 }
 
 export const ExpandedTestComponent = memo(({ data }: ExpanderComponentProps<PotentialBug>) => (
-  <JsonDiffViewer className="h-70 py-4" data={[data.originalResponse, data.modifiedResponse]} />
+  <JsonDiffViewer className="py-4" data={[data.originalResponse, data.modifiedResponse]} />
 ));

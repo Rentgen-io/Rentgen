@@ -12,15 +12,25 @@ import { rentgenDarkTheme, rentgenLightTheme } from '../monaco/themes';
 interface Props {
   className?: string;
   data: (object | null)[];
+  maxHeight?: number;
+  minHeight?: number;
   calculateStatistics?(statistics: { percent: number; added: number; removed: number; unchanged: number }): void;
   isDiffReady?(ready: boolean): void;
 }
 
-export function JsonDiffViewer({ className, data, calculateStatistics, isDiffReady }: Props) {
+export function JsonDiffViewer({
+  className,
+  data,
+  maxHeight = 280,
+  minHeight = 40,
+  calculateStatistics,
+  isDiffReady,
+}: Props) {
   const { t } = useTranslation();
   const theme = useAppSelector(selectTheme);
   const diffEditorRef = useRef<editor.IStandaloneDiffEditor | null>(null);
   const [diffReady, setDiffReady] = useState<boolean>(false);
+  const [editorHeight, setEditorHeight] = useState<number>(minHeight);
   const isDark = theme === 'dark';
 
   useEffect(() => {
@@ -78,7 +88,18 @@ export function JsonDiffViewer({ className, data, calculateStatistics, isDiffRea
     monaco.editor.defineTheme('rentgen-dark', rentgenDarkTheme);
     monaco.editor.setTheme(isDark ? 'rentgen-dark' : 'rentgen-light');
 
+    const updateHeight = () =>
+      setEditorHeight(
+        Math.max(editor.getOriginalEditor().getContentHeight(), editor.getModifiedEditor().getContentHeight()),
+      );
+
+    updateHeight();
+
+    editor.getOriginalEditor().onDidContentSizeChange(updateHeight);
+    editor.getModifiedEditor().onDidContentSizeChange(updateHeight);
+
     editor.onDidUpdateDiff(() => {
+      updateHeight();
       computeStatistics();
       setDiffReady(true);
     });
@@ -94,7 +115,10 @@ export function JsonDiffViewer({ className, data, calculateStatistics, isDiffRea
   }, []);
 
   return (
-    <div className={twMerge(cn('relative bg-white dark:bg-dark-input', className))}>
+    <div
+      className={twMerge(cn('relative bg-white dark:bg-dark-input', className))}
+      style={{ height: Math.min(Math.max(editorHeight, minHeight), maxHeight) }}
+    >
       <DiffEditor
         height="100%"
         language="json"

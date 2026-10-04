@@ -1,5 +1,4 @@
 import MonacoEditor, { OnMount, loader } from '@monaco-editor/react';
-import cn from 'classnames';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -292,14 +291,24 @@ function getAllJsonValuePositions(jsonString: string, sourceObject: object): Jso
 }
 
 interface Props {
-  source?: string | number | boolean | object | null;
   className?: string;
+  maxHeight?: number;
+  minHeight?: number;
   responsePanelContext?: ResponsePanelContext;
+  source?: string | number | boolean | object | null;
   showVariableButtons?: boolean;
   onSetVariable?: (path: string, value: string) => void;
 }
 
-export function JsonViewer({ source, className, responsePanelContext, showVariableButtons, onSetVariable }: Props) {
+export function JsonViewer({
+  className,
+  maxHeight = 280,
+  minHeight = 40,
+  responsePanelContext,
+  source,
+  showVariableButtons,
+  onSetVariable,
+}: Props) {
   const theme = useAppSelector(selectTheme);
   const { t } = useTranslation();
   const { showContextMenu } = useContextMenu();
@@ -310,7 +319,8 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
   const widgetsRef = useRef<Map<string, monaco.editor.IContentWidget>>(new Map());
   const widgetDomNodesRef = useRef<Map<string, HTMLButtonElement>>(new Map());
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
-  const [isEditorMounted, setIsEditorMounted] = useState(false);
+  const [isEditorMounted, setIsEditorMounted] = useState<boolean>(false);
+  const [editorHeight, setEditorHeight] = useState<number>(minHeight);
   const onSetVariableRef = useRef(onSetVariable);
 
   useEffect(() => {
@@ -408,14 +418,17 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
   const displayValue = isSourceObject ? JSON.stringify(source, null, 2) : String(source);
   const editorLanguage = isSourceObject ? 'json' : 'plaintext';
 
-  const onMount: OnMount = (editor, monacoInstance) => {
+  const onMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
 
-    monacoInstance.editor.defineTheme('rentgen-light', rentgenLightTheme);
-    monacoInstance.editor.defineTheme('rentgen-dark', rentgenDarkTheme);
-    monacoInstance.editor.defineTheme('rentgen-light-plaintext', rentgenLightPlaintextTheme);
-    monacoInstance.editor.defineTheme('rentgen-dark-plaintext', rentgenDarkPlaintextTheme);
-    monacoInstance.editor.setTheme(isDark ? 'rentgen-dark' : 'rentgen-light');
+    monaco.editor.defineTheme('rentgen-light', rentgenLightTheme);
+    monaco.editor.defineTheme('rentgen-dark', rentgenDarkTheme);
+    monaco.editor.defineTheme('rentgen-light-plaintext', rentgenLightPlaintextTheme);
+    monaco.editor.defineTheme('rentgen-dark-plaintext', rentgenDarkPlaintextTheme);
+    monaco.editor.setTheme(isDark ? 'rentgen-dark' : 'rentgen-light');
+
+    setEditorHeight(editor.getContentHeight());
+    editor.onDidContentSizeChange((e) => setEditorHeight(e.contentHeight));
 
     // Track hovered line for widget visibility
     editor.onMouseMove((e) => {
@@ -465,7 +478,7 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
   };
 
   return (
-    <div className={cn('h-70', className)}>
+    <div className={className} style={{ height: Math.min(Math.max(editorHeight, minHeight), maxHeight) }}>
       <MonacoEditor
         height="100%"
         language={editorLanguage}
