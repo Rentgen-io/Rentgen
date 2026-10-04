@@ -962,7 +962,7 @@ export default function App() {
                   )}
                 </Panel>
 
-                {httpResponse.status !== SENDING &&
+                {httpResponse.status !== NETWORK_ERROR &&
                   (Object.keys(bodyParameters).length > 0 || Object.keys(queryParameters).length > 0) && (
                     <Panel title={t('tests.parameters')}>
                       <div
@@ -971,7 +971,7 @@ export default function App() {
                       >
                         {Object.keys(bodyParameters).length > 0 && (
                           <ParametersPanel
-                            className="border-t-0 border-b border-x-0 lg:border-l-0 lg:border-y-0 lg:border-r dark:border-dark-body!"
+                            className="border-none"
                             title={t('tests.bodyParameters')}
                             parameters={bodyParameters}
                             onBlur={autoSaveRequest}
@@ -981,7 +981,11 @@ export default function App() {
 
                         {Object.keys(queryParameters).length > 0 && (
                           <ParametersPanel
-                            className="border-none"
+                            className={cn(
+                              'not-nth-[2]:border-none',
+                              'nth-[2]:border-x-0 nth-[2]:border-b-0 nth-[2]:border-t nth-[2]:dark:border-dark-body!',
+                              'lg:nth-[2]:border-y-0 lg:nth-[2]:border-l lg:nth-[2]:border-r-0',
+                            )}
                             title={t('tests.queryParameters')}
                             parameters={queryParameters}
                             onBlur={autoSaveRequest}
