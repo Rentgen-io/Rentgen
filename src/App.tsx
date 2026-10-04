@@ -967,11 +967,11 @@ export default function App() {
                     <Panel title={t('tests.parameters')}>
                       <div
                         ref={parametersRef}
-                        className="grid lg:grid-cols-2 items-stretch divide-x divide-border dark:divide-dark-body border-t border-border"
+                        className="grid lg:grid-cols-2 items-stretch border-t border-border dark:border-dark-body"
                       >
                         {Object.keys(bodyParameters).length > 0 && (
                           <ParametersPanel
-                            className="border-t-0 border-b border-x-0 lg:border-l-0 lg:border-y-0 lg:border-r"
+                            className="border-t-0 border-b border-x-0 lg:border-l-0 lg:border-y-0 lg:border-r dark:border-dark-body!"
                             title={t('tests.bodyParameters')}
                             parameters={bodyParameters}
                             onBlur={autoSaveRequest}
