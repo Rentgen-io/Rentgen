@@ -154,6 +154,10 @@ const en = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Format',
+    aiTesting: 'Deeper AI Testing',
+    aiTestingTitle: 'Find tests the deterministic scan could not infer',
+    aiTestingDescription: 'AI analyzes the run, suggests additional experiments, and Rentgen executes them.',
+    runAiTesting: 'Run AI Testing',
   },
 
   // Comparison Panel

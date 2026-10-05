@@ -154,6 +154,10 @@ const tr = {
     bodyParameters: 'Gövde',
     queryParameters: 'Sorgu',
     formatPlaceholder: 'Format',
+    aiTesting: 'Daha Derin YZ Testleri',
+    aiTestingTitle: 'Deterministik taramanın çıkaramadığı testleri bulun',
+    aiTestingDescription: 'YZ çalışmayı analiz eder, ek denemeler önerir ve Rentgen bunları çalıştırır.',
+    runAiTesting: 'YZ Testlerini Çalıştır',
   },
 
   // Comparison Panel

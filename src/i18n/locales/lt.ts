@@ -154,6 +154,10 @@ const lt = {
     bodyParameters: 'Turinys',
     queryParameters: 'Užklausa',
     formatPlaceholder: 'Formatas',
+    aiTesting: 'Gilesnis DI testavimas',
+    aiTestingTitle: 'Rasti testus, kurių deterministinis skenavimas negalėjo nustatyti',
+    aiTestingDescription: 'DI analizuoja vykdymą, siūlo papildomus eksperimentus, o Rentgen juos įvykdo.',
+    runAiTesting: 'Vykdyti DI testavimą',
   },
 
   // Comparison Panel

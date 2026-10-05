@@ -155,6 +155,10 @@ const nl = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Formaat',
+    aiTesting: 'Diepgaander AI-testen',
+    aiTestingTitle: 'Vind tests die de deterministische scan niet kon afleiden',
+    aiTestingDescription: 'AI analyseert de run, stelt extra experimenten voor en Rentgen voert ze uit.',
+    runAiTesting: 'AI-testen uitvoeren',
   },
 
   // Comparison Panel

@@ -154,6 +154,10 @@ const ru = {
     bodyParameters: 'Тело',
     queryParameters: 'Запрос',
     formatPlaceholder: 'Формат',
+    aiTesting: 'Углублённое ИИ-тестирование',
+    aiTestingTitle: 'Найти тесты, которые детерминированное сканирование не смогло вывести',
+    aiTestingDescription: 'ИИ анализирует запуск, предлагает дополнительные эксперименты, а Rentgen выполняет их.',
+    runAiTesting: 'Запустить ИИ-тестирование',
   },
 
   // Comparison Panel

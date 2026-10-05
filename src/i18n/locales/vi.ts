@@ -154,6 +154,10 @@ const vi = {
     bodyParameters: 'Nội dung',
     queryParameters: 'Truy vấn',
     formatPlaceholder: 'Định dạng',
+    aiTesting: 'Kiểm thử AI chuyên sâu',
+    aiTestingTitle: 'Tìm các kiểm thử mà quét tất định không thể suy ra',
+    aiTestingDescription: 'AI phân tích lần chạy, đề xuất thêm thử nghiệm và Rentgen thực thi chúng.',
+    runAiTesting: 'Chạy kiểm thử AI',
   },
 
   // Comparison Panel

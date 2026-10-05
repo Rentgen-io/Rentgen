@@ -154,6 +154,10 @@ const ko = {
     bodyParameters: '바디',
     queryParameters: '쿼리',
     formatPlaceholder: '포맷',
+    aiTesting: '심층 AI 테스트',
+    aiTestingTitle: '결정론적 스캔이 추론하지 못한 테스트 찾기',
+    aiTestingDescription: 'AI가 실행을 분석해 추가 실험을 제안하고 Rentgen이 이를 실행합니다.',
+    runAiTesting: 'AI 테스트 실행',
   },
 
   // Comparison Panel

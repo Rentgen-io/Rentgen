@@ -154,6 +154,10 @@ const th = {
     bodyParameters: 'บอดี้',
     queryParameters: 'Query',
     formatPlaceholder: 'รูปแบบ',
+    aiTesting: 'การทดสอบด้วย AI เชิงลึก',
+    aiTestingTitle: 'ค้นหาการทดสอบที่การสแกนแบบกำหนดได้ไม่สามารถอนุมานได้',
+    aiTestingDescription: 'AI วิเคราะห์การรัน แนะนำการทดลองเพิ่มเติม และ Rentgen จะดำเนินการให้',
+    runAiTesting: 'เรียกใช้การทดสอบด้วย AI',
   },
 
   // Comparison Panel

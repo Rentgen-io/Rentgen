@@ -56,24 +56,24 @@ export default function Sidebar() {
     <div
       className={cn(
         'h-screen sticky top-0 flex border-r border-border dark:border-dark-border bg-body dark:bg-dark-body',
-        { 'w-22': !isExpanded, 'w-100': isExpanded },
+        { 'w-20': !isExpanded, 'w-100': isExpanded },
       )}
     >
-      <div className="w-22 shrink-0 flex flex-col justify-between">
+      <div className="w-20 shrink-0 flex flex-col justify-between">
         <div>
           <SidebarButton
             label={t('sidebar.collections')}
             className={activeTab === 'collections' ? 'bg-button-secondary dark:bg-dark-input' : ''}
             onClick={handleCollectionClick}
           >
-            <CollectionIcon className="w-5 h-5" />
+            <CollectionIcon className="h-4 w-4" />
           </SidebarButton>
           <SidebarButton
             label={t('sidebar.environments')}
             className={activeTab === 'environments' ? 'bg-button-secondary dark:bg-dark-input' : ''}
             onClick={handleEnvironmentClick}
           >
-            <EnvironmentIcon className="w-5 h-5" />
+            <EnvironmentIcon className="h-4 w-4" />
           </SidebarButton>
           {historyEnabled && (
             <SidebarButton
@@ -81,13 +81,13 @@ export default function Sidebar() {
               className={activeTab === 'history' ? 'bg-button-secondary dark:bg-dark-input' : ''}
               onClick={handleHistoryClick}
             >
-              <HistoryIcon className="w-5 h-5" />
+              <HistoryIcon className="h-4 w-4" />
             </SidebarButton>
           )}
         </div>
         <div>
           <SidebarButton label={t('sidebar.settings')} onClick={() => dispatch(uiActions.openSettingsModal())}>
-            <GearIcon className="w-5 h-5" />
+            <GearIcon className="h-4 w-4" />
           </SidebarButton>
           <SidebarButton
             label={t('sidebar.checkForUpdates')}
@@ -95,18 +95,18 @@ export default function Sidebar() {
               window.electronAPI.openExternal(`${appConfig.origin}/check-for-update.html?current_version=${appVersion}`)
             }
           >
-            <UpgradeStarIcon className="w-5 h-5" />
+            <UpgradeStarIcon className="h-4 w-4" />
           </SidebarButton>
           <SidebarButton
             label={t('sidebar.reportFeedback')}
             onClick={() => window.electronAPI.openExternal('https://github.com/Rentgen-io/Rentgen/issues/new')}
           >
-            <BugIcon className="w-5 h-5" />
+            <BugIcon className="h-4 w-4" />
           </SidebarButton>
         </div>
       </div>
       <div className="border-l border-border dark:border-dark-border overflow-hidden bg-body dark:bg-dark-body">
-        <div className="max-h-screen h-full w-78 flex flex-col overflow-hidden">
+        <div className="max-h-screen h-full w-80 flex flex-col overflow-hidden">
           {activeTab === 'collections' && <CollectionsPanel />}
           {activeTab === 'environments' && <EnvironmentPanel />}
           {activeTab === 'history' && historyEnabled && <HistoryPanel />}

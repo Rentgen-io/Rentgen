@@ -11,7 +11,7 @@ export default function SidebarButton({ children, className, label, onClick, ...
     <div
       className={twMerge(
         cn(
-          'py-2.5 flex flex-col items-center gap-1 cursor-pointer text-center',
+          'py-2.5 px-1 flex flex-col items-center gap-1 cursor-pointer text-center',
           'text-button-text-secondary hover:bg-button-secondary hover:text-button-text-secondary-hover',
           'dark:text-dark-text dark:hover:bg-dark-input dark:hover:text-dark-text',
           className,
@@ -21,7 +21,7 @@ export default function SidebarButton({ children, className, label, onClick, ...
       {...otherProps}
     >
       {children}
-      <span className="font-bold text-xs">{label}</span>
+      <span className="text-xs">{label}</span>
     </div>
   );
 }

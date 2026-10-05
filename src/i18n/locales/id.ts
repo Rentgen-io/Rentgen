@@ -154,6 +154,10 @@ const id = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Format',
+    aiTesting: 'Pengujian AI Lebih Dalam',
+    aiTestingTitle: 'Temukan pengujian yang tidak dapat disimpulkan oleh pemindaian deterministik',
+    aiTestingDescription: 'AI menganalisis proses, menyarankan eksperimen tambahan, dan Rentgen menjalankannya.',
+    runAiTesting: 'Jalankan Pengujian AI',
   },
 
   // Comparison Panel

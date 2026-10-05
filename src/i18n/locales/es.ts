@@ -155,6 +155,10 @@ const es = {
     bodyParameters: 'Cuerpo',
     queryParameters: 'Consulta',
     formatPlaceholder: 'Formato',
+    aiTesting: 'Pruebas de IA más profundas',
+    aiTestingTitle: 'Encuentra pruebas que el análisis determinista no pudo inferir',
+    aiTestingDescription: 'La IA analiza la ejecución, sugiere experimentos adicionales y Rentgen los ejecuta.',
+    runAiTesting: 'Ejecutar pruebas de IA',
   },
 
   // Comparison Panel

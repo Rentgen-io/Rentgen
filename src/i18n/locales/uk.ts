@@ -154,6 +154,10 @@ const uk = {
     bodyParameters: 'Тіло',
     queryParameters: 'Запит',
     formatPlaceholder: 'Формат',
+    aiTesting: 'Поглиблене ШІ-тестування',
+    aiTestingTitle: 'Знайти тести, які детерміноване сканування не змогло вивести',
+    aiTestingDescription: 'ШІ аналізує запуск, пропонує додаткові експерименти, а Rentgen виконує їх.',
+    runAiTesting: 'Запустити ШІ-тестування',
   },
 
   // Comparison Panel

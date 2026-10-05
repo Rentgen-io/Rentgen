@@ -155,6 +155,10 @@ const fr = {
     bodyParameters: 'Corps',
     queryParameters: 'Requête',
     formatPlaceholder: 'Format',
+    aiTesting: 'Tests IA approfondis',
+    aiTestingTitle: "Trouver les tests que l'analyse déterministe n'a pas pu déduire",
+    aiTestingDescription: "L'IA analyse l'exécution, suggère des expériences supplémentaires et Rentgen les exécute.",
+    runAiTesting: 'Lancer les tests IA',
   },
 
   // Comparison Panel

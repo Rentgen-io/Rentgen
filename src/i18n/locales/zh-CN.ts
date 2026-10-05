@@ -154,6 +154,10 @@ const zhCN = {
     bodyParameters: '请求体',
     queryParameters: '查询',
     formatPlaceholder: '格式',
+    aiTesting: '更深入的 AI 测试',
+    aiTestingTitle: '发现确定性扫描无法推断出的测试',
+    aiTestingDescription: 'AI 分析本次运行并建议更多实验，由 Rentgen 执行。',
+    runAiTesting: '运行 AI 测试',
   },
 
   // Comparison Panel

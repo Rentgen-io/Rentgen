@@ -155,6 +155,10 @@ const pl = {
     bodyParameters: 'Treść',
     queryParameters: 'Zapytanie',
     formatPlaceholder: 'Format',
+    aiTesting: 'Głębsze testy AI',
+    aiTestingTitle: 'Znajdź testy, których deterministyczne skanowanie nie potrafiło wywnioskować',
+    aiTestingDescription: 'AI analizuje przebieg, proponuje dodatkowe eksperymenty, a Rentgen je wykonuje.',
+    runAiTesting: 'Uruchom testy AI',
   },
 
   // Comparison Panel

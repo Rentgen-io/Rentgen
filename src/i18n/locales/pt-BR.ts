@@ -155,6 +155,10 @@ const ptBR = {
     bodyParameters: 'Corpo',
     queryParameters: 'Consulta',
     formatPlaceholder: 'Formato',
+    aiTesting: 'Testes de IA mais profundos',
+    aiTestingTitle: 'Encontre testes que a varredura determinística não conseguiu inferir',
+    aiTestingDescription: 'A IA analisa a execução, sugere experimentos adicionais e o Rentgen os executa.',
+    runAiTesting: 'Executar testes de IA',
   },
 
   // Comparison Panel

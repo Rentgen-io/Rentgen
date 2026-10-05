@@ -155,6 +155,10 @@ const de = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Format',
+    aiTesting: 'Tiefere KI-Tests',
+    aiTestingTitle: 'Tests finden, die der deterministische Scan nicht ableiten konnte',
+    aiTestingDescription: 'Die KI analysiert den Lauf, schlägt zusätzliche Experimente vor, und Rentgen führt sie aus.',
+    runAiTesting: 'KI-Tests ausführen',
   },
 
   // Comparison Panel

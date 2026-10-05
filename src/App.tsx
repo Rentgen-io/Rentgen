@@ -774,11 +774,11 @@ export default function App() {
                   onSelect={(id) => dispatch(environmentActions.selectEnvironment(id))}
                 />
                 <IconButton onClick={() => dispatch(settingsActions.toggleTheme())}>
-                  <DarkModeIcon className="h-5 w-5 dark:hidden" />
-                  <LightModeIcon className="hidden dark:block h-6 w-6" />
+                  <DarkModeIcon className="h-4 w-4 dark:hidden" />
+                  <LightModeIcon className="hidden dark:block h-4 w-4" />
                 </IconButton>
                 <IconButton onClick={() => dispatch(uiActions.openReloadModal())}>
-                  <ReloadIcon className="h-5 w-5" />
+                  <ReloadIcon className="h-4 w-4" />
                 </IconButton>
               </div>
             </div>
@@ -1009,7 +1009,7 @@ export default function App() {
                       <div className="flex items-center gap-4">
                         {direction !== 'system' && (
                           <span
-                            className={cn('w-5 h-5 font-bold text-center leading-normal rotate-90', {
+                            className={cn('h-4 w-4 font-bold text-center leading-normal rotate-90', {
                               'text-method-post bg-method-post/10': direction === 'sent',
                               'text-method-put bg-method-put/10': direction === 'received',
                             })}
@@ -1097,6 +1097,15 @@ export default function App() {
 
             {testResults && (
               <>
+                <Panel title={<TestsTableHeader tests={[]} title={t('tests.aiTesting')} />}>
+                  <div className="flex flex-col gap-4 p-4 text-center border-t border-border dark:border-dark-body">
+                    <h5 className="m-0">{t('tests.aiTestingTitle')}</h5>
+                    <p className="m-0 text-sm">{t('tests.aiTestingDescription')}</p>
+                    <Button className="w-fit self-center" disabled={isRunningTests || true} onClick={() => {}}>
+                      {t('tests.runAiTesting')}
+                    </Button>
+                  </div>
+                </Panel>
                 <Panel
                   title={
                     <TestsTableHeader
@@ -1105,14 +1114,14 @@ export default function App() {
                       title={t('tests.securityTests')}
                     >
                       <SidebarButton
-                        className="py-0.75 px-2.5"
+                        className="py-1.25 px-2.5"
                         label={t('sidebar.settings')}
                         onClick={(event) => {
                           event.stopPropagation();
                           dispatch(uiActions.openSettingsModal());
                         }}
                       >
-                        <GearIcon className="w-5 h-5" />
+                        <GearIcon className="h-4 w-4" />
                       </SidebarButton>
                     </TestsTableHeader>
                   }
@@ -1188,14 +1197,14 @@ export default function App() {
                       title={t('tests.performanceInsights')}
                     >
                       <SidebarButton
-                        className="py-0.75 px-2.5"
+                        className="py-1.25 px-2.5"
                         label={t('sidebar.settings')}
                         onClick={(event) => {
                           event.stopPropagation();
                           dispatch(uiActions.openSettingsModal());
                         }}
                       >
-                        <GearIcon className="w-5 h-5" />
+                        <GearIcon className="h-4 w-4" />
                       </SidebarButton>
                     </TestsTableHeader>
                   }

@@ -155,6 +155,10 @@ const it = {
     bodyParameters: 'Corpo',
     queryParameters: 'Query',
     formatPlaceholder: 'Formato',
+    aiTesting: 'Test IA approfonditi',
+    aiTestingTitle: 'Trova i test che la scansione deterministica non è riuscita a dedurre',
+    aiTestingDescription: "L'IA analizza l'esecuzione, suggerisce ulteriori esperimenti e Rentgen li esegue.",
+    runAiTesting: 'Esegui test IA',
   },
 
   // Comparison Panel

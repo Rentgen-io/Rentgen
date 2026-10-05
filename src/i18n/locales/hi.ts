@@ -154,6 +154,10 @@ const hi = {
     bodyParameters: 'बॉडी',
     queryParameters: 'क्वेरी',
     formatPlaceholder: 'फ़ॉर्मेट',
+    aiTesting: 'गहन AI परीक्षण',
+    aiTestingTitle: 'ऐसे परीक्षण खोजें जिनका निर्धारक स्कैन अनुमान नहीं लगा सका',
+    aiTestingDescription: 'AI रन का विश्लेषण करता है, अतिरिक्त प्रयोग सुझाता है, और Rentgen उन्हें चलाता है।',
+    runAiTesting: 'AI परीक्षण चलाएँ',
   },
 
   // Comparison Panel

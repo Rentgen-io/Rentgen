@@ -154,6 +154,10 @@ const ja = {
     bodyParameters: 'ボディ',
     queryParameters: 'クエリ',
     formatPlaceholder: 'フォーマット',
+    aiTesting: 'より深いAIテスト',
+    aiTestingTitle: '決定論的スキャンでは推測できなかったテストを発見',
+    aiTestingDescription: 'AIが実行結果を分析して追加の実験を提案し、Rentgenがそれらを実行します。',
+    runAiTesting: 'AIテストを実行',
   },
 
   // Comparison Panel
