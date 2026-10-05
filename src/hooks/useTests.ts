@@ -59,7 +59,6 @@ const useTests = () => {
   const isLoadTestRunning = useAppSelector(selectIsLoadTestRunning);
   const isPerformanceRunning = useAppSelector(selectIsPerformanceRunning);
   const isSecurityRunning = useAppSelector(selectIsSecurityRunning);
-  const isRunning = isDataDrivenRunning || isPerformanceRunning || isSecurityRunning;
 
   const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
@@ -318,7 +317,6 @@ const useTests = () => {
     isLoadTestRunning,
     isPerformanceRunning,
     isSecurityRunning,
-    isRunning,
     performanceTests,
     securityTests,
     testsCount,

@@ -218,14 +218,13 @@ export default function CollectionsPanel() {
               <CollectionGroup
                 key={folder.id}
                 folder={folder}
-                folderCount={filteredFolders.length}
                 isEditing={editingFolderId === folder.id}
                 editingName={editingName}
+                searchTerm={searchTerm}
                 onStartEdit={handleStartEdit}
                 onSaveEdit={handleSaveEdit}
                 onCancelEdit={handleCancelEdit}
                 onEditingNameChange={setEditingName}
-                searchTerm={searchTerm}
               />
             ))
           ) : (
@@ -235,7 +234,6 @@ export default function CollectionsPanel() {
                   <CollectionGroup
                     key={folder.id}
                     folder={folder}
-                    folderCount={folders.length}
                     isEditing={editingFolderId === folder.id}
                     editingName={editingName}
                     onStartEdit={handleStartEdit}

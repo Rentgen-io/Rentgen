@@ -50,6 +50,10 @@
 }
 
 @layer base {
+  html {
+    @apply scrollbar-gutter-stable;
+  }
+
   body {
     @apply m-0 font-segoe-ui bg-body dark:bg-dark-body text-text dark:text-dark-text;
   }

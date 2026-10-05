@@ -19,7 +19,6 @@ function groupHistoryByDate(entries: HistoryEntry[]): DateGroup[] {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
   const yesterday = today - 86_400_000;
-
   const groups = new Map<string, { label: string; entries: HistoryEntry[] }>();
 
   for (const entry of entries) {
@@ -86,7 +85,6 @@ export default function HistoryPanel() {
 
   const allGroups = useMemo(() => groupHistoryByDate(entries), [entries]);
   const groups = useMemo(() => filterGroupsBySearch(allGroups, searchTerm), [allGroups, searchTerm]);
-  const isSearching = searchTerm.trim().length > 0;
 
   return (
     <>
@@ -108,18 +106,12 @@ export default function HistoryPanel() {
       {groups.length > 0 ? (
         <div className="h-full overflow-x-hidden overflow-y-auto">
           {groups.map((group) => (
-            <HistoryDateGroup
-              key={group.date}
-              label={group.label}
-              entries={group.entries}
-              searchTerm={searchTerm}
-              isSearching={isSearching}
-            />
+            <HistoryDateGroup key={group.date} label={group.label} entries={group.entries} searchTerm={searchTerm} />
           ))}
         </div>
       ) : (
         <div className="flex items-center justify-center h-full w-full p-5 text-xs text-text-secondary dark:text-dark-text-secondary">
-          {isSearching ? t('history.noMatchingHistory') : t('history.noHistoryYet')}
+          {searchTerm.trim().length > 0 ? t('history.noMatchingHistory') : t('history.noHistoryYet')}
         </div>
       )}
     </>

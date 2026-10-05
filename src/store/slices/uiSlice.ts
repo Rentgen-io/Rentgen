@@ -118,7 +118,7 @@ const initialState: UIState = {
   curl: '',
   curlError: '',
   exportFormat: 'json',
-  sidebarActiveTab: null,
+  sidebarActiveTab: 'collections',
 };
 
 export const uiSlice = createSlice({

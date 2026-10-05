@@ -55,7 +55,7 @@ export default function Sidebar() {
   return (
     <div
       className={cn(
-        'h-screen sticky top-0 flex border-r border-border dark:border-dark-border bg-body dark:bg-dark-body transition-[width] duration-300',
+        'h-screen sticky top-0 flex border-r border-border dark:border-dark-border bg-body dark:bg-dark-body',
         { 'w-22': !isExpanded, 'w-100': isExpanded },
       )}
     >

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HistoryEntry } from '../../../types/history';
 import HistoryItem from './HistoryItem';
@@ -10,14 +10,17 @@ interface Props {
   label: string;
   entries: HistoryEntry[];
   searchTerm?: string;
-  isSearching?: boolean;
 }
 
-export default function HistoryDateGroup({ label, entries, searchTerm, isSearching }: Props) {
+export default function HistoryDateGroup({ label, entries, searchTerm }: Props) {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(true);
-  const effectiveExpanded = isSearching || isExpanded;
   const displayLabel = label === 'today' ? t('history.today') : label === 'yesterday' ? t('history.yesterday') : label;
+
+  useEffect(() => {
+    const isSearching = Boolean(searchTerm?.trim());
+    if (isSearching) setIsExpanded(isSearching);
+  }, [searchTerm]);
 
   return (
     <>
@@ -26,16 +29,15 @@ export default function HistoryDateGroup({ label, entries, searchTerm, isSearchi
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <ChevronIcon
-          className={cn('h-4 w-4 text-text-secondary transition-transform', {
-            'rotate-90': effectiveExpanded,
+          className={cn('h-4 w-4 text-text-secondary', {
+            'rotate-90': isExpanded,
           })}
         />
         <span className="text-xs font-bold truncate">{displayLabel}</span>
         <span className="text-xs text-text-secondary dark:text-dark-text-secondary">{entries.length}</span>
       </div>
 
-      {effectiveExpanded &&
-        entries.map((entry) => <HistoryItem key={entry.id} entry={entry} searchTerm={searchTerm} />)}
+      {isExpanded && entries.map((entry) => <HistoryItem key={entry.id} entry={entry} searchTerm={searchTerm} />)}
     </>
   );
 }

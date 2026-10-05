@@ -1,10 +1,15 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import cn from 'classnames';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useCollectionRunner } from '../../../hooks/useCollectionRunner';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectCollectionRunResults, selectRunningFolderId, selectSelectedFolderId } from '../../../store/selectors';
+import {
+  selectCollectionRunResults,
+  selectRunningFolderId,
+  selectSelectedFolderId,
+  selectSelectedRequestId,
+} from '../../../store/selectors';
 import { collectionActions } from '../../../store/slices/collectionSlice';
 import { uiActions } from '../../../store/slices/uiSlice';
 import { CollectionFolderData } from '../../../utils/collection';
@@ -21,39 +26,41 @@ import StopIcon from '../../../assets/icons/stop-icon.svg';
 
 interface Props {
   folder: CollectionFolderData;
-  folderCount: number;
   isEditing: boolean;
   editingName: string;
+  searchTerm?: string;
   onStartEdit: (folderId: string) => void;
   onSaveEdit: (folderId: string, newName: string) => void;
   onCancelEdit: () => void;
   onEditingNameChange: (name: string) => void;
-  searchTerm?: string;
 }
 
 export default function CollectionGroup({
   folder,
-  folderCount,
   isEditing,
   editingName,
+  searchTerm,
   onStartEdit,
   onSaveEdit,
   onCancelEdit,
   onEditingNameChange,
-  searchTerm,
 }: Props) {
   const dispatch = useAppDispatch();
   const { isOpen } = useContextMenu();
+  const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const selectedFolderId = useAppSelector(selectSelectedFolderId);
   const runningFolderId = useAppSelector(selectRunningFolderId);
   const { runFolder, cancelRun } = useCollectionRunner();
-  const [isExpanded, setIsExpanded] = useState(folderCount === 1);
-  const isSearching = Boolean(searchTerm?.trim());
-  const effectiveExpanded = isSearching || isExpanded;
+  const [isExpanded, setIsExpanded] = useState(false);
   const isSelected = folder.id === selectedFolderId;
   const isThisFolderRunning = runningFolderId === folder.id;
   const isOtherFolderRunning = runningFolderId !== null && runningFolderId !== folder.id;
   const runResults = useAppSelector(selectCollectionRunResults);
+
+  const isCurrentRequestInFolder = useMemo(() => {
+    if (!selectedRequestId) return false;
+    return folder.items.find((item) => item.id === selectedRequestId) !== undefined;
+  }, [folder, selectedRequestId]);
 
   const folderStatus = useMemo(() => {
     const itemResults = folder.items.map((item) => runResults[item.id]).filter(Boolean);
@@ -77,7 +84,7 @@ export default function CollectionGroup({
 
   const handleHeaderClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsExpanded(!isExpanded);
+    setIsExpanded((prevIsExpanded) => !prevIsExpanded);
     dispatch(collectionActions.selectFolder(folder.id));
   };
 
@@ -97,6 +104,11 @@ export default function CollectionGroup({
     if (isThisFolderRunning) cancelRun();
     else runFolder(folder.id);
   };
+
+  useEffect(() => {
+    const isSearching = Boolean(searchTerm?.trim());
+    if (isSearching || isCurrentRequestInFolder || (!selectedRequestId && isSelected)) setIsExpanded(true);
+  }, [isCurrentRequestInFolder, isSelected, searchTerm, selectedRequestId]);
 
   return (
     <>
@@ -123,8 +135,8 @@ export default function CollectionGroup({
           {...listeners}
         >
           <ChevronIcon
-            className={cn('h-4 w-4 text-text-secondary transition-transform', {
-              'rotate-90': effectiveExpanded,
+            className={cn('h-4 w-4 text-text-secondary', {
+              'rotate-90': isExpanded,
             })}
           />
           {folderStatus && (
@@ -169,33 +181,33 @@ export default function CollectionGroup({
             !isOtherFolderRunning &&
             (isThisFolderRunning ? (
               <StopIcon
-                className="h-4 w-4 shrink-0 text-red-500 hover:text-red-600 cursor-pointer transition-opacity"
+                className="h-4 w-4 shrink-0 text-red-500 hover:text-red-600 cursor-pointer"
                 onClick={handlePlayClick}
               />
             ) : (
               <PlayIcon
-                className="h-4 w-4 shrink-0 text-green-500 hover:text-green-600 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+                className="h-4 w-4 shrink-0 text-green-500 hover:text-green-600 cursor-pointer opacity-0 group-hover:opacity-100"
                 onClick={handlePlayClick}
               />
             ))}
 
           {!isEditing && (
             <EditIcon
-              className="h-4 w-4 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-primary cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+              className="h-4 w-4 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-primary cursor-pointer opacity-0 group-hover:opacity-100"
               onClick={handleEditClick}
             />
           )}
 
           {!isEditing && (
             <ClearCrossIcon
-              className="h-4 w-4 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+              className="h-4 w-4 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer opacity-0 group-hover:opacity-100"
               onClick={handleDeleteClick}
             />
           )}
         </div>
       </div>
 
-      {effectiveExpanded && folder.items.length > 0 && (
+      {isExpanded && folder.items.length > 0 && (
         <div>
           {folder.items.map((item) => (
             <CollectionItem key={item.id} item={item} searchTerm={searchTerm} />

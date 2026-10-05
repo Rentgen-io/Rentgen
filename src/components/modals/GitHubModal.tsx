@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import useTests from '../../hooks/useTests';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectOpenGitHubModal } from '../../store/selectors';
+import { selectIsRunningTests, selectOpenGitHubModal } from '../../store/selectors';
 import { uiActions } from '../../store/slices/uiSlice';
 import Button, { ButtonType } from '../buttons/Button';
 import Modal from './Modal';
@@ -16,7 +16,8 @@ export default function GitHubModal() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const isOpen = useAppSelector(selectOpenGitHubModal);
-  const { crudTests, dataDrivenTests, performanceTests, securityTests, isRunning } = useTests();
+  const isRunning = useAppSelector(selectIsRunningTests);
+  const { crudTests, dataDrivenTests, performanceTests, securityTests } = useTests();
   const isRun =
     !isRunning && [crudTests, dataDrivenTests, performanceTests, securityTests].some((tests) => tests.length > 0);
 

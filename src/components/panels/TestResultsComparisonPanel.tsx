@@ -98,21 +98,16 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
   }, [items]);
 
   return (
-    <Panel
-      className="flex flex-col h-[calc(100vh-2.5rem)] box-border"
-      collapsible={false}
-      title={title}
-      {...otherProps}
-    >
+    <Panel className="flex flex-col flex-auto box-border" collapsible={false} title={title} {...otherProps}>
       {items.length < 2 ? (
         <p className="p-4 m-0">{t('comparison.noTestResults')}</p>
       ) : (
         <Tabs
-          className="flex flex-col h-full overflow-hidden"
+          className="flex flex-col flex-auto overflow-hidden"
           forceRenderTabPanel={true}
           selectedIndex={tabIndex}
           selectedTabClassName="bg-body border-border! text-text dark:bg-dark-body dark:border-dark-body! dark:text-dark-text"
-          selectedTabPanelClassName="block! h-full"
+          selectedTabPanelClassName="flex! flex-col flex-auto"
           onSelect={(index) => setTabIndex(index)}
         >
           <TabList className="flex m-0 px-2.5 border-b border-border dark:border-dark-body">
@@ -125,7 +120,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
           </TabList>
 
           <TabPanel className="hidden p-4 bg-body dark:bg-dark-body overflow-hidden">
-            <div className="flex flex-col gap-4 h-full">
+            <div className="flex flex-col flex-auto h-0 gap-4">
               {!potentialBugs || potentialBugs.length === 0 ? (
                 <p className="m-0 p-2.5 text-sm text-white text-center bg-green-600">
                   {t('comparison.noPotentialBugs')}
@@ -139,8 +134,8 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
             </div>
           </TabPanel>
           <TabPanel className="hidden bg-body dark:bg-dark-body">
-            <div className="flex flex-col h-full">
-              <div className="shrink-0 flex flex-col p-4 gap-4 text-sm border-b border-border dark:border-dark-body">
+            <div className="flex flex-col flex-auto h-0">
+              <div className="flex flex-col p-4 gap-4 text-sm border-b border-border dark:border-dark-body">
                 <div className="flex items-center gap-2">
                   <span>
                     {t('comparison.behaviorChange')} <b>{statistics.percent}%</b>

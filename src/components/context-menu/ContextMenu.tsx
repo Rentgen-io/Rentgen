@@ -32,14 +32,10 @@ export default function ContextMenu({ children, isOpen, position, onClose }: Pro
     let y = position.y;
 
     // Adjust horizontal position
-    if (x + menuWidth + padding > window.innerWidth) {
-      x = window.innerWidth - menuWidth - padding;
-    }
+    if (x + menuWidth + padding > window.innerWidth) x = window.innerWidth - menuWidth - padding;
 
     // Adjust vertical position
-    if (y + menuHeight + padding > window.innerHeight) {
-      y = window.innerHeight - menuHeight - padding;
-    }
+    if (y + menuHeight + padding > window.innerHeight) y = window.innerHeight - menuHeight - padding;
 
     setAdjustedPosition({ x, y });
   }, [isOpen, position]);
@@ -49,9 +45,7 @@ export default function ContextMenu({ children, isOpen, position, onClose }: Pro
     if (!isOpen) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
+      if (event.key === 'Escape') onClose();
     };
 
     document.addEventListener('keydown', handleKeyDown);
@@ -63,7 +57,7 @@ export default function ContextMenu({ children, isOpen, position, onClose }: Pro
   return createPortal(
     <div
       ref={menuRef}
-      className={cn('fixed py-1 min-w-40 bg-white shadow-lg', 'dark:bg-dark-input transition-opacity', {
+      className={cn('fixed py-1 min-w-40 bg-white shadow-lg', 'dark:bg-dark-input', {
         'invisible opacity-0 -z-100': !isVisible,
         'visible opacity-100 z-100': isVisible,
       })}

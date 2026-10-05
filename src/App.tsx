@@ -686,7 +686,7 @@ export default function App() {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="@container flex-1 min-w-0 flex flex-col gap-4 py-5 px-7 overflow-y-auto">
+      <div className="@container flex-1 min-w-0 flex flex-col gap-4 p-4 overflow-y-auto">
         {isEditingEnvironment && (
           <div className="relative">
             <EnvironmentEditor
@@ -703,7 +703,7 @@ export default function App() {
           </div>
         )}
         {!isEditingEnvironment && isComparingTestResults && compareResponse && (
-          <div className="relative">
+          <div className="relative flex flex-col flex-auto">
             <TestResultsComparisonPanel
               items={testResultsToCompare}
               response={compareResponse}
@@ -1394,7 +1394,7 @@ export default function App() {
                     progressComponent={<TestRunningLoader text={t('tests.preparingCrud')} />}
                     progressPending={isSecurityRunning}
                     noDataComponent={
-                      <p className="p-4 m-0 text-sm">
+                      <p className="p-4 m-0 text-center text-sm">
                         {t('tests.crudDescription')}
                         <br />
                         <br />

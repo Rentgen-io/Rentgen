@@ -170,7 +170,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
           </span>
           <div className="absolute top-0 bottom-0 right-0 pl-2 pr-3 flex items-center gap-2 bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100">
             <PlayIcon
-              className={cn('h-4 w-4 text-green-500 hover:text-green-600 transition-opacity', {
+              className={cn('h-4 w-4 text-green-500 hover:text-green-600', {
                 'cursor-pointer': runningRequestId !== item.id,
                 'opacity-50 cursor-not-allowed': runningRequestId === item.id,
               })}
