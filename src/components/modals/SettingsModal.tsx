@@ -16,8 +16,8 @@ import Modal from './Modal';
 import ClearCrossIcon from '../../assets/icons/clear-cross-icon.svg';
 import CliIcon from '../../assets/icons/cli-icon.svg';
 import EngineIcon from '../../assets/icons/engine-icon.svg';
-import LanguageIcon from '../../assets/icons/environment-icon.svg';
 import GearIcon from '../../assets/icons/gear-icon.svg';
+import LanguageIcon from '../../assets/icons/language-icon.svg';
 import ThemeIcon from '../../assets/icons/theme-icon.svg';
 
 export default function SettingsModal() {

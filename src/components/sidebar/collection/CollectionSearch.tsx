@@ -5,12 +5,12 @@ import ClearCrossIcon from '../../../assets/icons/clear-cross-icon.svg';
 import SearchIcon from '../../../assets/icons/search-icon.svg';
 
 interface Props {
+  placeholder?: string;
   value: string;
   onChange: (value: string) => void;
-  placeholder?: string;
 }
 
-export default function CollectionSearch({ value, onChange, placeholder }: Props) {
+export default function CollectionSearch({ placeholder, value, onChange }: Props) {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const [localValue, setLocalValue] = useState(value);
@@ -45,12 +45,12 @@ export default function CollectionSearch({ value, onChange, placeholder }: Props
       <SearchIcon className="absolute -translate-y-1/2 top-1/2 left-3 w-4 h-4 text-text-secondary dark:text-dark-text-secondary pointer-events-none" />
       <input
         ref={inputRef}
+        className="w-full py-2.5 px-9 text-xs bg-transparent border-none dark:text-dark-text outline-none placeholder:text-text-secondary dark:placeholder:text-dark-text-secondary box-border"
         type="text"
         value={localValue}
+        placeholder={placeholder || t('collections.searchCollections')}
         onChange={(e) => handleChange(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder={placeholder || t('collections.searchCollections')}
-        className="w-full py-2.5 px-9 text-xs bg-transparent border-none dark:text-dark-text outline-none placeholder:text-text-secondary dark:placeholder:text-dark-text-secondary box-border"
       />
       {localValue && (
         <ClearCrossIcon

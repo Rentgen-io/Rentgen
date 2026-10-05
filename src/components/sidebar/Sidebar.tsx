@@ -1,12 +1,12 @@
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appConfig } from '../../constants/appConfig';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectHistoryEnabled, selectSidebarActiveTab } from '../../store/selectors';
 import { environmentActions } from '../../store/slices/environmentSlice';
-import { uiActions } from '../../store/slices/uiSlice';
-import CollectionsPanel from './colletion/CollectionsPanel';
+import { SidebarTab, uiActions } from '../../store/slices/uiSlice';
+import CollectionsPanel from './collection/CollectionsPanel';
 import EnvironmentPanel from './environment/EnvironmentPanel';
 import HistoryPanel from './history/HistoryPanel';
 import SidebarButton from './SidebarButton';
@@ -18,6 +18,17 @@ import GearIcon from '../../assets/icons/gear-icon.svg';
 import HistoryIcon from '../../assets/icons/history-icon.svg';
 import UpgradeStarIcon from '../../assets/icons/upgrade-star-icon.svg';
 
+interface SidebarPanel {
+  tab: SidebarTab;
+  Component: FunctionComponent;
+}
+
+const sidebarPanels: SidebarPanel[] = [
+  { tab: 'collections', Component: CollectionsPanel },
+  { tab: 'environments', Component: EnvironmentPanel },
+  { tab: 'history', Component: HistoryPanel },
+] as const;
+
 export default function Sidebar() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -25,12 +36,8 @@ export default function Sidebar() {
   const historyEnabled = useAppSelector(selectHistoryEnabled);
   const [appVersion, setAppVersion] = useState<string>('');
 
-  const isExpanded = activeTab !== null;
-
   useEffect(() => {
-    if (!historyEnabled && activeTab === 'history') {
-      dispatch(uiActions.toggleSidebarTab('history'));
-    }
+    if (!historyEnabled && activeTab === 'history') dispatch(uiActions.toggleSidebarTab('history'));
   }, [historyEnabled, activeTab, dispatch]);
 
   useEffect(() => {
@@ -43,9 +50,7 @@ export default function Sidebar() {
     dispatch(environmentActions.stopEditing());
   };
 
-  const handleEnvironmentClick = () => {
-    dispatch(uiActions.toggleSidebarTab('environments'));
-  };
+  const handleEnvironmentClick = () => dispatch(uiActions.toggleSidebarTab('environments'));
 
   const handleHistoryClick = () => {
     dispatch(uiActions.toggleSidebarTab('history'));
@@ -56,7 +61,7 @@ export default function Sidebar() {
     <div
       className={cn(
         'h-screen sticky top-0 flex border-r border-border dark:border-dark-border bg-body dark:bg-dark-body',
-        { 'w-20': !isExpanded, 'w-100': isExpanded },
+        { 'w-20': !activeTab, 'w-100': activeTab },
       )}
     >
       <div className="w-20 shrink-0 flex flex-col justify-between">
@@ -107,9 +112,11 @@ export default function Sidebar() {
       </div>
       <div className="border-l border-border dark:border-dark-border overflow-hidden bg-body dark:bg-dark-body">
         <div className="max-h-screen h-full w-80 flex flex-col overflow-hidden">
-          {activeTab === 'collections' && <CollectionsPanel />}
-          {activeTab === 'environments' && <EnvironmentPanel />}
-          {activeTab === 'history' && historyEnabled && <HistoryPanel />}
+          {sidebarPanels.map(({ tab, Component }) => (
+            <div key={tab} className={cn('overflow-hidden', activeTab === tab ? 'flex flex-col flex-1' : 'hidden')}>
+              <Component />
+            </div>
+          ))}
         </div>
       </div>
     </div>

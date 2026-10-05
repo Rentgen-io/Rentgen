@@ -68,9 +68,7 @@ export const collectionSlice = createSlice({
 
       // Auto-select the newly added request (it's at index 0 due to unshift in addRequestToCollection)
       const folder = state.data.item.find((f) => f.id === targetFolderId);
-      if (folder && folder.item.length > 0) {
-        state.selectedRequestId = folder.item[0].id;
-      }
+      if (folder && folder.item.length > 0) state.selectedRequestId = folder.item[0].id;
     },
     updateRequest: (
       state,
@@ -214,6 +212,9 @@ export const collectionSlice = createSlice({
       .addCase(loadCollection.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loading = false;
+
+        const folder = state.data.item?.find((f) => f.id === 'default') ?? state.data.item?.[0];
+        if (folder) state.selectedFolderId = folder.id;
       })
       .addCase(loadCollection.rejected, (state, action) => {
         state.error = action.error.message || 'Failed to load collection';

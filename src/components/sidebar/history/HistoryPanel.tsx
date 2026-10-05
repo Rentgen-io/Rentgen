@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { selectHistoryEntries } from '../../../store/selectors';
 import { historyActions } from '../../../store/slices/historySlice';
 import { HistoryEntry } from '../../../types/history';
-import CollectionSearch from '../colletion/CollectionSearch';
+import CollectionSearch from '../collection/CollectionSearch';
 import HistoryDateGroup from './HistoryDateGroup';
 
 import ClearCrossIcon from '../../../assets/icons/clear-cross-icon.svg';

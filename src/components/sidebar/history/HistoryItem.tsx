@@ -9,7 +9,7 @@ import { requestActions } from '../../../store/slices/requestSlice';
 import { testActions } from '../../../store/slices/testSlice';
 import { HistoryEntry } from '../../../types/history';
 import MethodBadge from '../../badges/MethodBadge';
-import SearchHighlight from '../colletion/SearchHighlight';
+import SearchHighlight from '../collection/SearchHighlight';
 
 interface Props {
   entry: HistoryEntry;

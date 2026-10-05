@@ -4,12 +4,7 @@ import cn from 'classnames';
 import { useEffect, useMemo, useState } from 'react';
 import { useCollectionRunner } from '../../../hooks/useCollectionRunner';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import {
-  selectCollectionRunResults,
-  selectRunningFolderId,
-  selectSelectedFolderId,
-  selectSelectedRequestId,
-} from '../../../store/selectors';
+import { selectCollectionRunResults, selectRunningFolderId, selectSelectedFolderId } from '../../../store/selectors';
 import { collectionActions } from '../../../store/slices/collectionSlice';
 import { uiActions } from '../../../store/slices/uiSlice';
 import { CollectionFolderData } from '../../../utils/collection';
@@ -47,7 +42,6 @@ export default function CollectionGroup({
 }: Props) {
   const dispatch = useAppDispatch();
   const { isOpen } = useContextMenu();
-  const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const selectedFolderId = useAppSelector(selectSelectedFolderId);
   const runningFolderId = useAppSelector(selectRunningFolderId);
   const { runFolder, cancelRun } = useCollectionRunner();
@@ -56,11 +50,6 @@ export default function CollectionGroup({
   const isThisFolderRunning = runningFolderId === folder.id;
   const isOtherFolderRunning = runningFolderId !== null && runningFolderId !== folder.id;
   const runResults = useAppSelector(selectCollectionRunResults);
-
-  const isCurrentRequestInFolder = useMemo(() => {
-    if (!selectedRequestId) return false;
-    return folder.items.find((item) => item.id === selectedRequestId) !== undefined;
-  }, [folder, selectedRequestId]);
 
   const folderStatus = useMemo(() => {
     const itemResults = folder.items.map((item) => runResults[item.id]).filter(Boolean);
@@ -107,8 +96,8 @@ export default function CollectionGroup({
 
   useEffect(() => {
     const isSearching = Boolean(searchTerm?.trim());
-    if (isSearching || isCurrentRequestInFolder || (!selectedRequestId && isSelected)) setIsExpanded(true);
-  }, [isCurrentRequestInFolder, isSelected, searchTerm, selectedRequestId]);
+    if (isSearching) setIsExpanded(true);
+  }, [searchTerm]);
 
   return (
     <>

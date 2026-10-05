@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IntegrityStatus, PostmanCollection, ProjectData, ProjectMeta } from '../../types';
 
-type ReportFormat = 'json' | 'md' | 'csv';
-type SidebarTab = 'collections' | 'environments' | 'history' | null;
+export type ReportFormat = 'json' | 'md' | 'csv';
+export type SidebarTab = 'collections' | 'environments' | 'history' | null;
 
 export interface ImportConflict {
   type: 'collection' | 'folder' | 'request';
