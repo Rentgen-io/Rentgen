@@ -10,6 +10,9 @@ import { TestResult, TestStatus } from '../../types';
 import { generateCurl, truncateValue } from '../../utils';
 import { CopyButton } from '../buttons/CopyButton';
 import { HttpPanel } from '../panels/HttpPanel';
+import SidebarButton from '../sidebar/SidebarButton';
+
+import GearIcon from '../../assets/icons/gear-icon.svg';
 
 export default function TestsTable({ columns, data, className, ...otherProps }: TableProps<TestResult>) {
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
@@ -70,10 +73,12 @@ export function TestsTableHeader({
   disabledTests,
   tests,
   title,
+  onOpenSettings,
 }: {
   disabledTests?: string[];
   tests: TestResult[];
   title: string;
+  onOpenSettings?(): void;
 } & PropsWithChildren) {
   const { t } = useTranslation();
   const { bugs, failed, passed, warnings } = tests.reduce(
@@ -140,6 +145,18 @@ export function TestsTableHeader({
           )}
         </div>
       </h5>
+      {onOpenSettings && (
+        <SidebarButton
+          className="py-1.25 px-2.5"
+          label={t('sidebar.settings')}
+          onClick={(event) => {
+            event.stopPropagation();
+            onOpenSettings();
+          }}
+        >
+          <GearIcon className="h-4 w-4" />
+        </SidebarButton>
+      )}
       {children}
     </div>
   );

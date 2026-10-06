@@ -268,6 +268,9 @@ const id = {
     themesDescription: 'Personalisasi pengalaman Anda dengan tema yang sesuai dengan gaya Anda.',
     themeLight: 'Terang',
     themeDark: 'Gelap',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

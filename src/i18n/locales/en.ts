@@ -268,6 +268,9 @@ const en = {
     themesDescription: 'Personalize your experience with themes that match your style.',
     themeLight: 'Light',
     themeDark: 'Dark',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

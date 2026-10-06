@@ -270,6 +270,9 @@ const nl = {
     themesDescription: "Personaliseer je ervaring met thema's die bij jouw stijl passen.",
     themeLight: 'Licht',
     themeDark: 'Donker',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

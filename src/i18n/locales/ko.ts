@@ -268,6 +268,9 @@ const ko = {
     themesDescription: '자신의 스타일에 맞는 테마로 사용 경험을 꾸며 보세요.',
     themeLight: '라이트',
     themeDark: '다크',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

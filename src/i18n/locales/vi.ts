@@ -269,6 +269,9 @@ const vi = {
     themesDescription: 'Cá nhân hóa trải nghiệm của bạn với các giao diện phù hợp với phong cách của bạn.',
     themeLight: 'Sáng',
     themeDark: 'Tối',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

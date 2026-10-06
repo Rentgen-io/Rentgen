@@ -269,6 +269,9 @@ const tr = {
     themesDescription: 'Tarzınıza uygun temalarla deneyiminizi kişiselleştirin.',
     themeLight: 'Açık',
     themeDark: 'Koyu',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

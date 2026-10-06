@@ -268,6 +268,9 @@ const hi = {
     themesDescription: 'अपनी शैली के अनुरूप थीम के साथ अपने अनुभव को निजीकृत करें।',
     themeLight: 'लाइट',
     themeDark: 'डार्क',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

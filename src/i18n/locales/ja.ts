@@ -270,6 +270,9 @@ const ja = {
     themesDescription: 'スタイルに合ったテーマで体験をパーソナライズしましょう。',
     themeLight: 'ライト',
     themeDark: 'ダーク',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

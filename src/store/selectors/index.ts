@@ -81,7 +81,6 @@ export const selectOpenFollowModal = (state: RootState) => state.ui.openFollowMo
 export const selectOpenGitHubModal = (state: RootState) => state.ui.openGitHubModal;
 export const selectOpenReloadModal = (state: RootState) => state.ui.openReloadModal;
 export const selectOpenSendHttpSuccessModal = (state: RootState) => state.ui.openSendHttpSuccessModal;
-export const selectOpenSettingsModal = (state: RootState) => state.ui.openSettingsModal;
 export const selectDeleteFolderModal = (state: RootState) => state.ui.deleteFolderModal;
 export const selectSaved = (state: RootState) => state.ui.saved;
 export const selectExported = (state: RootState) => state.ui.exported;
@@ -91,6 +90,10 @@ export const selectCurlError = (state: RootState) => state.ui.curlError;
 export const selectExportFormat = (state: RootState) => state.ui.exportFormat;
 export const selectSidebarActiveTab = (state: RootState) => state.ui.sidebarActiveTab;
 export const selectCertificateError = (state: RootState) => state.ui.certificateError;
+export const selectImportConflictModal = (state: RootState) => state.ui.importConflictModal;
+export const selectSetAsDynamicVariableModal = (state: RootState) => state.ui.setAsDynamicVariableModal;
+export const selectSettingsModal = (state: RootState) => state.ui.settingsModal;
+export const selectProjectImportConfirmModal = (state: RootState) => state.ui.projectImportConfirmModal;
 
 // History selectors
 export const selectHistoryEntries = (state: RootState) => state.history.entries;
@@ -99,9 +102,6 @@ export const selectHistoryEntries = (state: RootState) => state.history.entries;
 export const selectRunningFolderId = (state: RootState) => state.collectionRun.runningFolderId;
 export const selectRunningRequestId = (state: RootState) => state.collectionRun.runningRequestId;
 export const selectCollectionRunResults = (state: RootState) => state.collectionRun.results;
-export const selectImportConflictModal = (state: RootState) => state.ui.importConflictModal;
-export const selectSetAsDynamicVariableModal = (state: RootState) => state.ui.setAsDynamicVariableModal;
-export const selectProjectImportConfirmModal = (state: RootState) => state.ui.projectImportConfirmModal;
 
 // Settings selectors
 export const selectDisabledSecurityTests = (state: RootState) => state.settings.testEngine.securityTests.disabled;

@@ -268,6 +268,9 @@ const lt = {
     themesDescription: 'Pritaikykite savo patirtį temomis, atitinkančiomis jūsų stilių.',
     themeLight: 'Šviesi',
     themeDark: 'Tamsi',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

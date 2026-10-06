@@ -33,7 +33,6 @@ import TestResultsComparisonPanel from './components/panels/TestResultsCompariso
 import { PERFORMANCE_INSIGHTS } from './components/settings/PerformanceInsightsSettings';
 import { SECURITY_TESTS } from './components/settings/SecurityTestsSettings';
 import Sidebar from './components/sidebar/Sidebar';
-import SidebarButton from './components/sidebar/SidebarButton';
 import TestsTable, {
   ExpandedTestComponent,
   getTestsTableColumns,
@@ -134,7 +133,6 @@ import { websocketActions } from './store/slices/websocketSlice';
 
 import ClearCrossIcon from './assets/icons/clear-cross-icon.svg';
 import DarkModeIcon from './assets/icons/dark-mode-icon.svg';
-import GearIcon from './assets/icons/gear-icon.svg';
 import LightModeIcon from './assets/icons/light-mode-icon.svg';
 import ReloadIcon from './assets/icons/reload-icon.svg';
 
@@ -1097,7 +1095,15 @@ export default function App() {
 
             {testResults && (
               <>
-                <Panel title={<TestsTableHeader tests={[]} title={t('tests.aiTesting')} />}>
+                <Panel
+                  title={
+                    <TestsTableHeader
+                      tests={[]}
+                      title={t('tests.aiTesting')}
+                      onOpenSettings={() => dispatch(uiActions.openSettingsModal(2))}
+                    />
+                  }
+                >
                   <div className="flex flex-col gap-4 p-4 text-center border-t border-border dark:border-dark-body">
                     <h5 className="m-0">{t('tests.aiTestingTitle')}</h5>
                     <p className="m-0 text-sm">{t('tests.aiTestingDescription')}</p>
@@ -1112,18 +1118,8 @@ export default function App() {
                       disabledTests={disabledSecurityTests}
                       tests={securityTests}
                       title={t('tests.securityTests')}
-                    >
-                      <SidebarButton
-                        className="py-1.25 px-2.5"
-                        label={t('sidebar.settings')}
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          dispatch(uiActions.openSettingsModal());
-                        }}
-                      >
-                        <GearIcon className="h-4 w-4" />
-                      </SidebarButton>
-                    </TestsTableHeader>
+                      onOpenSettings={() => dispatch(uiActions.openSettingsModal())}
+                    />
                   }
                 >
                   <TestsTable
@@ -1195,18 +1191,8 @@ export default function App() {
                       disabledTests={disabledPerformanceInsights}
                       tests={performanceTests}
                       title={t('tests.performanceInsights')}
-                    >
-                      <SidebarButton
-                        className="py-1.25 px-2.5"
-                        label={t('sidebar.settings')}
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          dispatch(uiActions.openSettingsModal());
-                        }}
-                      >
-                        <GearIcon className="h-4 w-4" />
-                      </SidebarButton>
-                    </TestsTableHeader>
+                      onOpenSettings={() => dispatch(uiActions.openSettingsModal())}
+                    />
                   }
                 >
                   <TestsTable

@@ -268,6 +268,9 @@ const uk = {
     themesDescription: 'Персоналізуйте свій досвід темами, що відповідають вашому стилю.',
     themeLight: 'Світла',
     themeDark: 'Темна',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

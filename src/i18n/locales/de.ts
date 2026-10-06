@@ -271,6 +271,9 @@ const de = {
     themesDescription: 'Personalisieren Sie Ihre Erfahrung mit Designs, die zu Ihrem Stil passen.',
     themeLight: 'Hell',
     themeDark: 'Dunkel',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

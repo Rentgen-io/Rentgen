@@ -268,6 +268,9 @@ const th = {
     themesDescription: 'ปรับแต่งประสบการณ์ของคุณด้วยธีมที่ตรงกับสไตล์ของคุณ',
     themeLight: 'สว่าง',
     themeDark: 'มืด',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

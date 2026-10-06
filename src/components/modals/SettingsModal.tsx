@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectOpenSettingsModal } from '../../store/selectors';
+import { selectSettingsModal } from '../../store/selectors';
 import { uiActions } from '../../store/slices/uiSlice';
 import { IconButton } from '../buttons/IconButton';
 import { CliSettings } from '../settings/CliSettings';
@@ -13,6 +13,7 @@ import { SecurityTestsSettings } from '../settings/SecurityTestsSettings';
 import { ThemeSettings } from '../settings/ThemeSettings';
 import Modal from './Modal';
 
+import AiIcon from '../../assets/icons/ai-icon.svg';
 import ClearCrossIcon from '../../assets/icons/clear-cross-icon.svg';
 import CliIcon from '../../assets/icons/cli-icon.svg';
 import EngineIcon from '../../assets/icons/engine-icon.svg';
@@ -23,12 +24,12 @@ import ThemeIcon from '../../assets/icons/theme-icon.svg';
 export default function SettingsModal() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const isOpen = useAppSelector(selectOpenSettingsModal);
+  const { activeTab, isOpen } = useAppSelector(selectSettingsModal);
 
   const settingsTabs = [
     {
       name: t('settings.testEngine'),
-      icon: <EngineIcon className="w-4 h-4" />,
+      icon: <EngineIcon className="h-4 w-4" />,
       component: (
         <div className="flex flex-col gap-8">
           <MappingSettings />
@@ -39,12 +40,17 @@ export default function SettingsModal() {
     },
     {
       name: t('settings.general'),
-      icon: <GearIcon className="w-4 h-4" />,
+      icon: <GearIcon className="h-4 w-4" />,
       component: <GeneralSettings />,
     },
     {
+      name: t('settings.ai.name'),
+      icon: <AiIcon className="h-4 w-4" />,
+      component: <p className="m-0 text-sm">AI integration is currently in active development...</p>,
+    },
+    {
       name: t('settings.themes'),
-      icon: <ThemeIcon className="w-4 h-4" />,
+      icon: <ThemeIcon className="h-4 w-4" />,
       component: (
         <>
           <p className="m-0 text-xs text-text-secondary">{t('settings.themesDescription')}</p>
@@ -54,12 +60,12 @@ export default function SettingsModal() {
     },
     {
       name: t('settings.language'),
-      icon: <LanguageIcon className="w-4 h-4" />,
+      icon: <LanguageIcon className="h-4 w-4" />,
       component: <LanguageSettings />,
     },
     {
       name: t('settings.cli.name'),
-      icon: <CliIcon className="w-4 h-4" />,
+      icon: <CliIcon className="h-4 w-4" />,
       component: <CliSettings />,
     },
   ];
@@ -76,6 +82,7 @@ export default function SettingsModal() {
       </IconButton>
       <Tabs
         className="h-full flex"
+        defaultIndex={activeTab}
         forceRenderTabPanel={true}
         selectedTabClassName="bg-white dark:bg-dark-body"
         selectedTabPanelClassName="block!"

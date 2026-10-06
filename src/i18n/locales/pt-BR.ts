@@ -271,6 +271,9 @@ const ptBR = {
     themesDescription: 'Personalize sua experiência com temas que combinam com seu estilo.',
     themeLight: 'Claro',
     themeDark: 'Escuro',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

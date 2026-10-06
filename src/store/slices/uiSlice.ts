@@ -53,13 +53,16 @@ interface UIState {
   openGitHubModal: boolean;
   openReloadModal: boolean;
   openSendHttpSuccessModal: boolean;
-  openSettingsModal: boolean;
   deleteFolderModal: {
     isOpen: boolean;
     folderId: string | null;
   };
   importConflictModal: ImportConflictModalState;
   setAsDynamicVariableModal: SetAsDynamicVariableModalState;
+  settingsModal: {
+    isOpen: boolean;
+    activeTab: number;
+  };
   projectImportConfirmModal: ProjectImportConfirmModalState;
 
   // Feedback states
@@ -110,7 +113,10 @@ const initialState: UIState = {
     integrityStatus: null,
     fileName: '',
   },
-  openSettingsModal: false,
+  settingsModal: {
+    isOpen: false,
+    activeTab: 0,
+  },
   saved: false,
   exported: false,
   certificated: false,
@@ -222,11 +228,11 @@ export const uiSlice = createSlice({
         fileName: '',
       };
     },
-    openSettingsModal: (state) => {
-      state.openSettingsModal = true;
+    openSettingsModal: (state, action: PayloadAction<number | undefined>) => {
+      state.settingsModal = { isOpen: true, activeTab: action.payload ?? 0 };
     },
     closeSettingsModal: (state) => {
-      state.openSettingsModal = false;
+      state.settingsModal = { isOpen: false, activeTab: 0 };
     },
 
     // cURL

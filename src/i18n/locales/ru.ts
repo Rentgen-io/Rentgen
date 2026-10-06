@@ -269,6 +269,9 @@ const ru = {
     themesDescription: 'Настройте внешний вид приложения под свой стиль.',
     themeLight: 'Светлая',
     themeDark: 'Темная',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

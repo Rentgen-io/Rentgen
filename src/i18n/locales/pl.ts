@@ -270,6 +270,9 @@ const pl = {
     themesDescription: 'Spersonalizuj swoje doświadczenie motywami pasującymi do Twojego stylu.',
     themeLight: 'Jasny',
     themeDark: 'Ciemny',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

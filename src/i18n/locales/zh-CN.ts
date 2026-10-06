@@ -266,6 +266,9 @@ const zhCN = {
     themesDescription: '使用契合你风格的主题来个性化你的体验。',
     themeLight: '浅色',
     themeDark: '深色',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:

@@ -271,6 +271,9 @@ const es = {
     themesDescription: 'Personaliza tu experiencia con temas que se adapten a tu estilo.',
     themeLight: 'Claro',
     themeDark: 'Oscuro',
+    ai: {
+      name: 'AI',
+    },
     cli: {
       name: 'CLI',
       intro:
