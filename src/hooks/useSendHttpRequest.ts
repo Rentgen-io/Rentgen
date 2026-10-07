@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { sendHttp } from 'src/api/network';
 import { RESPONSE_STATUS, RESPONSE_STATUS_LABEL } from 'src/constants/responseStatus';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -99,7 +100,7 @@ export function useSendHttpRequest() {
         body: substitutedBody,
       } = substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables);
       const request = createHttpRequest(substitutedBody, substitutedHeaders, method, substitutedUrl);
-      const response = await window.electronAPI.sendHttp(request);
+      const response = await sendHttp(request);
       const status = extractStatusCode(response);
 
       dispatch(responseActions.setResponse(response));

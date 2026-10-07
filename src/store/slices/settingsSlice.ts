@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import merge from 'deepmerge';
+import { loadSettings as loadSettingsFile } from 'src/api/storage';
 import { appConfig } from 'src/constants/appConfig';
 import { MAX_INT32 } from 'src/constants/datasets';
 import i18n from 'src/i18n';
@@ -96,7 +97,7 @@ export const initialState: SettingsState = {
   language: 'en',
 };
 
-export const loadSettings = createAsyncThunk('settings/load', async () => await window.electronAPI.loadSettings());
+export const loadSettings = createAsyncThunk('settings/load', async () => await loadSettingsFile());
 
 export const settingsSlice = createSlice({
   name: 'settings',

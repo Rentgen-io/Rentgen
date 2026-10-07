@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { openExternal } from 'src/api/system';
 import { Language, LANGUAGES } from 'src/i18n/languages';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectLanguage } from 'src/store/selectors';
@@ -46,7 +47,7 @@ export function LanguageSettings() {
         {t('settings.languageSection.feedback')}{' '}
         <a
           className="text-button-primary hover:underline cursor-pointer"
-          onClick={() => window.electronAPI.openExternal('https://github.com/Rentgen-io/Rentgen/issues/new')}
+          onClick={() => openExternal('https://github.com/Rentgen-io/Rentgen/issues/new')}
         >
           {t('settings.languageSection.feedbackLink')}
         </a>

@@ -1,3 +1,4 @@
+import { sendHttp } from 'src/api/network';
 import { Method } from 'axios';
 import { appConfig } from 'src/constants/appConfig';
 import { getResponseStatusTitle, RESPONSE_STATUS } from 'src/constants/responseStatus';
@@ -59,7 +60,7 @@ export class SecurityTests extends BaseTests {
     const { headers, url } = request;
 
     try {
-      const response = await window.electronAPI.sendHttp(request);
+      const response = await sendHttp(request);
 
       // Run all header-based security tests that depend on initial response
       const headerBasedTests: { name: string; run: () => TestResult }[] = [
@@ -202,7 +203,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { url: request.url, method: 'OPTIONS', headers: request.headers };
 
     try {
-      const response = await window.electronAPI.sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest);
       const allowHeader =
         getHeaderValue(response.headers, 'allow') || getHeaderValue(response.headers, 'access-control-allow-methods');
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
@@ -245,7 +246,7 @@ export class SecurityTests extends BaseTests {
     const request = createTestHttpRequest({ ...this.options, method: 'FOOBAR' });
 
     try {
-      const response = await window.electronAPI.sendHttp(request);
+      const response = await sendHttp(request);
       const { actual, status } = determineTestStatus(
         response,
         (response, statusCode) => {
@@ -290,7 +291,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { ...request, headers: minimalHeaders };
 
     try {
-      const response = await window.electronAPI.sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode === RESPONSE_STATUS.UNAUTHORIZED) testStatus.status = TestStatus.Pass;
@@ -348,7 +349,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { ...request, headers: modifiedHeaders };
 
     try {
-      const response = await window.electronAPI.sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode === RESPONSE_STATUS.UNAUTHORIZED) testStatus.status = TestStatus.Pass;
@@ -386,7 +387,7 @@ export class SecurityTests extends BaseTests {
     };
 
     try {
-      const response = await window.electronAPI.sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest);
       const acaoHeader = getHeaderValue(response.headers, 'access-control-allow-origin');
 
       if (!acaoHeader)
@@ -421,7 +422,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { ...request, url: createNotFoundUrl(request.url) };
 
     try {
-      const response = await window.electronAPI.sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode === RESPONSE_STATUS.NOT_FOUND) testStatus.status = TestStatus.Pass;
@@ -459,7 +460,7 @@ export class SecurityTests extends BaseTests {
     };
 
     try {
-      const response = await window.electronAPI.sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const responseBody = typeof response.body === 'string' ? response.body : JSON.stringify(response.body);
         if (
@@ -500,7 +501,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { ...request, url: uppercaseDomain(request.url) };
 
     try {
-      const response = await window.electronAPI.sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.REDIRECT)
@@ -538,7 +539,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { ...request, url: uppercasePath(request.url) };
 
     try {
-      const response = await window.electronAPI.sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode === RESPONSE_STATUS.OK || statusCode === RESPONSE_STATUS.NOT_FOUND)
@@ -627,7 +628,7 @@ export async function runLargePayloadTest(options: TestOptions, size: number): P
   };
 
   try {
-    const response = await window.electronAPI.sendHttp(modifiedRequest);
+    const response = await sendHttp(modifiedRequest);
     const { actual, status } = determineTestStatus(response, (response, statusCode) => {
       const testStatus = { actual: response.status, status: TestStatus.Fail };
       if (statusCode === RESPONSE_STATUS.PAYLOAD_TOO_LARGE) testStatus.status = TestStatus.Pass;

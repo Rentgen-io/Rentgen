@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { exportProject, importProject } from 'src/api/files';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
@@ -27,7 +28,7 @@ export function GeneralSettings() {
   ];
 
   const handleExportProject = async () => {
-    const result = await window.electronAPI.exportProject();
+    const result = await exportProject();
     if (result.success) {
       dispatch(uiActions.setExported(true));
       setTimeout(() => dispatch(uiActions.setExported(false)), 2000);
@@ -35,7 +36,7 @@ export function GeneralSettings() {
   };
 
   const handleImportProject = async () => {
-    const result = await window.electronAPI.importProject();
+    const result = await importProject();
     if (result.error) return;
     if (result.success && result.data && result.meta && result.integrityStatus) {
       dispatch(modalsActions.closeSettingsModal());

@@ -1,3 +1,4 @@
+import { pingHost, sendHttp } from 'src/api/network';
 import { getResponseStatusTitle, RESPONSE_STATUS } from 'src/constants/responseStatus';
 import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from 'src/types';
 import {
@@ -123,7 +124,7 @@ export class PerformanceInsights extends BaseTests {
       const pingResults: number[] = [];
 
       for (let i = 0; i < PING_TEST_COUNT; i++) {
-        const pingTime = await window.electronAPI.pingHost(targetDomain);
+        const pingTime = await pingHost(targetDomain);
         pingResults.push(pingTime);
       }
 
@@ -268,7 +269,7 @@ export async function runLoadTest(
     if (isAborted) return;
 
     request = createTestHttpRequest(options);
-    response = await window.electronAPI.sendHttp(request);
+    response = await sendHttp(request);
     responseTimes.push(response.time);
 
     const statusCode = extractStatusCode(response);

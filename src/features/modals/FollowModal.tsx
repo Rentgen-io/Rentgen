@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { openExternal } from 'src/api/system';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Modal from 'src/components/modals/Modal';
 import useTests from 'src/hooks/useTests';
@@ -45,7 +46,7 @@ export default function FollowModal() {
         <div className="flex items-center justify-end gap-4">
           <Button
             onClick={() => {
-              window.electronAPI.openExternal('https://www.linkedin.com/company/therentgen');
+              openExternal('https://www.linkedin.com/company/therentgen');
               onClose();
             }}
           >

@@ -1,4 +1,5 @@
 import { useCallback, useRef } from 'react';
+import { sendHttp } from 'src/api/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectCollectionData,
@@ -91,7 +92,7 @@ export function useCollectionRunner() {
         );
 
         const httpRequest = createHttpRequest(body, headers, request.method, url);
-        const response = await window.electronAPI.sendHttp(httpRequest);
+        const response = await sendHttp(httpRequest);
         const status = extractStatusCode(response);
 
         let bodyParameters = {};

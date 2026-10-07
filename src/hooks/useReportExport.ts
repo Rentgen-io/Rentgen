@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { generateCertificate as generateCertificateFile, saveReport } from 'src/api/files';
 import { appConfig } from 'src/constants/appConfig';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCurrentTestResults, selectExportFormat, selectHttpResponse } from 'src/store/selectors';
@@ -52,7 +53,7 @@ export function useReportExport() {
     };
 
     try {
-      const result = await window.electronAPI.saveReport(formatReport(report, exportFormat));
+      const result = await saveReport(formatReport(report, exportFormat));
 
       if (result?.error) throw new Error(result.error);
       if (result?.canceled) return;
@@ -74,7 +75,7 @@ export function useReportExport() {
     }
 
     try {
-      const result = await window.electronAPI.generateCertificate(testResults);
+      const result = await generateCertificateFile(testResults);
 
       if (result?.error) throw new Error(result.error);
       if (result?.canceled) return;

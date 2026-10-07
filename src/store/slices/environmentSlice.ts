@@ -1,4 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import {
+  loadDynamicVariables as loadDynamicVariablesFile,
+  loadEnvironments as loadEnvironmentsFile,
+} from 'src/api/storage';
 import { DynamicVariable, Environment, EnvironmentVariable } from 'src/types';
 
 interface EnvironmentState {
@@ -30,14 +34,11 @@ function generateDynamicVariableId(): string {
   return `dvar_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 }
 
-export const loadEnvironments = createAsyncThunk(
-  'environment/load',
-  async () => await window.electronAPI.loadEnvironments(),
-);
+export const loadEnvironments = createAsyncThunk('environment/load', async () => await loadEnvironmentsFile());
 
 export const loadDynamicVariables = createAsyncThunk(
   'environment/loadDynamicVariables',
-  async () => await window.electronAPI.loadDynamicVariables(),
+  async () => await loadDynamicVariablesFile(),
 );
 
 export const environmentSlice = createSlice({

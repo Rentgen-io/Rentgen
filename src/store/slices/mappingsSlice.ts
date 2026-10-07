@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loadMappings as loadMappingsFile } from 'src/api/storage';
 import { RequestParameters } from 'src/types';
 
 export interface MappingsState {
@@ -10,7 +11,7 @@ export interface MappingsState {
 
 export const initialState: MappingsState = {};
 
-export const loadMappings = createAsyncThunk('mappings/load', async () => await window.electronAPI.loadMappings());
+export const loadMappings = createAsyncThunk('mappings/load', async () => await loadMappingsFile());
 
 export const mappingsSlice = createSlice({
   name: 'mappings',

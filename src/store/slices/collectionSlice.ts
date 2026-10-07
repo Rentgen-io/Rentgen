@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loadCollection as loadCollectionFile } from 'src/api/storage';
 import { PostmanCollection } from 'src/types';
 import {
   addFolderToCollection,
@@ -34,10 +35,7 @@ const initialState: CollectionState = {
   error: null,
 };
 
-export const loadCollection = createAsyncThunk(
-  'collection/load',
-  async () => await window.electronAPI.loadCollection(),
-);
+export const loadCollection = createAsyncThunk('collection/load', async () => await loadCollectionFile());
 
 export const collectionSlice = createSlice({
   name: 'collection',

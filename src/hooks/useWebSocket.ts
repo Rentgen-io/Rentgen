@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { connectWebSocket, disconnectWebSocket, onWebSocketEvent, sendWebSocketMessage } from 'src/api/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectBody, selectHeaders, selectUrl } from 'src/store/selectors';
 import { websocketActions } from 'src/store/slices/websocketSlice';
@@ -9,8 +10,6 @@ export function useWssEventBridge() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!window.electronAPI.onWssEvent) return;
-
     const listener = (event: any) => {
       if (event.type === 'open') dispatch(websocketActions.handleWssOpen(event.data));
       else if (event.type === 'close') dispatch(websocketActions.handleWssClose(event.data));
@@ -18,7 +17,7 @@ export function useWssEventBridge() {
       else if (event.type === 'error') dispatch(websocketActions.handleWssError(event.error));
     };
 
-    return window.electronAPI.onWssEvent(listener);
+    return onWebSocketEvent(listener) ?? undefined;
   }, [dispatch]);
 }
 
@@ -35,14 +34,14 @@ export function useWssActions() {
       return;
     }
 
-    window.electronAPI.connectWss({ url, headers: parseHeaders(headers) });
+    connectWebSocket({ url, headers: parseHeaders(headers) });
   }, [url, headers, t, dispatch]);
 
-  const disconnect = useCallback(() => window.electronAPI.disconnectWss(), []);
+  const disconnect = useCallback(() => disconnectWebSocket(), []);
 
   const send = useCallback(() => {
     dispatch(websocketActions.handleWssSent({ data: body }));
-    window.electronAPI.sendWss(body);
+    sendWebSocketMessage(body);
   }, [body, dispatch]);
 
   return { connect, disconnect, send };

@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getAppVersion, openExternal } from 'src/api/system';
 import { appConfig } from 'src/constants/appConfig';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectHistoryEnabled, selectSidebarActiveTab } from 'src/store/selectors';
@@ -43,7 +44,7 @@ export default function Sidebar() {
   }, [historyEnabled, activeTab, dispatch]);
 
   useEffect(() => {
-    const fetchAppVersion = async () => setAppVersion(await window.electronAPI.getAppVersion());
+    const fetchAppVersion = async () => setAppVersion(await getAppVersion());
     fetchAppVersion();
   }, []);
 
@@ -98,15 +99,13 @@ export default function Sidebar() {
           </SidebarButton>
           <SidebarButton
             label={t('sidebar.checkForUpdates')}
-            onClick={() =>
-              window.electronAPI.openExternal(`${appConfig.origin}/check-for-update.html?current_version=${appVersion}`)
-            }
+            onClick={() => openExternal(`${appConfig.origin}/check-for-update.html?current_version=${appVersion}`)}
           >
             <UpgradeStarIcon className="h-4 w-4" />
           </SidebarButton>
           <SidebarButton
             label={t('sidebar.reportFeedback')}
-            onClick={() => window.electronAPI.openExternal('https://github.com/Rentgen-io/Rentgen/issues/new')}
+            onClick={() => openExternal('https://github.com/Rentgen-io/Rentgen/issues/new')}
           >
             <BugIcon className="h-4 w-4" />
           </SidebarButton>

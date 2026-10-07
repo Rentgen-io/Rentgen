@@ -1,6 +1,8 @@
 import cn from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { exportProject } from 'src/api/files';
+import { getCliStatus, installCli, openExternal, uninstallCli } from 'src/api/system';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import { useAppDispatch } from 'src/store/hooks';
 import { uiActions } from 'src/store/slices/uiSlice';
@@ -234,7 +236,7 @@ export function CliSettings() {
   const [lastResult, setLastResult] = useState<CliActionResult | null>(null);
 
   const handleExportProject = async () => {
-    const result = await window.electronAPI.exportProject();
+    const result = await exportProject();
     if (result.success) {
       dispatch(uiActions.setExported(true));
       setTimeout(() => dispatch(uiActions.setExported(false)), 2000);
@@ -242,7 +244,7 @@ export function CliSettings() {
   };
 
   const refresh = useCallback(async () => {
-    const next = await window.electronAPI.getCliStatus();
+    const next = await getCliStatus();
     setStatus(next);
   }, []);
 
@@ -254,7 +256,7 @@ export function CliSettings() {
     setBusy(true);
     setLastResult(null);
     try {
-      const result = await window.electronAPI.installCli();
+      const result = await installCli();
       setLastResult(result);
       await refresh();
     } finally {
@@ -266,7 +268,7 @@ export function CliSettings() {
     setBusy(true);
     setLastResult(null);
     try {
-      const result = await window.electronAPI.uninstallCli();
+      const result = await uninstallCli();
       setLastResult(result);
       await refresh();
     } finally {
@@ -283,7 +285,7 @@ export function CliSettings() {
         {t('settings.cli.fullDocumentation')}{' '}
         <button
           type="button"
-          onClick={() => window.electronAPI.openExternal('https://rentgen.io/cli')}
+          onClick={() => openExternal('https://rentgen.io/cli')}
           className="p-0 bg-transparent border-0 underline text-button-primary hover:text-button-primary-hover cursor-pointer"
         >
           rentgen.io/cli

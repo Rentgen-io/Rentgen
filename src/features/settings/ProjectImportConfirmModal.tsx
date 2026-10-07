@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { exportProject } from 'src/api/files';
 import IntegrityBadge from 'src/components/badges/IntegrityBadge';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import ConfirmationModal from 'src/components/modals/ConfirmationModal';
@@ -114,7 +115,7 @@ export default function ProjectImportConfirmModal() {
               buttonType={ButtonType.SECONDARY}
               buttonSize={ButtonSize.SMALL}
               onClick={async () => {
-                const result = await window.electronAPI.exportProject();
+                const result = await exportProject();
                 if (result.success) setExported(true);
               }}
             >

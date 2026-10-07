@@ -1,3 +1,4 @@
+import { sendHttp } from 'src/api/network';
 import { getDatasets } from 'src/constants/datasets';
 import { RESPONSE_STATUS, getResponseStatusTitle } from 'src/constants/responseStatus';
 import store from 'src/store';
@@ -92,7 +93,7 @@ export class DataDrivenTests extends BaseTests {
     this.onTestStart?.();
 
     try {
-      const response = await window.electronAPI.sendHttp(request);
+      const response = await sendHttp(request);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.REDIRECT)
@@ -203,7 +204,7 @@ async function testRequestParameter(
   const request = createTestHttpRequest(options);
 
   try {
-    const response = await window.electronAPI.sendHttp(request);
+    const response = await sendHttp(request);
     const { actual, status } = determineTestStatus(response, (response, statusCode) =>
       determine(response, statusCode, testData),
     );

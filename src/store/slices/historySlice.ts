@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loadHistory as loadHistoryFile } from 'src/api/storage';
 import { HistoryEntry } from 'src/types/history';
 
 function getRetentionCutoff(retention: string): number | null {
@@ -26,7 +27,7 @@ const initialState: HistoryState = {
   error: null,
 };
 
-export const loadHistory = createAsyncThunk('history/load', async () => await window.electronAPI.loadHistory());
+export const loadHistory = createAsyncThunk('history/load', async () => await loadHistoryFile());
 
 export const historySlice = createSlice({
   name: 'history',

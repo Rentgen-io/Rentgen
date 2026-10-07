@@ -10,6 +10,7 @@ import {
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { exportPostmanCollection, importPostmanCollection } from 'src/api/files';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionData, selectSidebarFolders } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
@@ -39,7 +40,7 @@ export default function CollectionsPanel() {
   );
 
   const handleImport = async () => {
-    const result = await window.electronAPI.importPostmanCollection();
+    const result = await importPostmanCollection();
 
     if (result.canceled) return;
 
@@ -78,7 +79,7 @@ export default function CollectionsPanel() {
   };
 
   const handleExport = async () => {
-    const result = await window.electronAPI.exportPostmanCollection(collection);
+    const result = await exportPostmanCollection(collection);
 
     if (result.canceled) return;
 
