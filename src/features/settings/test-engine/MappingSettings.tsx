@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectTestEngineConfiguration } from 'src/store/selectors';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import { clamp } from 'src/utils';
+import SettingsHeader from '../SettingsHeader';
 
 export function MappingSettings() {
   const { t } = useTranslation();
@@ -20,9 +21,7 @@ export function MappingSettings() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h5 className="m-0 pb-1.5 border-b border-b-border dark:border-b-dark-border">
-        {t('settings.configuration.title')}
-      </h5>
+      <SettingsHeader>{t('settings.configuration.title')}</SettingsHeader>
       <p className="m-0 text-xs text-text-secondary">{t('settings.configuration.description')}</p>
       <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden">
         <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">

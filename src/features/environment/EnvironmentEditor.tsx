@@ -345,11 +345,10 @@ function EnvironmentVariableSelect({
   return (
     <Select
       classNames={{
-        container: () => 'w-full text-xs overflow-hidden',
-        control: () =>
-          'min-h-auto! border-none! bg-white! dark:bg-dark-input! shadow-none! transition-none! overflow-hidden!',
-        input: () => 'm-0! p-0! text-text! dark:text-dark-text! [&>*]:opacity-100!',
-        singleValue: () => 'm-0! text-text! dark:text-dark-text! overflow-hidden! text-ellipsis! whitespace-nowrap!',
+        container: () => 'min-w-0 w-full overflow-hidden',
+        control: () => 'border-none! overflow-hidden!',
+        input: () => '[&>*]:opacity-100!',
+        singleValue: () => 'overflow-hidden! text-ellipsis! whitespace-nowrap!',
       }}
       isCreatable={true}
       menuPosition="fixed"

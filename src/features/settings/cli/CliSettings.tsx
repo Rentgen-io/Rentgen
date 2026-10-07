@@ -7,6 +7,7 @@ import Button, { ButtonType } from 'src/components/buttons/Button';
 import { useAppDispatch } from 'src/store/hooks';
 import { uiActions } from 'src/store/slices/uiSlice';
 import type { CliActionResult, CliStatus } from 'src/types';
+import SettingsHeader from '../SettingsHeader';
 
 interface FlagRow {
   flag: string;
@@ -42,12 +43,6 @@ const CodeBlock = ({ children }: { children: string }) => (
   <pre className="m-0 px-3 py-2 text-xs font-mono bg-button-secondary dark:bg-dark-input overflow-x-auto whitespace-pre-wrap break-all">
     <code>{children}</code>
   </pre>
-);
-
-const SectionHeader = ({ children }: { children: React.ReactNode }) => (
-  <h5 className="flex items-center justify-between gap-4 m-0 pb-1.5 border-b border-b-border dark:border-b-dark-border mt-4">
-    {children}
-  </h5>
 );
 
 function usePlatformLabel() {
@@ -278,9 +273,9 @@ export function CliSettings() {
         </button>
       </p>
 
-      <SectionHeader>
+      <SettingsHeader className="mt-4">
         {t('settings.cli.installInPath', { platform: status ? platformLabel(status.platform) : '…' })}
-      </SectionHeader>
+      </SettingsHeader>
 
       {status === null ? (
         <p className="m-0 text-xs text-text-secondary">{t('settings.cli.checkingStatus')}</p>
@@ -305,7 +300,7 @@ export function CliSettings() {
         </>
       )}
 
-      <SectionHeader>{t('settings.cli.runCli')}</SectionHeader>
+      <SettingsHeader className="mt-4">{t('settings.cli.runCli')}</SettingsHeader>
       <p className="m-0 text-xs text-text-secondary">
         <Trans i18nKey="settings.cli.runCliDescription" components={transComponents} />
       </p>
@@ -322,7 +317,7 @@ export function CliSettings() {
         <Trans i18nKey="settings.cli.developmentNote" components={transComponents} />
       </p>
 
-      <SectionHeader>{t('settings.cli.options')}</SectionHeader>
+      <SettingsHeader className="mt-4">{t('settings.cli.options')}</SettingsHeader>
       <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden text-xs">
         {flags.map((f) => (
           <div key={f.flag} className="grid grid-cols-[auto_1fr] items-start gap-4 py-2 px-3">
@@ -332,7 +327,7 @@ export function CliSettings() {
         ))}
       </div>
 
-      <SectionHeader>{t('settings.cli.examples')}</SectionHeader>
+      <SettingsHeader className="mt-4">{t('settings.cli.examples')}</SettingsHeader>
       <p className="m-0 text-xs text-text-secondary">{t('settings.cli.exampleInteractive')}</p>
       <CodeBlock>rentgen xray ./rentgen-project.rentgen</CodeBlock>
 
@@ -358,12 +353,12 @@ export function CliSettings() {
   --var apiKey=abc123 \\
   --var host=https://staging.example.com`}</CodeBlock>
 
-      <SectionHeader>{t('settings.cli.integrityCheck')}</SectionHeader>
+      <SettingsHeader className="mt-4">{t('settings.cli.integrityCheck')}</SettingsHeader>
       <p className="m-0 text-xs text-text-secondary">
         <Trans i18nKey="settings.cli.integrityCheckDescription" components={transComponents} />
       </p>
 
-      <SectionHeader>{t('settings.cli.exitCodesTitle')}</SectionHeader>
+      <SettingsHeader className="mt-4">{t('settings.cli.exitCodesTitle')}</SettingsHeader>
       <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden text-xs">
         {exitCodes.map((e) => (
           <div key={e.code} className="grid grid-cols-[auto_1fr] items-start gap-4 py-2 px-3">
@@ -373,7 +368,7 @@ export function CliSettings() {
         ))}
       </div>
 
-      <SectionHeader>{t('settings.cli.idempotency')}</SectionHeader>
+      <SettingsHeader className="mt-4">{t('settings.cli.idempotency')}</SettingsHeader>
       <p className="m-0 text-xs text-text-secondary">{t('settings.cli.idempotencyDescription')}</p>
     </div>
   );

@@ -4,6 +4,7 @@ import Button, { ButtonType } from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
 import { useAppDispatch } from 'src/store/hooks';
 import { settingsActions } from 'src/store/slices/settingsSlice';
+import SettingsHeader from '../SettingsHeader';
 
 export function AiLicenseSettings() {
   const { t } = useTranslation();
@@ -13,7 +14,7 @@ export function AiLicenseSettings() {
 
   return (
     <>
-      <h5 className="m-0 pb-1.5 border-b border-b-border dark:border-b-dark-border">{t('settings.ai.unlockTitle')}</h5>
+      <SettingsHeader>{t('settings.ai.unlockTitle')}</SettingsHeader>
       <p className="m-0 text-xs text-text-secondary">{t('settings.ai.unlockDescription')}</p>
       <div className="md:flex border border-border dark:border-dark-border divide-y md:divide-y-0 md:divide-x divide-border dark:divide-dark-border overflow-hidden">
         <div className="flex-1 flex flex-col gap-4 p-4">

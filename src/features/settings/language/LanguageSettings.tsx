@@ -19,7 +19,7 @@ export function LanguageSettings() {
   return (
     <div className="flex flex-col gap-4">
       <p className="m-0 text-xs text-text-secondary">{t('settings.languageSection.description')}</p>
-      <div className="grid grid-cols-2 border border-border dark:border-dark-border overflow-hidden">
+      <div className="grid sm:grid-cols-2 border border-border dark:border-dark-border overflow-hidden">
         {LANGUAGES.map(({ label, code }, index) => (
           <label
             key={code}
@@ -27,7 +27,7 @@ export function LanguageSettings() {
               'flex items-center gap-2 p-3 hover:bg-button-secondary dark:hover:bg-dark-input cursor-pointer',
               'border-border dark:border-dark-border',
               { 'bg-button-secondary dark:bg-dark-input': code === language },
-              index % 2 === 0 && 'border-r',
+              index % 2 === 0 && 'sm:border-r',
               index < LANGUAGES.length - (LANGUAGES.length % 2 === 0 ? 2 : LANGUAGES.length % 2) && 'border-b',
             )}
           >

@@ -55,12 +55,8 @@ export default function RequestUrlBar() {
           <Select
             className="font-bold uppercase"
             classNames={{
-              control: () =>
-                cn(
-                  'min-h-auto! bg-white! border! border-border! rounded-none! transition-none! shadow-none!',
-                  'dark:bg-dark-input! dark:border-dark-border! dark:border-r-dark-body!',
-                ),
-              input: () => 'm-0! p-0! [&>:first-child]:uppercase text-text! dark:text-dark-text!',
+              control: () => 'dark:border-r-dark-body!',
+              input: () => '[&>:first-child]:uppercase',
             }}
             isCreatable={true}
             options={methodOptions}

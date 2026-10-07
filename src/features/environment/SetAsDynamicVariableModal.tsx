@@ -178,12 +178,12 @@ export default function SetAsDynamicVariableModal() {
           <Select
             options={environmentOptions}
             value={selectedEnvironment}
+            placeholder={t('modals.setDynamicVariable.selectEnvironment')}
             onChange={(option) => {
               setSelectedEnvironment(option as EnvironmentOption);
               setError('');
               setDuplicateToOverwrite(null);
             }}
-            placeholder={t('modals.setDynamicVariable.selectEnvironment')}
           />
         </div>
 

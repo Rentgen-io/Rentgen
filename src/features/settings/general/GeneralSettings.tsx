@@ -11,6 +11,7 @@ import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import { uiActions } from 'src/store/slices/uiSlice';
 import { HistoryRetention } from 'src/types';
+import SettingsHeader from '../SettingsHeader';
 
 export function GeneralSettings() {
   const { t } = useTranslation();
@@ -54,12 +55,12 @@ export function GeneralSettings() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h5 className="flex items-center justify-between gap-4 m-0 pb-1.5 border-b border-b-border dark:border-b-dark-border">
+      <SettingsHeader>
         <span>{t('settings.history.title')}</span>
         <span className="font-normal text-xs text-text-secondary">
           {historyEnabled ? t('common.enabled') : t('common.disabled')}
         </span>
-      </h5>
+      </SettingsHeader>
       <p className="m-0 text-xs text-text-secondary">{t('settings.history.description')}</p>
 
       <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden">
@@ -100,9 +101,9 @@ export function GeneralSettings() {
         </div>
       </div>
 
-      <h5 className="flex items-center justify-between gap-4 m-0 pb-1.5 border-b border-b-border dark:border-b-dark-border mt-4">
+      <SettingsHeader className="mt-4">
         <span>{t('settings.project.title')}</span>
-      </h5>
+      </SettingsHeader>
       <p className="m-0 text-xs text-text-secondary">{t('settings.project.description')}</p>
 
       <div className="flex gap-3">

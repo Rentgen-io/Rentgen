@@ -11,6 +11,7 @@ import Toggle from 'src/components/inputs/Toggle';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectDisabledPerformanceInsights } from 'src/store/selectors';
 import { settingsActions } from 'src/store/slices/settingsSlice';
+import SettingsHeader from '../SettingsHeader';
 
 export const PERFORMANCE_INSIGHTS: string[] = [
   ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
@@ -27,7 +28,7 @@ export function PerformanceInsightsSettings() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h5 className="flex items-center justify-between gap-4 m-0 pb-1.5 border-b border-b-border dark:border-b-dark-border">
+      <SettingsHeader>
         <span>{t('settings.performanceInsights.title')}</span>
         <span className="font-normal text-xs text-text-secondary">
           {t('settings.performanceInsights.enabledCount', {
@@ -35,7 +36,7 @@ export function PerformanceInsightsSettings() {
             total: PERFORMANCE_INSIGHTS.length,
           })}
         </span>
-      </h5>
+      </SettingsHeader>
       <p className="m-0 text-xs text-text-secondary">{t('settings.performanceInsights.description')}</p>
       <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden">
         {PERFORMANCE_INSIGHTS.sort().map((insight) => (
