@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import AutosizeTextarea, { TextareaAutosizeProps } from 'react-textarea-autosize';
-import VariableHighlighter from '../VariableHighlighter';
+import VariableHighlighter from '../highlighters/VariableHighlighter';
 
 const DEFAULT_HIGHLIGHT_COLOR = '#6B7280';
 

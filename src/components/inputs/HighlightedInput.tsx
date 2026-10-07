@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
-import VariableHighlighter from '../VariableHighlighter';
+import VariableHighlighter from '../highlighters/VariableHighlighter';
 
 const DEFAULT_HIGHLIGHT_COLOR = '#6B7280';
 

@@ -6,11 +6,6 @@ import ActionsButton from './components/buttons/ActionsButton';
 import Button, { ButtonSize, ButtonType } from './components/buttons/Button';
 import { CopyButton } from './components/buttons/CopyButton';
 import { IconButton } from './components/buttons/IconButton';
-import { LargePayloadTestControls } from './components/controls/LargePayloadTestControls';
-import { LoadTestControls } from './components/controls/LoadTestControls';
-import { TestResultControls } from './components/controls/TestResultControls';
-import EnvironmentEditor from './components/environment/EnvironmentEditor';
-import EnvironmentSelector from './components/environment/EnvironmentSelector';
 import HighlightedInput from './components/inputs/HighlightedInput';
 import HighlightedTextarea from './components/inputs/HighlightedTextarea';
 import Select, { SelectOption } from './components/inputs/Select';
@@ -18,29 +13,30 @@ import SimpleSelect from './components/inputs/SimpleSelect';
 import Textarea from './components/inputs/Textarea';
 import Toggle from './components/inputs/Toggle';
 import Loader from './components/loaders/Loader';
-import TestRunningLoader from './components/loaders/TestRunningLoader';
+import LoaderWithText from './components/loaders/LoaderWithText';
 import ConfirmationModal from './components/modals/ConfirmationModal';
 import FollowModal from './components/modals/FollowModal';
 import GitHubModal from './components/modals/GitHubModal';
-import ImportConflictModal from './components/modals/ImportConflictModal';
 import Modal from './components/modals/Modal';
-import ProjectImportConfirmModal from './components/modals/ProjectImportConfirmModal';
-import SetAsDynamicVariableModal from './components/modals/SetAsDynamicVariableModal';
-import SettingsModal from './components/modals/SettingsModal';
 import Panel from './components/panels/Panel';
-import ParametersPanel from './components/panels/ParametersPanel';
-import TestResultsComparisonPanel from './components/panels/TestResultsComparisonPanel';
-import { PERFORMANCE_INSIGHTS } from './components/settings/PerformanceInsightsSettings';
-import { SECURITY_TESTS } from './components/settings/SecurityTestsSettings';
-import Sidebar from './components/sidebar/Sidebar';
-import TestsTable, {
-  ExpandedTestComponent,
-  getTestsTableColumns,
-  TestsTableHeader,
-} from './components/tables/TestsTable';
 import { JsonViewer } from './components/viewers/JsonViewer';
 import { appConfig } from './constants/appConfig';
 import { getDatasets } from './constants/datasets';
+import EnvironmentEditor from './features/environment/EnvironmentEditor';
+import EnvironmentSelector from './features/environment/EnvironmentSelector';
+import SetAsDynamicVariableModal from './features/environment/SetAsDynamicVariableModal';
+import ParametersPanel from './features/parameters/ParametersPanel';
+import ImportConflictModal from './features/settings/ImportConflictModal';
+import ProjectImportConfirmModal from './features/settings/ProjectImportConfirmModal';
+import SettingsModal from './features/settings/SettingsModal';
+import { PERFORMANCE_INSIGHTS } from './features/settings/test-engine/PerformanceInsightsSettings';
+import { SECURITY_TESTS } from './features/settings/test-engine/SecurityTestsSettings';
+import Sidebar from './features/sidebar/Sidebar';
+import { LargePayloadTestControls } from './features/tests/LargePayloadTestControls';
+import { LoadTestControls } from './features/tests/LoadTestControls';
+import { TestResultControls } from './features/tests/TestResultControls';
+import TestResultsComparisonPanel from './features/tests/TestResultsComparisonPanel';
+import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from './features/tests/TestsTable';
 import { useCtrlS } from './hooks/useCtrlS';
 import { useReset } from './hooks/useReset';
 import useTests from './hooks/useTests';
@@ -1180,7 +1176,7 @@ export default function App() {
                     expandableRowDisabled={(row) => disabledSecurityTests.includes(row.name)}
                     expandOnRowClicked
                     data={securityTests}
-                    progressComponent={<TestRunningLoader text={t('tests.runningSecurityTests')} />}
+                    progressComponent={<LoaderWithText text={t('tests.runningSecurityTests')} />}
                     progressPending={isSecurityRunning}
                   />
                 </Panel>
@@ -1260,7 +1256,7 @@ export default function App() {
                     }
                     expandOnRowClicked
                     data={performanceTests}
-                    progressComponent={<TestRunningLoader text={t('tests.runningPerformanceInsights')} />}
+                    progressComponent={<LoaderWithText text={t('tests.runningPerformanceInsights')} />}
                     progressPending={isPerformanceRunning}
                   />
                 </Panel>
@@ -1374,7 +1370,7 @@ export default function App() {
                     data={dataDrivenTests}
                     fixedHeader={true}
                     fixedHeaderScrollHeight="720px"
-                    progressComponent={<TestRunningLoader text={t('tests.runningDataDrivenTests')} />}
+                    progressComponent={<LoaderWithText text={t('tests.runningDataDrivenTests')} />}
                     progressPending={isDataDrivenRunning}
                   />
                 </Panel>
@@ -1386,7 +1382,7 @@ export default function App() {
                     expandableRowsComponent={ExpandedTestComponent}
                     expandOnRowClicked
                     data={crudTests}
-                    progressComponent={<TestRunningLoader text={t('tests.preparingCrud')} />}
+                    progressComponent={<LoaderWithText text={t('tests.preparingCrud')} />}
                     progressPending={isSecurityRunning}
                     noDataComponent={
                       <p className="p-4 m-0 text-center text-sm">

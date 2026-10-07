@@ -4,10 +4,10 @@ import { editor } from 'monaco-editor/esm/vs/editor/editor.api.js';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
+import { rentgenDarkTheme, rentgenLightTheme } from '../../monaco/themes';
 import { useAppSelector } from '../../store/hooks';
 import { selectTheme } from '../../store/selectors';
-import TestRunningLoader from '../loaders/TestRunningLoader';
-import { rentgenDarkTheme, rentgenLightTheme } from '../monaco/themes';
+import LoaderWithText from '../loaders/LoaderWithText';
 
 interface Props {
   className?: string;
@@ -159,7 +159,7 @@ export function JsonDiffViewer({
       />
       {!diffReady && (
         <div className="absolute inset-0 flex z-90">
-          <TestRunningLoader
+          <LoaderWithText
             className="justify-center bg-white dark:bg-dark-input"
             text={t('tests.computingDifferences')}
           />
