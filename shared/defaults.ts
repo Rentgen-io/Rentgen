@@ -13,6 +13,9 @@ export const defaultSettings: SettingsState = {
       retention: 'none',
     },
   },
+  ai: {
+    serialNumber: null,
+  },
   testEngine: {
     configuration: {
       email: {

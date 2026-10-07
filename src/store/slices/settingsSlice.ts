@@ -14,6 +14,9 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
+    setSerialNumber: (state, action: PayloadAction<string>) => {
+      state.ai.serialNumber = action.payload;
+    },
     setHistoryEnabled: (state, action: PayloadAction<boolean>) => {
       state.general.history.enabled = action.payload;
     },
@@ -102,8 +105,9 @@ export const settingsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loadSettings.fulfilled, (state, action: PayloadAction<SettingsState>) => {
       state.cli = action.payload.cli;
-      state.general = merge(state.general, action.payload.general);
-      state.testEngine = merge(state.testEngine, action.payload.testEngine);
+      state.general = merge(state.general, action.payload.general || {});
+      state.ai = merge(state.ai, action.payload.ai || {});
+      state.testEngine = merge(state.testEngine, action.payload.testEngine || {});
       state.theme = action.payload.theme;
       state.language = action.payload.language || 'en';
 

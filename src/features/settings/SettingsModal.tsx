@@ -5,6 +5,7 @@ import Modal from 'src/components/modals/Modal';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectSettingsModal } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
+import { AiSettings } from './ai/AiSettings';
 import { CliSettings } from './cli/CliSettings';
 import { GeneralSettings } from './general/GeneralSettings';
 import { LanguageSettings } from './language/LanguageSettings';
@@ -46,7 +47,7 @@ export default function SettingsModal() {
     {
       name: t('settings.ai.name'),
       icon: <AiIcon className="h-4 w-4" />,
-      component: <p className="m-0 text-sm">AI integration is currently in active development...</p>,
+      component: <AiSettings />,
     },
     {
       name: t('settings.themes'),

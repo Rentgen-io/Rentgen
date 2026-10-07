@@ -268,6 +268,16 @@ const zhCN = {
     themeDark: '深色',
     ai: {
       name: 'AI',
+      unlockTitle: '解锁更深入的 AI 测试',
+      unlockDescription: '需要一次性许可证。',
+      activateLicense: '激活许可证',
+      buyLicense: '购买许可证',
+      serialNumber: '序列号',
+      invalidSerialNumber: '序列号无效',
+      oneTimePayment: '一次性付款。模型使用费用由您选择的提供商计费。',
+      alreadyHaveSerialNumber: '我已有序列号',
+      connectTitle: '连接 AI 提供商',
+      connectDescription: 'Rentgen 直接从本设备发送请求。',
     },
     cli: {
       name: 'CLI',

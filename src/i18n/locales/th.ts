@@ -270,6 +270,16 @@ const th = {
     themeDark: 'มืด',
     ai: {
       name: 'AI',
+      unlockTitle: 'ปลดล็อกการทดสอบด้วย AI เชิงลึก',
+      unlockDescription: 'ต้องใช้ไลเซนส์แบบจ่ายครั้งเดียว',
+      activateLicense: 'เปิดใช้งานไลเซนส์',
+      buyLicense: 'ซื้อไลเซนส์',
+      serialNumber: 'หมายเลขซีเรียล',
+      invalidSerialNumber: 'หมายเลขซีเรียลไม่ถูกต้อง',
+      oneTimePayment: 'ชำระครั้งเดียว การใช้งานโมเดลจะเรียกเก็บเงินโดยผู้ให้บริการที่คุณเลือก',
+      alreadyHaveSerialNumber: 'ฉันมีหมายเลขซีเรียลอยู่แล้ว',
+      connectTitle: 'เชื่อมต่อผู้ให้บริการ AI',
+      connectDescription: 'Rentgen ส่งคำขอโดยตรงจากอุปกรณ์นี้',
     },
     cli: {
       name: 'CLI',

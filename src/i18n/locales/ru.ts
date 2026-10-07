@@ -271,6 +271,16 @@ const ru = {
     themeDark: 'Темная',
     ai: {
       name: 'AI',
+      unlockTitle: 'Разблокировать углублённое ИИ-тестирование',
+      unlockDescription: 'Требуется разовая лицензия.',
+      activateLicense: 'Активировать лицензию',
+      buyLicense: 'Купить лицензию',
+      serialNumber: 'Серийный номер',
+      invalidSerialNumber: 'Неверный серийный номер',
+      oneTimePayment: 'Разовый платёж. Использование модели оплачивается выбранному вами провайдеру.',
+      alreadyHaveSerialNumber: 'У меня уже есть серийный номер',
+      connectTitle: 'Подключить ИИ-провайдера',
+      connectDescription: 'Rentgen отправляет запросы напрямую с этого устройства.',
     },
     cli: {
       name: 'CLI',

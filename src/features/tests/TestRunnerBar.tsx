@@ -121,7 +121,7 @@ export default function TestRunnerBar() {
         )}
       </div>
       {testResults && certificateError && (
-        <p className="m-0 -mt-2 text-xs text-red-600 @xl:text-right">{certificateError}</p>
+        <p className="m-0 -mt-2 text-xs text-red-500 @xl:text-right">{certificateError}</p>
       )}
     </>
   );

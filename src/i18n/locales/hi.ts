@@ -270,6 +270,16 @@ const hi = {
     themeDark: 'डार्क',
     ai: {
       name: 'AI',
+      unlockTitle: 'गहन AI परीक्षण अनलॉक करें',
+      unlockDescription: 'एक बार का लाइसेंस आवश्यक है।',
+      activateLicense: 'लाइसेंस सक्रिय करें',
+      buyLicense: 'लाइसेंस खरीदें',
+      serialNumber: 'सीरियल नंबर',
+      invalidSerialNumber: 'अमान्य सीरियल नंबर',
+      oneTimePayment: 'एक बार का भुगतान। मॉडल उपयोग का बिल आपके चुने हुए प्रदाता द्वारा लिया जाता है।',
+      alreadyHaveSerialNumber: 'मेरे पास पहले से सीरियल नंबर है',
+      connectTitle: 'AI प्रदाता कनेक्ट करें',
+      connectDescription: 'Rentgen अनुरोध सीधे इसी डिवाइस से भेजता है।',
     },
     cli: {
       name: 'CLI',

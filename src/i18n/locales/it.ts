@@ -273,6 +273,16 @@ const it = {
     themeDark: 'Scuro',
     ai: {
       name: 'AI',
+      unlockTitle: 'Sblocca i test IA approfonditi',
+      unlockDescription: 'È richiesta una licenza una tantum.',
+      activateLicense: 'Attiva licenza',
+      buyLicense: 'Acquista licenza',
+      serialNumber: 'Numero di serie',
+      invalidSerialNumber: 'Numero di serie non valido',
+      oneTimePayment: "Pagamento una tantum. L'uso del modello è fatturato dal provider che scegli.",
+      alreadyHaveSerialNumber: 'Ho già un numero di serie',
+      connectTitle: 'Collega un provider IA',
+      connectDescription: 'Rentgen invia le richieste direttamente da questo dispositivo.',
     },
     cli: {
       name: 'CLI',

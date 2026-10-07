@@ -270,6 +270,16 @@ const lt = {
     themeDark: 'Tamsi',
     ai: {
       name: 'AI',
+      unlockTitle: 'Atrakinti gilesnį DI testavimą',
+      unlockDescription: 'Reikalinga vienkartinė licencija.',
+      activateLicense: 'Aktyvinti licenciją',
+      buyLicense: 'Pirkti licenciją',
+      serialNumber: 'Serijos numeris',
+      invalidSerialNumber: 'Neteisingas serijos numeris',
+      oneTimePayment: 'Vienkartinis mokėjimas. Už modelio naudojimą atsiskaitoma pasirinktam tiekėjui.',
+      alreadyHaveSerialNumber: 'Jau turiu serijos numerį',
+      connectTitle: 'Prijungti DI tiekėją',
+      connectDescription: 'Rentgen siunčia užklausas tiesiai iš šio įrenginio.',
     },
     cli: {
       name: 'CLI',

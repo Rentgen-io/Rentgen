@@ -272,6 +272,16 @@ const ja = {
     themeDark: 'ダーク',
     ai: {
       name: 'AI',
+      unlockTitle: 'より深いAIテストをアンロック',
+      unlockDescription: '買い切りライセンスが必要です。',
+      activateLicense: 'ライセンスを有効化',
+      buyLicense: 'ライセンスを購入',
+      serialNumber: 'シリアル番号',
+      invalidSerialNumber: 'シリアル番号が無効です',
+      oneTimePayment: '買い切りの支払いです。モデルの利用料は選択したプロバイダーから請求されます。',
+      alreadyHaveSerialNumber: 'シリアル番号をすでに持っています',
+      connectTitle: 'AIプロバイダーを接続',
+      connectDescription: 'Rentgenはこのデバイスから直接リクエストを送信します。',
     },
     cli: {
       name: 'CLI',

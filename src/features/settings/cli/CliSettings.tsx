@@ -46,7 +46,7 @@ const CodeBlock = ({ children }: { children: string }) => (
 
 const SectionHeader = ({ children }: { children: React.ReactNode }) => (
   <h5 className="flex items-center justify-between gap-4 m-0 pb-1.5 border-b border-b-border dark:border-b-dark-border mt-4">
-    <span>{children}</span>
+    {children}
   </h5>
 );
 
@@ -66,9 +66,9 @@ function StatusBadge({ status }: { status: CliStatus }) {
   if (!status.bundled.available && !status.pathEntry.found) {
     return (
       <div className="flex items-start gap-2">
-        <span className="inline-block w-2 h-2 mt-1.5 rounded-full bg-amber-500 shrink-0" />
+        <span className="inline-block w-2 h-2 mt-1 rounded-full bg-amber-500 shrink-0" />
         <div className="flex flex-col">
-          <span className="text-sm font-medium">{t('settings.cli.status.binaryUnavailable')}</span>
+          <span className="text-xs font-medium">{t('settings.cli.status.binaryUnavailable')}</span>
           <span className="text-xs text-text-secondary">
             {status.notes[0] ?? t('settings.cli.status.binaryUnavailableReinstall')}
           </span>
@@ -80,9 +80,9 @@ function StatusBadge({ status }: { status: CliStatus }) {
   if (status.pathEntry.found && status.pathEntry.pointsToBundled) {
     return (
       <div className="flex items-start gap-2">
-        <span className="inline-block w-2 h-2 mt-1.5 rounded-full bg-green-500 shrink-0" />
+        <span className="inline-block w-2 h-2 mt-1 rounded-full bg-green-500 shrink-0" />
         <div className="flex flex-col">
-          <span className="text-sm font-medium">
+          <span className="text-xs font-medium">
             {t('settings.cli.status.installed')}
             {status.managedBy === 'package-manager' ? t('settings.cli.status.managedByPackageManager') : ''}
           </span>
@@ -98,9 +98,9 @@ function StatusBadge({ status }: { status: CliStatus }) {
   if (status.pathEntry.found && !status.pathEntry.pointsToBundled) {
     return (
       <div className="flex items-start gap-2">
-        <span className="inline-block w-2 h-2 mt-1.5 rounded-full bg-amber-500 shrink-0" />
+        <span className="inline-block w-2 h-2 mt-1 rounded-full bg-amber-500 shrink-0" />
         <div className="flex flex-col">
-          <span className="text-sm font-medium">{t('settings.cli.status.conflictingPath')}</span>
+          <span className="text-xs font-medium">{t('settings.cli.status.conflictingPath')}</span>
           <span className="text-xs text-text-secondary">
             <Trans
               i18nKey="settings.cli.status.conflictingPathDescription"
@@ -115,9 +115,9 @@ function StatusBadge({ status }: { status: CliStatus }) {
 
   return (
     <div className="flex items-start gap-2">
-      <span className="inline-block w-2 h-2 mt-1.5 rounded-full bg-text-secondary shrink-0" />
+      <span className="inline-block w-2 h-2 mt-1 rounded-full bg-text-secondary shrink-0" />
       <div className="flex flex-col">
-        <span className="text-sm font-medium">{t('settings.cli.status.notInstalled')}</span>
+        <span className="text-xs font-medium">{t('settings.cli.status.notInstalled')}</span>
         <span className="text-xs text-text-secondary">
           <Trans i18nKey="settings.cli.status.notInstalledDescription" components={transComponents} />
         </span>
@@ -279,7 +279,7 @@ export function CliSettings() {
       </p>
 
       <SectionHeader>
-        <span>{t('settings.cli.installInPath', { platform: status ? platformLabel(status.platform) : '…' })}</span>
+        {t('settings.cli.installInPath', { platform: status ? platformLabel(status.platform) : '…' })}
       </SectionHeader>
 
       {status === null ? (

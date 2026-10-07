@@ -272,6 +272,16 @@ const pl = {
     themeDark: 'Ciemny',
     ai: {
       name: 'AI',
+      unlockTitle: 'Odblokuj głębsze testy AI',
+      unlockDescription: 'Wymagana jednorazowa licencja.',
+      activateLicense: 'Aktywuj licencję',
+      buyLicense: 'Kup licencję',
+      serialNumber: 'Numer seryjny',
+      invalidSerialNumber: 'Nieprawidłowy numer seryjny',
+      oneTimePayment: 'Płatność jednorazowa. Za użycie modelu rozlicza wybrany przez Ciebie dostawca.',
+      alreadyHaveSerialNumber: 'Mam już numer seryjny',
+      connectTitle: 'Połącz dostawcę AI',
+      connectDescription: 'Rentgen wysyła żądania bezpośrednio z tego urządzenia.',
     },
     cli: {
       name: 'CLI',

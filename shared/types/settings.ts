@@ -35,6 +35,9 @@ export interface SettingsState {
       retention: HistoryRetention;
     };
   };
+  ai: {
+    serialNumber: string | null;
+  };
   testEngine: {
     configuration: {
       email: {

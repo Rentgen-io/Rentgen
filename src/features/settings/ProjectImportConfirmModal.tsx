@@ -89,7 +89,7 @@ export default function ProjectImportConfirmModal() {
           <p className="m-0 text-xs text-red-700 dark:text-red-400 font-medium mb-2">
             {t('modals.projectImport.overwriteWarning')}
           </p>
-          <ul className="m-0 pl-4 text-xs text-red-600 dark:text-red-400 flex flex-col gap-1">
+          <ul className="m-0 pl-4 text-xs text-red-700 dark:text-red-400 flex flex-col gap-1">
             <li>{t('modals.projectImport.collectionsCount', { folders: folderCount, requests: requestCount })}</li>
             <li>{t('modals.projectImport.environmentsCount', { count: environmentCount })}</li>
             <li>{t('modals.projectImport.dynamicVariablesCount', { count: dynamicVariableCount })}</li>

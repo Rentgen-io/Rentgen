@@ -270,6 +270,16 @@ const uk = {
     themeDark: 'Темна',
     ai: {
       name: 'AI',
+      unlockTitle: 'Розблокувати поглиблене ШІ-тестування',
+      unlockDescription: 'Потрібна одноразова ліцензія.',
+      activateLicense: 'Активувати ліцензію',
+      buyLicense: 'Купити ліцензію',
+      serialNumber: 'Серійний номер',
+      invalidSerialNumber: 'Невірний серійний номер',
+      oneTimePayment: 'Одноразовий платіж. Використання моделі оплачується обраному вами провайдеру.',
+      alreadyHaveSerialNumber: 'У мене вже є серійний номер',
+      connectTitle: 'Підключити ШІ-провайдера',
+      connectDescription: 'Rentgen надсилає запити безпосередньо з цього пристрою.',
     },
     cli: {
       name: 'CLI',

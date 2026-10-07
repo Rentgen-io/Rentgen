@@ -270,6 +270,16 @@ const ko = {
     themeDark: '다크',
     ai: {
       name: 'AI',
+      unlockTitle: '심층 AI 테스트 잠금 해제',
+      unlockDescription: '일회성 라이선스가 필요합니다.',
+      activateLicense: '라이선스 활성화',
+      buyLicense: '라이선스 구매',
+      serialNumber: '시리얼 번호',
+      invalidSerialNumber: '유효하지 않은 시리얼 번호',
+      oneTimePayment: '일회성 결제입니다. 모델 사용 요금은 선택한 제공업체에서 청구합니다.',
+      alreadyHaveSerialNumber: '이미 시리얼 번호가 있습니다',
+      connectTitle: 'AI 제공업체 연결',
+      connectDescription: 'Rentgen은 이 기기에서 직접 요청을 보냅니다.',
     },
     cli: {
       name: 'CLI',

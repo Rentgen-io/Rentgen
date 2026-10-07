@@ -272,6 +272,16 @@ const nl = {
     themeDark: 'Donker',
     ai: {
       name: 'AI',
+      unlockTitle: 'Diepgaander AI-testen ontgrendelen',
+      unlockDescription: 'Eenmalige licentie vereist.',
+      activateLicense: 'Licentie activeren',
+      buyLicense: 'Licentie kopen',
+      serialNumber: 'Serienummer',
+      invalidSerialNumber: 'Ongeldig serienummer',
+      oneTimePayment: 'Eenmalige betaling. Modelgebruik wordt gefactureerd door de provider die je kiest.',
+      alreadyHaveSerialNumber: 'Ik heb al een serienummer',
+      connectTitle: 'Een AI-provider verbinden',
+      connectDescription: 'Rentgen verstuurt verzoeken rechtstreeks vanaf dit apparaat.',
     },
     cli: {
       name: 'CLI',

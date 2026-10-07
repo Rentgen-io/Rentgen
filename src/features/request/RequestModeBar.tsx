@@ -77,7 +77,7 @@ export default function RequestModeBar() {
                   value={curl}
                   onChange={(event) => dispatch(modalsActions.setCurl(event.target.value))}
                 />
-                {curlError && <p className="m-0 text-xs text-red-600">{curlError}</p>}
+                {curlError && <p className="m-0 text-xs text-red-500">{curlError}</p>}
                 <div className="flex items-center justify-end gap-4">
                   <Button onClick={importCurl}>{t('common.import')}</Button>
                   <Button buttonType={ButtonType.SECONDARY} onClick={() => dispatch(modalsActions.closeCurlModal())}>

@@ -271,6 +271,16 @@ const tr = {
     themeDark: 'Koyu',
     ai: {
       name: 'AI',
+      unlockTitle: 'Daha Derin YZ Testlerinin Kilidini Aç',
+      unlockDescription: 'Tek seferlik lisans gerekir.',
+      activateLicense: 'Lisansı etkinleştir',
+      buyLicense: 'Lisans satın al',
+      serialNumber: 'Seri numarası',
+      invalidSerialNumber: 'Geçersiz seri numarası',
+      oneTimePayment: 'Tek seferlik ödeme. Model kullanımınız seçtiğiniz sağlayıcı tarafından faturalandırılır.',
+      alreadyHaveSerialNumber: 'Zaten bir seri numaram var',
+      connectTitle: 'Bir YZ sağlayıcısı bağla',
+      connectDescription: 'Rentgen istekleri doğrudan bu cihazdan gönderir.',
     },
     cli: {
       name: 'CLI',

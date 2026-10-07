@@ -273,6 +273,16 @@ const de = {
     themeDark: 'Dunkel',
     ai: {
       name: 'AI',
+      unlockTitle: 'Tiefere KI-Tests freischalten',
+      unlockDescription: 'Einmalige Lizenz erforderlich.',
+      activateLicense: 'Lizenz aktivieren',
+      buyLicense: 'Lizenz kaufen',
+      serialNumber: 'Seriennummer',
+      invalidSerialNumber: 'Ungültige Seriennummer',
+      oneTimePayment: 'Einmalzahlung. Die Modellnutzung wird von Ihrem gewählten Anbieter abgerechnet.',
+      alreadyHaveSerialNumber: 'Ich habe bereits eine Seriennummer',
+      connectTitle: 'KI-Anbieter verbinden',
+      connectDescription: 'Rentgen sendet Anfragen direkt von diesem Gerät.',
     },
     cli: {
       name: 'CLI',

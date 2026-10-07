@@ -271,6 +271,16 @@ const vi = {
     themeDark: 'Tối',
     ai: {
       name: 'AI',
+      unlockTitle: 'Mở khóa kiểm thử AI chuyên sâu',
+      unlockDescription: 'Cần giấy phép trả một lần.',
+      activateLicense: 'Kích hoạt giấy phép',
+      buyLicense: 'Mua giấy phép',
+      serialNumber: 'Số sê-ri',
+      invalidSerialNumber: 'Số sê-ri không hợp lệ',
+      oneTimePayment: 'Thanh toán một lần. Việc sử dụng mô hình do nhà cung cấp bạn chọn tính phí.',
+      alreadyHaveSerialNumber: 'Tôi đã có số sê-ri',
+      connectTitle: 'Kết nối nhà cung cấp AI',
+      connectDescription: 'Rentgen gửi yêu cầu trực tiếp từ thiết bị này.',
     },
     cli: {
       name: 'CLI',

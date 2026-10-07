@@ -270,6 +270,16 @@ const id = {
     themeDark: 'Gelap',
     ai: {
       name: 'AI',
+      unlockTitle: 'Buka Pengujian AI Lebih Dalam',
+      unlockDescription: 'Memerlukan lisensi sekali bayar.',
+      activateLicense: 'Aktifkan lisensi',
+      buyLicense: 'Beli lisensi',
+      serialNumber: 'Nomor seri',
+      invalidSerialNumber: 'Nomor seri tidak valid',
+      oneTimePayment: 'Pembayaran sekali bayar. Penggunaan model ditagih oleh penyedia yang Anda pilih.',
+      alreadyHaveSerialNumber: 'Saya sudah punya nomor seri',
+      connectTitle: 'Hubungkan penyedia AI',
+      connectDescription: 'Rentgen mengirim permintaan langsung dari perangkat ini.',
     },
     cli: {
       name: 'CLI',

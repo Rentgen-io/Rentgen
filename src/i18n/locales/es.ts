@@ -273,6 +273,16 @@ const es = {
     themeDark: 'Oscuro',
     ai: {
       name: 'AI',
+      unlockTitle: 'Desbloquear pruebas de IA más profundas',
+      unlockDescription: 'Se requiere una licencia de pago único.',
+      activateLicense: 'Activar licencia',
+      buyLicense: 'Comprar licencia',
+      serialNumber: 'Número de serie',
+      invalidSerialNumber: 'Número de serie no válido',
+      oneTimePayment: 'Pago único. El uso del modelo lo factura el proveedor que elijas.',
+      alreadyHaveSerialNumber: 'Ya tengo un número de serie',
+      connectTitle: 'Conectar un proveedor de IA',
+      connectDescription: 'Rentgen envía las solicitudes directamente desde este dispositivo.',
     },
     cli: {
       name: 'CLI',

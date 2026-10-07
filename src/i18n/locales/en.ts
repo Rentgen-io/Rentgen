@@ -270,6 +270,16 @@ const en = {
     themeDark: 'Dark',
     ai: {
       name: 'AI',
+      unlockTitle: 'Unlock Deeper AI Testing',
+      unlockDescription: 'One-time license required.',
+      activateLicense: 'Activate license',
+      buyLicense: 'Buy license',
+      serialNumber: 'Serial number',
+      invalidSerialNumber: 'Invalid serial number',
+      oneTimePayment: 'One-time payment. Your model usage is billed by your chosen provider.',
+      alreadyHaveSerialNumber: 'I already have a serial number',
+      connectTitle: 'Connect an AI provider',
+      connectDescription: 'Rentgen sends requests directly from this device.',
     },
     cli: {
       name: 'CLI',

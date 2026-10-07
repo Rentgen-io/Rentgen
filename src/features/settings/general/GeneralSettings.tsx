@@ -13,11 +13,11 @@ import { uiActions } from 'src/store/slices/uiSlice';
 import { HistoryRetention } from 'src/types';
 
 export function GeneralSettings() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const historyEnabled = useAppSelector(selectHistoryEnabled);
   const historySize = useAppSelector(selectHistorySize);
   const historyRetention = useAppSelector(selectHistoryRetention);
-  const { t } = useTranslation();
 
   const retentionOptions = [
     { value: '1w', label: t('settings.history.week1') },

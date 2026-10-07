@@ -273,6 +273,16 @@ const ptBR = {
     themeDark: 'Escuro',
     ai: {
       name: 'AI',
+      unlockTitle: 'Desbloquear testes de IA mais profundos',
+      unlockDescription: 'Licença de pagamento único necessária.',
+      activateLicense: 'Ativar licença',
+      buyLicense: 'Comprar licença',
+      serialNumber: 'Número de série',
+      invalidSerialNumber: 'Número de série inválido',
+      oneTimePayment: 'Pagamento único. O uso do modelo é cobrado pelo provedor que você escolher.',
+      alreadyHaveSerialNumber: 'Já tenho um número de série',
+      connectTitle: 'Conectar um provedor de IA',
+      connectDescription: 'O Rentgen envia as requisições diretamente deste dispositivo.',
     },
     cli: {
       name: 'CLI',

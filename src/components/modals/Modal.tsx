@@ -16,11 +16,7 @@ export default function Modal({ className, children, isOpen, onClose }: Props) {
   return (
     <div
       className={twMerge(
-        cn(
-          'fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black/40 z-100',
-          'dark:bg-dark-input/80',
-          className,
-        ),
+        cn('fixed inset-0 flex items-center justify-center bg-black/40 z-100', 'dark:bg-dark-input/80', className),
       )}
     >
       <div
