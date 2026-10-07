@@ -1,9 +1,9 @@
 import { Action, Middleware, PayloadAction } from '@reduxjs/toolkit';
-import { DynamicVariable, HttpResponse, PostmanFolder, PostmanItem, RequestParameters } from '../../types';
-import { extractDynamicVariableFromResponseWithDetails } from '../../utils/dynamicVariable';
-import { environmentActions } from '../slices/environmentSlice';
-import { historyActions } from '../slices/historySlice';
-import { mappingsActions } from '../slices/mappingsSlice';
+import { environmentActions } from 'src/store/slices/environmentSlice';
+import { historyActions } from 'src/store/slices/historySlice';
+import { mappingsActions } from 'src/store/slices/mappingsSlice';
+import { DynamicVariable, HttpResponse, PostmanFolder, PostmanItem, RequestParameters } from 'src/types';
+import { extractDynamicVariableFromResponseWithDetails } from 'src/utils';
 
 // History actions that should NOT trigger auto-save (read-only or loading actions)
 const historyReadOnlyActions = [

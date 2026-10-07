@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import { MappingsState } from '../src/store/slices/mappingsSlice';
-import type { SettingsState } from '../src/store/slices/settingsSlice';
+import { MappingsState } from 'src/store/slices/mappingsSlice';
+import type { SettingsState } from 'src/store/slices/settingsSlice';
 import {
   ExportResult,
   HttpRequest,
@@ -10,7 +10,7 @@ import {
   ProjectExportResult,
   ProjectImportResult,
   TestResults,
-} from '../src/types';
+} from 'src/types';
 import type { CliActionResult, CliStatus } from './handlers/cliHandlers';
 
 interface ElectronApi {

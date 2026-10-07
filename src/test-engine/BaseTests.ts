@@ -1,6 +1,6 @@
-import { RESPONSE_STATUS } from '../constants/responseStatus';
-import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from '../types';
-import { extractStatusCode } from '../utils';
+import { RESPONSE_STATUS } from 'src/constants/responseStatus';
+import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from 'src/types';
+import { extractStatusCode } from 'src/utils';
 
 export const ERROR_RESPONSE_EXPECTED = '4xx';
 export const NOT_AVAILABLE_TEST = 'Not Available';

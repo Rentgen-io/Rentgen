@@ -1,9 +1,9 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Language, LANGUAGES } from '../../../i18n/languages';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectLanguage } from '../../../store/selectors';
-import { settingsActions } from '../../../store/slices/settingsSlice';
+import { Language, LANGUAGES } from 'src/i18n/languages';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectLanguage } from 'src/store/selectors';
+import { settingsActions } from 'src/store/slices/settingsSlice';
 
 export function LanguageSettings() {
   const { t } = useTranslation();

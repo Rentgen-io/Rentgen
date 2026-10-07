@@ -1,5 +1,5 @@
 import { Method } from 'axios';
-import { HttpBody, HttpRequest, HttpResponse } from '../../shared/types/http';
+import { HttpBody, HttpRequest, HttpResponse } from 'shared/types/http';
 
 export type DataType =
   | 'boolean'
@@ -115,9 +115,10 @@ export interface ExportReport {
   suites: ReportSuite[];
 }
 
-export * from '../../shared/types/environment';
-export * from '../../shared/types/http';
-export * from '../../shared/types/postman';
-export * from '../../shared/types/project';
+export * from 'shared/types/environment';
+export * from 'shared/types/http';
+export * from 'shared/types/postman';
+export * from 'shared/types/project';
 export * from './ipc';
 export * from './postman-full';
+export * from './ui';

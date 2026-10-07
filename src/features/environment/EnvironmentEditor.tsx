@@ -2,17 +2,17 @@ import cn from 'classnames';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
-import Button from '../../components/buttons/Button';
-import Input from '../../components/inputs/Input';
-import Select, { SelectOption } from '../../components/inputs/Select';
-import Panel from '../../components/panels/Panel';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectDynamicVariables, selectSelectedEnvironmentId, selectTheme } from '../../store/selectors';
-import { environmentActions } from '../../store/slices/environmentSlice';
-import { DataType, DynamicVariable, Environment, EnvironmentVariable } from '../../types';
-import { generateEnvironmentId } from '../../utils';
+import Button from 'src/components/buttons/Button';
+import Input from 'src/components/inputs/Input';
+import Select, { SelectOption } from 'src/components/inputs/Select';
+import Panel from 'src/components/panels/Panel';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectDynamicVariables, selectSelectedEnvironmentId, selectTheme } from 'src/store/selectors';
+import { environmentActions } from 'src/store/slices/environmentSlice';
+import { DataType, DynamicVariable, Environment, EnvironmentVariable } from 'src/types';
+import { generateEnvironmentId } from 'src/utils';
 
-import ClearCrossIcon from '../../assets/icons/clear-cross-icon.svg';
+import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 
 const COLOR_OPTIONS = ['#EF4444', '#F97316', '#EAB308', '#22C55E', '#3B82F6', '#8B5CF6', '#EC4899', '#6B7280'];
 

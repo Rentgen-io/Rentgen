@@ -3,11 +3,12 @@ import { CSS } from '@dnd-kit/utilities';
 import { Method } from 'axios';
 import cn from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
-import MethodBadge from '../../../components/badges/MethodBadge';
-import SearchHighlighter from '../../../components/highlighters/SearchHighlighter';
-import { useCollectionRunner } from '../../../hooks/useCollectionRunner';
-import { useReset } from '../../../hooks/useReset';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import MethodBadge from 'src/components/badges/MethodBadge';
+import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
+import { useContextMenu } from 'src/features/context-menu';
+import { useCollectionRunner } from 'src/hooks/useCollectionRunner';
+import { useReset } from 'src/hooks/useReset';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectCollectionData,
   selectCollectionRunResults,
@@ -15,23 +16,22 @@ import {
   selectRequestTestResults,
   selectRunningRequestId,
   selectSelectedRequestId,
-} from '../../../store/selectors';
-import { collectionActions } from '../../../store/slices/collectionSlice';
-import { requestActions } from '../../../store/slices/requestSlice';
-import { responseActions } from '../../../store/slices/responseSlice';
-import { testActions } from '../../../store/slices/testSlice';
+} from 'src/store/selectors';
+import { collectionActions } from 'src/store/slices/collectionSlice';
+import { requestActions } from 'src/store/slices/requestSlice';
+import { responseActions } from 'src/store/slices/responseSlice';
+import { testsActions } from 'src/store/slices/testsSlice';
 import {
   CollectionItemData,
   findFolderIdByRequestId,
   findRequestById,
   headersRecordToString,
   postmanHeadersToRecord,
-} from '../../../utils/collection';
-import { useContextMenu } from '../../context-menu';
+} from 'src/utils';
 
-import ClearCrossIcon from '../../../assets/icons/clear-cross-icon.svg';
-import EditIcon from '../../../assets/icons/edit-icon.svg';
-import PlayIcon from '../../../assets/icons/play-icon.svg';
+import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
+import EditIcon from 'src/assets/icons/edit-icon.svg';
+import PlayIcon from 'src/assets/icons/play-icon.svg';
 
 interface Props {
   item: CollectionItemData;
@@ -66,7 +66,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
   const onClick = useCallback(
     (id: string) => {
       if (isDragging) return;
-      if (isSelected && isComparingTestResults) dispatch(testActions.clearResultsToCompare());
+      if (isSelected && isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
       if (isSelected) return;
 
       const item = findRequestById(collection, id);
@@ -85,13 +85,13 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       }
 
       if (requestTestResults) {
-        dispatch(testActions.setCount(requestTestResults.count));
-        dispatch(testActions.setTimestamp(requestTestResults.timestamp));
-        dispatch(testActions.setCrudTests(requestTestResults.crudTests));
-        dispatch(testActions.setDataDrivenTests(requestTestResults.dataDrivenTests));
-        dispatch(testActions.setPerformanceTests(requestTestResults.performanceTests));
-        dispatch(testActions.setSecurityTests(requestTestResults.securityTests));
-        dispatch(testActions.setOptions(requestTestResults.testOptions));
+        dispatch(testsActions.setCount(requestTestResults.count));
+        dispatch(testsActions.setTimestamp(requestTestResults.timestamp));
+        dispatch(testsActions.setCrudTests(requestTestResults.crudTests));
+        dispatch(testsActions.setDataDrivenTests(requestTestResults.dataDrivenTests));
+        dispatch(testsActions.setPerformanceTests(requestTestResults.performanceTests));
+        dispatch(testsActions.setSecurityTests(requestTestResults.securityTests));
+        dispatch(testsActions.setOptions(requestTestResults.testOptions));
       }
 
       const { request } = item;
@@ -102,7 +102,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       dispatch(requestActions.setHeaders(headersRecordToString(postmanHeadersToRecord(request.header))));
       dispatch(requestActions.setBody(request.body?.raw || ''));
 
-      if (isComparingTestResults) dispatch(testActions.clearResultsToCompare());
+      if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
     },
     [collection, isComparingTestResults, isDragging, isSelected, runResult, requestTestResults, dispatch, reset],
   );

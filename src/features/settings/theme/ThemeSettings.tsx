@@ -1,11 +1,11 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectTheme } from '../../../store/selectors';
-import { settingsActions } from '../../../store/slices/settingsSlice';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectTheme } from 'src/store/selectors';
+import { settingsActions } from 'src/store/slices/settingsSlice';
 
-import DarkImage from '../../../assets/images/dark-theme.svg';
-import LightTheme from '../../../assets/images/light-theme.svg';
+import DarkImage from 'src/assets/images/dark-theme.svg';
+import LightTheme from 'src/assets/images/light-theme.svg';
 
 export function ThemeSettings() {
   const dispatch = useAppDispatch();

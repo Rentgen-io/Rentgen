@@ -1,16 +1,16 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import Toggle from '../../../components/inputs/Toggle';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectDisabledPerformanceInsights } from '../../../store/selectors';
-import { settingsActions } from '../../../store/slices/settingsSlice';
+import Toggle from 'src/components/inputs/Toggle';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectDisabledPerformanceInsights } from 'src/store/selectors';
+import { settingsActions } from 'src/store/slices/settingsSlice';
 import {
   ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
   MEDIAN_RESPONSE_TIME_TEST_NAME,
   NETWORK_SHARE_TEST_NAME,
   PING_LATENCY_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
-} from '../../../tests';
+} from 'src/test-engine';
 
 export const PERFORMANCE_INSIGHTS: string[] = [
   ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,

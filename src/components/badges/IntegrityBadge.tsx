@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { IntegrityStatus } from '../../types';
+import { IntegrityStatus } from 'src/types';
 
 export default function IntegrityBadge({ status }: { status: IntegrityStatus }) {
   const { t } = useTranslation();

@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import Input from '../../../components/inputs/Input';
-import { appConfig } from '../../../constants/appConfig';
-import { MAX_INT32 } from '../../../constants/datasets';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectTestEngineConfiguration } from '../../../store/selectors';
-import { settingsActions } from '../../../store/slices/settingsSlice';
-import { clamp } from '../../../utils';
+import Input from 'src/components/inputs/Input';
+import { appConfig } from 'src/constants/appConfig';
+import { MAX_INT32 } from 'src/constants/datasets';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectTestEngineConfiguration } from 'src/store/selectors';
+import { settingsActions } from 'src/store/slices/settingsSlice';
+import { clamp } from 'src/utils';
 
 export function MappingSettings() {
   const dispatch = useAppDispatch();

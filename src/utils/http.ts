@@ -1,5 +1,5 @@
 import { Method } from 'axios';
-import { store } from '../store';
+import { store } from 'src/store';
 import {
   DataType,
   HttpBody,
@@ -8,7 +8,7 @@ import {
   ParameterValue,
   RequestParameters,
   TestOptions,
-} from '../types';
+} from 'src/types';
 import { isObject, setDeepObjectProperty, stringifyValue, tryParseJsonObject } from './object';
 import { generateRandomValue } from './random';
 import { detectDataType, extractPropertiesFromJson } from './validation';

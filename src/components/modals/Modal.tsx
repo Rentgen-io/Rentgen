@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { HTMLAttributes } from 'react';
+import useClickOutside from 'src/hooks/useClickOutside';
 import { twMerge } from 'tailwind-merge';
-import useClickOutside from '../../hooks/useClickOutside';
 
 export interface Props extends HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;

@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import useTests from '../../hooks/useTests';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectOpenFollowModal } from '../../store/selectors';
-import { uiActions } from '../../store/slices/uiSlice';
-import { TestStatus } from '../../types';
-import Button, { ButtonType } from '../buttons/Button';
-import Modal from './Modal';
+import Button, { ButtonType } from 'src/components/buttons/Button';
+import Modal from 'src/components/modals/Modal';
+import useTests from 'src/hooks/useTests';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectOpenFollowModal } from 'src/store/selectors';
+import { modalsActions } from 'src/store/slices/modalsSlice';
+import { TestStatus } from 'src/types';
 
 const STORAGE_KEY = 'followModalHiddenUntil';
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
@@ -28,12 +28,12 @@ export default function FollowModal() {
     const hiddenUntil = storedValue ? new Date(storedValue).getTime() : NaN;
     if (!Number.isNaN(hiddenUntil) && Date.now() < hiddenUntil) return;
 
-    dispatch(uiActions.openFollowModal());
+    dispatch(modalsActions.openFollowModal());
   }, [hasAnyBug]);
 
   const onClose = (hideUntil: Date = FOREVER) => {
     localStorage.setItem(STORAGE_KEY, hideUntil.toISOString());
-    dispatch(uiActions.closeFollowModal());
+    dispatch(modalsActions.closeFollowModal());
   };
 
   return (

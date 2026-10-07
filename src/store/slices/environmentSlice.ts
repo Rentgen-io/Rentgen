@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { DynamicVariable, Environment, EnvironmentVariable } from '../../types';
+import { DynamicVariable, Environment, EnvironmentVariable } from 'src/types';
 
 interface EnvironmentState {
   environments: Environment[];

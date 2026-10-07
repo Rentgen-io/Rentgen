@@ -1,10 +1,10 @@
 import cn from 'classnames';
 import { useState } from 'react';
+import useClickOutside from 'src/hooks/useClickOutside';
 import { twMerge } from 'tailwind-merge';
-import useClickOutside from '../../hooks/useClickOutside';
 import Button, { Props as ButtonProps, ButtonSize, ButtonType } from './Button';
 
-import ChevronIcon from '../../assets/icons/chevron-icon.svg';
+import ChevronIcon from 'src/assets/icons/chevron-icon.svg';
 
 export interface Props extends ButtonProps {
   actions?: { label: string; onClick: () => void }[];

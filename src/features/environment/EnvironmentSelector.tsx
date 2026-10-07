@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import Select, { SelectOption } from '../../components/inputs/Select';
-import { Environment } from '../../types';
+import Select, { SelectOption } from 'src/components/inputs/Select';
+import { Environment } from 'src/types';
 
 function isColorDark(hexColor: string): boolean {
   const hex = hexColor.replace('#', '');

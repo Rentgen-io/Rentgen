@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Method } from 'axios';
-import { RequestParameters } from '../../types';
+import { RequestParameters } from 'src/types';
 
-type Mode = 'HTTP' | 'WSS';
+export type Mode = 'HTTP' | 'WSS';
 
 interface RequestState {
   mode: Mode;

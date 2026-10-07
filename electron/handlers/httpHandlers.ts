@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { exec } from 'child_process';
 import { ipcMain } from 'electron';
-import { HttpBody, HttpRequest, HttpResponse } from '../../shared/types/http';
+import { HttpBody, HttpRequest, HttpResponse } from 'shared/types/http';
 
 function decodeToText(data: unknown): string | null {
   if (typeof data === 'string') return data;

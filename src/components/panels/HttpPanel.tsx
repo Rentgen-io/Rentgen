@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { HttpRequest, HttpResponse } from '../../types';
+import { HttpRequest, HttpResponse } from 'src/types';
 import { CopyButton } from '../buttons/CopyButton';
 import { JsonViewer } from '../viewers/JsonViewer';
 import { Props as PanelProps } from './Panel';

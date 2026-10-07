@@ -3,16 +3,16 @@ import { TFunction } from 'i18next';
 import { memo, PropsWithChildren } from 'react';
 import DataTable, { ExpanderComponentProps, TableColumn, TableProps } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
+import { CopyButton } from 'src/components/buttons/CopyButton';
+import { HttpPanel } from 'src/components/panels/HttpPanel';
+import SidebarButton from 'src/features/sidebar/SidebarButton';
+import { useAppSelector } from 'src/store/hooks';
+import { selectDisabledPerformanceInsights, selectDisabledSecurityTests } from 'src/store/selectors';
+import { TestResult, TestStatus } from 'src/types';
+import { generateCurl, truncateValue } from 'src/utils';
 import { twMerge } from 'tailwind-merge';
-import { CopyButton } from '../../components/buttons/CopyButton';
-import { HttpPanel } from '../../components/panels/HttpPanel';
-import { useAppSelector } from '../../store/hooks';
-import { selectDisabledPerformanceInsights, selectDisabledSecurityTests } from '../../store/selectors';
-import { TestResult, TestStatus } from '../../types';
-import { generateCurl, truncateValue } from '../../utils';
-import SidebarButton from '../sidebar/SidebarButton';
 
-import GearIcon from '../../assets/icons/gear-icon.svg';
+import GearIcon from 'src/assets/icons/gear-icon.svg';
 
 export default function TestsTable({ columns, data, className, ...otherProps }: TableProps<TestResult>) {
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);

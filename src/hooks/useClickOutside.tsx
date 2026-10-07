@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useContextMenu } from '../features/context-menu/GlobalContextMenuProvider';
+import { useContextMenu } from 'src/features/context-menu';
 
 const useClickOutside = <T extends HTMLElement>(onClickOutside?: () => void, ignoreContextMenu = false) => {
   const { isOpen } = useContextMenu();

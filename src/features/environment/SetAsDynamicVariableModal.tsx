@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ButtonType } from '../../components/buttons/Button';
-import Input from '../../components/inputs/Input';
-import Select from '../../components/inputs/Select';
-import ConfirmationModal from '../../components/modals/ConfirmationModal';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectDynamicVariables, selectEnvironments, selectSetAsDynamicVariableModal } from '../../store/selectors';
-import { environmentActions } from '../../store/slices/environmentSlice';
-import { uiActions } from '../../store/slices/uiSlice';
-import { DynamicVariable } from '../../types';
+import { ButtonType } from 'src/components/buttons/Button';
+import Input from 'src/components/inputs/Input';
+import Select from 'src/components/inputs/Select';
+import ConfirmationModal from 'src/components/modals/ConfirmationModal';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectDynamicVariables, selectEnvironments, selectSetAsDynamicVariableModal } from 'src/store/selectors';
+import { environmentActions } from 'src/store/slices/environmentSlice';
+import { modalsActions } from 'src/store/slices/modalsSlice';
+import { DynamicVariable } from 'src/types';
 
 const ALL_ENVIRONMENTS_VALUE = 'all';
 
@@ -136,7 +136,7 @@ export default function SetAsDynamicVariableModal() {
       );
     }
 
-    dispatch(uiActions.closeSetAsDynamicVariableModal());
+    dispatch(modalsActions.closeSetAsDynamicVariableModal());
   };
 
   return (
@@ -146,7 +146,7 @@ export default function SetAsDynamicVariableModal() {
       title={t('modals.setDynamicVariable.title')}
       isOpen={modalState.isOpen}
       confirmType={ButtonType.PRIMARY}
-      onClose={() => dispatch(uiActions.closeSetAsDynamicVariableModal())}
+      onClose={() => dispatch(modalsActions.closeSetAsDynamicVariableModal())}
       onConfirm={onConfirm}
     >
       <>

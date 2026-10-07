@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PostmanCollection } from '../../types';
+import { PostmanCollection } from 'src/types';
 import {
   addFolderToCollection,
   addRequestToCollection,
@@ -14,7 +14,7 @@ import {
   reorderFolderInCollection,
   reorderRequestInCollection,
   updateRequestInCollection,
-} from '../../utils/collection';
+} from 'src/utils';
 
 export type ImportMode = 'replace' | 'merge' | 'copy';
 

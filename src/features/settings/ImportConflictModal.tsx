@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button, { ButtonType } from '../../components/buttons/Button';
-import Modal from '../../components/modals/Modal';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectCollectionData, selectImportConflictModal } from '../../store/selectors';
-import { collectionActions, ImportMode } from '../../store/slices/collectionSlice';
-import { uiActions } from '../../store/slices/uiSlice';
-import { countMergeAdditions } from '../../utils/collection';
+import Button, { ButtonType } from 'src/components/buttons/Button';
+import Modal from 'src/components/modals/Modal';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectCollectionData, selectImportConflictModal } from 'src/store/selectors';
+import { collectionActions, ImportMode } from 'src/store/slices/collectionSlice';
+import { modalsActions } from 'src/store/slices/modalsSlice';
+import { countMergeAdditions } from 'src/utils';
 
 export default function ImportConflictModal() {
   const dispatch = useAppDispatch();
@@ -20,7 +20,7 @@ export default function ImportConflictModal() {
   }, [existingCollection, importedCollection]);
 
   const handleClose = () => {
-    dispatch(uiActions.closeImportConflictModal());
+    dispatch(modalsActions.closeImportConflictModal());
   };
 
   const handleImport = (mode: ImportMode) => {

@@ -1,9 +1,9 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import Toggle from '../../../components/inputs/Toggle';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectDisabledSecurityTests } from '../../../store/selectors';
-import { settingsActions } from '../../../store/slices/settingsSlice';
+import Toggle from 'src/components/inputs/Toggle';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectDisabledSecurityTests } from 'src/store/selectors';
+import { settingsActions } from 'src/store/slices/settingsSlice';
 import {
   AUTHORIZATION_TEST_NAME,
   CACHE_CONTROL_PRIVATE_API_TEST_NAME,
@@ -19,7 +19,7 @@ import {
   UNSUPPORTED_METHOD_TEST_NAME,
   UPPERCASE_DOMAIN_TEST_NAME,
   UPPERCASE_PATH_TEST_NAME,
-} from '../../../tests';
+} from 'src/test-engine';
 
 export const SECURITY_TESTS: string[] = [
   AUTHORIZATION_TEST_NAME,

@@ -1,5 +1,5 @@
 import parseCurl from 'parse-curl';
-import { HttpRequest, ParsedCurlResult } from '../types';
+import { HttpRequest, ParsedCurlResult } from 'src/types';
 import { convertUrlEncodedToFormEntries, isUrlEncodedContentType, isUrlEncodedContentTypeString } from './http';
 
 export function extractCurl(curl: string): ParsedCurlResult {

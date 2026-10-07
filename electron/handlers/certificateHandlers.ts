@@ -18,8 +18,8 @@ import {
   RESPONSE_SIZE_CHECK_TEST_NAME,
   UNSUPPORTED_METHOD_TEST_NAME,
   UPPERCASE_PATH_TEST_NAME,
-} from '../../src/tests';
-import { ExportResult, TestResults, TestStatus } from '../../src/types';
+} from 'src/test-engine';
+import { ExportResult, TestResults, TestStatus } from 'src/types';
 
 interface TestPenalty {
   name: string;

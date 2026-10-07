@@ -1,4 +1,4 @@
-import { TestData } from '../types';
+import { TestData } from 'src/types';
 import { appConfig } from './appConfig';
 
 export const MAX_INT32 = 9007199254740991;

@@ -1,14 +1,14 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import Button from '../../components/buttons/Button';
-import Toggle from '../../components/inputs/Toggle';
-import Panel, { Props as PanelProps } from '../../components/panels/Panel';
-import { JsonDiffViewer } from '../../components/viewers/JsonDiffViewer';
-import { ORIGINAL_REQUEST_TEST_PARAMETER_NAME } from '../../tests';
-import { HttpBody, HttpRequest, HttpResponse, TestResult, TestResults } from '../../types';
-import { detectObjectType, truncateValue } from '../../utils';
-import PotentialBugsTable, { PotentialBug } from './PotentialBugsTable';
+import Button from 'src/components/buttons/Button';
+import Toggle from 'src/components/inputs/Toggle';
+import Panel, { Props as PanelProps } from 'src/components/panels/Panel';
+import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
+import { ORIGINAL_REQUEST_TEST_PARAMETER_NAME } from 'src/test-engine';
+import { HttpBody, HttpRequest, HttpResponse, TestResult, TestResults } from 'src/types';
+import { detectObjectType, truncateValue } from 'src/utils';
+import PotentialBugsTable, { PotentialBug } from '../tables/PotentialBugsTable';
 
 interface Props extends PanelProps {
   items: TestResults[];

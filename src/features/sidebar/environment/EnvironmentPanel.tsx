@@ -9,12 +9,12 @@ import {
 } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectEnvironments } from '../../../store/selectors';
-import { environmentActions } from '../../../store/slices/environmentSlice';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectEnvironments } from 'src/store/selectors';
+import { environmentActions } from 'src/store/slices/environmentSlice';
 import EnvironmentItem from './EnvironmentItem';
 
-import AddIcon from '../../../assets/icons/add-icon.svg';
+import AddIcon from 'src/assets/icons/add-icon.svg';
 
 export default function EnvironmentPanel() {
   const dispatch = useAppDispatch();

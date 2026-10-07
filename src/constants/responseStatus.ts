@@ -1,4 +1,4 @@
-import { snakeCaseToTitleCase } from '../utils';
+import { snakeCaseToTitleCase } from 'src/utils';
 
 export const RESPONSE_STATUS = {
   NETWORK_ERROR: 0,
@@ -15,6 +15,12 @@ export const RESPONSE_STATUS = {
   TOO_MANY_REQUESTS: 429,
   SERVER_ERROR: 500,
   NOT_IMPLEMENTED: 501,
+} as const;
+
+// Pseudo-statuses written into the response slice while a request is in flight or failed before a status existed.
+export const RESPONSE_STATUS_LABEL = {
+  SENDING: 'Sending...',
+  NETWORK_ERROR: 'Network Error',
 } as const;
 
 type ResponseStatusValue = (typeof RESPONSE_STATUS)[keyof typeof RESPONSE_STATUS];

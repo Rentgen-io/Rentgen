@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RequestParameters } from '../../types';
+import { RequestParameters } from 'src/types';
 
 export interface MappingsState {
   [key: string]: {

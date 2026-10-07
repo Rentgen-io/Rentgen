@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import IntegrityBadge from '../../components/badges/IntegrityBadge';
-import Button, { ButtonSize, ButtonType } from '../../components/buttons/Button';
-import ConfirmationModal from '../../components/modals/ConfirmationModal';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectProjectImportConfirmModal } from '../../store/selectors';
-import { collectionActions } from '../../store/slices/collectionSlice';
-import { environmentActions } from '../../store/slices/environmentSlice';
-import { historyActions } from '../../store/slices/historySlice';
-import { mappingsActions, MappingsState } from '../../store/slices/mappingsSlice';
-import { settingsActions, SettingsState } from '../../store/slices/settingsSlice';
-import { uiActions } from '../../store/slices/uiSlice';
-import { HistoryEntry } from '../../types/history';
+import IntegrityBadge from 'src/components/badges/IntegrityBadge';
+import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
+import ConfirmationModal from 'src/components/modals/ConfirmationModal';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectProjectImportConfirmModal } from 'src/store/selectors';
+import { collectionActions } from 'src/store/slices/collectionSlice';
+import { environmentActions } from 'src/store/slices/environmentSlice';
+import { historyActions } from 'src/store/slices/historySlice';
+import { mappingsActions, MappingsState } from 'src/store/slices/mappingsSlice';
+import { modalsActions } from 'src/store/slices/modalsSlice';
+import { settingsActions, SettingsState } from 'src/store/slices/settingsSlice';
+import { HistoryEntry } from 'src/types/history';
 
 function formatDate(isoString: string): string {
   try {
@@ -41,7 +41,7 @@ export default function ProjectImportConfirmModal() {
       confirmText={t('modals.projectImport.importProject')}
       title={t('modals.projectImport.title')}
       isOpen={isOpen}
-      onClose={() => dispatch(uiActions.closeProjectImportConfirmModal())}
+      onClose={() => dispatch(modalsActions.closeProjectImportConfirmModal())}
       onConfirm={() => {
         dispatch(collectionActions.setCollection(data.collection));
         dispatch(environmentActions.setEnvironments(data.environments));
@@ -49,7 +49,7 @@ export default function ProjectImportConfirmModal() {
         dispatch(historyActions.setEntries(data.history as HistoryEntry[]));
         dispatch(settingsActions.replaceSettings(data.settings as unknown as SettingsState));
         dispatch(mappingsActions.replaceMappings(data.mappings ? (data.mappings as MappingsState) : {}));
-        dispatch(uiActions.closeProjectImportConfirmModal());
+        dispatch(modalsActions.closeProjectImportConfirmModal());
 
         dispatch(collectionActions.selectRequest(null));
         dispatch(collectionActions.selectFolder('default'));

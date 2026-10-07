@@ -1,9 +1,9 @@
 import cn from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import Button, { ButtonType } from '../../../components/buttons/Button';
-import { useAppDispatch } from '../../../store/hooks';
-import { uiActions } from '../../../store/slices/uiSlice';
+import Button, { ButtonType } from 'src/components/buttons/Button';
+import { useAppDispatch } from 'src/store/hooks';
+import { uiActions } from 'src/store/slices/uiSlice';
 
 interface CliStatus {
   platform: NodeJS.Platform;

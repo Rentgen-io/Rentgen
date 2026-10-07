@@ -1,8 +1,8 @@
 import { app, dialog, ipcMain } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import type { ProjectData, ProjectExportResult, ProjectFile, ProjectImportResult } from '../../shared/types/project';
-import { computeChecksum, verifyChecksum } from '../../shared/checksum';
+import type { ProjectData, ProjectExportResult, ProjectFile, ProjectImportResult } from 'shared/types/project';
+import { computeChecksum, verifyChecksum } from 'shared/checksum';
 
 const userDataPath = () => app.getPath('userData');
 

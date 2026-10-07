@@ -1,25 +1,27 @@
 import { useCallback, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectCollectionData,
   selectDynamicVariables,
   selectMappings,
   selectSelectedEnvironment,
-} from '../store/selectors';
-import { collectionRunActions } from '../store/slices/collectionRunSlice';
-import { environmentActions } from '../store/slices/environmentSlice';
-import { DynamicVariable, ExtractionFailure, PostmanItem } from '../types';
+} from 'src/store/selectors';
+import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
+import { environmentActions } from 'src/store/slices/environmentSlice';
+import { DynamicVariable, ExtractionFailure, PostmanItem } from 'src/types';
 import {
   createHttpRequest,
   detectDataType,
   extractBodyParameters,
+  extractDynamicVariableFromResponseWithDetails,
   extractQueryParameters,
   extractStatusCode,
+  findRequestById,
   getInitialParameterValue,
+  headersRecordToString,
+  postmanHeadersToRecord,
   substituteRequestVariables,
-} from '../utils';
-import { findRequestById, headersRecordToString, postmanHeadersToRecord } from '../utils/collection';
-import { extractDynamicVariableFromResponseWithDetails } from '../utils/dynamicVariable';
+} from 'src/utils';
 
 export function useCollectionRunner() {
   const dispatch = useAppDispatch();

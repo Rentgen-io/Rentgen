@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Controls } from '../../components/controls/Controls';
-import Input from '../../components/inputs/Input';
-import { clamp } from '../../utils';
+import { Controls } from 'src/components/controls/Controls';
+import Input from 'src/components/inputs/Input';
+import { clamp } from 'src/utils';
 
 const MAX_PAYLOAD_SIZE_MB = 100;
 

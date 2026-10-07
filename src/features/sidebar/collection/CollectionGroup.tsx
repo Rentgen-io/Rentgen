@@ -2,22 +2,22 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import cn from 'classnames';
 import { useEffect, useMemo, useState } from 'react';
-import SearchHighlighter from '../../../components/highlighters/SearchHighlighter';
-import { useCollectionRunner } from '../../../hooks/useCollectionRunner';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectCollectionRunResults, selectRunningFolderId, selectSelectedFolderId } from '../../../store/selectors';
-import { collectionActions } from '../../../store/slices/collectionSlice';
-import { uiActions } from '../../../store/slices/uiSlice';
-import { CollectionFolderData } from '../../../utils/collection';
-import { useContextMenu } from '../../context-menu';
+import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
+import { useCollectionRunner } from 'src/hooks/useCollectionRunner';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectCollectionRunResults, selectRunningFolderId, selectSelectedFolderId } from 'src/store/selectors';
+import { collectionActions } from 'src/store/slices/collectionSlice';
+import { modalsActions } from 'src/store/slices/modalsSlice';
+import { CollectionFolderData } from 'src/utils';
+import { useContextMenu } from 'src/features/context-menu';
 import CollectionItem from './CollectionItem';
 
-import ChevronIcon from '../../../assets/icons/chevron-icon.svg';
-import ClearCrossIcon from '../../../assets/icons/clear-cross-icon.svg';
-import EditIcon from '../../../assets/icons/edit-icon.svg';
-import FolderIcon from '../../../assets/icons/folder-icon.svg';
-import PlayIcon from '../../../assets/icons/play-icon.svg';
-import StopIcon from '../../../assets/icons/stop-icon.svg';
+import ChevronIcon from 'src/assets/icons/chevron-icon.svg';
+import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
+import EditIcon from 'src/assets/icons/edit-icon.svg';
+import FolderIcon from 'src/assets/icons/folder-icon.svg';
+import PlayIcon from 'src/assets/icons/play-icon.svg';
+import StopIcon from 'src/assets/icons/stop-icon.svg';
 
 interface Props {
   folder: CollectionFolderData;
@@ -85,7 +85,7 @@ export default function CollectionGroup({
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (folder.items.length === 0) dispatch(collectionActions.removeFolder(folder.id));
-    else dispatch(uiActions.openDeleteFolderModal(folder.id));
+    else dispatch(modalsActions.openDeleteFolderModal(folder.id));
   };
 
   const handlePlayClick = (e: React.MouseEvent) => {

@@ -1,9 +1,9 @@
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectCollectionData, selectSelectedRequestId } from '../../store/selectors';
-import { uiActions } from '../../store/slices/uiSlice';
-import { findRequestWithFolder } from '../../utils/collection';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectCollectionData, selectSelectedRequestId } from 'src/store/selectors';
+import { modalsActions } from 'src/store/slices/modalsSlice';
+import { findRequestWithFolder } from 'src/utils';
 import ContextMenu from './ContextMenu';
 import ContextMenuItem from './ContextMenuItem';
 
@@ -108,7 +108,7 @@ export default function GlobalContextMenuProvider({ children }: PropsWithChildre
 
     const { folder, request } = currentRequestWithFolder;
     dispatch(
-      uiActions.openSetAsDynamicVariableModal({
+      modalsActions.openSetAsDynamicVariableModal({
         initialSelector: responsePanelContext?.jsonPath || menuState.selectedText,
         initialValue: responsePanelContext?.jsonValue || menuState.selectedText,
         collectionName: folder.name,

@@ -1,4 +1,4 @@
-import { DataType, DynamicVariable, Environment, EnvironmentVariable, HttpBody } from '../types';
+import { DataType, DynamicVariable, Environment, EnvironmentVariable, HttpBody } from 'src/types';
 import { parseBody, parseHeaders } from './http';
 import { generateRandomValue } from './random';
 

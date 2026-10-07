@@ -10,17 +10,17 @@ import {
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectCollectionData, selectSidebarFolders } from '../../../store/selectors';
-import { collectionActions } from '../../../store/slices/collectionSlice';
-import { uiActions } from '../../../store/slices/uiSlice';
-import { detectImportConflicts, filterCollectionsBySearch } from '../../../utils/collection';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectCollectionData, selectSidebarFolders } from 'src/store/selectors';
+import { collectionActions } from 'src/store/slices/collectionSlice';
+import { modalsActions } from 'src/store/slices/modalsSlice';
+import { detectImportConflicts, filterCollectionsBySearch } from 'src/utils';
+import SideBarSearch from '../SidebarSearch';
 import CollectionGroup from './CollectionGroup';
-import CollectionSearch from './CollectionSearch';
 
-import AddIcon from '../../../assets/icons/add-icon.svg';
-import ExportIcon from '../../../assets/icons/export-icon.svg';
-import ImportIcon from '../../../assets/icons/import-icon.svg';
+import AddIcon from 'src/assets/icons/add-icon.svg';
+import ExportIcon from 'src/assets/icons/export-icon.svg';
+import ImportIcon from 'src/assets/icons/import-icon.svg';
 
 export default function CollectionsPanel() {
   const dispatch = useAppDispatch();
@@ -56,7 +56,7 @@ export default function CollectionsPanel() {
       if (conflictSummary.hasConflicts) {
         // Open conflict resolution modal
         dispatch(
-          uiActions.openImportConflictModal({
+          modalsActions.openImportConflictModal({
             collection: result.collection,
             conflictSummary,
             warnings: result.warnings || [],
@@ -209,7 +209,7 @@ export default function CollectionsPanel() {
         </div>
       )}
 
-      <CollectionSearch value={searchTerm} onChange={setSearchTerm} />
+      <SideBarSearch value={searchTerm} onChange={setSearchTerm} />
 
       {filteredFolders.length > 0 ? (
         <div className="h-full overflow-x-hidden overflow-y-auto">

@@ -1,13 +1,14 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import Button, { ButtonType } from '../../../components/buttons/Button';
-import Input from '../../../components/inputs/Input';
-import SimpleSelect from '../../../components/inputs/SimpleSelect';
-import Toggle from '../../../components/inputs/Toggle';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectHistoryEnabled, selectHistoryRetention, selectHistorySize } from '../../../store/selectors';
-import { HistoryRetention, settingsActions } from '../../../store/slices/settingsSlice';
-import { uiActions } from '../../../store/slices/uiSlice';
+import Button, { ButtonType } from 'src/components/buttons/Button';
+import Input from 'src/components/inputs/Input';
+import SimpleSelect from 'src/components/inputs/SimpleSelect';
+import Toggle from 'src/components/inputs/Toggle';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectHistoryEnabled, selectHistoryRetention, selectHistorySize } from 'src/store/selectors';
+import { modalsActions } from 'src/store/slices/modalsSlice';
+import { HistoryRetention, settingsActions } from 'src/store/slices/settingsSlice';
+import { uiActions } from 'src/store/slices/uiSlice';
 
 export function GeneralSettings() {
   const dispatch = useAppDispatch();
@@ -37,9 +38,9 @@ export function GeneralSettings() {
     const result = await window.electronAPI.importProject();
     if (result.error) return;
     if (result.success && result.data && result.meta && result.integrityStatus) {
-      dispatch(uiActions.closeSettingsModal());
+      dispatch(modalsActions.closeSettingsModal());
       dispatch(
-        uiActions.openProjectImportConfirmModal({
+        modalsActions.openProjectImportConfirmModal({
           data: result.data,
           meta: result.meta,
           integrityStatus: result.integrityStatus,

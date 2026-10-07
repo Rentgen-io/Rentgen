@@ -1,9 +1,8 @@
 import cn from 'classnames';
 import { HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
-import { twMerge } from 'tailwind-merge';
-import { CopyButton } from '../../components/buttons/CopyButton';
-import { appConfig } from '../../constants/appConfig';
+import { CopyButton } from 'src/components/buttons/CopyButton';
+import { appConfig } from 'src/constants/appConfig';
 import {
   ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
   LOAD_TEST_NAME,
@@ -11,10 +10,11 @@ import {
   NETWORK_SHARE_TEST_NAME,
   PING_LATENCY_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
-} from '../../tests';
-import { performanceTemplates, securityTemplates } from '../../tests/reports';
-import { TestResult, TestStatus } from '../../types';
-import { generateCurl } from '../../utils';
+} from 'src/test-engine';
+import { performanceTemplates, securityTemplates } from 'src/test-engine/reports';
+import { TestResult, TestStatus } from 'src/types';
+import { generateCurl } from 'src/utils';
+import { twMerge } from 'tailwind-merge';
 
 type TestType = 'security' | 'performance';
 

@@ -1,5 +1,5 @@
-import Panel, { Props as PanelProps } from '../../components/panels/Panel';
-import { RequestParameters } from '../../types';
+import Panel, { Props as PanelProps } from 'src/components/panels/Panel';
+import { RequestParameters } from 'src/types';
 import { ParameterControls } from './ParameterControls';
 
 interface Props extends Omit<PanelProps, 'onChange'> {

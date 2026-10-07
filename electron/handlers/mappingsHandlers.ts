@@ -1,7 +1,7 @@
 import { app, ipcMain } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import { initialState, MappingsState } from '../../src/store/slices/mappingsSlice';
+import { initialState, MappingsState } from 'src/store/slices/mappingsSlice';
 
 const getMappingsPath = () => path.join(app.getPath('userData'), 'mappings.json');
 

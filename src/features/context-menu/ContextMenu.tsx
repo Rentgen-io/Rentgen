@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import useClickOutside from '../../hooks/useClickOutside';
+import useClickOutside from 'src/hooks/useClickOutside';
 
 interface Props extends PropsWithChildren {
   isOpen: boolean;

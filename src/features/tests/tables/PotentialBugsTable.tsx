@@ -1,10 +1,10 @@
 import { memo, useMemo } from 'react';
 import DataTable, { ExpanderComponentProps, TableProps } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
-import { JsonDiffViewer } from '../../components/viewers/JsonDiffViewer';
-import { useAppSelector } from '../../store/hooks';
-import { selectTheme } from '../../store/selectors';
-import { HttpResponse } from '../../types';
+import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
+import { useAppSelector } from 'src/store/hooks';
+import { selectTheme } from 'src/store/selectors';
+import { HttpResponse } from 'src/types';
 
 export interface PotentialBug {
   name: string;

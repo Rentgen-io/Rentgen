@@ -1,7 +1,6 @@
-import { getDatasets } from '../constants/datasets';
-import { getResponseStatusTitle, RESPONSE_STATUS } from '../constants/responseStatus';
-import { Abortable, Test } from '../decorators';
-import { store } from '../store';
+import { getDatasets } from 'src/constants/datasets';
+import { RESPONSE_STATUS, getResponseStatusTitle } from 'src/constants/responseStatus';
+import store from 'src/store';
 import {
   DataType,
   HttpRequest,
@@ -12,7 +11,7 @@ import {
   TestOptions,
   TestResult,
   TestStatus,
-} from '../types';
+} from 'src/types';
 import {
   createHttpRequest,
   createTestHttpRequest,
@@ -21,16 +20,17 @@ import {
   generateRandomString,
   getBodyParameterValue,
   normalizeDecimal,
-} from '../utils';
+} from 'src/utils';
 import {
   BaseTests,
-  createErrorTestResult,
-  createTestResult,
-  determineTestStatus,
   ERROR_RESPONSE_EXPECTED,
   ORIGINAL_REQUEST_TEST_PARAMETER_NAME,
   SUCCESS_RESPONSE_EXPECTED,
+  createErrorTestResult,
+  createTestResult,
+  determineTestStatus,
 } from './BaseTests';
+import { Abortable, Test } from './decorators';
 
 const VALUE_NORMALIZATION_TEST_EXPECTED = `${RESPONSE_STATUS.BAD_REQUEST} ${getResponseStatusTitle(RESPONSE_STATUS.BAD_REQUEST)}/${RESPONSE_STATUS.UNPROCESSABLE_ENTITY} ${getResponseStatusTitle(RESPONSE_STATUS.UNPROCESSABLE_ENTITY)} or Trimmed/Normalized Value`;
 

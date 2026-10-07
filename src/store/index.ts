@@ -5,10 +5,11 @@ import collectionReducer from './slices/collectionSlice';
 import environmentReducer from './slices/environmentSlice';
 import historyReducer from './slices/historySlice';
 import mappingsReducer from './slices/mappingsSlice';
+import modalsReducer from './slices/modalsSlice';
 import requestReducer from './slices/requestSlice';
 import responseReducer from './slices/responseSlice';
 import settingsReducer from './slices/settingsSlice';
-import testReducer from './slices/testSlice';
+import testsReducer from './slices/testsSlice';
 import uiReducer from './slices/uiSlice';
 import websocketReducer from './slices/websocketSlice';
 
@@ -19,10 +20,11 @@ export const store = configureStore({
     environment: environmentReducer,
     history: historyReducer,
     mappings: mappingsReducer,
+    modals: modalsReducer,
     request: requestReducer,
     response: responseReducer,
     settings: settingsReducer,
-    tests: testReducer,
+    tests: testsReducer,
     websocket: websocketReducer,
     ui: uiReducer,
   },

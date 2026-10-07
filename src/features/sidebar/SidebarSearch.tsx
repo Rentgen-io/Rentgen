@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ClearCrossIcon from '../../../assets/icons/clear-cross-icon.svg';
-import SearchIcon from '../../../assets/icons/search-icon.svg';
+import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
+import SearchIcon from 'src/assets/icons/search-icon.svg';
 
 interface Props {
   placeholder?: string;
@@ -10,7 +10,7 @@ interface Props {
   onChange: (value: string) => void;
 }
 
-export default function CollectionSearch({ placeholder, value, onChange }: Props) {
+export default function SideBarSearch({ placeholder, value, onChange }: Props) {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const [localValue, setLocalValue] = useState(value);

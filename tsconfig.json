@@ -13,7 +13,11 @@
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "src/*": ["./src/*"],
+      "shared/*": ["./shared/*"]
+    }
   },
   "include": ["src/**/*", "electron/**/*", "shared/**/*"]
 }

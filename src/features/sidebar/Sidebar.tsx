@@ -1,22 +1,24 @@
 import cn from 'classnames';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { appConfig } from '../../constants/appConfig';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectHistoryEnabled, selectSidebarActiveTab } from '../../store/selectors';
-import { environmentActions } from '../../store/slices/environmentSlice';
-import { SidebarTab, uiActions } from '../../store/slices/uiSlice';
+import { appConfig } from 'src/constants/appConfig';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectHistoryEnabled, selectSidebarActiveTab } from 'src/store/selectors';
+import { environmentActions } from 'src/store/slices/environmentSlice';
+import { modalsActions } from 'src/store/slices/modalsSlice';
+import { uiActions } from 'src/store/slices/uiSlice';
+import { SidebarTab } from 'src/types';
 import CollectionsPanel from './collection/CollectionsPanel';
 import EnvironmentPanel from './environment/EnvironmentPanel';
 import HistoryPanel from './history/HistoryPanel';
 import SidebarButton from './SidebarButton';
 
-import BugIcon from '../../assets/icons/bug-icon.svg';
-import CollectionIcon from '../../assets/icons/collection-icon.svg';
-import EnvironmentIcon from '../../assets/icons/environment-icon.svg';
-import GearIcon from '../../assets/icons/gear-icon.svg';
-import HistoryIcon from '../../assets/icons/history-icon.svg';
-import UpgradeStarIcon from '../../assets/icons/upgrade-star-icon.svg';
+import BugIcon from 'src/assets/icons/bug-icon.svg';
+import CollectionIcon from 'src/assets/icons/collection-icon.svg';
+import EnvironmentIcon from 'src/assets/icons/environment-icon.svg';
+import GearIcon from 'src/assets/icons/gear-icon.svg';
+import HistoryIcon from 'src/assets/icons/history-icon.svg';
+import UpgradeStarIcon from 'src/assets/icons/upgrade-star-icon.svg';
 
 interface SidebarPanel {
   tab: SidebarTab;
@@ -91,7 +93,7 @@ export default function Sidebar() {
           )}
         </div>
         <div>
-          <SidebarButton label={t('sidebar.settings')} onClick={() => dispatch(uiActions.openSettingsModal())}>
+          <SidebarButton label={t('sidebar.settings')} onClick={() => dispatch(modalsActions.openSettingsModal())}>
             <GearIcon className="h-4 w-4" />
           </SidebarButton>
           <SidebarButton

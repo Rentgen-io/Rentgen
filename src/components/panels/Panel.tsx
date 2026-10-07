@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { HTMLAttributes, ReactNode, useState } from 'react';
 
-import ChevronIcon from '../../assets/icons/chevron-icon.svg';
+import ChevronIcon from 'src/assets/icons/chevron-icon.svg';
 
 export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title: ReactNode;

@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectHistoryEntries } from '../../../store/selectors';
-import { historyActions } from '../../../store/slices/historySlice';
-import { HistoryEntry } from '../../../types/history';
-import CollectionSearch from '../collection/CollectionSearch';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectHistoryEntries } from 'src/store/selectors';
+import { historyActions } from 'src/store/slices/historySlice';
+import { HistoryEntry } from 'src/types/history';
+import SideBarSearch from '../SidebarSearch';
 import HistoryDateGroup from './HistoryDateGroup';
 
-import ClearCrossIcon from '../../../assets/icons/clear-cross-icon.svg';
+import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 
 interface DateGroup {
   label: string;
@@ -100,7 +100,7 @@ export default function HistoryPanel() {
       </div>
 
       {entries.length > 0 && (
-        <CollectionSearch value={searchTerm} onChange={setSearchTerm} placeholder={t('history.searchHistory')} />
+        <SideBarSearch value={searchTerm} onChange={setSearchTerm} placeholder={t('history.searchHistory')} />
       )}
 
       {groups.length > 0 ? (

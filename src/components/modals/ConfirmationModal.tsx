@@ -1,9 +1,9 @@
+import cn from 'classnames';
 import { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
+import { twMerge } from 'tailwind-merge';
 import Button, { ButtonType } from '../buttons/Button';
 import Modal, { Props as ModalProps } from './Modal';
-import cn from 'classnames';
-import { twMerge } from 'tailwind-merge';
 
 export interface Props extends ModalProps, PropsWithChildren {
   cancelText?: string;

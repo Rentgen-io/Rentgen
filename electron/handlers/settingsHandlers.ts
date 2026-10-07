@@ -1,7 +1,7 @@
 import { app, ipcMain, nativeTheme } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import { initialState, SettingsState } from '../../src/store/slices/settingsSlice';
+import { initialState, SettingsState } from 'src/store/slices/settingsSlice';
 
 const getSettingsPath = () => path.join(app.getPath('userData'), 'settings.json');
 

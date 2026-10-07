@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HttpResponse, TestOptions, TestResult, TestResults } from '../../types';
+import { HttpResponse, TestOptions, TestResult, TestResults } from 'src/types';
 
 interface TestState extends TestResults {
   // Running states
@@ -43,7 +43,7 @@ const initialState: TestState = {
   resultsToCompare: [],
 };
 
-export const testSlice = createSlice({
+export const testsSlice = createSlice({
   name: 'tests',
   initialState,
   reducers: {
@@ -189,5 +189,5 @@ export const testSlice = createSlice({
   },
 });
 
-export const testActions = testSlice.actions;
-export default testSlice.reducer;
+export const testsActions = testsSlice.actions;
+export default testsSlice.reducer;

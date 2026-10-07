@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import { IconButton } from '../../components/buttons/IconButton';
-import Modal from '../../components/modals/Modal';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectSettingsModal } from '../../store/selectors';
-import { uiActions } from '../../store/slices/uiSlice';
+import { IconButton } from 'src/components/buttons/IconButton';
+import Modal from 'src/components/modals/Modal';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectSettingsModal } from 'src/store/selectors';
+import { modalsActions } from 'src/store/slices/modalsSlice';
 import { CliSettings } from './cli/CliSettings';
 import { GeneralSettings } from './general/GeneralSettings';
 import { LanguageSettings } from './language/LanguageSettings';
@@ -13,13 +13,13 @@ import { PerformanceInsightsSettings } from './test-engine/PerformanceInsightsSe
 import { SecurityTestsSettings } from './test-engine/SecurityTestsSettings';
 import { ThemeSettings } from './theme/ThemeSettings';
 
-import AiIcon from '../../assets/icons/ai-icon.svg';
-import ClearCrossIcon from '../../assets/icons/clear-cross-icon.svg';
-import CliIcon from '../../assets/icons/cli-icon.svg';
-import EngineIcon from '../../assets/icons/engine-icon.svg';
-import GearIcon from '../../assets/icons/gear-icon.svg';
-import LanguageIcon from '../../assets/icons/language-icon.svg';
-import ThemeIcon from '../../assets/icons/theme-icon.svg';
+import AiIcon from 'src/assets/icons/ai-icon.svg';
+import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
+import CliIcon from 'src/assets/icons/cli-icon.svg';
+import EngineIcon from 'src/assets/icons/engine-icon.svg';
+import GearIcon from 'src/assets/icons/gear-icon.svg';
+import LanguageIcon from 'src/assets/icons/language-icon.svg';
+import ThemeIcon from 'src/assets/icons/theme-icon.svg';
 
 export default function SettingsModal() {
   const { t } = useTranslation();
@@ -70,7 +70,7 @@ export default function SettingsModal() {
     },
   ];
 
-  const onClose = () => dispatch(uiActions.closeSettingsModal());
+  const onClose = () => dispatch(modalsActions.closeSettingsModal());
 
   return (
     <Modal

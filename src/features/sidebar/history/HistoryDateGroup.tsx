@@ -1,10 +1,10 @@
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { HistoryEntry } from '../../../types/history';
+import { HistoryEntry } from 'src/types/history';
 import HistoryItem from './HistoryItem';
 
-import ChevronIcon from '../../../assets/icons/chevron-icon.svg';
+import ChevronIcon from 'src/assets/icons/chevron-icon.svg';
 
 interface Props {
   label: string;

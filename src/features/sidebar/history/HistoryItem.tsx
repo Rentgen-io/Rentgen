@@ -1,16 +1,16 @@
 import { Method } from 'axios';
 import { MouseEvent, useCallback } from 'react';
-import MethodBadge from '../../../components/badges/MethodBadge';
-import SearchHighlighter from '../../../components/highlighters/SearchHighlighter';
-import { useReset } from '../../../hooks/useReset';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectIsComparingTestResults } from '../../../store/selectors';
-import { historyActions } from '../../../store/slices/historySlice';
-import { requestActions } from '../../../store/slices/requestSlice';
-import { testActions } from '../../../store/slices/testSlice';
-import { HistoryEntry } from '../../../types/history';
+import MethodBadge from 'src/components/badges/MethodBadge';
+import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
+import { useReset } from 'src/hooks/useReset';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectIsComparingTestResults } from 'src/store/selectors';
+import { historyActions } from 'src/store/slices/historySlice';
+import { requestActions } from 'src/store/slices/requestSlice';
+import { testsActions } from 'src/store/slices/testsSlice';
+import { HistoryEntry } from 'src/types/history';
 
-import ClearCrossIcon from '../../../assets/icons/clear-cross-icon.svg';
+import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 
 interface Props {
   entry: HistoryEntry;
@@ -42,7 +42,7 @@ export default function HistoryItem({ entry, searchTerm }: Props) {
     dispatch(requestActions.setHeaders(entry.headers));
     dispatch(requestActions.setBody(entry.body));
 
-    if (isComparingTestResults) dispatch(testActions.clearResultsToCompare());
+    if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
   }, [entry, isComparingTestResults, dispatch, reset]);
 
   return (

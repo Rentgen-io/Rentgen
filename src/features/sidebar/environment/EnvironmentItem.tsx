@@ -2,12 +2,12 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import cn from 'classnames';
 import { useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { selectSelectedEnvironmentId } from '../../../store/selectors';
-import { environmentActions } from '../../../store/slices/environmentSlice';
-import { Environment } from '../../../types';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectSelectedEnvironmentId } from 'src/store/selectors';
+import { environmentActions } from 'src/store/slices/environmentSlice';
+import { Environment } from 'src/types';
 
-import ClearCrossIcon from '../../../assets/icons/clear-cross-icon.svg';
+import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 
 interface Props {
   environment: Environment;

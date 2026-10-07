@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import merge from 'deepmerge';
-import { appConfig } from '../../constants/appConfig';
-import { MAX_INT32 } from '../../constants/datasets';
-import i18n from '../../i18n';
-import { Language } from '../../i18n/languages';
-import { Interval } from '../../types';
+import { appConfig } from 'src/constants/appConfig';
+import { MAX_INT32 } from 'src/constants/datasets';
+import i18n from 'src/i18n';
+import { Language } from 'src/i18n/languages';
+import { Interval } from 'src/types';
 
 export const MEDIAN_RESPONSE_TIME_TEST_NAME = 'Median Response Time';
 export const NETWORK_SHARE_TEST_NAME = 'Network Share Calculation';

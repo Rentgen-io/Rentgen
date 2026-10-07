@@ -1,5 +1,12 @@
-import { ImportConflict, ImportConflictSummary } from '../store/slices/uiSlice';
-import { PostmanCollection, PostmanFolder, PostmanHeader, PostmanItem, PostmanRequest } from '../types';
+import {
+  ImportConflict,
+  ImportConflictSummary,
+  PostmanCollection,
+  PostmanFolder,
+  PostmanHeader,
+  PostmanItem,
+  PostmanRequest,
+} from 'src/types';
 
 const DEFAULT_FOLDER_ID = 'default';
 const DEFAULT_FOLDER_NAME = 'All Requests';

@@ -1,9 +1,8 @@
 import { Method } from 'axios';
-import { appConfig } from '../constants/appConfig';
-import { getResponseStatusTitle, RESPONSE_STATUS } from '../constants/responseStatus';
-import { Abortable, Test } from '../decorators';
-import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from '../types';
-import { createHttpRequest, createTestHttpRequest, getHeaderValue, uppercaseDomain, uppercasePath } from '../utils';
+import { appConfig } from 'src/constants/appConfig';
+import { getResponseStatusTitle, RESPONSE_STATUS } from 'src/constants/responseStatus';
+import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from 'src/types';
+import { createHttpRequest, createTestHttpRequest, getHeaderValue, uppercaseDomain, uppercasePath } from 'src/utils';
 import {
   BaseTests,
   createErrorTestResult,
@@ -12,6 +11,7 @@ import {
   NOT_AVAILABLE_TEST,
   SUCCESS_RESPONSE_EXPECTED,
 } from './BaseTests';
+import { Abortable, Test } from './decorators';
 
 export const AUTHORIZATION_TEST_NAME = 'Missing Authorization Cookie/Token';
 export const CACHE_CONTROL_PRIVATE_API_TEST_NAME = 'Cache-Control for Private API';

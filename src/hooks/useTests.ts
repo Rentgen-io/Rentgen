@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
-import { getDatasets } from '../constants/datasets';
-import { getTestCount } from '../decorators';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { getDatasets } from 'src/constants/datasets';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectCrudTests,
   selectCurrentTest,
@@ -19,8 +18,8 @@ import {
   selectTestEngineConfiguration,
   selectTestsCount,
   selectTestsTimestamp,
-} from '../store/selectors';
-import { testActions } from '../store/slices/testSlice';
+} from 'src/store/selectors';
+import { testsActions } from 'src/store/slices/testsSlice';
 import {
   DataDrivenTests,
   generateDynamicTestData,
@@ -32,8 +31,9 @@ import {
   runLargePayloadTest,
   runLoadTest,
   SecurityTests,
-} from '../tests';
-import { ParameterValue, TestOptions, TestResult } from '../types';
+} from 'src/test-engine';
+import { getTestCount } from 'src/test-engine/decorators';
+import { ParameterValue, TestOptions, TestResult } from 'src/types';
 
 let abortAllTests = false;
 let dataDrivenTestsInstance: DataDrivenTests | null = null;
@@ -66,7 +66,7 @@ const useTests = () => {
   const emailConfiguration = testEngineConfiguration.email;
 
   const incrementCurrentTest = useCallback(() => {
-    dispatch(testActions.incrementCurrentTest());
+    dispatch(testsActions.incrementCurrentTest());
   }, [dispatch]);
 
   const calculateDataDrivenTestsCount = useCallback(async (options: TestOptions): Promise<number> => {
@@ -93,16 +93,16 @@ const useTests = () => {
     async (options: TestOptions, execute = true): Promise<{ crudTests: TestResult[]; securityTests: TestResult[] }> => {
       if (!execute) return { crudTests: [], securityTests: [] };
 
-      dispatch(testActions.setSecurityRunning(true));
-      dispatch(testActions.setSecurityTests([]));
-      dispatch(testActions.setCrudTests([]));
+      dispatch(testsActions.setSecurityRunning(true));
+      dispatch(testsActions.setSecurityTests([]));
+      dispatch(testsActions.setCrudTests([]));
 
       securityTestsInstance = new SecurityTests(options, disabledSecurityTests, incrementCurrentTest);
       const { crudTests, securityTests } = await securityTestsInstance.run();
 
-      dispatch(testActions.setCrudTests(crudTests));
-      dispatch(testActions.setSecurityTests(securityTests));
-      dispatch(testActions.setSecurityRunning(false));
+      dispatch(testsActions.setCrudTests(crudTests));
+      dispatch(testsActions.setSecurityTests(securityTests));
+      dispatch(testsActions.setSecurityRunning(false));
 
       return { crudTests, securityTests };
     },
@@ -113,14 +113,14 @@ const useTests = () => {
     async (options: TestOptions, execute = true): Promise<TestResult[]> => {
       if (!execute) return [];
 
-      dispatch(testActions.setDataDrivenRunning(true));
-      dispatch(testActions.setDataDrivenTests([]));
+      dispatch(testsActions.setDataDrivenRunning(true));
+      dispatch(testsActions.setDataDrivenTests([]));
 
       dataDrivenTestsInstance = new DataDrivenTests(options, incrementCurrentTest);
       const dataDrivenTestResults = await dataDrivenTestsInstance.run();
 
-      dispatch(testActions.setDataDrivenTests(dataDrivenTestResults));
-      dispatch(testActions.setDataDrivenRunning(false));
+      dispatch(testsActions.setDataDrivenTests(dataDrivenTestResults));
+      dispatch(testsActions.setDataDrivenRunning(false));
 
       return dataDrivenTestResults;
     },
@@ -131,8 +131,8 @@ const useTests = () => {
     async (options: TestOptions, testResults: TestResult[] = [], execute = true): Promise<TestResult[]> => {
       if (!execute) return [];
 
-      dispatch(testActions.setPerformanceRunning(true));
-      dispatch(testActions.setPerformanceTests([]));
+      dispatch(testsActions.setPerformanceRunning(true));
+      dispatch(testsActions.setPerformanceTests([]));
 
       performanceInsightsInstance = new PerformanceInsights(
         testResults,
@@ -142,8 +142,8 @@ const useTests = () => {
       );
       const performanceTestResults = await performanceInsightsInstance.run();
 
-      dispatch(testActions.setPerformanceTests(performanceTestResults));
-      dispatch(testActions.setPerformanceRunning(false));
+      dispatch(testsActions.setPerformanceTests(performanceTestResults));
+      dispatch(testsActions.setPerformanceRunning(false));
 
       return performanceTestResults;
     },
@@ -154,8 +154,8 @@ const useTests = () => {
     async (options: TestOptions) => {
       abortAllTests = false;
 
-      dispatch(testActions.setOptions(options));
-      dispatch(testActions.startAllTests());
+      dispatch(testsActions.setOptions(options));
+      dispatch(testsActions.startAllTests());
 
       const count =
         (await calculateDataDrivenTestsCount(options)) +
@@ -167,8 +167,8 @@ const useTests = () => {
         disabledPerformanceInsights.length;
       const timestamp = new Date().getTime();
 
-      dispatch(testActions.setCount(count));
-      dispatch(testActions.setTimestamp(timestamp));
+      dispatch(testsActions.setCount(count));
+      dispatch(testsActions.setTimestamp(timestamp));
 
       const { crudTests, securityTests } = await executeSecurityTests(options, !abortAllTests);
       const dataDrivenTests = await executeDataDrivenTests(options, !abortAllTests);
@@ -176,7 +176,7 @@ const useTests = () => {
 
       if (!abortAllTests && selectedRequestId)
         dispatch(
-          testActions.addResults({
+          testsActions.addResults({
             requestId: selectedRequestId,
             results: {
               count,
@@ -204,21 +204,21 @@ const useTests = () => {
 
   const executeLargePayloadTest = useCallback(
     async (options: TestOptions, size: number) => {
-      dispatch(testActions.setLargePayloadTestRunning(true));
+      dispatch(testsActions.setLargePayloadTestRunning(true));
 
       const largePayloadTest = await runLargePayloadTest(options, size);
 
       dispatch(
-        testActions.updateSecurityTest({
+        testsActions.updateSecurityTest({
           testName: LARGE_PAYLOAD_TEST_NAME,
           result: largePayloadTest,
         }),
       );
-      dispatch(testActions.setLargePayloadTestRunning(false));
+      dispatch(testsActions.setLargePayloadTestRunning(false));
 
       if (selectedRequestId)
         dispatch(
-          testActions.updateSecurityTestResults({
+          testsActions.updateSecurityTestResults({
             requestId: selectedRequestId,
             testName: LARGE_PAYLOAD_TEST_NAME,
             result: largePayloadTest,
@@ -235,7 +235,7 @@ const useTests = () => {
     dataDrivenTestsInstance?.abort();
     performanceInsightsInstance?.abort();
 
-    dispatch(testActions.resetTests());
+    dispatch(testsActions.resetTests());
   }, [dispatch]);
 
   const generateLoadBarProgress = (percent: number) => {
@@ -250,12 +250,12 @@ const useTests = () => {
 
   const executeLoadTest = useCallback(
     async (options: TestOptions, threadCount: number, requestCount: number) => {
-      dispatch(testActions.setLoadTestRunning(true));
-      dispatch(testActions.setLoadProgress(0));
+      dispatch(testsActions.setLoadTestRunning(true));
+      dispatch(testsActions.setLoadProgress(0));
 
       // Update initial progress display
       dispatch(
-        testActions.updatePerformanceTest({
+        testsActions.updatePerformanceTest({
           testName: LOAD_TEST_NAME,
           result: {
             name: LOAD_TEST_NAME,
@@ -271,9 +271,9 @@ const useTests = () => {
         const percent = Math.floor((sentRequestCount / totalRequestCount) * 100);
         if (percent !== lastPercent) {
           lastPercent = percent;
-          dispatch(testActions.setLoadProgress(percent));
+          dispatch(testsActions.setLoadProgress(percent));
           dispatch(
-            testActions.updatePerformanceTest({
+            testsActions.updatePerformanceTest({
               testName: LOAD_TEST_NAME,
               result: {
                 name: LOAD_TEST_NAME,
@@ -289,16 +289,16 @@ const useTests = () => {
       const loadTestResult = await runLoadTest(options, threadCount, requestCount, updateLoadProgress);
 
       dispatch(
-        testActions.updatePerformanceTest({
+        testsActions.updatePerformanceTest({
           testName: LOAD_TEST_NAME,
           result: loadTestResult,
         }),
       );
-      dispatch(testActions.setLoadTestRunning(false));
+      dispatch(testsActions.setLoadTestRunning(false));
 
       if (selectedRequestId)
         dispatch(
-          testActions.updatePerformanceTestResults({
+          testsActions.updatePerformanceTestResults({
             requestId: selectedRequestId,
             testName: LOAD_TEST_NAME,
             result: loadTestResult,

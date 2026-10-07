@@ -1,6 +1,5 @@
-import { getResponseStatusTitle, RESPONSE_STATUS } from '../constants/responseStatus';
-import { Abortable, Test } from '../decorators';
-import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from '../types';
+import { getResponseStatusTitle, RESPONSE_STATUS } from 'src/constants/responseStatus';
+import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from 'src/types';
 import {
   calculateMedian,
   calculatePercentile,
@@ -9,7 +8,7 @@ import {
   extractStatusCode,
   getHeaderValue,
   hasQueryParameters,
-} from '../utils';
+} from 'src/utils';
 import {
   BaseTests,
   createErrorTestResult,
@@ -17,6 +16,7 @@ import {
   NOT_AVAILABLE_TEST,
   ORIGINAL_REQUEST_TEST_PARAMETER_NAME,
 } from './BaseTests';
+import { Abortable, Test } from './decorators';
 
 export const ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME = 'Array List Without Pagination';
 export const LOAD_TEST_NAME = 'Load Test';

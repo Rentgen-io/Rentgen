@@ -1,18 +1,18 @@
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconButton } from '../../components/buttons/IconButton';
-import Input from '../../components/inputs/Input';
-import { SelectOption } from '../../components/inputs/Select';
-import SimpleSelect from '../../components/inputs/SimpleSelect';
-import Toggle from '../../components/inputs/Toggle';
-import { MAX_INT32 } from '../../constants/datasets';
-import { useAppSelector } from '../../store/hooks';
-import { selectTestEngineConfiguration } from '../../store/selectors';
-import { isParameterTestSkipped } from '../../tests';
-import { DataType, Interval, ParameterValue } from '../../types';
-import { clamp, getInitialParameterValue, normalizeDecimal } from '../../utils';
+import { IconButton } from 'src/components/buttons/IconButton';
+import Input from 'src/components/inputs/Input';
+import { SelectOption } from 'src/components/inputs/Select';
+import SimpleSelect from 'src/components/inputs/SimpleSelect';
+import Toggle from 'src/components/inputs/Toggle';
+import { MAX_INT32 } from 'src/constants/datasets';
+import { useAppSelector } from 'src/store/hooks';
+import { selectTestEngineConfiguration } from 'src/store/selectors';
+import { isParameterTestSkipped } from 'src/test-engine';
+import { DataType, Interval, ParameterValue } from 'src/types';
+import { clamp, getInitialParameterValue, normalizeDecimal } from 'src/utils';
 
-import ClearCrossIcon from '../../assets/icons/clear-cross-icon.svg';
+import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 
 const TRAILING_ZEROS_PATTERN = /^-?\d+[.,]0+$/;
 

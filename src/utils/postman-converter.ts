@@ -15,7 +15,7 @@ import {
   PostmanRequestFull,
   isPostmanFolder,
   isPostmanRequest,
-} from '../types';
+} from 'src/types';
 import { generateRequestId, generateFolderId } from './collection';
 
 const COLLECTION_SCHEMA = 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json';
