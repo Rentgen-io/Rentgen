@@ -11,4 +11,3 @@ export const selectSetAsDynamicVariableModal = (state: RootState) => state.modal
 export const selectSettingsModal = (state: RootState) => state.modals.settingsModal;
 export const selectProjectImportConfirmModal = (state: RootState) => state.modals.projectImportConfirmModal;
 export const selectCurl = (state: RootState) => state.modals.curl;
-export const selectCurlError = (state: RootState) => state.modals.curlError;

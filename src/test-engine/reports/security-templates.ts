@@ -343,7 +343,7 @@ API.EXAMPLE.COM
 api.example.com
 Api.Example.Com
 
-…must all resolve and behave identically.
+...must all resolve and behave identically.
 
 If the server returns 400, 403, 404, or 500 when the domain is uppercase, it indicates incorrect host handling, misconfigured routing, or case-sensitive matching somewhere in the stack.
 

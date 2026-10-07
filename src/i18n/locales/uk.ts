@@ -122,7 +122,7 @@ const uk = {
   curl: {
     importCurl: 'Імпортувати cURL',
     importCurlPlaceholder: 'Введіть cURL або вставте текст',
-    invalidCurl: 'Введена команда cURL виглядає некоректною. Перевірте її та спробуйте ще раз',
+    invalidCurl: 'Некоректна команда cURL',
     copyCurl: 'Копіювати cURL',
   },
 
@@ -137,6 +137,8 @@ const uk = {
     generateCertificate: 'Згенерувати сертифікат',
     certificated: 'Сертифіковано ✅',
     notEligible: 'Не підходить (потрібно щонайменше 70 тестів)',
+    failedToExport: 'Не вдалося експортувати звіт',
+    failedToGenerateCertificate: 'Не вдалося згенерувати сертифікат',
     securityTests: 'Тести безпеки',
     performanceInsights: 'Аналіз продуктивності',
     dataDrivenTests: 'Тести на основі даних',
@@ -144,12 +146,12 @@ const uk = {
     runningSecurityTests: 'Запуск тестів безпеки...',
     runningPerformanceInsights: 'Запуск аналізу продуктивності...',
     runningDataDrivenTests: 'Запуск тестів на основі даних...',
-    preparingCrud: 'Підготовка CRUD…',
+    preparingCrud: 'Підготовка CRUD...',
     crudDescription: 'CRUD генерується на основі відповіді тесту обробки методу OPTIONS у тестах безпеки.',
     crudNote: 'Примітка:',
     crudNoteText: 'Якщо тест обробки методу OPTIONS вимкнено, CRUD не буде згенеровано.',
     copyBugReport: 'Копіювати звіт про помилку',
-    computingDifferences: 'Обчислення відмінностей…',
+    computingDifferences: 'Обчислення відмінностей...',
     parameters: 'Параметри',
     bodyParameters: 'Тіло',
     queryParameters: 'Запит',
@@ -287,7 +289,7 @@ const uk = {
         'Rentgen CLI запускає теку запитів з експорту проєкту <c>.rentgen</c> прямо з терміналу — створений для CI-конвеєрів і скриптових smoke-тестів. Читає той самий файл, що створюється <e>Загальні → Експортувати проєкт</e>, і ніколи в нього не пише.',
       fullDocumentation: 'Повна документація:',
       installInPath: 'Встановити у shell PATH ({{platform}})',
-      checkingStatus: 'Перевірка статусу встановлення…',
+      checkingStatus: 'Перевірка статусу встановлення...',
       runCli: 'Запустити CLI',
       runCliDescription:
         'Rentgen надає одну субкоманду, <c>xray</c> (alias: <c>run</c>). Вкажіть її на файл проєкту, експортований з застосунку.',
@@ -295,7 +297,7 @@ const uk = {
       noProjectFileYet:
         'Ще немає файлу проєкту? Експортуйте зараз — та сама дія, що <e>Загальні → Експортувати проєкт</e>.',
       developmentNote:
-        'Під час розробки викликайте безпосередньо з репозиторію за допомогою <c>npm run dev:cli -- xray …</c>.',
+        'Під час розробки викликайте безпосередньо з репозиторію за допомогою <c>npm run dev:cli -- xray ...</c>.',
       options: 'Параметри',
       examples: 'Приклади',
       exampleInteractive: 'Виберіть теку та середовище інтерактивно:',
@@ -326,7 +328,7 @@ const uk = {
         notInstalledDescription: 'Натисніть <e>Встановити</e> нижче, щоб додати <c>rentgen</c> до вашого shell PATH.',
       },
       action: {
-        working: 'Виконується…',
+        working: 'Виконується...',
         uninstall: 'Видалити CLI',
         reinstall: 'Перевстановити',
         installRentgenInPath: 'Встановити команду rentgen у PATH',

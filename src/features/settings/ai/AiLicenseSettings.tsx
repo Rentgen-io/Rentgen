@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
 import { useAppDispatch } from 'src/store/hooks';
@@ -10,7 +11,6 @@ export function AiLicenseSettings() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [serialNumber, setSerialNumber] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
 
   return (
     <>
@@ -29,23 +29,13 @@ export function AiLicenseSettings() {
           <label className="m-0 text-sm font-bold">{t('settings.ai.alreadyHaveSerialNumber')}</label>
           <div className="flex-auto flex flex-col gap-2">
             <span className="text-xs text-text-secondary">{t('settings.ai.serialNumber')}</span>
-            <Input
-              placeholder="RG-AI-XXXX-XXXX-XXXX"
-              onChange={(e) => {
-                setSerialNumber(e.target.value);
-
-                if (error) setError(null);
-              }}
-            />
-            {error && <span className="text-xs text-red-500">{error}</span>}
+            <Input placeholder="RG-AI-XXXX-XXXX-XXXX" onChange={(e) => setSerialNumber(e.target.value)} />
           </div>
           <Button
             buttonType={ButtonType.SECONDARY}
             onClick={() => {
-              if (validateSerialNumber(serialNumber)) {
-                dispatch(settingsActions.setSerialNumber(serialNumber));
-                setError(null);
-              } else setError(t('settings.ai.invalidSerialNumber'));
+              if (validateSerialNumber(serialNumber)) dispatch(settingsActions.setSerialNumber(serialNumber));
+              else toast.error(<span className="flex-auto">{t('settings.ai.invalidSerialNumber')}</span>);
             }}
           >
             {t('settings.ai.activateLicense')}

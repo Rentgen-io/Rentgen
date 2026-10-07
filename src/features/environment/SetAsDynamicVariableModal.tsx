@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { ButtonType } from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
 import Select from 'src/components/inputs/Select';
@@ -35,7 +36,6 @@ export default function SetAsDynamicVariableModal() {
   const [selector, setSelector] = useState('');
   const [selectedEnvironment, setSelectedEnvironment] = useState<EnvironmentOption | null>(null);
   const [duplicateToOverwrite, setDuplicateToOverwrite] = useState<DynamicVariable | null>(null);
-  const [error, setError] = useState('');
   const { t } = useTranslation();
 
   // Reset form when modal opens
@@ -45,7 +45,6 @@ export default function SetAsDynamicVariableModal() {
       setSelector(modalState.initialSelector);
       setSelectedEnvironment({ value: ALL_ENVIRONMENTS_VALUE, label: t('modals.setDynamicVariable.allEnvironments') });
       setDuplicateToOverwrite(null);
-      setError('');
     }
   }, [modalState.isOpen, modalState.initialSelector]);
 
@@ -75,17 +74,17 @@ export default function SetAsDynamicVariableModal() {
   const onConfirm = () => {
     const sanitizedName = name.trim();
     if (!sanitizedName) {
-      setError(t('modals.setDynamicVariable.variableNameRequired'));
+      toast.error(<span className="flex-auto">{t('modals.setDynamicVariable.variableNameRequired')}</span>);
       return;
     }
 
     if (!selector) {
-      setError(t('modals.setDynamicVariable.selectorRequired'));
+      toast.error(<span className="flex-auto">{t('modals.setDynamicVariable.selectorRequired')}</span>);
       return;
     }
 
     if (!selectedEnvironment) {
-      setError(t('modals.setDynamicVariable.selectEnvironmentError'));
+      toast.error(<span className="flex-auto">{t('modals.setDynamicVariable.selectEnvironmentError')}</span>);
       return;
     }
 
@@ -157,7 +156,6 @@ export default function SetAsDynamicVariableModal() {
             value={name}
             onChange={(e) => {
               setName(e.target.value);
-              setError('');
               setDuplicateToOverwrite(null);
             }}
             autoFocus
@@ -181,7 +179,6 @@ export default function SetAsDynamicVariableModal() {
             placeholder={t('modals.setDynamicVariable.selectEnvironment')}
             onChange={(option) => {
               setSelectedEnvironment(option as EnvironmentOption);
-              setError('');
               setDuplicateToOverwrite(null);
             }}
           />
@@ -196,8 +193,6 @@ export default function SetAsDynamicVariableModal() {
             {modalState.collectionName} → {modalState.requestName}
           </div>
         </div>
-
-        {error && <p className="text-xs text-button-danger m-0">{error}</p>}
 
         {duplicateToOverwrite && (
           <p className="text-xs text-yellow-600 dark:text-yellow-400 m-0">

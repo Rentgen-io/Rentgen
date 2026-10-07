@@ -27,10 +27,7 @@ interface ModalsState {
     activeTab: number;
   };
   projectImportConfirmModal: ProjectImportConfirmModalState;
-
-  // Draft state of the cURL import modal.
   curl: string;
-  curlError: string;
 }
 
 const emptySetAsDynamicVariableModal: SetAsDynamicVariableModalState = {
@@ -70,7 +67,6 @@ const initialState: ModalsState = {
   projectImportConfirmModal: emptyProjectImportConfirmModal,
   settingsModal: { isOpen: false, activeTab: 0 },
   curl: '',
-  curlError: '',
 };
 
 export const modalsSlice = createSlice({
@@ -83,13 +79,9 @@ export const modalsSlice = createSlice({
     closeCurlModal: (state) => {
       state.openCurlModal = false;
       state.curl = '';
-      state.curlError = '';
     },
     setCurl: (state, action: PayloadAction<string>) => {
       state.curl = action.payload;
-    },
-    setCurlError: (state, action: PayloadAction<string>) => {
-      state.curlError = action.payload;
     },
     openFollowModal: (state) => {
       if (!state.openGitHubModal) state.openFollowModal = true;

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { appConfig } from 'shared/constants';
 import { generateCertificate as generateCertificateFile, saveReport } from 'src/api/files';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -8,7 +9,6 @@ import { uiActions } from 'src/store/slices/uiSlice';
 import { ExportReport, ReportFormat, ReportSuite, TestResult } from 'src/types';
 
 const FEEDBACK_MS = 2000;
-const ERROR_FEEDBACK_MS = 5000;
 const MINIMUM_TESTS_FOR_CERTIFICATE = 70;
 
 export function useReportExport() {
@@ -62,15 +62,14 @@ export function useReportExport() {
       clearTimeout(exportedTimeout.current);
       exportedTimeout.current = setTimeout(() => dispatch(uiActions.setExported(false)), FEEDBACK_MS);
     } catch (error) {
-      console.error('Failed to export report', error);
+      console.error(error);
+      toast.error(<span className="flex-auto">{t('tests.failedToExport')}</span>);
     }
   }, [testResults, exportFormat, httpResponse, dispatch]);
 
   const generateCertificate = useCallback(async () => {
     if (!testResults || testResults.count < MINIMUM_TESTS_FOR_CERTIFICATE) {
-      dispatch(uiActions.setCertificateError(t('tests.notEligible')));
-      clearTimeout(certificateTimeout.current);
-      certificateTimeout.current = setTimeout(() => dispatch(uiActions.setCertificateError('')), ERROR_FEEDBACK_MS);
+      toast.error(<span className="flex-auto">{t('tests.notEligible')}</span>);
       return;
     }
 
@@ -84,7 +83,8 @@ export function useReportExport() {
       clearTimeout(certificateTimeout.current);
       certificateTimeout.current = setTimeout(() => dispatch(uiActions.setCertificated(false)), FEEDBACK_MS);
     } catch (error) {
-      console.error('Failed to generate certificate', error);
+      console.error(error);
+      toast.error(<span className="flex-auto">{t('tests.failedToGenerateCertificate')}</span>);
     }
   }, [testResults, t, dispatch]);
 

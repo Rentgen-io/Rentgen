@@ -1,6 +1,7 @@
 import { Method } from 'axios';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCurl } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
@@ -44,8 +45,8 @@ export function useCurlImport() {
 
       dispatch(modalsActions.closeCurlModal());
     } catch (error) {
-      console.error('cURL import failed', error);
-      dispatch(modalsActions.setCurlError(t('curl.invalidCurl')));
+      console.error(error);
+      toast.error(<span className="flex-auto">{t('curl.invalidCurl')}</span>);
     }
   }, [curl, reset, t, dispatch]);
 }

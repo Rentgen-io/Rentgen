@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { exportProject, importProject } from 'src/api/files';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
@@ -39,7 +40,11 @@ export function GeneralSettings() {
 
   const handleImportProject = async () => {
     const result = await importProject();
-    if (result.error) return;
+    if (result.error) {
+      toast.error(<span className="flex-auto">{result.error}</span>);
+      return;
+    }
+
     if (result.success && result.data && result.meta && result.integrityStatus) {
       dispatch(modalsActions.closeSettingsModal());
       dispatch(

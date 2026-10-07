@@ -10,7 +10,6 @@ import { useReset } from 'src/hooks/useReset';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectCurl,
-  selectCurlError,
   selectEnvironments,
   selectMode,
   selectOpenCurlModal,
@@ -39,7 +38,6 @@ export default function RequestModeBar() {
 
   const mode = useAppSelector(selectMode);
   const curl = useAppSelector(selectCurl);
-  const curlError = useAppSelector(selectCurlError);
   const openCurlModal = useAppSelector(selectOpenCurlModal);
   const environments = useAppSelector(selectEnvironments);
   const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
@@ -77,7 +75,6 @@ export default function RequestModeBar() {
                   value={curl}
                   onChange={(event) => dispatch(modalsActions.setCurl(event.target.value))}
                 />
-                {curlError && <p className="m-0 text-xs text-red-500">{curlError}</p>}
                 <div className="flex items-center justify-end gap-4">
                   <Button onClick={importCurl}>{t('common.import')}</Button>
                   <Button buttonType={ButtonType.SECONDARY} onClick={() => dispatch(modalsActions.closeCurlModal())}>

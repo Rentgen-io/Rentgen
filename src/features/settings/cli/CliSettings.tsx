@@ -274,7 +274,7 @@ export function CliSettings() {
       </p>
 
       <SettingsHeader className="mt-4">
-        {t('settings.cli.installInPath', { platform: status ? platformLabel(status.platform) : '…' })}
+        {t('settings.cli.installInPath', { platform: status ? platformLabel(status.platform) : '...' })}
       </SettingsHeader>
 
       {status === null ? (

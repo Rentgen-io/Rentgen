@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBody,
   selectBodyParameters,
-  selectCertificateError,
   selectCertificated,
   selectCurrentTestResults,
   selectDisabledRunTests,
@@ -49,7 +48,6 @@ export default function TestRunnerBar() {
   const exportFormat = useAppSelector(selectExportFormat);
   const exported = useAppSelector(selectExported);
   const certificated = useAppSelector(selectCertificated);
-  const certificateError = useAppSelector(selectCertificateError);
 
   const { currentTest, testsCount, executeAllTests } = useTests();
   const { exportReport, generateCertificate } = useReportExport();
@@ -120,9 +118,6 @@ export default function TestRunnerBar() {
           </div>
         )}
       </div>
-      {testResults && certificateError && (
-        <p className="m-0 -mt-2 text-xs text-red-500 @xl:text-right">{certificateError}</p>
-      )}
     </>
   );
 }

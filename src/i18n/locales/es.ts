@@ -122,7 +122,7 @@ const es = {
   curl: {
     importCurl: 'Importar cURL',
     importCurlPlaceholder: 'Introduce cURL o pega texto',
-    invalidCurl: 'El comando cURL proporcionado parece ser inválido. Revísalo e inténtalo de nuevo',
+    invalidCurl: 'Comando cURL no válido',
     copyCurl: 'Copiar cURL',
   },
 
@@ -137,6 +137,8 @@ const es = {
     generateCertificate: 'Generar certificado',
     certificated: 'Certificado ✅',
     notEligible: 'No elegible (se necesitan al menos 70 pruebas)',
+    failedToExport: 'No se pudo exportar el informe',
+    failedToGenerateCertificate: 'No se pudo generar el certificado',
     securityTests: 'Pruebas de seguridad',
     performanceInsights: 'Análisis de rendimiento',
     dataDrivenTests: 'Pruebas basadas en datos',
@@ -144,13 +146,13 @@ const es = {
     runningSecurityTests: 'Ejecutando pruebas de seguridad...',
     runningPerformanceInsights: 'Ejecutando análisis de rendimiento...',
     runningDataDrivenTests: 'Ejecutando pruebas basadas en datos...',
-    preparingCrud: 'Preparando CRUD…',
+    preparingCrud: 'Preparando CRUD...',
     crudDescription:
       'CRUD se genera a partir de la respuesta de la prueba de manejo del método OPTIONS en las pruebas de seguridad.',
     crudNote: 'Nota:',
     crudNoteText: 'Si la prueba de manejo del método OPTIONS está desactivada, CRUD no se generará.',
     copyBugReport: 'Copiar informe de error',
-    computingDifferences: 'Calculando diferencias…',
+    computingDifferences: 'Calculando diferencias...',
     parameters: 'Parámetros',
     bodyParameters: 'Cuerpo',
     queryParameters: 'Consulta',
@@ -290,7 +292,7 @@ const es = {
         'El CLI de Rentgen ejecuta una carpeta de solicitudes desde una exportación de proyecto <c>.rentgen</c>, directamente desde el terminal — construido para pipelines de CI y pruebas de humo en scripts. Lee el mismo archivo producido por <e>General → Exportar proyecto</e> y nunca escribe en él.',
       fullDocumentation: 'Documentación completa:',
       installInPath: 'Instalar en shell PATH ({{platform}})',
-      checkingStatus: 'Comprobando estado de instalación…',
+      checkingStatus: 'Comprobando estado de instalación...',
       runCli: 'Ejecutar el CLI',
       runCliDescription:
         'Rentgen expone un único subcomando, <c>xray</c> (alias: <c>run</c>). Apúntalo al archivo de proyecto que exportaste desde la aplicación.',
@@ -298,7 +300,7 @@ const es = {
       noProjectFileYet:
         '¿Aún no tienes un archivo de proyecto? Exporta uno ahora — misma acción que <e>General → Exportar proyecto</e>.',
       developmentNote:
-        'Durante el desarrollo, invócalo directamente desde el repo con <c>npm run dev:cli -- xray …</c>.',
+        'Durante el desarrollo, invócalo directamente desde el repo con <c>npm run dev:cli -- xray ...</c>.',
       options: 'Opciones',
       examples: 'Ejemplos',
       exampleInteractive: 'Elige una carpeta y un entorno de forma interactiva:',
@@ -329,7 +331,7 @@ const es = {
         notInstalledDescription: 'Haz clic en <e>Instalar</e> abajo para añadir <c>rentgen</c> a tu shell PATH.',
       },
       action: {
-        working: 'Trabajando…',
+        working: 'Trabajando...',
         uninstall: 'Desinstalar CLI',
         reinstall: 'Reinstalar',
         installRentgenInPath: 'Instalar comando rentgen en PATH',

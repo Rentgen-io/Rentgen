@@ -96,7 +96,7 @@ export function registerProjectHandlers(): void {
       const parsed = JSON.parse(content);
 
       if (!validateProjectFile(parsed))
-        return { error: 'Invalid Rentgen project file. Missing required data sections.' };
+        return { error: 'Invalid Rentgen project file. Missing required data sections' };
 
       const integrityStatus = verifyChecksum(parsed.meta.checksum, parsed.data);
 
@@ -108,7 +108,7 @@ export function registerProjectHandlers(): void {
         fileName: path.basename(result.filePaths[0]),
       };
     } catch (error) {
-      if (error instanceof SyntaxError) return { error: 'Invalid JSON file.' };
+      if (error instanceof SyntaxError) return { error: 'Invalid JSON file' };
       return { error: String(error) };
     }
   });

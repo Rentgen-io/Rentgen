@@ -9,7 +9,6 @@ interface UIState {
   saved: boolean;
   exported: boolean;
   certificated: boolean;
-  certificateError: string;
 }
 
 const initialState: UIState = {
@@ -18,7 +17,6 @@ const initialState: UIState = {
   saved: false,
   exported: false,
   certificated: false,
-  certificateError: '',
 };
 
 export const uiSlice = createSlice({
@@ -42,9 +40,6 @@ export const uiSlice = createSlice({
     },
     setCertificated: (state, action: PayloadAction<boolean>) => {
       state.certificated = action.payload;
-    },
-    setCertificateError: (state, action: PayloadAction<string>) => {
-      state.certificateError = action.payload;
     },
   },
 });
