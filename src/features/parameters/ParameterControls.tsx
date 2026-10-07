@@ -5,7 +5,6 @@ import Input from 'src/components/inputs/Input';
 import { SelectOption } from 'src/components/inputs/Select';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import Toggle from 'src/components/inputs/Toggle';
-import { MAX_INT32 } from 'src/constants/datasets';
 import { useAppSelector } from 'src/store/hooks';
 import { selectTestEngineConfiguration } from 'src/store/selectors';
 import { isParameterTestSkipped } from 'src/test-engine';
@@ -67,7 +66,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
               type="number"
               value={normalizeDecimal((value as Interval).min) ?? ''}
               onBlur={() => onMinBlur(testEngineConfiguration.number.min)}
-              onChange={(event) => onMinChange(event.target.value, -MAX_INT32, MAX_INT32)}
+              onChange={(event) => onMinChange(event.target.value, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER)}
             />
             <Input
               className={inputClassName}
@@ -76,7 +75,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
               type="number"
               value={normalizeDecimal((value as Interval).max) ?? ''}
               onBlur={() => onMaxBlur(testEngineConfiguration.number.max)}
-              onChange={(event) => onMaxChange(event.target.value, -MAX_INT32, MAX_INT32)}
+              onChange={(event) => onMaxChange(event.target.value, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER)}
             />
           </div>
         )}

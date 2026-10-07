@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { DEFAULT_FOLDER_ID } from 'shared/utils/collection';
 import { loadCollection as loadCollectionFile } from 'src/api/storage';
 import { PostmanCollection } from 'src/types';
 import {
@@ -30,7 +31,7 @@ interface CollectionState {
 const initialState: CollectionState = {
   data: createEmptyCollection(),
   selectedRequestId: null,
-  selectedFolderId: 'default',
+  selectedFolderId: DEFAULT_FOLDER_ID,
   loading: false,
   error: null,
 };
@@ -211,7 +212,7 @@ export const collectionSlice = createSlice({
         state.data = action.payload;
         state.loading = false;
 
-        const folder = state.data.item?.find((f) => f.id === 'default') ?? state.data.item?.[0];
+        const folder = state.data.item?.find((f) => f.id === DEFAULT_FOLDER_ID) ?? state.data.item?.[0];
         if (folder) state.selectedFolderId = folder.id;
       })
       .addCase(loadCollection.rejected, (state, action) => {

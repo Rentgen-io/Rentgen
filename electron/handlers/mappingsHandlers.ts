@@ -1,7 +1,8 @@
 import { app, ipcMain } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import { initialState, MappingsState } from 'src/store/slices/mappingsSlice';
+import { defaultMappings } from 'shared/defaults';
+import type { MappingsState } from 'shared/types/mappings';
 
 const getMappingsPath = () => path.join(app.getPath('userData'), 'mappings.json');
 
@@ -14,7 +15,7 @@ export function registerMappingsHandlers(): void {
       console.error(error);
     }
 
-    return initialState;
+    return defaultMappings;
   });
   ipcMain.on('save-mappings', (_, mappings: MappingsState) => {
     try {

@@ -1,101 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import merge from 'deepmerge';
+import { defaultSettings } from 'shared/defaults';
+import { MEDIAN_RESPONSE_TIME_TEST_NAME, NETWORK_SHARE_TEST_NAME, PING_LATENCY_TEST_NAME } from 'shared/testNames';
 import { loadSettings as loadSettingsFile } from 'src/api/storage';
-import { appConfig } from 'src/constants/appConfig';
-import { MAX_INT32 } from 'src/constants/datasets';
 import i18n from 'src/i18n';
-import { Language } from 'src/i18n/languages';
-import { Interval } from 'src/types';
+import { HistoryRetention, Language, SettingsState } from 'src/types';
 
-export const MEDIAN_RESPONSE_TIME_TEST_NAME = 'Median Response Time';
-export const NETWORK_SHARE_TEST_NAME = 'Network Share Calculation';
-export const PING_LATENCY_TEST_NAME = 'Ping Latency';
-
-export type HistoryRetention = '1w' | '1m' | '3m' | '6m' | '1y' | 'none';
-
-export interface SettingsState {
-  cli: unknown;
-  general: {
-    history: {
-      enabled: boolean;
-      size: number;
-      retention: HistoryRetention;
-    };
-  };
-  testEngine: {
-    configuration: {
-      email: {
-        domain: string;
-      };
-      randomEmail: {
-        length: number;
-      };
-      randomInt: Interval;
-      randomString: {
-        length: number;
-      };
-      enum: string;
-      number: Interval;
-      string: {
-        maxLength: number;
-        minLength: number;
-      };
-    };
-    securityTests: {
-      disabled: string[];
-    };
-    performanceInsights: {
-      disabled: string[];
-    };
-  };
-  theme: 'light' | 'dark';
-  language: Language;
-}
-
-export const initialState: SettingsState = {
-  cli: {},
-  general: {
-    history: {
-      enabled: true,
-      size: 1000,
-      retention: 'none',
-    },
-  },
-  testEngine: {
-    configuration: {
-      email: {
-        domain: appConfig.domain,
-      },
-      randomEmail: {
-        length: 8,
-      },
-      randomInt: {
-        min: 0,
-        max: MAX_INT32,
-      },
-      randomString: {
-        length: 32,
-      },
-      enum: '',
-      number: {
-        min: -10000,
-        max: 10000,
-      },
-      string: {
-        minLength: 1,
-        maxLength: 128,
-      },
-    },
-    securityTests: {
-      disabled: [],
-    },
-    performanceInsights: {
-      disabled: [],
-    },
-  },
-  theme: 'light',
-  language: 'en',
-};
+export const initialState: SettingsState = defaultSettings;
 
 export const loadSettings = createAsyncThunk('settings/load', async () => await loadSettingsFile());
 

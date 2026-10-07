@@ -1,9 +1,5 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import Toggle from 'src/components/inputs/Toggle';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectDisabledSecurityTests } from 'src/store/selectors';
-import { settingsActions } from 'src/store/slices/settingsSlice';
 import {
   AUTHORIZATION_TEST_NAME,
   CACHE_CONTROL_PRIVATE_API_TEST_NAME,
@@ -19,7 +15,11 @@ import {
   UNSUPPORTED_METHOD_TEST_NAME,
   UPPERCASE_DOMAIN_TEST_NAME,
   UPPERCASE_PATH_TEST_NAME,
-} from 'src/test-engine';
+} from 'shared/testNames';
+import Toggle from 'src/components/inputs/Toggle';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectDisabledSecurityTests } from 'src/store/selectors';
+import { settingsActions } from 'src/store/slices/settingsSlice';
 
 export const SECURITY_TESTS: string[] = [
   AUTHORIZATION_TEST_NAME,
@@ -39,9 +39,9 @@ export const SECURITY_TESTS: string[] = [
 ];
 
 export function SecurityTestsSettings() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
-  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col gap-4">

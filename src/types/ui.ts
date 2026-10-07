@@ -43,3 +43,11 @@ export interface ProjectImportConfirmModalState {
   integrityStatus: IntegrityStatus | null;
   fileName: string;
 }
+
+export interface ParsedCurlResult {
+  body: string | null;
+  decodedLines: string[];
+  headers: Record<string, string>;
+  method: string;
+  url: string;
+}

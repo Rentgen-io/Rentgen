@@ -13,7 +13,7 @@ import {
   UNSUPPORTED_METHOD_TEST_NAME,
   UPPERCASE_DOMAIN_TEST_NAME,
   UPPERCASE_PATH_TEST_NAME,
-} from '../SecurityTests';
+} from 'shared/testNames';
 
 export const securityTemplates: Record<string, string> = {
   [NO_SENSITIVE_SERVER_HEADERS_TEST_NAME]: `BUG REPORT – No Sensitive Server Headers

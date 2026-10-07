@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { loadHistory as loadHistoryFile } from 'src/api/storage';
-import { HistoryEntry } from 'src/types/history';
+import { HistoryEntry } from 'src/types';
 
 function getRetentionCutoff(retention: string): number | null {
   const now = Date.now();

@@ -6,21 +6,7 @@ import { getCliStatus, installCli, openExternal, uninstallCli } from 'src/api/sy
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import { useAppDispatch } from 'src/store/hooks';
 import { uiActions } from 'src/store/slices/uiSlice';
-
-interface CliStatus {
-  platform: NodeJS.Platform;
-  bundled: { available: boolean; path: string | null };
-  pathEntry: { found: boolean; resolvedPath: string | null; pointsToBundled: boolean; version: string | null };
-  managedBy: 'package-manager' | 'app' | 'manual' | 'none';
-  recommendedTarget: string | null;
-  notes: string[];
-}
-
-interface CliActionResult {
-  success: boolean;
-  message: string;
-  details?: string;
-}
+import type { CliActionResult, CliStatus } from 'src/types';
 
 interface FlagRow {
   flag: string;

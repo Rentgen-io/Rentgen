@@ -1,5 +1,10 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import {
+  ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
+  LOAD_TEST_NAME,
+  RESPONSE_SIZE_CHECK_TEST_NAME,
+} from 'shared/testNames';
 import Toggle from 'src/components/inputs/Toggle';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import Panel from 'src/components/panels/Panel';
@@ -19,11 +24,6 @@ import {
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import {
-  ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
-  LOAD_TEST_NAME,
-  RESPONSE_SIZE_CHECK_TEST_NAME,
-} from 'src/test-engine';
 import { TestStatus } from 'src/types';
 import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColumns } from '../tables/TestsTable';
 

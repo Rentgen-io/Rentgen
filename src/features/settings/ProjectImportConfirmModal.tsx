@@ -9,10 +9,10 @@ import { selectProjectImportConfirmModal } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { historyActions } from 'src/store/slices/historySlice';
-import { mappingsActions, MappingsState } from 'src/store/slices/mappingsSlice';
+import { mappingsActions } from 'src/store/slices/mappingsSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { settingsActions, SettingsState } from 'src/store/slices/settingsSlice';
-import { HistoryEntry } from 'src/types/history';
+import { settingsActions } from 'src/store/slices/settingsSlice';
+import { HistoryEntry, MappingsState, SettingsState } from 'src/types';
 
 function formatDate(isoString: string): string {
   try {

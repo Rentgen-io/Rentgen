@@ -1,6 +1,6 @@
+import { RESPONSE_STATUS, getResponseStatusTitle } from 'shared/responseStatus';
 import { sendHttp } from 'src/api/network';
 import { getDatasets } from 'src/constants/datasets';
-import { RESPONSE_STATUS, getResponseStatusTitle } from 'src/constants/responseStatus';
 import store from 'src/store';
 import {
   DataType,

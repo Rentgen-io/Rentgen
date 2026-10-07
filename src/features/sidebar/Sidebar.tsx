@@ -1,8 +1,8 @@
 import cn from 'classnames';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { appConfig } from 'shared/constants';
 import { getAppVersion, openExternal } from 'src/api/system';
-import { appConfig } from 'src/constants/appConfig';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectHistoryEnabled, selectSidebarActiveTab } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';

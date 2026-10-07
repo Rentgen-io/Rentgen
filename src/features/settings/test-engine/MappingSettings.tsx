@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next';
+import { appConfig } from 'shared/constants';
 import Input from 'src/components/inputs/Input';
-import { appConfig } from 'src/constants/appConfig';
-import { MAX_INT32 } from 'src/constants/datasets';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectTestEngineConfiguration } from 'src/store/selectors';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import { clamp } from 'src/utils';
 
 export function MappingSettings() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
   const randomEmailConfiguration = testEngineConfiguration.randomEmail;
@@ -17,7 +17,6 @@ export function MappingSettings() {
   const enumConfiguration = testEngineConfiguration.enum;
   const numberConfiguration = testEngineConfiguration.number;
   const stringConfiguration = testEngineConfiguration.string;
-  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col gap-4">
@@ -82,7 +81,7 @@ export function MappingSettings() {
                 )
               }
               onChange={(event) => {
-                const value = clamp(parseInt(event.target.value), -MAX_INT32, MAX_INT32);
+                const value = clamp(parseInt(event.target.value), -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
                 dispatch(settingsActions.setNumberMin(value));
               }}
             />
@@ -99,7 +98,7 @@ export function MappingSettings() {
                 )
               }
               onChange={(event) => {
-                const value = clamp(parseInt(event.target.value), -MAX_INT32, MAX_INT32);
+                const value = clamp(parseInt(event.target.value), -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
                 dispatch(settingsActions.setNumberMax(value));
               }}
             />
@@ -162,7 +161,7 @@ export function MappingSettings() {
                 )
               }
               onChange={(event) => {
-                const value = clamp(parseInt(event.target.value), 0, MAX_INT32);
+                const value = clamp(parseInt(event.target.value), 0, Number.MAX_SAFE_INTEGER);
                 dispatch(settingsActions.setRandomIntMin(value));
               }}
             />
@@ -178,12 +177,12 @@ export function MappingSettings() {
                   settingsActions.setRandomIntMax(
                     randomIntConfiguration.max
                       ? Math.max(randomIntConfiguration.max, randomIntConfiguration.min)
-                      : MAX_INT32,
+                      : Number.MAX_SAFE_INTEGER,
                   ),
                 )
               }
               onChange={(event) => {
-                const value = clamp(parseInt(event.target.value), 0, MAX_INT32);
+                const value = clamp(parseInt(event.target.value), 0, Number.MAX_SAFE_INTEGER);
                 dispatch(settingsActions.setRandomIntMax(value));
               }}
             />

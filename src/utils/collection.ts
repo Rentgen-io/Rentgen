@@ -1,3 +1,4 @@
+import { DEFAULT_FOLDER_ID, DEFAULT_FOLDER_NAME, generateFolderId, generateRequestId } from 'shared/utils/collection';
 import {
   ImportConflict,
   ImportConflictSummary,
@@ -8,9 +9,7 @@ import {
   PostmanRequest,
 } from 'src/types';
 
-const DEFAULT_FOLDER_ID = 'default';
-const DEFAULT_FOLDER_NAME = 'All Requests';
-const COLLECTION_SCHEMA = 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json';
+export { createEmptyCollection, generateFolderId, generateRequestId } from 'shared/utils/collection';
 
 export interface CollectionItemData {
   id: string;
@@ -24,27 +23,6 @@ export interface CollectionFolderData {
   id: string;
   name: string;
   items: CollectionItemData[];
-}
-
-export function createEmptyCollection(): PostmanCollection {
-  return {
-    info: {
-      name: 'Rentgen Collection',
-      description: 'Saved HTTP requests from Rentgen',
-      schema: COLLECTION_SCHEMA,
-    },
-    item: [
-      {
-        id: DEFAULT_FOLDER_ID,
-        name: DEFAULT_FOLDER_NAME,
-        item: [],
-      },
-    ],
-  };
-}
-
-export function generateRequestId(): string {
-  return `req_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 }
 
 export function headersToPostmanFormat(headers: Record<string, string>): PostmanHeader[] {
@@ -257,10 +235,6 @@ export function collectionToGroupedSidebarData(collection: PostmanCollection): C
       folderId: folder.id,
     })),
   }));
-}
-
-export function generateFolderId(): string {
-  return `folder_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 }
 
 export function addFolderToCollection(collection: PostmanCollection, name: string): PostmanCollection {

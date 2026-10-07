@@ -5,7 +5,7 @@ import {
   NETWORK_SHARE_TEST_NAME,
   PING_LATENCY_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
-} from '../PerformanceInsights';
+} from 'shared/testNames';
 
 export const performanceTemplates: Record<string, string> = {
   [MEDIAN_RESPONSE_TIME_TEST_NAME]: `BUG REPORT – Slow Median Response Time (Performance Degradation)

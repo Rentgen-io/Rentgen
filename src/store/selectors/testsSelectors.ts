@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { RESPONSE_STATUS } from 'src/constants/responseStatus';
+import { RESPONSE_STATUS } from 'shared/responseStatus';
 import { RootState } from 'src/store';
 import { selectHttpResponse, selectStatusCode } from './responseSelectors';
 

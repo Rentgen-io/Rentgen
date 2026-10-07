@@ -1,7 +1,8 @@
 import { app, ipcMain, nativeTheme } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import { initialState, SettingsState } from 'src/store/slices/settingsSlice';
+import { defaultSettings } from 'shared/defaults';
+import type { SettingsState } from 'shared/types/settings';
 
 const getSettingsPath = () => path.join(app.getPath('userData'), 'settings.json');
 
@@ -25,5 +26,5 @@ export function loadSettings(): SettingsState {
     console.error(error);
   }
 
-  return initialState;
+  return defaultSettings;
 }

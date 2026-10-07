@@ -1,8 +1,10 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { LARGE_PAYLOAD_TEST_NAME } from 'shared/testNames';
 import Toggle from 'src/components/inputs/Toggle';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import Panel from 'src/components/panels/Panel';
+import { SECURITY_TESTS } from 'src/features/settings/test-engine/SecurityTestsSettings';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -16,12 +18,10 @@ import {
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import { LARGE_PAYLOAD_TEST_NAME } from 'src/test-engine';
 import { TestStatus } from 'src/types';
 import { LargePayloadTestControls } from '../controls/LargePayloadTestControls';
 import { TestResultControls } from '../controls/TestResultControls';
 import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColumns } from '../tables/TestsTable';
-import { SECURITY_TESTS } from 'src/features/settings/test-engine/SecurityTestsSettings';
 
 export default function SecurityTestsPanel() {
   const dispatch = useAppDispatch();

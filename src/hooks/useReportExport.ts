@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { appConfig } from 'shared/constants';
 import { generateCertificate as generateCertificateFile, saveReport } from 'src/api/files';
-import { appConfig } from 'src/constants/appConfig';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCurrentTestResults, selectExportFormat, selectHttpResponse } from 'src/store/selectors';
 import { uiActions } from 'src/store/slices/uiSlice';

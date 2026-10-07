@@ -1,8 +1,7 @@
 import cn from 'classnames';
 import { HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CopyButton } from 'src/components/buttons/CopyButton';
-import { appConfig } from 'src/constants/appConfig';
+import { appConfig } from 'shared/constants';
 import {
   ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
   LOAD_TEST_NAME,
@@ -10,7 +9,8 @@ import {
   NETWORK_SHARE_TEST_NAME,
   PING_LATENCY_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
-} from 'src/test-engine';
+} from 'shared/testNames';
+import { CopyButton } from 'src/components/buttons/CopyButton';
 import { performanceTemplates, securityTemplates } from 'src/test-engine/reports';
 import { TestResult, TestStatus } from 'src/types';
 import { generateCurl } from 'src/utils';

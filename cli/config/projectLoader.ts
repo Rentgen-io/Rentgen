@@ -1,12 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { computeChecksum } from '../../shared/checksum';
-import type {
-  IntegrityStatus,
-  ProjectData,
-  ProjectFile,
-  ProjectMeta,
-} from '../../shared/types/project';
+import type { IntegrityStatus, ProjectData, ProjectFile, ProjectMeta } from '../../shared/types/project';
+import { computeChecksum } from '../../shared/utils/checksum';
 
 export interface LoadedProject {
   file: ProjectFile;
@@ -48,7 +43,9 @@ export function loadProject(filePath: string): LoadedProject {
   }
 
   const integrity: IntegrityStatus = parsed.meta.checksum
-    ? computeChecksum(parsed.data) === parsed.meta.checksum ? 'verified' : 'modified'
+    ? computeChecksum(parsed.data) === parsed.meta.checksum
+      ? 'verified'
+      : 'modified'
     : 'missing';
 
   return { file: parsed, integrity, filePath: resolved };

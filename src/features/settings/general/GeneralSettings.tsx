@@ -8,8 +8,9 @@ import Toggle from 'src/components/inputs/Toggle';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectHistoryEnabled, selectHistoryRetention, selectHistorySize } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { HistoryRetention, settingsActions } from 'src/store/slices/settingsSlice';
+import { settingsActions } from 'src/store/slices/settingsSlice';
 import { uiActions } from 'src/store/slices/uiSlice';
+import { HistoryRetention } from 'src/types';
 
 export function GeneralSettings() {
   const dispatch = useAppDispatch();

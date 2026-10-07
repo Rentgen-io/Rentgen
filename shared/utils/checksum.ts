@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import type { IntegrityStatus, ProjectData } from './types/project';
+import { IntegrityStatus, ProjectData } from '../types/project';
 
 /** Deterministic JSON stringify: non-array objects have their keys sorted alphabetically.
  *  Arrays keep their order. */

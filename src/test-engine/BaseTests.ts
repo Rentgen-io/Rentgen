@@ -1,4 +1,4 @@
-import { RESPONSE_STATUS } from 'src/constants/responseStatus';
+import { RESPONSE_STATUS } from 'shared/responseStatus';
 import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from 'src/types';
 import { extractStatusCode } from 'src/utils';
 

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
+import { RESPONSE_STATUS, RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import { sendHttp } from 'src/api/network';
-import { RESPONSE_STATUS, RESPONSE_STATUS_LABEL } from 'src/constants/responseStatus';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBody,

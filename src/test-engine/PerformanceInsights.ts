@@ -1,5 +1,13 @@
+import { getResponseStatusTitle, RESPONSE_STATUS } from 'shared/responseStatus';
+import {
+  ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
+  LOAD_TEST_NAME,
+  MEDIAN_RESPONSE_TIME_TEST_NAME,
+  NETWORK_SHARE_TEST_NAME,
+  PING_LATENCY_TEST_NAME,
+  RESPONSE_SIZE_CHECK_TEST_NAME,
+} from 'shared/testNames';
 import { pingHost, sendHttp } from 'src/api/network';
-import { getResponseStatusTitle, RESPONSE_STATUS } from 'src/constants/responseStatus';
 import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from 'src/types';
 import {
   calculateMedian,
@@ -18,13 +26,6 @@ import {
   ORIGINAL_REQUEST_TEST_PARAMETER_NAME,
 } from './BaseTests';
 import { Abortable, Test } from './decorators';
-
-export const ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME = 'Array List Without Pagination';
-export const LOAD_TEST_NAME = 'Load Test';
-export const MEDIAN_RESPONSE_TIME_TEST_NAME = 'Median Response Time';
-export const NETWORK_SHARE_TEST_NAME = 'Network Share Calculation';
-export const PING_LATENCY_TEST_NAME = 'Ping Latency';
-export const RESPONSE_SIZE_CHECK_TEST_NAME = 'Response Size Check';
 
 const ARRAY_LIST_WITHOUT_PAGINATION_TEST_EXPECTED = 'Supports Pagination / Limit (Query Parameters Present)';
 

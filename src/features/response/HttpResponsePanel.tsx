@@ -1,11 +1,11 @@
 import cn from 'classnames';
 import { Ref, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import { CopyButton } from 'src/components/buttons/CopyButton';
 import Loader from 'src/components/loaders/Loader';
 import Panel from 'src/components/panels/Panel';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
-import { RESPONSE_STATUS_LABEL } from 'src/constants/responseStatus';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {

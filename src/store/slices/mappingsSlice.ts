@@ -1,15 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { defaultMappings } from 'shared/defaults';
 import { loadMappings as loadMappingsFile } from 'src/api/storage';
-import { RequestParameters } from 'src/types';
+import { MappingsState, RequestParameters } from 'src/types';
 
-export interface MappingsState {
-  [key: string]: {
-    body: RequestParameters;
-    query: RequestParameters;
-  };
-}
-
-export const initialState: MappingsState = {};
+export const initialState: MappingsState = defaultMappings;
 
 export const loadMappings = createAsyncThunk('mappings/load', async () => await loadMappingsFile());
 

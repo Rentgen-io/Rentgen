@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectHistoryEntries } from 'src/store/selectors';
 import { historyActions } from 'src/store/slices/historySlice';
-import { HistoryEntry } from 'src/types/history';
+import { HistoryEntry } from 'src/types';
 import SideBarSearch from '../SidebarSearch';
 import HistoryDateGroup from './HistoryDateGroup';
 
@@ -40,11 +40,8 @@ function groupHistoryByDate(entries: HistoryEntry[]): DateGroup[] {
     }
 
     const existing = groups.get(key);
-    if (existing) {
-      existing.entries.push(entry);
-    } else {
-      groups.set(key, { label, entries: [entry] });
-    }
+    if (existing) existing.entries.push(entry);
+    else groups.set(key, { label, entries: [entry] });
   }
 
   return Array.from(groups.entries()).map(([date, { label, entries: groupEntries }]) => ({
@@ -59,9 +56,8 @@ function filterGroupsBySearch(groups: DateGroup[], searchTerm: string): DateGrou
   if (!term) return groups;
 
   return groups.reduce<DateGroup[]>((acc, group) => {
-    if (group.label.toLowerCase().includes(term)) {
-      acc.push(group);
-    } else {
+    if (group.label.toLowerCase().includes(term)) acc.push(group);
+    else {
       const filtered = group.entries.filter(
         (entry) =>
           entry.url.toLowerCase().includes(term) ||
@@ -69,9 +65,7 @@ function filterGroupsBySearch(groups: DateGroup[], searchTerm: string): DateGrou
           entry.headers.toLowerCase().includes(term) ||
           entry.body.toLowerCase().includes(term),
       );
-      if (filtered.length > 0) {
-        acc.push({ ...group, entries: filtered });
-      }
+      if (filtered.length > 0) acc.push({ ...group, entries: filtered });
     }
     return acc;
   }, []);

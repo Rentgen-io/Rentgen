@@ -8,7 +8,7 @@ import { selectIsComparingTestResults } from 'src/store/selectors';
 import { historyActions } from 'src/store/slices/historySlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
-import { HistoryEntry } from 'src/types/history';
+import { HistoryEntry } from 'src/types';
 
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 

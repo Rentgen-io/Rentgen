@@ -1,7 +1,5 @@
+import { appConfig } from 'shared/constants';
 import { TestData } from 'src/types';
-import { appConfig } from './appConfig';
-
-export const MAX_INT32 = 9007199254740991;
 
 export const getDatasets = (emailDomain: string = appConfig.domain): Record<string, TestData[]> => ({
   email: [

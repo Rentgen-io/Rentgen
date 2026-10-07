@@ -47,7 +47,6 @@ export default function EnvironmentItem({ environment }: Props) {
       {...attributes}
       {...listeners}
     >
-      {/* Color indicator */}
       <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: environment.color }} />
       <span className="flex-1 text-xs truncate">{environment.title}</span>
       <ClearCrossIcon

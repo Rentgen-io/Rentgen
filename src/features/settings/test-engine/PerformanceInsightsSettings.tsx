@@ -1,16 +1,16 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import Toggle from 'src/components/inputs/Toggle';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectDisabledPerformanceInsights } from 'src/store/selectors';
-import { settingsActions } from 'src/store/slices/settingsSlice';
 import {
   ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
   MEDIAN_RESPONSE_TIME_TEST_NAME,
   NETWORK_SHARE_TEST_NAME,
   PING_LATENCY_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
-} from 'src/test-engine';
+} from 'shared/testNames';
+import Toggle from 'src/components/inputs/Toggle';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectDisabledPerformanceInsights } from 'src/store/selectors';
+import { settingsActions } from 'src/store/slices/settingsSlice';
 
 export const PERFORMANCE_INSIGHTS: string[] = [
   ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
@@ -21,9 +21,9 @@ export const PERFORMANCE_INSIGHTS: string[] = [
 ];
 
 export function PerformanceInsightsSettings() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
-  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col gap-4">

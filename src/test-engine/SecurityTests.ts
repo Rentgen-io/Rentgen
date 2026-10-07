@@ -1,7 +1,25 @@
-import { sendHttp } from 'src/api/network';
 import { Method } from 'axios';
-import { appConfig } from 'src/constants/appConfig';
-import { getResponseStatusTitle, RESPONSE_STATUS } from 'src/constants/responseStatus';
+import { appConfig } from 'shared/constants';
+import { getResponseStatusTitle, RESPONSE_STATUS } from 'shared/responseStatus';
+import {
+  AUTHORIZATION_TEST_NAME,
+  CACHE_CONTROL_PRIVATE_API_TEST_NAME,
+  CLICKJACKING_PROTECTION_TEST_NAME,
+  CORS_TEST_NAME,
+  CRUD_TEST_NAME,
+  HSTS_STRICT_TRANSPORT_SECURITY_TEST_NAME,
+  INVALID_AUTHORIZATION_TEST_NAME,
+  LARGE_PAYLOAD_TEST_NAME,
+  MIME_SNIFFING_PROTECTION_TEST_NAME,
+  NO_SENSITIVE_SERVER_HEADERS_TEST_NAME,
+  NOT_FOUND_TEST_NAME,
+  OPTIONS_METHOD_HANDLING_TEST_NAME,
+  REFLECTED_PAYLOAD_SAFETY_TEST_NAME,
+  UNSUPPORTED_METHOD_TEST_NAME,
+  UPPERCASE_DOMAIN_TEST_NAME,
+  UPPERCASE_PATH_TEST_NAME,
+} from 'shared/testNames';
+import { sendHttp } from 'src/api/network';
 import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from 'src/types';
 import { createHttpRequest, createTestHttpRequest, getHeaderValue, uppercaseDomain, uppercasePath } from 'src/utils';
 import {
@@ -13,23 +31,6 @@ import {
   SUCCESS_RESPONSE_EXPECTED,
 } from './BaseTests';
 import { Abortable, Test } from './decorators';
-
-export const AUTHORIZATION_TEST_NAME = 'Missing Authorization Cookie/Token';
-export const CACHE_CONTROL_PRIVATE_API_TEST_NAME = 'Cache-Control for Private API';
-export const CLICKJACKING_PROTECTION_TEST_NAME = 'Clickjacking Protection';
-export const CORS_TEST_NAME = 'CORS Policy Check';
-export const CRUD_TEST_NAME = 'CRUD';
-export const HSTS_STRICT_TRANSPORT_SECURITY_TEST_NAME = 'HSTS (Strict-Transport-Security)';
-export const INVALID_AUTHORIZATION_TEST_NAME = 'Invalid Authorization Cookie/Token';
-export const LARGE_PAYLOAD_TEST_NAME = 'Large Payload Test';
-export const MIME_SNIFFING_PROTECTION_TEST_NAME = 'MIME Sniffing Protection';
-export const NO_SENSITIVE_SERVER_HEADERS_TEST_NAME = 'No Sensitive Server Headers';
-export const NOT_FOUND_TEST_NAME = `${RESPONSE_STATUS.NOT_FOUND} ${getResponseStatusTitle(RESPONSE_STATUS.NOT_FOUND)}`;
-export const OPTIONS_METHOD_HANDLING_TEST_NAME = 'OPTIONS Method Handling';
-export const REFLECTED_PAYLOAD_SAFETY_TEST_NAME = 'Reflected Payload Safety';
-export const UPPERCASE_DOMAIN_TEST_NAME = 'Uppercase Domain Test';
-export const UPPERCASE_PATH_TEST_NAME = 'Uppercase Path Test';
-export const UNSUPPORTED_METHOD_TEST_NAME = 'Unsupported HTTP Method Handling';
 
 const AUTHORIZATION_TEST_EXPECTED = `${RESPONSE_STATUS.UNAUTHORIZED} ${getResponseStatusTitle(RESPONSE_STATUS.UNAUTHORIZED)}`;
 const CORS_TEST_EXPECTED = 'Public or Private API';

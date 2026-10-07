@@ -1,17 +1,12 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import { MappingsState } from 'src/store/slices/mappingsSlice';
-import type { SettingsState } from 'src/store/slices/settingsSlice';
-import {
-  ExportResult,
-  HttpRequest,
-  HttpResponse,
-  ImportResult,
-  PostmanCollection,
-  ProjectExportResult,
-  ProjectImportResult,
-  TestResults,
-} from 'src/types';
-import type { CliActionResult, CliStatus } from './handlers/cliHandlers';
+import type { CliActionResult, CliStatus } from 'shared/types/cli';
+import type { HttpRequest, HttpResponse } from 'shared/types/http';
+import type { ExportResult, ImportResult } from 'shared/types/ipc';
+import type { MappingsState } from 'shared/types/mappings';
+import type { PostmanCollection } from 'shared/types/postman';
+import type { ProjectExportResult, ProjectImportResult } from 'shared/types/project';
+import type { SettingsState } from 'shared/types/settings';
+import type { TestResults } from 'shared/types/testing';
 
 interface ElectronApi {
   connectWss: (payload: any) => void;

@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { LARGE_PAYLOAD_TEST_NAME, LOAD_TEST_NAME, OPTIONS_METHOD_HANDLING_TEST_NAME } from 'shared/testNames';
 import { getDatasets } from 'src/constants/datasets';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -23,9 +24,6 @@ import { testsActions } from 'src/store/slices/testsSlice';
 import {
   DataDrivenTests,
   generateDynamicTestData,
-  LARGE_PAYLOAD_TEST_NAME,
-  LOAD_TEST_NAME,
-  OPTIONS_METHOD_HANDLING_TEST_NAME,
   PerformanceInsights,
   runDataDrivenTests,
   runLargePayloadTest,

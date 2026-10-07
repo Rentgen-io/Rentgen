@@ -1,10 +1,10 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { openExternal } from 'src/api/system';
-import { Language, LANGUAGES } from 'src/i18n/languages';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectLanguage } from 'src/store/selectors';
 import { settingsActions } from 'src/store/slices/settingsSlice';
+import { Language, LANGUAGES } from 'src/types';
 
 export function LanguageSettings() {
   const { t } = useTranslation();

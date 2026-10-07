@@ -1,22 +1,20 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  PostmanCollection,
-  PostmanFolder,
-  PostmanItem,
-  PostmanHeader,
   PostmanBody,
-  PostmanRequest,
-  PostmanCollectionFull,
-  PostmanFolderFull,
-  PostmanItemFull,
-  PostmanUrlObject,
-  PostmanHeaderFull,
   PostmanBodyFull,
+  PostmanCollection,
+  PostmanCollectionFull,
+  PostmanFolder,
+  PostmanFolderFull,
+  PostmanHeader,
+  PostmanHeaderFull,
+  PostmanItem,
+  PostmanItemFull,
+  PostmanRequest,
   PostmanRequestFull,
-  isPostmanFolder,
-  isPostmanRequest,
-} from 'src/types';
-import { generateRequestId, generateFolderId } from './collection';
+  PostmanUrlObject,
+} from '../types/postman';
+import { generateFolderId, generateRequestId } from './collection';
 
 const COLLECTION_SCHEMA = 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json';
 
@@ -387,4 +385,14 @@ export function validatePostmanCollection(obj: unknown): ValidationResult {
   }
 
   return { valid: true };
+}
+
+// Type guard: check if item is a folder (has nested items, no request)
+function isPostmanFolder(item: PostmanItemFull | PostmanFolderFull): item is PostmanFolderFull {
+  return 'item' in item && !('request' in item);
+}
+
+// Type guard: check if item is a request
+function isPostmanRequest(item: PostmanItemFull | PostmanFolderFull): item is PostmanItemFull {
+  return 'request' in item;
 }

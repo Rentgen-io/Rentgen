@@ -41,7 +41,6 @@ export default function EnvironmentPanel() {
 
   return (
     <>
-      {/* Add New Env Button - Always visible at top */}
       <div
         className="flex items-center gap-2 px-3 py-2 border-b border-border dark:border-dark-border hover:bg-button-secondary dark:hover:bg-dark-input cursor-pointer outline-none"
         onClick={() => dispatch(environmentActions.startAddEnvironment())}
@@ -52,7 +51,6 @@ export default function EnvironmentPanel() {
         </span>
       </div>
 
-      {/* Environment List */}
       {environments.length > 0 ? (
         <div className="h-full overflow-x-hidden overflow-y-auto">
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>

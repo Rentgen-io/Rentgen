@@ -1,3 +1,5 @@
+import { Interval } from 'shared/types/testing';
+
 export const LANGUAGES = [
   { code: 'en', label: 'English' },
   { code: 'id', label: 'Bahasa Indonesia' },
@@ -21,3 +23,44 @@ export const LANGUAGES = [
 ] as const;
 
 export type Language = (typeof LANGUAGES)[number]['code'];
+
+export type HistoryRetention = '1w' | '1m' | '3m' | '6m' | '1y' | 'none';
+
+export interface SettingsState {
+  cli: unknown;
+  general: {
+    history: {
+      enabled: boolean;
+      size: number;
+      retention: HistoryRetention;
+    };
+  };
+  testEngine: {
+    configuration: {
+      email: {
+        domain: string;
+      };
+      randomEmail: {
+        length: number;
+      };
+      randomInt: Interval;
+      randomString: {
+        length: number;
+      };
+      enum: string;
+      number: Interval;
+      string: {
+        maxLength: number;
+        minLength: number;
+      };
+    };
+    securityTests: {
+      disabled: string[];
+    };
+    performanceInsights: {
+      disabled: string[];
+    };
+  };
+  theme: 'light' | 'dark';
+  language: Language;
+}

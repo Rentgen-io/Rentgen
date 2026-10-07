@@ -1,7 +1,4 @@
-import type { MappingsState } from 'src/store/slices/mappingsSlice';
-import type { SettingsState } from 'src/store/slices/settingsSlice';
-import { DynamicVariable, Environment, PostmanCollection } from 'src/types';
-import { HistoryEntry } from 'src/types/history';
+import { DynamicVariable, Environment, HistoryEntry, MappingsState, PostmanCollection, SettingsState } from 'src/types';
 
 export const loadCollection = () => window.electronAPI.loadCollection();
 export const saveCollection = (collection: PostmanCollection) => window.electronAPI.saveCollection(collection);
