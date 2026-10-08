@@ -28,17 +28,18 @@ interface EnvironmentOption {
 }
 
 export default function SetAsDynamicVariableModal() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
   const modalState = useAppSelector(selectSetAsDynamicVariableModal);
   const environments = useAppSelector(selectEnvironments);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
-  const [name, setName] = useState('');
-  const [selector, setSelector] = useState('');
+
+  const [name, setName] = useState<string>('');
+  const [selector, setSelector] = useState<string>('');
   const [selectedEnvironment, setSelectedEnvironment] = useState<EnvironmentOption | null>(null);
   const [duplicateToOverwrite, setDuplicateToOverwrite] = useState<DynamicVariable | null>(null);
-  const { t } = useTranslation();
 
-  // Reset form when modal opens
   useEffect(() => {
     if (modalState.isOpen) {
       setName(sanitizeToVariableName(modalState.initialSelector));

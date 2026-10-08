@@ -7,12 +7,10 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBody,
   selectBodyParameters,
-  selectCertificated,
   selectCurrentTestResults,
   selectDisabledRunTests,
   selectDynamicVariables,
   selectExportFormat,
-  selectExported,
   selectHeaders,
   selectHttpResponse,
   selectIsRunningTests,
@@ -28,8 +26,8 @@ import { ReportFormat } from 'src/types';
 import { substituteRequestVariables } from 'src/utils';
 
 export default function TestRunnerBar() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const url = useAppSelector(selectUrl);
   const headers = useAppSelector(selectHeaders);
@@ -40,14 +38,11 @@ export default function TestRunnerBar() {
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
   const httpResponse = useAppSelector(selectHttpResponse);
-
   const testResults = useAppSelector(selectCurrentTestResults);
   const testResultsToCompare = useAppSelector(selectTestResultsToCompare);
   const isRunningTests = useAppSelector(selectIsRunningTests);
   const disabledRunTests = useAppSelector(selectDisabledRunTests);
   const exportFormat = useAppSelector(selectExportFormat);
-  const exported = useAppSelector(selectExported);
-  const certificated = useAppSelector(selectCertificated);
 
   const { currentTest, testsCount, executeAllTests } = useTests();
   const { exportReport, generateCertificate } = useReportExport();
@@ -109,11 +104,11 @@ export default function TestRunnerBar() {
                 disabled={isRunningTests}
                 onClick={exportReport}
               >
-                {exported ? t('tests.exported') : t('common.export')}
+                {t('common.export')}
               </Button>
             </div>
             <Button className="@xl:truncate" disabled={isRunningTests} onClick={generateCertificate}>
-              {certificated ? t('tests.certificated') : t('tests.generateCertificate')}
+              {t('tests.generateCertificate')}
             </Button>
           </div>
         )}

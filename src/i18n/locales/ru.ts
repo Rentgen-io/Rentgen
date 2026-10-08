@@ -3,7 +3,7 @@ const ru = {
   common: {
     send: 'Отправить',
     save: 'Сохранить',
-    saved: 'Сохранено ✅',
+    saved: 'Сохранено',
     cancel: 'Отмена',
     close: 'Закрыть',
     ok: 'OK',
@@ -12,7 +12,8 @@ const ru = {
     import: 'Импорт',
     export: 'Экспорт',
     copy: 'Копировать',
-    copied: 'Скопировано ✅',
+    copied: 'Скопировано',
+    failedCopy: 'Не удалось скопировать',
     run: 'Запустить',
     replace: 'Заменить',
     merge: 'Объединить',
@@ -35,6 +36,8 @@ const ru = {
     warnings: 'Предупреждения',
     ignore: 'Игнорировать',
     ignored: 'Игнорируется',
+    exported: 'Экспортировано',
+    certificated: 'Сертификат создан',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const ru = {
     selectForCompare: 'Выбрать для сравнения',
     compareWithSelected: 'Сравнить с выбранным',
     exportFormat: 'Формат',
-    exported: 'Экспортировано ✅',
     generateCertificate: 'Создать сертификат',
-    certificated: 'Сертификат создан ✅',
     notEligible: 'Недоступно (нужно не менее 70 тестов)',
     failedToExport: 'Не удалось экспортировать отчёт',
     failedToGenerateCertificate: 'Не удалось создать сертификат',

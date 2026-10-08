@@ -15,7 +15,9 @@ interface Props {
 
 export default function EnvironmentItem({ environment }: Props) {
   const dispatch = useAppDispatch();
+
   const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
+
   const isSelected = environment.id === selectedEnvironmentId;
   const { attributes, isDragging, listeners, transform, transition, setNodeRef } = useSortable({
     id: environment.id,

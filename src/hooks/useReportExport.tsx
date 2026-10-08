@@ -1,34 +1,22 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { appConfig } from 'shared/constants';
 import { generateCertificate as generateCertificateFile, saveReport } from 'src/api/files';
+import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCurrentTestResults, selectExportFormat, selectHttpResponse } from 'src/store/selectors';
-import { uiActions } from 'src/store/slices/uiSlice';
 import { ExportReport, ReportFormat, ReportSuite, TestResult } from 'src/types';
 
-const FEEDBACK_MS = 2000;
 const MINIMUM_TESTS_FOR_CERTIFICATE = 70;
 
 export function useReportExport() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const testResults = useAppSelector(selectCurrentTestResults);
   const exportFormat = useAppSelector(selectExportFormat);
   const httpResponse = useAppSelector(selectHttpResponse);
-
-  const exportedTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const certificateTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  useEffect(
-    () => () => {
-      clearTimeout(exportedTimeout.current);
-      clearTimeout(certificateTimeout.current);
-    },
-    [],
-  );
 
   const exportReport = useCallback(async () => {
     if (!testResults) return;
@@ -58,9 +46,8 @@ export function useReportExport() {
       if (result?.error) throw new Error(result.error);
       if (result?.canceled) return;
 
-      dispatch(uiActions.setExported(true));
-      clearTimeout(exportedTimeout.current);
-      exportedTimeout.current = setTimeout(() => dispatch(uiActions.setExported(false)), FEEDBACK_MS);
+      toast.dismiss();
+      toast.success(<span className="flex-auto">{t('common.exported')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
     } catch (error) {
       console.error(error);
       toast.error(<span className="flex-auto">{t('tests.failedToExport')}</span>);
@@ -79,9 +66,10 @@ export function useReportExport() {
       if (result?.error) throw new Error(result.error);
       if (result?.canceled) return;
 
-      dispatch(uiActions.setCertificated(true));
-      clearTimeout(certificateTimeout.current);
-      certificateTimeout.current = setTimeout(() => dispatch(uiActions.setCertificated(false)), FEEDBACK_MS);
+      toast.dismiss();
+      toast.success(<span className="flex-auto">{t('common.certificated')}</span>, {
+        autoClose: SUCCESS_TOAST_AUTO_CLOSE,
+      });
     } catch (error) {
       console.error(error);
       toast.error(<span className="flex-auto">{t('tests.failedToGenerateCertificate')}</span>);

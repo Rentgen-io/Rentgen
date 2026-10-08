@@ -3,7 +3,7 @@ const hi = {
   common: {
     send: 'भेजें',
     save: 'सहेजें',
-    saved: 'सहेजा गया ✅',
+    saved: 'सहेजा गया',
     cancel: 'रद्द करें',
     close: 'बंद करें',
     ok: 'ठीक है',
@@ -12,7 +12,8 @@ const hi = {
     import: 'आयात करें',
     export: 'निर्यात करें',
     copy: 'कॉपी करें',
-    copied: 'कॉपी किया गया ✅',
+    copied: 'कॉपी किया गया',
+    failedCopy: 'कॉपी करने में विफल',
     run: 'चलाएँ',
     replace: 'बदलें',
     merge: 'मर्ज करें',
@@ -35,6 +36,8 @@ const hi = {
     warnings: 'चेतावनियाँ',
     ignore: 'अनदेखा करें',
     ignored: 'अनदेखा',
+    exported: 'निर्यात किया गया',
+    certificated: 'सर्टिफाइड',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const hi = {
     selectForCompare: 'तुलना के लिए चुनें',
     compareWithSelected: 'चयनित के साथ तुलना करें',
     exportFormat: 'फ़ॉर्मेट',
-    exported: 'निर्यात किया गया ✅',
     generateCertificate: 'सर्टिफिकेट जनरेट करें',
-    certificated: 'सर्टिफाइड ✅',
     notEligible: 'पात्र नहीं (कम से कम 70 टेस्ट चाहिए)',
     failedToExport: 'रिपोर्ट निर्यात करने में विफल',
     failedToGenerateCertificate: 'प्रमाणपत्र बनाने में विफल',

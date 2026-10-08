@@ -3,7 +3,7 @@ const ko = {
   common: {
     send: '보내기',
     save: '저장',
-    saved: '저장됨 ✅',
+    saved: '저장됨',
     cancel: '취소',
     close: '닫기',
     ok: '확인',
@@ -12,7 +12,8 @@ const ko = {
     import: '가져오기',
     export: '내보내기',
     copy: '복사',
-    copied: '복사됨 ✅',
+    copied: '복사됨',
+    failedCopy: '복사하지 못했습니다',
     run: '실행',
     replace: '바꾸기',
     merge: '병합',
@@ -35,6 +36,8 @@ const ko = {
     warnings: '경고',
     ignore: '무시',
     ignored: '무시됨',
+    exported: '내보냈습니다',
+    certificated: '인증되었습니다',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const ko = {
     selectForCompare: '비교 대상으로 선택',
     compareWithSelected: '선택 항목과 비교',
     exportFormat: '포맷',
-    exported: '내보냈습니다 ✅',
     generateCertificate: '인증서 생성',
-    certificated: '인증되었습니다 ✅',
     notEligible: '대상 아님 (테스트 70개 이상 필요)',
     failedToExport: '보고서를 내보내지 못했습니다',
     failedToGenerateCertificate: '인증서를 생성하지 못했습니다',

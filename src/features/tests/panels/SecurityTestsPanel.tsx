@@ -24,8 +24,8 @@ import { TestResultControls } from '../controls/TestResultControls';
 import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColumns } from '../tables/TestsTable';
 
 export default function SecurityTestsPanel() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const securityTests = useAppSelector(selectSecurityTests);
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);

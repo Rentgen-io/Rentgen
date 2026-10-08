@@ -12,9 +12,11 @@ import { useReset } from './useReset';
 const MAX_CURL_LENGTH = 200_000;
 
 export function useCurlImport() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
   const curl = useAppSelector(selectCurl);
+
   const reset = useReset();
 
   return useCallback(() => {

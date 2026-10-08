@@ -26,13 +26,15 @@ import {
 
 export function useCollectionRunner() {
   const dispatch = useAppDispatch();
+
   const collection = useAppSelector(selectCollectionData);
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
   const mappings = useAppSelector(selectMappings);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
+
   const dynamicVariablesRef = useRef<DynamicVariable[]>(dynamicVariables);
   dynamicVariablesRef.current = dynamicVariables;
-  const cancelRef = useRef(false);
+  const cancelRef = useRef<boolean>(false);
 
   const runFolder = useCallback(
     async (folderId: string) => {
@@ -41,11 +43,9 @@ export function useCollectionRunner() {
 
       cancelRef.current = false;
 
-      // Clear previous results for this folder's requests
       const requestIds = folder.item.map((item) => item.id);
       dispatch(collectionRunActions.clearFolderResults(requestIds));
 
-      // Start the run
       dispatch(
         collectionRunActions.startRun({
           folderId,
@@ -53,7 +53,6 @@ export function useCollectionRunner() {
         }),
       );
 
-      // Execute requests sequentially
       for (let i = 0; i < folder.item.length; i++) {
         if (cancelRef.current) break;
 
@@ -125,7 +124,6 @@ export function useCollectionRunner() {
           );
         }
 
-        // Extract and update dynamic variables for this request
         const extractionFailures: ExtractionFailure[] = [];
 
         for (const dynamicVariable of dynamicVariablesRef.current) {
@@ -161,7 +159,6 @@ export function useCollectionRunner() {
             });
         }
 
-        // Build warning message if any extractions failed
         let warning: string | null = null;
         if (extractionFailures.length > 0) {
           if (extractionFailures.length === 1) {

@@ -35,8 +35,10 @@ const sidebarPanels: SidebarPanel[] = [
 export default function Sidebar() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
   const activeTab = useAppSelector(selectSidebarActiveTab);
   const historyEnabled = useAppSelector(selectHistoryEnabled);
+
   const [appVersion, setAppVersion] = useState<string>('');
 
   useEffect(() => {

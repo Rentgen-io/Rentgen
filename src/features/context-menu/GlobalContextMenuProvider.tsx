@@ -29,10 +29,12 @@ const ContextMenuContext = createContext<ContextMenuValue>({} as ContextMenuValu
 export const useContextMenu = () => useContext(ContextMenuContext);
 
 export default function GlobalContextMenuProvider({ children }: PropsWithChildren) {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
   const collection = useAppSelector(selectCollectionData);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
-  const { t } = useTranslation();
+
   const [htmlElement, setHtmlElement] = useState<HTMLElement | null>(null);
   const [menuState, setMenuState] = useState<MenuState>({
     isOpen: false,

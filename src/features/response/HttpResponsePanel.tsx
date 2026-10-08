@@ -25,8 +25,8 @@ interface Props {
 }
 
 export default function HttpResponsePanel({ parametersRef }: Props) {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const httpResponse = useAppSelector(selectHttpResponse);
   const runResult = useAppSelector(selectSelectedRequestRunResult);

@@ -14,10 +14,12 @@ const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
 const FOREVER = new Date('9999-12-31T00:00:00.000Z');
 
 export default function GitHubModal() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
   const isOpen = useAppSelector(selectOpenGitHubModal);
   const isRunning = useAppSelector(selectIsRunningTests);
+
   const { crudTests, dataDrivenTests, performanceTests, securityTests } = useTests();
   const isRun =
     !isRunning && [crudTests, dataDrivenTests, performanceTests, securityTests].some((tests) => tests.length > 0);

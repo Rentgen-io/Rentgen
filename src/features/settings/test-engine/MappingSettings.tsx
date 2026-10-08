@@ -10,14 +10,16 @@ import SettingsHeader from '../SettingsHeader';
 export function MappingSettings() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
-  const randomEmailConfiguration = testEngineConfiguration.randomEmail;
-  const randomIntConfiguration = testEngineConfiguration.randomInt;
-  const randomStringConfiguration = testEngineConfiguration.randomString;
-  const emailConfiguration = testEngineConfiguration.email;
-  const enumConfiguration = testEngineConfiguration.enum;
-  const numberConfiguration = testEngineConfiguration.number;
-  const stringConfiguration = testEngineConfiguration.string;
+
+  const {
+    randomEmail,
+    randomInt,
+    randomString,
+    email,
+    enum: enumConfiguration,
+    number,
+    string,
+  } = useAppSelector(selectTestEngineConfiguration);
 
   return (
     <div className="flex flex-col gap-4">
@@ -30,9 +32,9 @@ export function MappingSettings() {
             <span>{t('settings.configuration.domain')}</span>
             <Input
               className="w-32 py-1.5"
-              value={emailConfiguration.domain}
+              value={email.domain}
               onBlur={() => {
-                if (/^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/.test(emailConfiguration.domain)) return;
+                if (/^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/.test(email.domain)) return;
                 dispatch(settingsActions.setEmailDomain(appConfig.domain));
               }}
               onChange={(event) => dispatch(settingsActions.setEmailDomain(event.target.value))}
@@ -43,9 +45,9 @@ export function MappingSettings() {
             <Input
               className="w-32 py-1.5"
               type="number"
-              value={randomEmailConfiguration.length ?? ''}
+              value={randomEmail.length ?? ''}
               onBlur={() => {
-                if (randomEmailConfiguration.length) return;
+                if (randomEmail.length) return;
                 dispatch(settingsActions.setRandomEmailLength(1));
               }}
               onChange={(event) => {
@@ -73,12 +75,8 @@ export function MappingSettings() {
             <Input
               type="number"
               className="w-32 py-1.5"
-              value={numberConfiguration.min ?? ''}
-              onBlur={() =>
-                dispatch(
-                  settingsActions.setNumberMin(Math.min(numberConfiguration.min || -10000, numberConfiguration.max)),
-                )
-              }
+              value={number.min ?? ''}
+              onBlur={() => dispatch(settingsActions.setNumberMin(Math.min(number.min || -10000, number.max)))}
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
                 dispatch(settingsActions.setNumberMin(value));
@@ -90,12 +88,8 @@ export function MappingSettings() {
             <Input
               type="number"
               className="w-32 py-1.5"
-              value={numberConfiguration.max ?? ''}
-              onBlur={() =>
-                dispatch(
-                  settingsActions.setNumberMax(Math.max(numberConfiguration.min, numberConfiguration.max || 10000)),
-                )
-              }
+              value={number.max ?? ''}
+              onBlur={() => dispatch(settingsActions.setNumberMax(Math.max(number.min, number.max || 10000)))}
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
                 dispatch(settingsActions.setNumberMax(value));
@@ -110,13 +104,9 @@ export function MappingSettings() {
             <Input
               type="number"
               className="w-32 py-1.5"
-              value={stringConfiguration.minLength ?? ''}
+              value={string.minLength ?? ''}
               onBlur={() =>
-                dispatch(
-                  settingsActions.setStringMinLength(
-                    Math.min(stringConfiguration.minLength || 1, stringConfiguration.maxLength),
-                  ),
-                )
+                dispatch(settingsActions.setStringMinLength(Math.min(string.minLength || 1, string.maxLength)))
               }
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), 1, 1000000);
@@ -129,13 +119,9 @@ export function MappingSettings() {
             <Input
               type="number"
               className="w-32 py-1.5"
-              value={stringConfiguration.maxLength ?? ''}
+              value={string.maxLength ?? ''}
               onBlur={() =>
-                dispatch(
-                  settingsActions.setStringMaxLength(
-                    Math.max(stringConfiguration.minLength, stringConfiguration.maxLength || 1000000),
-                  ),
-                )
+                dispatch(settingsActions.setStringMaxLength(Math.max(string.minLength, string.maxLength || 1000000)))
               }
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), 1, 1000000);
@@ -151,13 +137,9 @@ export function MappingSettings() {
             <Input
               type="number"
               className="w-32 py-1.5"
-              value={randomIntConfiguration.min ?? ''}
+              value={randomInt.min ?? ''}
               onBlur={() =>
-                dispatch(
-                  settingsActions.setRandomIntMin(
-                    randomIntConfiguration.min ? Math.min(randomIntConfiguration.min, randomIntConfiguration.max) : 0,
-                  ),
-                )
+                dispatch(settingsActions.setRandomIntMin(randomInt.min ? Math.min(randomInt.min, randomInt.max) : 0))
               }
               onChange={(event) => {
                 const value = clamp(parseInt(event.target.value), 0, Number.MAX_SAFE_INTEGER);
@@ -170,13 +152,11 @@ export function MappingSettings() {
             <Input
               type="number"
               className="w-32 py-1.5"
-              value={randomIntConfiguration.max ?? ''}
+              value={randomInt.max ?? ''}
               onBlur={() =>
                 dispatch(
                   settingsActions.setRandomIntMax(
-                    randomIntConfiguration.max
-                      ? Math.max(randomIntConfiguration.max, randomIntConfiguration.min)
-                      : Number.MAX_SAFE_INTEGER,
+                    randomInt.max ? Math.max(randomInt.max, randomInt.min) : Number.MAX_SAFE_INTEGER,
                   ),
                 )
               }
@@ -194,9 +174,9 @@ export function MappingSettings() {
             <Input
               type="number"
               className="w-32 py-1.5"
-              value={randomStringConfiguration.length ?? ''}
+              value={randomString.length ?? ''}
               onBlur={() => {
-                if (randomStringConfiguration.length) return;
+                if (randomString.length) return;
                 dispatch(settingsActions.setRandomStringLength(1));
               }}
               onChange={(event) => {

@@ -3,7 +3,7 @@ const tr = {
   common: {
     send: 'Gönder',
     save: 'Kaydet',
-    saved: 'Kaydedildi ✅',
+    saved: 'Kaydedildi',
     cancel: 'İptal',
     close: 'Kapat',
     ok: 'Tamam',
@@ -12,7 +12,8 @@ const tr = {
     import: 'İçe Aktar',
     export: 'Dışa Aktar',
     copy: 'Kopyala',
-    copied: 'Kopyalandı ✅',
+    copied: 'Kopyalandı',
+    failedCopy: 'Kopyalanamadı',
     run: 'Çalıştır',
     replace: 'Değiştir',
     merge: 'Birleştir',
@@ -35,6 +36,8 @@ const tr = {
     warnings: 'Uyarılar',
     ignore: 'Yoksay',
     ignored: 'Yoksayıldı',
+    exported: 'Dışa Aktarıldı',
+    certificated: 'Sertifikalandı',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const tr = {
     selectForCompare: 'Karşılaştırmak için seç',
     compareWithSelected: 'Seçilenle Karşılaştır',
     exportFormat: 'Format',
-    exported: 'Dışa Aktarıldı ✅',
     generateCertificate: 'Sertifika Oluştur',
-    certificated: 'Sertifikalandı ✅',
     notEligible: 'Uygun değil (en az 70 test gerekli)',
     failedToExport: 'Rapor dışa aktarılamadı',
     failedToGenerateCertificate: 'Sertifika oluşturulamadı',

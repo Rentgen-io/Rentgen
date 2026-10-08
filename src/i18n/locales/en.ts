@@ -3,7 +3,7 @@ const en = {
   common: {
     send: 'Send',
     save: 'Save',
-    saved: 'Saved ✅',
+    saved: 'Saved',
     cancel: 'Cancel',
     close: 'Close',
     ok: 'OK',
@@ -12,7 +12,8 @@ const en = {
     import: 'Import',
     export: 'Export',
     copy: 'Copy',
-    copied: 'Copied ✅',
+    copied: 'Copied',
+    failedCopy: 'Failed to copy',
     run: 'Run',
     replace: 'Replace',
     merge: 'Merge',
@@ -35,6 +36,8 @@ const en = {
     warnings: 'Warnings',
     ignore: 'Ignore',
     ignored: 'Ignored',
+    exported: 'Exported',
+    certificated: 'Certificated',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const en = {
     selectForCompare: 'Select for Compare',
     compareWithSelected: 'Compare with Selected',
     exportFormat: 'Format',
-    exported: 'Exported ✅',
     generateCertificate: 'Generate Certificate',
-    certificated: 'Certificated ✅',
     notEligible: 'Not eligible (need at least 70 tests)',
     failedToExport: 'Failed to export report',
     failedToGenerateCertificate: 'Failed to generate certificate',

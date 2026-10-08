@@ -24,9 +24,11 @@ function formatDate(isoString: string): string {
 
 export default function ProjectImportConfirmModal() {
   const dispatch = useAppDispatch();
-  const { isOpen, data, meta, integrityStatus, fileName } = useAppSelector(selectProjectImportConfirmModal);
-  const [exported, setExported] = useState(false);
   const { t } = useTranslation();
+
+  const { isOpen, data, meta, integrityStatus, fileName } = useAppSelector(selectProjectImportConfirmModal);
+
+  const [exported, setExported] = useState<boolean>(false);
 
   if (!isOpen || !data || !meta || !integrityStatus) return null;
 

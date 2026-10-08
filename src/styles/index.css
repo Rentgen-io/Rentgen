@@ -81,7 +81,7 @@
   }
 
   .Toastify__toast {
-    @apply gap-2! min-h-12! text-sm rounded-none!;
+    @apply gap-2! min-h-12! font-segoe-ui! text-sm rounded-none!;
   }
 
   .Toastify__toast-icon {

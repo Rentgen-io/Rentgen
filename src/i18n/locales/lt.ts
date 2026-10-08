@@ -3,7 +3,7 @@ const lt = {
   common: {
     send: 'Siųsti',
     save: 'Išsaugoti',
-    saved: 'Išsaugota ✅',
+    saved: 'Išsaugota',
     cancel: 'Atšaukti',
     close: 'Uždaryti',
     ok: 'Gerai',
@@ -12,7 +12,8 @@ const lt = {
     import: 'Importuoti',
     export: 'Eksportuoti',
     copy: 'Kopijuoti',
-    copied: 'Nukopijuota ✅',
+    copied: 'Nukopijuota',
+    failedCopy: 'Nepavyko nukopijuoti',
     run: 'Vykdyti',
     replace: 'Pakeisti',
     merge: 'Sujungti',
@@ -35,6 +36,8 @@ const lt = {
     warnings: 'Įspėjimai',
     ignore: 'Ignoruoti',
     ignored: 'Ignoruota',
+    exported: 'Eksportuota',
+    certificated: 'Sertifikuota',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const lt = {
     selectForCompare: 'Pasirinkti palyginimui',
     compareWithSelected: 'Palyginti su pasirinktu',
     exportFormat: 'Formatas',
-    exported: 'Eksportuota ✅',
     generateCertificate: 'Generuoti sertifikatą',
-    certificated: 'Sertifikuota ✅',
     notEligible: 'Netinkama (reikia bent 70 testų)',
     failedToExport: 'Nepavyko eksportuoti ataskaitos',
     failedToGenerateCertificate: 'Nepavyko sugeneruoti sertifikato',

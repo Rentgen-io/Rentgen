@@ -1,11 +1,11 @@
 import cn from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { exportProject } from 'src/api/files';
 import { getCliStatus, installCli, openExternal, uninstallCli } from 'src/api/system';
 import Button, { ButtonType } from 'src/components/buttons/Button';
-import { useAppDispatch } from 'src/store/hooks';
-import { uiActions } from 'src/store/slices/uiSlice';
+import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import type { CliActionResult, CliStatus } from 'src/types';
 import SettingsHeader from '../SettingsHeader';
 
@@ -210,18 +210,16 @@ function ResultBanner({ result }: { result: CliActionResult }) {
 
 export function CliSettings() {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const platformLabel = usePlatformLabel();
+
   const [status, setStatus] = useState<CliStatus | null>(null);
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<boolean>(false);
   const [lastResult, setLastResult] = useState<CliActionResult | null>(null);
 
   const handleExportProject = async () => {
     const result = await exportProject();
-    if (result.success) {
-      dispatch(uiActions.setExported(true));
-      setTimeout(() => dispatch(uiActions.setExported(false)), 2000);
-    }
+    if (result.success)
+      toast.success(<span className="flex-auto">{t('common.exported')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
   };
 
   const refresh = useCallback(async () => {

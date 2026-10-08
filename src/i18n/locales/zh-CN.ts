@@ -3,7 +3,7 @@ const zhCN = {
   common: {
     send: '发送',
     save: '保存',
-    saved: '已保存 ✅',
+    saved: '已保存',
     cancel: '取消',
     close: '关闭',
     ok: '确定',
@@ -12,7 +12,8 @@ const zhCN = {
     import: '导入',
     export: '导出',
     copy: '复制',
-    copied: '已复制 ✅',
+    copied: '已复制',
+    failedCopy: '复制失败',
     run: '运行',
     replace: '替换',
     merge: '合并',
@@ -35,6 +36,8 @@ const zhCN = {
     warnings: '警告',
     ignore: '忽略',
     ignored: '已忽略',
+    exported: '已导出',
+    certificated: '已生成证书',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const zhCN = {
     selectForCompare: '选择以进行比较',
     compareWithSelected: '与所选项比较',
     exportFormat: '格式',
-    exported: '已导出 ✅',
     generateCertificate: '生成证书',
-    certificated: '已生成证书 ✅',
     notEligible: '不符合条件（至少需要 70 个测试）',
     failedToExport: '导出报告失败',
     failedToGenerateCertificate: '生成证书失败',

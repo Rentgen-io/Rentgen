@@ -9,10 +9,11 @@ import { modalsActions } from 'src/store/slices/modalsSlice';
 import { countMergeAdditions } from 'src/utils';
 
 export default function ImportConflictModal() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
   const { isOpen, importedCollection, conflictSummary, warnings } = useAppSelector(selectImportConflictModal);
   const existingCollection = useAppSelector(selectCollectionData);
-  const { t } = useTranslation();
 
   const mergeStats = useMemo(() => {
     if (!importedCollection) return { folders: 0, requests: 0 };

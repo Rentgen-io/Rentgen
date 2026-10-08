@@ -3,7 +3,7 @@ const th = {
   common: {
     send: 'ส่ง',
     save: 'บันทึก',
-    saved: 'บันทึกแล้ว ✅',
+    saved: 'บันทึกแล้ว',
     cancel: 'ยกเลิก',
     close: 'ปิด',
     ok: 'ตกลง',
@@ -12,7 +12,8 @@ const th = {
     import: 'นำเข้า',
     export: 'ส่งออก',
     copy: 'คัดลอก',
-    copied: 'คัดลอกแล้ว ✅',
+    copied: 'คัดลอกแล้ว',
+    failedCopy: 'คัดลอกไม่สำเร็จ',
     run: 'รัน',
     replace: 'แทนที่',
     merge: 'รวม',
@@ -35,6 +36,8 @@ const th = {
     warnings: 'คำเตือน',
     ignore: 'ละเว้น',
     ignored: 'ละเว้น',
+    exported: 'ส่งออกแล้ว',
+    certificated: 'รับรองแล้ว',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const th = {
     selectForCompare: 'เลือกเพื่อเปรียบเทียบ',
     compareWithSelected: 'เปรียบเทียบกับที่เลือก',
     exportFormat: 'รูปแบบ',
-    exported: 'ส่งออกแล้ว ✅',
     generateCertificate: 'สร้างใบรับรอง',
-    certificated: 'รับรองแล้ว ✅',
     notEligible: 'ไม่ผ่านเกณฑ์ (ต้องมีอย่างน้อย 70 เทสต์)',
     failedToExport: 'ส่งออกรายงานไม่สำเร็จ',
     failedToGenerateCertificate: 'สร้างใบรับรองไม่สำเร็จ',

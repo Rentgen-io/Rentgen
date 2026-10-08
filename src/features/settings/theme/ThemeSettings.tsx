@@ -8,9 +8,10 @@ import DarkImage from 'src/assets/images/dark-theme.svg';
 import LightTheme from 'src/assets/images/light-theme.svg';
 
 export function ThemeSettings() {
-  const dispatch = useAppDispatch();
-  const theme = useAppSelector(selectTheme);
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  const theme = useAppSelector(selectTheme);
 
   const themes = [
     { label: t('settings.themeLight'), value: 'light' as const, Image: LightTheme },

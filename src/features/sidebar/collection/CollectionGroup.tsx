@@ -41,15 +41,18 @@ export default function CollectionGroup({
   onEditingNameChange,
 }: Props) {
   const dispatch = useAppDispatch();
+  const { runFolder, cancelRun } = useCollectionRunner();
   const { isOpen } = useContextMenu();
+
   const selectedFolderId = useAppSelector(selectSelectedFolderId);
   const runningFolderId = useAppSelector(selectRunningFolderId);
-  const { runFolder, cancelRun } = useCollectionRunner();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const runResults = useAppSelector(selectCollectionRunResults);
+
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
   const isSelected = folder.id === selectedFolderId;
   const isThisFolderRunning = runningFolderId === folder.id;
   const isOtherFolderRunning = runningFolderId !== null && runningFolderId !== folder.id;
-  const runResults = useAppSelector(selectCollectionRunResults);
 
   const folderStatus = useMemo(() => {
     const itemResults = folder.items.map((item) => runResults[item.id]).filter(Boolean);

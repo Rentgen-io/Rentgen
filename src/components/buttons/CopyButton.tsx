@@ -1,11 +1,11 @@
 import cn from 'classnames';
-import { ReactNode, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { twMerge } from 'tailwind-merge';
 import Button, { Props as ButtonProps, ButtonSize, ButtonType } from './Button';
 
 interface Props extends ButtonProps {
-  copiedFallback?: ReactNode;
   textToCopy: string;
 }
 
@@ -14,13 +14,10 @@ export function CopyButton({
   buttonSize = ButtonSize.SMALL,
   children,
   className,
-  copiedFallback,
   textToCopy,
   ...otherProps
 }: Props) {
   const { t } = useTranslation();
-  const [copied, setCopied] = useState<boolean>(false);
-  const copiedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   return (
     <Button
@@ -30,20 +27,19 @@ export function CopyButton({
       {...otherProps}
       onClick={copyToClipboard}
     >
-      {copied ? (copiedFallback ?? t('common.copied')) : children}
+      {children}
     </Button>
   );
 
   function copyToClipboard() {
     navigator.clipboard
       .writeText(textToCopy)
-      .then(() => {
-        setCopied(true);
-        if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
-        copiedTimeoutRef.current = setTimeout(() => setCopied(false), 2000);
-      })
+      .then(() =>
+        toast.info(<span className="flex-auto">{t('common.copied')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE }),
+      )
       .catch((error) => {
-        console.error('Failed to copy clipboard', error);
+        console.error(error);
+        toast.error(<span className="flex-auto">{t('common.failedCopy')}</span>);
       });
   }
 }

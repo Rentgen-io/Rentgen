@@ -10,6 +10,7 @@ import SettingsHeader from '../SettingsHeader';
 export function AiLicenseSettings() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
   const [serialNumber, setSerialNumber] = useState<string>('');
 
   return (

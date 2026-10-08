@@ -10,6 +10,7 @@ import { validateSerialNumber } from 'src/features/settings/ai/AiLicenseSettings
 export default function AiTestingPanel() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
   const isRunningTests = useAppSelector(selectIsRunningTests);
   const serialNumber = useAppSelector(selectSerialNumber);
 

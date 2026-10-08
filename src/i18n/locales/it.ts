@@ -3,7 +3,7 @@ const it = {
   common: {
     send: 'Invia',
     save: 'Salva',
-    saved: 'Salvato ✅',
+    saved: 'Salvato',
     cancel: 'Annulla',
     close: 'Chiudi',
     ok: 'OK',
@@ -12,7 +12,8 @@ const it = {
     import: 'Importa',
     export: 'Esporta',
     copy: 'Copia',
-    copied: 'Copiato ✅',
+    copied: 'Copiato',
+    failedCopy: 'Copia non riuscita',
     run: 'Esegui',
     replace: 'Sostituisci',
     merge: 'Unisci',
@@ -35,6 +36,8 @@ const it = {
     warnings: 'Avvisi',
     ignore: 'Ignora',
     ignored: 'Ignorato',
+    exported: 'Esportato',
+    certificated: 'Certificato',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const it = {
     selectForCompare: 'Seleziona per confronto',
     compareWithSelected: 'Confronta con la selezione',
     exportFormat: 'Formato',
-    exported: 'Esportato ✅',
     generateCertificate: 'Genera certificato',
-    certificated: 'Certificato ✅',
     notEligible: 'Non idoneo (sono necessari almeno 70 test)',
     failedToExport: 'Esportazione del report non riuscita',
     failedToGenerateCertificate: 'Generazione del certificato non riuscita',

@@ -3,7 +3,7 @@ const uk = {
   common: {
     send: 'Надіслати',
     save: 'Зберегти',
-    saved: 'Збережено ✅',
+    saved: 'Збережено',
     cancel: 'Скасувати',
     close: 'Закрити',
     ok: 'OK',
@@ -12,7 +12,8 @@ const uk = {
     import: 'Імпортувати',
     export: 'Експортувати',
     copy: 'Копіювати',
-    copied: 'Скопійовано ✅',
+    copied: 'Скопійовано',
+    failedCopy: 'Не вдалося скопіювати',
     run: 'Запустити',
     replace: 'Замінити',
     merge: "Об'єднати",
@@ -35,6 +36,8 @@ const uk = {
     warnings: 'Попередження',
     ignore: 'Ігнорувати',
     ignored: 'Проігноровано',
+    exported: 'Експортовано',
+    certificated: 'Сертифіковано',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const uk = {
     selectForCompare: 'Обрати для порівняння',
     compareWithSelected: 'Порівняти з обраним',
     exportFormat: 'Формат',
-    exported: 'Експортовано ✅',
     generateCertificate: 'Згенерувати сертифікат',
-    certificated: 'Сертифіковано ✅',
     notEligible: 'Не підходить (потрібно щонайменше 70 тестів)',
     failedToExport: 'Не вдалося експортувати звіт',
     failedToGenerateCertificate: 'Не вдалося згенерувати сертифікат',

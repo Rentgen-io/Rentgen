@@ -3,7 +3,7 @@ const vi = {
   common: {
     send: 'Gửi',
     save: 'Lưu',
-    saved: 'Đã lưu ✅',
+    saved: 'Đã lưu',
     cancel: 'Hủy',
     close: 'Đóng',
     ok: 'OK',
@@ -12,7 +12,8 @@ const vi = {
     import: 'Nhập',
     export: 'Xuất',
     copy: 'Sao chép',
-    copied: 'Đã sao chép ✅',
+    copied: 'Đã sao chép',
+    failedCopy: 'Sao chép thất bại',
     run: 'Chạy',
     replace: 'Thay thế',
     merge: 'Hợp nhất',
@@ -35,6 +36,8 @@ const vi = {
     warnings: 'Cảnh báo',
     ignore: 'Bỏ qua',
     ignored: 'Đã bỏ qua',
+    exported: 'Đã xuất',
+    certificated: 'Đã chứng nhận',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const vi = {
     selectForCompare: 'Chọn để so sánh',
     compareWithSelected: 'So sánh với mục đã chọn',
     exportFormat: 'Định dạng',
-    exported: 'Đã xuất ✅',
     generateCertificate: 'Tạo chứng chỉ',
-    certificated: 'Đã chứng nhận ✅',
     notEligible: 'Không đủ điều kiện (cần ít nhất 70 kiểm thử)',
     failedToExport: 'Không thể xuất báo cáo',
     failedToGenerateCertificate: 'Không thể tạo chứng chỉ',

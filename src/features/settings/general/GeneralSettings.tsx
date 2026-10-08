@@ -6,17 +6,18 @@ import Button, { ButtonType } from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import Toggle from 'src/components/inputs/Toggle';
+import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectHistoryEnabled, selectHistoryRetention, selectHistorySize } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import { uiActions } from 'src/store/slices/uiSlice';
 import { HistoryRetention } from 'src/types';
 import SettingsHeader from '../SettingsHeader';
 
 export function GeneralSettings() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
   const historyEnabled = useAppSelector(selectHistoryEnabled);
   const historySize = useAppSelector(selectHistorySize);
   const historyRetention = useAppSelector(selectHistoryRetention);
@@ -32,10 +33,8 @@ export function GeneralSettings() {
 
   const handleExportProject = async () => {
     const result = await exportProject();
-    if (result.success) {
-      dispatch(uiActions.setExported(true));
-      setTimeout(() => dispatch(uiActions.setExported(false)), 2000);
-    }
+    if (result.success)
+      toast.success(<span className="flex-auto">{t('common.exported')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
   };
 
   const handleImportProject = async () => {

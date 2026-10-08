@@ -3,7 +3,7 @@ const ptBR = {
   common: {
     send: 'Enviar',
     save: 'Salvar',
-    saved: 'Salvo ✅',
+    saved: 'Salvo',
     cancel: 'Cancelar',
     close: 'Fechar',
     ok: 'OK',
@@ -12,7 +12,8 @@ const ptBR = {
     import: 'Importar',
     export: 'Exportar',
     copy: 'Copiar',
-    copied: 'Copiado ✅',
+    copied: 'Copiado',
+    failedCopy: 'Falha ao copiar',
     run: 'Executar',
     replace: 'Substituir',
     merge: 'Mesclar',
@@ -35,6 +36,8 @@ const ptBR = {
     warnings: 'Avisos',
     ignore: 'Ignorar',
     ignored: 'Ignorado',
+    exported: 'Exportado',
+    certificated: 'Certificado',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const ptBR = {
     selectForCompare: 'Selecionar para comparar',
     compareWithSelected: 'Comparar com selecionado',
     exportFormat: 'Formato',
-    exported: 'Exportado ✅',
     generateCertificate: 'Gerar certificado',
-    certificated: 'Certificado ✅',
     notEligible: 'Não elegível (necessário pelo menos 70 testes)',
     failedToExport: 'Falha ao exportar o relatório',
     failedToGenerateCertificate: 'Falha ao gerar o certificado',

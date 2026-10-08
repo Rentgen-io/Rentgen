@@ -72,10 +72,12 @@ function filterGroupsBySearch(groups: DateGroup[], searchTerm: string): DateGrou
 }
 
 export default function HistoryPanel() {
-  const dispatch = useAppDispatch();
-  const entries = useAppSelector(selectHistoryEntries);
-  const [searchTerm, setSearchTerm] = useState('');
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  const entries = useAppSelector(selectHistoryEntries);
+
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const allGroups = useMemo(() => groupHistoryByDate(entries), [entries]);
   const groups = useMemo(() => filterGroupsBySearch(allGroups, searchTerm), [allGroups, searchTerm]);

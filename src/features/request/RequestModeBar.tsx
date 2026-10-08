@@ -31,8 +31,8 @@ const modeOptions: SelectOption<Mode>[] = [
 ];
 
 export default function RequestModeBar() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const reset = useReset();
   const importCurl = useCurlImport();
 

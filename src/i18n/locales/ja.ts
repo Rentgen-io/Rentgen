@@ -3,7 +3,7 @@ const ja = {
   common: {
     send: '送信',
     save: '保存',
-    saved: '保存しました ✅',
+    saved: '保存しました',
     cancel: 'キャンセル',
     close: '閉じる',
     ok: 'OK',
@@ -12,7 +12,8 @@ const ja = {
     import: 'インポート',
     export: 'エクスポート',
     copy: 'コピー',
-    copied: 'コピーしました ✅',
+    copied: 'コピーしました',
+    failedCopy: 'コピーに失敗しました',
     run: '実行',
     replace: '置き換え',
     merge: 'マージ',
@@ -35,6 +36,8 @@ const ja = {
     warnings: '警告',
     ignore: '無視する',
     ignored: '無視',
+    exported: 'エクスポートしました',
+    certificated: '証明書を発行しました',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const ja = {
     selectForCompare: '比較対象として選択',
     compareWithSelected: '選択したものと比較',
     exportFormat: 'フォーマット',
-    exported: 'エクスポートしました ✅',
     generateCertificate: '証明書を生成',
-    certificated: '証明書を発行しました ✅',
     notEligible: '対象外です (少なくとも 70 件のテストが必要です)',
     failedToExport: 'レポートのエクスポートに失敗しました',
     failedToGenerateCertificate: '証明書の生成に失敗しました',

@@ -24,13 +24,15 @@ import ExportIcon from 'src/assets/icons/export-icon.svg';
 import ImportIcon from 'src/assets/icons/import-icon.svg';
 
 export default function CollectionsPanel() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
   const folders = useAppSelector(selectSidebarFolders);
   const collection = useAppSelector(selectCollectionData);
-  const [searchTerm, setSearchTerm] = useState('');
+
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [editingFolderId, setEditingFolderId] = useState<string | null>(null);
-  const [editingName, setEditingName] = useState('');
+  const [editingName, setEditingName] = useState<string>('');
   const [importStatus, setImportStatus] = useState<string | null>(null);
 
   const isSearching = searchTerm.trim().length > 0;
@@ -51,11 +53,9 @@ export default function CollectionsPanel() {
     }
 
     if (result.collection) {
-      // Detect conflicts
       const conflictSummary = detectImportConflicts(collection, result.collection);
 
       if (conflictSummary.hasConflicts) {
-        // Open conflict resolution modal
         dispatch(
           modalsActions.openImportConflictModal({
             collection: result.collection,
@@ -64,7 +64,6 @@ export default function CollectionsPanel() {
           }),
         );
       } else {
-        // No conflicts - proceed with merge (adds all items since no duplicates)
         dispatch(collectionActions.importCollection({ collection: result.collection, mode: 'merge' }));
 
         const warningCount = result.warnings?.length || 0;
@@ -80,7 +79,6 @@ export default function CollectionsPanel() {
 
   const handleExport = async () => {
     const result = await exportPostmanCollection(collection);
-
     if (result.canceled) return;
 
     if (result.error) {

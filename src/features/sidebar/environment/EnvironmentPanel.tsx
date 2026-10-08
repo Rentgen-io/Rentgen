@@ -17,9 +17,11 @@ import EnvironmentItem from './EnvironmentItem';
 import AddIcon from 'src/assets/icons/add-icon.svg';
 
 export default function EnvironmentPanel() {
-  const dispatch = useAppDispatch();
-  const environments = useAppSelector(selectEnvironments);
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  const environments = useAppSelector(selectEnvironments);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -33,10 +35,8 @@ export default function EnvironmentPanel() {
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-
-    if (over && active.id !== over.id) {
+    if (over && active.id !== over.id)
       dispatch(environmentActions.reorderEnvironments({ activeId: active.id as string, overId: over.id as string }));
-    }
   };
 
   return (

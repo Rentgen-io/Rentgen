@@ -3,7 +3,7 @@ const nl = {
   common: {
     send: 'Verzenden',
     save: 'Opslaan',
-    saved: 'Opgeslagen ✅',
+    saved: 'Opgeslagen',
     cancel: 'Annuleren',
     close: 'Sluiten',
     ok: 'OK',
@@ -12,7 +12,8 @@ const nl = {
     import: 'Importeren',
     export: 'Exporteren',
     copy: 'Kopiëren',
-    copied: 'Gekopieerd ✅',
+    copied: 'Gekopieerd',
+    failedCopy: 'Kopiëren mislukt',
     run: 'Uitvoeren',
     replace: 'Vervangen',
     merge: 'Samenvoegen',
@@ -35,6 +36,8 @@ const nl = {
     warnings: 'Waarschuwingen',
     ignore: 'Negeren',
     ignored: 'Genegeerd',
+    exported: 'Geëxporteerd',
+    certificated: 'Gecertificeerd',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const nl = {
     selectForCompare: 'Selecteren om te vergelijken',
     compareWithSelected: 'Vergelijken met geselecteerde',
     exportFormat: 'Formaat',
-    exported: 'Geëxporteerd ✅',
     generateCertificate: 'Certificaat genereren',
-    certificated: 'Gecertificeerd ✅',
     notEligible: 'Niet geschikt (minimaal 70 tests nodig)',
     failedToExport: 'Exporteren van rapport mislukt',
     failedToGenerateCertificate: 'Genereren van certificaat mislukt',

@@ -1,11 +1,13 @@
 import cn from 'classnames';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import Button from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
 import Select, { SelectOption } from 'src/components/inputs/Select';
 import Panel from 'src/components/panels/Panel';
+import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectDynamicVariables, selectSelectedEnvironmentId, selectTheme } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';
@@ -23,20 +25,17 @@ interface Props {
 }
 
 export default function EnvironmentEditor({ environment, isNew, onSave }: Props) {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const allDynamicVariables = useAppSelector(selectDynamicVariables);
   const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
   const theme = useAppSelector(selectTheme);
 
-  const [title, setTitle] = useState('');
-  const [color, setColor] = useState(COLOR_OPTIONS[4]); // Default blue
+  const [title, setTitle] = useState<string>('');
+  const [color, setColor] = useState<string>(COLOR_OPTIONS[4]);
   const [variables, setVariables] = useState<EnvironmentVariable[]>([]);
-  const [saved, setSaved] = useState(false);
-  const savedTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
-  // Filter dynamic variables applicable to current environment
   const dynamicVariables = useMemo(() => {
     return allDynamicVariables.filter((dv) => dv.environmentId === null || dv.environmentId === selectedEnvironmentId);
   }, [allDynamicVariables, selectedEnvironmentId]);
@@ -50,7 +49,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
   const isDark = theme === 'dark';
 
-  // Check if current state differs from environment prop
   const hasChanges = () => {
     if (!environment) return false;
     if (title !== environment.title) return true;
@@ -65,7 +63,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
     });
   };
 
-  // Autosave for existing environments only
   useEffect(() => {
     if (isNew) return;
     if (!environment?.id) return;
@@ -78,17 +75,13 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
         color,
         variables: variables.filter((v) => v.key.trim() !== ''),
       });
-      setSaved(true);
-      clearTimeout(savedTimeoutRef.current);
-      savedTimeoutRef.current = setTimeout(() => setSaved(false), 1000);
-    }, 50);
+
+      toast.dismiss();
+      toast.success(<span className="flex-auto">{t('common.saved')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
+    }, 500);
 
     return () => clearTimeout(timeoutId);
   }, [title, color, variables, isNew, environment, onSave]);
-
-  useEffect(() => {
-    return () => clearTimeout(savedTimeoutRef.current);
-  }, []);
 
   useEffect(() => {
     if (environment) {
@@ -133,11 +126,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
     onSave(savedEnvironment);
 
-    if (!isNew) {
-      clearTimeout(savedTimeoutRef.current);
-      setSaved(true);
-      savedTimeoutRef.current = setTimeout(() => setSaved(false), 1000);
-    }
+    toast.success(<span className="flex-auto">{t('common.saved')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
   };
 
   const handleDynamicVariableKeyChange = useCallback(
@@ -151,11 +140,9 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           }),
         );
 
-      clearTimeout(savedTimeoutRef.current);
-      setSaved(true);
-      savedTimeoutRef.current = setTimeout(() => setSaved(false), 1000);
+      toast.success(<span className="flex-auto">{t('common.saved')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
     },
-    [dispatch],
+    [dispatch, t],
   );
 
   return (
@@ -309,12 +296,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
         {isNew && (
           <div className="flex items-center justify-end gap-2">
             <Button onClick={handleSave}>{t('common.create')}</Button>
-          </div>
-        )}
-
-        {!isNew && saved && (
-          <div className="flex items-center justify-end">
-            <span className="text-xs text-green-500">{t('common.saved')}</span>
           </div>
         )}
       </div>

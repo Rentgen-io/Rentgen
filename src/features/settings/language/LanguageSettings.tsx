@@ -9,6 +9,7 @@ import { Language, LANGUAGES } from 'src/types';
 export function LanguageSettings() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
   const language = useAppSelector(selectLanguage);
 
   const onLanguageChange = (value: Language) => {

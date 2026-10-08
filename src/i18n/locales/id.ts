@@ -3,7 +3,7 @@ const id = {
   common: {
     send: 'Kirim',
     save: 'Simpan',
-    saved: 'Tersimpan ✅',
+    saved: 'Tersimpan',
     cancel: 'Batal',
     close: 'Tutup',
     ok: 'OK',
@@ -12,7 +12,8 @@ const id = {
     import: 'Impor',
     export: 'Ekspor',
     copy: 'Salin',
-    copied: 'Tersalin ✅',
+    copied: 'Tersalin',
+    failedCopy: 'Gagal menyalin',
     run: 'Jalankan',
     replace: 'Ganti',
     merge: 'Gabungkan',
@@ -35,6 +36,8 @@ const id = {
     warnings: 'Peringatan',
     ignore: 'Abaikan',
     ignored: 'Diabaikan',
+    exported: 'Terekspor',
+    certificated: 'Tersertifikasi',
   },
 
   // Sidebar
@@ -133,9 +136,7 @@ const id = {
     selectForCompare: 'Pilih untuk Bandingkan',
     compareWithSelected: 'Bandingkan dengan Pilihan',
     exportFormat: 'Format',
-    exported: 'Terekspor ✅',
     generateCertificate: 'Hasilkan Sertifikat',
-    certificated: 'Tersertifikasi ✅',
     notEligible: 'Tidak memenuhi syarat (minimal 70 tes diperlukan)',
     failedToExport: 'Gagal mengekspor laporan',
     failedToGenerateCertificate: 'Gagal membuat sertifikat',

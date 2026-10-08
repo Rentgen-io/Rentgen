@@ -28,8 +28,8 @@ import { TestStatus } from 'src/types';
 import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColumns } from '../tables/TestsTable';
 
 export default function PerformanceInsightsPanel() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const performanceTests = useAppSelector(selectPerformanceTests);
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);

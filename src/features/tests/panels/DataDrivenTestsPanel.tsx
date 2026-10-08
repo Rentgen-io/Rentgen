@@ -24,8 +24,8 @@ import {
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
 export default function DataDrivenTestsPanel() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const dataDrivenTests = useAppSelector(selectDataDrivenTests);
   const isDataDrivenRunning = useAppSelector(selectIsDataDrivenRunning);

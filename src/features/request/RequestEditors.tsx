@@ -15,8 +15,8 @@ import { requestActions } from 'src/store/slices/requestSlice';
 import { formatBody, parseHeaders } from 'src/utils';
 
 export default function RequestEditors() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const mode = useAppSelector(selectMode);
   const headers = useAppSelector(selectHeaders);

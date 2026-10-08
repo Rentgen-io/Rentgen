@@ -12,7 +12,6 @@ import {
   selectIsRequestDisabled,
   selectMethod,
   selectMode,
-  selectSaved,
   selectSelectedEnvironment,
   selectUrl,
   selectVariableNames,
@@ -32,13 +31,12 @@ const methodOptions: SelectOption<Method>[] = [
 ];
 
 export default function RequestUrlBar() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const mode = useAppSelector(selectMode);
   const method = useAppSelector(selectMethod);
   const url = useAppSelector(selectUrl);
-  const saved = useAppSelector(selectSaved);
   const disabled = useAppSelector(selectIsRequestDisabled);
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
   const variables = useAppSelector(selectVariableNames);
@@ -80,8 +78,8 @@ export default function RequestUrlBar() {
           <Button disabled={disabled} onClick={sendHttp}>
             {t('common.send')}
           </Button>
-          <Button buttonType={ButtonType.SECONDARY} disabled={disabled} onClick={saveRequest}>
-            {saved ? t('common.saved') : t('common.save')}
+          <Button buttonType={ButtonType.SECONDARY} disabled={disabled} onClick={() => saveRequest()}>
+            {t('common.save')}
           </Button>
         </>
       )}

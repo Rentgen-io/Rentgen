@@ -4,19 +4,11 @@ import { ReportFormat, SidebarTab } from 'src/types';
 interface UIState {
   sidebarActiveTab: SidebarTab;
   exportFormat: ReportFormat;
-
-  // Transient "action succeeded" flags, cleared on a timer by the dispatching hook.
-  saved: boolean;
-  exported: boolean;
-  certificated: boolean;
 }
 
 const initialState: UIState = {
   sidebarActiveTab: 'collections',
   exportFormat: 'json',
-  saved: false,
-  exported: false,
-  certificated: false,
 };
 
 export const uiSlice = createSlice({
@@ -31,15 +23,6 @@ export const uiSlice = createSlice({
     },
     setExportFormat: (state, action: PayloadAction<ReportFormat>) => {
       state.exportFormat = action.payload;
-    },
-    setSaved: (state, action: PayloadAction<boolean>) => {
-      state.saved = action.payload;
-    },
-    setExported: (state, action: PayloadAction<boolean>) => {
-      state.exported = action.payload;
-    },
-    setCertificated: (state, action: PayloadAction<boolean>) => {
-      state.certificated = action.payload;
     },
   },
 });

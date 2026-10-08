@@ -1,4 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -18,12 +21,10 @@ import {
 import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
-import { uiActions } from 'src/store/slices/uiSlice';
 import { extractStatusCode, findRequestById, parseHeaders } from 'src/utils';
 
-const SAVED_FEEDBACK_MS = 2000;
-
 export function useSaveRequest() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const savedTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -67,9 +68,8 @@ export function useSaveRequest() {
         }),
       );
 
-    dispatch(uiActions.setSaved(true));
-    clearTimeout(savedTimeout.current);
-    savedTimeout.current = setTimeout(() => dispatch(uiActions.setSaved(false)), SAVED_FEEDBACK_MS);
+    toast.dismiss();
+    toast.success(<span className="flex-auto">{t('common.saved')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
   }, [
     body,
     bodyParameters,
