@@ -37,6 +37,7 @@ const uk = {
     ignore: 'Ігнорувати',
     ignored: 'Проігноровано',
     exported: 'Експортовано',
+    imported: 'Імпортовано',
     certificated: 'Сертифіковано',
   },
 
@@ -61,8 +62,6 @@ const uk = {
     importFailed: 'Імпорт не вдався: {{error}}',
     exportFailed: 'Експорт не вдався: {{error}}',
     importedWithWarnings: 'Імпортовано з {{count}} попередженням(-ями)',
-    collectionImported: 'Колекцію імпортовано',
-    collectionExported: 'Колекцію експортовано',
   },
 
   // Environment
@@ -241,7 +240,6 @@ const uk = {
       mappingsInfo: 'Зіставлення (параметри тіла та запиту)',
       cannotBeUndone: 'Цю дію неможливо скасувати.',
       backupBefore: 'Створіть резервну копію поточного проєкту перед імпортом:',
-      exportedCheck: 'Експортовано ✓',
       exportCurrentProject: 'Експортувати поточний проєкт',
       importProject: 'Імпортувати проєкт',
     },
@@ -283,6 +281,11 @@ const uk = {
       alreadyHaveSerialNumber: 'У мене вже є серійний номер',
       connectTitle: 'Підключити ШІ-провайдера',
       connectDescription: 'Rentgen надсилає запити безпосередньо з цього пристрою.',
+      baseUrl: 'Базовий URL',
+      model: 'Модель',
+      apiKey: 'API-ключ',
+      apiKeyStorageNotice: 'API-ключі зберігаються локально. Rentgen їх не отримує.',
+      howToRunOllamaLocally: 'Як запустити Ollama локально',
     },
     cli: {
       name: 'CLI',

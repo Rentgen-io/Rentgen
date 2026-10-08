@@ -1,9 +1,10 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { exportProject } from 'src/api/files';
 import IntegrityBadge from 'src/components/badges/IntegrityBadge';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import ConfirmationModal from 'src/components/modals/ConfirmationModal';
+import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectProjectImportConfirmModal } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
@@ -27,8 +28,6 @@ export default function ProjectImportConfirmModal() {
   const { t } = useTranslation();
 
   const { isOpen, data, meta, integrityStatus, fileName } = useAppSelector(selectProjectImportConfirmModal);
-
-  const [exported, setExported] = useState<boolean>(false);
 
   if (!isOpen || !data || !meta || !integrityStatus) return null;
 
@@ -57,6 +56,10 @@ export default function ProjectImportConfirmModal() {
         dispatch(collectionActions.selectRequest(null));
         dispatch(collectionActions.selectFolder('default'));
         dispatch(environmentActions.selectEnvironment(null));
+
+        toast.success(<span className="flex-auto">{t('common.imported')}</span>, {
+          autoClose: SUCCESS_TOAST_AUTO_CLOSE,
+        });
       }}
     >
       <>
@@ -108,22 +111,19 @@ export default function ProjectImportConfirmModal() {
           <span className="text-xs text-text-secondary dark:text-dark-text-secondary">
             {t('modals.projectImport.backupBefore')}
           </span>
-          {exported ? (
-            <span className="text-xs text-green-600 dark:text-green-400 font-medium">
-              {t('modals.projectImport.exportedCheck')}
-            </span>
-          ) : (
-            <Button
-              buttonType={ButtonType.SECONDARY}
-              buttonSize={ButtonSize.SMALL}
-              onClick={async () => {
-                const result = await exportProject();
-                if (result.success) setExported(true);
-              }}
-            >
-              {t('modals.projectImport.exportCurrentProject')}
-            </Button>
-          )}
+          <Button
+            buttonType={ButtonType.SECONDARY}
+            buttonSize={ButtonSize.SMALL}
+            onClick={async () => {
+              const result = await exportProject();
+              if (result.success)
+                toast.success(<span className="flex-auto">{t('common.exported')}</span>, {
+                  autoClose: SUCCESS_TOAST_AUTO_CLOSE,
+                });
+            }}
+          >
+            {t('modals.projectImport.exportCurrentProject')}
+          </Button>
         </div>
       </>
     </ConfirmationModal>

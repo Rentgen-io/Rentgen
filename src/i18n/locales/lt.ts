@@ -37,6 +37,7 @@ const lt = {
     ignore: 'Ignoruoti',
     ignored: 'Ignoruota',
     exported: 'Eksportuota',
+    imported: 'Importuota',
     certificated: 'Sertifikuota',
   },
 
@@ -61,8 +62,6 @@ const lt = {
     importFailed: 'Importavimas nepavyko: {{error}}',
     exportFailed: 'Eksportavimas nepavyko: {{error}}',
     importedWithWarnings: 'Importuota su {{count}} įspėjimu(-ais)',
-    collectionImported: 'Kolekcija importuota',
-    collectionExported: 'Kolekcija eksportuota',
   },
 
   // Environment
@@ -241,7 +240,6 @@ const lt = {
       mappingsInfo: 'Susiejimai (turinio ir užklausos parametrai)',
       cannotBeUndone: 'Šio veiksmo negalima atšaukti.',
       backupBefore: 'Prieš importuodami sukurkite atsarginę kopiją:',
-      exportedCheck: 'Eksportuota ✓',
       exportCurrentProject: 'Eksportuoti dabartinį projektą',
       importProject: 'Importuoti projektą',
     },
@@ -283,6 +281,11 @@ const lt = {
       alreadyHaveSerialNumber: 'Jau turiu serijos numerį',
       connectTitle: 'Prijungti DI tiekėją',
       connectDescription: 'Rentgen siunčia užklausas tiesiai iš šio įrenginio.',
+      baseUrl: 'Bazinis URL',
+      model: 'Modelis',
+      apiKey: 'API raktas',
+      apiKeyStorageNotice: 'API raktai saugomi vietiniame įrenginyje. Rentgen jų negauna.',
+      howToRunOllamaLocally: 'Kaip paleisti Ollama vietoje',
     },
     cli: {
       name: 'CLI',

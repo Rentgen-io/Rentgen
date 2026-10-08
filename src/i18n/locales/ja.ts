@@ -37,6 +37,7 @@ const ja = {
     ignore: '無視する',
     ignored: '無視',
     exported: 'エクスポートしました',
+    imported: 'インポートしました',
     certificated: '証明書を発行しました',
   },
 
@@ -61,8 +62,6 @@ const ja = {
     importFailed: 'インポートに失敗しました: {{error}}',
     exportFailed: 'エクスポートに失敗しました: {{error}}',
     importedWithWarnings: '{{count}} 件の警告とともにインポートしました',
-    collectionImported: 'コレクションをインポートしました',
-    collectionExported: 'コレクションをエクスポートしました',
   },
 
   // Environment
@@ -242,7 +241,6 @@ const ja = {
       mappingsInfo: 'マッピング (ボディおよびクエリパラメータ)',
       cannotBeUndone: 'この操作は取り消せません。',
       backupBefore: 'インポート前に現在のプロジェクトをバックアップしてください:',
-      exportedCheck: 'エクスポート済み ✓',
       exportCurrentProject: '現在のプロジェクトをエクスポート',
       importProject: 'プロジェクトをインポート',
     },
@@ -285,6 +283,11 @@ const ja = {
       alreadyHaveSerialNumber: 'シリアル番号をすでに持っています',
       connectTitle: 'AIプロバイダーを接続',
       connectDescription: 'Rentgenはこのデバイスから直接リクエストを送信します。',
+      baseUrl: 'ベースURL',
+      model: 'モデル',
+      apiKey: 'APIキー',
+      apiKeyStorageNotice: 'APIキーはローカルに保存されます。Rentgenが受け取ることはありません。',
+      howToRunOllamaLocally: 'Ollamaをローカルで実行する方法',
     },
     cli: {
       name: 'CLI',

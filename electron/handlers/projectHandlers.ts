@@ -62,7 +62,7 @@ export function registerProjectHandlers(): void {
 
     const result = await dialog.showSaveDialog({
       title: 'Export Project',
-      defaultPath: 'rentgen-project.rentgen',
+      defaultPath: `rentgen-project-${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.rentgen`,
       filters: [
         { name: 'Rentgen Project', extensions: ['rentgen'] },
         { name: 'All Files', extensions: ['*'] },

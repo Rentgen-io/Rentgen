@@ -37,6 +37,7 @@ const hi = {
     ignore: 'अनदेखा करें',
     ignored: 'अनदेखा',
     exported: 'निर्यात किया गया',
+    imported: 'आयात किया गया',
     certificated: 'सर्टिफाइड',
   },
 
@@ -61,8 +62,6 @@ const hi = {
     importFailed: 'आयात विफल: {{error}}',
     exportFailed: 'निर्यात विफल: {{error}}',
     importedWithWarnings: '{{count}} चेतावनी(यों) के साथ आयात किया गया',
-    collectionImported: 'संग्रह आयात किया गया',
-    collectionExported: 'संग्रह निर्यात किया गया',
   },
 
   // Environment
@@ -241,7 +240,6 @@ const hi = {
       mappingsInfo: 'मैपिंग्स (बॉडी और क्वेरी पैरामीटर)',
       cannotBeUndone: 'यह क्रिया वापस नहीं की जा सकती।',
       backupBefore: 'आयात करने से पहले अपने मौजूदा प्रोजेक्ट का बैकअप लें:',
-      exportedCheck: 'निर्यात किया गया ✓',
       exportCurrentProject: 'मौजूदा प्रोजेक्ट निर्यात करें',
       importProject: 'प्रोजेक्ट आयात करें',
     },
@@ -283,6 +281,11 @@ const hi = {
       alreadyHaveSerialNumber: 'मेरे पास पहले से सीरियल नंबर है',
       connectTitle: 'AI प्रदाता कनेक्ट करें',
       connectDescription: 'Rentgen अनुरोध सीधे इसी डिवाइस से भेजता है।',
+      baseUrl: 'बेस URL',
+      model: 'मॉडल',
+      apiKey: 'API कुंजी',
+      apiKeyStorageNotice: 'API कुंजियाँ स्थानीय रूप से संग्रहीत होती हैं। Rentgen उन्हें प्राप्त नहीं करता।',
+      howToRunOllamaLocally: 'Ollama को स्थानीय रूप से कैसे चलाएँ',
     },
     cli: {
       name: 'CLI',

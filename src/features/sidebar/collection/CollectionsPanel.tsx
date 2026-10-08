@@ -10,7 +10,9 @@ import {
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { exportPostmanCollection, importPostmanCollection } from 'src/api/files';
+import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionData, selectSidebarFolders } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
@@ -33,7 +35,6 @@ export default function CollectionsPanel() {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [editingFolderId, setEditingFolderId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState<string>('');
-  const [importStatus, setImportStatus] = useState<string | null>(null);
 
   const isSearching = searchTerm.trim().length > 0;
   const filteredFolders = useMemo(
@@ -43,12 +44,10 @@ export default function CollectionsPanel() {
 
   const handleImport = async () => {
     const result = await importPostmanCollection();
-
     if (result.canceled) return;
 
     if (result.error) {
-      setImportStatus(t('collections.importFailed', { error: result.error }));
-      setTimeout(() => setImportStatus(null), 3000);
+      toast.error(<span className="flex-auto">{t('collections.importFailed', { error: result.error })}</span>);
       return;
     }
 
@@ -67,12 +66,14 @@ export default function CollectionsPanel() {
         dispatch(collectionActions.importCollection({ collection: result.collection, mode: 'merge' }));
 
         const warningCount = result.warnings?.length || 0;
-        const successMsg =
-          warningCount > 0
-            ? t('collections.importedWithWarnings', { count: warningCount })
-            : t('collections.collectionImported');
-        setImportStatus(successMsg);
-        setTimeout(() => setImportStatus(null), 3000);
+        if (warningCount > 0)
+          toast.warning(
+            <span className="flex-auto">{t('collections.importedWithWarnings', { count: warningCount })}</span>,
+          );
+        else
+          toast.success(<span className="flex-auto">{t('common.imported')}</span>, {
+            autoClose: SUCCESS_TOAST_AUTO_CLOSE,
+          });
       }
     }
   };
@@ -82,13 +83,11 @@ export default function CollectionsPanel() {
     if (result.canceled) return;
 
     if (result.error) {
-      setImportStatus(t('collections.exportFailed', { error: result.error }));
-      setTimeout(() => setImportStatus(null), 3000);
+      toast.error(<span className="flex-auto">{t('collections.exportFailed', { error: result.error })}</span>);
       return;
     }
 
-    setImportStatus(t('collections.collectionExported'));
-    setTimeout(() => setImportStatus(null), 3000);
+    toast.success(<span className="flex-auto">{t('common.exported')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
   };
 
   const sensors = useSensors(
@@ -201,12 +200,6 @@ export default function CollectionsPanel() {
           />
         </div>
       </div>
-
-      {importStatus && (
-        <div className="px-3 py-1.5 text-xs text-text-secondary dark:text-dark-text-secondary bg-button-secondary dark:bg-dark-input">
-          {importStatus}
-        </div>
-      )}
 
       <SideBarSearch value={searchTerm} onChange={setSearchTerm} />
 

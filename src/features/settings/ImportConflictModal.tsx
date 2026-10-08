@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Modal from 'src/components/modals/Modal';
+import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionData, selectImportConflictModal } from 'src/store/selectors';
 import { collectionActions, ImportMode } from 'src/store/slices/collectionSlice';
@@ -20,14 +22,16 @@ export default function ImportConflictModal() {
     return countMergeAdditions(existingCollection, importedCollection);
   }, [existingCollection, importedCollection]);
 
-  const handleClose = () => {
-    dispatch(modalsActions.closeImportConflictModal());
-  };
+  const handleClose = () => dispatch(modalsActions.closeImportConflictModal());
 
   const handleImport = (mode: ImportMode) => {
     if (importedCollection) {
       dispatch(collectionActions.importCollection({ collection: importedCollection, mode }));
+      toast.success(<span className="flex-auto">{t('common.imported')}</span>, {
+        autoClose: SUCCESS_TOAST_AUTO_CLOSE,
+      });
     }
+
     handleClose();
   };
 
@@ -69,8 +73,7 @@ export default function ImportConflictModal() {
           )}
         </div>
 
-        <div className="flex flex-col gap-3 mt-2">
-          {/* Replace Option */}
+        <div className="flex flex-col gap-4 mt-2">
           <div className="p-3 border border-border dark:border-dark-border">
             <div className="flex items-center justify-between gap-4">
               <div>
@@ -88,7 +91,6 @@ export default function ImportConflictModal() {
             </div>
           </div>
 
-          {/* Merge Option */}
           <div className="p-3 border border-border dark:border-dark-border">
             <div className="flex items-center justify-between gap-4">
               <div>
@@ -114,7 +116,6 @@ export default function ImportConflictModal() {
             </div>
           </div>
 
-          {/* Import as Copy Option */}
           <div className="p-3 border border-border dark:border-dark-border">
             <div className="flex items-center justify-between gap-4">
               <div>

@@ -37,6 +37,7 @@ const nl = {
     ignore: 'Negeren',
     ignored: 'Genegeerd',
     exported: 'Geëxporteerd',
+    imported: 'Geïmporteerd',
     certificated: 'Gecertificeerd',
   },
 
@@ -61,8 +62,6 @@ const nl = {
     importFailed: 'Importeren mislukt: {{error}}',
     exportFailed: 'Exporteren mislukt: {{error}}',
     importedWithWarnings: 'Geïmporteerd met {{count}} waarschuwing(en)',
-    collectionImported: 'Collectie geïmporteerd',
-    collectionExported: 'Collectie geëxporteerd',
   },
 
   // Environment
@@ -242,7 +241,6 @@ const nl = {
       mappingsInfo: 'Toewijzingen (body- en queryparameters)',
       cannotBeUndone: 'Deze actie kan niet ongedaan worden gemaakt.',
       backupBefore: 'Maak een back-up van je huidige project voordat je importeert:',
-      exportedCheck: 'Geëxporteerd ✓',
       exportCurrentProject: 'Huidig project exporteren',
       importProject: 'Project importeren',
     },
@@ -285,6 +283,11 @@ const nl = {
       alreadyHaveSerialNumber: 'Ik heb al een serienummer',
       connectTitle: 'Een AI-provider verbinden',
       connectDescription: 'Rentgen verstuurt verzoeken rechtstreeks vanaf dit apparaat.',
+      baseUrl: 'Basis-URL',
+      model: 'Model',
+      apiKey: 'API-sleutel',
+      apiKeyStorageNotice: 'API-sleutels worden lokaal opgeslagen. Rentgen ontvangt ze niet.',
+      howToRunOllamaLocally: 'Hoe je Ollama lokaal uitvoert',
     },
     cli: {
       name: 'CLI',

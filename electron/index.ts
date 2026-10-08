@@ -156,11 +156,15 @@ ipcMain.on('open-external', (_, url: string) => shell.openExternal(url));
 ipcMain.handle(
   'save-report',
   async (_, payload: { defaultPath?: string; content: string; filters?: Electron.FileFilter[] }) => {
-    const { defaultPath = 'rentgen-report.json', content, filters } = payload || {};
+    const {
+      defaultPath = `rentgen-report-${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.json`,
+      content,
+      filters,
+    } = payload || {};
 
     const result = await dialog.showSaveDialog({
       defaultPath,
-      filters: filters ?? [{ name: 'Report', extensions: ['json'] }],
+      filters: filters ?? [{ name: 'Rentgen Report', extensions: ['json'] }],
     });
 
     if (result.canceled || !result.filePath) return { canceled: true };

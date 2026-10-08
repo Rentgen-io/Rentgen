@@ -29,11 +29,15 @@ export function AiLicenseSettings() {
         <div className="flex-1 flex flex-col gap-4 p-4">
           <label className="m-0 text-sm font-bold">{t('settings.ai.alreadyHaveSerialNumber')}</label>
           <div className="flex-auto flex flex-col gap-2">
-            <span className="text-xs text-text-secondary">{t('settings.ai.serialNumber')}</span>
+            <span className="text-xs">
+              {t('settings.ai.serialNumber')}
+              <span className="text-red-500 ml-1">*</span>
+            </span>
             <Input placeholder="RG-AI-XXXX-XXXX-XXXX" onChange={(e) => setSerialNumber(e.target.value)} />
           </div>
           <Button
             buttonType={ButtonType.SECONDARY}
+            disabled={!serialNumber}
             onClick={() => {
               if (validateSerialNumber(serialNumber)) dispatch(settingsActions.setSerialNumber(serialNumber));
               else toast.error(<span className="flex-auto">{t('settings.ai.invalidSerialNumber')}</span>);

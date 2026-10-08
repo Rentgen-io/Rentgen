@@ -37,6 +37,7 @@ const id = {
     ignore: 'Abaikan',
     ignored: 'Diabaikan',
     exported: 'Terekspor',
+    imported: 'Terimpor',
     certificated: 'Tersertifikasi',
   },
 
@@ -61,8 +62,6 @@ const id = {
     importFailed: 'Impor gagal: {{error}}',
     exportFailed: 'Ekspor gagal: {{error}}',
     importedWithWarnings: 'Diimpor dengan {{count}} peringatan',
-    collectionImported: 'Koleksi diimpor',
-    collectionExported: 'Koleksi diekspor',
   },
 
   // Environment
@@ -241,7 +240,6 @@ const id = {
       mappingsInfo: 'Pemetaan (parameter body dan query)',
       cannotBeUndone: 'Tindakan ini tidak dapat dibatalkan.',
       backupBefore: 'Cadangkan proyek Anda saat ini sebelum mengimpor:',
-      exportedCheck: 'Diekspor ✓',
       exportCurrentProject: 'Ekspor Proyek Saat Ini',
       importProject: 'Impor Proyek',
     },
@@ -283,6 +281,11 @@ const id = {
       alreadyHaveSerialNumber: 'Saya sudah punya nomor seri',
       connectTitle: 'Hubungkan penyedia AI',
       connectDescription: 'Rentgen mengirim permintaan langsung dari perangkat ini.',
+      baseUrl: 'URL dasar',
+      model: 'Model',
+      apiKey: 'Kunci API',
+      apiKeyStorageNotice: 'Kunci API disimpan secara lokal. Rentgen tidak menerimanya.',
+      howToRunOllamaLocally: 'Cara menjalankan Ollama secara lokal',
     },
     cli: {
       name: 'CLI',

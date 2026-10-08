@@ -110,7 +110,7 @@ export function GeneralSettings() {
       </SettingsHeader>
       <p className="m-0 text-xs text-text-secondary">{t('settings.project.description')}</p>
 
-      <div className="flex gap-3">
+      <div className="flex flex-col sm:flex-row gap-4">
         <Button buttonType={ButtonType.PRIMARY} className="flex-1" onClick={handleExportProject}>
           {t('settings.project.exportProject')}
         </Button>

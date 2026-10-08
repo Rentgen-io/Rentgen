@@ -15,6 +15,7 @@ export const defaultSettings: SettingsState = {
   },
   ai: {
     serialNumber: null,
+    providers: [],
   },
   testEngine: {
     configuration: {

@@ -37,6 +37,7 @@ const pl = {
     ignore: 'Ignoruj',
     ignored: 'Zignorowano',
     exported: 'Wyeksportowano',
+    imported: 'Zaimportowano',
     certificated: 'Certyfikowano',
   },
 
@@ -61,8 +62,6 @@ const pl = {
     importFailed: 'Import nie powiódł się: {{error}}',
     exportFailed: 'Eksport nie powiódł się: {{error}}',
     importedWithWarnings: 'Zaimportowano z {{count}} ostrzeżeniem(-ami)',
-    collectionImported: 'Kolekcja zaimportowana',
-    collectionExported: 'Kolekcja wyeksportowana',
   },
 
   // Environment
@@ -242,7 +241,6 @@ const pl = {
       mappingsInfo: 'Mapowania (parametry body i query)',
       cannotBeUndone: 'Tej akcji nie można cofnąć.',
       backupBefore: 'Wykonaj kopię zapasową obecnego projektu przed importem:',
-      exportedCheck: 'Wyeksportowano ✓',
       exportCurrentProject: 'Eksportuj obecny projekt',
       importProject: 'Importuj projekt',
     },
@@ -285,6 +283,11 @@ const pl = {
       alreadyHaveSerialNumber: 'Mam już numer seryjny',
       connectTitle: 'Połącz dostawcę AI',
       connectDescription: 'Rentgen wysyła żądania bezpośrednio z tego urządzenia.',
+      baseUrl: 'Bazowy URL',
+      model: 'Model',
+      apiKey: 'Klucz API',
+      apiKeyStorageNotice: 'Klucze API są przechowywane lokalnie. Rentgen ich nie otrzymuje.',
+      howToRunOllamaLocally: 'Jak uruchomić Ollama lokalnie',
     },
     cli: {
       name: 'CLI',

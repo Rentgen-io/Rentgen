@@ -37,6 +37,7 @@ const th = {
     ignore: 'ละเว้น',
     ignored: 'ละเว้น',
     exported: 'ส่งออกแล้ว',
+    imported: 'นำเข้าแล้ว',
     certificated: 'รับรองแล้ว',
   },
 
@@ -61,8 +62,6 @@ const th = {
     importFailed: 'นำเข้าไม่สำเร็จ: {{error}}',
     exportFailed: 'ส่งออกไม่สำเร็จ: {{error}}',
     importedWithWarnings: 'นำเข้าแล้วพร้อมคำเตือน {{count}} รายการ',
-    collectionImported: 'นำเข้าคอลเลกชันแล้ว',
-    collectionExported: 'ส่งออกคอลเลกชันแล้ว',
   },
 
   // Environment
@@ -241,7 +240,6 @@ const th = {
       mappingsInfo: 'การแมป (พารามิเตอร์ของบอดีและคิวรี)',
       cannotBeUndone: 'การกระทำนี้ไม่สามารถยกเลิกได้',
       backupBefore: 'สำรองโปรเจกต์ปัจจุบันก่อนนำเข้า:',
-      exportedCheck: 'ส่งออกแล้ว ✓',
       exportCurrentProject: 'ส่งออกโปรเจกต์ปัจจุบัน',
       importProject: 'นำเข้าโปรเจกต์',
     },
@@ -283,6 +281,11 @@ const th = {
       alreadyHaveSerialNumber: 'ฉันมีหมายเลขซีเรียลอยู่แล้ว',
       connectTitle: 'เชื่อมต่อผู้ให้บริการ AI',
       connectDescription: 'Rentgen ส่งคำขอโดยตรงจากอุปกรณ์นี้',
+      baseUrl: 'Base URL',
+      model: 'โมเดล',
+      apiKey: 'คีย์ API',
+      apiKeyStorageNotice: 'คีย์ API ถูกจัดเก็บไว้ในเครื่อง Rentgen ไม่ได้รับคีย์เหล่านี้',
+      howToRunOllamaLocally: 'วิธีรัน Ollama บนเครื่อง',
     },
     cli: {
       name: 'CLI',

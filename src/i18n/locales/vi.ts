@@ -37,6 +37,7 @@ const vi = {
     ignore: 'Bỏ qua',
     ignored: 'Đã bỏ qua',
     exported: 'Đã xuất',
+    imported: 'Đã nhập',
     certificated: 'Đã chứng nhận',
   },
 
@@ -61,8 +62,6 @@ const vi = {
     importFailed: 'Nhập thất bại: {{error}}',
     exportFailed: 'Xuất thất bại: {{error}}',
     importedWithWarnings: 'Đã nhập với {{count}} cảnh báo',
-    collectionImported: 'Đã nhập bộ sưu tập',
-    collectionExported: 'Đã xuất bộ sưu tập',
   },
 
   // Environment
@@ -241,7 +240,6 @@ const vi = {
       mappingsInfo: 'Ánh xạ (tham số body và query)',
       cannotBeUndone: 'Không thể hoàn tác hành động này.',
       backupBefore: 'Sao lưu dự án hiện tại của bạn trước khi nhập:',
-      exportedCheck: 'Đã xuất ✓',
       exportCurrentProject: 'Xuất dự án hiện tại',
       importProject: 'Nhập dự án',
     },
@@ -284,6 +282,11 @@ const vi = {
       alreadyHaveSerialNumber: 'Tôi đã có số sê-ri',
       connectTitle: 'Kết nối nhà cung cấp AI',
       connectDescription: 'Rentgen gửi yêu cầu trực tiếp từ thiết bị này.',
+      baseUrl: 'URL cơ sở',
+      model: 'Mô hình',
+      apiKey: 'Khóa API',
+      apiKeyStorageNotice: 'Khóa API được lưu cục bộ. Rentgen không nhận chúng.',
+      howToRunOllamaLocally: 'Cách chạy Ollama cục bộ',
     },
     cli: {
       name: 'CLI',

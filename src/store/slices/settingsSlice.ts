@@ -4,7 +4,7 @@ import { defaultSettings } from 'shared/defaults';
 import { MEDIAN_RESPONSE_TIME_TEST_NAME, NETWORK_SHARE_TEST_NAME, PING_LATENCY_TEST_NAME } from 'shared/testNames';
 import { loadSettings as loadSettingsFile } from 'src/api/storage';
 import i18n from 'src/i18n';
-import { HistoryRetention, Language, SettingsState } from 'src/types';
+import { AIProvider, HistoryRetention, Language, SettingsState } from 'src/types';
 
 export const initialState: SettingsState = defaultSettings;
 
@@ -100,6 +100,15 @@ export const settingsSlice = createSlice({
 
       if (action.payload.language) i18n.changeLanguage(action.payload.language);
       applyTheme(state);
+    },
+    setAiProvider: (state, action: PayloadAction<AIProvider>) => {
+      state.ai.providers.forEach((provider) => {
+        if (provider.id !== action.payload.id) provider.active = false;
+      });
+
+      const index = state.ai.providers.findIndex((provider) => provider.id === action.payload.id);
+      if (index !== -1) state.ai.providers[index] = action.payload;
+      else state.ai.providers.push(action.payload);
     },
   },
   extraReducers: (builder) => {

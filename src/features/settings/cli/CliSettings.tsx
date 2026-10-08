@@ -279,7 +279,7 @@ export function CliSettings() {
         <p className="m-0 text-xs text-text-secondary">{t('settings.cli.checkingStatus')}</p>
       ) : (
         <>
-          <div className="flex flex-col gap-3 p-3 border border-border dark:border-dark-border">
+          <div className="flex flex-col gap-4 p-3 border border-border dark:border-dark-border">
             <StatusBadge status={status} />
             <ActionRow status={status} busy={busy} onInstall={handleInstall} onUninstall={handleUninstall} />
           </div>
@@ -303,7 +303,7 @@ export function CliSettings() {
         <Trans i18nKey="settings.cli.runCliDescription" components={transComponents} />
       </p>
       <CodeBlock>rentgen xray &lt;project-file&gt; [options]</CodeBlock>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <Button buttonType={ButtonType.PRIMARY} onClick={handleExportProject}>
           {t('settings.cli.exportProject')}
         </Button>

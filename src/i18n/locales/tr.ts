@@ -37,6 +37,7 @@ const tr = {
     ignore: 'Yoksay',
     ignored: 'Yoksayıldı',
     exported: 'Dışa Aktarıldı',
+    imported: 'İçe Aktarıldı',
     certificated: 'Sertifikalandı',
   },
 
@@ -61,8 +62,6 @@ const tr = {
     importFailed: 'İçe aktarma başarısız: {{error}}',
     exportFailed: 'Dışa aktarma başarısız: {{error}}',
     importedWithWarnings: '{{count}} uyarı ile içe aktarıldı',
-    collectionImported: 'Koleksiyon içe aktarıldı',
-    collectionExported: 'Koleksiyon dışa aktarıldı',
   },
 
   // Environment
@@ -241,7 +240,6 @@ const tr = {
       mappingsInfo: 'Eşlemeler (gövde ve sorgu parametreleri)',
       cannotBeUndone: 'Bu işlem geri alınamaz.',
       backupBefore: 'İçe aktarmadan önce mevcut projenizi yedekleyin:',
-      exportedCheck: 'Dışa Aktarıldı ✓',
       exportCurrentProject: 'Mevcut Projeyi Dışa Aktar',
       importProject: 'Projeyi İçe Aktar',
     },
@@ -284,6 +282,11 @@ const tr = {
       alreadyHaveSerialNumber: 'Zaten bir seri numaram var',
       connectTitle: 'Bir YZ sağlayıcısı bağla',
       connectDescription: 'Rentgen istekleri doğrudan bu cihazdan gönderir.',
+      baseUrl: 'Temel URL',
+      model: 'Model',
+      apiKey: 'API anahtarı',
+      apiKeyStorageNotice: 'API anahtarları yerel olarak saklanır. Rentgen bunları almaz.',
+      howToRunOllamaLocally: 'Ollama yerel olarak nasıl çalıştırılır',
     },
     cli: {
       name: 'CLI',

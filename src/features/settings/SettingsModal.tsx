@@ -85,7 +85,6 @@ export default function SettingsModal() {
       <Tabs
         className="h-full flex"
         defaultIndex={activeTab}
-        forceRenderTabPanel={true}
         selectedTabClassName="bg-white dark:bg-dark-body"
         selectedTabPanelClassName="block!"
       >

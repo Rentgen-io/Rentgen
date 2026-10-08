@@ -37,6 +37,7 @@ const ru = {
     ignore: 'Игнорировать',
     ignored: 'Игнорируется',
     exported: 'Экспортировано',
+    imported: 'Импортировано',
     certificated: 'Сертификат создан',
   },
 
@@ -61,8 +62,6 @@ const ru = {
     importFailed: 'Ошибка импорта: {{error}}',
     exportFailed: 'Ошибка экспорта: {{error}}',
     importedWithWarnings: 'Импортировано с предупреждениями: {{count}}',
-    collectionImported: 'Коллекция импортирована',
-    collectionExported: 'Коллекция экспортирована',
   },
 
   // Environment
@@ -241,7 +240,6 @@ const ru = {
       mappingsInfo: 'Сопоставления (параметры тела и запроса)',
       cannotBeUndone: 'Это действие нельзя отменить.',
       backupBefore: 'Сделайте резервную копию текущего проекта перед импортом:',
-      exportedCheck: 'Экспортировано ✓',
       exportCurrentProject: 'Экспортировать текущий проект',
       importProject: 'Импортировать проект',
     },
@@ -284,6 +282,11 @@ const ru = {
       alreadyHaveSerialNumber: 'У меня уже есть серийный номер',
       connectTitle: 'Подключить ИИ-провайдера',
       connectDescription: 'Rentgen отправляет запросы напрямую с этого устройства.',
+      baseUrl: 'Базовый URL',
+      model: 'Модель',
+      apiKey: 'API-ключ',
+      apiKeyStorageNotice: 'API-ключи хранятся локально. Rentgen их не получает.',
+      howToRunOllamaLocally: 'Как запустить Ollama локально',
     },
     cli: {
       name: 'CLI',

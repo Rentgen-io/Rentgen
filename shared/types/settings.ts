@@ -26,6 +26,16 @@ export type Language = (typeof LANGUAGES)[number]['code'];
 
 export type HistoryRetention = '1w' | '1m' | '3m' | '6m' | '1y' | 'none';
 
+export type AIProviderId = 'ollama' | 'openai' | 'openai-compatible';
+
+export type AIProvider = {
+  id: AIProviderId;
+  active: boolean;
+  baseUrl: string;
+  model: string;
+  apiKey: string;
+};
+
 export interface SettingsState {
   cli: unknown;
   general: {
@@ -37,6 +47,7 @@ export interface SettingsState {
   };
   ai: {
     serialNumber: string | null;
+    providers: AIProvider[];
   };
   testEngine: {
     configuration: {

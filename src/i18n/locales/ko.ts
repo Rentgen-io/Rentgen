@@ -37,6 +37,7 @@ const ko = {
     ignore: '무시',
     ignored: '무시됨',
     exported: '내보냈습니다',
+    imported: '가져왔습니다',
     certificated: '인증되었습니다',
   },
 
@@ -61,8 +62,6 @@ const ko = {
     importFailed: '가져오기 실패: {{error}}',
     exportFailed: '내보내기 실패: {{error}}',
     importedWithWarnings: '경고 {{count}}건과 함께 가져왔습니다',
-    collectionImported: '컬렉션을 가져왔습니다',
-    collectionExported: '컬렉션을 내보냈습니다',
   },
 
   // Environment
@@ -241,7 +240,6 @@ const ko = {
       mappingsInfo: '매핑 (본문 및 쿼리 파라미터)',
       cannotBeUndone: '이 작업은 되돌릴 수 없습니다.',
       backupBefore: '가져오기 전에 현재 프로젝트를 백업하세요:',
-      exportedCheck: '내보냈음 ✓',
       exportCurrentProject: '현재 프로젝트 내보내기',
       importProject: '프로젝트 가져오기',
     },
@@ -283,6 +281,11 @@ const ko = {
       alreadyHaveSerialNumber: '이미 시리얼 번호가 있습니다',
       connectTitle: 'AI 제공업체 연결',
       connectDescription: 'Rentgen은 이 기기에서 직접 요청을 보냅니다.',
+      baseUrl: '기본 URL',
+      model: '모델',
+      apiKey: 'API 키',
+      apiKeyStorageNotice: 'API 키는 로컬에 저장됩니다. Rentgen은 이를 수신하지 않습니다.',
+      howToRunOllamaLocally: 'Ollama를 로컬에서 실행하는 방법',
     },
     cli: {
       name: 'CLI',

@@ -37,6 +37,7 @@ const zhCN = {
     ignore: '忽略',
     ignored: '已忽略',
     exported: '已导出',
+    imported: '已导入',
     certificated: '已生成证书',
   },
 
@@ -61,8 +62,6 @@ const zhCN = {
     importFailed: '导入失败：{{error}}',
     exportFailed: '导出失败：{{error}}',
     importedWithWarnings: '已导入，包含 {{count}} 个警告',
-    collectionImported: '集合已导入',
-    collectionExported: '集合已导出',
   },
 
   // Environment
@@ -239,7 +238,6 @@ const zhCN = {
       mappingsInfo: '映射（请求体和查询参数）',
       cannotBeUndone: '此操作无法撤销。',
       backupBefore: '导入前请先备份你当前的项目：',
-      exportedCheck: '已导出 ✓',
       exportCurrentProject: '导出当前项目',
       importProject: '导入项目',
     },
@@ -281,6 +279,11 @@ const zhCN = {
       alreadyHaveSerialNumber: '我已有序列号',
       connectTitle: '连接 AI 提供商',
       connectDescription: 'Rentgen 直接从本设备发送请求。',
+      baseUrl: '基础 URL',
+      model: '模型',
+      apiKey: 'API 密钥',
+      apiKeyStorageNotice: 'API 密钥仅保存在本地，Rentgen 不会接收它们。',
+      howToRunOllamaLocally: '如何在本地运行 Ollama',
     },
     cli: {
       name: 'CLI',
