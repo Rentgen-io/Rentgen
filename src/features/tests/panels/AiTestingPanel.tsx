@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import Button from 'src/components/buttons/Button';
 import Panel from 'src/components/panels/Panel';
+import { validateSerialNumber } from 'src/features/settings/ai/AiLicenseSettings';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectIsRunningTests, selectSerialNumber } from 'src/store/selectors';
+import { selectActiveAiProvider, selectIsRunningTests, selectSerialNumber } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { TestsTableHeader } from '../tables/TestsTable';
-import { validateSerialNumber } from 'src/features/settings/ai/AiLicenseSettings';
 
 export default function AiTestingPanel() {
   const { t } = useTranslation();
@@ -13,6 +13,7 @@ export default function AiTestingPanel() {
 
   const isRunningTests = useAppSelector(selectIsRunningTests);
   const serialNumber = useAppSelector(selectSerialNumber);
+  const activeAiProvider = useAppSelector(selectActiveAiProvider);
 
   return (
     <Panel
@@ -31,7 +32,7 @@ export default function AiTestingPanel() {
           className="w-fit self-center"
           disabled={isRunningTests}
           onClick={() => {
-            if (!validateSerialNumber(serialNumber)) {
+            if (!validateSerialNumber(serialNumber) || !activeAiProvider) {
               dispatch(modalsActions.openSettingsModal(2));
               return;
             }
