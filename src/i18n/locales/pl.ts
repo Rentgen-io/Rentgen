@@ -504,6 +504,12 @@ const pl = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'Bazowy adres URL i model są wymagane.',
+    unexpectedResponse: 'Nieoczekiwana odpowiedź od dostawcy AI.',
+  },
 };
 
 export default pl;

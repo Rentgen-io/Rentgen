@@ -1,4 +1,5 @@
 import { Method } from 'axios';
+import cn from 'classnames';
 import { MouseEvent, useCallback } from 'react';
 import MethodBadge from 'src/components/badges/MethodBadge';
 import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
@@ -47,7 +48,10 @@ export default function HistoryItem({ entry, searchTerm }: Props) {
 
   return (
     <div
-      className="group relative flex items-center gap-2 px-3 py-2 border-b border-border dark:border-dark-border hover:bg-button-secondary dark:hover:bg-dark-input cursor-pointer"
+      className={cn(
+        'h-9 relative flex items-center gap-2 px-3 py-1.5 border-b border-border dark:border-dark-border',
+        'hover:bg-button-secondary dark:hover:bg-dark-input box-border group cursor-pointer',
+      )}
       onClick={handleClick}
     >
       <MethodBadge method={entry.method} />

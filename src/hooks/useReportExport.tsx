@@ -1,12 +1,11 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import { appConfig } from 'shared/constants';
 import { generateCertificate as generateCertificateFile, saveReport } from 'src/api/files';
-import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCurrentTestResults, selectExportFormat, selectHttpResponse } from 'src/store/selectors';
 import { ExportReport, ReportFormat, ReportSuite, TestResult } from 'src/types';
+import { notify } from 'src/utils/toast';
 
 const MINIMUM_TESTS_FOR_CERTIFICATE = 70;
 
@@ -46,17 +45,16 @@ export function useReportExport() {
       if (result?.error) throw new Error(result.error);
       if (result?.canceled) return;
 
-      toast.dismiss();
-      toast.success(<span className="flex-auto">{t('common.exported')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
+      notify.success(t('common.exported'), { toastId: 'export-report' });
     } catch (error) {
       console.error(error);
-      toast.error(<span className="flex-auto">{t('tests.failedToExport')}</span>);
+      notify.error(t('tests.failedToExport'));
     }
   }, [testResults, exportFormat, httpResponse, dispatch]);
 
   const generateCertificate = useCallback(async () => {
     if (!testResults || testResults.count < MINIMUM_TESTS_FOR_CERTIFICATE) {
-      toast.error(<span className="flex-auto">{t('tests.notEligible')}</span>);
+      notify.error(t('tests.notEligible'));
       return;
     }
 
@@ -66,13 +64,10 @@ export function useReportExport() {
       if (result?.error) throw new Error(result.error);
       if (result?.canceled) return;
 
-      toast.dismiss();
-      toast.success(<span className="flex-auto">{t('common.certificated')}</span>, {
-        autoClose: SUCCESS_TOAST_AUTO_CLOSE,
-      });
+      notify.success(t('common.certificated'), { toastId: 'generate-certificate' });
     } catch (error) {
       console.error(error);
-      toast.error(<span className="flex-auto">{t('tests.failedToGenerateCertificate')}</span>);
+      notify.error(t('tests.failedToGenerateCertificate'));
     }
   }, [testResults, t, dispatch]);
 

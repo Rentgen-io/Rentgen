@@ -508,6 +508,12 @@ const nl = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'Basis-URL en model zijn verplicht.',
+    unexpectedResponse: 'Onverwacht antwoord van de AI-provider.',
+  },
 };
 
 export default nl;

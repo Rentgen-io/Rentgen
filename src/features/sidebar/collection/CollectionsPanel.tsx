@@ -10,14 +10,13 @@ import {
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import { exportPostmanCollection, importPostmanCollection } from 'src/api/files';
-import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionData, selectSidebarFolders } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { detectImportConflicts, filterCollectionsBySearch } from 'src/utils';
+import { notify } from 'src/utils/toast';
 import SideBarSearch from '../SidebarSearch';
 import CollectionGroup from './CollectionGroup';
 
@@ -47,7 +46,7 @@ export default function CollectionsPanel() {
     if (result.canceled) return;
 
     if (result.error) {
-      toast.error(<span className="flex-auto">{t('collections.importFailed', { error: result.error })}</span>);
+      notify.error(t('collections.importFailed', { error: result.error }));
       return;
     }
 
@@ -66,14 +65,8 @@ export default function CollectionsPanel() {
         dispatch(collectionActions.importCollection({ collection: result.collection, mode: 'merge' }));
 
         const warningCount = result.warnings?.length || 0;
-        if (warningCount > 0)
-          toast.warning(
-            <span className="flex-auto">{t('collections.importedWithWarnings', { count: warningCount })}</span>,
-          );
-        else
-          toast.success(<span className="flex-auto">{t('common.imported')}</span>, {
-            autoClose: SUCCESS_TOAST_AUTO_CLOSE,
-          });
+        if (warningCount > 0) notify.warning(t('collections.importedWithWarnings', { count: warningCount }));
+        else notify.success(t('common.imported'));
       }
     }
   };
@@ -83,11 +76,11 @@ export default function CollectionsPanel() {
     if (result.canceled) return;
 
     if (result.error) {
-      toast.error(<span className="flex-auto">{t('collections.exportFailed', { error: result.error })}</span>);
+      notify.error(t('collections.exportFailed', { error: result.error }));
       return;
     }
 
-    toast.success(<span className="flex-auto">{t('common.exported')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
+    notify.success(t('common.exported'));
   };
 
   const sensors = useSensors(
@@ -176,7 +169,7 @@ export default function CollectionsPanel() {
 
   return (
     <>
-      <div className="flex items-center justify-between border-b border-border dark:border-dark-border gap-2">
+      <div className="h-9 shrink-0 flex items-center justify-between gap-2 border-b border-border dark:border-dark-border box-border">
         <div
           className="flex items-center gap-2 w-full px-3 py-2 hover:bg-button-secondary dark:hover:bg-dark-input cursor-pointer outline-none"
           onClick={() => dispatch(collectionActions.addFolder('New Folder'))}

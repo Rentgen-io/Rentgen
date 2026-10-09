@@ -1,17 +1,16 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import { exportProject, importProject } from 'src/api/files';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import Toggle from 'src/components/inputs/Toggle';
-import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectHistoryEnabled, selectHistoryRetention, selectHistorySize } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import { HistoryRetention } from 'src/types';
+import { notify } from 'src/utils/toast';
 import SettingsHeader from '../SettingsHeader';
 
 export function GeneralSettings() {
@@ -33,14 +32,13 @@ export function GeneralSettings() {
 
   const handleExportProject = async () => {
     const result = await exportProject();
-    if (result.success)
-      toast.success(<span className="flex-auto">{t('common.exported')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
+    if (result.success) notify.success(t('common.exported'));
   };
 
   const handleImportProject = async () => {
     const result = await importProject();
     if (result.error) {
-      toast.error(<span className="flex-auto">{result.error}</span>);
+      notify.error(result.error);
       return;
     }
 

@@ -1,14 +1,13 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Modal from 'src/components/modals/Modal';
-import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionData, selectImportConflictModal } from 'src/store/selectors';
 import { collectionActions, ImportMode } from 'src/store/slices/collectionSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { countMergeAdditions } from 'src/utils';
+import { notify } from 'src/utils/toast';
 
 export default function ImportConflictModal() {
   const { t } = useTranslation();
@@ -27,9 +26,7 @@ export default function ImportConflictModal() {
   const handleImport = (mode: ImportMode) => {
     if (importedCollection) {
       dispatch(collectionActions.importCollection({ collection: importedCollection, mode }));
-      toast.success(<span className="flex-auto">{t('common.imported')}</span>, {
-        autoClose: SUCCESS_TOAST_AUTO_CLOSE,
-      });
+      notify.success(t('common.imported'));
     }
 
     handleClose();

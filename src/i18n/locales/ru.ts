@@ -505,6 +505,12 @@ const ru = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'Базовый URL и модель обязательны.',
+    unexpectedResponse: 'Неожиданный ответ от поставщика ИИ.',
+  },
 };
 
 export default ru;

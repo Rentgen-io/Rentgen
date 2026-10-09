@@ -122,8 +122,8 @@ export default function CollectionItem({ item, searchTerm }: Props) {
         transition,
       }}
       className={cn(
-        'relative flex items-center gap-2 px-3 py-2 border-b border-border dark:border-dark-border hover:bg-button-secondary dark:hover:bg-dark-input',
-        'group cursor-pointer outline-none',
+        'relative h-9 flex items-center gap-2 px-3 py-1.5 border-b border-border dark:border-dark-border',
+        'hover:bg-button-secondary dark:hover:bg-dark-input box-border group cursor-pointer outline-none',
         {
           'bg-button-secondary dark:bg-dark-input': isSelected,
           'opacity-50 shadow-lg z-50': isDragging,

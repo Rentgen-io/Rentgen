@@ -106,18 +106,18 @@ export default function CollectionGroup({
     <>
       <div
         ref={setNodeRef}
+        className={cn({
+          'opacity-50 shadow-lg z-50': isDragging,
+        })}
         style={{
           transform: CSS.Transform.toString(transform),
           transition,
         }}
-        className={cn({
-          'opacity-50 shadow-lg z-50': isDragging,
-        })}
       >
         <div
           className={cn(
-            'flex items-center gap-2 px-3 py-2 border-b border-border dark:border-dark-input',
-            'hover:bg-button-secondary dark:hover:bg-dark-input group cursor-pointer outline-none',
+            'h-9 flex items-center gap-2 px-3 py-1.5 border-b border-border dark:border-dark-border',
+            'hover:bg-button-secondary dark:hover:bg-dark-input box-border group cursor-pointer outline-none',
             {
               'bg-button-secondary dark:bg-dark-input': isSelected,
             },

@@ -18,7 +18,7 @@ interface Props extends SelectProps {
 export default function Select({ classNames, styles, isCreatable, ...otherProps }: Props) {
   const selectClassNames = mergeClassNames(
     {
-      container: () => 'min-w-[110px] text-xs',
+      container: () => 'min-w-27.5 text-xs',
       control: () =>
         cn('min-h-auto! rounded-none! border! shadow-none! transition-none!', {
           'bg-white! dark:bg-dark-input! border-border! dark:border-dark-border!': !styles?.control,
@@ -31,11 +31,9 @@ export default function Select({ classNames, styles, isCreatable, ...otherProps 
       menuList: () => 'p-0!',
       option: ({ data, isSelected }) =>
         cn(
-          'rounded-none! transition-none! cursor-pointer!',
+          'rounded-none transition-none',
           {
-            'text-white!': isSelected,
             'hover:bg-select-hover dark:bg-dark-input! dark:hover:bg-dark-button-secondary!': !isSelected,
-            'text-text! dark:text-dark-text!': !(data as SelectOption<unknown>).className,
           },
           !isSelected ? (data as SelectOption<unknown>).className : undefined,
         ),
@@ -58,8 +56,8 @@ export default function Select({ classNames, styles, isCreatable, ...otherProps 
     return (
       <CreatableSelect
         {...otherProps}
-        styles={styles}
         classNames={selectClassNames}
+        styles={styles}
         formatCreateLabel={(value) => value}
       />
     );

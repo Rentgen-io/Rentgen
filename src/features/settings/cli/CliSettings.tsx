@@ -1,12 +1,11 @@
 import cn from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import { exportProject } from 'src/api/files';
 import { getCliStatus, installCli, openExternal, uninstallCli } from 'src/api/system';
 import Button, { ButtonType } from 'src/components/buttons/Button';
-import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import type { CliActionResult, CliStatus } from 'src/types';
+import { notify } from 'src/utils/toast';
 import SettingsHeader from '../SettingsHeader';
 
 interface FlagRow {
@@ -218,8 +217,7 @@ export function CliSettings() {
 
   const handleExportProject = async () => {
     const result = await exportProject();
-    if (result.success)
-      toast.success(<span className="flex-auto">{t('common.exported')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
+    if (result.success) notify.success(t('common.exported'));
   };
 
   const refresh = useCallback(async () => {

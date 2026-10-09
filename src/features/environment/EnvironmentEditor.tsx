@@ -2,17 +2,16 @@ import cn from 'classnames';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import Button from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
 import Select, { SelectOption } from 'src/components/inputs/Select';
 import Panel from 'src/components/panels/Panel';
-import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectDynamicVariables, selectSelectedEnvironmentId, selectTheme } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { DataType, DynamicVariable, Environment, EnvironmentVariable } from 'src/types';
 import { generateEnvironmentId } from 'src/utils';
+import { notify } from 'src/utils/toast';
 
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 
@@ -76,8 +75,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
         variables: variables.filter((v) => v.key.trim() !== ''),
       });
 
-      toast.dismiss();
-      toast.success(<span className="flex-auto">{t('common.saved')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
+      notify.success(t('common.saved'), { toastId: 'save-environment' });
     }, 500);
 
     return () => clearTimeout(timeoutId);
@@ -126,7 +124,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
     onSave(savedEnvironment);
 
-    toast.success(<span className="flex-auto">{t('common.saved')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
+    notify.success(t('common.saved'));
   };
 
   const handleDynamicVariableKeyChange = useCallback(
@@ -140,7 +138,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           }),
         );
 
-      toast.success(<span className="flex-auto">{t('common.saved')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
+      notify.success(t('common.saved'), { toastId: 'save-environment' });
     },
     [dispatch, t],
   );

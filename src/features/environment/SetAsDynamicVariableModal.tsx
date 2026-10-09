@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import { ButtonType } from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
 import Select from 'src/components/inputs/Select';
@@ -10,6 +9,7 @@ import { selectDynamicVariables, selectEnvironments, selectSetAsDynamicVariableM
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { DynamicVariable } from 'src/types';
+import { notify } from 'src/utils/toast';
 
 const ALL_ENVIRONMENTS_VALUE = 'all';
 
@@ -75,17 +75,17 @@ export default function SetAsDynamicVariableModal() {
   const onConfirm = () => {
     const sanitizedName = name.trim();
     if (!sanitizedName) {
-      toast.error(<span className="flex-auto">{t('modals.setDynamicVariable.variableNameRequired')}</span>);
+      notify.error(t('modals.setDynamicVariable.variableNameRequired'));
       return;
     }
 
     if (!selector) {
-      toast.error(<span className="flex-auto">{t('modals.setDynamicVariable.selectorRequired')}</span>);
+      notify.error(t('modals.setDynamicVariable.selectorRequired'));
       return;
     }
 
     if (!selectedEnvironment) {
-      toast.error(<span className="flex-auto">{t('modals.setDynamicVariable.selectEnvironmentError')}</span>);
+      notify.error(t('modals.setDynamicVariable.selectEnvironmentError'));
       return;
     }
 

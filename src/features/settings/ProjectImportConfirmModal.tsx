@@ -1,10 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import { exportProject } from 'src/api/files';
 import IntegrityBadge from 'src/components/badges/IntegrityBadge';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import ConfirmationModal from 'src/components/modals/ConfirmationModal';
-import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectProjectImportConfirmModal } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
@@ -14,6 +12,7 @@ import { mappingsActions } from 'src/store/slices/mappingsSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import { HistoryEntry, MappingsState, SettingsState } from 'src/types';
+import { notify } from 'src/utils/toast';
 
 function formatDate(isoString: string): string {
   try {
@@ -57,9 +56,7 @@ export default function ProjectImportConfirmModal() {
         dispatch(collectionActions.selectFolder('default'));
         dispatch(environmentActions.selectEnvironment(null));
 
-        toast.success(<span className="flex-auto">{t('common.imported')}</span>, {
-          autoClose: SUCCESS_TOAST_AUTO_CLOSE,
-        });
+        notify.success(t('common.imported'));
       }}
     >
       <>
@@ -116,10 +113,7 @@ export default function ProjectImportConfirmModal() {
             buttonSize={ButtonSize.SMALL}
             onClick={async () => {
               const result = await exportProject();
-              if (result.success)
-                toast.success(<span className="flex-auto">{t('common.exported')}</span>, {
-                  autoClose: SUCCESS_TOAST_AUTO_CLOSE,
-                });
+              if (result.success) notify.success(t('common.exported'));
             }}
           >
             {t('modals.projectImport.exportCurrentProject')}

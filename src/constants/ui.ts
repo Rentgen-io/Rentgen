@@ -1,1 +1,0 @@
-export const SUCCESS_TOAST_AUTO_CLOSE = 1000;

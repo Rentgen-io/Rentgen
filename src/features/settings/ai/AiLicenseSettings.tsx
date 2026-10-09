@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
 import { useAppDispatch } from 'src/store/hooks';
 import { settingsActions } from 'src/store/slices/settingsSlice';
+import { notify } from 'src/utils/toast';
 import SettingsHeader from '../SettingsHeader';
 
 export function AiLicenseSettings() {
@@ -40,7 +40,7 @@ export function AiLicenseSettings() {
             disabled={!serialNumber}
             onClick={() => {
               if (validateSerialNumber(serialNumber)) dispatch(settingsActions.setSerialNumber(serialNumber));
-              else toast.error(<span className="flex-auto">{t('settings.ai.invalidSerialNumber')}</span>);
+              else notify.error(t('settings.ai.invalidSerialNumber'));
             }}
           >
             {t('settings.ai.activateLicense')}

@@ -502,6 +502,12 @@ const hi = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'बेस URL और मॉडल आवश्यक हैं।',
+    unexpectedResponse: 'AI प्रदाता से अप्रत्याशित प्रतिक्रिया।',
+  },
 };
 
 export default hi;

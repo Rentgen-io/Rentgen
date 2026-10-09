@@ -508,6 +508,12 @@ const ptBR = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'A URL base e o modelo são obrigatórios.',
+    unexpectedResponse: 'Resposta inesperada do provedor de IA.',
+  },
 };
 
 export default ptBR;

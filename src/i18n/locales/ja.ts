@@ -506,6 +506,12 @@ const ja = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'ベースURLとモデルは必須です。',
+    unexpectedResponse: 'AIプロバイダーから予期しない応答がありました。',
+  },
 };
 
 export default ja;

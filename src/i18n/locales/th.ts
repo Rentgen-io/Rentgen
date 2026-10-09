@@ -502,6 +502,12 @@ const th = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'ต้องระบุ Base URL และโมเดล',
+    unexpectedResponse: 'การตอบกลับที่ไม่คาดคิดจากผู้ให้บริการ AI',
+  },
 };
 
 export default th;

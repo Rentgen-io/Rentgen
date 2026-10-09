@@ -1,7 +1,6 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
+import { notify } from 'src/utils/toast';
 import { twMerge } from 'tailwind-merge';
 import Button, { Props as ButtonProps, ButtonSize, ButtonType } from './Button';
 
@@ -34,12 +33,10 @@ export function CopyButton({
   function copyToClipboard() {
     navigator.clipboard
       .writeText(textToCopy)
-      .then(() =>
-        toast.info(<span className="flex-auto">{t('common.copied')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE }),
-      )
+      .then(() => notify.info(t('common.copied'), { toastId: 'success-copy' }))
       .catch((error) => {
         console.error(error);
-        toast.error(<span className="flex-auto">{t('common.failedCopy')}</span>);
+        notify.error(t('common.failedCopy'), { toastId: 'failed-copy' });
       });
   }
 }

@@ -497,6 +497,12 @@ const zhCN = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: '基础 URL 和模型为必填项。',
+    unexpectedResponse: '来自 AI 提供方的意外响应。',
+  },
 };
 
 export default zhCN;

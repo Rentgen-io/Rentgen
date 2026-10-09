@@ -504,6 +504,12 @@ const uk = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'Базовий URL і модель є обовʼязковими.',
+    unexpectedResponse: 'Неочікувана відповідь від постачальника ШІ.',
+  },
 };
 
 export default uk;

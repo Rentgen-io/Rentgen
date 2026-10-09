@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { SUCCESS_TOAST_AUTO_CLOSE } from 'src/constants/ui';
 import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -22,6 +20,7 @@ import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { extractStatusCode, findRequestById, parseHeaders } from 'src/utils';
+import { notify } from 'src/utils/toast';
 
 export function useSaveRequest() {
   const { t } = useTranslation();
@@ -68,8 +67,7 @@ export function useSaveRequest() {
         }),
       );
 
-    toast.dismiss();
-    toast.success(<span className="flex-auto">{t('common.saved')}</span>, { autoClose: SUCCESS_TOAST_AUTO_CLOSE });
+    notify.success(t('common.saved'), { toastId: 'save-request' });
   }, [
     body,
     bodyParameters,

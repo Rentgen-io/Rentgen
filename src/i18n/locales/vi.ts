@@ -503,6 +503,12 @@ const vi = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'Base URL và model là bắt buộc.',
+    unexpectedResponse: 'Phản hồi không mong đợi từ nhà cung cấp AI.',
+  },
 };
 
 export default vi;

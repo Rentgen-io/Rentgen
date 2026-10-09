@@ -502,6 +502,12 @@ const id = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'URL dasar dan model wajib diisi.',
+    unexpectedResponse: 'Respons tidak terduga dari penyedia AI.',
+  },
 };
 
 export default id;

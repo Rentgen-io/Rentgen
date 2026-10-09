@@ -502,6 +502,12 @@ const ko = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: '기본 URL과 모델은 필수입니다.',
+    unexpectedResponse: 'AI 제공자로부터 예기치 않은 응답을 받았습니다.',
+  },
 };
 
 export default ko;

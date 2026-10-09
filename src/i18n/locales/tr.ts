@@ -507,6 +507,12 @@ const tr = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'Temel URL ve model gereklidir.',
+    unexpectedResponse: 'Yapay zekâ sağlayıcısından beklenmeyen yanıt.',
+  },
 };
 
 export default tr;

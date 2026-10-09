@@ -84,7 +84,7 @@ export default function HistoryPanel() {
 
   return (
     <>
-      <div className="flex items-center justify-between px-3 py-2 border-b border-border dark:border-dark-border gap-2">
+      <div className="h-9 shrink-0 flex items-center justify-between gap-2 px-3 py-2 border-b border-border dark:border-dark-border box-border">
         <span className="text-xs text-text-secondary dark:text-dark-text-secondary">{t('history.title')}</span>
         {entries.length > 0 && (
           <ClearCrossIcon

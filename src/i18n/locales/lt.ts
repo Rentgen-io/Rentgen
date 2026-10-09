@@ -504,6 +504,12 @@ const lt = {
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
   },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'Bazinis URL ir modelis yra privalomi.',
+    unexpectedResponse: 'Netikėtas AI tiekėjo atsakymas.',
+  },
 };
 
 export default lt;
