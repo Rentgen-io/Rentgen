@@ -32,7 +32,7 @@ export function GeneralSettings() {
 
   const handleExportProject = async () => {
     const result = await exportProject();
-    if (result.success) notify.success(t('common.exported'));
+    if (result.success) notify.success(t('common.exported'), { toastId: 'success-export-project' });
   };
 
   const handleImportProject = async () => {

@@ -45,16 +45,16 @@ export function useReportExport() {
       if (result?.error) throw new Error(result.error);
       if (result?.canceled) return;
 
-      notify.success(t('common.exported'), { toastId: 'export-report' });
+      notify.success(t('common.exported'), { toastId: 'success-export-report' });
     } catch (error) {
       console.error(error);
-      notify.error(t('tests.failedToExport'));
+      notify.error(t('tests.failedToExport'), { toastId: 'error-export-report' });
     }
   }, [testResults, exportFormat, httpResponse, dispatch]);
 
   const generateCertificate = useCallback(async () => {
     if (!testResults || testResults.count < MINIMUM_TESTS_FOR_CERTIFICATE) {
-      notify.error(t('tests.notEligible'));
+      notify.error(t('tests.notEligible'), { toastId: 'error-generate-certificate' });
       return;
     }
 
@@ -64,10 +64,10 @@ export function useReportExport() {
       if (result?.error) throw new Error(result.error);
       if (result?.canceled) return;
 
-      notify.success(t('common.certificated'), { toastId: 'generate-certificate' });
+      notify.success(t('common.certificated'), { toastId: 'success-generate-certificate' });
     } catch (error) {
       console.error(error);
-      notify.error(t('tests.failedToGenerateCertificate'));
+      notify.error(t('tests.failedToGenerateCertificate'), { toastId: 'error-generate-certificate' });
     }
   }, [testResults, t, dispatch]);
 

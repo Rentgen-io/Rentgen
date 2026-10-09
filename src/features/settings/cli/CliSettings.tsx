@@ -217,7 +217,7 @@ export function CliSettings() {
 
   const handleExportProject = async () => {
     const result = await exportProject();
-    if (result.success) notify.success(t('common.exported'));
+    if (result.success) notify.success(t('common.exported'), { toastId: 'success-export-project' });
   };
 
   const refresh = useCallback(async () => {
@@ -302,7 +302,7 @@ export function CliSettings() {
       </p>
       <CodeBlock>rentgen xray &lt;project-file&gt; [options]</CodeBlock>
       <div className="flex items-center gap-4">
-        <Button buttonType={ButtonType.PRIMARY} onClick={handleExportProject}>
+        <Button className="shrink-0" buttonType={ButtonType.PRIMARY} onClick={handleExportProject}>
           {t('settings.cli.exportProject')}
         </Button>
         <span className="text-xs text-text-secondary">

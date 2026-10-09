@@ -33,10 +33,10 @@ export function CopyButton({
   function copyToClipboard() {
     navigator.clipboard
       .writeText(textToCopy)
-      .then(() => notify.info(t('common.copied'), { toastId: 'success-copy' }))
+      .then(() => notify.info(t('common.copied'), { toastId: 'info-copy' }))
       .catch((error) => {
         console.error(error);
-        notify.error(t('common.failedCopy'), { toastId: 'failed-copy' });
+        notify.error(t('common.failedCopy'), { toastId: 'error-copy' });
       });
   }
 }

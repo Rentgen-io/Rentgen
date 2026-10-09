@@ -48,7 +48,7 @@ export function useCurlImport() {
       dispatch(modalsActions.closeCurlModal());
     } catch (error) {
       console.error(error);
-      notify.error(t('curl.invalidCurl'), { toastId: 'invalid-curl' });
+      notify.error(t('curl.invalidCurl'), { toastId: 'error-import-curl' });
     }
   }, [curl, reset, t, dispatch]);
 }

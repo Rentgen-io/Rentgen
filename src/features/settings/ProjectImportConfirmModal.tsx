@@ -56,7 +56,7 @@ export default function ProjectImportConfirmModal() {
         dispatch(collectionActions.selectFolder('default'));
         dispatch(environmentActions.selectEnvironment(null));
 
-        notify.success(t('common.imported'));
+        notify.success(t('common.imported'), { toastId: 'success-import-project' });
       }}
     >
       <>
@@ -113,7 +113,7 @@ export default function ProjectImportConfirmModal() {
             buttonSize={ButtonSize.SMALL}
             onClick={async () => {
               const result = await exportProject();
-              if (result.success) notify.success(t('common.exported'));
+              if (result.success) notify.success(t('common.exported'), { toastId: 'success-export-project' });
             }}
           >
             {t('modals.projectImport.exportCurrentProject')}

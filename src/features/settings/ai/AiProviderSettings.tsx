@@ -53,7 +53,7 @@ export function AiProviderSettings() {
     setIsSaving(false);
 
     if (!result.ok) {
-      notify.error(result.error);
+      notify.error(result.error, { toastId: 'error-save-ai-provider' });
       return;
     }
 
@@ -66,7 +66,7 @@ export function AiProviderSettings() {
         apiKey,
       }),
     );
-    notify.success(t('common.saved'));
+    notify.success(t('common.saved'), { toastId: 'success-save-ai-provider' });
   };
 
   return (

@@ -75,17 +75,17 @@ export default function SetAsDynamicVariableModal() {
   const onConfirm = () => {
     const sanitizedName = name.trim();
     if (!sanitizedName) {
-      notify.error(t('modals.setDynamicVariable.variableNameRequired'));
+      notify.error(t('modals.setDynamicVariable.variableNameRequired'), { toastId: 'error-set-dynamic-variable' });
       return;
     }
 
     if (!selector) {
-      notify.error(t('modals.setDynamicVariable.selectorRequired'));
+      notify.error(t('modals.setDynamicVariable.selectorRequired'), { toastId: 'error-set-dynamic-variable' });
       return;
     }
 
     if (!selectedEnvironment) {
-      notify.error(t('modals.setDynamicVariable.selectEnvironmentError'));
+      notify.error(t('modals.setDynamicVariable.selectEnvironmentError'), { toastId: 'error-set-dynamic-variable' });
       return;
     }
 

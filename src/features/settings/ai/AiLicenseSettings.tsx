@@ -40,7 +40,7 @@ export function AiLicenseSettings() {
             disabled={!serialNumber}
             onClick={() => {
               if (validateSerialNumber(serialNumber)) dispatch(settingsActions.setSerialNumber(serialNumber));
-              else notify.error(t('settings.ai.invalidSerialNumber'));
+              else notify.error(t('settings.ai.invalidSerialNumber'), { toastId: 'error-validate-serial-number' });
             }}
           >
             {t('settings.ai.activateLicense')}

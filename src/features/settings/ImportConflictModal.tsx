@@ -26,7 +26,7 @@ export default function ImportConflictModal() {
   const handleImport = (mode: ImportMode) => {
     if (importedCollection) {
       dispatch(collectionActions.importCollection({ collection: importedCollection, mode }));
-      notify.success(t('common.imported'));
+      notify.success(t('common.imported'), { toastId: 'success-import-collection' });
     }
 
     handleClose();

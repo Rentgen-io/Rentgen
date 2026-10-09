@@ -67,7 +67,7 @@ export function useSaveRequest() {
         }),
       );
 
-    notify.success(t('common.saved'), { toastId: 'save-request' });
+    notify.success(t('common.saved'), { toastId: 'success-save-request' });
   }, [
     body,
     bodyParameters,

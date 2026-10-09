@@ -75,7 +75,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
         variables: variables.filter((v) => v.key.trim() !== ''),
       });
 
-      notify.success(t('common.saved'), { toastId: 'save-environment' });
+      notify.success(t('common.saved'), { toastId: 'success-save-environment' });
     }, 500);
 
     return () => clearTimeout(timeoutId);
@@ -124,7 +124,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
     onSave(savedEnvironment);
 
-    notify.success(t('common.saved'));
+    notify.success(t('common.saved'), { toastId: 'success-save-environment' });
   };
 
   const handleDynamicVariableKeyChange = useCallback(
@@ -138,7 +138,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           }),
         );
 
-      notify.success(t('common.saved'), { toastId: 'save-environment' });
+      notify.success(t('common.saved'), { toastId: 'success-save-environment' });
     },
     [dispatch, t],
   );

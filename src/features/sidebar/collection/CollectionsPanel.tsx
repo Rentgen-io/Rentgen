@@ -46,7 +46,7 @@ export default function CollectionsPanel() {
     if (result.canceled) return;
 
     if (result.error) {
-      notify.error(t('collections.importFailed', { error: result.error }));
+      notify.error(t('collections.importFailed', { error: result.error }), { toastId: 'error-import-collection' });
       return;
     }
 
@@ -65,8 +65,11 @@ export default function CollectionsPanel() {
         dispatch(collectionActions.importCollection({ collection: result.collection, mode: 'merge' }));
 
         const warningCount = result.warnings?.length || 0;
-        if (warningCount > 0) notify.warning(t('collections.importedWithWarnings', { count: warningCount }));
-        else notify.success(t('common.imported'));
+        if (warningCount > 0)
+          notify.warning(t('collections.importedWithWarnings', { count: warningCount }), {
+            toastId: 'warning-import-collection',
+          });
+        else notify.success(t('common.imported'), { toastId: 'success-import-collection' });
       }
     }
   };
@@ -76,11 +79,11 @@ export default function CollectionsPanel() {
     if (result.canceled) return;
 
     if (result.error) {
-      notify.error(t('collections.exportFailed', { error: result.error }));
+      notify.error(t('collections.exportFailed', { error: result.error }), { toastId: 'error-export-collection' });
       return;
     }
 
-    notify.success(t('common.exported'));
+    notify.success(t('common.exported'), { toastId: 'success-export-collection' });
   };
 
   const sensors = useSensors(
