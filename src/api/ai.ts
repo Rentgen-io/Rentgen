@@ -3,7 +3,7 @@ import { AIProvider, HttpBody } from 'src/types';
 import { sendHttp } from './network';
 import { extractStatusCode, isObject } from 'src/utils';
 
-const CHAT_COMPLETIONS_PATH = '/chat/completions';
+const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
 
 export type AiRole = 'system' | 'user' | 'assistant';
 

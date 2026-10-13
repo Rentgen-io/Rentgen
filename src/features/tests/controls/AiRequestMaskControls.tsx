@@ -2,13 +2,9 @@ import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Toggle from 'src/components/inputs/Toggle';
+import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import { useAppSelector } from 'src/store/hooks';
-import {
-  selectActiveAiProvider,
-  selectPotentialBugsCount,
-  selectTestOptions,
-  selectTestsCount,
-} from 'src/store/selectors';
+import { selectActiveAiProvider, selectTestOptions } from 'src/store/selectors';
 import { SENSITIVE_HEADERS } from 'src/test-engine';
 import { HttpBody, TestOptions } from 'src/types';
 import {
@@ -36,17 +32,13 @@ export function AiRequestMaskControls({ onCancel }: Props) {
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
   const testOptions = useAppSelector(selectTestOptions);
-  const testsCount = useAppSelector(selectTestsCount);
-  const potentialBugsCount = useAppSelector(selectPotentialBugsCount);
 
   const [masked, setMasked] = useState<Set<string>>(() => getSuggestedMasks(testOptions?.headers));
 
   const requestFields = useMemo(() => getRequestFields(testOptions), [testOptions]);
-  const sanitizedPreview = useMemo(
-    () =>
-      `${buildSanitizedPreview(testOptions, masked)}\n\nReport: ${testsCount === 1 ? '1 test' : `${testsCount} tests`}\nPotential bugs: ${potentialBugsCount}`,
-    [masked, potentialBugsCount, testsCount, testOptions],
-  );
+  const sanitizedUrl = useMemo(() => buildSanitizedUrl(testOptions, masked), [masked, testOptions]);
+  const sanitizedHeaders = useMemo(() => buildSanitizedHeaders(testOptions, masked), [masked, testOptions]);
+  const sanitizedBody = useMemo(() => buildSanitizedBody(testOptions, masked), [masked, testOptions]);
 
   const toggleMask = useCallback((name: string) => {
     setMasked((previousMasked) => {
@@ -80,8 +72,10 @@ export function AiRequestMaskControls({ onCancel }: Props) {
             {requestFields.map(([name, value]) => (
               <div key={name} className="flex items-center gap-4 text-xs">
                 <Toggle checked={masked.has(name)} onChange={() => toggleMask(name)} />
-                <span className="flex-1 font-monospace text-[#a31515] dark:text-[#9cdcfe] truncate">{name}</span>
-                <span className="flex-1 font-monospace text-[#0451a5] dark:text-[#ce9178] truncate">
+                <span className="flex-1 min-w-36 font-monospace text-[#a31515] dark:text-[#9cdcfe] truncate">
+                  {name}
+                </span>
+                <span className="flex-3 font-monospace text-[#0451a5] dark:text-[#ce9178] truncate">
                   {String(value)}
                 </span>
               </div>
@@ -92,8 +86,19 @@ export function AiRequestMaskControls({ onCancel }: Props) {
           <label className="flex items-center justify-between gap-4 m-0 py-2 px-4 bg-body dark:bg-dark-body text-sm font-bold truncate">
             Sanitized preview<span className="font-normal text-xs text-text-secondary truncate">Ready to send</span>
           </label>
-          <div className="border-t border-border dark:border-dark-body p-4">
-            <pre className="m-0 font-monospace text-xs whitespace-pre-wrap break-all">{sanitizedPreview}</pre>
+          <div className="flex flex-col gap-4 border-t border-border dark:border-dark-body p-4">
+            {[sanitizedUrl, sanitizedHeaders, sanitizedBody].map((source, index) => {
+              if (!source) return null;
+
+              return (
+                <JsonViewer
+                  key={index}
+                  minHeight={0}
+                  options={{ folding: false, lineNumbers: 'off' }}
+                  source={source}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
@@ -162,7 +167,10 @@ function getRequestFields(testOptions: TestOptions | null): Array<[string, unkno
   ];
 }
 
-function maskRequestLine(url: string, method: string, masked: Set<string>): string {
+function buildSanitizedUrl(testOptions: TestOptions | null, masked: Set<string>): string {
+  if (!testOptions) return '';
+
+  const { url, method } = testOptions;
   if (!url) return '';
   if (masked.has(URL_FIELD)) return `${method} ${createRedactionToken(URL_FIELD)}`;
 
@@ -185,15 +193,23 @@ function maskRequestLine(url: string, method: string, masked: Set<string>): stri
   return `${method} ${parsedUrl.toString()}${query ? `?${query}` : ''}`;
 }
 
-function maskHeaders(headers: Record<string, string>, masked: Set<string>): string[] {
-  return Object.entries(headers).map(
-    ([name, value]) => `${name}: ${masked.has(`${HEADER_PREFIX}${name}`) ? createRedactionToken(name) : String(value)}`,
-  );
+function buildSanitizedHeaders(testOptions: TestOptions | null, masked: Set<string>): string {
+  if (!testOptions) return '';
+
+  const { headers } = testOptions;
+
+  return Object.entries(headers)
+    .map(
+      ([name, value]) =>
+        `${name}: ${masked.has(`${HEADER_PREFIX}${name}`) ? createRedactionToken(name) : String(value)}`,
+    )
+    .join('\n');
 }
 
-function maskBody(body: HttpBody, headers: Record<string, string>, masked: Set<string>): string {
-  if (!body) return '';
+function buildSanitizedBody(testOptions: TestOptions | null, masked: Set<string>): HttpBody {
+  if (!testOptions) return null;
 
+  const { body, headers } = testOptions;
   const maskedNames = getMaskedNames(masked, BODY_PREFIX);
 
   if (isUrlEncodedContentType(headers)) {
@@ -208,16 +224,5 @@ function maskBody(body: HttpBody, headers: Record<string, string>, masked: Set<s
   const maskedBody = structuredClone(body);
   for (const name of maskedNames) setDeepObjectProperty(maskedBody, name, createRedactionToken(name));
 
-  return JSON.stringify(maskedBody, null, 2);
-}
-
-function buildSanitizedPreview(testOptions: TestOptions | null, masked: Set<string>): string {
-  if (!testOptions) return '';
-
-  const { body, headers, method, url } = testOptions;
-
-  const maskedHeaders = [maskRequestLine(url, String(method), masked), ...maskHeaders(headers, masked)].join('\n');
-  const maskedBody = maskBody(body, headers, masked);
-
-  return maskedBody ? `${maskedHeaders}\n\n${maskedBody}` : maskedHeaders;
+  return maskedBody;
 }

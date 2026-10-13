@@ -294,6 +294,7 @@ interface Props {
   className?: string;
   maxHeight?: number;
   minHeight?: number;
+  options?: monaco.editor.IStandaloneEditorConstructionOptions;
   responsePanelContext?: ResponsePanelContext;
   source?: string | number | boolean | object | null;
   showVariableButtons?: boolean;
@@ -304,6 +305,7 @@ export function JsonViewer({
   className,
   maxHeight = 280,
   minHeight = 40,
+  options,
   responsePanelContext,
   source,
   showVariableButtons,
@@ -513,6 +515,7 @@ export function JsonViewer({
             indentation: true,
             bracketPairs: false,
           },
+          ...options,
         }}
         theme={
           isDark
