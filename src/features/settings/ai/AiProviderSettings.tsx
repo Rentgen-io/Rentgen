@@ -60,6 +60,7 @@ export function AiProviderSettings() {
     dispatch(
       settingsActions.setAiProvider({
         id: aiProvider,
+        name: options.find((option) => option.value === aiProvider)?.label ?? '',
         active: true,
         baseUrl: normalizeAiBaseUrl(baseUrl),
         model,

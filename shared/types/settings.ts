@@ -30,6 +30,7 @@ export type AIProviderId = 'ollama' | 'openai' | 'openai-compatible';
 
 export type AIProvider = {
   id: AIProviderId;
+  name: string;
   active: boolean;
   baseUrl: string;
   model: string;

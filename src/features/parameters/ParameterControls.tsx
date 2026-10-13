@@ -21,8 +21,8 @@ interface Props {
 }
 
 export function ParameterControls({ parameterValue, onChange }: Props) {
-  const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
   const { t } = useTranslation();
+  const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
 
   const parameterOptions: SelectOption<DataType>[] = [
     { value: 'do-not-test', label: t('parameterTypes.doNotTest') },
