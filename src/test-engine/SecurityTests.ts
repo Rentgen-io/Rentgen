@@ -32,6 +32,8 @@ import {
 } from './BaseTests';
 import { Abortable, Test } from './decorators';
 
+export const SENSITIVE_HEADERS = new Set(['authorization', 'x-api-key', 'x-auth-token', 'api-key', 'apikey']);
+
 const AUTHORIZATION_TEST_EXPECTED = `${RESPONSE_STATUS.UNAUTHORIZED} ${getResponseStatusTitle(RESPONSE_STATUS.UNAUTHORIZED)}`;
 const CORS_TEST_EXPECTED = 'Public or Private API';
 const CRUD_TEST_EXPECTED = 'Discover via OPTIONS';
@@ -325,9 +327,7 @@ export class SecurityTests extends BaseTests {
 
     const request = createTestHttpRequest(this.options);
     const headers = Object.entries(request.headers);
-    const authHeader = headers.find(([key]) =>
-      ['authorization', 'x-api-key', 'x-auth-token', 'api-key', 'apikey'].includes(String(key).toLowerCase()),
-    );
+    const authHeader = headers.find(([key]) => SENSITIVE_HEADERS.has(key.toLowerCase()));
 
     let modifiedHeaders = null;
     if (authHeader) modifiedHeaders = { ...request.headers, [authHeader[0]]: authHeader[1] + 'X' };

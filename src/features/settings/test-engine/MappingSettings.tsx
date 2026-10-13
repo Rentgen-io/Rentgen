@@ -31,7 +31,7 @@ export function MappingSettings() {
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.domain')}</span>
             <Input
-              className="w-32 py-1.5"
+              className="w-38 py-1.5"
               value={email.domain}
               onBlur={() => {
                 if (/^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/.test(email.domain)) return;
@@ -43,7 +43,7 @@ export function MappingSettings() {
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.randomEmailLength')}</span>
             <Input
-              className="w-32 py-1.5"
+              className="w-38 py-1.5"
               type="number"
               value={randomEmail.length ?? ''}
               onBlur={() => {
@@ -62,7 +62,7 @@ export function MappingSettings() {
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.enumDescription')}</span>
             <Input
-              className="w-32 py-1.5"
+              className="w-38 py-1.5"
               value={enumConfiguration}
               onChange={(event) => dispatch(settingsActions.setEnum(event.target.value))}
             />
@@ -74,7 +74,7 @@ export function MappingSettings() {
             <span>{t('settings.configuration.minimumValue')}</span>
             <Input
               type="number"
-              className="w-32 py-1.5"
+              className="w-38 py-1.5"
               value={number.min ?? ''}
               onBlur={() => dispatch(settingsActions.setNumberMin(Math.min(number.min || -10000, number.max)))}
               onChange={(event) => {
@@ -87,7 +87,7 @@ export function MappingSettings() {
             <span>{t('settings.configuration.maximumValue')}</span>
             <Input
               type="number"
-              className="w-32 py-1.5"
+              className="w-38 py-1.5"
               value={number.max ?? ''}
               onBlur={() => dispatch(settingsActions.setNumberMax(Math.max(number.min, number.max || 10000)))}
               onChange={(event) => {
@@ -103,7 +103,7 @@ export function MappingSettings() {
             <span>{t('settings.configuration.minimumValueLength')}</span>
             <Input
               type="number"
-              className="w-32 py-1.5"
+              className="w-38 py-1.5"
               value={string.minLength ?? ''}
               onBlur={() =>
                 dispatch(settingsActions.setStringMinLength(Math.min(string.minLength || 1, string.maxLength)))
@@ -118,7 +118,7 @@ export function MappingSettings() {
             <span>{t('settings.configuration.maximumValueLength')}</span>
             <Input
               type="number"
-              className="w-32 py-1.5"
+              className="w-38 py-1.5"
               value={string.maxLength ?? ''}
               onBlur={() =>
                 dispatch(settingsActions.setStringMaxLength(Math.max(string.minLength, string.maxLength || 1000000)))
@@ -136,7 +136,7 @@ export function MappingSettings() {
             <span>{t('settings.configuration.minimumValue')}</span>
             <Input
               type="number"
-              className="w-32 py-1.5"
+              className="w-38 py-1.5"
               value={randomInt.min ?? ''}
               onBlur={() =>
                 dispatch(settingsActions.setRandomIntMin(randomInt.min ? Math.min(randomInt.min, randomInt.max) : 0))
@@ -151,7 +151,7 @@ export function MappingSettings() {
             <span>{t('settings.configuration.maximumValue')}</span>
             <Input
               type="number"
-              className="w-32 py-1.5"
+              className="w-38 py-1.5"
               value={randomInt.max ?? ''}
               onBlur={() =>
                 dispatch(
@@ -173,7 +173,7 @@ export function MappingSettings() {
             <span>{t('settings.configuration.length')}</span>
             <Input
               type="number"
-              className="w-32 py-1.5"
+              className="w-38 py-1.5"
               value={randomString.length ?? ''}
               onBlur={() => {
                 if (randomString.length) return;

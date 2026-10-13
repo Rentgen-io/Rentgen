@@ -77,7 +77,7 @@ export function GeneralSettings() {
           <span className={cn({ 'opacity-50': !historyEnabled }, 'text-xs')}>{t('settings.history.maximumSize')}</span>
           <Input
             type="number"
-            className="w-32 py-1.5"
+            className="w-38 py-1.5"
             min={1}
             max={10000}
             value={historySize}
@@ -94,7 +94,7 @@ export function GeneralSettings() {
             {t('settings.history.retentionPeriod')}
           </span>
           <SimpleSelect
-            className="w-32 py-1.25"
+            className="w-38 py-1.25"
             options={retentionOptions}
             value={historyRetention}
             disabled={!historyEnabled}

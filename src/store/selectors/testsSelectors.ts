@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RESPONSE_STATUS } from 'shared/responseStatus';
 import { RootState } from 'src/store';
+import { TestStatus } from 'src/types';
 import { selectHttpResponse, selectStatusCode } from './responseSelectors';
 
 export const selectTestOptions = (state: RootState) => state.tests.testOptions;
@@ -46,6 +47,14 @@ export const selectCurrentTestResults = createSelector(
 
     return { count, timestamp, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions };
   },
+);
+export const selectPotentialBugsCount = createSelector(
+  [selectCrudTests, selectDataDrivenTests, selectPerformanceTests, selectSecurityTests],
+  (crudTests, dataDrivenTests, performanceTests, securityTests) =>
+    [...crudTests, ...dataDrivenTests, ...performanceTests, ...securityTests].filter(
+      (test) =>
+        test.status === TestStatus.Bug || test.status === TestStatus.Fail || test.status === TestStatus.FailNoResponse,
+    ).length,
 );
 
 export const selectCompareResponse = (state: RootState) => state.tests.compareResponse;
