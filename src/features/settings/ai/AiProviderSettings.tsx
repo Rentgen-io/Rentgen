@@ -37,7 +37,7 @@ export function AiProviderSettings() {
   );
   const isOllama = aiProvider === 'ollama';
   const isOpenAI = aiProvider === 'openai' || aiProvider === 'openai-compatible';
-  const disabled = false;
+  const disabled = !aiProvider || !baseUrl || !model || (isOpenAI && !apiKey);
 
   useEffect(() => {
     setBaseUrl(currentProvider?.baseUrl ?? '');
@@ -115,11 +115,7 @@ export function AiProviderSettings() {
             disabled={disabled || isSaving}
             onClick={handleSave}
           >
-            {isSaving ? (
-              <Loader className="h-3.5 w-3.5 [&>span]:border-2! [&>span]:border-white! [&>span]:border-b-button-primary!" />
-            ) : (
-              t('common.save')
-            )}
+            {isSaving ? <Loader className="h-4 w-4 [&>span]:border-2!" mode="dark" /> : t('common.save')}
           </Button>
         </div>
       </div>

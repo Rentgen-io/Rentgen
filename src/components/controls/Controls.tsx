@@ -20,11 +20,7 @@ export function Controls({ className, children, isRunning, executeTest, ...other
         disabled={isRunning}
         onClick={executeTest}
       >
-        {isRunning ? (
-          <Loader className="h-3 w-3 my-0.5 [&>span]:border-2! [&>span]:border-white! [&>span]:border-b-button-primary!" />
-        ) : (
-          t('common.run')
-        )}
+        {isRunning ? <Loader className="h-3 w-3 my-0.5 [&>span]:border-2!" mode="dark" /> : t('common.run')}
       </Button>
     </div>
   );

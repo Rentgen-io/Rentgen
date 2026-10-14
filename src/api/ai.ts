@@ -48,7 +48,11 @@ function extractError(body: HttpBody, status: string): string {
   return body && typeof body === 'string' ? body.replace(/^(?:[A-Z][A-Za-z]*)?Error:\s*/, '').trim() : status;
 }
 
-export async function sendAiChatRequest(provider: AiProviderConfig, messages: AiMessage[]): Promise<AiChatResult> {
+export async function sendAiChatRequest(
+  provider: AiProviderConfig,
+  messages: AiMessage[],
+  responseFormat?: Record<string, unknown>,
+): Promise<AiChatResult> {
   const baseUrl = normalizeAiBaseUrl(provider.baseUrl);
   if (!baseUrl || !provider.model) return { ok: false, error: i18n.t('ai.baseUrlAndModelRequired') };
 
@@ -60,7 +64,7 @@ export async function sendAiChatRequest(provider: AiProviderConfig, messages: Ai
       method: 'POST',
       url: `${baseUrl}${CHAT_COMPLETIONS_PATH}`,
       headers,
-      body: { model: provider.model, messages, stream: false },
+      body: { model: provider.model, messages, stream: false, temperature: 0, response_format: responseFormat },
     });
     const statusCode = extractStatusCode(response);
 

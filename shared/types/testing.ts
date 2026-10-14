@@ -71,6 +71,7 @@ export interface TestResult {
 export interface TestResults {
   timestamp: number | null;
   count: number;
+  aiTest?: TestResult[];
   crudTests: TestResult[];
   dataDrivenTests: TestResult[];
   performanceTests: TestResult[];

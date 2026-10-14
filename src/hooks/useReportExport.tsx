@@ -20,7 +20,7 @@ export function useReportExport() {
   const exportReport = useCallback(async () => {
     if (!testResults) return;
 
-    const { crudTests, dataDrivenTests, performanceTests, securityTests, testOptions } = testResults;
+    const { aiTests, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions } = testResults;
     const report: ExportReport = {
       generatedAt: new Date().toISOString(),
       generatedBy: appConfig.origin,
@@ -32,6 +32,7 @@ export function useReportExport() {
       },
       lastHttpResponse: httpResponse,
       suites: [
+        buildSuite('AI Tests', aiTests ?? []),
         buildSuite('Security Tests', securityTests),
         buildSuite('Performance Insights', performanceTests),
         buildSuite('Data-Driven Tests', dataDrivenTests),

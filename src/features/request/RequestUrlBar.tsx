@@ -60,6 +60,7 @@ export default function RequestUrlBar() {
             options={methodOptions}
             placeholder={t('request.methodPlaceholder')}
             value={methodOptions.find((option) => option.value == method) || { value: method, label: method }}
+            onBlur={autoSaveRequest}
             onChange={(option) => dispatch(requestActions.setMethod((option as SelectOption<Method>).value))}
           />
         )}

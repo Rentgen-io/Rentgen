@@ -4,6 +4,7 @@ import { RootState } from 'src/store';
 import { selectHttpResponse, selectStatusCode } from './responseSelectors';
 
 export const selectTestOptions = (state: RootState) => state.tests.testOptions;
+export const selectAiTests = (state: RootState) => state.tests.aiTest;
 export const selectCrudTests = (state: RootState) => state.tests.crudTests;
 export const selectDataDrivenTests = (state: RootState) => state.tests.dataDrivenTests;
 export const selectPerformanceTests = (state: RootState) => state.tests.performanceTests;
@@ -35,16 +36,17 @@ export const selectCurrentTestResults = createSelector(
   [
     selectTestsCount,
     selectTestsTimestamp,
+    selectAiTests,
     selectCrudTests,
     selectDataDrivenTests,
     selectPerformanceTests,
     selectSecurityTests,
     selectTestOptions,
   ],
-  (count, timestamp, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions) => {
+  (count, timestamp, aiTests, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions) => {
     if (!count || !testOptions) return null;
 
-    return { count, timestamp, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions };
+    return { count, timestamp, aiTests, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions };
   },
 );
 

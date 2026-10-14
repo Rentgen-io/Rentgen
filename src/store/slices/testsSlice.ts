@@ -24,6 +24,7 @@ interface TestState extends TestResults {
 
 const initialState: TestState = {
   timestamp: null,
+  aiTest: [],
   crudTests: [],
   dataDrivenTests: [],
   performanceTests: [],
@@ -61,6 +62,16 @@ export const testsSlice = createSlice({
     },
     setCurrentTest: (state, action: PayloadAction<number>) => {
       state.currentTest = action.payload;
+    },
+    // AI tests
+    setAiTests: (state, action: PayloadAction<TestResult[]>) => {
+      state.aiTest = action.payload;
+    },
+    updateAiTest: (state, action: PayloadAction<{ testName: string; result: TestResult }>) => {
+      if (!state.aiTest) return;
+
+      const index = state.aiTest.findIndex((t) => t.name === action.payload.testName);
+      if (index !== -1) state.aiTest[index] = action.payload.result;
     },
     // Security tests
     setSecurityRunning: (state, action: PayloadAction<boolean>) => {
@@ -115,6 +126,7 @@ export const testsSlice = createSlice({
     // Reset
     resetTests: (state) => {
       state.timestamp = null;
+      state.aiTest = [];
       state.crudTests = [];
       state.dataDrivenTests = [];
       state.performanceTests = [];
@@ -135,6 +147,7 @@ export const testsSlice = createSlice({
       state.isDataDrivenRunning = true;
       state.isPerformanceRunning = true;
       state.isSecurityRunning = true;
+      state.aiTest = [];
       state.crudTests = [];
       state.dataDrivenTests = [];
       state.performanceTests = [];
@@ -144,6 +157,12 @@ export const testsSlice = createSlice({
     },
     addResults: (state, action: PayloadAction<{ requestId: string; results: TestResults }>) => {
       state.results[action.payload.requestId] = action.payload.results;
+    },
+    addAiTestResults: (state, action: PayloadAction<{ requestId: string; results: TestResult[] }>) => {
+      const testResults = state.results[action.payload.requestId];
+      if (!testResults) return;
+
+      testResults.aiTest = [...(testResults.aiTest || []), ...action.payload.results];
     },
     updateSecurityTestResults: (
       state,
