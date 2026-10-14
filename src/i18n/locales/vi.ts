@@ -39,6 +39,7 @@ const vi = {
     exported: 'Đã xuất',
     imported: 'Đã nhập',
     certificated: 'Đã chứng nhận',
+    duplicate: 'Nhân bản',
   },
 
   // Sidebar

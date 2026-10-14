@@ -39,6 +39,7 @@ const uk = {
     exported: 'Експортовано',
     imported: 'Імпортовано',
     certificated: 'Сертифіковано',
+    duplicate: 'Дублювати',
   },
 
   // Sidebar

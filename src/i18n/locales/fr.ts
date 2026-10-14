@@ -39,6 +39,7 @@ const fr = {
     exported: 'Exporté',
     imported: 'Importé',
     certificated: 'Certifié',
+    duplicate: 'Dupliquer',
   },
 
   // Sidebar

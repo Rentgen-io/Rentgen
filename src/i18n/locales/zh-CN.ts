@@ -39,6 +39,7 @@ const zhCN = {
     exported: '已导出',
     imported: '已导入',
     certificated: '已生成证书',
+    duplicate: '创建副本',
   },
 
   // Sidebar

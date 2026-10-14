@@ -39,6 +39,7 @@ const hi = {
     exported: 'निर्यात किया गया',
     imported: 'आयात किया गया',
     certificated: 'सर्टिफाइड',
+    duplicate: 'डुप्लिकेट करें',
   },
 
   // Sidebar

@@ -39,6 +39,7 @@ const th = {
     exported: 'ส่งออกแล้ว',
     imported: 'นำเข้าแล้ว',
     certificated: 'รับรองแล้ว',
+    duplicate: 'ทำสำเนา',
   },
 
   // Sidebar

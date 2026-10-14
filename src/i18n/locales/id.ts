@@ -39,6 +39,7 @@ const id = {
     exported: 'Terekspor',
     imported: 'Terimpor',
     certificated: 'Tersertifikasi',
+    duplicate: 'Duplikat',
   },
 
   // Sidebar

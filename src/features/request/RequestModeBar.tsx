@@ -60,7 +60,6 @@ export default function RequestModeBar() {
           <>
             <ActionsButton
               actions={[{ label: t('common.create'), onClick: reset }]}
-              className="[&>*:first-child]:w-full @lg:[&>*:first-child]:w-auto"
               onClick={() => dispatch(modalsActions.openCurlModal())}
             >
               {t('curl.importCurl')}

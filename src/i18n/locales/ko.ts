@@ -39,6 +39,7 @@ const ko = {
     exported: '내보냈습니다',
     imported: '가져왔습니다',
     certificated: '인증되었습니다',
+    duplicate: '복제',
   },
 
   // Sidebar

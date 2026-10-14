@@ -16,6 +16,7 @@ export default function ActionsButton({
   buttonType = ButtonType.PRIMARY,
   children,
   className,
+  disabled,
   ...otherProps
 }: Props) {
   const [openActions, setOpenActions] = useState<boolean>(false);
@@ -23,7 +24,7 @@ export default function ActionsButton({
 
   return (
     <div className={twMerge(cn('relative flex', className))} ref={refButton}>
-      <Button buttonSize={buttonSize} buttonType={buttonType} {...otherProps}>
+      <Button className="w-full" buttonSize={buttonSize} buttonType={buttonType} disabled={disabled} {...otherProps}>
         {children}
       </Button>
       {actions && actions.length > 0 && (
@@ -31,6 +32,7 @@ export default function ActionsButton({
           <Button
             buttonSize={buttonSize}
             buttonType={buttonType}
+            disabled={disabled}
             className={twMerge(
               cn('min-w-auto flex items-center justify-center', {
                 'p-0.5': buttonSize === ButtonSize.SMALL,

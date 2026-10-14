@@ -42,46 +42,51 @@ export function useSaveRequest() {
 
   useEffect(() => () => clearTimeout(savedTimeout.current), []);
 
-  const saveRequest = useCallback(() => {
-    let requestId: string | null = selectedRequestId;
-    const parsedHeaders = parseHeaders(headers);
+  const saveRequest = useCallback(
+    (duplicate = false) => {
+      let requestId: string | null = selectedRequestId;
+      const parsedHeaders = parseHeaders(headers);
 
-    if (requestId && findRequestById(collection, requestId)) {
-      dispatch(collectionActions.updateRequest({ requestId, method, url, headers: parsedHeaders, body }));
-    } else {
-      dispatch(collectionActions.addRequest({ method, url, headers: parsedHeaders, body, folderId: selectedFolderId }));
+      if (!duplicate && requestId && findRequestById(collection, requestId)) {
+        dispatch(collectionActions.updateRequest({ requestId, method, url, headers: parsedHeaders, body }));
+      } else {
+        dispatch(
+          collectionActions.addRequest({ method, url, headers: parsedHeaders, body, folderId: selectedFolderId }),
+        );
 
-      requestId = store.getState().collection.selectedRequestId;
-      if (requestId && testResults) dispatch(testsActions.addResults({ requestId, results: testResults }));
-    }
+        requestId = store.getState().collection.selectedRequestId;
+        if (requestId && testResults) dispatch(testsActions.addResults({ requestId, results: testResults }));
+      }
 
-    if (requestId && httpResponse)
-      dispatch(
-        collectionRunActions.addResult({
-          requestId,
-          status: extractStatusCode(httpResponse),
-          response: httpResponse,
-          bodyParameters,
-          queryParameters,
-          error: null,
-        }),
-      );
+      if (requestId && httpResponse)
+        dispatch(
+          collectionRunActions.addResult({
+            requestId,
+            status: extractStatusCode(httpResponse),
+            response: httpResponse,
+            bodyParameters,
+            queryParameters,
+            error: null,
+          }),
+        );
 
-    notify.success(t('common.saved'), { toastId: 'success-save-request' });
-  }, [
-    body,
-    bodyParameters,
-    collection,
-    headers,
-    httpResponse,
-    method,
-    queryParameters,
-    selectedFolderId,
-    selectedRequestId,
-    testResults,
-    url,
-    dispatch,
-  ]);
+      notify.success(t('common.saved'), { toastId: 'success-save-request' });
+    },
+    [
+      body,
+      bodyParameters,
+      collection,
+      headers,
+      httpResponse,
+      method,
+      queryParameters,
+      selectedFolderId,
+      selectedRequestId,
+      testResults,
+      url,
+      dispatch,
+    ],
+  );
 
   const autoSaveRequest = useCallback(() => {
     if (disabled || !selectedRequestId) return;

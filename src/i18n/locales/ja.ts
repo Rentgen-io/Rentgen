@@ -39,6 +39,7 @@ const ja = {
     exported: 'エクスポートしました',
     imported: 'インポートしました',
     certificated: '証明書を発行しました',
+    duplicate: '複製',
   },
 
   // Sidebar

@@ -1,6 +1,7 @@
 import { Method } from 'axios';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import ActionsButton from 'src/components/buttons/ActionsButton';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import HighlightedInput from 'src/components/inputs/HighlightedInput';
 import Select, { SelectOption } from 'src/components/inputs/Select';
@@ -13,6 +14,7 @@ import {
   selectMethod,
   selectMode,
   selectSelectedEnvironment,
+  selectSelectedRequestId,
   selectUrl,
   selectVariableNames,
   selectWssConnected,
@@ -39,6 +41,7 @@ export default function RequestUrlBar() {
   const url = useAppSelector(selectUrl);
   const disabled = useAppSelector(selectIsRequestDisabled);
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
+  const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const variables = useAppSelector(selectVariableNames);
   const wssConnected = useAppSelector(selectWssConnected);
 
@@ -79,9 +82,14 @@ export default function RequestUrlBar() {
           <Button disabled={disabled} onClick={sendHttp}>
             {t('common.send')}
           </Button>
-          <Button buttonType={ButtonType.SECONDARY} disabled={disabled} onClick={() => saveRequest()}>
+          <ActionsButton
+            actions={selectedRequestId ? [{ label: t('common.duplicate'), onClick: () => saveRequest(true) }] : []}
+            buttonType={ButtonType.SECONDARY}
+            disabled={disabled}
+            onClick={() => saveRequest()}
+          >
             {t('common.save')}
-          </Button>
+          </ActionsButton>
         </>
       )}
       {mode === 'WSS' && (

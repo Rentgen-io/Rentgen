@@ -39,6 +39,7 @@ const ru = {
     exported: 'Экспортировано',
     imported: 'Импортировано',
     certificated: 'Сертификат создан',
+    duplicate: 'Дублировать',
   },
 
   // Sidebar

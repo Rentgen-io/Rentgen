@@ -39,6 +39,7 @@ const nl = {
     exported: 'Geëxporteerd',
     imported: 'Geïmporteerd',
     certificated: 'Gecertificeerd',
+    duplicate: 'Dupliceren',
   },
 
   // Sidebar

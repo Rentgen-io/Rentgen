@@ -39,6 +39,7 @@ const lt = {
     exported: 'Eksportuota',
     imported: 'Importuota',
     certificated: 'Sertifikuota',
+    duplicate: 'Dubliuoti',
   },
 
   // Sidebar

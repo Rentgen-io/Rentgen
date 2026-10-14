@@ -39,6 +39,7 @@ const tr = {
     exported: 'Dışa Aktarıldı',
     imported: 'İçe Aktarıldı',
     certificated: 'Sertifikalandı',
+    duplicate: 'Çoğalt',
   },
 
   // Sidebar
