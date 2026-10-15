@@ -17,8 +17,9 @@ export default function FileInput({
   ...otherProps
 }: FileInputProps) {
   const { t } = useTranslation();
-  const [fileName, setFileName] = useState<string | null>(null);
+
   const inputRef = useRef<HTMLInputElement>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

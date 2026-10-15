@@ -1,10 +1,11 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RESPONSE_STATUS } from 'shared/responseStatus';
 import { RootState } from 'src/store';
+import { TestResults } from 'src/types';
 import { selectHttpResponse, selectStatusCode } from './responseSelectors';
 
 export const selectTestOptions = (state: RootState) => state.tests.testOptions;
-export const selectAiTests = (state: RootState) => state.tests.aiTest;
+export const selectAiTests = (state: RootState) => state.tests.aiTests;
 export const selectCrudTests = (state: RootState) => state.tests.crudTests;
 export const selectDataDrivenTests = (state: RootState) => state.tests.dataDrivenTests;
 export const selectPerformanceTests = (state: RootState) => state.tests.performanceTests;
@@ -13,9 +14,10 @@ export const selectCurrentTest = (state: RootState) => state.tests.currentTest;
 export const selectTestsCount = (state: RootState) => state.tests.count;
 export const selectTestsTimestamp = (state: RootState) => state.tests.timestamp;
 
+export const selectIsAiRunning = (state: RootState) => state.tests.isAiRunning;
+export const selectIsDataDrivenRunning = (state: RootState) => state.tests.isDataDrivenRunning;
 export const selectIsSecurityRunning = (state: RootState) => state.tests.isSecurityRunning;
 export const selectIsPerformanceRunning = (state: RootState) => state.tests.isPerformanceRunning;
-export const selectIsDataDrivenRunning = (state: RootState) => state.tests.isDataDrivenRunning;
 export const selectIsLoadTestRunning = (state: RootState) => state.tests.isLoadTestRunning;
 export const selectIsLargePayloadTestRunning = (state: RootState) => state.tests.isLargePayloadTestRunning;
 export const selectIsRunningTests = createSelector(
@@ -28,25 +30,26 @@ export const selectDisabledRunTests = createSelector(
   (isRunning, response, statusCode) =>
     isRunning || !response || statusCode < RESPONSE_STATUS.OK || statusCode >= RESPONSE_STATUS.BAD_REQUEST,
 );
+export const selectRunningAiTests = (state: RootState) => state.tests.runningAiTests;
 
 export const selectAllTestResults = (state: RootState) => state.tests.results;
 export const selectRequestTestResults = (requestId: string) =>
   createSelector([selectAllTestResults], (results) => results[requestId] || null);
-export const selectCurrentTestResults = createSelector(
+export const selectCurrentTestResults: (state: RootState) => TestResults | null = createSelector(
   [
-    selectTestsCount,
-    selectTestsTimestamp,
     selectAiTests,
     selectCrudTests,
     selectDataDrivenTests,
     selectPerformanceTests,
     selectSecurityTests,
     selectTestOptions,
+    selectTestsCount,
+    selectTestsTimestamp,
   ],
-  (count, timestamp, aiTests, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions) => {
+  (aiTests, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions, count, timestamp) => {
     if (!count || !testOptions) return null;
 
-    return { count, timestamp, aiTests, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions };
+    return { aiTests, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions, count, timestamp };
   },
 );
 

@@ -87,7 +87,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       if (requestTestResults) {
         dispatch(testsActions.setCount(requestTestResults.count));
         dispatch(testsActions.setTimestamp(requestTestResults.timestamp));
-        dispatch(testsActions.setAiTests(requestTestResults.aiTest ?? []));
+        dispatch(testsActions.setAiTests(requestTestResults.aiTests ?? []));
         dispatch(testsActions.setCrudTests(requestTestResults.crudTests));
         dispatch(testsActions.setDataDrivenTests(requestTestResults.dataDrivenTests));
         dispatch(testsActions.setPerformanceTests(requestTestResults.performanceTests));

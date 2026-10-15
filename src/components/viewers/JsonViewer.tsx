@@ -311,19 +311,22 @@ export function JsonViewer({
   showVariableButtons,
   onSetVariable,
 }: Props) {
-  const theme = useAppSelector(selectTheme);
   const { t } = useTranslation();
   const { showContextMenu } = useContextMenu();
-  const isDark = theme === 'dark';
+
+  const theme = useAppSelector(selectTheme);
+
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const responsePanelContextRef = useRef<ResponsePanelContext | undefined>(responsePanelContext);
   const sourceRef = useRef<string | number | boolean | object | null>(source);
   const widgetsRef = useRef<Map<string, monaco.editor.IContentWidget>>(new Map());
   const widgetDomNodesRef = useRef<Map<string, HTMLButtonElement>>(new Map());
+  const onSetVariableRef = useRef(onSetVariable);
   const [hoveredLine, setHoveredLine] = useState<number | null>(null);
   const [isEditorMounted, setIsEditorMounted] = useState<boolean>(false);
   const [editorHeight, setEditorHeight] = useState<number>(minHeight);
-  const onSetVariableRef = useRef(onSetVariable);
+
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     onSetVariableRef.current = onSetVariable;

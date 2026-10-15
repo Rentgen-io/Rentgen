@@ -10,8 +10,8 @@ import { countMergeAdditions } from 'src/utils';
 import { notify } from 'src/utils/toast';
 
 export default function ImportConflictModal() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const { isOpen, importedCollection, conflictSummary, warnings } = useAppSelector(selectImportConflictModal);
   const existingCollection = useAppSelector(selectCollectionData);

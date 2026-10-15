@@ -1,24 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from 'src/components/buttons/Button';
+import { Controls } from 'src/components/controls/Controls';
 import Panel from 'src/components/panels/Panel';
 import { validateSerialNumber } from 'src/features/settings/ai/AiLicenseSettings';
+import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectActiveAiProvider, selectAiTests, selectIsRunningTests, selectSerialNumber } from 'src/store/selectors';
+import {
+  selectActiveAiProvider,
+  selectRunningAiTests,
+  selectSerialNumber,
+  selectTestOptions,
+} from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
 export default function AiTestingPanel() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const { aiTests, isRunningTests, cancelAiTestsGeneration, executeAiTest } = useTests();
 
-  const aiTests = useAppSelector(selectAiTests);
-  const isRunningTests = useAppSelector(selectIsRunningTests);
-  const serialNumber = useAppSelector(selectSerialNumber);
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
+  const runningAiTests = useAppSelector(selectRunningAiTests);
+  const serialNumber = useAppSelector(selectSerialNumber);
+  const testOptions = useAppSelector(selectTestOptions);
 
   const [showAiRequestMaskControls, setShowAiRequestMaskControls] = useState<boolean>(false);
+
+  useEffect(() => cancelAiTestsGeneration, [cancelAiTestsGeneration]);
 
   return (
     <Panel
@@ -32,9 +42,27 @@ export default function AiTestingPanel() {
     >
       {aiTests && aiTests.length > 0 ? (
         <TestsTable
-          columns={[...getTestsTableColumns(['Parameter', 'Value', 'Expected', 'Actual', 'Result'], t)]}
+          columns={[
+            ...getTestsTableColumns(['Parameter', 'Value', 'Expected', 'Actual'], t),
+            {
+              name: t('tables.result'),
+              selector: (row) => row.status,
+              width: '150px',
+              cell: (row, id) => {
+                if (row.actual) return row.status;
+
+                return (
+                  <Controls
+                    isRunning={runningAiTests[id]}
+                    executeTest={async () => await executeAiTest(id, testOptions)}
+                  />
+                );
+              },
+            },
+          ]}
           expandableRows
           expandableRowsComponent={ExpandedTestComponent}
+          expandableRowDisabled={(row) => !row.actual}
           expandOnRowClicked
           data={aiTests}
         />

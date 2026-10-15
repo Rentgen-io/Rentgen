@@ -28,8 +28,8 @@ interface EnvironmentOption {
 }
 
 export default function SetAsDynamicVariableModal() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const modalState = useAppSelector(selectSetAsDynamicVariableModal);
   const environments = useAppSelector(selectEnvironments);

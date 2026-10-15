@@ -34,6 +34,7 @@ export type AIProvider = {
   active: boolean;
   baseUrl: string;
   model: string;
+  path: string;
   apiKey: string;
 };
 

@@ -33,8 +33,8 @@ const sidebarPanels: SidebarPanel[] = [
 ] as const;
 
 export default function Sidebar() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const activeTab = useAppSelector(selectSidebarActiveTab);
   const historyEnabled = useAppSelector(selectHistoryEnabled);

@@ -7,15 +7,7 @@ import Panel from 'src/components/panels/Panel';
 import { SECURITY_TESTS } from 'src/features/settings/test-engine/SecurityTestsSettings';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import {
-  selectBodyParameters,
-  selectCurrentTestResults,
-  selectDisabledSecurityTests,
-  selectIsLargePayloadTestRunning,
-  selectIsSecurityRunning,
-  selectQueryParameters,
-  selectSecurityTests,
-} from 'src/store/selectors';
+import { selectDisabledSecurityTests, selectTestOptions } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import { TestStatus } from 'src/types';
@@ -24,18 +16,12 @@ import { TestResultControls } from '../controls/TestResultControls';
 import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColumns } from '../tables/TestsTable';
 
 export default function SecurityTestsPanel() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const { isLargePayloadTestRunning, isSecurityRunning, securityTests, executeLargePayloadTest } = useTests();
 
-  const securityTests = useAppSelector(selectSecurityTests);
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
-  const isSecurityRunning = useAppSelector(selectIsSecurityRunning);
-  const isLargePayloadTestRunning = useAppSelector(selectIsLargePayloadTestRunning);
-  const testResults = useAppSelector(selectCurrentTestResults);
-  const bodyParameters = useAppSelector(selectBodyParameters);
-  const queryParameters = useAppSelector(selectQueryParameters);
-
-  const { executeLargePayloadTest } = useTests();
+  const testOptions = useAppSelector(selectTestOptions);
 
   const hasFailures = securityTests.some(({ status }) =>
     [TestStatus.Bug, TestStatus.Fail, TestStatus.Warning].includes(status),
@@ -67,12 +53,10 @@ export default function SecurityTestsPanel() {
                 testResult={row}
                 testType="security"
               >
-                {row.name === LARGE_PAYLOAD_TEST_NAME && testResults ? (
+                {row.name === LARGE_PAYLOAD_TEST_NAME && testOptions ? (
                   <LargePayloadTestControls
                     isRunning={isLargePayloadTestRunning}
-                    executeTest={(size: number) =>
-                      executeLargePayloadTest({ ...testResults.testOptions, bodyParameters, queryParameters }, size)
-                    }
+                    executeTest={(size: number) => executeLargePayloadTest(testOptions, size)}
                   />
                 ) : (
                   <p className="m-0 mr-2 whitespace-nowrap" data-column-id={id} data-tag="allowRowEvents">

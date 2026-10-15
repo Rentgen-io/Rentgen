@@ -13,7 +13,8 @@ interface Props {
 
 export function LargePayloadTestControls({ isRunning, executeTest }: Props) {
   const { t } = useTranslation();
-  const [size, setSize] = useState(10);
+
+  const [size, setSize] = useState<number>(10);
 
   return (
     <Controls isRunning={isRunning} executeTest={() => executeTest(size)}>

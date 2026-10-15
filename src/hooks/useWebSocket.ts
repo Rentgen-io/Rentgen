@@ -22,8 +22,8 @@ export function useWssEventBridge() {
 }
 
 export function useWssActions() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const url = useAppSelector(selectUrl);
   const headers = useAppSelector(selectHeaders);

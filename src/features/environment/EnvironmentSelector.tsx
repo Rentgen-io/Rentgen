@@ -21,6 +21,7 @@ interface Props {
 
 export default function EnvironmentSelector({ className, environments, selectedEnvironmentId, onSelect }: Props) {
   const { t } = useTranslation();
+
   const selectedEnvironment = environments.find((env) => env.id === selectedEnvironmentId);
   const hasColor = selectedEnvironment?.color;
   const needsLightText = hasColor && isColorDark(selectedEnvironment.color);

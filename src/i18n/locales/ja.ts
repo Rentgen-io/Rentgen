@@ -286,6 +286,7 @@ const ja = {
       connectDescription: 'Rentgenはこのデバイスから直接リクエストを送信します。',
       baseUrl: 'ベースURL',
       model: 'モデル',
+      path: 'パス',
       apiKey: 'APIキー',
       apiKeyStorageNotice: 'APIキーはローカルに保存されます。Rentgenが受け取ることはありません。',
       howToRunOllamaLocally: 'Ollamaをローカルで実行する方法',
@@ -439,6 +440,13 @@ const ja = {
     stringLabel: '値の最小/最大長',
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
+    reviewDataSentToAi: 'AIに送信するデータを確認',
+    reviewDataSentToAiDescription: 'マスクする値を選択してください。自動提案はすでに選択されています。',
+    requestFields: 'リクエストフィールド',
+    masked: '{{masked}} 件をマスク',
+    sanitizedPreview: 'サニタイズ後のプレビュー',
+    readyToSend: '送信準備完了',
+    generateAdditionalTests: '追加テストを生成',
   },
 
   // Parameter types
@@ -512,6 +520,7 @@ const ja = {
   ai: {
     baseUrlAndModelRequired: 'ベースURLとモデルは必須です。',
     unexpectedResponse: 'AIプロバイダーから予期しない応答がありました。',
+    noTestsGenerated: 'AIによってテストが生成されませんでした。',
   },
 };
 

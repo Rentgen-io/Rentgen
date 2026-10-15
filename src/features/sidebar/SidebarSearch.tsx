@@ -12,9 +12,10 @@ interface Props {
 
 export default function SideBarSearch({ placeholder, value, onChange }: Props) {
   const { t } = useTranslation();
+
   const inputRef = useRef<HTMLInputElement>(null);
-  const [localValue, setLocalValue] = useState(value);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const [localValue, setLocalValue] = useState<string>(value);
 
   useEffect(() => {
     setLocalValue(value);

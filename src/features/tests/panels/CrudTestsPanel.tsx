@@ -1,15 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import Panel from 'src/components/panels/Panel';
-import { useAppSelector } from 'src/store/hooks';
-import { selectCrudTests, selectIsSecurityRunning } from 'src/store/selectors';
+import useTests from 'src/hooks/useTests';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
 export default function CrudTestsPanel() {
   const { t } = useTranslation();
-
-  const crudTests = useAppSelector(selectCrudTests);
-  const isSecurityRunning = useAppSelector(selectIsSecurityRunning);
+  const { crudTests, isSecurityRunning } = useTests();
 
   return (
     <Panel title={<TestsTableHeader tests={crudTests} title={t('tests.crud')} />}>

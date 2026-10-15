@@ -13,7 +13,6 @@ import {
   selectExportFormat,
   selectHeaders,
   selectHttpResponse,
-  selectIsRunningTests,
   selectMethod,
   selectQueryParameters,
   selectSelectedEnvironment,
@@ -26,8 +25,11 @@ import { ReportFormat } from 'src/types';
 import { substituteRequestVariables } from 'src/utils';
 
 export default function TestRunnerBar() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
+  const { exportReport, generateCertificate } = useReportExport();
+  const { currentTest, isRunningTests, testsCount, executeAllTests } = useTests();
 
   const url = useAppSelector(selectUrl);
   const headers = useAppSelector(selectHeaders);
@@ -40,12 +42,8 @@ export default function TestRunnerBar() {
   const httpResponse = useAppSelector(selectHttpResponse);
   const testResults = useAppSelector(selectCurrentTestResults);
   const testResultsToCompare = useAppSelector(selectTestResultsToCompare);
-  const isRunningTests = useAppSelector(selectIsRunningTests);
   const disabledRunTests = useAppSelector(selectDisabledRunTests);
   const exportFormat = useAppSelector(selectExportFormat);
-
-  const { currentTest, testsCount, executeAllTests } = useTests();
-  const { exportReport, generateCertificate } = useReportExport();
 
   const exportFormatOptions: SelectOption<ReportFormat>[] = [
     { value: 'json', label: t('exportFormats.json') },

@@ -23,9 +23,8 @@ import { extractStatusCode, findRequestById, parseHeaders } from 'src/utils';
 import { notify } from 'src/utils/toast';
 
 export function useSaveRequest() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const savedTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const { t } = useTranslation();
 
   const collection = useAppSelector(selectCollectionData);
   const method = useAppSelector(selectMethod);
@@ -40,6 +39,8 @@ export function useSaveRequest() {
   const testResults = useAppSelector(selectCurrentTestResults);
   const disabled = useAppSelector(selectIsRequestDisabled);
 
+  const savedTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+
   useEffect(() => () => clearTimeout(savedTimeout.current), []);
 
   const saveRequest = useCallback(
@@ -47,9 +48,9 @@ export function useSaveRequest() {
       let requestId: string | null = selectedRequestId;
       const parsedHeaders = parseHeaders(headers);
 
-      if (!duplicate && requestId && findRequestById(collection, requestId)) {
+      if (!duplicate && requestId && findRequestById(collection, requestId))
         dispatch(collectionActions.updateRequest({ requestId, method, url, headers: parsedHeaders, body }));
-      } else {
+      else {
         dispatch(
           collectionActions.addRequest({ method, url, headers: parsedHeaders, body, folderId: selectedFolderId }),
         );

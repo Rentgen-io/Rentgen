@@ -286,6 +286,7 @@ const nl = {
       connectDescription: 'Rentgen verstuurt verzoeken rechtstreeks vanaf dit apparaat.',
       baseUrl: 'Basis-URL',
       model: 'Model',
+      path: 'Pad',
       apiKey: 'API-sleutel',
       apiKeyStorageNotice: 'API-sleutels worden lokaal opgeslagen. Rentgen ontvangt ze niet.',
       howToRunOllamaLocally: 'Hoe je Ollama lokaal uitvoert',
@@ -441,6 +442,14 @@ const nl = {
     stringLabel: 'Minimale/maximale waardelengte',
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
+    reviewDataSentToAi: 'Controleer de gegevens die naar de AI worden verzonden',
+    reviewDataSentToAiDescription:
+      'Selecteer de waarden die je wilt maskeren. Automatische suggesties zijn al geselecteerd.',
+    requestFields: 'Aanvraagvelden',
+    masked: '{{masked}} gemaskeerd',
+    sanitizedPreview: 'Opgeschoonde voorbeeldweergave',
+    readyToSend: 'Klaar om te verzenden',
+    generateAdditionalTests: 'Extra tests genereren',
   },
 
   // Parameter types
@@ -514,6 +523,7 @@ const nl = {
   ai: {
     baseUrlAndModelRequired: 'Basis-URL en model zijn verplicht.',
     unexpectedResponse: 'Onverwacht antwoord van de AI-provider.',
+    noTestsGenerated: 'De AI heeft geen tests gegenereerd.',
   },
 };
 

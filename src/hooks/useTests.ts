@@ -3,15 +3,19 @@ import { LARGE_PAYLOAD_TEST_NAME, LOAD_TEST_NAME, OPTIONS_METHOD_HANDLING_TEST_N
 import { getDatasets } from 'src/constants/datasets';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
+  selectActiveAiProvider,
+  selectAiTests,
   selectCrudTests,
   selectCurrentTest,
   selectDataDrivenTests,
   selectDisabledPerformanceInsights,
   selectDisabledSecurityTests,
+  selectIsAiRunning,
   selectIsDataDrivenRunning,
   selectIsLargePayloadTestRunning,
   selectIsLoadTestRunning,
   selectIsPerformanceRunning,
+  selectIsRunningTests,
   selectIsSecurityRunning,
   selectPerformanceTests,
   selectSecurityTests,
@@ -30,10 +34,12 @@ import {
   runLoadTest,
   SecurityTests,
 } from 'src/test-engine';
+import { AiTests, runAiTest } from 'src/test-engine/AiTests';
 import { getTestCount } from 'src/test-engine/decorators';
 import { ParameterValue, TestOptions, TestResult } from 'src/types';
 
 let abortAllTests = false;
+let aiTestsInstance: AiTests | null = null;
 let dataDrivenTestsInstance: DataDrivenTests | null = null;
 let performanceInsightsInstance: PerformanceInsights | null = null;
 let securityTestsInstance: SecurityTests | null = null;
@@ -43,20 +49,25 @@ const useTests = () => {
 
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
 
+  const activeAiProvider = useAppSelector(selectActiveAiProvider);
+
   const currentTest = useAppSelector(selectCurrentTest);
   const testsCount = useAppSelector(selectTestsCount);
   const testsTimestamp = useAppSelector(selectTestsTimestamp);
 
+  const aiTests = useAppSelector(selectAiTests);
   const crudTests = useAppSelector(selectCrudTests);
   const dataDrivenTests = useAppSelector(selectDataDrivenTests);
   const performanceTests = useAppSelector(selectPerformanceTests);
   const securityTests = useAppSelector(selectSecurityTests);
 
+  const isAiRunning = useAppSelector(selectIsAiRunning);
   const isDataDrivenRunning = useAppSelector(selectIsDataDrivenRunning);
   const isLargePayloadTestRunning = useAppSelector(selectIsLargePayloadTestRunning);
   const isLoadTestRunning = useAppSelector(selectIsLoadTestRunning);
   const isPerformanceRunning = useAppSelector(selectIsPerformanceRunning);
   const isSecurityRunning = useAppSelector(selectIsSecurityRunning);
+  const isRunningTests = useAppSelector(selectIsRunningTests);
 
   const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
@@ -226,32 +237,21 @@ const useTests = () => {
     [selectedRequestId, dispatch],
   );
 
-  const cancelAllTests = useCallback(() => {
-    abortAllTests = true;
-
-    securityTestsInstance?.abort();
-    dataDrivenTestsInstance?.abort();
-    performanceInsightsInstance?.abort();
-
-    dispatch(testsActions.resetTests());
-  }, [dispatch]);
-
-  const generateLoadBarProgress = (percent: number) => {
-    const width = 20;
-    const filled = Math.round((percent / 100) * width);
-    return '▓'.repeat(filled) + '░'.repeat(width - filled) + ` ${percent}%`;
-  };
-
-  const formatLoadTestProgress = (loadBar: string, sentRequestCount: number, requestCount: number): string => {
-    return `${loadBar} (${sentRequestCount}/${requestCount})`;
-  };
-
   const executeLoadTest = useCallback(
     async (options: TestOptions, threadCount: number, requestCount: number) => {
+      const generateLoadBarProgress = (percent: number) => {
+        const width = 20;
+        const filled = Math.round((percent / 100) * width);
+        return '▓'.repeat(filled) + '░'.repeat(width - filled) + ` ${percent}%`;
+      };
+
+      const formatLoadTestProgress = (loadBar: string, sentRequestCount: number, requestCount: number): string => {
+        return `${loadBar} (${sentRequestCount}/${requestCount})`;
+      };
+
       dispatch(testsActions.setLoadTestRunning(true));
       dispatch(testsActions.setLoadProgress(0));
 
-      // Update initial progress display
       dispatch(
         testsActions.updatePerformanceTest({
           testName: LOAD_TEST_NAME,
@@ -306,20 +306,90 @@ const useTests = () => {
     [performanceTests, selectedRequestId, dispatch],
   );
 
+  const executeAiTestsGeneration = useCallback(
+    async (options: TestOptions | null) => {
+      if (!options || !activeAiProvider) return;
+
+      dispatch(testsActions.setAiRunning(true));
+
+      aiTestsInstance = new AiTests(dataDrivenTests, activeAiProvider, options);
+      const results = await aiTestsInstance.run();
+
+      dispatch(testsActions.setAiRunning(false));
+
+      if (aiTestsInstance.aborted || results.length === 0) return;
+
+      dispatch(testsActions.setAiTests(results));
+      if (selectedRequestId) dispatch(testsActions.addAiTestResults({ requestId: selectedRequestId, results }));
+    },
+    [activeAiProvider, dataDrivenTests, selectedRequestId, dispatch],
+  );
+
+  const executeAiTest = useCallback(
+    async (id: number, options: TestOptions | null) => {
+      const aiTest = aiTests?.[id];
+      if (!aiTest || !options) return;
+
+      dispatch(testsActions.setRunningAiTest({ id, isRunning: true }));
+
+      const result = await runAiTest(options, aiTest);
+
+      dispatch(
+        testsActions.updateAiTest({
+          id,
+          result,
+        }),
+      );
+
+      dispatch(testsActions.setRunningAiTest({ id, isRunning: false }));
+
+      if (selectedRequestId)
+        dispatch(
+          testsActions.updateAiTestResults({
+            requestId: selectedRequestId,
+            id,
+            result,
+          }),
+        );
+    },
+    [aiTests, selectedRequestId, dispatch],
+  );
+
+  const cancelAiTestsGeneration = useCallback(() => {
+    aiTestsInstance?.abort();
+  }, [dispatch]);
+
+  const cancelAllTests = useCallback(() => {
+    abortAllTests = true;
+
+    securityTestsInstance?.abort();
+    aiTestsInstance?.abort();
+    dataDrivenTestsInstance?.abort();
+    performanceInsightsInstance?.abort();
+
+    dispatch(testsActions.resetTests());
+  }, [dispatch]);
+
   return {
+    aiTests,
     crudTests,
     currentTest,
     dataDrivenTests,
+    isAiRunning,
     isDataDrivenRunning,
     isLargePayloadTestRunning,
     isLoadTestRunning,
     isPerformanceRunning,
+    isRunningTests,
     isSecurityRunning,
     performanceTests,
     securityTests,
     testsCount,
     testsTimestamp,
+    cancelAiTestsGeneration,
     cancelAllTests,
+    executeAiTest,
+    executeAiTestsGeneration,
     executeAllTests,
     executeDataDrivenTests,
     executeLargePayloadTest,

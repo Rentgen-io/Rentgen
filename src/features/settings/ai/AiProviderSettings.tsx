@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { normalizeAiBaseUrl, testAiConnection } from 'src/api/ai';
+import { normalizeAiBaseUrl, normalizeAiPath, testAiConnection } from 'src/api/ai';
 import { openExternal } from 'src/api/system';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import { RadioButtons, RadioOption } from 'src/components/buttons/RadioButtons';
@@ -13,6 +13,8 @@ import { AIProviderId } from 'src/types';
 import { notify } from 'src/utils/toast';
 import SettingsHeader from '../SettingsHeader';
 
+const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
+
 const options: RadioOption<AIProviderId>[] = [
   { label: 'Ollama', value: 'ollama' },
   { label: 'OpenAI', value: 'openai', disabled: true },
@@ -20,36 +22,42 @@ const options: RadioOption<AIProviderId>[] = [
 ];
 
 export function AiProviderSettings() {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+
   const aiProviders = useSelector(selectAiProviders);
   const activeProvider = useSelector(selectActiveAiProvider);
 
   const [aiProvider, setAiProvider] = useState<AIProviderId>(activeProvider?.id ?? 'ollama');
-  const [baseUrl, setBaseUrl] = useState(activeProvider?.baseUrl ?? '');
-  const [model, setModel] = useState(activeProvider?.model ?? '');
-  const [apiKey, setApiKey] = useState(activeProvider?.apiKey ?? '');
+  const [apiKey, setApiKey] = useState<string>(activeProvider?.apiKey ?? '');
+  const [baseUrl, setBaseUrl] = useState<string>(activeProvider?.baseUrl ?? '');
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [model, setModel] = useState<string>(activeProvider?.model ?? '');
+
+  const isOllama = aiProvider === 'ollama';
+  const initialPath = isOllama ? CHAT_COMPLETIONS_PATH : '';
+
+  const [path, setPath] = useState<string>(activeProvider?.path ?? initialPath);
 
   const currentProvider = useMemo(
     () => aiProviders.find((provider) => provider.id === aiProvider),
     [aiProviders, aiProvider],
   );
-  const isOllama = aiProvider === 'ollama';
   const isOpenAI = aiProvider === 'openai' || aiProvider === 'openai-compatible';
-  const disabled = !aiProvider || !baseUrl || !model || (isOpenAI && !apiKey);
+  const disabled = !aiProvider || !baseUrl || !path || !model || (isOpenAI && !apiKey);
 
   useEffect(() => {
     setBaseUrl(currentProvider?.baseUrl ?? '');
     setModel(currentProvider?.model ?? '');
+    setPath(currentProvider?.path ?? initialPath);
     setApiKey(currentProvider?.apiKey ?? '');
-  }, [currentProvider]);
+  }, [currentProvider, initialPath]);
 
   const handleSave = async () => {
     if (disabled || isSaving) return;
 
     setIsSaving(true);
-    const result = await testAiConnection({ baseUrl, model, apiKey });
+    const result = await testAiConnection({ baseUrl, path, model, apiKey });
     setIsSaving(false);
 
     if (!result.ok) {
@@ -64,6 +72,7 @@ export function AiProviderSettings() {
         active: true,
         baseUrl: normalizeAiBaseUrl(baseUrl),
         model,
+        path: normalizeAiPath(path),
         apiKey,
       }),
     );
@@ -77,28 +86,37 @@ export function AiProviderSettings() {
       <RadioButtons name="aiProvider" options={options} value={aiProvider} onChange={(value) => setAiProvider(value)} />
       <div className="flex flex-col gap-4">
         <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex-auto flex flex-col gap-2">
+          <div className="flex-1 flex flex-col gap-2">
             <span className="text-xs">
               {t('settings.ai.baseUrl')}
               <span className="text-red-500 ml-1">*</span>
             </span>
             <Input type="url" value={baseUrl} onChange={(e) => setBaseUrl(e.target.value)} />
           </div>
-          <div className="flex-auto flex flex-col gap-2">
+          <div className="flex-1 flex flex-col gap-2">
+            <span className="text-xs">
+              {t('settings.ai.path')}
+              <span className="text-red-500 ml-1">*</span>
+            </span>
+            <Input value={path} onChange={(e) => setPath(e.target.value)} />
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1 flex flex-col gap-2">
             <span className="text-xs">
               {t('settings.ai.model')}
               <span className="text-red-500 ml-1">*</span>
             </span>
             <Input value={model} onChange={(e) => setModel(e.target.value)} />
           </div>
-        </div>
-        <div className="flex-auto flex flex-col gap-2">
-          <span className="text-xs">
-            {t('settings.ai.apiKey')}
-            {isOpenAI && <span className="text-red-500 ml-1">*</span>}
-          </span>
-          <Input type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
-          <span className="text-xs text-text-secondary">{t('settings.ai.apiKeyStorageNotice')}</span>
+          <div className="flex-1 flex flex-col gap-2">
+            <span className="text-xs">
+              {t('settings.ai.apiKey')}
+              {isOpenAI && <span className="text-red-500 ml-1">*</span>}
+            </span>
+            <Input type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
+            <span className="text-xs text-text-secondary">{t('settings.ai.apiKeyStorageNotice')}</span>
+          </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-4">
           {isOllama && (

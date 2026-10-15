@@ -33,8 +33,8 @@ const methodOptions: SelectOption<Method>[] = [
 ];
 
 export default function RequestUrlBar() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const mode = useAppSelector(selectMode);
   const method = useAppSelector(selectMethod);

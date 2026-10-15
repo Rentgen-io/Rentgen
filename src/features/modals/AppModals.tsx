@@ -24,8 +24,8 @@ interface Props {
 }
 
 export default function AppModals({ parametersRef }: Props) {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const openReloadModal = useAppSelector(selectOpenReloadModal);
   const openSendHttpSuccessModal = useAppSelector(selectOpenSendHttpSuccessModal);

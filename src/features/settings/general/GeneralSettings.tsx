@@ -14,8 +14,8 @@ import { notify } from 'src/utils/toast';
 import SettingsHeader from '../SettingsHeader';
 
 export function GeneralSettings() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const historyEnabled = useAppSelector(selectHistoryEnabled);
   const historySize = useAppSelector(selectHistorySize);

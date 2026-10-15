@@ -284,6 +284,7 @@ const hi = {
       connectDescription: 'Rentgen अनुरोध सीधे इसी डिवाइस से भेजता है।',
       baseUrl: 'बेस URL',
       model: 'मॉडल',
+      path: 'पाथ',
       apiKey: 'API कुंजी',
       apiKeyStorageNotice: 'API कुंजियाँ स्थानीय रूप से संग्रहीत होती हैं। Rentgen उन्हें प्राप्त नहीं करता।',
       howToRunOllamaLocally: 'Ollama को स्थानीय रूप से कैसे चलाएँ',
@@ -435,6 +436,13 @@ const hi = {
     stringLabel: 'मान की न्यूनतम/अधिकतम लंबाई',
     minPlaceholder: 'न्यूनतम',
     maxPlaceholder: 'अधिकतम',
+    reviewDataSentToAi: 'AI को भेजे गए डेटा की समीक्षा करें',
+    reviewDataSentToAiDescription: 'मास्क करने के लिए मान चुनें। स्वचालित सुझाव पहले से चयनित हैं।',
+    requestFields: 'अनुरोध फ़ील्ड',
+    masked: '{{masked}} मास्क किए गए',
+    sanitizedPreview: 'सैनिटाइज़ किया गया पूर्वावलोकन',
+    readyToSend: 'भेजने के लिए तैयार',
+    generateAdditionalTests: 'अतिरिक्त टेस्ट जनरेट करें',
   },
 
   // Parameter types
@@ -508,6 +516,7 @@ const hi = {
   ai: {
     baseUrlAndModelRequired: 'बेस URL और मॉडल आवश्यक हैं।',
     unexpectedResponse: 'AI प्रदाता से अप्रत्याशित प्रतिक्रिया।',
+    noTestsGenerated: 'AI ने कोई टेस्ट जनरेट नहीं किया।',
   },
 };
 

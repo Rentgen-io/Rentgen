@@ -40,8 +40,8 @@ export const SECURITY_TESTS: string[] = [
 ];
 
 export function SecurityTestsSettings() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
 

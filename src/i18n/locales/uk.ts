@@ -284,6 +284,7 @@ const uk = {
       connectDescription: 'Rentgen надсилає запити безпосередньо з цього пристрою.',
       baseUrl: 'Базовий URL',
       model: 'Модель',
+      path: 'Шлях',
       apiKey: 'API-ключ',
       apiKeyStorageNotice: 'API-ключі зберігаються локально. Rentgen їх не отримує.',
       howToRunOllamaLocally: 'Як запустити Ollama локально',
@@ -437,6 +438,13 @@ const uk = {
     stringLabel: 'Мінімальна/максимальна довжина значення',
     minPlaceholder: 'Мін',
     maxPlaceholder: 'Макс',
+    reviewDataSentToAi: 'Перевірте дані, що надсилаються до ШІ',
+    reviewDataSentToAiDescription: 'Виберіть значення для маскування. Автоматичні пропозиції вже вибрані.',
+    requestFields: 'Поля запиту',
+    masked: 'Замасковано: {{masked}}',
+    sanitizedPreview: 'Очищений попередній перегляд',
+    readyToSend: 'Готово до надсилання',
+    generateAdditionalTests: 'Згенерувати додаткові тести',
   },
 
   // Parameter types
@@ -510,6 +518,7 @@ const uk = {
   ai: {
     baseUrlAndModelRequired: 'Базовий URL і модель є обовʼязковими.',
     unexpectedResponse: 'Неочікувана відповідь від постачальника ШІ.',
+    noTestsGenerated: 'ШІ не згенерував жодного тесту.',
   },
 };
 

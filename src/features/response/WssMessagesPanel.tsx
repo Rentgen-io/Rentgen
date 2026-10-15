@@ -6,8 +6,8 @@ import { selectWssMessages } from 'src/store/selectors';
 
 export default function WssMessagesPanel() {
   const { t } = useTranslation();
-  const messages = useAppSelector(selectWssMessages);
 
+  const messages = useAppSelector(selectWssMessages);
   if (messages.length === 0) return null;
 
   return (

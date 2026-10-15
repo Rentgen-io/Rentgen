@@ -285,6 +285,7 @@ const vi = {
       connectDescription: 'Rentgen gửi yêu cầu trực tiếp từ thiết bị này.',
       baseUrl: 'URL cơ sở',
       model: 'Mô hình',
+      path: 'Đường dẫn',
       apiKey: 'Khóa API',
       apiKeyStorageNotice: 'Khóa API được lưu cục bộ. Rentgen không nhận chúng.',
       howToRunOllamaLocally: 'Cách chạy Ollama cục bộ',
@@ -436,6 +437,13 @@ const vi = {
     stringLabel: 'Độ dài giá trị tối thiểu/tối đa',
     minPlaceholder: 'Tối thiểu',
     maxPlaceholder: 'Tối đa',
+    reviewDataSentToAi: 'Xem lại dữ liệu gửi đến AI',
+    reviewDataSentToAiDescription: 'Chọn các giá trị cần che. Các gợi ý tự động đã được chọn sẵn.',
+    requestFields: 'Trường của yêu cầu',
+    masked: 'Đã che {{masked}}',
+    sanitizedPreview: 'Bản xem trước đã làm sạch',
+    readyToSend: 'Sẵn sàng gửi',
+    generateAdditionalTests: 'Tạo thêm kiểm thử',
   },
 
   // Parameter types
@@ -509,6 +517,7 @@ const vi = {
   ai: {
     baseUrlAndModelRequired: 'Base URL và model là bắt buộc.',
     unexpectedResponse: 'Phản hồi không mong đợi từ nhà cung cấp AI.',
+    noTestsGenerated: 'AI không tạo ra kiểm thử nào.',
   },
 };
 

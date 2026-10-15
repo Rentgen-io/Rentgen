@@ -285,6 +285,7 @@ const tr = {
       connectDescription: 'Rentgen istekleri doğrudan bu cihazdan gönderir.',
       baseUrl: 'Temel URL',
       model: 'Model',
+      path: 'Yol',
       apiKey: 'API anahtarı',
       apiKeyStorageNotice: 'API anahtarları yerel olarak saklanır. Rentgen bunları almaz.',
       howToRunOllamaLocally: 'Ollama yerel olarak nasıl çalıştırılır',
@@ -440,6 +441,13 @@ const tr = {
     stringLabel: 'Minimum/maksimum değer uzunluğu',
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
+    reviewDataSentToAi: 'Yapay zekâya gönderilen verileri gözden geçirin',
+    reviewDataSentToAiDescription: 'Maskelenecek değerleri seçin. Otomatik öneriler zaten seçili.',
+    requestFields: 'İstek alanları',
+    masked: '{{masked}} maskelendi',
+    sanitizedPreview: 'Temizlenmiş önizleme',
+    readyToSend: 'Göndermeye hazır',
+    generateAdditionalTests: 'Ek Testler Oluştur',
   },
 
   // Parameter types
@@ -513,6 +521,7 @@ const tr = {
   ai: {
     baseUrlAndModelRequired: 'Temel URL ve model gereklidir.',
     unexpectedResponse: 'Yapay zekâ sağlayıcısından beklenmeyen yanıt.',
+    noTestsGenerated: 'Yapay zekâ hiçbir test oluşturmadı.',
   },
 };
 

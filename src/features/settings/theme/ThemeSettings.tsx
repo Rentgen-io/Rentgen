@@ -8,8 +8,8 @@ import DarkImage from 'src/assets/images/dark-theme.svg';
 import LightTheme from 'src/assets/images/light-theme.svg';
 
 export function ThemeSettings() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const theme = useAppSelector(selectTheme);
 

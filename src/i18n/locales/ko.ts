@@ -284,6 +284,7 @@ const ko = {
       connectDescription: 'Rentgen은 이 기기에서 직접 요청을 보냅니다.',
       baseUrl: '기본 URL',
       model: '모델',
+      path: '경로',
       apiKey: 'API 키',
       apiKeyStorageNotice: 'API 키는 로컬에 저장됩니다. Rentgen은 이를 수신하지 않습니다.',
       howToRunOllamaLocally: 'Ollama를 로컬에서 실행하는 방법',
@@ -435,6 +436,13 @@ const ko = {
     stringLabel: '값의 최소/최대 길이',
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
+    reviewDataSentToAi: 'AI로 전송되는 데이터 검토',
+    reviewDataSentToAiDescription: '마스킹할 값을 선택하세요. 자동 제안은 이미 선택되어 있습니다.',
+    requestFields: '요청 필드',
+    masked: '{{masked}}개 마스킹됨',
+    sanitizedPreview: '정제된 미리 보기',
+    readyToSend: '전송 준비 완료',
+    generateAdditionalTests: '추가 테스트 생성',
   },
 
   // Parameter types
@@ -508,6 +516,7 @@ const ko = {
   ai: {
     baseUrlAndModelRequired: '기본 URL과 모델은 필수입니다.',
     unexpectedResponse: 'AI 제공자로부터 예기치 않은 응답을 받았습니다.',
+    noTestsGenerated: 'AI가 테스트를 생성하지 않았습니다.',
   },
 };
 

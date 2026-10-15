@@ -5,7 +5,7 @@ import Button, { ButtonType } from 'src/components/buttons/Button';
 import Modal from 'src/components/modals/Modal';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectIsRunningTests, selectOpenGitHubModal } from 'src/store/selectors';
+import { selectOpenGitHubModal } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 
 const STORAGE_KEY = 'gitHubModalHiddenUntil';
@@ -14,15 +14,14 @@ const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
 const FOREVER = new Date('9999-12-31T00:00:00.000Z');
 
 export default function GitHubModal() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
+  const { crudTests, dataDrivenTests, isRunningTests, performanceTests, securityTests } = useTests();
 
   const isOpen = useAppSelector(selectOpenGitHubModal);
-  const isRunning = useAppSelector(selectIsRunningTests);
-
-  const { crudTests, dataDrivenTests, performanceTests, securityTests } = useTests();
   const isRun =
-    !isRunning && [crudTests, dataDrivenTests, performanceTests, securityTests].some((tests) => tests.length > 0);
+    !isRunningTests && [crudTests, dataDrivenTests, performanceTests, securityTests].some((tests) => tests.length > 0);
 
   useEffect(() => {
     const storedValue = localStorage.getItem(STORAGE_KEY);

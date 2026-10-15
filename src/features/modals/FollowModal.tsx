@@ -14,12 +14,12 @@ const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 const FOREVER = new Date('9999-12-31T00:00:00.000Z');
 
 export default function FollowModal() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
-
-  const isOpen = useAppSelector(selectOpenFollowModal);
+  const { t } = useTranslation();
 
   const { crudTests, dataDrivenTests, performanceTests, securityTests } = useTests();
+
+  const isOpen = useAppSelector(selectOpenFollowModal);
   const hasAnyBug = [crudTests, dataDrivenTests, performanceTests, securityTests].some((tests) =>
     tests.some((test) => test.status === TestStatus.Bug),
   );

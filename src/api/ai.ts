@@ -3,8 +3,6 @@ import { AIProvider, HttpBody } from 'src/types';
 import { sendHttp } from './network';
 import { extractStatusCode, isObject } from 'src/utils';
 
-const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
-
 export type AiRole = 'system' | 'user' | 'assistant';
 
 export interface AiMessage {
@@ -12,13 +10,15 @@ export interface AiMessage {
   content: string;
 }
 
-export type AiProviderConfig = Pick<AIProvider, 'baseUrl' | 'model' | 'apiKey'>;
+export type AiProviderConfig = Pick<AIProvider, 'baseUrl' | 'path' | 'model' | 'apiKey'>;
 
 export type AiChatResult =
   | { ok: true; content: string; body: HttpBody }
   | { ok: false; error: string; body?: HttpBody };
 
 export const normalizeAiBaseUrl = (baseUrl: string): string => baseUrl.trim().replace(/\/+$/, '');
+
+export const normalizeAiPath = (path: string): string => '/' + path.trim().replace(/^\/+/, '');
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   return isObject(value) && !Array.isArray(value) ? (value as Record<string, unknown>) : null;
@@ -54,7 +54,9 @@ export async function sendAiChatRequest(
   responseFormat?: Record<string, unknown>,
 ): Promise<AiChatResult> {
   const baseUrl = normalizeAiBaseUrl(provider.baseUrl);
-  if (!baseUrl || !provider.model) return { ok: false, error: i18n.t('ai.baseUrlAndModelRequired') };
+  const path = normalizeAiPath(provider.path);
+
+  if (!baseUrl || !path || !provider.model) return { ok: false, error: i18n.t('ai.baseUrlAndModelRequired') };
 
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (provider.apiKey) headers.Authorization = `Bearer ${provider.apiKey}`;
@@ -62,7 +64,7 @@ export async function sendAiChatRequest(
   try {
     const response = await sendHttp({
       method: 'POST',
-      url: `${baseUrl}${CHAT_COMPLETIONS_PATH}`,
+      url: `${baseUrl}${path}`,
       headers,
       body: { model: provider.model, messages, stream: false, temperature: 0, response_format: responseFormat },
     });

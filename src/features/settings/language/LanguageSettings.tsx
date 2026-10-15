@@ -7,8 +7,8 @@ import { settingsActions } from 'src/store/slices/settingsSlice';
 import { Language, LANGUAGES } from 'src/types';
 
 export function LanguageSettings() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const language = useAppSelector(selectLanguage);
 

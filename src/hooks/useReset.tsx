@@ -8,6 +8,7 @@ import useTests from './useTests';
 
 export function useReset() {
   const dispatch = useAppDispatch();
+
   const { cancelAllTests } = useTests();
 
   const reset = useCallback(

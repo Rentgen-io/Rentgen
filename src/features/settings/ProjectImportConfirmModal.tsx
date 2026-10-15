@@ -23,8 +23,8 @@ function formatDate(isoString: string): string {
 }
 
 export default function ProjectImportConfirmModal() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const { isOpen, data, meta, integrityStatus, fileName } = useAppSelector(selectProjectImportConfirmModal);
 

@@ -284,6 +284,7 @@ const id = {
       connectDescription: 'Rentgen mengirim permintaan langsung dari perangkat ini.',
       baseUrl: 'URL dasar',
       model: 'Model',
+      path: 'Jalur',
       apiKey: 'Kunci API',
       apiKeyStorageNotice: 'Kunci API disimpan secara lokal. Rentgen tidak menerimanya.',
       howToRunOllamaLocally: 'Cara menjalankan Ollama secara lokal',
@@ -435,6 +436,13 @@ const id = {
     stringLabel: 'Panjang minimum/maksimum nilai',
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
+    reviewDataSentToAi: 'Tinjau data yang dikirim ke AI',
+    reviewDataSentToAiDescription: 'Pilih nilai yang akan disamarkan. Saran otomatis sudah dipilih.',
+    requestFields: 'Kolom permintaan',
+    masked: '{{masked}} disamarkan',
+    sanitizedPreview: 'Pratinjau yang telah dibersihkan',
+    readyToSend: 'Siap dikirim',
+    generateAdditionalTests: 'Buat Tes Tambahan',
   },
 
   // Parameter types
@@ -508,6 +516,7 @@ const id = {
   ai: {
     baseUrlAndModelRequired: 'URL dasar dan model wajib diisi.',
     unexpectedResponse: 'Respons tidak terduga dari penyedia AI.',
+    noTestsGenerated: 'AI tidak menghasilkan tes apa pun.',
   },
 };
 

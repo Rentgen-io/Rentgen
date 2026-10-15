@@ -23,8 +23,8 @@ import LanguageIcon from 'src/assets/icons/language-icon.svg';
 import ThemeIcon from 'src/assets/icons/theme-icon.svg';
 
 export default function SettingsModal() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const { activeTab, isOpen } = useAppSelector(selectSettingsModal);
 

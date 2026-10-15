@@ -22,8 +22,8 @@ export const PERFORMANCE_INSIGHTS: string[] = [
 ];
 
 export function PerformanceInsightsSettings() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
 

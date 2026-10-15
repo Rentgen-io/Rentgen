@@ -11,8 +11,9 @@ interface Props {
 
 export function LoadTestControls({ isRunning, executeTest }: Props) {
   const { t } = useTranslation();
-  const [threadCount, setThreadCount] = useState(10);
-  const [requestCount, setRequestCount] = useState(100);
+
+  const [threadCount, setThreadCount] = useState<number>(10);
+  const [requestCount, setRequestCount] = useState<number>(100);
 
   return (
     <Controls isRunning={isRunning} executeTest={() => executeTest(threadCount, requestCount)}>

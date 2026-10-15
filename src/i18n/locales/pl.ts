@@ -286,6 +286,7 @@ const pl = {
       connectDescription: 'Rentgen wysyła żądania bezpośrednio z tego urządzenia.',
       baseUrl: 'Bazowy URL',
       model: 'Model',
+      path: 'Ścieżka',
       apiKey: 'Klucz API',
       apiKeyStorageNotice: 'Klucze API są przechowywane lokalnie. Rentgen ich nie otrzymuje.',
       howToRunOllamaLocally: 'Jak uruchomić Ollama lokalnie',
@@ -437,6 +438,13 @@ const pl = {
     stringLabel: 'Minimalna/maksymalna długość wartości',
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
+    reviewDataSentToAi: 'Przejrzyj dane wysyłane do AI',
+    reviewDataSentToAiDescription: 'Wybierz wartości do zamaskowania. Automatyczne sugestie są już zaznaczone.',
+    requestFields: 'Pola żądania',
+    masked: 'Zamaskowano: {{masked}}',
+    sanitizedPreview: 'Podgląd po oczyszczeniu',
+    readyToSend: 'Gotowe do wysłania',
+    generateAdditionalTests: 'Generuj dodatkowe testy',
   },
 
   // Parameter types
@@ -510,6 +518,7 @@ const pl = {
   ai: {
     baseUrlAndModelRequired: 'Bazowy adres URL i model są wymagane.',
     unexpectedResponse: 'Nieoczekiwana odpowiedź od dostawcy AI.',
+    noTestsGenerated: 'AI nie wygenerowała żadnych testów.',
   },
 };
 

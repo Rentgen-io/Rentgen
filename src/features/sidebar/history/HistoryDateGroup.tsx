@@ -14,7 +14,8 @@ interface Props {
 
 export default function HistoryDateGroup({ label, entries, searchTerm }: Props) {
   const { t } = useTranslation();
-  const [isExpanded, setIsExpanded] = useState(true);
+
+  const [isExpanded, setIsExpanded] = useState<boolean>(true);
   const displayLabel = label === 'today' ? t('history.today') : label === 'yesterday' ? t('history.yesterday') : label;
 
   useEffect(() => {

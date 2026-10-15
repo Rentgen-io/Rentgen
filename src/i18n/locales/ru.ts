@@ -285,6 +285,7 @@ const ru = {
       connectDescription: 'Rentgen отправляет запросы напрямую с этого устройства.',
       baseUrl: 'Базовый URL',
       model: 'Модель',
+      path: 'Путь',
       apiKey: 'API-ключ',
       apiKeyStorageNotice: 'API-ключи хранятся локально. Rentgen их не получает.',
       howToRunOllamaLocally: 'Как запустить Ollama локально',
@@ -438,6 +439,13 @@ const ru = {
     stringLabel: 'Минимальная/максимальная длина значения',
     minPlaceholder: 'Мин',
     maxPlaceholder: 'Макс',
+    reviewDataSentToAi: 'Проверьте данные, отправляемые в ИИ',
+    reviewDataSentToAiDescription: 'Выберите значения для маскирования. Автоматические предложения уже выбраны.',
+    requestFields: 'Поля запроса',
+    masked: 'Замаскировано: {{masked}}',
+    sanitizedPreview: 'Очищенный предпросмотр',
+    readyToSend: 'Готово к отправке',
+    generateAdditionalTests: 'Сгенерировать дополнительные тесты',
   },
 
   // Parameter types
@@ -511,6 +519,7 @@ const ru = {
   ai: {
     baseUrlAndModelRequired: 'Базовый URL и модель обязательны.',
     unexpectedResponse: 'Неожиданный ответ от поставщика ИИ.',
+    noTestsGenerated: 'ИИ не сгенерировал ни одного теста.',
   },
 };
 

@@ -11,6 +11,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 export function Controls({ className, children, isRunning, executeTest, ...otherProps }: Props) {
   const { t } = useTranslation();
+
   return (
     <div className={cn('flex items-end gap-1.5', className)} {...otherProps}>
       {children}

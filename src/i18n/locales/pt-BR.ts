@@ -287,6 +287,7 @@ const ptBR = {
       connectDescription: 'O Rentgen envia as requisições diretamente deste dispositivo.',
       baseUrl: 'URL base',
       model: 'Modelo',
+      path: 'Caminho',
       apiKey: 'Chave de API',
       apiKeyStorageNotice: 'As chaves de API são armazenadas localmente. O Rentgen não as recebe.',
       howToRunOllamaLocally: 'Como executar o Ollama localmente',
@@ -441,6 +442,14 @@ const ptBR = {
     stringLabel: 'Comprimento mínimo/máximo do valor',
     minPlaceholder: 'Mín',
     maxPlaceholder: 'Máx',
+    reviewDataSentToAi: 'Revisar os dados enviados à IA',
+    reviewDataSentToAiDescription:
+      'Selecione os valores que deseja mascarar. As sugestões automáticas já estão selecionadas.',
+    requestFields: 'Campos da requisição',
+    masked: '{{masked}} mascarados',
+    sanitizedPreview: 'Prévia higienizada',
+    readyToSend: 'Pronto para enviar',
+    generateAdditionalTests: 'Gerar testes adicionais',
   },
 
   // Parameter types
@@ -514,6 +523,7 @@ const ptBR = {
   ai: {
     baseUrlAndModelRequired: 'A URL base e o modelo são obrigatórios.',
     unexpectedResponse: 'Resposta inesperada do provedor de IA.',
+    noTestsGenerated: 'A IA não gerou nenhum teste.',
   },
 };
 

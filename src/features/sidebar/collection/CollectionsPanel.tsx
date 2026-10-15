@@ -25,8 +25,8 @@ import ExportIcon from 'src/assets/icons/export-icon.svg';
 import ImportIcon from 'src/assets/icons/import-icon.svg';
 
 export default function CollectionsPanel() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const folders = useAppSelector(selectSidebarFolders);
   const collection = useAppSelector(selectCollectionData);

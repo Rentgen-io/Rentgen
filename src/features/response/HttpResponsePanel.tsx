@@ -25,8 +25,8 @@ interface Props {
 }
 
 export default function HttpResponsePanel({ parametersRef }: Props) {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const httpResponse = useAppSelector(selectHttpResponse);
   const runResult = useAppSelector(selectSelectedRequestRunResult);
@@ -92,12 +92,12 @@ export default function HttpResponsePanel({ parametersRef }: Props) {
           </div>
         )}
         {!isSending && (
-          <div className="grid grid-cols-2 items-stretch max-h-100 py-4 border-t border-border dark:border-dark-body overflow-hidden">
-            <div className="relative flex-1 px-4">
+          <div className="@2xl:grid @2xl:grid-cols-2 border-t border-border dark:border-dark-body divide-y @2xl:divide-y-0 @2xl:divide-x divide-border dark:divide-dark-body">
+            <div className="relative p-4">
               <h5 className="m-0 mb-4">{t('request.headers')}</h5>
               {httpResponse.headers && (
                 <CopyButton
-                  className="absolute top-0 right-4"
+                  className="absolute top-4 right-4"
                   textToCopy={JSON.stringify(httpResponse.headers, null, 2)}
                 >
                   {t('common.copy')}
@@ -110,11 +110,11 @@ export default function HttpResponsePanel({ parametersRef }: Props) {
                 onSetVariable={(path, value) => setVariable(path, value, 'header')}
               />
             </div>
-            <div className="relative flex-1 px-4 border-l border-border dark:border-dark-body">
+            <div className="relative p-4">
               <h5 className="m-0 mb-4">{t('request.body')}</h5>
               {httpResponse.body && (
                 <CopyButton
-                  className="absolute top-0 right-4"
+                  className="absolute top-4 right-4"
                   textToCopy={
                     typeof httpResponse.body === 'string'
                       ? httpResponse.body
@@ -138,29 +138,29 @@ export default function HttpResponsePanel({ parametersRef }: Props) {
       {!isNetworkError && hasParameters && (
         <div ref={parametersRef}>
           <Panel title={t('tests.parameters')}>
-            <div className="grid lg:grid-cols-2 items-stretch border-t border-border dark:border-dark-body">
+            <div className="@2xl:grid @2xl:grid-cols-2 border-t border-border dark:border-dark-body divide-y @2xl:divide-y-0 @2xl:divide-x divide-border dark:divide-dark-body">
               {Object.keys(bodyParameters).length > 0 && (
-                <ParametersPanel
-                  className="border-none"
-                  title={t('tests.bodyParameters')}
-                  parameters={bodyParameters}
-                  onBlur={autoSaveRequest}
-                  onChange={(parameters) => dispatch(requestActions.setBodyParameters(parameters))}
-                />
+                <div>
+                  <ParametersPanel
+                    className="border-none"
+                    title={t('tests.bodyParameters')}
+                    parameters={bodyParameters}
+                    onBlur={autoSaveRequest}
+                    onChange={(parameters) => dispatch(requestActions.setBodyParameters(parameters))}
+                  />
+                </div>
               )}
 
               {Object.keys(queryParameters).length > 0 && (
-                <ParametersPanel
-                  className={cn(
-                    'not-nth-[2]:border-none',
-                    'nth-[2]:border-x-0 nth-[2]:border-b-0 nth-[2]:border-t nth-[2]:dark:border-dark-body!',
-                    'lg:nth-[2]:border-y-0 lg:nth-[2]:border-l lg:nth-[2]:border-r-0',
-                  )}
-                  title={t('tests.queryParameters')}
-                  parameters={queryParameters}
-                  onBlur={autoSaveRequest}
-                  onChange={(parameters) => dispatch(requestActions.setQueryParameters(parameters))}
-                />
+                <div>
+                  <ParametersPanel
+                    className="border-none"
+                    title={t('tests.queryParameters')}
+                    parameters={queryParameters}
+                    onBlur={autoSaveRequest}
+                    onChange={(parameters) => dispatch(requestActions.setQueryParameters(parameters))}
+                  />
+                </div>
               )}
             </div>
           </Panel>

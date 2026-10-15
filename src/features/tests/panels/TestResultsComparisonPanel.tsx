@@ -17,6 +17,7 @@ interface Props extends PanelProps {
 
 export default function TestResultsComparisonPanel({ items, title, response, ...otherProps }: Props) {
   const { t } = useTranslation();
+
   const [diffReady, setDiffReady] = useState<boolean>(false);
   const [showNoise, setShowNoise] = useState<boolean>(false);
   const [statistics, setStatistics] = useState({

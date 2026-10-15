@@ -3,11 +3,10 @@ import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import Panel from 'src/components/panels/Panel';
 import { getDatasets } from 'src/constants/datasets';
+import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBodyParameters,
-  selectDataDrivenTests,
-  selectIsDataDrivenRunning,
   selectQueryParameters,
   selectSelectedRequestId,
   selectTestEngineConfiguration,
@@ -24,11 +23,10 @@ import {
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
 export default function DataDrivenTestsPanel() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const { dataDrivenTests, isDataDrivenRunning } = useTests();
 
-  const dataDrivenTests = useAppSelector(selectDataDrivenTests);
-  const isDataDrivenRunning = useAppSelector(selectIsDataDrivenRunning);
   const bodyParameters = useAppSelector(selectBodyParameters);
   const queryParameters = useAppSelector(selectQueryParameters);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);

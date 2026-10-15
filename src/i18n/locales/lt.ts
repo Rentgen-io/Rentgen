@@ -284,6 +284,7 @@ const lt = {
       connectDescription: 'Rentgen siunčia užklausas tiesiai iš šio įrenginio.',
       baseUrl: 'Bazinis URL',
       model: 'Modelis',
+      path: 'Kelias',
       apiKey: 'API raktas',
       apiKeyStorageNotice: 'API raktai saugomi vietiniame įrenginyje. Rentgen jų negauna.',
       howToRunOllamaLocally: 'Kaip paleisti Ollama vietoje',
@@ -437,6 +438,14 @@ const lt = {
     stringLabel: 'Minimalus/maksimalus reikšmės ilgis',
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
+    reviewDataSentToAi: 'Peržiūrėkite AI siunčiamus duomenis',
+    reviewDataSentToAiDescription:
+      'Pasirinkite vertes, kurias norite užmaskuoti. Automatiniai pasiūlymai jau pažymėti.',
+    requestFields: 'Užklausos laukai',
+    masked: 'Užmaskuota: {{masked}}',
+    sanitizedPreview: 'Išvalyta peržiūra',
+    readyToSend: 'Paruošta siųsti',
+    generateAdditionalTests: 'Generuoti papildomus testus',
   },
 
   // Parameter types
@@ -510,6 +519,7 @@ const lt = {
   ai: {
     baseUrlAndModelRequired: 'Bazinis URL ir modelis yra privalomi.',
     unexpectedResponse: 'Netikėtas AI tiekėjo atsakymas.',
+    noTestsGenerated: 'AI nesugeneravo jokių testų.',
   },
 };
 

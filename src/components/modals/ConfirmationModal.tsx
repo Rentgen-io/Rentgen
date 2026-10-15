@@ -27,6 +27,7 @@ export default function ConfirmationModal({
   onConfirm,
 }: Props) {
   const { t } = useTranslation();
+
   return (
     <Modal className={twMerge(cn('[&>div]:w-100!', className))} isOpen={isOpen} onClose={onClose}>
       <div className="flex flex-col gap-4">

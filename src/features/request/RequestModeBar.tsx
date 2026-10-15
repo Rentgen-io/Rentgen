@@ -31,16 +31,17 @@ const modeOptions: SelectOption<Mode>[] = [
 ];
 
 export default function RequestModeBar() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const reset = useReset();
-  const importCurl = useCurlImport();
+  const { t } = useTranslation();
 
   const mode = useAppSelector(selectMode);
   const curl = useAppSelector(selectCurl);
   const openCurlModal = useAppSelector(selectOpenCurlModal);
   const environments = useAppSelector(selectEnvironments);
   const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
+
+  const reset = useReset();
+  const importCurl = useCurlImport();
 
   return (
     <div className="flex flex-col @lg:flex-row @lg:items-center gap-4 @lg:gap-2">

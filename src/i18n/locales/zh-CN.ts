@@ -282,6 +282,7 @@ const zhCN = {
       connectDescription: 'Rentgen 直接从本设备发送请求。',
       baseUrl: '基础 URL',
       model: '模型',
+      path: '路径',
       apiKey: 'API 密钥',
       apiKeyStorageNotice: 'API 密钥仅保存在本地，Rentgen 不会接收它们。',
       howToRunOllamaLocally: '如何在本地运行 Ollama',
@@ -430,6 +431,13 @@ const zhCN = {
     stringLabel: '值的最小/最大长度',
     minPlaceholder: '最小',
     maxPlaceholder: '最大',
+    reviewDataSentToAi: '检查发送给 AI 的数据',
+    reviewDataSentToAiDescription: '选择要屏蔽的值。自动建议已预先选中。',
+    requestFields: '请求字段',
+    masked: '已屏蔽 {{masked}} 项',
+    sanitizedPreview: '净化后的预览',
+    readyToSend: '准备发送',
+    generateAdditionalTests: '生成额外测试',
   },
 
   // Parameter types
@@ -503,6 +511,7 @@ const zhCN = {
   ai: {
     baseUrlAndModelRequired: '基础 URL 和模型为必填项。',
     unexpectedResponse: '来自 AI 提供方的意外响应。',
+    noTestsGenerated: 'AI 未生成任何测试。',
   },
 };
 

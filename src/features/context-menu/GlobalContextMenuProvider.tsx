@@ -29,8 +29,8 @@ const ContextMenuContext = createContext<ContextMenuValue>({} as ContextMenuValu
 export const useContextMenu = () => useContext(ContextMenuContext);
 
 export default function GlobalContextMenuProvider({ children }: PropsWithChildren) {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const collection = useAppSelector(selectCollectionData);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
@@ -42,6 +42,7 @@ export default function GlobalContextMenuProvider({ children }: PropsWithChildre
     selectedText: '',
   });
   const [responsePanelContext, setResponsePanelContext] = useState<ResponsePanelContext | null>(null);
+
   const hasSelection = useMemo(() => menuState.selectedText.length > 0, [menuState.selectedText]);
 
   // Check if current request is saved in collection and get folder info

@@ -8,8 +8,8 @@ import { notify } from 'src/utils/toast';
 import SettingsHeader from '../SettingsHeader';
 
 export function AiLicenseSettings() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const [serialNumber, setSerialNumber] = useState<string>('');
 

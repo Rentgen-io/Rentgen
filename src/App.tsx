@@ -39,8 +39,8 @@ import { testsActions } from './store/slices/testsSlice';
 import ClearCrossIcon from './assets/icons/clear-cross-icon.svg';
 
 export default function App() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const isEditingEnvironment = useAppSelector(selectIsEditingEnvironment);
   const editingEnvironmentId = useAppSelector(selectEditingEnvironmentId);
@@ -53,8 +53,8 @@ export default function App() {
   const disabled = useAppSelector(selectIsRequestDisabled);
 
   const parametersRef = useRef<HTMLDivElement | null>(null);
-  const { saveRequest } = useSaveRequest();
 
+  const { saveRequest } = useSaveRequest();
   useInitialDataLoad();
   useWssEventBridge();
   useRunResultSync();

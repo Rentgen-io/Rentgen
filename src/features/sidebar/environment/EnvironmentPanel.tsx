@@ -18,8 +18,8 @@ import EnvironmentItem from './EnvironmentItem';
 import AddIcon from 'src/assets/icons/add-icon.svg';
 
 export default function EnvironmentPanel() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const environments = useAppSelector(selectEnvironments);
 

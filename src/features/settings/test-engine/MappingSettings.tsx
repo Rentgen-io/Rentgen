@@ -8,8 +8,8 @@ import { clamp } from 'src/utils';
 import SettingsHeader from '../SettingsHeader';
 
 export function MappingSettings() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const {
     randomEmail,

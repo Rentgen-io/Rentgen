@@ -27,7 +27,9 @@ export function JsonDiffViewer({
   isDiffReady,
 }: Props) {
   const { t } = useTranslation();
+
   const theme = useAppSelector(selectTheme);
+
   const diffEditorRef = useRef<editor.IStandaloneDiffEditor | null>(null);
   const [diffReady, setDiffReady] = useState<boolean>(false);
   const [editorHeight, setEditorHeight] = useState<number>(minHeight);

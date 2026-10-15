@@ -15,7 +15,9 @@ export interface PotentialBug {
 
 export default function PotentialBugsTable({ data, ...otherProps }: Omit<TableProps<PotentialBug>, 'columns'>) {
   const { t } = useTranslation();
+
   const theme = useAppSelector(selectTheme);
+
   const definedData = useMemo(() => data?.filter(Boolean) ?? [], [data]);
   const isDark = theme === 'dark';
 

@@ -10,15 +10,15 @@ import { notify } from 'src/utils/toast';
 const MINIMUM_TESTS_FOR_CERTIFICATE = 70;
 
 export function useReportExport() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const testResults = useAppSelector(selectCurrentTestResults);
   const exportFormat = useAppSelector(selectExportFormat);
   const httpResponse = useAppSelector(selectHttpResponse);
 
   const exportReport = useCallback(async () => {
-    if (!testResults) return;
+    if (!testResults || !testResults.testOptions) return;
 
     const { aiTests, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions } = testResults;
     const report: ExportReport = {

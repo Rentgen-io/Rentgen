@@ -3,11 +3,15 @@ import { HttpResponse, TestOptions, TestResult, TestResults } from 'src/types';
 
 interface TestState extends TestResults {
   // Running states
+  isAiRunning: boolean;
   isDataDrivenRunning: boolean;
   isLargePayloadTestRunning: boolean;
   isLoadTestRunning: boolean;
   isPerformanceRunning: boolean;
   isSecurityRunning: boolean;
+  runningAiTests: {
+    [id: number]: boolean;
+  };
 
   // Progress tracking
   currentTest: number;
@@ -24,16 +28,18 @@ interface TestState extends TestResults {
 
 const initialState: TestState = {
   timestamp: null,
-  aiTest: [],
+  aiTests: [],
   crudTests: [],
   dataDrivenTests: [],
   performanceTests: [],
   securityTests: [],
+  isAiRunning: false,
   isDataDrivenRunning: false,
   isLargePayloadTestRunning: false,
   isLoadTestRunning: false,
   isPerformanceRunning: false,
   isSecurityRunning: false,
+  runningAiTests: {},
   currentTest: 0,
   count: 0,
   loadProgress: 0,
@@ -65,13 +71,19 @@ export const testsSlice = createSlice({
     },
     // AI tests
     setAiTests: (state, action: PayloadAction<TestResult[]>) => {
-      state.aiTest = action.payload;
+      state.aiTests = action.payload;
     },
-    updateAiTest: (state, action: PayloadAction<{ testName: string; result: TestResult }>) => {
-      if (!state.aiTest) return;
+    updateAiTest: (state, action: PayloadAction<{ id: number; result: TestResult }>) => {
+      if (!state.aiTests || !state.aiTests[action.payload.id]) return;
 
-      const index = state.aiTest.findIndex((t) => t.name === action.payload.testName);
-      if (index !== -1) state.aiTest[index] = action.payload.result;
+      state.aiTests[action.payload.id] = action.payload.result;
+    },
+    setRunningAiTest: (state, action: PayloadAction<{ id: number; isRunning: boolean }>) => {
+      if (!action.payload.isRunning) delete state.runningAiTests[action.payload.id];
+      else state.runningAiTests[action.payload.id] = action.payload.isRunning;
+    },
+    setAiRunning: (state, action: PayloadAction<boolean>) => {
+      state.isAiRunning = action.payload;
     },
     // Security tests
     setSecurityRunning: (state, action: PayloadAction<boolean>) => {
@@ -125,35 +137,37 @@ export const testsSlice = createSlice({
     },
     // Reset
     resetTests: (state) => {
-      state.timestamp = null;
-      state.aiTest = [];
+      state.aiTests = [];
       state.crudTests = [];
       state.dataDrivenTests = [];
       state.performanceTests = [];
       state.securityTests = [];
+      state.isAiRunning = false;
       state.isDataDrivenRunning = false;
       state.isLargePayloadTestRunning = false;
       state.isLoadTestRunning = false;
       state.isPerformanceRunning = false;
       state.isSecurityRunning = false;
+      state.runningAiTests = {};
       state.currentTest = 0;
       state.count = 0;
       state.loadProgress = 0;
       state.testOptions = null;
+      state.timestamp = null;
     },
     // Start all tests
     startAllTests: (state) => {
-      state.timestamp = null;
       state.isDataDrivenRunning = true;
       state.isPerformanceRunning = true;
       state.isSecurityRunning = true;
-      state.aiTest = [];
+      state.aiTests = [];
       state.crudTests = [];
       state.dataDrivenTests = [];
       state.performanceTests = [];
       state.securityTests = [];
       state.currentTest = 0;
       state.count = 0;
+      state.timestamp = null;
     },
     addResults: (state, action: PayloadAction<{ requestId: string; results: TestResults }>) => {
       state.results[action.payload.requestId] = action.payload.results;
@@ -162,7 +176,13 @@ export const testsSlice = createSlice({
       const testResults = state.results[action.payload.requestId];
       if (!testResults) return;
 
-      testResults.aiTest = [...(testResults.aiTest || []), ...action.payload.results];
+      testResults.aiTests = [...(testResults.aiTests || []), ...action.payload.results];
+    },
+    updateAiTestResults: (state, action: PayloadAction<{ requestId: string; id: number; result: TestResult }>) => {
+      const testResults = state.results[action.payload.requestId];
+      if (!testResults || !testResults.aiTests || !testResults.aiTests[action.payload.id]) return;
+
+      testResults.aiTests[action.payload.id] = action.payload.result;
     },
     updateSecurityTestResults: (
       state,

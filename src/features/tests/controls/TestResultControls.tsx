@@ -25,6 +25,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 export function TestResultControls({ children, className, testResult, testType, ...otherProps }: Props) {
   const { t } = useTranslation();
+
   return (
     <div className={twMerge(cn('w-full flex items-center justify-between flex-wrap gap-1', className))} {...otherProps}>
       {children}

@@ -13,33 +13,19 @@ import { LoadTestControls } from 'src/features/tests/controls/LoadTestControls';
 import { TestResultControls } from 'src/features/tests/controls/TestResultControls';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import {
-  selectBodyParameters,
-  selectCurrentTestResults,
-  selectDisabledPerformanceInsights,
-  selectIsLoadTestRunning,
-  selectIsPerformanceRunning,
-  selectPerformanceTests,
-  selectQueryParameters,
-} from 'src/store/selectors';
+import { selectDisabledPerformanceInsights, selectTestOptions } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import { TestStatus } from 'src/types';
 import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColumns } from '../tables/TestsTable';
 
 export default function PerformanceInsightsPanel() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const { isLoadTestRunning, isPerformanceRunning, performanceTests, executeLoadTest } = useTests();
 
-  const performanceTests = useAppSelector(selectPerformanceTests);
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
-  const isPerformanceRunning = useAppSelector(selectIsPerformanceRunning);
-  const isLoadTestRunning = useAppSelector(selectIsLoadTestRunning);
-  const testResults = useAppSelector(selectCurrentTestResults);
-  const bodyParameters = useAppSelector(selectBodyParameters);
-  const queryParameters = useAppSelector(selectQueryParameters);
-
-  const { executeLoadTest } = useTests();
+  const testOptions = useAppSelector(selectTestOptions);
 
   const hasFailures = performanceTests.some(({ status }) =>
     [TestStatus.Bug, TestStatus.Fail, TestStatus.Warning].includes(status),
@@ -74,15 +60,11 @@ export default function PerformanceInsightsPanel() {
                 testResult={row}
                 testType="performance"
               >
-                {row.name === LOAD_TEST_NAME && testResults ? (
+                {row.name === LOAD_TEST_NAME && testOptions ? (
                   <LoadTestControls
                     isRunning={isLoadTestRunning}
                     executeTest={(threadCount: number, requestCount: number) =>
-                      executeLoadTest(
-                        { ...testResults.testOptions, bodyParameters, queryParameters },
-                        threadCount,
-                        requestCount,
-                      )
+                      executeLoadTest(testOptions, threadCount, requestCount)
                     }
                   />
                 ) : (

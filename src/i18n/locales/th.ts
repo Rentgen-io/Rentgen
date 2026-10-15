@@ -284,6 +284,7 @@ const th = {
       connectDescription: 'Rentgen ส่งคำขอโดยตรงจากอุปกรณ์นี้',
       baseUrl: 'Base URL',
       model: 'โมเดล',
+      path: 'พาธ',
       apiKey: 'คีย์ API',
       apiKeyStorageNotice: 'คีย์ API ถูกจัดเก็บไว้ในเครื่อง Rentgen ไม่ได้รับคีย์เหล่านี้',
       howToRunOllamaLocally: 'วิธีรัน Ollama บนเครื่อง',
@@ -435,6 +436,13 @@ const th = {
     stringLabel: 'ความยาวค่าต่ำสุด/สูงสุด',
     minPlaceholder: 'ต่ำสุด',
     maxPlaceholder: 'สูงสุด',
+    reviewDataSentToAi: 'ตรวจสอบข้อมูลที่ส่งไปยัง AI',
+    reviewDataSentToAiDescription: 'เลือกค่าที่ต้องการปกปิด คำแนะนำอัตโนมัติถูกเลือกไว้แล้ว',
+    requestFields: 'ฟิลด์ของคำขอ',
+    masked: 'ปกปิดแล้ว {{masked}} รายการ',
+    sanitizedPreview: 'ตัวอย่างหลังทำความสะอาดข้อมูล',
+    readyToSend: 'พร้อมส่ง',
+    generateAdditionalTests: 'สร้างเทสต์เพิ่มเติม',
   },
 
   // Parameter types
@@ -508,6 +516,7 @@ const th = {
   ai: {
     baseUrlAndModelRequired: 'ต้องระบุ Base URL และโมเดล',
     unexpectedResponse: 'การตอบกลับที่ไม่คาดคิดจากผู้ให้บริการ AI',
+    noTestsGenerated: 'AI ไม่ได้สร้างเทสต์ใด ๆ',
   },
 };
 

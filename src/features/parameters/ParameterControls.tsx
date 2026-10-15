@@ -22,6 +22,7 @@ interface Props {
 
 export function ParameterControls({ parameterValue, onChange }: Props) {
   const { t } = useTranslation();
+
   const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
 
   const parameterOptions: SelectOption<DataType>[] = [

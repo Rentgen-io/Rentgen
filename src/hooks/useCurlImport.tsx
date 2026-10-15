@@ -12,8 +12,8 @@ import { useReset } from './useReset';
 const MAX_CURL_LENGTH = 200_000;
 
 export function useCurlImport() {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const curl = useAppSelector(selectCurl);
 

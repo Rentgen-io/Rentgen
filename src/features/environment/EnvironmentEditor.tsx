@@ -24,8 +24,8 @@ interface Props {
 }
 
 export default function EnvironmentEditor({ environment, isNew, onSave }: Props) {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const allDynamicVariables = useAppSelector(selectDynamicVariables);
   const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
