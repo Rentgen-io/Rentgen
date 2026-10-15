@@ -1,7 +1,7 @@
 import { sendAiChatRequest } from 'src/api/ai';
 import { sendHttp } from 'src/api/network';
 import i18n from 'src/i18n';
-import { AIProvider, HttpRequest, TestOptions, TestResult, TestStatus } from 'src/types';
+import { AiProvider, HttpRequest, TestOptions, TestResult, TestStatus } from 'src/types';
 import { tryParseJsonObject } from 'src/utils';
 import { notify } from 'src/utils/toast';
 import {
@@ -96,7 +96,7 @@ const RESPONSE_FORMAT: Record<string, unknown> = {
 export class AiTests extends BaseTests {
   constructor(
     private testResults: TestResult[],
-    private aiProvider: AIProvider,
+    private aiProvider: AiProvider,
     protected options: TestOptions,
     protected onTestStart?: () => void,
   ) {
@@ -108,9 +108,8 @@ export class AiTests extends BaseTests {
 
   public async run(): Promise<TestResult[]> {
     const { bodyParameters, queryParameters } = this.options;
-    const { apiKey, baseUrl, model, path } = this.aiProvider;
     const response = await sendAiChatRequest(
-      { apiKey, baseUrl, model, path },
+      this.aiProvider,
       [
         { role: 'system', content: SYSTEM_PROMPT },
         {

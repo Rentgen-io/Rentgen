@@ -1,7 +1,7 @@
 import i18n from 'src/i18n';
-import { AIProvider, HttpBody } from 'src/types';
-import { sendHttp } from './network';
+import type { AiProvider, HttpBody } from 'src/types';
 import { extractStatusCode, isObject } from 'src/utils';
+import { sendHttp } from './network';
 
 export type AiRole = 'system' | 'user' | 'assistant';
 
@@ -10,15 +10,9 @@ export interface AiMessage {
   content: string;
 }
 
-export type AiProviderConfig = Pick<AIProvider, 'baseUrl' | 'path' | 'model' | 'apiKey'>;
-
 export type AiChatResult =
   | { ok: true; content: string; body: HttpBody }
   | { ok: false; error: string; body?: HttpBody };
-
-export const normalizeAiBaseUrl = (baseUrl: string): string => baseUrl.trim().replace(/\/+$/, '');
-
-export const normalizeAiPath = (path: string): string => '/' + path.trim().replace(/^\/+/, '');
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   return isObject(value) && !Array.isArray(value) ? (value as Record<string, unknown>) : null;
@@ -49,24 +43,25 @@ function extractError(body: HttpBody, status: string): string {
 }
 
 export async function sendAiChatRequest(
-  provider: AiProviderConfig,
+  provider: AiProvider,
   messages: AiMessage[],
   responseFormat?: Record<string, unknown>,
 ): Promise<AiChatResult> {
-  const baseUrl = normalizeAiBaseUrl(provider.baseUrl);
-  const path = normalizeAiPath(provider.path);
-
-  if (!baseUrl || !path || !provider.model) return { ok: false, error: i18n.t('ai.baseUrlAndModelRequired') };
+  const { apiKey, baseUrl, id, model, path } = provider;
+  if (!baseUrl || !path || !model) return { ok: false, error: i18n.t('ai.baseUrlAndModelRequired') };
 
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  if (provider.apiKey) headers.Authorization = `Bearer ${provider.apiKey}`;
+  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+
+  const body: HttpBody = { model, messages, stream: false, response_format: responseFormat };
+  if (id === 'ollama') body.temperature = 0;
 
   try {
     const response = await sendHttp({
       method: 'POST',
       url: `${baseUrl}${path}`,
       headers,
-      body: { model: provider.model, messages, stream: false, response_format: responseFormat },
+      body,
     });
     const statusCode = extractStatusCode(response);
 
@@ -82,5 +77,5 @@ export async function sendAiChatRequest(
   }
 }
 
-export const testAiConnection = (provider: AiProviderConfig): Promise<AiChatResult> =>
+export const testAiConnection = (provider: AiProvider): Promise<AiChatResult> =>
   sendAiChatRequest(provider, [{ role: 'user', content: 'Reply with "ok" if you can read this.' }]);

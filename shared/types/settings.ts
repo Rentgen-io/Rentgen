@@ -26,10 +26,10 @@ export type Language = (typeof LANGUAGES)[number]['code'];
 
 export type HistoryRetention = '1w' | '1m' | '3m' | '6m' | '1y' | 'none';
 
-export type AIProviderId = 'ollama' | 'openai' | 'openai-compatible';
+export type AiProviderId = 'ollama' | 'openai' | 'openai-compatible';
 
-export type AIProvider = {
-  id: AIProviderId;
+export type AiProvider = {
+  id: AiProviderId;
   name: string;
   active: boolean;
   baseUrl: string;
@@ -49,7 +49,7 @@ export interface SettingsState {
   };
   ai: {
     serialNumber: string | null;
-    providers: AIProvider[];
+    providers: AiProvider[];
   };
   testEngine: {
     configuration: {
