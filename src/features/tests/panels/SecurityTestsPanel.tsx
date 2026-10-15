@@ -84,7 +84,7 @@ export default function SecurityTestsPanel() {
         ]}
         expandableRows
         expandableRowsComponent={ExpandedTestComponent}
-        expandableRowDisabled={(row) => disabledSecurityTests.includes(row.name)}
+        expandableRowDisabled={(row) => disabledSecurityTests.includes(row.name) || row.status === TestStatus.Manual}
         expandOnRowClicked
         data={securityTests}
         progressComponent={<LoaderWithText text={t('tests.runningSecurityTests')} />}

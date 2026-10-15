@@ -13,6 +13,7 @@ import {
   selectTestOptions,
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
+import { TestStatus } from 'src/types';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
@@ -62,7 +63,7 @@ export default function AiTestingPanel() {
           ]}
           expandableRows
           expandableRowsComponent={ExpandedTestComponent}
-          expandableRowDisabled={(row) => !row.actual}
+          expandableRowDisabled={(row) => row.status === TestStatus.Manual}
           expandOnRowClicked
           data={aiTests}
         />
