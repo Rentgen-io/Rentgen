@@ -66,7 +66,7 @@ export async function sendAiChatRequest(
       method: 'POST',
       url: `${baseUrl}${path}`,
       headers,
-      body: { model: provider.model, messages, stream: false, temperature: 0, response_format: responseFormat },
+      body: { model: provider.model, messages, stream: false, response_format: responseFormat },
     });
     const statusCode = extractStatusCode(response);
 

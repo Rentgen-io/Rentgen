@@ -17,7 +17,7 @@ const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
 
 const options: RadioOption<AIProviderId>[] = [
   { label: 'Ollama', value: 'ollama' },
-  { label: 'OpenAI', value: 'openai', disabled: true },
+  { label: 'OpenAI', value: 'openai' },
   { label: 'OpenAI-compatible', value: 'openai-compatible', disabled: true },
 ];
 
