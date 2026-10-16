@@ -312,7 +312,11 @@ const useTests = () => {
 
       dispatch(testsActions.setAiRunning(true));
 
-      aiTestsInstance = new AiTests({ dataDrivenTests, performanceTests, securityTests }, activeAiProvider, options);
+      aiTestsInstance = new AiTests(
+        { crudTests, dataDrivenTests, performanceTests, securityTests },
+        activeAiProvider,
+        options,
+      );
       const results = await aiTestsInstance.run();
 
       dispatch(testsActions.setAiRunning(false));
@@ -322,7 +326,7 @@ const useTests = () => {
       dispatch(testsActions.setAiTests(results));
       if (selectedRequestId) dispatch(testsActions.addAiTestResults({ requestId: selectedRequestId, results }));
     },
-    [activeAiProvider, dataDrivenTests, selectedRequestId, dispatch],
+    [activeAiProvider, crudTests, dataDrivenTests, performanceTests, securityTests, selectedRequestId, dispatch],
   );
 
   const executeAiTest = useCallback(

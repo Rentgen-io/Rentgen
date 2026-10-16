@@ -14,6 +14,7 @@ export default function CrudTestsPanel() {
         columns={getTestsTableColumns(['Method', 'Expected', 'Actual', 'Result'], t)}
         expandableRows
         expandableRowsComponent={ExpandedTestComponent}
+        expandableRowDisabled={(row) => !row.request}
         expandOnRowClicked
         data={crudTests}
         progressComponent={<LoaderWithText text={t('tests.preparingCrud')} />}

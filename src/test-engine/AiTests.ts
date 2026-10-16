@@ -297,6 +297,7 @@ interface AiContent {
 export class AiTests extends BaseTests {
   constructor(
     private testResults: {
+      crudTests: TestResult[];
       dataDrivenTests: TestResult[];
       performanceTests: TestResult[];
       securityTests: TestResult[];
@@ -335,10 +336,10 @@ export class AiTests extends BaseTests {
     }
 
     const content = tryParseJsonObject(response.content) as AiContent;
-    console.log(content);
     const aiTests: TestResult[] = (content?.tests ?? []).map(({ name, expected, request }) =>
       createTestResult(name, expected, '', TestStatus.Manual, {
-        body: tryParseJsonObject(request?.body),
+        url: request.url,
+        method: request.method,
         headers: request.headers?.reduce(
           (acc, { name, value }) => {
             acc[name] = value;
@@ -346,8 +347,7 @@ export class AiTests extends BaseTests {
           },
           {} as Record<string, string>,
         ),
-        method: request.method,
-        url: request.url,
+        body: tryParseJsonObject(request?.body),
       }),
     );
     if (aiTests.length === 0) {
