@@ -89,6 +89,7 @@ export default function SecurityTestsPanel() {
         data={securityTests}
         progressComponent={<LoaderWithText text={t('tests.runningSecurityTests')} />}
         progressPending={isSecurityRunning}
+        progressSkeleton={false}
       />
     </Panel>
   );

@@ -19,6 +19,7 @@ export default function CrudTestsPanel() {
         data={crudTests}
         progressComponent={<LoaderWithText text={t('tests.preparingCrud')} />}
         progressPending={isSecurityRunning}
+        progressSkeleton={false}
         noDataComponent={
           <p className="p-4 m-0 text-center text-sm">
             {t('tests.crudDescription')}

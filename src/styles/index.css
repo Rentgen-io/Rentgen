@@ -95,4 +95,26 @@
   .Toastify__progress-bar--wrp {
     @apply rounded-none!;
   }
+
+  .rdt_cellBaseHead::before {
+    @apply hidden!;
+  }
+
+  .rdt_columnExpander,
+  .rdt_cellExpander {
+    @apply min-w-7!;
+  }
+
+  .rdt_expanderButton:hover:not(:disabled),
+  .rdt_expanderButton:focus {
+    @apply bg-transparent!;
+  }
+
+  .rdt_expanderButton:disabled {
+    @apply hidden!;
+  }
+
+  .rdt_expanderButton > * {
+    @apply h-4! w-4!;
+  }
 }

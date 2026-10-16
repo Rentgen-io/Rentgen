@@ -140,6 +140,7 @@ export default function DataDrivenTestsPanel() {
         fixedHeaderScrollHeight="720px"
         progressComponent={<LoaderWithText text={t('tests.runningDataDrivenTests')} />}
         progressPending={isDataDrivenRunning}
+        progressSkeleton={false}
       />
     </Panel>
   );

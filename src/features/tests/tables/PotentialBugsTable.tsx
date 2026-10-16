@@ -30,24 +30,23 @@ export default function PotentialBugsTable({ data, ...otherProps }: Omit<TablePr
         },
         {
           name: t('tables.description'),
-          selector: (row) => row.issue,
-          style: {
-            'div:first-child': {
-              padding: '0.25rem 0',
-              whiteSpace: 'pre !important',
-            },
-          },
+          selector: (row, id) => (
+            <div className="py-1 px-0 whitespace-pre" data-column-id={id} data-tag="allowRowEvents">
+              {row.issue}
+            </div>
+          ),
         },
       ]}
       customStyles={{
         expanderCell: {
-          style: { minWidth: '28px', width: '28px', flex: '0 0 28px' },
+          style: {
+            ...(isDark && {
+              borderBottomColor: '#343a46',
+            }),
+          },
         },
         expanderButton: {
           style: {
-            '&:hover': { backgroundColor: 'transparent !important' },
-            '&:focus': { backgroundColor: 'transparent !important' },
-            '&:disabled': { display: 'none' },
             ...(isDark && { color: 'white' }),
           },
         },
@@ -64,10 +63,12 @@ export default function PotentialBugsTable({ data, ...otherProps }: Omit<TablePr
           style: {
             color: isDark ? 'white' : 'black',
             backgroundColor: 'transparent',
+          },
+        },
+        cells: {
+          style: {
             ...(isDark && {
-              '&:not(:last-of-type)': {
-                borderBottomColor: '#343a46',
-              },
+              borderBottomColor: '#343a46',
             }),
           },
         },

@@ -100,6 +100,7 @@ export default function PerformanceInsightsPanel() {
         data={performanceTests}
         progressComponent={<LoaderWithText text={t('tests.runningPerformanceInsights')} />}
         progressPending={isPerformanceRunning}
+        progressSkeleton={false}
       />
     </Panel>
   );

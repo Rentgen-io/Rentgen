@@ -14,15 +14,25 @@ import { twMerge } from 'tailwind-merge';
 
 import GearIcon from 'src/assets/icons/gear-icon.svg';
 
-export default function TestsTable({ columns, data, className, ...otherProps }: TableProps<TestResult>) {
+export default function TestsTable({
+  columns,
+  data,
+  className,
+  progressPending,
+  progressComponent,
+  ...otherProps
+}: TableProps<TestResult>) {
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
   const definedData = data?.filter((item) => item != null) ?? [];
   const disabledTests = [...disabledSecurityTests, ...disabledPerformanceInsights];
+  const borderClass = 'border-t border-border dark:border-t-0';
+
+  if (progressPending) return <div className={borderClass}>{progressComponent}</div>;
 
   return (
     <DataTable
-      className={cn('border-t border-border dark:border-t-0 rounded-t-none!', className)}
+      className={cn('rounded-t-none!', borderClass, className)}
       columns={columns}
       conditionalRowStyles={[
         {
@@ -50,19 +60,9 @@ export default function TestsTable({ columns, data, className, ...otherProps }: 
           },
         },
       ]}
-      customStyles={{
-        expanderCell: {
-          style: { minWidth: '28px', width: '28px', flex: '0 0 28px' },
-        },
-        expanderButton: {
-          style: {
-            '&:hover': { backgroundColor: 'transparent !important' },
-            '&:focus': { backgroundColor: 'transparent !important' },
-            '&:disabled': { display: 'none' },
-          },
-        },
-      }}
       data={definedData}
+      progressComponent={progressComponent}
+      progressPending={progressPending}
       {...otherProps}
     />
   );
@@ -209,13 +209,12 @@ export function getTestsTableColumns(
     {
       key: 'Value',
       name: label('Value'),
-      selector: (row) => truncateValue(row.value),
+      selector: (row, id) => (
+        <span className="whitespace-pre" data-column-id={id} data-tag="allowRowEvents">
+          {truncateValue(row.value)}
+        </span>
+      ),
       omit: true,
-      style: {
-        'div:first-child': {
-          whiteSpace: 'pre !important',
-        },
-      },
     },
     {
       key: 'Check',
@@ -232,26 +231,22 @@ export function getTestsTableColumns(
     {
       key: 'Expected',
       name: label('Expected'),
-      selector: (row) => row.expected,
+      selector: (row, id) => (
+        <div className="py-1 px-0 whitespace-normal" data-column-id={id} data-tag="allowRowEvents">
+          {row.expected}
+        </div>
+      ),
       omit: true,
-      style: {
-        'div:first-child': {
-          padding: '0.25rem 0',
-          whiteSpace: 'normal !important',
-        },
-      },
     },
     {
       key: 'Actual',
       name: label('Actual'),
-      selector: (row) => row.actual,
+      selector: (row, id) => (
+        <div className="py-1 px-0 whitespace-normal" data-column-id={id} data-tag="allowRowEvents">
+          {row.actual}
+        </div>
+      ),
       omit: true,
-      style: {
-        'div:first-child': {
-          padding: '0.25rem 0',
-          whiteSpace: 'normal !important',
-        },
-      },
     },
     {
       key: 'Result',

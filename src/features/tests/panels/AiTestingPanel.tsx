@@ -51,7 +51,14 @@ export default function AiTestingPanel() {
       {aiTests && aiTests.length > 0 ? (
         <TestsTable
           columns={[
-            ...getTestsTableColumns(['Parameter'], t),
+            {
+              name: t('tables.check'),
+              selector: (row, id) => (
+                <div className="py-1 px-0 line-clamp-4 whitespace-normal" data-column-id={id} data-tag="allowRowEvents">
+                  {row.name}
+                </div>
+              ),
+            },
             {
               name: t('tables.expected'),
               selector: (row) => row.expected,

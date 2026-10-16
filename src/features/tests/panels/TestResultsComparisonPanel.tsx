@@ -121,7 +121,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
           </TabList>
 
           <TabPanel className="hidden p-4 bg-body dark:bg-dark-body overflow-hidden">
-            <div className="flex flex-col flex-auto h-0 gap-4">
+            <div className="flex flex-col flex-auto h-0 gap-4 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
               {!potentialBugs || potentialBugs.length === 0 ? (
                 <p className="m-0 p-2.5 text-sm text-white text-center bg-green-600">
                   {t('comparison.noPotentialBugs')}
@@ -129,9 +129,9 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
               ) : (
                 <PotentialBugsTable data={potentialBugs} />
               )}
-              <div>
-                <Button onClick={() => setTabIndex(1)}>{t('comparison.showFullBehaviorChanges')}</Button>
-              </div>
+              <Button className="w-fit" onClick={() => setTabIndex(1)}>
+                {t('comparison.showFullBehaviorChanges')}
+              </Button>
             </div>
           </TabPanel>
           <TabPanel className="hidden bg-body dark:bg-dark-body">
