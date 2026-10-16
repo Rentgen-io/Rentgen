@@ -185,7 +185,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
               columns={[
                 {
                   name: t('environment.variableName'),
-                  width: '25%',
+                  width: 'calc(1/3 * 100%)',
                   cell: (row) => (
                     <div className="flex items-center w-full pr-3 group">
                       <Input
@@ -214,7 +214,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                 },
                 {
                   name: t('environment.value'),
-                  width: '75%',
+                  width: 'calc(2/3 * 100%)',
                   cell: (row) => {
                     if (row.type === 'static')
                       return (
