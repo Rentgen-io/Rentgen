@@ -312,7 +312,7 @@ const useTests = () => {
 
       dispatch(testsActions.setAiRunning(true));
 
-      aiTestsInstance = new AiTests(dataDrivenTests, activeAiProvider, options);
+      aiTestsInstance = new AiTests({ dataDrivenTests, performanceTests, securityTests }, activeAiProvider, options);
       const results = await aiTestsInstance.run();
 
       dispatch(testsActions.setAiRunning(false));
@@ -326,13 +326,13 @@ const useTests = () => {
   );
 
   const executeAiTest = useCallback(
-    async (id: number, options: TestOptions | null) => {
+    async (id: number) => {
       const aiTest = aiTests?.[id];
-      if (!aiTest || !options) return;
+      if (!aiTest) return;
 
       dispatch(testsActions.setRunningAiTest({ id, isRunning: true }));
 
-      const result = await runAiTest(options, aiTest);
+      const result = await runAiTest(aiTest);
 
       dispatch(
         testsActions.updateAiTest({

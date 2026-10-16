@@ -48,7 +48,7 @@ export function createErrorTestResult(
   request: HttpRequest | null = null,
   value: any = undefined,
 ): TestResult {
-  return createTestResult(name, expected, `Unexpected Error: ${String(actual)}`, TestStatus.Bug, request, null, value);
+  return createTestResult(name, expected, `Unexpected Error: ${actual}`, TestStatus.Bug, request, null, value);
 }
 
 export function determineTestStatus(

@@ -6,14 +6,8 @@ import Panel from 'src/components/panels/Panel';
 import { validateSerialNumber } from 'src/features/settings/ai/AiLicenseSettings';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import {
-  selectActiveAiProvider,
-  selectRunningAiTests,
-  selectSerialNumber,
-  selectTestOptions,
-} from 'src/store/selectors';
+import { selectActiveAiProvider, selectRunningAiTests, selectSerialNumber } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { TestStatus } from 'src/types';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
@@ -25,7 +19,6 @@ export default function AiTestingPanel() {
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
   const runningAiTests = useAppSelector(selectRunningAiTests);
   const serialNumber = useAppSelector(selectSerialNumber);
-  const testOptions = useAppSelector(selectTestOptions);
 
   const [showAiRequestMaskControls, setShowAiRequestMaskControls] = useState<boolean>(false);
 
@@ -44,7 +37,7 @@ export default function AiTestingPanel() {
       {aiTests && aiTests.length > 0 ? (
         <TestsTable
           columns={[
-            ...getTestsTableColumns(['Parameter', 'Value', 'Expected', 'Actual'], t),
+            ...getTestsTableColumns(['Parameter', 'Expected', 'Actual'], t),
             {
               name: t('tables.result'),
               selector: (row) => row.status,
@@ -52,18 +45,13 @@ export default function AiTestingPanel() {
               cell: (row, id) => {
                 if (row.actual) return row.status;
 
-                return (
-                  <Controls
-                    isRunning={runningAiTests[id]}
-                    executeTest={async () => await executeAiTest(id, testOptions)}
-                  />
-                );
+                return <Controls isRunning={runningAiTests[id]} executeTest={async () => await executeAiTest(id)} />;
               },
             },
           ]}
           expandableRows
           expandableRowsComponent={ExpandedTestComponent}
-          expandableRowDisabled={(row) => row.status === TestStatus.Manual}
+          expandableRowDisabled={(row) => !row.request}
           expandOnRowClicked
           data={aiTests}
         />
