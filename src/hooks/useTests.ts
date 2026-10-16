@@ -334,13 +334,7 @@ const useTests = () => {
 
       const result = await runAiTest(aiTest);
 
-      dispatch(
-        testsActions.updateAiTest({
-          id,
-          result,
-        }),
-      );
-
+      dispatch(testsActions.updateAiTest({ id, result }));
       dispatch(testsActions.setRunningAiTest({ id, isRunning: false }));
 
       if (selectedRequestId)

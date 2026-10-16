@@ -111,8 +111,8 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
           />
           <Toggle
             checked={mandatory}
-            disabled={isParameterTestSkipped(type)}
-            title={!isParameterTestSkipped(type) ? t('controls.mandatoryToggle') : undefined}
+            disabled={isDoNotTestType(type)}
+            title={isDoNotTestType(type) ? t('controls.mandatoryToggle') : undefined}
             onChange={(e) => onChange({ ...parameterValue, mandatory: e.target.checked })}
           />
           <IconButton
@@ -192,7 +192,11 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
 
   function onSelectTypeChange(event: ChangeEvent<HTMLSelectElement>) {
     const type = event.target.value as DataType;
-    if (isParameterTestSkipped(type)) onChange(getInitialParameterValue(type, '', false));
+    if (isParameterTestSkipped(type)) onChange(getInitialParameterValue(type, '', !isDoNotTestType(type)));
     else onChange(getInitialParameterValue(type));
+  }
+
+  function isDoNotTestType(type: DataType) {
+    return type === 'do-not-test';
   }
 }

@@ -2,12 +2,25 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from 'src/components/buttons/Button';
 import { Controls } from 'src/components/controls/Controls';
+import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import Panel from 'src/components/panels/Panel';
 import { validateSerialNumber } from 'src/features/settings/ai/AiLicenseSettings';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectActiveAiProvider, selectRunningAiTests, selectSerialNumber } from 'src/store/selectors';
+import {
+  selectActiveAiProvider,
+  selectRunningAiTests,
+  selectSelectedRequestId,
+  selectSerialNumber,
+} from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
+import { testsActions } from 'src/store/slices/testsSlice';
+import {
+  determineRequestParameterTestStatus,
+  determineTestStatus,
+  ERROR_RESPONSE_EXPECTED,
+  SUCCESS_RESPONSE_EXPECTED,
+} from 'src/test-engine';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
@@ -18,6 +31,7 @@ export default function AiTestingPanel() {
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
   const runningAiTests = useAppSelector(selectRunningAiTests);
+  const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const serialNumber = useAppSelector(selectSerialNumber);
 
   const [showAiRequestMaskControls, setShowAiRequestMaskControls] = useState<boolean>(false);
@@ -37,7 +51,49 @@ export default function AiTestingPanel() {
       {aiTests && aiTests.length > 0 ? (
         <TestsTable
           columns={[
-            ...getTestsTableColumns(['Parameter', 'Expected', 'Actual'], t),
+            ...getTestsTableColumns(['Parameter'], t),
+            {
+              name: t('tables.expected'),
+              selector: (row) => row.expected,
+              cell: (row, id) =>
+                !row.response ? (
+                  row.expected
+                ) : (
+                  <SimpleSelect
+                    className="pl-0 text-[13px] bg-transparent border-none"
+                    options={[
+                      { value: SUCCESS_RESPONSE_EXPECTED, label: SUCCESS_RESPONSE_EXPECTED },
+                      { value: ERROR_RESPONSE_EXPECTED, label: ERROR_RESPONSE_EXPECTED },
+                    ]}
+                    value={row.expected}
+                    onChange={(event) => {
+                      const expected = event.target.value as string;
+
+                      if (!row.response) return;
+
+                      const { actual, status } = determineTestStatus(row.response, (response, statusCode) =>
+                        determineRequestParameterTestStatus(response, statusCode, {
+                          valid: expected === SUCCESS_RESPONSE_EXPECTED,
+                          value: row.value,
+                        }),
+                      );
+                      const testResult = { ...row, actual, expected, status };
+
+                      dispatch(testsActions.updateAiTest({ id, result: testResult }));
+
+                      if (selectedRequestId)
+                        dispatch(
+                          testsActions.updateAiTestResults({
+                            requestId: selectedRequestId,
+                            id,
+                            result: testResult,
+                          }),
+                        );
+                    }}
+                  />
+                ),
+            },
+            ...getTestsTableColumns(['Actual'], t),
             {
               name: t('tables.result'),
               selector: (row) => row.status,
