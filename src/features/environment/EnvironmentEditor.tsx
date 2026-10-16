@@ -7,7 +7,7 @@ import Input from 'src/components/inputs/Input';
 import Select, { SelectOption } from 'src/components/inputs/Select';
 import Panel from 'src/components/panels/Panel';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectDynamicVariables, selectSelectedEnvironmentId, selectTheme } from 'src/store/selectors';
+import { selectDynamicVariables, selectSelectedEnvironmentId } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { DataType, DynamicVariable, Environment, EnvironmentVariable } from 'src/types';
 import { generateEnvironmentId } from 'src/utils';
@@ -29,7 +29,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
   const allDynamicVariables = useAppSelector(selectDynamicVariables);
   const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
-  const theme = useAppSelector(selectTheme);
 
   const [title, setTitle] = useState<string>('');
   const [color, setColor] = useState<string>(COLOR_OPTIONS[4]);
@@ -45,8 +44,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
       ...variables.map((variable, index) => ({ ...variable, type: 'static', index })),
     ];
   }, [dynamicVariables, variables]);
-
-  const isDark = theme === 'dark';
 
   const hasChanges = () => {
     if (!environment) return false;
@@ -184,11 +181,13 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           <label className="block mb-1 font-bold text-sm">{t('environment.variables')}</label>
           <div className="border border-border dark:border-dark-body overflow-hidden">
             <DataTable
+              className="environment-data-table"
               columns={[
                 {
                   name: t('environment.variableName'),
+                  width: '25%',
                   cell: (row) => (
-                    <div className="relative flex items-center w-full group">
+                    <div className="flex items-center w-full pr-3 group">
                       <Input
                         className="w-full border-0 bg-transparent"
                         placeholder={t('environment.addVariable')}
@@ -215,7 +214,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                 },
                 {
                   name: t('environment.value'),
-                  grow: 3,
+                  width: '75%',
                   cell: (row) => {
                     if (row.type === 'static')
                       return (
@@ -228,7 +227,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
                     return (
                       <span
-                        className="px-2 text-xs font-monospace text-text-secondary dark:text-dark-text-secondary truncate block w-full min-w-0"
+                        className="py-2! px-3! text-xs font-monospace text-text-secondary dark:text-dark-text-secondary truncate block w-full min-w-0"
                         title={(row as DynamicVariable).currentValue || ''}
                       >
                         {(row as DynamicVariable).currentValue || '—'}
@@ -237,53 +236,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                   },
                 },
               ]}
-              customStyles={{
-                headRow: {
-                  style: {
-                    minHeight: 'auto',
-                    color: isDark ? 'white' : 'black',
-                    backgroundColor: isDark ? '#23272f' : '#fafafa',
-                  },
-                },
-                headCells: {
-                  style: {
-                    padding: '8px 12px',
-                  },
-                },
-                cells: {
-                  style: {
-                    padding: '4px',
-                    overflow: 'hidden',
-                    '&:not(:last-of-type)': {
-                      borderRight: isDark ? '1px solid #23272f' : '1px solid #cccccc',
-                    },
-                  },
-                },
-                responsiveWrapper: {
-                  style: {
-                    overflowX: 'hidden',
-                  },
-                },
-                tableWrapper: {
-                  style: {
-                    display: 'block',
-                  },
-                },
-                rows: {
-                  style: {
-                    minHeight: 'auto',
-                    backgroundColor: 'transparent',
-                    '&:not(:last-of-type)': {
-                      borderBottomColor: isDark ? '#23272f' : '#cccccc',
-                    },
-                  },
-                },
-                table: {
-                  style: {
-                    backgroundColor: 'transparent',
-                  },
-                },
-              }}
               data={allVariables}
               fixedHeader={true}
               fixedHeaderScrollHeight="440px"
