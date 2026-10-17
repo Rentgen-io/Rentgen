@@ -47,14 +47,14 @@ export async function sendAiChatRequest(
   messages: AiMessage[],
   responseFormat?: Record<string, unknown>,
 ): Promise<AiChatResult> {
-  const { apiKey, baseUrl, id, model, path } = provider;
+  const { apiKey, baseUrl, model, path, type } = provider;
   if (!baseUrl || !path || !model) return { ok: false, error: i18n.t('ai.baseUrlAndModelRequired') };
 
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
   const body: HttpBody = { model, messages, stream: false, response_format: responseFormat };
-  if (id === 'ollama') body.temperature = 0;
+  if (type === 'ollama') body.temperature = 0;
 
   try {
     const response = await sendHttp({

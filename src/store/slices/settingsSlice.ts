@@ -102,13 +102,19 @@ export const settingsSlice = createSlice({
       applyTheme(state);
     },
     setAiProvider: (state, action: PayloadAction<AiProvider>) => {
-      state.ai.providers.forEach((provider) => {
-        if (provider.id !== action.payload.id) provider.active = false;
-      });
+      if (state.ai.providers.length === 0) action.payload.active = true;
 
       const index = state.ai.providers.findIndex((provider) => provider.id === action.payload.id);
       if (index !== -1) state.ai.providers[index] = action.payload;
       else state.ai.providers.push(action.payload);
+    },
+    setActiveAiProvider: (state, action: PayloadAction<string>) => {
+      state.ai.providers.forEach((provider) => {
+        provider.active = provider.id === action.payload;
+      });
+    },
+    deleteAiProvider: (state, action: PayloadAction<string>) => {
+      state.ai.providers = state.ai.providers.filter((provider) => provider.id !== action.payload);
     },
   },
   extraReducers: (builder) => {

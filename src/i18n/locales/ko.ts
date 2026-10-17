@@ -40,6 +40,7 @@ const ko = {
     imported: '가져왔습니다',
     certificated: '인증되었습니다',
     duplicate: '복제',
+    add: '추가',
   },
 
   // Sidebar
@@ -282,12 +283,13 @@ const ko = {
       alreadyHaveSerialNumber: '이미 시리얼 번호가 있습니다',
       connectTitle: 'AI 제공업체 연결',
       connectDescription: 'Rentgen은 이 기기에서 직접 요청을 보냅니다.',
+      provider: '제공자',
       baseUrl: '기본 URL',
       model: '모델',
       path: '경로',
       apiKey: 'API 키',
       apiKeyStorageNotice: 'API 키는 로컬에 저장됩니다. Rentgen은 이를 수신하지 않습니다.',
-      howToRunOllamaLocally: 'Ollama를 로컬에서 실행하는 방법',
+      howToRunOllamaLocally: 'Ollama를 로컬에서 실행하는 방법은?',
     },
     cli: {
       name: 'CLI',

@@ -40,6 +40,7 @@ const ja = {
     imported: 'インポートしました',
     certificated: '証明書を発行しました',
     duplicate: '複製',
+    add: '追加',
   },
 
   // Sidebar
@@ -284,12 +285,13 @@ const ja = {
       alreadyHaveSerialNumber: 'シリアル番号をすでに持っています',
       connectTitle: 'AIプロバイダーを接続',
       connectDescription: 'Rentgenはこのデバイスから直接リクエストを送信します。',
+      provider: 'プロバイダー',
       baseUrl: 'ベースURL',
       model: 'モデル',
       path: 'パス',
       apiKey: 'APIキー',
       apiKeyStorageNotice: 'APIキーはローカルに保存されます。Rentgenが受け取ることはありません。',
-      howToRunOllamaLocally: 'Ollamaをローカルで実行する方法',
+      howToRunOllamaLocally: 'Ollamaをローカルで実行するには？',
     },
     cli: {
       name: 'CLI',

@@ -40,7 +40,7 @@ export function ThemeSettings() {
               'border-transparent': value !== theme,
             })}
           />
-          <span className="flex items-center gap-2 text-sm cursor-pointer">
+          <span className="flex items-center gap-2 text-xs cursor-pointer">
             <input
               className="m-0"
               type="radio"

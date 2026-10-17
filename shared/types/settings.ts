@@ -26,16 +26,17 @@ export type Language = (typeof LANGUAGES)[number]['code'];
 
 export type HistoryRetention = '1w' | '1m' | '3m' | '6m' | '1y' | 'none';
 
-export type AiProviderId = 'ollama' | 'openai' | 'openai-compatible';
+export type AiProviderType = 'ollama' | 'openai' | 'openai-compatible';
 
 export type AiProvider = {
-  id: AiProviderId;
-  name: string;
+  apiKey: string;
   active: boolean;
   baseUrl: string;
+  id: string;
   model: string;
+  name: string;
   path: string;
-  apiKey: string;
+  type: AiProviderType;
 };
 
 export interface SettingsState {

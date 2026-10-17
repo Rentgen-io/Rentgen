@@ -29,9 +29,9 @@ import {
   postmanHeadersToRecord,
 } from 'src/utils';
 
-import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 import EditIcon from 'src/assets/icons/edit-icon.svg';
 import PlayIcon from 'src/assets/icons/play-icon.svg';
+import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 interface Props {
   item: CollectionItemData;
@@ -169,7 +169,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
           <span className="flex-1 text-xs truncate" title={item.name}>
             {searchTerm ? <SearchHighlighter text={item.name} term={searchTerm} /> : item.name}
           </span>
-          <div className="absolute top-0 bottom-0 right-0 pl-2 pr-3 flex items-center gap-2 bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100">
+          <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100">
             <PlayIcon
               className={cn('h-4 w-4 text-green-500 hover:text-green-600', {
                 'cursor-pointer': runningRequestId !== item.id,
@@ -186,8 +186,8 @@ export default function CollectionItem({ item, searchTerm }: Props) {
               className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-primary cursor-pointer"
               onClick={() => setIsEditing(true)}
             />
-            <ClearCrossIcon
-              className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+            <TrashIcon
+              className="h-3 w-3 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
               onClick={(event: MouseEvent) => {
                 event.stopPropagation();
                 dispatch(collectionActions.removeRequest(item.id));

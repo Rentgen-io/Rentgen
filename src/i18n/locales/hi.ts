@@ -40,6 +40,7 @@ const hi = {
     imported: 'आयात किया गया',
     certificated: 'सर्टिफाइड',
     duplicate: 'डुप्लिकेट करें',
+    add: 'जोड़ें',
   },
 
   // Sidebar
@@ -282,12 +283,13 @@ const hi = {
       alreadyHaveSerialNumber: 'मेरे पास पहले से सीरियल नंबर है',
       connectTitle: 'AI प्रदाता कनेक्ट करें',
       connectDescription: 'Rentgen अनुरोध सीधे इसी डिवाइस से भेजता है।',
+      provider: 'प्रदाता',
       baseUrl: 'बेस URL',
       model: 'मॉडल',
       path: 'पाथ',
       apiKey: 'API कुंजी',
       apiKeyStorageNotice: 'API कुंजियाँ स्थानीय रूप से संग्रहीत होती हैं। Rentgen उन्हें प्राप्त नहीं करता।',
-      howToRunOllamaLocally: 'Ollama को स्थानीय रूप से कैसे चलाएँ',
+      howToRunOllamaLocally: 'Ollama को स्थानीय रूप से कैसे चलाएँ?',
     },
     cli: {
       name: 'CLI',

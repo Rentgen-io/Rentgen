@@ -40,6 +40,7 @@ const id = {
     imported: 'Terimpor',
     certificated: 'Tersertifikasi',
     duplicate: 'Duplikat',
+    add: 'Tambah',
   },
 
   // Sidebar
@@ -282,12 +283,13 @@ const id = {
       alreadyHaveSerialNumber: 'Saya sudah punya nomor seri',
       connectTitle: 'Hubungkan penyedia AI',
       connectDescription: 'Rentgen mengirim permintaan langsung dari perangkat ini.',
+      provider: 'Penyedia',
       baseUrl: 'URL dasar',
       model: 'Model',
       path: 'Jalur',
       apiKey: 'Kunci API',
       apiKeyStorageNotice: 'Kunci API disimpan secara lokal. Rentgen tidak menerimanya.',
-      howToRunOllamaLocally: 'Cara menjalankan Ollama secara lokal',
+      howToRunOllamaLocally: 'Cara menjalankan Ollama secara lokal?',
     },
     cli: {
       name: 'CLI',

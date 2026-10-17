@@ -40,6 +40,7 @@ const fr = {
     imported: 'Importé',
     certificated: 'Certifié',
     duplicate: 'Dupliquer',
+    add: 'Ajouter',
   },
 
   // Sidebar
@@ -285,12 +286,13 @@ const fr = {
       alreadyHaveSerialNumber: "J'ai déjà un numéro de série",
       connectTitle: 'Connecter un fournisseur IA',
       connectDescription: 'Rentgen envoie les requêtes directement depuis cet appareil.',
+      provider: 'Fournisseur',
       baseUrl: 'URL de base',
       model: 'Modèle',
       path: 'Chemin',
       apiKey: 'Clé API',
       apiKeyStorageNotice: 'Les clés API sont stockées localement. Rentgen ne les reçoit pas.',
-      howToRunOllamaLocally: 'Comment exécuter Ollama en local',
+      howToRunOllamaLocally: 'Comment exécuter Ollama en local ?',
     },
     cli: {
       name: 'CLI',

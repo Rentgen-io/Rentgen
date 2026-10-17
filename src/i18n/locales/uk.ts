@@ -40,6 +40,7 @@ const uk = {
     imported: 'Імпортовано',
     certificated: 'Сертифіковано',
     duplicate: 'Дублювати',
+    add: 'Додати',
   },
 
   // Sidebar
@@ -282,12 +283,13 @@ const uk = {
       alreadyHaveSerialNumber: 'У мене вже є серійний номер',
       connectTitle: 'Підключити ШІ-провайдера',
       connectDescription: 'Rentgen надсилає запити безпосередньо з цього пристрою.',
+      provider: 'Провайдер',
       baseUrl: 'Базовий URL',
       model: 'Модель',
       path: 'Шлях',
       apiKey: 'API-ключ',
       apiKeyStorageNotice: 'API-ключі зберігаються локально. Rentgen їх не отримує.',
-      howToRunOllamaLocally: 'Як запустити Ollama локально',
+      howToRunOllamaLocally: 'Як запустити Ollama локально?',
     },
     cli: {
       name: 'CLI',

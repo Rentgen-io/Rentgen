@@ -7,7 +7,7 @@ import { HistoryEntry } from 'src/types';
 import SideBarSearch from '../SidebarSearch';
 import HistoryDateGroup from './HistoryDateGroup';
 
-import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
+import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 interface DateGroup {
   label: string;
@@ -87,8 +87,8 @@ export default function HistoryPanel() {
       <div className="h-9 shrink-0 flex items-center justify-between gap-2 px-3 py-2 border-b border-border dark:border-dark-border box-border">
         <span className="text-xs text-text-secondary dark:text-dark-text-secondary">{t('history.title')}</span>
         {entries.length > 0 && (
-          <ClearCrossIcon
-            className="h-4 w-4 text-text-secondary dark:text-dark-text-secondary hover:text-button-danger cursor-pointer"
+          <TrashIcon
+            className="h-3 w-3 text-text-secondary dark:text-dark-text-secondary hover:text-button-danger cursor-pointer"
             onClick={() => dispatch(historyActions.clearHistory())}
             title={t('history.clearAll')}
           />

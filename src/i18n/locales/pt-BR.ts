@@ -40,6 +40,7 @@ const ptBR = {
     imported: 'Importado',
     certificated: 'Certificado',
     duplicate: 'Duplicar',
+    add: 'Adicionar',
   },
 
   // Sidebar
@@ -285,12 +286,13 @@ const ptBR = {
       alreadyHaveSerialNumber: 'Já tenho um número de série',
       connectTitle: 'Conectar um provedor de IA',
       connectDescription: 'O Rentgen envia as requisições diretamente deste dispositivo.',
+      provider: 'Provedor',
       baseUrl: 'URL base',
       model: 'Modelo',
       path: 'Caminho',
       apiKey: 'Chave de API',
       apiKeyStorageNotice: 'As chaves de API são armazenadas localmente. O Rentgen não as recebe.',
-      howToRunOllamaLocally: 'Como executar o Ollama localmente',
+      howToRunOllamaLocally: 'Como executar o Ollama localmente?',
     },
     cli: {
       name: 'CLI',

@@ -174,7 +174,7 @@ export default function CollectionsPanel() {
     <>
       <div className="h-9 shrink-0 flex items-center justify-between gap-2 border-b border-border dark:border-dark-border box-border">
         <div
-          className="flex items-center gap-2 w-full px-3 py-2 hover:bg-button-secondary dark:hover:bg-dark-input cursor-pointer outline-none"
+          className="h-full flex items-center gap-2 w-full px-3 py-2 hover:bg-button-secondary dark:hover:bg-dark-input box-border cursor-pointer outline-none"
           onClick={() => dispatch(collectionActions.addFolder('New Folder'))}
           title={t('collections.newFolder')}
         >
@@ -183,7 +183,7 @@ export default function CollectionsPanel() {
             {t('collections.newFolder')}
           </span>
         </div>
-        <div className="flex items-center gap-1 pe-2">
+        <div className="flex items-center gap-2 pr-2">
           <ImportIcon
             className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary hover:text-button-primary cursor-pointer"
             onClick={handleImport}

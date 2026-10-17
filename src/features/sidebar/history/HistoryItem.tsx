@@ -11,7 +11,7 @@ import { requestActions } from 'src/store/slices/requestSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { HistoryEntry } from 'src/types';
 
-import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
+import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 interface Props {
   entry: HistoryEntry;
@@ -59,9 +59,9 @@ export default function HistoryItem({ entry, searchTerm }: Props) {
         {searchTerm ? <SearchHighlighter text={displayUrl} term={searchTerm} /> : displayUrl}
       </span>
       <span className="text-xs text-text-secondary dark:text-dark-text-secondary shrink-0">{time}</span>
-      <div className="absolute top-0 bottom-0 right-0 pl-2 pr-3 flex items-center bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100">
-        <ClearCrossIcon
-          className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+      <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100">
+        <TrashIcon
+          className="h-3 w-3 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
           onClick={(event: MouseEvent) => {
             event.stopPropagation();
             dispatch(historyActions.removeEntry(entry.id));

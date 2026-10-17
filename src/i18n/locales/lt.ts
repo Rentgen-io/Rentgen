@@ -40,6 +40,7 @@ const lt = {
     imported: 'Importuota',
     certificated: 'Sertifikuota',
     duplicate: 'Dubliuoti',
+    add: 'Pridėti',
   },
 
   // Sidebar
@@ -282,12 +283,13 @@ const lt = {
       alreadyHaveSerialNumber: 'Jau turiu serijos numerį',
       connectTitle: 'Prijungti DI tiekėją',
       connectDescription: 'Rentgen siunčia užklausas tiesiai iš šio įrenginio.',
+      provider: 'Tiekėjas',
       baseUrl: 'Bazinis URL',
       model: 'Modelis',
       path: 'Kelias',
       apiKey: 'API raktas',
       apiKeyStorageNotice: 'API raktai saugomi vietiniame įrenginyje. Rentgen jų negauna.',
-      howToRunOllamaLocally: 'Kaip paleisti Ollama vietoje',
+      howToRunOllamaLocally: 'Kaip paleisti Ollama vietoje?',
     },
     cli: {
       name: 'CLI',

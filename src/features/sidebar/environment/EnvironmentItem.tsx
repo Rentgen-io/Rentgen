@@ -7,7 +7,7 @@ import { selectSelectedEnvironmentId } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { Environment } from 'src/types';
 
-import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
+import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 interface Props {
   environment: Environment;
@@ -51,8 +51,8 @@ export default function EnvironmentItem({ environment }: Props) {
     >
       <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: environment.color }} />
       <span className="flex-1 text-xs truncate">{environment.title}</span>
-      <ClearCrossIcon
-        className="h-4 w-4 p-0.5 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+      <TrashIcon
+        className="h-3 w-3 p-0.5 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
         onClick={(e: React.MouseEvent) => {
           e.stopPropagation();
           dispatch(environmentActions.setEnvironmentToDelete(environment.id));

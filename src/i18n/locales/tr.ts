@@ -40,6 +40,7 @@ const tr = {
     imported: 'İçe Aktarıldı',
     certificated: 'Sertifikalandı',
     duplicate: 'Çoğalt',
+    add: 'Ekle',
   },
 
   // Sidebar
@@ -283,12 +284,13 @@ const tr = {
       alreadyHaveSerialNumber: 'Zaten bir seri numaram var',
       connectTitle: 'Bir YZ sağlayıcısı bağla',
       connectDescription: 'Rentgen istekleri doğrudan bu cihazdan gönderir.',
+      provider: 'Sağlayıcı',
       baseUrl: 'Temel URL',
       model: 'Model',
       path: 'Yol',
       apiKey: 'API anahtarı',
       apiKeyStorageNotice: 'API anahtarları yerel olarak saklanır. Rentgen bunları almaz.',
-      howToRunOllamaLocally: 'Ollama yerel olarak nasıl çalıştırılır',
+      howToRunOllamaLocally: 'Ollama yerel olarak nasıl çalıştırılır?',
     },
     cli: {
       name: 'CLI',

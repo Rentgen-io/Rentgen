@@ -40,6 +40,7 @@ const vi = {
     imported: 'Đã nhập',
     certificated: 'Đã chứng nhận',
     duplicate: 'Nhân bản',
+    add: 'Thêm',
   },
 
   // Sidebar
@@ -283,12 +284,13 @@ const vi = {
       alreadyHaveSerialNumber: 'Tôi đã có số sê-ri',
       connectTitle: 'Kết nối nhà cung cấp AI',
       connectDescription: 'Rentgen gửi yêu cầu trực tiếp từ thiết bị này.',
+      provider: 'Nhà cung cấp',
       baseUrl: 'URL cơ sở',
       model: 'Mô hình',
       path: 'Đường dẫn',
       apiKey: 'Khóa API',
       apiKeyStorageNotice: 'Khóa API được lưu cục bộ. Rentgen không nhận chúng.',
-      howToRunOllamaLocally: 'Cách chạy Ollama cục bộ',
+      howToRunOllamaLocally: 'Cách chạy Ollama cục bộ?',
     },
     cli: {
       name: 'CLI',

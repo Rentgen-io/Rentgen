@@ -40,6 +40,7 @@ const th = {
     imported: 'นำเข้าแล้ว',
     certificated: 'รับรองแล้ว',
     duplicate: 'ทำสำเนา',
+    add: 'เพิ่ม',
   },
 
   // Sidebar
@@ -282,12 +283,13 @@ const th = {
       alreadyHaveSerialNumber: 'ฉันมีหมายเลขซีเรียลอยู่แล้ว',
       connectTitle: 'เชื่อมต่อผู้ให้บริการ AI',
       connectDescription: 'Rentgen ส่งคำขอโดยตรงจากอุปกรณ์นี้',
+      provider: 'ผู้ให้บริการ',
       baseUrl: 'Base URL',
       model: 'โมเดล',
       path: 'พาธ',
       apiKey: 'คีย์ API',
       apiKeyStorageNotice: 'คีย์ API ถูกจัดเก็บไว้ในเครื่อง Rentgen ไม่ได้รับคีย์เหล่านี้',
-      howToRunOllamaLocally: 'วิธีรัน Ollama บนเครื่อง',
+      howToRunOllamaLocally: 'วิธีรัน Ollama บนเครื่อง?',
     },
     cli: {
       name: 'CLI',

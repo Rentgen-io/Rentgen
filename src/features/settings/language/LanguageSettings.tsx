@@ -20,7 +20,7 @@ export function LanguageSettings() {
   return (
     <div className="flex flex-col gap-4">
       <p className="m-0 text-xs text-text-secondary">{t('settings.languageSection.description')}</p>
-      <div className="grid sm:grid-cols-2 border border-border dark:border-dark-border overflow-hidden">
+      <div className="grid sm:grid-cols-2 border border-border dark:border-dark-border">
         {LANGUAGES.map(({ label, code }, index) => (
           <label
             key={code}
@@ -40,18 +40,18 @@ export function LanguageSettings() {
               checked={code === language}
               onChange={() => onLanguageChange(code)}
             />
-            <span className="text-sm">{label}</span>
+            <span className="text-xs">{label}</span>
           </label>
         ))}
       </div>
       <p className="m-0 text-xs text-text-secondary">
         {t('settings.languageSection.feedback')}{' '}
-        <a
+        <span
           className="text-button-primary hover:underline cursor-pointer"
           onClick={() => openExternal('https://github.com/Rentgen-io/Rentgen/issues/new')}
         >
           {t('settings.languageSection.feedbackLink')}
-        </a>
+        </span>
       </p>
     </div>
   );

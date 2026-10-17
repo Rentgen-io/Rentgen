@@ -3,21 +3,21 @@ import { CSS } from '@dnd-kit/utilities';
 import cn from 'classnames';
 import { useEffect, useMemo, useState } from 'react';
 import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
+import { useContextMenu } from 'src/features/context-menu';
 import { useCollectionRunner } from 'src/hooks/useCollectionRunner';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionRunResults, selectRunningFolderId, selectSelectedFolderId } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { CollectionFolderData } from 'src/utils';
-import { useContextMenu } from 'src/features/context-menu';
 import CollectionItem from './CollectionItem';
 
 import ChevronIcon from 'src/assets/icons/chevron-icon.svg';
-import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 import EditIcon from 'src/assets/icons/edit-icon.svg';
 import FolderIcon from 'src/assets/icons/folder-icon.svg';
 import PlayIcon from 'src/assets/icons/play-icon.svg';
 import StopIcon from 'src/assets/icons/stop-icon.svg';
+import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 interface Props {
   folder: CollectionFolderData;
@@ -191,8 +191,8 @@ export default function CollectionGroup({
           )}
 
           {!isEditing && (
-            <ClearCrossIcon
-              className="h-4 w-4 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer opacity-0 group-hover:opacity-100"
+            <TrashIcon
+              className="h-3 w-3 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer opacity-0 group-hover:opacity-100"
               onClick={handleDeleteClick}
             />
           )}

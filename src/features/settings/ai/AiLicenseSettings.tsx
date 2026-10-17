@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button, { ButtonType } from 'src/components/buttons/Button';
+import { FieldLabel } from 'src/components/inputs/FieldLabel';
 import Input from 'src/components/inputs/Input';
 import { useAppDispatch } from 'src/store/hooks';
 import { settingsActions } from 'src/store/slices/settingsSlice';
@@ -29,10 +30,7 @@ export function AiLicenseSettings() {
         <div className="flex-1 flex flex-col gap-4 p-4">
           <label className="m-0 text-sm font-bold">{t('settings.ai.alreadyHaveSerialNumber')}</label>
           <div className="flex-auto flex flex-col gap-2">
-            <span className="text-xs">
-              {t('settings.ai.serialNumber')}
-              <span className="text-red-500 ml-1">*</span>
-            </span>
+            <FieldLabel label={t('settings.ai.serialNumber')} required />
             <Input placeholder="RG-AI-XXXX-XXXX-XXXX" onChange={(e) => setSerialNumber(e.target.value)} />
           </div>
           <Button

@@ -40,6 +40,7 @@ const zhCN = {
     imported: '已导入',
     certificated: '已生成证书',
     duplicate: '创建副本',
+    add: '添加',
   },
 
   // Sidebar
@@ -280,12 +281,13 @@ const zhCN = {
       alreadyHaveSerialNumber: '我已有序列号',
       connectTitle: '连接 AI 提供商',
       connectDescription: 'Rentgen 直接从本设备发送请求。',
+      provider: '提供商',
       baseUrl: '基础 URL',
       model: '模型',
       path: '路径',
       apiKey: 'API 密钥',
       apiKeyStorageNotice: 'API 密钥仅保存在本地，Rentgen 不会接收它们。',
-      howToRunOllamaLocally: '如何在本地运行 Ollama',
+      howToRunOllamaLocally: '如何在本地运行 Ollama？',
     },
     cli: {
       name: 'CLI',

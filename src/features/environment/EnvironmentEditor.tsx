@@ -13,7 +13,7 @@ import { DataType, DynamicVariable, Environment, EnvironmentVariable } from 'src
 import { generateEnvironmentId } from 'src/utils';
 import { notify } from 'src/utils/toast';
 
-import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
+import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 const COLOR_OPTIONS = ['#EF4444', '#F97316', '#EAB308', '#22C55E', '#3B82F6', '#8B5CF6', '#EC4899', '#6B7280'];
 
@@ -187,7 +187,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                   name: t('environment.variableName'),
                   width: 'calc(1/3 * 100%)',
                   cell: (row) => (
-                    <div className="flex items-center w-full pr-3 group">
+                    <div className="relative flex items-center w-full group">
                       <Input
                         className="w-full border-0 bg-transparent"
                         placeholder={t('environment.addVariable')}
@@ -200,14 +200,21 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                         }
                       />
                       {row.key && (
-                        <ClearCrossIcon
-                          className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-danger opacity-0 group-hover:opacity-100 cursor-pointer"
-                          onClick={() =>
-                            row.type === 'static'
-                              ? handleVariableChange(row.index, 'key', '')
-                              : handleDynamicVariableKeyChange(row as DynamicVariable, '')
-                          }
-                        />
+                        <div
+                          className={cn(
+                            'absolute top-0 bottom-0 right-0',
+                            'flex items-center gap-2 px-2 bg-white dark:bg-dark-input opacity-0 group-hover:opacity-100',
+                          )}
+                        >
+                          <TrashIcon
+                            className="h-3 w-3 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+                            onClick={() =>
+                              row.type === 'static'
+                                ? handleVariableChange(row.index, 'key', '')
+                                : handleDynamicVariableKeyChange(row as DynamicVariable, '')
+                            }
+                          />
+                        </div>
                       )}
                     </div>
                   ),

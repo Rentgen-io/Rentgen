@@ -40,6 +40,7 @@ const nl = {
     imported: 'Geïmporteerd',
     certificated: 'Gecertificeerd',
     duplicate: 'Dupliceren',
+    add: 'Toevoegen',
   },
 
   // Sidebar
@@ -284,12 +285,13 @@ const nl = {
       alreadyHaveSerialNumber: 'Ik heb al een serienummer',
       connectTitle: 'Een AI-provider verbinden',
       connectDescription: 'Rentgen verstuurt verzoeken rechtstreeks vanaf dit apparaat.',
+      provider: 'Provider',
       baseUrl: 'Basis-URL',
       model: 'Model',
       path: 'Pad',
       apiKey: 'API-sleutel',
       apiKeyStorageNotice: 'API-sleutels worden lokaal opgeslagen. Rentgen ontvangt ze niet.',
-      howToRunOllamaLocally: 'Hoe je Ollama lokaal uitvoert',
+      howToRunOllamaLocally: 'Hoe voer je Ollama lokaal uit?',
     },
     cli: {
       name: 'CLI',
