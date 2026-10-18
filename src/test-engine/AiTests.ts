@@ -13,6 +13,9 @@ import {
   determineTestStatus,
   SUCCESS_RESPONSE_EXPECTED,
 } from '.';
+import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
+
+let activeController: AbortController | null = null;
 
 const SYSTEM_PROMPT = `You are Rentgen's API test coverage analyst.
 
@@ -312,7 +315,16 @@ export class AiTests extends BaseTests {
     this.aiProvider = aiProvider;
   }
 
+  public override abort(): void {
+    super.abort();
+    activeController?.abort();
+  }
+
   public async run(): Promise<TestResult[]> {
+    activeController?.abort();
+    const controller = new AbortController();
+    activeController = controller;
+
     const { body, bodyParameters, headers, method, queryParameters, url } = this.options;
     const response = await sendAiChatRequest(
       this.aiProvider,
@@ -328,10 +340,15 @@ export class AiTests extends BaseTests {
         },
       ],
       RESPONSE_FORMAT,
+      controller.signal,
     );
 
     if (!response?.ok) {
-      notify.error(response.error, { toastId: 'error-generate-ai-tests' });
+      if (response.error !== RESPONSE_STATUS_LABEL.ABORTED)
+        notify.error(response.error, { toastId: 'error-generate-ai-tests' });
+
+      notify.success(i18n.t('common.cancelled'), { toastId: 'success-generate-ai-tests' });
+
       return [];
     }
 

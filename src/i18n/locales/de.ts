@@ -5,6 +5,7 @@ const de = {
     save: 'Speichern',
     saved: 'Gespeichert',
     cancel: 'Abbrechen',
+    cancelled: 'Abgebrochen',
     close: 'Schließen',
     ok: 'OK',
     create: 'Erstellen',

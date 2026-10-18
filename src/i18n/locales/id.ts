@@ -5,6 +5,7 @@ const id = {
     save: 'Simpan',
     saved: 'Tersimpan',
     cancel: 'Batal',
+    cancelled: 'Dibatalkan',
     close: 'Tutup',
     ok: 'OK',
     create: 'Buat',

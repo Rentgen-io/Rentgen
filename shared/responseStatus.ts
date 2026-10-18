@@ -19,8 +19,9 @@ export const RESPONSE_STATUS = {
 
 // Pseudo-statuses written into the response slice while a request is in flight or failed before a status existed.
 export const RESPONSE_STATUS_LABEL = {
-  SENDING: 'Sending...',
+  ABORTED: 'Aborted',
   NETWORK_ERROR: 'Network Error',
+  SENDING: 'Sending...',
 } as const;
 
 type ResponseStatusValue = (typeof RESPONSE_STATUS)[keyof typeof RESPONSE_STATUS];

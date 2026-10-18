@@ -5,6 +5,7 @@ const lt = {
     save: 'Išsaugoti',
     saved: 'Išsaugota',
     cancel: 'Atšaukti',
+    cancelled: 'Atšaukta',
     close: 'Uždaryti',
     ok: 'Gerai',
     create: 'Sukurti',

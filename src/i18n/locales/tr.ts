@@ -5,6 +5,7 @@ const tr = {
     save: 'Kaydet',
     saved: 'Kaydedildi',
     cancel: 'İptal',
+    cancelled: 'İptal edildi',
     close: 'Kapat',
     ok: 'Tamam',
     create: 'Oluştur',

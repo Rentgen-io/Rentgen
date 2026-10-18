@@ -9,12 +9,17 @@ import type { SettingsState } from 'shared/types/settings';
 import type { TestResults } from 'shared/types/testing';
 
 interface ElectronApi {
+  abortHttp: (requestId: string) => void;
   connectWss: (payload: any) => void;
   disconnectWss: () => void;
   exportPostmanCollection: (collection: PostmanCollection) => Promise<ExportResult>;
+  exportProject: () => Promise<ProjectExportResult>;
   generateCertificate: (results: TestResults) => Promise<ExportResult>;
   getAppVersion: () => Promise<string>;
+  getCliStatus: () => Promise<CliStatus>;
   importPostmanCollection: () => Promise<ImportResult>;
+  importProject: () => Promise<ProjectImportResult>;
+  installCli: () => Promise<CliActionResult>;
   loadCollection: () => Promise<any>;
   loadEnvironments: () => Promise<any>;
   loadDynamicVariables: () => Promise<any>;
@@ -35,24 +40,25 @@ interface ElectronApi {
   }) => Promise<{ canceled: boolean; filePath?: string; error?: string }>;
   saveMappings: (mappings: MappingsState) => void;
   saveSettings: (settings: SettingsState) => void;
-  sendHttp: (request: HttpRequest) => Promise<HttpResponse>;
+  sendHttp: (request: HttpRequest, requestId?: string) => Promise<HttpResponse>;
   sendWss: (message: string) => void;
-  exportProject: () => Promise<ProjectExportResult>;
-  importProject: () => Promise<ProjectImportResult>;
-  getCliStatus: () => Promise<CliStatus>;
-  installCli: () => Promise<CliActionResult>;
   uninstallCli: () => Promise<CliActionResult>;
 }
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  abortHttp: (requestId: string): void => ipcRenderer.send('http-abort', requestId),
   connectWss: (payload: any): void => ipcRenderer.send('wss-connect', payload),
   disconnectWss: (): void => ipcRenderer.send('wss-disconnect'),
   exportPostmanCollection: (collection: PostmanCollection): Promise<ExportResult> =>
     ipcRenderer.invoke('export-postman-collection', collection),
+  exportProject: (): Promise<ProjectExportResult> => ipcRenderer.invoke('export-project'),
   generateCertificate: (results: TestResults): Promise<ExportResult> =>
     ipcRenderer.invoke('generate-certificate', results),
   getAppVersion: (): Promise<string> => ipcRenderer.invoke('get-app-version'),
+  getCliStatus: (): Promise<CliStatus> => ipcRenderer.invoke('cli-status'),
   importPostmanCollection: (): Promise<ImportResult> => ipcRenderer.invoke('import-postman-collection'),
+  importProject: (): Promise<ProjectImportResult> => ipcRenderer.invoke('import-project'),
+  installCli: (): Promise<CliActionResult> => ipcRenderer.invoke('cli-install'),
   loadCollection: (): Promise<any> => ipcRenderer.invoke('load-collection'),
   loadEnvironments: (): Promise<any> => ipcRenderer.invoke('load-environments'),
   loadDynamicVariables: (): Promise<any> => ipcRenderer.invoke('load-dynamic-variables'),
@@ -80,12 +86,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('save-report', payload),
   saveMappings: (mappings: MappingsState): void => ipcRenderer.send('save-mappings', mappings),
   saveSettings: (settings: SettingsState): void => ipcRenderer.send('save-settings', settings),
-  sendHttp: (request: HttpRequest): Promise<HttpResponse> => ipcRenderer.invoke('http-request', request),
+  sendHttp: (request: HttpRequest, requestId?: string): Promise<HttpResponse> =>
+    ipcRenderer.invoke('http-request', request, requestId),
   sendWss: (message: string): void => ipcRenderer.send('wss-send', message),
-  exportProject: (): Promise<ProjectExportResult> => ipcRenderer.invoke('export-project'),
-  importProject: (): Promise<ProjectImportResult> => ipcRenderer.invoke('import-project'),
-  getCliStatus: (): Promise<CliStatus> => ipcRenderer.invoke('cli-status'),
-  installCli: (): Promise<CliActionResult> => ipcRenderer.invoke('cli-install'),
   uninstallCli: (): Promise<CliActionResult> => ipcRenderer.invoke('cli-uninstall'),
 } as ElectronApi);
 

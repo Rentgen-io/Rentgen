@@ -5,6 +5,7 @@ const fr = {
     save: 'Enregistrer',
     saved: 'Enregistré',
     cancel: 'Annuler',
+    cancelled: 'Annulé',
     close: 'Fermer',
     ok: 'OK',
     create: 'Créer',

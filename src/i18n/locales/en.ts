@@ -5,6 +5,7 @@ const en = {
     save: 'Save',
     saved: 'Saved',
     cancel: 'Cancel',
+    cancelled: 'Cancelled',
     close: 'Close',
     ok: 'OK',
     create: 'Create',

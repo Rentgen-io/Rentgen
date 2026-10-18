@@ -5,6 +5,7 @@ const uk = {
     save: 'Зберегти',
     saved: 'Збережено',
     cancel: 'Скасувати',
+    cancelled: 'Скасовано',
     close: 'Закрити',
     ok: 'OK',
     create: 'Створити',

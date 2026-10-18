@@ -46,6 +46,7 @@ export async function sendAiChatRequest(
   provider: AiProvider,
   messages: AiMessage[],
   responseFormat?: Record<string, unknown>,
+  signal?: AbortSignal,
 ): Promise<AiChatResult> {
   const { apiKey, baseUrl, model, path, type } = provider;
   if (!baseUrl || !path || !model) return { ok: false, error: i18n.t('ai.baseUrlAndModelRequired') };
@@ -57,12 +58,15 @@ export async function sendAiChatRequest(
   if (type === 'ollama') body.temperature = 0;
 
   try {
-    const response = await sendHttp({
-      method: 'POST',
-      url: `${baseUrl}${path}`,
-      headers,
-      body,
-    });
+    const response = await sendHttp(
+      {
+        method: 'POST',
+        url: `${baseUrl}${path}`,
+        headers,
+        body,
+      },
+      signal,
+    );
     const statusCode = extractStatusCode(response);
 
     if (statusCode < 200 || statusCode >= 300)

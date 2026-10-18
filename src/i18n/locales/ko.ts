@@ -5,6 +5,7 @@ const ko = {
     save: '저장',
     saved: '저장됨',
     cancel: '취소',
+    cancelled: '취소됨',
     close: '닫기',
     ok: '확인',
     create: '생성',

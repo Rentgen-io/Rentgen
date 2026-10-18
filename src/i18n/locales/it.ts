@@ -5,6 +5,7 @@ const it = {
     save: 'Salva',
     saved: 'Salvato',
     cancel: 'Annulla',
+    cancelled: 'Annullato',
     close: 'Chiudi',
     ok: 'OK',
     create: 'Crea',

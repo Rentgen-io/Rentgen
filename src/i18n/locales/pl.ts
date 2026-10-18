@@ -5,6 +5,7 @@ const pl = {
     save: 'Zapisz',
     saved: 'Zapisano',
     cancel: 'Anuluj',
+    cancelled: 'Anulowano',
     close: 'Zamknij',
     ok: 'OK',
     create: 'Utwórz',

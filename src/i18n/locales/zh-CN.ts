@@ -5,6 +5,7 @@ const zhCN = {
     save: '保存',
     saved: '已保存',
     cancel: '取消',
+    cancelled: '已取消',
     close: '关闭',
     ok: '确定',
     create: '创建',

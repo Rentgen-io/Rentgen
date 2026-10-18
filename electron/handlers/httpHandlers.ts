@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { exec } from 'child_process';
 import { ipcMain } from 'electron';
+import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import { HttpBody, HttpRequest, HttpResponse } from 'shared/types/http';
 
 function decodeToText(data: unknown): string | null {
@@ -18,9 +19,7 @@ function toBody(data: unknown, contentType: string): HttpBody {
   const text = decodeToText(data);
   if (text === null) {
     if (Array.isArray(data)) return data;
-
     if (typeof data === 'object') return data as Record<string, unknown>;
-
     if (typeof data === 'number' || typeof data === 'boolean') return data;
 
     return String(data);
@@ -35,53 +34,72 @@ function toBody(data: unknown, contentType: string): HttpBody {
   }
 }
 
+const activeRequests = new Map<string, AbortController>();
+
 export function registerHttpHandlers(): void {
-  ipcMain.handle('http-request', async (_event, { url, method, headers, body }: HttpRequest): Promise<HttpResponse> => {
-    const requestStartTime = performance.now();
+  ipcMain.on('http-abort', (_event, requestId: string) => {
+    activeRequests.get(requestId)?.abort();
+  });
 
-    try {
-      const response = await axios({
-        url,
-        method,
-        headers,
-        data: body,
-        maxBodyLength: Infinity,
-        maxContentLength: Infinity,
-        responseType: 'arraybuffer',
-        validateStatus: () => true,
-      });
-      const responseTime = performance.now() - requestStartTime;
-      const contentTypeRaw = response.headers && (response.headers['content-type'] || response.headers['Content-Type']);
-      const contentType = typeof contentTypeRaw === 'string' ? contentTypeRaw : '';
+  ipcMain.handle(
+    'http-request',
+    async (_event, { url, method, headers, body }: HttpRequest, requestId?: string): Promise<HttpResponse> => {
+      const requestStartTime = performance.now();
+      const controller = requestId ? new AbortController() : undefined;
 
-      let responseBody: HttpBody;
+      if (requestId && controller) activeRequests.set(requestId, controller);
 
       try {
-        responseBody = toBody(response.data, contentType);
-      } catch {
-        responseBody = '[unprintable response]';
-      }
+        const response = await axios({
+          url,
+          method,
+          headers,
+          data: body,
+          maxBodyLength: Infinity,
+          maxContentLength: Infinity,
+          responseType: 'arraybuffer',
+          validateStatus: () => true,
+          signal: controller?.signal,
+        });
+        const responseTime = performance.now() - requestStartTime;
+        const contentTypeRaw =
+          response.headers && (response.headers['content-type'] || response.headers['Content-Type']);
+        const contentType = typeof contentTypeRaw === 'string' ? contentTypeRaw : '';
 
-      return {
-        status: `${response.status} ${response.statusText}`,
-        time: responseTime,
-        headers: response.headers as Record<string, string>,
-        body: responseBody,
-      };
-    } catch (error) {
-      const responseTime = performance.now() - requestStartTime;
+        let responseBody: HttpBody;
 
-      if ((error as NodeJS.ErrnoException)?.code === 'EPIPE')
+        try {
+          responseBody = toBody(response.data, contentType);
+        } catch {
+          responseBody = '[unprintable response]';
+        }
+
         return {
-          status: '413 Payload Too Large (EPIPE)',
+          status: `${response.status} ${response.statusText}`,
           time: responseTime,
-          headers: {},
-          body: null,
+          headers: response.headers as Record<string, string>,
+          body: responseBody,
         };
+      } catch (error) {
+        const responseTime = performance.now() - requestStartTime;
 
-      return { status: 'Error', time: responseTime, headers: {}, body: String(error) };
-    }
-  });
+        if (axios.isCancel(error))
+          return { status: RESPONSE_STATUS_LABEL.ABORTED, time: responseTime, headers: {}, body: null };
+
+        if ((error as NodeJS.ErrnoException)?.code === 'EPIPE')
+          return {
+            status: '413 Payload Too Large (EPIPE)',
+            time: responseTime,
+            headers: {},
+            body: null,
+          };
+
+        return { status: 'Error', time: responseTime, headers: {}, body: String(error) };
+      } finally {
+        if (requestId) activeRequests.delete(requestId);
+      }
+    },
+  );
 
   ipcMain.handle('ping-host', async (_, host: string) => {
     return new Promise<number>((resolve, reject) => {

@@ -5,6 +5,7 @@ const hi = {
     save: 'सहेजें',
     saved: 'सहेजा गया',
     cancel: 'रद्द करें',
+    cancelled: 'रद्द किया गया',
     close: 'बंद करें',
     ok: 'ठीक है',
     create: 'बनाएँ',

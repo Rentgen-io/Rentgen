@@ -5,6 +5,7 @@ const ptBR = {
     save: 'Salvar',
     saved: 'Salvo',
     cancel: 'Cancelar',
+    cancelled: 'Cancelado',
     close: 'Fechar',
     ok: 'OK',
     create: 'Criar',

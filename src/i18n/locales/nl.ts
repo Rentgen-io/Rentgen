@@ -5,6 +5,7 @@ const nl = {
     save: 'Opslaan',
     saved: 'Opgeslagen',
     cancel: 'Annuleren',
+    cancelled: 'Geannuleerd',
     close: 'Sluiten',
     ok: 'OK',
     create: 'Aanmaken',

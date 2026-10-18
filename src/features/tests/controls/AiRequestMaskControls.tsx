@@ -33,7 +33,7 @@ interface Props {
 
 export function AiRequestMaskControls({ onCancel }: Props) {
   const { t } = useTranslation();
-  const { isAiRunning, executeAiTestsGeneration } = useTests();
+  const { isAiRunning, cancelAiTestsGeneration, executeAiTestsGeneration } = useTests();
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
   const testOptions = useAppSelector(selectTestOptions);
@@ -107,7 +107,7 @@ export function AiRequestMaskControls({ onCancel }: Props) {
         </div>
       </div>
       <div className="flex flex-col @xl:flex-row @xl:justify-end gap-4 @xl:gap-2">
-        <Button buttonType={ButtonType.SECONDARY} disabled={isAiRunning} onClick={onCancel}>
+        <Button buttonType={ButtonType.SECONDARY} onClick={isAiRunning ? cancelAiTestsGeneration : onCancel}>
           {t('common.cancel')}
         </Button>
         <Button

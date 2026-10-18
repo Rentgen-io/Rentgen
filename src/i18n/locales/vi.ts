@@ -5,6 +5,7 @@ const vi = {
     save: 'Lưu',
     saved: 'Đã lưu',
     cancel: 'Hủy',
+    cancelled: 'Đã hủy',
     close: 'Đóng',
     ok: 'OK',
     create: 'Tạo',

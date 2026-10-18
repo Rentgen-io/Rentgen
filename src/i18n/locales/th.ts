@@ -5,6 +5,7 @@ const th = {
     save: 'บันทึก',
     saved: 'บันทึกแล้ว',
     cancel: 'ยกเลิก',
+    cancelled: 'ยกเลิกแล้ว',
     close: 'ปิด',
     ok: 'ตกลง',
     create: 'สร้าง',

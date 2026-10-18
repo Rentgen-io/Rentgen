@@ -5,6 +5,7 @@ const ja = {
     save: '保存',
     saved: '保存しました',
     cancel: 'キャンセル',
+    cancelled: 'キャンセルしました',
     close: '閉じる',
     ok: 'OK',
     create: '作成',
