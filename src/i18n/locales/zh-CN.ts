@@ -515,6 +515,8 @@ const zhCN = {
     baseUrlAndModelRequired: '基础 URL 和模型为必填项。',
     unexpectedResponse: '来自 AI 提供方的意外响应。',
     noTestsGenerated: 'AI 未生成任何测试。',
+    responseTimeout: '5 分钟内未收到完整的 AI 响应',
+    waitingForResponse: '正在等待 AI 响应（<timer /> 后超时）',
   },
 };
 

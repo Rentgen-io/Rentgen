@@ -520,6 +520,8 @@ const id = {
     baseUrlAndModelRequired: 'URL dasar dan model wajib diisi.',
     unexpectedResponse: 'Respons tidak terduga dari penyedia AI.',
     noTestsGenerated: 'AI tidak menghasilkan tes apa pun.',
+    responseTimeout: 'Tidak ada respons AI lengkap yang diterima dalam 5 menit',
+    waitingForResponse: 'Menunggu respons AI (waktu habis dalam <timer />)',
   },
 };
 

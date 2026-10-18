@@ -1,4 +1,5 @@
 import { Method } from 'axios';
+import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import { sendAiChatRequest } from 'src/api/ai';
 import { sendHttp } from 'src/api/network';
 import i18n from 'src/i18n';
@@ -13,9 +14,11 @@ import {
   determineTestStatus,
   SUCCESS_RESPONSE_EXPECTED,
 } from '.';
-import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 
 let activeController: AbortController | null = null;
+let aiResponseTimeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
+
+export const AI_RESPONSE_TIMEOUT_MS = 5 * 60 * 1000;
 
 const SYSTEM_PROMPT = `You are Rentgen's API test coverage analyst.
 
@@ -321,9 +324,18 @@ export class AiTests extends BaseTests {
   }
 
   public async run(): Promise<TestResult[]> {
+    clearTimeout(aiResponseTimeoutId);
+
     activeController?.abort();
     const controller = new AbortController();
     activeController = controller;
+
+    let timedOut = false;
+
+    aiResponseTimeoutId = setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+    }, AI_RESPONSE_TIMEOUT_MS);
 
     const { body, bodyParameters, headers, method, queryParameters, url } = this.options;
     const response = await sendAiChatRequest(
@@ -343,11 +355,17 @@ export class AiTests extends BaseTests {
       controller.signal,
     );
 
+    clearTimeout(aiResponseTimeoutId);
+
+    if (timedOut) {
+      notify.error(i18n.t('ai.responseTimeout'), { toastId: 'error-generate-ai-tests' });
+      return [];
+    }
+
     if (!response?.ok) {
       if (response.error !== RESPONSE_STATUS_LABEL.ABORTED)
         notify.error(response.error, { toastId: 'error-generate-ai-tests' });
-
-      notify.success(i18n.t('common.cancelled'), { toastId: 'success-generate-ai-tests' });
+      else notify.success(i18n.t('common.cancelled'), { toastId: 'success-generate-ai-tests' });
 
       return [];
     }
@@ -367,6 +385,7 @@ export class AiTests extends BaseTests {
         body: tryParseJsonObject(request?.body),
       }),
     );
+
     if (aiTests.length === 0) {
       notify.warning(i18n.t('ai.noTestsGenerated'), { toastId: 'warning-generate-ai-tests' });
       return [];

@@ -14,7 +14,8 @@ export const selectCurrentTest = (state: RootState) => state.tests.currentTest;
 export const selectTestsCount = (state: RootState) => state.tests.count;
 export const selectTestsTimestamp = (state: RootState) => state.tests.timestamp;
 
-export const selectIsAiRunning = (state: RootState) => state.tests.isAiRunning;
+export const selectAiRunStartedAt = (state: RootState) => state.tests.aiRunStartedAt;
+
 export const selectIsDataDrivenRunning = (state: RootState) => state.tests.isDataDrivenRunning;
 export const selectIsSecurityRunning = (state: RootState) => state.tests.isSecurityRunning;
 export const selectIsPerformanceRunning = (state: RootState) => state.tests.isPerformanceRunning;

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -38,10 +38,6 @@ export function useSaveRequest() {
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const testResults = useAppSelector(selectCurrentTestResults);
   const disabled = useAppSelector(selectIsRequestDisabled);
-
-  const savedTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  useEffect(() => () => clearTimeout(savedTimeout.current), []);
 
   const saveRequest = useCallback(
     (duplicate = false) => {

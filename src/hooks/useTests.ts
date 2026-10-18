@@ -4,13 +4,13 @@ import { getDatasets } from 'src/constants/datasets';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectActiveAiProvider,
+  selectAiRunStartedAt,
   selectAiTests,
   selectCrudTests,
   selectCurrentTest,
   selectDataDrivenTests,
   selectDisabledPerformanceInsights,
   selectDisabledSecurityTests,
-  selectIsAiRunning,
   selectIsDataDrivenRunning,
   selectIsLargePayloadTestRunning,
   selectIsLoadTestRunning,
@@ -61,7 +61,8 @@ const useTests = () => {
   const performanceTests = useAppSelector(selectPerformanceTests);
   const securityTests = useAppSelector(selectSecurityTests);
 
-  const isAiRunning = useAppSelector(selectIsAiRunning);
+  const aiRunStartedAt = useAppSelector(selectAiRunStartedAt);
+
   const isDataDrivenRunning = useAppSelector(selectIsDataDrivenRunning);
   const isLargePayloadTestRunning = useAppSelector(selectIsLargePayloadTestRunning);
   const isLoadTestRunning = useAppSelector(selectIsLoadTestRunning);
@@ -369,11 +370,11 @@ const useTests = () => {
   }, [dispatch]);
 
   return {
+    aiRunStartedAt,
     aiTests,
     crudTests,
     currentTest,
     dataDrivenTests,
-    isAiRunning,
     isDataDrivenRunning,
     isLargePayloadTestRunning,
     isLoadTestRunning,

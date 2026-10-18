@@ -520,6 +520,8 @@ const hi = {
     baseUrlAndModelRequired: 'बेस URL और मॉडल आवश्यक हैं।',
     unexpectedResponse: 'AI प्रदाता से अप्रत्याशित प्रतिक्रिया।',
     noTestsGenerated: 'AI ने कोई टेस्ट जनरेट नहीं किया।',
+    responseTimeout: '5 मिनट के भीतर कोई पूर्ण AI प्रतिक्रिया प्राप्त नहीं हुई',
+    waitingForResponse: 'AI प्रतिक्रिया की प्रतीक्षा की जा रही है (<timer /> में समय समाप्त)',
   },
 };
 

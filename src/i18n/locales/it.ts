@@ -527,6 +527,8 @@ const it = {
     baseUrlAndModelRequired: "L'URL di base e il modello sono obbligatori.",
     unexpectedResponse: 'Risposta imprevista dal provider AI.',
     noTestsGenerated: "L'AI non ha generato alcun test.",
+    responseTimeout: "Nessuna risposta completa dall'AI ricevuta entro 5 minuti",
+    waitingForResponse: "In attesa della risposta dell'AI (scade tra <timer />)",
   },
 };
 

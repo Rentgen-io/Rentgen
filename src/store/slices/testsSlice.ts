@@ -2,8 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HttpResponse, TestOptions, TestResult, TestResults } from 'src/types';
 
 interface TestState extends TestResults {
+  aiRunStartedAt?: number;
+
   // Running states
-  isAiRunning: boolean;
   isDataDrivenRunning: boolean;
   isLargePayloadTestRunning: boolean;
   isLoadTestRunning: boolean;
@@ -33,7 +34,7 @@ const initialState: TestState = {
   dataDrivenTests: [],
   performanceTests: [],
   securityTests: [],
-  isAiRunning: false,
+  aiRunStartedAt: undefined,
   isDataDrivenRunning: false,
   isLargePayloadTestRunning: false,
   isLoadTestRunning: false,
@@ -83,7 +84,7 @@ export const testsSlice = createSlice({
       else state.runningAiTests[action.payload.id] = action.payload.isRunning;
     },
     setAiRunning: (state, action: PayloadAction<boolean>) => {
-      state.isAiRunning = action.payload;
+      state.aiRunStartedAt = action.payload ? Date.now() : undefined;
     },
     // Security tests
     setSecurityRunning: (state, action: PayloadAction<boolean>) => {
@@ -142,7 +143,7 @@ export const testsSlice = createSlice({
       state.dataDrivenTests = [];
       state.performanceTests = [];
       state.securityTests = [];
-      state.isAiRunning = false;
+      state.aiRunStartedAt = undefined;
       state.isDataDrivenRunning = false;
       state.isLargePayloadTestRunning = false;
       state.isLoadTestRunning = false;

@@ -525,6 +525,8 @@ const tr = {
     baseUrlAndModelRequired: 'Temel URL ve model gereklidir.',
     unexpectedResponse: 'Yapay zekâ sağlayıcısından beklenmeyen yanıt.',
     noTestsGenerated: 'Yapay zekâ hiçbir test oluşturmadı.',
+    responseTimeout: '5 dakika içinde tam bir yapay zekâ yanıtı alınamadı',
+    waitingForResponse: 'Yapay zekâ yanıtı bekleniyor (<timer /> içinde zaman aşımı)',
   },
 };
 

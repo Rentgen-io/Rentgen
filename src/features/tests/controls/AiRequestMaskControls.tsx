@@ -1,13 +1,15 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Toggle from 'src/components/inputs/Toggle';
 import Loader from 'src/components/loaders/Loader';
+import Timer from 'src/components/timers/Timer';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import useTests from 'src/hooks/useTests';
 import { useAppSelector } from 'src/store/hooks';
 import { selectActiveAiProvider, selectTestOptions } from 'src/store/selectors';
 import { SENSITIVE_HEADERS } from 'src/test-engine';
+import { AI_RESPONSE_TIMEOUT_MS } from 'src/test-engine/AiTests';
 import { HttpBody, TestOptions } from 'src/types';
 import {
   convertFormEntriesToUrlEncoded,
@@ -33,7 +35,7 @@ interface Props {
 
 export function AiRequestMaskControls({ onCancel }: Props) {
   const { t } = useTranslation();
-  const { isAiRunning, cancelAiTestsGeneration, executeAiTestsGeneration } = useTests();
+  const { aiRunStartedAt, cancelAiTestsGeneration, executeAiTestsGeneration } = useTests();
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
   const testOptions = useAppSelector(selectTestOptions);
@@ -58,6 +60,8 @@ export function AiRequestMaskControls({ onCancel }: Props) {
       return nextMasked;
     });
   }, []);
+
+  const isAiRunning = Boolean(aiRunStartedAt);
 
   return (
     <div className="flex flex-col gap-4 text-left">
@@ -122,6 +126,22 @@ export function AiRequestMaskControls({ onCancel }: Props) {
           )}
         </Button>
       </div>
+      {isAiRunning && (
+        <div className="text-right text-xs text-text-secondary">
+          <Trans
+            i18nKey="ai.waitingForResponse"
+            components={{
+              timer: (
+                <Timer
+                  className="font-bold text-text dark:text-dark-text"
+                  startedAt={aiRunStartedAt}
+                  timeoutMs={AI_RESPONSE_TIMEOUT_MS}
+                />
+              ),
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
