@@ -523,7 +523,7 @@ const ru = {
     baseUrlAndModelRequired: 'Базовый URL и модель обязательны.',
     unexpectedResponse: 'Неожиданный ответ от поставщика ИИ.',
     noTestsGenerated: 'ИИ не сгенерировал ни одного теста.',
-    responseTimeout: 'Полный ответ ИИ не получен в течение 5 минут',
+    responseTimeout: 'Полный ответ ИИ не получен в течение {{minutes}} минут',
     waitingForResponse: 'Ожидание ответа ИИ (тайм-аут через <timer />)',
   },
 };

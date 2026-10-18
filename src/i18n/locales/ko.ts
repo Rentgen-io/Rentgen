@@ -520,7 +520,7 @@ const ko = {
     baseUrlAndModelRequired: '기본 URL과 모델은 필수입니다.',
     unexpectedResponse: 'AI 제공자로부터 예기치 않은 응답을 받았습니다.',
     noTestsGenerated: 'AI가 테스트를 생성하지 않았습니다.',
-    responseTimeout: '5분 이내에 완전한 AI 응답을 받지 못했습니다',
+    responseTimeout: '{{minutes}}분 이내에 완전한 AI 응답을 받지 못했습니다',
     waitingForResponse: 'AI 응답을 기다리는 중 (<timer /> 후 시간 초과)',
   },
 };

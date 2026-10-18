@@ -533,7 +533,7 @@ const fr = {
     baseUrlAndModelRequired: "L'URL de base et le modèle sont obligatoires.",
     unexpectedResponse: "Réponse inattendue du fournisseur d'IA.",
     noTestsGenerated: "Aucun test n'a été généré par l'IA.",
-    responseTimeout: "Aucune réponse complète de l'IA reçue en 5 minutes",
+    responseTimeout: "Aucune réponse complète de l'IA reçue en {{minutes}} minutes",
     waitingForResponse: "En attente de la réponse de l'IA (expire dans <timer />)",
   },
 };

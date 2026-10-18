@@ -523,7 +523,7 @@ const lt = {
     baseUrlAndModelRequired: 'Bazinis URL ir modelis yra privalomi.',
     unexpectedResponse: 'Netikėtas AI tiekėjo atsakymas.',
     noTestsGenerated: 'AI nesugeneravo jokių testų.',
-    responseTimeout: 'Per 5 minutes negautas pilnas AI atsakymas',
+    responseTimeout: 'Per {{minutes}} minutes negautas pilnas AI atsakymas',
     waitingForResponse: 'Laukiama AI atsakymo (laikas baigsis po <timer />)',
   },
 };

@@ -524,7 +524,7 @@ const ja = {
     baseUrlAndModelRequired: 'ベースURLとモデルは必須です。',
     unexpectedResponse: 'AIプロバイダーから予期しない応答がありました。',
     noTestsGenerated: 'AIによってテストが生成されませんでした。',
-    responseTimeout: '5分以内にAIからの完全な応答を受信できませんでした',
+    responseTimeout: '{{minutes}}分以内にAIからの完全な応答を受信できませんでした',
     waitingForResponse: 'AIの応答を待っています（<timer /> でタイムアウト）',
   },
 };

@@ -527,7 +527,7 @@ const de = {
     baseUrlAndModelRequired: 'Basis-URL und Modell sind erforderlich.',
     unexpectedResponse: 'Unerwartete Antwort vom KI-Anbieter.',
     noTestsGenerated: 'Die KI hat keine Tests generiert.',
-    responseTimeout: 'Innerhalb von 5 Minuten wurde keine vollständige KI-Antwort empfangen',
+    responseTimeout: 'Innerhalb von {{minutes}} Minuten wurde keine vollständige KI-Antwort empfangen',
     waitingForResponse: 'KI-Antwort wird erwartet (Zeitüberschreitung in <timer />)',
   },
 };

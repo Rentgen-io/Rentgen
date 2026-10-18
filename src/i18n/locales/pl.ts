@@ -522,7 +522,7 @@ const pl = {
     baseUrlAndModelRequired: 'Bazowy adres URL i model są wymagane.',
     unexpectedResponse: 'Nieoczekiwana odpowiedź od dostawcy AI.',
     noTestsGenerated: 'AI nie wygenerowała żadnych testów.',
-    responseTimeout: 'Nie otrzymano pełnej odpowiedzi AI w ciągu 5 minut',
+    responseTimeout: 'Nie otrzymano pełnej odpowiedzi AI w ciągu {{minutes}} minut',
     waitingForResponse: 'Oczekiwanie na odpowiedź AI (limit czasu za <timer />)',
   },
 };

@@ -527,7 +527,7 @@ const nl = {
     baseUrlAndModelRequired: 'Basis-URL en model zijn verplicht.',
     unexpectedResponse: 'Onverwacht antwoord van de AI-provider.',
     noTestsGenerated: 'De AI heeft geen tests gegenereerd.',
-    responseTimeout: 'Geen volledig AI-antwoord ontvangen binnen 5 minuten',
+    responseTimeout: 'Geen volledig AI-antwoord ontvangen binnen {{minutes}} minuten',
     waitingForResponse: 'Wachten op AI-antwoord (time-out over <timer />)',
   },
 };

@@ -522,7 +522,7 @@ const uk = {
     baseUrlAndModelRequired: 'Базовий URL і модель є обовʼязковими.',
     unexpectedResponse: 'Неочікувана відповідь від постачальника ШІ.',
     noTestsGenerated: 'ШІ не згенерував жодного тесту.',
-    responseTimeout: 'Повну відповідь ШІ не отримано протягом 5 хвилин',
+    responseTimeout: 'Повну відповідь ШІ не отримано протягом {{minutes}} хвилин',
     waitingForResponse: 'Очікування відповіді ШІ (тайм-аут через <timer />)',
   },
 };

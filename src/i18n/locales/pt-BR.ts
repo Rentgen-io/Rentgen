@@ -527,7 +527,7 @@ const ptBR = {
     baseUrlAndModelRequired: 'A URL base e o modelo são obrigatórios.',
     unexpectedResponse: 'Resposta inesperada do provedor de IA.',
     noTestsGenerated: 'A IA não gerou nenhum teste.',
-    responseTimeout: 'Nenhuma resposta completa da IA recebida em 5 minutos',
+    responseTimeout: 'Nenhuma resposta completa da IA recebida em {{minutes}} minutos',
     waitingForResponse: 'Aguardando resposta da IA (expira em <timer />)',
   },
 };

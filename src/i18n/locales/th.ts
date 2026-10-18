@@ -520,7 +520,7 @@ const th = {
     baseUrlAndModelRequired: 'ต้องระบุ Base URL และโมเดล',
     unexpectedResponse: 'การตอบกลับที่ไม่คาดคิดจากผู้ให้บริการ AI',
     noTestsGenerated: 'AI ไม่ได้สร้างเทสต์ใด ๆ',
-    responseTimeout: 'ไม่ได้รับคำตอบจาก AI ที่สมบูรณ์ภายใน 5 นาที',
+    responseTimeout: 'ไม่ได้รับคำตอบจาก AI ที่สมบูรณ์ภายใน {{minutes}} นาที',
     waitingForResponse: 'กำลังรอคำตอบจาก AI (หมดเวลาใน <timer />)',
   },
 };

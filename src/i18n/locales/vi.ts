@@ -521,7 +521,7 @@ const vi = {
     baseUrlAndModelRequired: 'Base URL và model là bắt buộc.',
     unexpectedResponse: 'Phản hồi không mong đợi từ nhà cung cấp AI.',
     noTestsGenerated: 'AI không tạo ra kiểm thử nào.',
-    responseTimeout: 'Không nhận được phản hồi AI đầy đủ trong vòng 5 phút',
+    responseTimeout: 'Không nhận được phản hồi AI đầy đủ trong vòng {{minutes}} phút',
     waitingForResponse: 'Đang chờ phản hồi AI (hết thời gian sau <timer />)',
   },
 };

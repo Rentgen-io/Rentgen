@@ -18,7 +18,8 @@ import {
 let activeController: AbortController | null = null;
 let aiResponseTimeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
 
-export const AI_RESPONSE_TIMEOUT_MS = 5 * 60 * 1000;
+const AI_RESPONSE_TIMEOUT_MINUTES = 5;
+export const AI_RESPONSE_TIMEOUT_MS = AI_RESPONSE_TIMEOUT_MINUTES * 60 * 1000;
 
 const SYSTEM_PROMPT = `You are Rentgen's API test coverage analyst.
 
@@ -358,7 +359,9 @@ export class AiTests extends BaseTests {
     clearTimeout(aiResponseTimeoutId);
 
     if (timedOut) {
-      notify.error(i18n.t('ai.responseTimeout'), { toastId: 'error-generate-ai-tests' });
+      notify.error(i18n.t('ai.responseTimeout', { minutes: AI_RESPONSE_TIMEOUT_MINUTES }), {
+        toastId: 'error-generate-ai-tests',
+      });
       return [];
     }
 
