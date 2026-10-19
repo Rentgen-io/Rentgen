@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
-import Panel from 'src/components/panels/Panel';
 import useTests from 'src/hooks/useTests';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
@@ -9,7 +8,8 @@ export default function CrudTestsPanel() {
   const { crudTests, isSecurityRunning } = useTests();
 
   return (
-    <Panel title={<TestsTableHeader tests={crudTests} title={t('tests.crud')} />}>
+    <>
+      <TestsTableHeader tests={crudTests} />
       <TestsTable
         columns={getTestsTableColumns(['Method', 'Expected', 'Actual', 'Result'], t)}
         expandableRows
@@ -29,6 +29,6 @@ export default function CrudTestsPanel() {
           </p>
         }
       />
-    </Panel>
+    </>
   );
 }

@@ -1,16 +1,16 @@
 import cn from 'classnames';
 import { TFunction } from 'i18next';
-import { memo, PropsWithChildren } from 'react';
+import { memo } from 'react';
 import DataTable, { ExpanderComponentProps, TableColumn, TableProps } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from 'src/components/buttons/CopyButton';
+import { IconButton } from 'src/components/buttons/IconButton';
 import { HttpPanel } from 'src/components/panels/HttpPanel';
-import SidebarButton from 'src/features/sidebar/SidebarButton';
 import { useAppSelector } from 'src/store/hooks';
 import { selectDisabledPerformanceInsights, selectDisabledSecurityTests } from 'src/store/selectors';
+import { getTestsStatistics } from 'src/test-engine';
 import { TestResult, TestStatus } from 'src/types';
 import { generateCurl, truncateValue } from 'src/utils';
-import { twMerge } from 'tailwind-merge';
 
 import GearIcon from 'src/assets/icons/gear-icon.svg';
 
@@ -26,13 +26,12 @@ export default function TestsTable({
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
   const definedData = data?.filter((item) => item != null) ?? [];
   const disabledTests = [...disabledSecurityTests, ...disabledPerformanceInsights];
-  const borderClass = 'border-t border-border dark:border-t-0';
 
-  if (progressPending) return <div className={borderClass}>{progressComponent}</div>;
+  if (progressPending) return progressComponent;
 
   return (
     <DataTable
-      className={cn('rounded-t-none!', borderClass, className)}
+      className={cn('border border-border dark:border-dark-border', className)}
       columns={columns}
       conditionalRowStyles={[
         {
@@ -69,95 +68,51 @@ export default function TestsTable({
 }
 
 export function TestsTableHeader({
-  children,
   disabledTests,
   tests,
-  title,
   onOpenSettings,
 }: {
   disabledTests?: string[];
   tests: TestResult[];
-  title: string;
   onOpenSettings?(): void;
-} & PropsWithChildren) {
+}) {
   const { t } = useTranslation();
-  const { bugs, failed, passed, warnings } = tests.reduce(
-    (acc, { name, status }) => {
-      switch (status) {
-        case TestStatus.Fail:
-        case TestStatus.FailNoResponse:
-          if (!disabledTests?.includes(name)) acc.failed += 1;
-          break;
-        case TestStatus.Warning:
-          if (!disabledTests?.includes(name)) acc.warnings += 1;
-          break;
-        case TestStatus.Bug:
-          if (!disabledTests?.includes(name)) acc.bugs += 1;
-          break;
-        case TestStatus.Pass:
-          if (!disabledTests?.includes(name)) acc.passed += 1;
-          break;
-      }
-      return acc;
-    },
-    { bugs: 0, failed: 0, passed: 0, warnings: 0 },
-  );
+  const { bugs, failed, passed, warnings } = getTestsStatistics(tests, disabledTests);
 
   return (
-    <div className="flex items-center">
-      <h5 className="flex items-center gap-2 flex-auto m-0 py-3 pr-4">
-        <span
-          className={twMerge(
-            cn('w-2 h-2 rounded-full shrink-0 bg-gray-400', {
-              'bg-green-500': passed > 0 && failed === 0 && warnings === 0 && bugs === 0,
-              'bg-yellow-500': warnings > 0 && failed === 0 && bugs === 0,
-              'bg-red-500': failed > 0 && bugs === 0,
-              'bg-purple-500': bugs > 0,
-            }),
-          )}
-        />
-        {title}
-        <div className="flex-auto flex items-center justify-end gap-2 font-normal lowercase">
-          {passed > 0 && (
-            <span className="py-px px-2 text-sm text-green-500 bg-green-500/10">
-              {passed} {t('common.passed')}
-            </span>
-          )}
-          {warnings > 0 && (
-            <span className="py-px px-2 text-sm text-yellow-500 bg-yellow-500/10">
-              {warnings} {warnings === 1 ? t('common.warning') : t('common.warnings')}
-            </span>
-          )}
-          {failed > 0 && (
-            <span className="py-px px-2 text-sm text-red-500 bg-red-500/10">
-              {failed} {t('common.failed')}
-            </span>
-          )}
-          {bugs > 0 && (
-            <span className="py-px px-2 text-sm text-purple-500 bg-purple-500/10">
-              {bugs} {bugs === 1 ? t('common.bug') : t('common.bugs')}
-            </span>
-          )}
-          {!!disabledTests?.length && (
-            <span className="py-px px-2 text-sm text-text-secondary bg-text-secondary/10">
-              {disabledTests.length} {t('common.ignored')}
-            </span>
-          )}
-        </div>
-      </h5>
+    <div className="min-h-8.5 flex items-center">
+      <div className="flex-auto flex items-center gap-2 py-1.5 lowercase">
+        {passed > 0 && (
+          <span className="py-px px-2 text-sm text-green-500 bg-green-500/10">
+            {passed} {t('common.passed')}
+          </span>
+        )}
+        {warnings > 0 && (
+          <span className="py-px px-2 text-sm text-yellow-500 bg-yellow-500/10">
+            {warnings} {warnings === 1 ? t('common.warning') : t('common.warnings')}
+          </span>
+        )}
+        {failed > 0 && (
+          <span className="py-px px-2 text-sm text-red-500 bg-red-500/10">
+            {failed} {t('common.failed')}
+          </span>
+        )}
+        {bugs > 0 && (
+          <span className="py-px px-2 text-sm text-purple-500 bg-purple-500/10">
+            {bugs} {bugs === 1 ? t('common.bug') : t('common.bugs')}
+          </span>
+        )}
+        {!!disabledTests?.length && (
+          <span className="py-px px-2 text-sm text-text-secondary bg-text-secondary/10">
+            {disabledTests.length} {t('common.ignored')}
+          </span>
+        )}
+      </div>
       {onOpenSettings && (
-        <SidebarButton
-          className="py-1.25 px-2.5"
-          label={t('sidebar.settings')}
-          onClick={(event) => {
-            event.stopPropagation();
-            onOpenSettings();
-          }}
-        >
+        <IconButton onClick={() => onOpenSettings()}>
           <GearIcon className="h-4 w-4" />
-        </SidebarButton>
+        </IconButton>
       )}
-      {children}
     </div>
   );
 }

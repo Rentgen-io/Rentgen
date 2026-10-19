@@ -483,7 +483,13 @@ export function JsonViewer({
   };
 
   return (
-    <div className={className} style={{ height: Math.min(Math.max(editorHeight, minHeight), maxHeight) }}>
+    <div
+      className={className}
+      style={{
+        height: Math.min(Math.max(editorHeight, minHeight), maxHeight),
+        overflow: 'hidden',
+      }}
+    >
       <MonacoEditor
         height="100%"
         language={editorLanguage}

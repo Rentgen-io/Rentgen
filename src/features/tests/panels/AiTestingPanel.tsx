@@ -3,7 +3,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import Button from 'src/components/buttons/Button';
 import { Controls } from 'src/components/controls/Controls';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
-import Panel from 'src/components/panels/Panel';
 import { validateSerialNumber } from 'src/features/settings/ai/AiLicenseSettings';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -39,15 +38,8 @@ export default function AiTestingPanel() {
   useEffect(() => cancelAiTestsGeneration, [cancelAiTestsGeneration]);
 
   return (
-    <Panel
-      title={
-        <TestsTableHeader
-          tests={aiTests ?? []}
-          title={t('tests.aiTesting')}
-          onOpenSettings={() => dispatch(modalsActions.openSettingsModal(2))}
-        />
-      }
-    >
+    <>
+      <TestsTableHeader tests={aiTests ?? []} onOpenSettings={() => dispatch(modalsActions.openSettingsModal(2))} />
       {aiTests && aiTests.length > 0 ? (
         <TestsTable
           columns={[
@@ -119,7 +111,7 @@ export default function AiTestingPanel() {
           data={aiTests}
         />
       ) : (
-        <div className="flex flex-col gap-4 p-4 text-center border-t border-border dark:border-dark-body">
+        <div className="flex flex-col gap-4 text-center">
           {!showAiRequestMaskControls ? (
             <>
               <h5 className="m-0">{t('tests.aiTestingTitle')}</h5>
@@ -145,7 +137,7 @@ export default function AiTestingPanel() {
         </div>
       )}
       {aiUsage && (
-        <div className="p-4 text-xs text-text-secondary @xl:text-right">
+        <div className="text-xs text-text-secondary @xl:text-right">
           <Trans
             i18nKey="ai.usage"
             components={{
@@ -156,6 +148,6 @@ export default function AiTestingPanel() {
           />
         </div>
       )}
-    </Panel>
+    </>
   );
 }

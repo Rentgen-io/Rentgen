@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { LARGE_PAYLOAD_TEST_NAME } from 'shared/testNames';
 import Toggle from 'src/components/inputs/Toggle';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
-import Panel from 'src/components/panels/Panel';
 import { SECURITY_TESTS } from 'src/features/settings/test-engine/SecurityTestsSettings';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -28,16 +27,12 @@ export default function SecurityTestsPanel() {
   );
 
   return (
-    <Panel
-      title={
-        <TestsTableHeader
-          disabledTests={disabledSecurityTests}
-          tests={securityTests}
-          title={t('tests.securityTests')}
-          onOpenSettings={() => dispatch(modalsActions.openSettingsModal())}
-        />
-      }
-    >
+    <>
+      <TestsTableHeader
+        disabledTests={disabledSecurityTests}
+        tests={securityTests}
+        onOpenSettings={() => dispatch(modalsActions.openSettingsModal())}
+      />
       <TestsTable
         columns={[
           ...getTestsTableColumns(['Check', 'Expected', 'Actual'], t),
@@ -91,6 +86,6 @@ export default function SecurityTestsPanel() {
         progressPending={isSecurityRunning}
         progressSkeleton={false}
       />
-    </Panel>
+    </>
   );
 }

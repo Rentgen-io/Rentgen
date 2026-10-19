@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
-import Panel from 'src/components/panels/Panel';
 import { getDatasets } from 'src/constants/datasets';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -35,7 +34,8 @@ export default function DataDrivenTestsPanel() {
   const datasets = getDatasets(testEngineConfiguration.email.domain);
 
   return (
-    <Panel title={<TestsTableHeader tests={dataDrivenTests} title={t('tests.dataDrivenTests')} />}>
+    <>
+      <TestsTableHeader tests={dataDrivenTests} />
       <TestsTable
         columns={[
           ...getTestsTableColumns(['Parameter', 'Value'], t),
@@ -142,6 +142,6 @@ export default function DataDrivenTestsPanel() {
         progressPending={isDataDrivenRunning}
         progressSkeleton={false}
       />
-    </Panel>
+    </>
   );
 }

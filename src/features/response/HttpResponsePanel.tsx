@@ -59,7 +59,9 @@ export default function HttpResponsePanel() {
 
   const isSending = httpResponse.status === RESPONSE_STATUS_LABEL.SENDING;
   const isNetworkError = httpResponse.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
-  const hasParameters = Object.keys(bodyParameters).length > 0 || Object.keys(queryParameters).length > 0;
+  const hasBodyParameters = Object.keys(bodyParameters).length > 0;
+  const hasQueryParameters = Object.keys(queryParameters).length > 0;
+  const hasParameters = hasBodyParameters || hasQueryParameters;
 
   return (
     <Panel
@@ -154,14 +156,14 @@ export default function HttpResponsePanel() {
             <h5 className="m-0">{t('tests.parameters')}</h5>
             <Tabs selectedTabClassName="text-text dark:text-dark-text underline underline-offset-6 decoration-blue-500">
               <TabList className="m-0 mb-6 p-0 flex gap-4 text-xs text-text-secondary">
-                {Object.keys(bodyParameters).length > 0 && (
+                {hasBodyParameters && (
                   <Tab className="list-none outline-none cursor-pointer">{t('tests.bodyParameters')}</Tab>
                 )}
-                {Object.keys(queryParameters).length > 0 && (
+                {hasQueryParameters && (
                   <Tab className="list-none outline-none cursor-pointer">{t('tests.queryParameters')}</Tab>
                 )}
               </TabList>
-              {Object.keys(bodyParameters).length > 0 && (
+              {hasBodyParameters && (
                 <TabPanel>
                   <ParametersPanel
                     parameters={bodyParameters}
@@ -170,7 +172,7 @@ export default function HttpResponsePanel() {
                   />
                 </TabPanel>
               )}
-              {Object.keys(queryParameters).length > 0 && (
+              {hasQueryParameters && (
                 <TabPanel>
                   <ParametersPanel
                     parameters={queryParameters}

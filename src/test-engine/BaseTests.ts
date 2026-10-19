@@ -65,3 +65,27 @@ export function determineTestStatus(
 
   return determine(response, statusCode);
 }
+
+export function getTestsStatistics(tests: TestResult[], disabledTests?: string[]) {
+  return tests.reduce(
+    (acc, { name, status }) => {
+      switch (status) {
+        case TestStatus.Fail:
+        case TestStatus.FailNoResponse:
+          if (!disabledTests?.includes(name)) acc.failed += 1;
+          break;
+        case TestStatus.Warning:
+          if (!disabledTests?.includes(name)) acc.warnings += 1;
+          break;
+        case TestStatus.Bug:
+          if (!disabledTests?.includes(name)) acc.bugs += 1;
+          break;
+        case TestStatus.Pass:
+          if (!disabledTests?.includes(name)) acc.passed += 1;
+          break;
+      }
+      return acc;
+    },
+    { bugs: 0, failed: 0, passed: 0, warnings: 0 },
+  );
+}

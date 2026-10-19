@@ -7,7 +7,6 @@ import {
 } from 'shared/testNames';
 import Toggle from 'src/components/inputs/Toggle';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
-import Panel from 'src/components/panels/Panel';
 import { PERFORMANCE_INSIGHTS } from 'src/features/settings/test-engine/PerformanceInsightsSettings';
 import { LoadTestControls } from 'src/features/tests/controls/LoadTestControls';
 import { TestResultControls } from 'src/features/tests/controls/TestResultControls';
@@ -32,16 +31,12 @@ export default function PerformanceInsightsPanel() {
   );
 
   return (
-    <Panel
-      title={
-        <TestsTableHeader
-          disabledTests={disabledPerformanceInsights}
-          tests={performanceTests}
-          title={t('tests.performanceInsights')}
-          onOpenSettings={() => dispatch(modalsActions.openSettingsModal())}
-        />
-      }
-    >
+    <>
+      <TestsTableHeader
+        disabledTests={disabledPerformanceInsights}
+        tests={performanceTests}
+        onOpenSettings={() => dispatch(modalsActions.openSettingsModal())}
+      />
       <TestsTable
         columns={[
           ...getTestsTableColumns(['Check', 'Expected'], t),
@@ -102,6 +97,6 @@ export default function PerformanceInsightsPanel() {
         progressPending={isPerformanceRunning}
         progressSkeleton={false}
       />
-    </Panel>
+    </>
   );
 }
