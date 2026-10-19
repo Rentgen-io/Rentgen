@@ -35,6 +35,8 @@ const ko = {
     bugs: '버그',
     warning: '경고',
     warnings: '경고',
+    manual: '수동',
+    info: '정보',
     ignore: '무시',
     ignored: '무시됨',
     exported: '내보냈습니다',

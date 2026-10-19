@@ -35,6 +35,8 @@ const uk = {
     bugs: 'Помилки',
     warning: 'Попередження',
     warnings: 'Попередження',
+    manual: 'Вручну',
+    info: 'Інфо',
     ignore: 'Ігнорувати',
     ignored: 'Проігноровано',
     exported: 'Експортовано',

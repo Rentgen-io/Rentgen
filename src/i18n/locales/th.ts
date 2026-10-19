@@ -35,6 +35,8 @@ const th = {
     bugs: 'บั๊ก',
     warning: 'คำเตือน',
     warnings: 'คำเตือน',
+    manual: 'ด้วยตนเอง',
+    info: 'ข้อมูล',
     ignore: 'ละเว้น',
     ignored: 'ละเว้น',
     exported: 'ส่งออกแล้ว',

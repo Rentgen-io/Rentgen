@@ -138,7 +138,9 @@ export default function DataDrivenTestsPanel() {
         data={dataDrivenTests}
         fixedHeader={true}
         fixedHeaderScrollHeight="720px"
-        progressComponent={<LoaderWithText text={t('tests.runningDataDrivenTests')} />}
+        progressComponent={
+          <LoaderWithText className="flex-auto justify-center" text={t('tests.runningDataDrivenTests')} />
+        }
         progressPending={isDataDrivenRunning}
         progressSkeleton={false}
       />

@@ -35,6 +35,8 @@ const it = {
     bugs: 'Bug',
     warning: 'Avviso',
     warnings: 'Avvisi',
+    manual: 'Manuale',
+    info: 'Info',
     ignore: 'Ignora',
     ignored: 'Ignorato',
     exported: 'Esportato',

@@ -35,6 +35,8 @@ const ja = {
     bugs: 'バグ',
     warning: '警告',
     warnings: '警告',
+    manual: '手動',
+    info: '情報',
     ignore: '無視する',
     ignored: '無視',
     exported: 'エクスポートしました',

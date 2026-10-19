@@ -76,7 +76,7 @@ export default function HttpResponsePanel() {
           })}
         >
           {isSending ? (
-            <Loader className="h-5 w-5" />
+            <Loader className="h-5 w-5 shrink-0 [&>span]:border-3!" />
           ) : (
             <>
               {isNetworkError ? t('response.networkError') : httpResponse.status}{' '}

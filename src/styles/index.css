@@ -96,6 +96,10 @@
     @apply rounded-none!;
   }
 
+  .rdt_headRow {
+    @apply text-black! dark:text-white! dark:bg-dark-body!;
+  }
+
   .rdt_cellBaseHead::before {
     @apply hidden!;
   }
@@ -123,7 +127,7 @@
   }
 
   .environment-data-table .rdt_headRow {
-    @apply min-h-auto! text-black! dark:text-white! bg-body! dark:bg-dark-body!;
+    @apply min-h-auto! bg-body!;
   }
 
   .environment-data-table .rdt_cellBaseHead {

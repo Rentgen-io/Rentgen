@@ -35,6 +35,8 @@ const tr = {
     bugs: 'Hatalar',
     warning: 'Uyarı',
     warnings: 'Uyarılar',
+    manual: 'Manuel',
+    info: 'Bilgi',
     ignore: 'Yoksay',
     ignored: 'Yoksayıldı',
     exported: 'Dışa Aktarıldı',

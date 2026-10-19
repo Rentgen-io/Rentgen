@@ -35,6 +35,8 @@ const zhCN = {
     bugs: '缺陷',
     warning: '警告',
     warnings: '警告',
+    manual: '手动',
+    info: '信息',
     ignore: '忽略',
     ignored: '已忽略',
     exported: '已导出',

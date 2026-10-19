@@ -82,7 +82,9 @@ export default function SecurityTestsPanel() {
         expandableRowDisabled={(row) => disabledSecurityTests.includes(row.name) || !row.request}
         expandOnRowClicked
         data={securityTests}
-        progressComponent={<LoaderWithText text={t('tests.runningSecurityTests')} />}
+        progressComponent={
+          <LoaderWithText className="flex-auto justify-center" text={t('tests.runningSecurityTests')} />
+        }
         progressPending={isSecurityRunning}
         progressSkeleton={false}
       />

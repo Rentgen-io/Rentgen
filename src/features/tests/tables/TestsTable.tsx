@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { TFunction } from 'i18next';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import DataTable, { ExpanderComponentProps, TableColumn, TableProps } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from 'src/components/buttons/CopyButton';
@@ -77,10 +77,13 @@ export function TestsTableHeader({
   onOpenSettings?(): void;
 }) {
   const { t } = useTranslation();
-  const { bugs, failed, passed, warnings } = getTestsStatistics(tests, disabledTests);
+  const { bugs, failed, info, manual, passed, warnings } = useMemo(
+    () => getTestsStatistics(tests, disabledTests),
+    [tests, disabledTests],
+  );
 
   return (
-    <div className="min-h-8.5 flex items-center">
+    <div className="min-h-8.5 flex items-center gap-2">
       <div className="flex-auto flex items-center gap-2 py-1.5 lowercase">
         {passed > 0 && (
           <span className="py-px px-2 text-sm text-green-500 bg-green-500/10">
@@ -102,6 +105,16 @@ export function TestsTableHeader({
             {bugs} {bugs === 1 ? t('common.bug') : t('common.bugs')}
           </span>
         )}
+        {info > 0 && (
+          <span className="py-px px-2 text-sm text-blue-500 bg-blue-500/10">
+            {info} {t('common.info')}
+          </span>
+        )}
+        {manual > 0 && (
+          <span className="py-px px-2 text-sm text-gray-500 bg-gray-500/10">
+            {manual} {t('common.manual')}
+          </span>
+        )}
         {!!disabledTests?.length && (
           <span className="py-px px-2 text-sm text-text-secondary bg-text-secondary/10">
             {disabledTests.length} {t('common.ignored')}
@@ -109,7 +122,7 @@ export function TestsTableHeader({
         )}
       </div>
       {onOpenSettings && (
-        <IconButton onClick={() => onOpenSettings()}>
+        <IconButton onClick={onOpenSettings}>
           <GearIcon className="h-4 w-4" />
         </IconButton>
       )}

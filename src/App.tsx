@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { twMerge } from 'tailwind-merge';
@@ -44,11 +44,22 @@ import { testsActions } from './store/slices/testsSlice';
 import { getTestsStatistics } from './test-engine';
 
 import ClearCrossIcon from './assets/icons/clear-cross-icon.svg';
+import Loader from './components/loaders/Loader';
 
 export default function App() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { aiTests, crudTests, dataDrivenTests, performanceTests, securityTests } = useTests();
+  const {
+    aiRunStartedAt,
+    aiTests,
+    crudTests,
+    dataDrivenTests,
+    isDataDrivenRunning,
+    isPerformanceRunning,
+    isSecurityRunning,
+    performanceTests,
+    securityTests,
+  } = useTests();
 
   const compareResponse = useAppSelector(selectCompareResponse);
   const disabled = useAppSelector(selectIsRequestDisabled);
@@ -62,23 +73,42 @@ export default function App() {
   const testResults = useAppSelector(selectCurrentTestResults);
   const testResultsToCompare = useAppSelector(selectTestResultsToCompare);
 
+  const [tabIndex, setTabIndex] = useState<number>(0);
+
   const testsTabs = useMemo(
     () => [
-      { component: <AiTestingPanel />, label: t('tests.aiTesting'), tests: aiTests },
+      {
+        component: <AiTestingPanel />,
+        isRunning: Boolean(aiRunStartedAt),
+        label: t('tests.aiTesting'),
+        tests: aiTests,
+      },
       {
         component: <SecurityTestsPanel />,
         disabledTests: disabledSecurityTests,
+        isRunning: isSecurityRunning,
         label: t('tests.securityTests'),
         tests: securityTests,
       },
       {
         component: <PerformanceInsightsPanel />,
         disabledTests: disabledPerformanceInsights,
+        isRunning: isPerformanceRunning,
         label: t('tests.performanceInsights'),
         tests: performanceTests,
       },
-      { component: <DataDrivenTestsPanel />, label: t('tests.dataDrivenTests'), tests: dataDrivenTests },
-      { component: <CrudTestsPanel />, label: t('tests.crud'), tests: crudTests },
+      {
+        component: <DataDrivenTestsPanel />,
+        isRunning: isDataDrivenRunning,
+        label: t('tests.dataDrivenTests'),
+        tests: dataDrivenTests,
+      },
+      {
+        component: <CrudTestsPanel />,
+        isRunning: isSecurityRunning,
+        label: t('tests.crud'),
+        tests: crudTests,
+      },
     ],
     [aiTests, crudTests, dataDrivenTests, performanceTests, securityTests],
   );
@@ -140,29 +170,37 @@ export default function App() {
           <Tabs
             className="flex flex-col flex-auto"
             forceRenderTabPanel={true}
+            selectedIndex={tabIndex}
             selectedTabClassName="bg-white border-border! text-text dark:bg-dark-input dark:border-dark-body! dark:text-dark-text"
             selectedTabPanelClassName="flex! flex-col flex-auto gap-4"
+            onSelect={(index) => setTabIndex(index)}
           >
             <TabList className="flex m-0 px-4 border-b border-border dark:border-dark-body">
-              {testsTabs.map(({ disabledTests, label, tests }) => {
+              {testsTabs.map(({ disabledTests, isRunning, label, tests }) => {
                 const { bugs, failed, passed, warnings } = getTestsStatistics(tests ?? [], disabledTests);
 
                 return (
                   <Tab
                     key={label}
-                    className="relative flex items-center gap-2 -bottom-px py-1.5 px-3 text-sm border border-transparent border-b-0 list-none outline-none cursor-pointer"
+                    className="relative flex items-center gap-2 -bottom-px py-1.5 px-3 text-sm border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
+                    title={t(label)}
                   >
-                    <span
-                      className={twMerge(
-                        cn('w-2 h-2 rounded-full shrink-0 bg-gray-400', {
-                          'bg-green-500': passed > 0 && failed === 0 && warnings === 0 && bugs === 0,
-                          'bg-yellow-500': warnings > 0 && failed === 0 && bugs === 0,
-                          'bg-red-500': failed > 0 && bugs === 0,
-                          'bg-purple-500': bugs > 0,
-                        }),
-                      )}
-                    />
-                    {t(label)}
+                    {isRunning ? (
+                      <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
+                    ) : (
+                      <span
+                        className={twMerge(
+                          cn('w-2 h-2 m-1 rounded-full shrink-0 bg-gray-400', {
+                            'bg-green-500': passed > 0 && failed === 0 && warnings === 0 && bugs === 0,
+                            'bg-yellow-500': warnings > 0 && failed === 0 && bugs === 0,
+                            'bg-red-500': failed > 0 && bugs === 0,
+                            'bg-purple-500': bugs > 0,
+                          }),
+                        )}
+                      />
+                    )}
+
+                    <span className="truncate">{t(label)}</span>
                   </Tab>
                 );
               })}

@@ -35,6 +35,8 @@ const id = {
     bugs: 'Bug',
     warning: 'Peringatan',
     warnings: 'Peringatan',
+    manual: 'Manual',
+    info: 'Info',
     ignore: 'Abaikan',
     ignored: 'Diabaikan',
     exported: 'Terekspor',

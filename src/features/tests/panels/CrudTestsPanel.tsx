@@ -17,7 +17,7 @@ export default function CrudTestsPanel() {
         expandableRowDisabled={(row) => !row.request}
         expandOnRowClicked
         data={crudTests}
-        progressComponent={<LoaderWithText text={t('tests.preparingCrud')} />}
+        progressComponent={<LoaderWithText className="flex-auto justify-center" text={t('tests.preparingCrud')} />}
         progressPending={isSecurityRunning}
         progressSkeleton={false}
         noDataComponent={

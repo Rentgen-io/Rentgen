@@ -35,6 +35,8 @@ const ptBR = {
     bugs: 'Bugs',
     warning: 'Aviso',
     warnings: 'Avisos',
+    manual: 'Manual',
+    info: 'Info',
     ignore: 'Ignorar',
     ignored: 'Ignorado',
     exported: 'Exportado',

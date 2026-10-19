@@ -35,6 +35,8 @@ const nl = {
     bugs: 'Bugs',
     warning: 'Waarschuwing',
     warnings: 'Waarschuwingen',
+    manual: 'Handmatig',
+    info: 'Info',
     ignore: 'Negeren',
     ignored: 'Genegeerd',
     exported: 'Geëxporteerd',

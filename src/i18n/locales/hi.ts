@@ -35,6 +35,8 @@ const hi = {
     bugs: 'बग',
     warning: 'चेतावनी',
     warnings: 'चेतावनियाँ',
+    manual: 'मैनुअल',
+    info: 'जानकारी',
     ignore: 'अनदेखा करें',
     ignored: 'अनदेखा',
     exported: 'निर्यात किया गया',

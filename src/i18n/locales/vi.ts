@@ -35,6 +35,8 @@ const vi = {
     bugs: 'Lỗi',
     warning: 'Cảnh báo',
     warnings: 'Cảnh báo',
+    manual: 'Thủ công',
+    info: 'Thông tin',
     ignore: 'Bỏ qua',
     ignored: 'Đã bỏ qua',
     exported: 'Đã xuất',

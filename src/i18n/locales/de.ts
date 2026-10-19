@@ -35,6 +35,8 @@ const de = {
     bugs: 'Fehler',
     warning: 'Warnung',
     warnings: 'Warnungen',
+    manual: 'Manuell',
+    info: 'Info',
     ignore: 'Ignorieren',
     ignored: 'Ignoriert',
     exported: 'Exportiert',

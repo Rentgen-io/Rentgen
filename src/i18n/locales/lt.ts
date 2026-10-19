@@ -35,6 +35,8 @@ const lt = {
     bugs: 'Klaidos',
     warning: 'Įspėjimas',
     warnings: 'Įspėjimai',
+    manual: 'Rankinis',
+    info: 'Informacija',
     ignore: 'Ignoruoti',
     ignored: 'Ignoruota',
     exported: 'Eksportuota',

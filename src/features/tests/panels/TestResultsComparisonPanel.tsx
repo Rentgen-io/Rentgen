@@ -112,10 +112,16 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
           onSelect={(index) => setTabIndex(index)}
         >
           <TabList className="flex m-0 px-2.5 border-b border-border dark:border-dark-body">
-            <Tab className="relative -bottom-px py-1.5 px-3 text-sm border border-transparent border-b-0 list-none outline-none cursor-pointer">
+            <Tab
+              className="relative -bottom-px py-1.5 px-3 text-sm border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
+              title={t('comparison.potentialBugs')}
+            >
               {t('comparison.potentialBugs')}
             </Tab>
-            <Tab className="relative -bottom-px py-1.5 px-3 text-sm border border-transparent border-b-0 list-none outline-none cursor-pointer">
+            <Tab
+              className="relative -bottom-px py-1.5 px-3 text-sm border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
+              title={t('comparison.fullBehaviorChanges')}
+            >
               {t('comparison.fullBehaviorChanges')}
             </Tab>
           </TabList>
