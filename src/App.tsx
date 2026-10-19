@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconButton } from './components/buttons/IconButton';
 import EnvironmentEditor from './features/environment/EnvironmentEditor';
@@ -52,8 +51,6 @@ export default function App() {
   const mode = useAppSelector(selectMode);
   const disabled = useAppSelector(selectIsRequestDisabled);
 
-  const parametersRef = useRef<HTMLDivElement | null>(null);
-
   const { saveRequest } = useSaveRequest();
   useInitialDataLoad();
   useWssEventBridge();
@@ -100,7 +97,7 @@ export default function App() {
             <RequestUrlBar />
             <RequestEditors />
 
-            {mode === 'HTTP' && <HttpResponsePanel parametersRef={parametersRef} />}
+            {mode === 'HTTP' && <HttpResponsePanel />}
             <WssMessagesPanel />
             {mode === 'HTTP' && <TestRunnerBar />}
 
@@ -116,7 +113,7 @@ export default function App() {
           </>
         )}
       </div>
-      <AppModals parametersRef={parametersRef} />
+      <AppModals />
     </div>
   );
 }

@@ -1,11 +1,13 @@
 import cn from 'classnames';
-import { Ref, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import { CopyButton } from 'src/components/buttons/CopyButton';
 import Loader from 'src/components/loaders/Loader';
 import Panel from 'src/components/panels/Panel';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
+import { useElementHeight } from 'src/hooks/useElementHeight';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -20,13 +22,10 @@ import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import ParametersPanel from '../parameters/ParametersPanel';
 
-interface Props {
-  parametersRef: Ref<HTMLDivElement>;
-}
-
-export default function HttpResponsePanel({ parametersRef }: Props) {
+export default function HttpResponsePanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const [ref, height] = useElementHeight<HTMLDivElement>();
 
   const httpResponse = useAppSelector(selectHttpResponse);
   const runResult = useAppSelector(selectSelectedRequestRunResult);
@@ -63,19 +62,16 @@ export default function HttpResponsePanel({ parametersRef }: Props) {
   const hasParameters = Object.keys(bodyParameters).length > 0 || Object.keys(queryParameters).length > 0;
 
   return (
-    <>
-      <Panel title={t('response.title')}>
+    <Panel
+      title={
         <div
-          className={cn(
-            'flex items-center justify-between gap-4 py-2 px-4 text-sm font-bold bg-body dark:bg-dark-body border-t border-border dark:border-dark-body',
-            {
-              'text-green-500': httpResponse.status.startsWith('2') && !runResult?.warning,
-              'text-yellow-500': httpResponse.status.startsWith('2') && runResult?.warning,
-              'text-blue-500': httpResponse.status.startsWith('3'),
-              'text-orange-500': httpResponse.status.startsWith('4'),
-              'text-red-500': httpResponse.status.startsWith('5') || isNetworkError || httpResponse.status === 'Error',
-            },
-          )}
+          className={cn('flex items-center justify-between gap-4 py-3 pr-4 text-sm font-bold', {
+            'text-green-500': httpResponse.status.startsWith('2') && !runResult?.warning,
+            'text-yellow-500': httpResponse.status.startsWith('2') && runResult?.warning,
+            'text-blue-500': httpResponse.status.startsWith('3'),
+            'text-orange-500': httpResponse.status.startsWith('4'),
+            'text-red-500': httpResponse.status.startsWith('5') || isNetworkError || httpResponse.status === 'Error',
+          })}
         >
           {isSending ? (
             <Loader className="h-5 w-5" />
@@ -86,86 +82,107 @@ export default function HttpResponsePanel({ parametersRef }: Props) {
             </>
           )}
         </div>
-        {runResult?.warning && (
-          <div className="px-4 py-2 text-xs bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border-t border-yellow-200 dark:border-yellow-800">
-            <span className="font-semibold">{t('common.warning')}:</span> {runResult.warning}
-          </div>
-        )}
+      }
+    >
+      {runResult?.warning && (
+        <div className="px-4 py-2 text-xs bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border-y border-yellow-200 dark:border-yellow-800">
+          <span className="font-semibold">{t('common.warning')}:</span> {runResult.warning}
+        </div>
+      )}
+      <div
+        className={cn('@2xl:grid divide-y @2xl:divide-y-0 @2xl:divide-x divide-border dark:divide-dark-body', {
+          '@2xl:grid-cols-2': !isNetworkError && hasParameters,
+          'not-empty:border-t border-border dark:border-dark-body': !runResult?.warning,
+        })}
+      >
         {!isSending && (
-          <div className="@2xl:grid @2xl:grid-cols-2 border-t border-border dark:border-dark-body divide-y @2xl:divide-y-0 @2xl:divide-x divide-border dark:divide-dark-body">
-            <div className="relative p-4">
-              <h5 className="m-0 mb-4">{t('request.headers')}</h5>
-              {httpResponse.headers && (
-                <CopyButton
-                  className="absolute top-4 right-4"
-                  textToCopy={JSON.stringify(httpResponse.headers, null, 2)}
-                >
-                  {t('common.copy')}
-                </CopyButton>
-              )}
-              <JsonViewer
-                source={httpResponse.headers}
-                responsePanelContext={{ isResponsePanel: true, source: 'header' }}
-                showVariableButtons={!!requestWithFolder}
-                onSetVariable={(path, value) => setVariable(path, value, 'header')}
-              />
-            </div>
-            <div className="relative p-4">
-              <h5 className="m-0 mb-4">{t('request.body')}</h5>
-              {httpResponse.body && (
-                <CopyButton
-                  className="absolute top-4 right-4"
-                  textToCopy={
-                    typeof httpResponse.body === 'string'
-                      ? httpResponse.body
-                      : JSON.stringify(httpResponse.body, null, 2)
-                  }
-                >
-                  {t('common.copy')}
-                </CopyButton>
-              )}
-              <JsonViewer
-                source={httpResponse.body}
-                responsePanelContext={{ isResponsePanel: true, source: 'body' }}
-                showVariableButtons={!!requestWithFolder}
-                onSetVariable={(path, value) => setVariable(path, value, 'body')}
-              />
-            </div>
+          <div className="flex flex-col gap-4 p-4">
+            <h5 className="m-0">{t('response.title')}</h5>
+            <Tabs
+              className="relative flex flex-col flex-auto"
+              selectedTabClassName="text-text dark:text-dark-text underline underline-offset-6 decoration-blue-500"
+            >
+              <TabList className="m-0 mb-6 p-0 flex gap-4 text-xs text-text-secondary">
+                <Tab className="list-none outline-none cursor-pointer">{t('request.body')}</Tab>
+                <Tab className="list-none outline-none cursor-pointer">{t('request.headers')}</Tab>
+              </TabList>
+              <div ref={ref} className="flex flex-col flex-auto">
+                <TabPanel>
+                  {httpResponse.body && (
+                    <CopyButton
+                      className="absolute -top-0.75 right-0"
+                      textToCopy={
+                        typeof httpResponse.body === 'string'
+                          ? httpResponse.body
+                          : JSON.stringify(httpResponse.body, null, 2)
+                      }
+                    >
+                      {t('common.copy')}
+                    </CopyButton>
+                  )}
+                  <JsonViewer
+                    maxHeight={Math.max(280, height)}
+                    responsePanelContext={{ isResponsePanel: true, source: 'body' }}
+                    showVariableButtons={!!requestWithFolder}
+                    source={httpResponse.body}
+                    onSetVariable={(path, value) => setVariable(path, value, 'body')}
+                  />
+                </TabPanel>
+                <TabPanel>
+                  {httpResponse.headers && (
+                    <CopyButton
+                      className="absolute -top-0.75 right-0"
+                      textToCopy={JSON.stringify(httpResponse.headers, null, 2)}
+                    >
+                      {t('common.copy')}
+                    </CopyButton>
+                  )}
+                  <JsonViewer
+                    maxHeight={Math.max(280, height)}
+                    responsePanelContext={{ isResponsePanel: true, source: 'header' }}
+                    showVariableButtons={!!requestWithFolder}
+                    source={httpResponse.headers}
+                    onSetVariable={(path, value) => setVariable(path, value, 'header')}
+                  />
+                </TabPanel>
+              </div>
+            </Tabs>
           </div>
         )}
-      </Panel>
-
-      {!isNetworkError && hasParameters && (
-        <div ref={parametersRef}>
-          <Panel title={t('tests.parameters')}>
-            <div className="@2xl:grid @2xl:grid-cols-2 border-t border-border dark:border-dark-body divide-y @2xl:divide-y-0 @2xl:divide-x divide-border dark:divide-dark-body">
+        {!isNetworkError && hasParameters && (
+          <div className="flex flex-col gap-4 p-4">
+            <h5 className="m-0">{t('tests.parameters')}</h5>
+            <Tabs selectedTabClassName="text-text dark:text-dark-text underline underline-offset-6 decoration-blue-500">
+              <TabList className="m-0 mb-6 p-0 flex gap-4 text-xs text-text-secondary">
+                {Object.keys(bodyParameters).length > 0 && (
+                  <Tab className="list-none outline-none cursor-pointer">{t('tests.bodyParameters')}</Tab>
+                )}
+                {Object.keys(queryParameters).length > 0 && (
+                  <Tab className="list-none outline-none cursor-pointer">{t('tests.queryParameters')}</Tab>
+                )}
+              </TabList>
               {Object.keys(bodyParameters).length > 0 && (
-                <div>
+                <TabPanel>
                   <ParametersPanel
-                    className="border-none"
-                    title={t('tests.bodyParameters')}
                     parameters={bodyParameters}
                     onBlur={autoSaveRequest}
                     onChange={(parameters) => dispatch(requestActions.setBodyParameters(parameters))}
                   />
-                </div>
+                </TabPanel>
               )}
-
               {Object.keys(queryParameters).length > 0 && (
-                <div>
+                <TabPanel>
                   <ParametersPanel
-                    className="border-none"
-                    title={t('tests.queryParameters')}
                     parameters={queryParameters}
                     onBlur={autoSaveRequest}
                     onChange={(parameters) => dispatch(requestActions.setQueryParameters(parameters))}
                   />
-                </div>
+                </TabPanel>
               )}
-            </div>
-          </Panel>
-        </div>
-      )}
-    </>
+            </Tabs>
+          </div>
+        )}
+      </div>
+    </Panel>
   );
 }

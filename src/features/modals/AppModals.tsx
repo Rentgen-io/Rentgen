@@ -1,4 +1,3 @@
-import { RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonType } from 'src/components/buttons/Button';
 import ConfirmationModal from 'src/components/modals/ConfirmationModal';
@@ -19,11 +18,7 @@ import { modalsActions } from 'src/store/slices/modalsSlice';
 import FollowModal from './FollowModal';
 import GitHubModal from './GitHubModal';
 
-interface Props {
-  parametersRef: RefObject<HTMLDivElement | null>;
-}
-
-export default function AppModals({ parametersRef }: Props) {
+export default function AppModals() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -50,10 +45,7 @@ export default function AppModals({ parametersRef }: Props) {
         title={t('modals.sendHttpSuccess.title')}
         isOpen={openSendHttpSuccessModal}
         onClose={() => dispatch(modalsActions.closeSendHttpSuccessModal())}
-        onConfirm={() => {
-          parametersRef.current?.scrollIntoView({ behavior: 'smooth' });
-          dispatch(modalsActions.closeSendHttpSuccessModal());
-        }}
+        onConfirm={() => dispatch(modalsActions.closeSendHttpSuccessModal())}
       >
         <label className="flex items-center gap-1 text-xs">
           <input
