@@ -524,6 +524,7 @@ const uk = {
     noTestsGenerated: 'ШІ не згенерував жодного тесту.',
     responseTimeout: 'Повну відповідь ШІ не отримано протягом {{minutes}} хвилин',
     waitingForResponse: 'Очікування відповіді ШІ (тайм-аут через <timer />)',
+    usage: 'Усього використано токенів: <total /> (запит: <prompt />, відповідь: <completion />)',
   },
 };
 

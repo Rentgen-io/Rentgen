@@ -522,6 +522,7 @@ const hi = {
     noTestsGenerated: 'AI ने कोई टेस्ट जनरेट नहीं किया।',
     responseTimeout: '{{minutes}} मिनट के भीतर कोई पूर्ण AI प्रतिक्रिया प्राप्त नहीं हुई',
     waitingForResponse: 'AI प्रतिक्रिया की प्रतीक्षा की जा रही है (<timer /> में समय समाप्त)',
+    usage: 'कुल <total /> टोकन उपयोग किए गए (प्रॉम्प्ट: <prompt />, कम्प्लीशन: <completion />)',
   },
 };
 

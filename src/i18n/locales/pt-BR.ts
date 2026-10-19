@@ -529,6 +529,7 @@ const ptBR = {
     noTestsGenerated: 'A IA não gerou nenhum teste.',
     responseTimeout: 'Nenhuma resposta completa da IA recebida em {{minutes}} minutos',
     waitingForResponse: 'Aguardando resposta da IA (expira em <timer />)',
+    usage: 'Total de <total /> tokens usados (prompt: <prompt />, conclusão: <completion />)',
   },
 };
 

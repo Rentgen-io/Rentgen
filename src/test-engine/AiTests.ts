@@ -1,6 +1,6 @@
 import { Method } from 'axios';
 import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
-import { sendAiChatRequest } from 'src/api/ai';
+import { type AiUsage, sendAiChatRequest } from 'src/api/ai';
 import { sendHttp } from 'src/api/network';
 import i18n from 'src/i18n';
 import { AiProvider, TestOptions, TestResult, TestStatus } from 'src/types';
@@ -324,7 +324,7 @@ export class AiTests extends BaseTests {
     activeController?.abort();
   }
 
-  public async run(): Promise<TestResult[]> {
+  public async run(): Promise<{ results: TestResult[]; usage: AiUsage | null }> {
     clearTimeout(aiResponseTimeoutId);
 
     activeController?.abort();
@@ -362,19 +362,18 @@ export class AiTests extends BaseTests {
       notify.error(i18n.t('ai.responseTimeout', { minutes: AI_RESPONSE_TIMEOUT_MINUTES }), {
         toastId: 'error-generate-ai-tests',
       });
-      return [];
+      return { results: [], usage: null };
     }
 
     if (!response?.ok) {
       if (response.error !== RESPONSE_STATUS_LABEL.ABORTED)
         notify.error(response.error, { toastId: 'error-generate-ai-tests' });
-      else notify.success(i18n.t('common.cancelled'), { toastId: 'success-generate-ai-tests' });
 
-      return [];
+      return { results: [], usage: null };
     }
 
     const content = tryParseJsonObject(response.content) as AiContent;
-    const aiTests: TestResult[] = (content?.tests ?? []).map(({ name, expected, request }) =>
+    const results: TestResult[] = (content?.tests ?? []).map(({ name, expected, request }) =>
       createTestResult(name, expected, '', TestStatus.Manual, {
         url: request.url,
         method: request.method,
@@ -389,12 +388,11 @@ export class AiTests extends BaseTests {
       }),
     );
 
-    if (aiTests.length === 0) {
-      notify.warning(i18n.t('ai.noTestsGenerated'), { toastId: 'warning-generate-ai-tests' });
-      return [];
-    }
+    if (results.length === 0) notify.warning(i18n.t('ai.noTestsGenerated'), { toastId: 'warning-generate-ai-tests' });
 
-    return aiTests;
+    const usage = response.usage;
+
+    return { results, usage };
   }
 }
 

@@ -524,6 +524,7 @@ const pl = {
     noTestsGenerated: 'AI nie wygenerowała żadnych testów.',
     responseTimeout: 'Nie otrzymano pełnej odpowiedzi AI w ciągu {{minutes}} minut',
     waitingForResponse: 'Oczekiwanie na odpowiedź AI (limit czasu za <timer />)',
+    usage: 'Łącznie użyto <total /> tokenów (prompt: <prompt />, odpowiedź: <completion />)',
   },
 };
 

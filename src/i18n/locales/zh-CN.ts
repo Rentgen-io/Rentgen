@@ -517,6 +517,7 @@ const zhCN = {
     noTestsGenerated: 'AI 未生成任何测试。',
     responseTimeout: '{{minutes}} 分钟内未收到完整的 AI 响应',
     waitingForResponse: '正在等待 AI 响应（<timer /> 后超时）',
+    usage: '共使用 <total /> 个 token（提示：<prompt />，补全：<completion />）',
   },
 };
 

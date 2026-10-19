@@ -526,6 +526,7 @@ const ja = {
     noTestsGenerated: 'AIによってテストが生成されませんでした。',
     responseTimeout: '{{minutes}}分以内にAIからの完全な応答を受信できませんでした',
     waitingForResponse: 'AIの応答を待っています（<timer /> でタイムアウト）',
+    usage: '合計 <total /> トークン使用（プロンプト: <prompt />、補完: <completion />）',
   },
 };
 

@@ -535,6 +535,7 @@ const fr = {
     noTestsGenerated: "Aucun test n'a été généré par l'IA.",
     responseTimeout: "Aucune réponse complète de l'IA reçue en {{minutes}} minutes",
     waitingForResponse: "En attente de la réponse de l'IA (expire dans <timer />)",
+    usage: 'Total de <total /> jetons utilisés (prompt : <prompt />, complétion : <completion />)',
   },
 };
 

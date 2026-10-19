@@ -522,6 +522,7 @@ const th = {
     noTestsGenerated: 'AI ไม่ได้สร้างเทสต์ใด ๆ',
     responseTimeout: 'ไม่ได้รับคำตอบจาก AI ที่สมบูรณ์ภายใน {{minutes}} นาที',
     waitingForResponse: 'กำลังรอคำตอบจาก AI (หมดเวลาใน <timer />)',
+    usage: 'ใช้โทเค็นทั้งหมด <total /> (พรอมต์: <prompt />, คำตอบ: <completion />)',
   },
 };
 

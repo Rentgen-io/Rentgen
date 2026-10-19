@@ -525,6 +525,7 @@ const ru = {
     noTestsGenerated: 'ИИ не сгенерировал ни одного теста.',
     responseTimeout: 'Полный ответ ИИ не получен в течение {{minutes}} минут',
     waitingForResponse: 'Ожидание ответа ИИ (тайм-аут через <timer />)',
+    usage: 'Всего использовано токенов: <total /> (запрос: <prompt />, ответ: <completion />)',
   },
 };
 

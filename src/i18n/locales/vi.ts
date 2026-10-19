@@ -523,6 +523,7 @@ const vi = {
     noTestsGenerated: 'AI không tạo ra kiểm thử nào.',
     responseTimeout: 'Không nhận được phản hồi AI đầy đủ trong vòng {{minutes}} phút',
     waitingForResponse: 'Đang chờ phản hồi AI (hết thời gian sau <timer />)',
+    usage: 'Tổng cộng đã dùng <total /> token (prompt: <prompt />, hoàn thành: <completion />)',
   },
 };
 

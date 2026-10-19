@@ -529,6 +529,7 @@ const nl = {
     noTestsGenerated: 'De AI heeft geen tests gegenereerd.',
     responseTimeout: 'Geen volledig AI-antwoord ontvangen binnen {{minutes}} minuten',
     waitingForResponse: 'Wachten op AI-antwoord (time-out over <timer />)',
+    usage: 'Totaal <total /> tokens gebruikt (prompt: <prompt />, voltooiing: <completion />)',
   },
 };
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import Button from 'src/components/buttons/Button';
 import { Controls } from 'src/components/controls/Controls';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
@@ -27,7 +27,7 @@ import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHead
 export default function AiTestingPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { aiTests, isRunningTests, cancelAiTestsGeneration, executeAiTest } = useTests();
+  const { aiTests, aiUsage, isRunningTests, cancelAiTestsGeneration, executeAiTest } = useTests();
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
   const runningAiTests = useAppSelector(selectRunningAiTests);
@@ -142,6 +142,18 @@ export default function AiTestingPanel() {
           ) : (
             <AiRequestMaskControls onCancel={() => setShowAiRequestMaskControls(false)} />
           )}
+        </div>
+      )}
+      {aiUsage && (
+        <div className="p-4 text-xs text-text-secondary @xl:text-right">
+          <Trans
+            i18nKey="ai.usage"
+            components={{
+              total: <strong className="text-text dark:text-dark-text">{aiUsage.totalTokens}</strong>,
+              prompt: <strong className="text-text dark:text-dark-text">{aiUsage.promptTokens}</strong>,
+              completion: <strong className="text-text dark:text-dark-text">{aiUsage.completionTokens}</strong>,
+            }}
+          />
         </div>
       )}
     </Panel>

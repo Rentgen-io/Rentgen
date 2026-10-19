@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appConfig } from 'shared/constants';
+import type { AiUsage } from 'src/api/ai';
 import { generateCertificate as generateCertificateFile, saveReport } from 'src/api/files';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCurrentTestResults, selectExportFormat, selectHttpResponse } from 'src/store/selectors';
@@ -20,7 +21,7 @@ export function useReportExport() {
   const exportReport = useCallback(async () => {
     if (!testResults || !testResults.testOptions) return;
 
-    const { aiTests, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions } = testResults;
+    const { aiTests, aiUsage, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions } = testResults;
     const report: ExportReport = {
       generatedAt: new Date().toISOString(),
       generatedBy: appConfig.origin,
@@ -32,7 +33,7 @@ export function useReportExport() {
       },
       lastHttpResponse: httpResponse,
       suites: [
-        buildSuite('AI Tests', aiTests ?? []),
+        buildSuite('AI Tests', aiTests ?? [], aiUsage ?? null),
         buildSuite('Security Tests', securityTests),
         buildSuite('Performance Insights', performanceTests),
         buildSuite('Data-Driven Tests', dataDrivenTests),
@@ -75,11 +76,12 @@ export function useReportExport() {
   return { exportReport, generateCertificate };
 }
 
-function buildSuite(name: string, tests: TestResult[]): ReportSuite {
+function buildSuite(name: string, tests: TestResult[], usage?: AiUsage | null): ReportSuite {
   return {
     name,
     summary: summarizeSuite(tests),
     tests,
+    usage,
   };
 }
 

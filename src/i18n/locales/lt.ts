@@ -525,6 +525,7 @@ const lt = {
     noTestsGenerated: 'AI nesugeneravo jokių testų.',
     responseTimeout: 'Per {{minutes}} minutes negautas pilnas AI atsakymas',
     waitingForResponse: 'Laukiama AI atsakymo (laikas baigsis po <timer />)',
+    usage: 'Iš viso panaudota <total /> žetonų (užklausa: <prompt />, atsakymas: <completion />)',
   },
 };
 

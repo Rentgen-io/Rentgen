@@ -522,6 +522,7 @@ const ko = {
     noTestsGenerated: 'AI가 테스트를 생성하지 않았습니다.',
     responseTimeout: '{{minutes}}분 이내에 완전한 AI 응답을 받지 못했습니다',
     waitingForResponse: 'AI 응답을 기다리는 중 (<timer /> 후 시간 초과)',
+    usage: '총 <total />개 토큰 사용 (프롬프트: <prompt />, 완성: <completion />)',
   },
 };
 

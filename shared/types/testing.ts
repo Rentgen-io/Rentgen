@@ -1,5 +1,6 @@
 import { Method } from 'axios';
 import { HttpBody, HttpRequest, HttpResponse } from 'shared/types/http';
+import type { AiUsage } from 'src/api/ai';
 
 export type DataType =
   | 'boolean'
@@ -69,14 +70,15 @@ export interface TestResult {
 }
 
 export interface TestResults {
-  timestamp: number | null;
   count: number;
   aiTests?: TestResult[];
+  aiUsage?: AiUsage | null;
   crudTests: TestResult[];
   dataDrivenTests: TestResult[];
   performanceTests: TestResult[];
   securityTests: TestResult[];
   testOptions: TestOptions | null;
+  timestamp: number | null;
 }
 
 export enum TestStatus {
@@ -93,6 +95,7 @@ export interface ReportSuite {
   name: string;
   summary: { total: number; byStatus: Record<string, number> };
   tests: TestResult[];
+  usage?: AiUsage | null;
 }
 
 export interface ExportReport {

@@ -529,6 +529,7 @@ const de = {
     noTestsGenerated: 'Die KI hat keine Tests generiert.',
     responseTimeout: 'Innerhalb von {{minutes}} Minuten wurde keine vollständige KI-Antwort empfangen',
     waitingForResponse: 'KI-Antwort wird erwartet (Zeitüberschreitung in <timer />)',
+    usage: 'Insgesamt <total /> Tokens verwendet (Prompt: <prompt />, Completion: <completion />)',
   },
 };
 

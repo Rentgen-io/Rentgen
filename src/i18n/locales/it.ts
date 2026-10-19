@@ -529,6 +529,7 @@ const it = {
     noTestsGenerated: "L'AI non ha generato alcun test.",
     responseTimeout: "Nessuna risposta completa dall'AI ricevuta entro {{minutes}} minuti",
     waitingForResponse: "In attesa della risposta dell'AI (scade tra <timer />)",
+    usage: 'Token utilizzati in totale: <total /> (prompt: <prompt />, completamento: <completion />)',
   },
 };
 

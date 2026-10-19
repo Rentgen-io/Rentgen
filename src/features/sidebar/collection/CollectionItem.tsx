@@ -87,7 +87,12 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       if (requestTestResults) {
         dispatch(testsActions.setCount(requestTestResults.count));
         dispatch(testsActions.setTimestamp(requestTestResults.timestamp));
-        dispatch(testsActions.setAiTests(requestTestResults.aiTests ?? []));
+        dispatch(
+          testsActions.setAiTests({
+            results: requestTestResults.aiTests ?? [],
+            usage: requestTestResults.aiUsage ?? null,
+          }),
+        );
         dispatch(testsActions.setCrudTests(requestTestResults.crudTests));
         dispatch(testsActions.setDataDrivenTests(requestTestResults.dataDrivenTests));
         dispatch(testsActions.setPerformanceTests(requestTestResults.performanceTests));
@@ -97,6 +102,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
 
       const { request } = item;
       const isWssUrl = request.url.startsWith('ws://') || request.url.startsWith('wss://');
+
       dispatch(requestActions.setMode(isWssUrl ? 'WSS' : 'HTTP'));
       dispatch(requestActions.setMethod(request.method as Method));
       dispatch(requestActions.setUrl(request.url));
@@ -105,7 +111,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
 
       if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
     },
-    [collection, isComparingTestResults, isDragging, isSelected, runResult, requestTestResults, dispatch, reset],
+    [collection, isComparingTestResults, isDragging, isSelected, requestTestResults, runResult, dispatch, reset],
   );
 
   const onSaveEdit = useCallback(() => {

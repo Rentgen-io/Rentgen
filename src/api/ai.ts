@@ -10,12 +10,42 @@ export interface AiMessage {
   content: string;
 }
 
+export interface AiUsage {
+  promptTokens: number;
+  completionTokens: number;
+  totalTokens: number;
+}
+
 export type AiChatResult =
-  | { ok: true; content: string; body: HttpBody }
+  | { ok: true; content: string; body: HttpBody; usage: AiUsage | null }
   | { ok: false; error: string; body?: HttpBody };
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   return isObject(value) && !Array.isArray(value) ? (value as Record<string, unknown>) : null;
+}
+
+const asNumber = (value: unknown): number | null =>
+  typeof value === 'number' && Number.isFinite(value) ? value : null;
+
+// Supports the OpenAI-compatible shape (usage.prompt_tokens/completion_tokens) and Ollama's native shape (prompt_eval_count/eval_count).
+function extractUsage(body: HttpBody): AiUsage | null {
+  const root = asRecord(body);
+  if (!root) return null;
+
+  const usage = asRecord(root.usage);
+  const promptTokens = asNumber(usage?.prompt_tokens) ?? asNumber(root.prompt_eval_count);
+  const completionTokens = asNumber(usage?.completion_tokens) ?? asNumber(root.eval_count);
+
+  if (promptTokens === null && completionTokens === null) return null;
+
+  const prompt = promptTokens ?? 0;
+  const completion = completionTokens ?? 0;
+
+  return {
+    promptTokens: prompt,
+    completionTokens: completion,
+    totalTokens: asNumber(usage?.total_tokens) ?? prompt + completion,
+  };
 }
 
 // Supports both the OpenAI-compatible shape (choices[].message.content) and Ollama's native shape (message.content).
@@ -75,7 +105,7 @@ export async function sendAiChatRequest(
     const content = extractContent(response.body);
     if (content === null) return { ok: false, error: i18n.t('ai.unexpectedResponse'), body: response.body };
 
-    return { ok: true, content, body: response.body };
+    return { ok: true, content, body: response.body, usage: extractUsage(response.body) };
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : String(error) };
   }

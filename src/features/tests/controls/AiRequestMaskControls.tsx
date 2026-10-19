@@ -127,7 +127,7 @@ export function AiRequestMaskControls({ onCancel }: Props) {
         </Button>
       </div>
       {isAiRunning && (
-        <div className="text-right text-xs text-text-secondary">
+        <div className="@xl:text-right text-xs text-text-secondary">
           <Trans
             i18nKey="ai.waitingForResponse"
             components={{

@@ -527,6 +527,7 @@ const tr = {
     noTestsGenerated: 'Yapay zekâ hiçbir test oluşturmadı.',
     responseTimeout: '{{minutes}} dakika içinde tam bir yapay zekâ yanıtı alınamadı',
     waitingForResponse: 'Yapay zekâ yanıtı bekleniyor (<timer /> içinde zaman aşımı)',
+    usage: 'Toplam <total /> token kullanıldı (istem: <prompt />, tamamlama: <completion />)',
   },
 };
 
