@@ -91,13 +91,13 @@ export default function HttpResponsePanel() {
           <span className="font-semibold">{t('common.warning')}:</span> {runResult.warning}
         </div>
       )}
-      <div
-        className={cn('@2xl:grid divide-y @2xl:divide-y-0 @2xl:divide-x divide-border dark:divide-dark-body', {
-          '@2xl:grid-cols-2': !isNetworkError && hasParameters,
-          'not-empty:border-t border-border dark:border-dark-body': !runResult?.warning,
-        })}
-      >
-        {!isSending && (
+      {!isSending && (
+        <div
+          className={cn('@2xl:grid divide-y @2xl:divide-y-0 @2xl:divide-x divide-border dark:divide-dark-body', {
+            '@2xl:grid-cols-2': !isNetworkError && hasParameters,
+            'not-empty:border-t border-border dark:border-dark-body': !runResult?.warning,
+          })}
+        >
           <div className="flex flex-col gap-4 p-4">
             <h5 className="m-0">{t('response.title')}</h5>
             <Tabs
@@ -150,41 +150,41 @@ export default function HttpResponsePanel() {
               </div>
             </Tabs>
           </div>
-        )}
-        {!isNetworkError && hasParameters && (
-          <div className="flex flex-col gap-4 p-4">
-            <h5 className="m-0">{t('tests.parameters')}</h5>
-            <Tabs selectedTabClassName="text-text dark:text-dark-text underline underline-offset-6 decoration-blue-500">
-              <TabList className="m-0 mb-6 p-0 flex gap-4 text-xs text-text-secondary">
+          {!isNetworkError && hasParameters && (
+            <div className="flex flex-col gap-4 p-4">
+              <h5 className="m-0">{t('tests.parameters')}</h5>
+              <Tabs selectedTabClassName="text-text dark:text-dark-text underline underline-offset-6 decoration-blue-500">
+                <TabList className="m-0 mb-6 p-0 flex gap-4 text-xs text-text-secondary">
+                  {hasBodyParameters && (
+                    <Tab className="list-none outline-none cursor-pointer">{t('tests.bodyParameters')}</Tab>
+                  )}
+                  {hasQueryParameters && (
+                    <Tab className="list-none outline-none cursor-pointer">{t('tests.queryParameters')}</Tab>
+                  )}
+                </TabList>
                 {hasBodyParameters && (
-                  <Tab className="list-none outline-none cursor-pointer">{t('tests.bodyParameters')}</Tab>
+                  <TabPanel>
+                    <ParametersPanel
+                      parameters={bodyParameters}
+                      onBlur={autoSaveRequest}
+                      onChange={(parameters) => dispatch(requestActions.setBodyParameters(parameters))}
+                    />
+                  </TabPanel>
                 )}
                 {hasQueryParameters && (
-                  <Tab className="list-none outline-none cursor-pointer">{t('tests.queryParameters')}</Tab>
+                  <TabPanel>
+                    <ParametersPanel
+                      parameters={queryParameters}
+                      onBlur={autoSaveRequest}
+                      onChange={(parameters) => dispatch(requestActions.setQueryParameters(parameters))}
+                    />
+                  </TabPanel>
                 )}
-              </TabList>
-              {hasBodyParameters && (
-                <TabPanel>
-                  <ParametersPanel
-                    parameters={bodyParameters}
-                    onBlur={autoSaveRequest}
-                    onChange={(parameters) => dispatch(requestActions.setBodyParameters(parameters))}
-                  />
-                </TabPanel>
-              )}
-              {hasQueryParameters && (
-                <TabPanel>
-                  <ParametersPanel
-                    parameters={queryParameters}
-                    onBlur={autoSaveRequest}
-                    onChange={(parameters) => dispatch(requestActions.setQueryParameters(parameters))}
-                  />
-                </TabPanel>
-              )}
-            </Tabs>
-          </div>
-        )}
-      </div>
+              </Tabs>
+            </div>
+          )}
+        </div>
+      )}
     </Panel>
   );
 }

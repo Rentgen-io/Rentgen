@@ -137,7 +137,7 @@ export default function DataDrivenTestsPanel() {
         expandOnRowClicked
         data={dataDrivenTests}
         fixedHeader={true}
-        fixedHeaderScrollHeight="720px"
+        fixedHeaderScrollHeight="868px"
         progressComponent={
           <LoaderWithText className="flex-auto justify-center" text={t('tests.runningDataDrivenTests')} />
         }
