@@ -58,14 +58,15 @@ export default function TestRunnerBar() {
           <Button
             className="@xl:shrink-0 @xl:whitespace-nowrap"
             disabled={disabledRunTests}
-            onClick={() =>
+            onClick={() => {
+              dispatch(uiActions.setTestsActiveTab(0));
               executeAllTests({
                 ...substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables),
                 bodyParameters,
                 method,
                 queryParameters,
-              })
-            }
+              });
+            }}
           >
             {isRunningTests
               ? t('tests.runningTests', { current: currentTest, total: testsCount })

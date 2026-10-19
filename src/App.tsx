@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { twMerge } from 'tailwind-merge';
@@ -38,6 +38,7 @@ import {
   selectIsRequestDisabled,
   selectMode,
   selectTestResultsToCompare,
+  selectTestsActiveTab,
 } from './store/selectors';
 import { environmentActions } from './store/slices/environmentSlice';
 import { testsActions } from './store/slices/testsSlice';
@@ -45,6 +46,7 @@ import { getTestsStatistics } from './test-engine';
 
 import ClearCrossIcon from './assets/icons/clear-cross-icon.svg';
 import Loader from './components/loaders/Loader';
+import { uiActions } from './store/slices/uiSlice';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -72,8 +74,7 @@ export default function App() {
   const mode = useAppSelector(selectMode);
   const testResults = useAppSelector(selectCurrentTestResults);
   const testResultsToCompare = useAppSelector(selectTestResultsToCompare);
-
-  const [tabIndex, setTabIndex] = useState<number>(0);
+  const testsActiveTab = useAppSelector(selectTestsActiveTab);
 
   const testsTabs = useMemo(
     () => [
@@ -170,10 +171,12 @@ export default function App() {
           <Tabs
             className="flex flex-col flex-auto"
             forceRenderTabPanel={true}
-            selectedIndex={tabIndex}
+            selectedIndex={testsActiveTab}
             selectedTabClassName="bg-white border-border! text-text dark:bg-dark-input dark:border-dark-body! dark:text-dark-text"
             selectedTabPanelClassName="flex! flex-col flex-auto gap-4"
-            onSelect={(index) => setTabIndex(index)}
+            onSelect={(index) => {
+              dispatch(uiActions.setTestsActiveTab(index));
+            }}
           >
             <TabList className="flex m-0 px-4 border-b border-border dark:border-dark-body">
               {testsTabs.map(({ disabledTests, isRunning, label, tests }) => {
