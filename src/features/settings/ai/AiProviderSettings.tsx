@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { testAiConnection } from 'src/api/ai';
 import { openExternal } from 'src/api/system';
@@ -22,6 +22,7 @@ import EditIcon from 'src/assets/icons/edit-icon.svg';
 import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
+const OPENAI_API_BASE_URL = 'https://api.openai.com';
 
 const providerNames: Record<AiProviderType, string> = {
   ollama: 'Ollama',
@@ -197,7 +198,13 @@ function AiProviderForm({
   const [path, setPath] = useState<string>(aiProvider?.path ?? CHAT_COMPLETIONS_PATH);
 
   const isOllama = aiProviderType === 'ollama';
-  const isOpenAI = aiProviderType === 'openai' || aiProviderType === 'openai-compatible';
+  const isOpenAi = aiProviderType === 'openai';
+  const isOpenAiCompatible = aiProviderType === 'openai-compatible';
+
+  const currentProvider = useMemo(() => {
+    if (aiProvider?.type === aiProviderType) return aiProvider;
+    return null;
+  }, [aiProvider, aiProviderType]);
 
   const provider = useMemo<AiProvider>(
     () => ({
@@ -213,7 +220,15 @@ function AiProviderForm({
     [aiProviderId, aiProvider?.active, aiProviderType, apiKey, baseUrl, model, path],
   );
 
-  const disabled = !provider.baseUrl || !path.trim() || !provider.model || (isOpenAI && !provider.apiKey);
+  const disabled =
+    !provider.baseUrl || !path.trim() || !provider.model || (isOpenAi && isOpenAiCompatible && !provider.apiKey);
+
+  useEffect(() => {
+    setBaseUrl(currentProvider?.baseUrl ?? (isOpenAi ? OPENAI_API_BASE_URL : ''));
+    setModel(currentProvider?.model ?? '');
+    setPath(currentProvider?.path ?? CHAT_COMPLETIONS_PATH);
+    setApiKey(currentProvider?.apiKey ?? '');
+  }, [currentProvider, isOpenAi]);
 
   const handleSave = useCallback(async () => {
     if (disabled || isSaving) return;
@@ -253,7 +268,7 @@ function AiProviderForm({
           </span>
         )}
       </div>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-2">
         <div className="flex-1 flex flex-col gap-2">
           <FieldLabel label={t('settings.ai.baseUrl')} required />
           <Input type="url" value={baseUrl} onChange={(e) => setBaseUrl(e.target.value)} />
@@ -263,18 +278,18 @@ function AiProviderForm({
           <Input value={path} onChange={(e) => setPath(e.target.value)} />
         </div>
       </div>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-2">
         <div className="flex-1 flex flex-col gap-2">
           <FieldLabel label={t('settings.ai.model')} required />
           <Input value={model} onChange={(e) => setModel(e.target.value)} />
         </div>
         <div className="flex-1 flex flex-col gap-2">
-          <FieldLabel label={t('settings.ai.apiKey')} required={isOpenAI} />
+          <FieldLabel label={t('settings.ai.apiKey')} required={isOpenAi} />
           <Input type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
           <span className="text-xs text-text-secondary">{t('settings.ai.apiKeyStorageNotice')}</span>
         </div>
       </div>
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-2">
         {onCancel && (
           <Button buttonType={ButtonType.SECONDARY} className="flex-1" disabled={isSaving} onClick={onCancel}>
             {t('common.cancel')}
