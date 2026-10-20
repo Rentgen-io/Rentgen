@@ -92,6 +92,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
         dispatch(testsActions.setTimestamp(requestTestResults.timestamp));
         dispatch(
           testsActions.setAiTests({
+            overview: requestTestResults.aiOverview ?? null,
             results: requestTestResults.aiTests ?? [],
             usage: requestTestResults.aiUsage ?? null,
           }),

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { AiUsage } from 'src/api/ai';
-import { HttpResponse, TestOptions, TestResult, TestResults } from 'src/types';
+import { AiTestsOverview, HttpResponse, TestOptions, TestResult, TestResults } from 'src/types';
 
 interface TestState extends TestResults {
   aiRunStartedAt?: number;
@@ -21,6 +21,7 @@ interface TestState extends TestResults {
 }
 
 const initialState: TestState = {
+  aiOverview: null,
   aiRunStartedAt: undefined,
   aiTests: [],
   aiUsage: null,
@@ -51,11 +52,17 @@ export const testsSlice = createSlice({
   reducers: {
     addAiTestResults: (
       state,
-      action: PayloadAction<{ requestId: string; results: TestResult[]; usage: AiUsage | null }>,
+      action: PayloadAction<{
+        overview: AiTestsOverview | null;
+        requestId: string;
+        results: TestResult[];
+        usage: AiUsage | null;
+      }>,
     ) => {
       const results = state.results[action.payload.requestId];
       if (!results) return;
 
+      results.aiOverview = action.payload.overview;
       results.aiTests = [...(results.aiTests || []), ...action.payload.results];
       results.aiUsage = action.payload.usage;
     },
@@ -97,7 +104,15 @@ export const testsSlice = createSlice({
     setAiRunning: (state, action: PayloadAction<boolean>) => {
       state.aiRunStartedAt = action.payload ? Date.now() : undefined;
     },
-    setAiTests: (state, action: PayloadAction<{ results: TestResult[]; usage: AiUsage | null }>) => {
+    setAiTests: (
+      state,
+      action: PayloadAction<{
+        overview: AiTestsOverview | null;
+        results: TestResult[];
+        usage: AiUsage | null;
+      }>,
+    ) => {
+      state.aiOverview = action.payload.overview;
       state.aiTests = action.payload.results;
       state.aiUsage = action.payload.usage;
     },
@@ -167,7 +182,7 @@ export const testsSlice = createSlice({
 
       state.aiTests[action.payload.id] = action.payload.result;
     },
-    updateAiTestResults: (state, action: PayloadAction<{ requestId: string; id: number; result: TestResult }>) => {
+    updateAiTestResults: (state, action: PayloadAction<{ id: number; requestId: string; result: TestResult }>) => {
       const results = state.results[action.payload.requestId];
       if (!results || !results.aiTests || !results.aiTests[action.payload.id]) return;
 
@@ -188,13 +203,13 @@ export const testsSlice = createSlice({
       );
       if (index !== -1) results.dataDrivenTests[index] = action.payload.result;
     },
-    updatePerformanceTest: (state, action: PayloadAction<{ testName: string; result: TestResult }>) => {
+    updatePerformanceTest: (state, action: PayloadAction<{ result: TestResult; testName: string }>) => {
       const index = state.performanceTests.findIndex((t) => t.name === action.payload.testName);
       if (index !== -1) state.performanceTests[index] = action.payload.result;
     },
     updatePerformanceTestResults: (
       state,
-      action: PayloadAction<{ requestId: string; testName: string; result: TestResult }>,
+      action: PayloadAction<{ requestId: string; result: TestResult; testName: string }>,
     ) => {
       const results = state.results[action.payload.requestId];
       if (!results) return;
@@ -202,13 +217,13 @@ export const testsSlice = createSlice({
       const index = results.performanceTests.findIndex((test) => test.name === action.payload.testName);
       if (index !== -1) results.performanceTests[index] = action.payload.result;
     },
-    updateSecurityTest: (state, action: PayloadAction<{ testName: string; result: TestResult }>) => {
+    updateSecurityTest: (state, action: PayloadAction<{ result: TestResult; testName: string }>) => {
       const index = state.securityTests.findIndex((t) => t.name === action.payload.testName);
       if (index !== -1) state.securityTests[index] = action.payload.result;
     },
     updateSecurityTestResults: (
       state,
-      action: PayloadAction<{ requestId: string; testName: string; result: TestResult }>,
+      action: PayloadAction<{ requestId: string; result: TestResult; testName: string }>,
     ) => {
       const results = state.results[action.payload.requestId];
       if (!results) return;

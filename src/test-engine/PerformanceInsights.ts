@@ -48,7 +48,7 @@ const NETWORK_SHARE_WARNING_THRESHOLD = 50;
 
 const RESPONSE_SIZE_KB = 100;
 
-export class PerformanceInsights extends BaseTests {
+export class PerformanceInsights extends BaseTests<TestResult[]> {
   constructor(
     private testResults: TestResult[],
     protected options: TestOptions,

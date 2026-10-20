@@ -35,7 +35,7 @@ import { Abortable, Test } from './decorators';
 
 const VALUE_NORMALIZATION_TEST_EXPECTED = `${RESPONSE_STATUS.BAD_REQUEST} ${getResponseStatusTitle(RESPONSE_STATUS.BAD_REQUEST)}/${RESPONSE_STATUS.UNPROCESSABLE_ENTITY} ${getResponseStatusTitle(RESPONSE_STATUS.UNPROCESSABLE_ENTITY)} or Trimmed/Normalized Value`;
 
-export class DataDrivenTests extends BaseTests {
+export class DataDrivenTests extends BaseTests<TestResult[]> {
   private signal?: AbortSignal;
 
   protected async execute(signal: AbortSignal): Promise<TestResult[]> {

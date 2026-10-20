@@ -45,7 +45,7 @@ const REFLECTED_PAYLOAD_SAFETY_TEST_EXPECTED = `${RESPONSE_STATUS.BAD_REQUEST} $
 const UPPERCASE_PATH_TEST_EXPECTED = `${RESPONSE_STATUS.OK} ${getResponseStatusTitle(RESPONSE_STATUS.OK)} or ${RESPONSE_STATUS.NOT_FOUND} ${getResponseStatusTitle(RESPONSE_STATUS.NOT_FOUND)}`;
 const UNSUPPORTED_METHOD_TEST_EXPECTED = `${RESPONSE_STATUS.METHOD_NOT_ALLOWED} ${getResponseStatusTitle(RESPONSE_STATUS.METHOD_NOT_ALLOWED)} or ${RESPONSE_STATUS.NOT_IMPLEMENTED} ${getResponseStatusTitle(RESPONSE_STATUS.NOT_IMPLEMENTED)}`;
 
-export class SecurityTests extends BaseTests {
+export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; securityTests: TestResult[] }> {
   private signal?: AbortSignal;
 
   constructor(

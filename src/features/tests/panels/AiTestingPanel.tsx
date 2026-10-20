@@ -26,7 +26,7 @@ import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHead
 export default function AiTestingPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { aiTests, aiUsage, isRunningTests, cancelAiTestsGeneration, executeAiTest } = useTests();
+  const { aiOverview, aiTests, aiUsage, isRunningTests, cancelAiTestsGeneration, executeAiTest } = useTests();
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
   const runningAiTests = useAppSelector(selectRunningAiTests);
@@ -40,7 +40,7 @@ export default function AiTestingPanel() {
   return (
     <>
       <TestsTableHeader tests={aiTests ?? []} onOpenSettings={() => dispatch(modalsActions.openSettingsModal(2))} />
-      {aiTests && aiTests.length > 0 ? (
+      {aiOverview || (aiTests && aiTests.length > 0) ? (
         <TestsTable
           columns={[
             {
@@ -108,7 +108,7 @@ export default function AiTestingPanel() {
           expandableRowsComponent={ExpandedTestComponent}
           expandableRowDisabled={(row) => !row.request}
           expandOnRowClicked
-          data={aiTests}
+          data={aiTests ?? []}
         />
       ) : (
         <div className="flex flex-col gap-4 text-center">

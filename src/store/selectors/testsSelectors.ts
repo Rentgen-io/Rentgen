@@ -4,6 +4,7 @@ import { RootState } from 'src/store';
 import { TestResults } from 'src/types';
 import { selectHttpResponse, selectStatusCode } from './responseSelectors';
 
+export const selectAiOverview = (state: RootState) => state.tests.aiOverview;
 export const selectAiRunStartedAt = (state: RootState) => state.tests.aiRunStartedAt;
 export const selectAiTests = (state: RootState) => state.tests.aiTests;
 export const selectAiUsage = (state: RootState) => state.tests.aiUsage;

@@ -72,6 +72,7 @@ export interface TestResult {
 export interface TestResults {
   count: number;
   aiTests?: TestResult[];
+  aiOverview?: AiTestsOverview | null;
   aiUsage?: AiUsage | null;
   crudTests: TestResult[];
   dataDrivenTests: TestResult[];
@@ -79,6 +80,16 @@ export interface TestResults {
   securityTests: TestResult[];
   testOptions: TestOptions | null;
   timestamp: number | null;
+}
+
+export interface AiTestsOverview {
+  summary: string;
+  topIssues: {
+    title: string;
+    evidence: string;
+    impact: string;
+  }[];
+  attentionPoints: string[];
 }
 
 export enum TestStatus {

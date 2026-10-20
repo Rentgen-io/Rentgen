@@ -4,6 +4,7 @@ import { getDatasets } from 'src/constants/datasets';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectActiveAiProvider,
+  selectAiOverview,
   selectAiRunStartedAt,
   selectAiTests,
   selectAiUsage,
@@ -49,6 +50,7 @@ const useTests = () => {
   const dispatch = useAppDispatch();
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
+  const aiOverview = useAppSelector(selectAiOverview);
   const aiRunStartedAt = useAppSelector(selectAiRunStartedAt);
   const aiTests = useAppSelector(selectAiTests);
   const aiUsage = useAppSelector(selectAiUsage);
@@ -129,8 +131,8 @@ const useTests = () => {
       if (selectedRequestId)
         dispatch(
           testsActions.updateAiTestResults({
-            requestId: selectedRequestId,
             id,
+            requestId: selectedRequestId,
             result,
           }),
         );
@@ -149,12 +151,20 @@ const useTests = () => {
         activeAiProvider,
         options,
       );
-      const { results, usage } = await aiTestsInstance.run();
+      const { overview, results, usage } = await aiTestsInstance.run();
 
       dispatch(testsActions.setAiRunning(false));
-      dispatch(testsActions.setAiTests({ results, usage }));
+      dispatch(testsActions.setAiTests({ overview, results, usage }));
 
-      if (selectedRequestId) dispatch(testsActions.addAiTestResults({ requestId: selectedRequestId, results, usage }));
+      if (selectedRequestId)
+        dispatch(
+          testsActions.addAiTestResults({
+            overview,
+            requestId: selectedRequestId,
+            results,
+            usage,
+          }),
+        );
     },
     [activeAiProvider, crudTests, dataDrivenTests, performanceTests, securityTests, selectedRequestId, dispatch],
   );
@@ -185,8 +195,8 @@ const useTests = () => {
 
       dispatch(
         testsActions.updateSecurityTest({
-          testName: LARGE_PAYLOAD_TEST_NAME,
           result: largePayloadTest,
+          testName: LARGE_PAYLOAD_TEST_NAME,
         }),
       );
       dispatch(testsActions.setLargePayloadTestRunning(false));
@@ -195,8 +205,8 @@ const useTests = () => {
         dispatch(
           testsActions.updateSecurityTestResults({
             requestId: selectedRequestId,
-            testName: LARGE_PAYLOAD_TEST_NAME,
             result: largePayloadTest,
+            testName: LARGE_PAYLOAD_TEST_NAME,
           }),
         );
     },
@@ -220,13 +230,13 @@ const useTests = () => {
 
       dispatch(
         testsActions.updatePerformanceTest({
-          testName: LOAD_TEST_NAME,
           result: {
+            actual: formatLoadTestProgress(generateLoadBarProgress(0), 0, requestCount),
+            expected: '',
             name: LOAD_TEST_NAME,
             status: performanceTests.find((t) => t.name === LOAD_TEST_NAME)?.status || 'info',
-            expected: '',
-            actual: formatLoadTestProgress(generateLoadBarProgress(0), 0, requestCount),
           } as TestResult,
+          testName: LOAD_TEST_NAME,
         }),
       );
 
@@ -238,13 +248,13 @@ const useTests = () => {
           dispatch(testsActions.setLoadProgress(percent));
           dispatch(
             testsActions.updatePerformanceTest({
-              testName: LOAD_TEST_NAME,
               result: {
+                actual: formatLoadTestProgress(generateLoadBarProgress(percent), sentRequestCount, totalRequestCount),
+                expected: '',
                 name: LOAD_TEST_NAME,
                 status: performanceTests.find((t) => t.name === LOAD_TEST_NAME)?.status || 'info',
-                expected: '',
-                actual: formatLoadTestProgress(generateLoadBarProgress(percent), sentRequestCount, totalRequestCount),
               } as TestResult,
+              testName: LOAD_TEST_NAME,
             }),
           );
         }
@@ -254,8 +264,8 @@ const useTests = () => {
 
       dispatch(
         testsActions.updatePerformanceTest({
-          testName: LOAD_TEST_NAME,
           result: loadTestResult,
+          testName: LOAD_TEST_NAME,
         }),
       );
       dispatch(testsActions.setLoadTestRunning(false));
@@ -264,8 +274,8 @@ const useTests = () => {
         dispatch(
           testsActions.updatePerformanceTestResults({
             requestId: selectedRequestId,
-            testName: LOAD_TEST_NAME,
             result: loadTestResult,
+            testName: LOAD_TEST_NAME,
           }),
         );
     },
@@ -344,13 +354,13 @@ const useTests = () => {
           testsActions.addResults({
             requestId: selectedRequestId,
             results: {
-              count,
-              timestamp,
               crudTests,
+              count,
               dataDrivenTests,
               performanceTests,
               securityTests,
               testOptions: options,
+              timestamp,
             },
           }),
         );
@@ -368,6 +378,7 @@ const useTests = () => {
   );
 
   return {
+    aiOverview,
     aiRunStartedAt,
     aiTests,
     aiUsage,

@@ -3,7 +3,7 @@ import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import { type AiUsage, sendAiChatRequest } from 'src/api/ai';
 import { sendHttp } from 'src/api/network';
 import i18n from 'src/i18n';
-import { AiProvider, TestOptions, TestResult, TestStatus } from 'src/types';
+import { AiProvider, AiTestsOverview, TestOptions, TestResult, TestStatus } from 'src/types';
 import { createHttpRequest, tryParseJsonObject } from 'src/utils';
 import { notify } from 'src/utils/toast';
 import {
@@ -199,14 +199,7 @@ const RESPONSE_FORMAT: Record<string, unknown> = {
   },
 };
 
-interface AiContent {
-  summary: string;
-  topIssues: {
-    title: string;
-    evidence: string;
-    impact: string;
-  }[];
-  attentionPoints: string[];
+interface AiContent extends AiTestsOverview {
   tests: {
     name: string;
     expected: string;
@@ -222,7 +215,11 @@ interface AiContent {
   }[];
 }
 
-export class AiTests extends BaseTests {
+export class AiTests extends BaseTests<{
+  overview: AiTestsOverview | null;
+  results: TestResult[];
+  usage: AiUsage | null;
+}> {
   constructor(
     private testResults: {
       crudTests: TestResult[];
@@ -240,7 +237,11 @@ export class AiTests extends BaseTests {
     this.aiProvider = aiProvider;
   }
 
-  protected override async execute(signal: AbortSignal): Promise<{ results: TestResult[]; usage: AiUsage | null }> {
+  protected override async execute(signal: AbortSignal): Promise<{
+    overview: AiTestsOverview | null;
+    results: TestResult[];
+    usage: AiUsage | null;
+  }> {
     let timedOut = false;
 
     clearTimeout(aiResponseTimeoutId);
@@ -273,14 +274,14 @@ export class AiTests extends BaseTests {
       notify.error(i18n.t('ai.responseTimeout', { minutes: AI_RESPONSE_TIMEOUT_MINUTES }), {
         toastId: 'error-generate-ai-tests',
       });
-      return { results: [], usage: null };
+      return { overview: null, results: [], usage: null };
     }
 
     if (!response?.ok) {
       if (response.error !== RESPONSE_STATUS_LABEL.ABORTED)
         notify.error(response.error, { toastId: 'error-generate-ai-tests' });
 
-      return { results: [], usage: null };
+      return { overview: null, results: [], usage: null };
     }
 
     const content = tryParseJsonObject(response.content) as AiContent;
@@ -303,7 +304,17 @@ export class AiTests extends BaseTests {
 
     const usage = response.usage;
 
-    return { results, usage };
+    return {
+      overview: content
+        ? {
+            attentionPoints: content.attentionPoints ?? null,
+            summary: content.summary ?? null,
+            topIssues: content.topIssues ?? null,
+          }
+        : null,
+      results,
+      usage,
+    };
   }
 }
 
