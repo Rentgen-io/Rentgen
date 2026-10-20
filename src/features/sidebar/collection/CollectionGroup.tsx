@@ -118,7 +118,7 @@ export default function CollectionGroup({
       >
         <div
           className={cn(
-            'h-9 flex items-center gap-2 px-3 py-1.5 border-b border-border dark:border-dark-border',
+            'h-9 flex items-center gap-2 px-3 py-1.5',
             'hover:bg-button-secondary dark:hover:bg-dark-input box-border group cursor-pointer outline-none',
             {
               'bg-button-secondary dark:bg-dark-input': isSelected,
