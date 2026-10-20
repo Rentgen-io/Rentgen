@@ -82,6 +82,7 @@ export const testsSlice = createSlice({
       state.currentTest += 1;
     },
     resetTests: (state) => {
+      state.aiOverview = null;
       state.aiRunStartedAt = undefined;
       state.aiTests = [];
       state.aiUsage = null;

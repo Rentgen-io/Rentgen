@@ -70,10 +70,10 @@ export interface TestResult {
 }
 
 export interface TestResults {
-  count: number;
-  aiTests?: TestResult[];
   aiOverview?: AiTestsOverview | null;
+  aiTests?: TestResult[];
   aiUsage?: AiUsage | null;
+  count: number;
   crudTests: TestResult[];
   dataDrivenTests: TestResult[];
   performanceTests: TestResult[];

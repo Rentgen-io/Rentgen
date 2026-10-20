@@ -111,7 +111,7 @@ export default function App() {
         tests: crudTests,
       },
     ],
-    [aiTests, crudTests, dataDrivenTests, performanceTests, securityTests],
+    [aiTests, crudTests, dataDrivenTests, performanceTests, securityTests, t],
   );
 
   const { saveRequest } = useSaveRequest();
@@ -178,15 +178,15 @@ export default function App() {
               dispatch(uiActions.setTestsActiveTab(index));
             }}
           >
-            <TabList className="flex m-0 px-4 border-b border-border dark:border-dark-body">
+            <TabList className="flex m-0 px-4 text-sm font-medium border-b border-border dark:border-dark-body">
               {testsTabs.map(({ disabledTests, isRunning, label, tests }) => {
                 const { bugs, failed, passed, warnings } = getTestsStatistics(tests ?? [], disabledTests);
 
                 return (
                   <Tab
                     key={label}
-                    className="relative flex items-center gap-2 -bottom-px py-1.5 px-3 text-sm border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
-                    title={t(label)}
+                    className="relative flex items-center gap-2 -bottom-px py-1.5 px-3 border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
+                    title={label}
                   >
                     {isRunning ? (
                       <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
@@ -203,7 +203,7 @@ export default function App() {
                       />
                     )}
 
-                    <span className="truncate">{t(label)}</span>
+                    <span className="truncate">{label}</span>
                   </Tab>
                 );
               })}

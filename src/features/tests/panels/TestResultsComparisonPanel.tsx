@@ -8,6 +8,7 @@ import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
 import { ORIGINAL_REQUEST_TEST_PARAMETER_NAME } from 'src/test-engine';
 import { HttpBody, HttpRequest, HttpResponse, TestResult, TestResults } from 'src/types';
 import { detectObjectType, truncateValue } from 'src/utils';
+import { twMerge } from 'tailwind-merge';
 import PotentialBugsTable, { PotentialBug } from '../tables/PotentialBugsTable';
 
 interface Props extends PanelProps {
@@ -98,6 +99,60 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
     ];
   }, [items]);
 
+  const tabs = useMemo(
+    () => [
+      {
+        component: (
+          <div className="flex flex-col flex-auto h-0 gap-4 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
+            {!potentialBugs || potentialBugs.length === 0 ? (
+              <p className="m-0 p-2.5 text-sm text-white text-center bg-green-600">{t('comparison.noPotentialBugs')}</p>
+            ) : (
+              <PotentialBugsTable data={potentialBugs} />
+            )}
+            <Button className="w-fit" onClick={() => setTabIndex(1)}>
+              {t('comparison.showFullBehaviorChanges')}
+            </Button>
+          </div>
+        ),
+        label: t('comparison.potentialBugs'),
+        panelClassName: 'p-4 overflow-hidden',
+      },
+      {
+        component: (
+          <div className="flex flex-col flex-auto gap-4 h-0">
+            <div className="flex flex-col gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <span>
+                  {t('comparison.behaviorChange')} <b>{statistics.percent}%</b>
+                </span>
+                <span className="text-green-500">+{statistics.added}</span>
+                <span className="text-red-500">-{statistics.removed}</span>
+                <span>={statistics.unchanged}</span>
+              </div>
+              <Toggle
+                className="w-fit"
+                label={t('comparison.showNoise')}
+                disabled={!diffReady}
+                onChange={(e) => {
+                  setShowNoise(e.target.checked);
+                  setDiffReady(false);
+                }}
+              />
+            </div>
+            <JsonDiffViewer
+              className="flex-1 p-4 border-t border-border dark:border-dark-body"
+              data={filteredItems}
+              calculateStatistics={setStatistics}
+              isDiffReady={setDiffReady}
+            />
+          </div>
+        ),
+        label: t('comparison.fullBehaviorChanges'),
+      },
+    ],
+    [diffReady, filteredItems, potentialBugs, statistics, t],
+  );
+
   return (
     <Panel className="flex flex-col flex-auto border-none" collapsible={false} title={title} {...otherProps}>
       {items.length < 2 ? (
@@ -111,64 +166,26 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
           selectedTabPanelClassName="flex! flex-col flex-auto"
           onSelect={(index) => setTabIndex(index)}
         >
-          <TabList className="flex m-0 px-4 border-b border-border dark:border-dark-body">
-            <Tab
-              className="relative -bottom-px py-1.5 px-3 text-sm border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
-              title={t('comparison.potentialBugs')}
-            >
-              {t('comparison.potentialBugs')}
-            </Tab>
-            <Tab
-              className="relative -bottom-px py-1.5 px-3 text-sm border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
-              title={t('comparison.fullBehaviorChanges')}
-            >
-              {t('comparison.fullBehaviorChanges')}
-            </Tab>
+          <TabList className="flex m-0 px-4 text-sm font-medium border-b border-border dark:border-dark-body">
+            {tabs.map(({ label }) => (
+              <Tab
+                key={label}
+                className="relative -bottom-px py-1.5 px-3 border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
+                title={label}
+              >
+                {label}
+              </Tab>
+            ))}
           </TabList>
 
-          <TabPanel className="hidden p-4 bg-body dark:bg-dark-body overflow-hidden">
-            <div className="flex flex-col flex-auto h-0 gap-4 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
-              {!potentialBugs || potentialBugs.length === 0 ? (
-                <p className="m-0 p-2.5 text-sm text-white text-center bg-green-600">
-                  {t('comparison.noPotentialBugs')}
-                </p>
-              ) : (
-                <PotentialBugsTable data={potentialBugs} />
-              )}
-              <Button className="w-fit" onClick={() => setTabIndex(1)}>
-                {t('comparison.showFullBehaviorChanges')}
-              </Button>
-            </div>
-          </TabPanel>
-          <TabPanel className="hidden bg-body dark:bg-dark-body">
-            <div className="flex flex-col flex-auto h-0">
-              <div className="flex flex-col p-4 gap-4 text-sm border-b border-border dark:border-dark-body">
-                <div className="flex items-center gap-2">
-                  <span>
-                    {t('comparison.behaviorChange')} <b>{statistics.percent}%</b>
-                  </span>
-                  <span className="text-green-500">+{statistics.added}</span>
-                  <span className="text-red-500">-{statistics.removed}</span>
-                  <span>={statistics.unchanged}</span>
-                </div>
-                <Toggle
-                  className="w-fit"
-                  label={t('comparison.showNoise')}
-                  disabled={!diffReady}
-                  onChange={(e) => {
-                    setShowNoise(e.target.checked);
-                    setDiffReady(false);
-                  }}
-                />
-              </div>
-              <JsonDiffViewer
-                className="flex-1 p-4"
-                data={filteredItems}
-                calculateStatistics={setStatistics}
-                isDiffReady={setDiffReady}
-              />
-            </div>
-          </TabPanel>
+          {tabs.map(({ component, label, panelClassName }) => (
+            <TabPanel
+              key={label}
+              className={twMerge('hidden p-4 bg-body dark:bg-dark-body overflow-hidden', panelClassName)}
+            >
+              {component}
+            </TabPanel>
+          ))}
         </Tabs>
       )}
     </Panel>

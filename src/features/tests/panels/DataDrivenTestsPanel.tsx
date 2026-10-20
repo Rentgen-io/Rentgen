@@ -76,7 +76,7 @@ export default function DataDrivenTestsPanel() {
 
               return (
                 <SimpleSelect
-                  className="pl-0 text-[13px] bg-transparent border-none"
+                  className="pl-0 text-[13px] text-inherit bg-transparent border-none dark:text-inherit dark:bg-transparent dark:border-none"
                   options={[
                     { value: SUCCESS_RESPONSE_EXPECTED, label: SUCCESS_RESPONSE_EXPECTED },
                     { value: ERROR_RESPONSE_EXPECTED, label: ERROR_RESPONSE_EXPECTED },

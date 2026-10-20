@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Button from 'src/components/buttons/Button';
 import { Controls } from 'src/components/controls/Controls';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
@@ -41,75 +42,105 @@ export default function AiTestingPanel() {
     <>
       <TestsTableHeader tests={aiTests ?? []} onOpenSettings={() => dispatch(modalsActions.openSettingsModal(2))} />
       {aiOverview || (aiTests && aiTests.length > 0) ? (
-        <TestsTable
-          columns={[
-            {
-              name: t('tables.check'),
-              selector: (row, id) => (
-                <div className="py-1 px-0 line-clamp-4 whitespace-normal" data-column-id={id} data-tag="allowRowEvents">
-                  {row.name}
-                </div>
-              ),
-            },
-            {
-              name: t('tables.expected'),
-              selector: (row) => row.expected,
-              cell: (row, id) =>
-                !row.response ? (
-                  row.expected
-                ) : (
-                  <SimpleSelect
-                    className="pl-0 text-[13px] bg-transparent border-none"
-                    options={[
-                      { value: SUCCESS_RESPONSE_EXPECTED, label: SUCCESS_RESPONSE_EXPECTED },
-                      { value: ERROR_RESPONSE_EXPECTED, label: ERROR_RESPONSE_EXPECTED },
-                    ]}
-                    value={row.expected}
-                    onChange={(event) => {
-                      const expected = event.target.value as string;
+        <div className="flex flex-col gap-4">
+          <div>
+            <h5 className="m-0 mb-1">AI summary</h5>
+            <p className="m-0 text-xs text-text-secondary">{aiOverview?.summary ?? '-'}</p>
+          </div>
+          <Tabs
+            forceRenderTabPanel={true}
+            selectedTabClassName="text-text dark:text-dark-text border-blue-500! cursor-default!"
+            selectedTabPanelClassName="block!"
+          >
+            <TabList className="m-0 mb-6 p-0 flex gap-4 text-sm font-medium text-text-secondary">
+              <Tab className="pb-1 list-none border-b border-transparent outline-none cursor-pointer">Overview</Tab>
+              <Tab className="pb-1 flex items-center gap-2 border-b border-transparent list-none outline-none cursor-pointer">
+                <span>Tests</span>
+                <span className="py-0.5 px-1.5 font-normal text-xs text-text-secondary bg-text-secondary/10">
+                  {aiTests?.length ?? 0}
+                </span>
+              </Tab>
+            </TabList>
+            <TabPanel className="hidden">Overview</TabPanel>
+            <TabPanel className="hidden">
+              <TestsTable
+                columns={[
+                  {
+                    name: t('tables.check'),
+                    selector: (row, id) => (
+                      <div
+                        className="py-1 px-0 line-clamp-4 whitespace-normal"
+                        data-column-id={id}
+                        data-tag="allowRowEvents"
+                      >
+                        {row.name}
+                      </div>
+                    ),
+                  },
+                  {
+                    name: t('tables.expected'),
+                    selector: (row) => row.expected,
+                    cell: (row, id) =>
+                      !row.response ? (
+                        row.expected
+                      ) : (
+                        <SimpleSelect
+                          className="pl-0 text-[13px] text-inherit bg-transparent border-none dark:text-inherit dark:bg-transparent dark:border-none"
+                          options={[
+                            { value: SUCCESS_RESPONSE_EXPECTED, label: SUCCESS_RESPONSE_EXPECTED },
+                            { value: ERROR_RESPONSE_EXPECTED, label: ERROR_RESPONSE_EXPECTED },
+                          ]}
+                          value={row.expected}
+                          onChange={(event) => {
+                            const expected = event.target.value as string;
 
-                      if (!row.response) return;
+                            if (!row.response) return;
 
-                      const { actual, status } = determineTestStatus(row.response, (response, statusCode) =>
-                        determineRequestParameterTestStatus(response, statusCode, {
-                          valid: expected === SUCCESS_RESPONSE_EXPECTED,
-                          value: row.value,
-                        }),
+                            const { actual, status } = determineTestStatus(row.response, (response, statusCode) =>
+                              determineRequestParameterTestStatus(response, statusCode, {
+                                valid: expected === SUCCESS_RESPONSE_EXPECTED,
+                                value: row.value,
+                              }),
+                            );
+                            const testResult = { ...row, actual, expected, status };
+
+                            dispatch(testsActions.updateAiTest({ id, result: testResult }));
+
+                            if (selectedRequestId)
+                              dispatch(
+                                testsActions.updateAiTestResults({
+                                  requestId: selectedRequestId,
+                                  id,
+                                  result: testResult,
+                                }),
+                              );
+                          }}
+                        />
+                      ),
+                  },
+                  ...getTestsTableColumns(['Actual'], t),
+                  {
+                    name: t('tables.result'),
+                    selector: (row) => row.status,
+                    width: '150px',
+                    cell: (row, id) => {
+                      if (row.actual) return row.status;
+
+                      return (
+                        <Controls isRunning={runningAiTests[id]} executeTest={async () => await executeAiTest(id)} />
                       );
-                      const testResult = { ...row, actual, expected, status };
-
-                      dispatch(testsActions.updateAiTest({ id, result: testResult }));
-
-                      if (selectedRequestId)
-                        dispatch(
-                          testsActions.updateAiTestResults({
-                            requestId: selectedRequestId,
-                            id,
-                            result: testResult,
-                          }),
-                        );
-                    }}
-                  />
-                ),
-            },
-            ...getTestsTableColumns(['Actual'], t),
-            {
-              name: t('tables.result'),
-              selector: (row) => row.status,
-              width: '150px',
-              cell: (row, id) => {
-                if (row.actual) return row.status;
-
-                return <Controls isRunning={runningAiTests[id]} executeTest={async () => await executeAiTest(id)} />;
-              },
-            },
-          ]}
-          expandableRows
-          expandableRowsComponent={ExpandedTestComponent}
-          expandableRowDisabled={(row) => !row.request}
-          expandOnRowClicked
-          data={aiTests ?? []}
-        />
+                    },
+                  },
+                ]}
+                expandableRows
+                expandableRowsComponent={ExpandedTestComponent}
+                expandableRowDisabled={(row) => !row.request}
+                expandOnRowClicked
+                data={aiTests ?? []}
+              />
+            </TabPanel>
+          </Tabs>
+        </div>
       ) : (
         <div className="flex flex-col gap-4 text-center">
           {!showAiRequestMaskControls ? (
