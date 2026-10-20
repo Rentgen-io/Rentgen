@@ -85,7 +85,7 @@ export default function SettingsModal() {
       <Tabs
         className="h-full flex"
         defaultIndex={activeTab}
-        selectedTabClassName="bg-white dark:bg-dark-body"
+        selectedTabClassName="bg-white dark:bg-dark-body cursor-default!"
         selectedTabPanelClassName="block!"
       >
         <TabList className="min-w-40 flex flex-col m-0 p-0 bg-button-secondary dark:bg-dark-input">

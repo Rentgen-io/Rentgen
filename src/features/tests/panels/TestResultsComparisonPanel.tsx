@@ -107,7 +107,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
           className="flex flex-col flex-auto overflow-hidden"
           forceRenderTabPanel={true}
           selectedIndex={tabIndex}
-          selectedTabClassName="bg-body border-border! text-text dark:bg-dark-body dark:border-dark-body! dark:text-dark-text"
+          selectedTabClassName="bg-body border-border! text-text dark:bg-dark-body dark:border-dark-body! dark:text-dark-text cursor-default!"
           selectedTabPanelClassName="flex! flex-col flex-auto"
           onSelect={(index) => setTabIndex(index)}
         >

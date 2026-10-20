@@ -104,7 +104,7 @@ export default function HttpResponsePanel() {
             <h5 className="m-0">{t('response.title')}</h5>
             <Tabs
               className="relative flex flex-col flex-auto"
-              selectedTabClassName="text-text dark:text-dark-text underline underline-offset-6 decoration-blue-500"
+              selectedTabClassName="text-text dark:text-dark-text underline underline-offset-6 decoration-blue-500 cursor-default!"
             >
               <TabList className="m-0 mb-6 p-0 flex gap-4 text-xs text-text-secondary">
                 <Tab className="list-none outline-none cursor-pointer">{t('request.body')}</Tab>
@@ -155,7 +155,7 @@ export default function HttpResponsePanel() {
           {!isNetworkError && hasParameters && (
             <div className="flex flex-col gap-4 p-4">
               <h5 className="m-0">{t('tests.parameters')}</h5>
-              <Tabs selectedTabClassName="text-text dark:text-dark-text underline underline-offset-6 decoration-blue-500">
+              <Tabs selectedTabClassName="text-text dark:text-dark-text underline underline-offset-6 decoration-blue-500 cursor-default!">
                 <TabList className="m-0 mb-6 p-0 flex gap-4 text-xs text-text-secondary">
                   {hasBodyParameters && (
                     <Tab className="list-none outline-none cursor-pointer">{t('tests.bodyParameters')}</Tab>

@@ -172,7 +172,7 @@ export default function App() {
             className="flex flex-col flex-auto"
             forceRenderTabPanel={true}
             selectedIndex={testsActiveTab}
-            selectedTabClassName="bg-white border-border! text-text dark:bg-dark-input dark:border-dark-body! dark:text-dark-text"
+            selectedTabClassName="bg-white border-border! text-text dark:bg-dark-input dark:border-dark-body! dark:text-dark-text cursor-default!"
             selectedTabPanelClassName="flex! flex-col flex-auto gap-4"
             onSelect={(index) => {
               dispatch(uiActions.setTestsActiveTab(index));
