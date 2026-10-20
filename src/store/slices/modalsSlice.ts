@@ -11,108 +11,110 @@ import {
 } from 'src/types';
 
 interface ModalsState {
+  curl: string;
+  deleteFolderModal: {
+    folderId: string | null;
+    isOpen: boolean;
+  };
+  importConflictModal: ImportConflictModalState;
   openCurlModal: boolean;
   openFollowModal: boolean;
   openGitHubModal: boolean;
   openReloadModal: boolean;
   openSendHttpSuccessModal: boolean;
-  deleteFolderModal: {
-    isOpen: boolean;
-    folderId: string | null;
-  };
-  importConflictModal: ImportConflictModalState;
+  projectImportConfirmModal: ProjectImportConfirmModalState;
   setAsDynamicVariableModal: SetAsDynamicVariableModalState;
   settingsModal: {
-    isOpen: boolean;
     activeTab: number;
+    isOpen: boolean;
   };
-  projectImportConfirmModal: ProjectImportConfirmModalState;
-  curl: string;
 }
 
 const emptySetAsDynamicVariableModal: SetAsDynamicVariableModalState = {
-  isOpen: false,
+  collectionName: '',
   initialSelector: '',
   initialValue: '',
-  collectionName: '',
+  isOpen: false,
   requestId: '',
   requestName: '',
   source: 'body',
 };
 
 const emptyImportConflictModal: ImportConflictModalState = {
-  isOpen: false,
-  importedCollection: null,
   conflictSummary: null,
+  importedCollection: null,
+  isOpen: false,
   warnings: [],
 };
 
 const emptyProjectImportConfirmModal: ProjectImportConfirmModalState = {
-  isOpen: false,
   data: null,
-  meta: null,
-  integrityStatus: null,
   fileName: '',
+  integrityStatus: null,
+  isOpen: false,
+  meta: null,
 };
 
 const initialState: ModalsState = {
+  curl: '',
+  deleteFolderModal: { isOpen: false, folderId: null },
+  importConflictModal: emptyImportConflictModal,
   openCurlModal: false,
   openFollowModal: false,
   openGitHubModal: false,
   openReloadModal: false,
   openSendHttpSuccessModal: false,
-  deleteFolderModal: { isOpen: false, folderId: null },
-  importConflictModal: emptyImportConflictModal,
-  setAsDynamicVariableModal: emptySetAsDynamicVariableModal,
   projectImportConfirmModal: emptyProjectImportConfirmModal,
+  setAsDynamicVariableModal: emptySetAsDynamicVariableModal,
   settingsModal: { isOpen: false, activeTab: 0 },
-  curl: '',
 };
 
 export const modalsSlice = createSlice({
   name: 'modals',
   initialState,
   reducers: {
-    openCurlModal: (state) => {
-      state.openCurlModal = true;
-    },
     closeCurlModal: (state) => {
-      state.openCurlModal = false;
       state.curl = '';
+      state.openCurlModal = false;
     },
-    setCurl: (state, action: PayloadAction<string>) => {
-      state.curl = action.payload;
-    },
-    openFollowModal: (state) => {
-      if (!state.openGitHubModal) state.openFollowModal = true;
+    closeDeleteFolderModal: (state) => {
+      state.deleteFolderModal = { folderId: null, isOpen: false };
     },
     closeFollowModal: (state) => {
       state.openFollowModal = false;
     },
-    openGitHubModal: (state) => {
-      if (!state.openFollowModal) state.openGitHubModal = true;
-    },
     closeGitHubModal: (state) => {
       state.openGitHubModal = false;
     },
-    openReloadModal: (state) => {
-      state.openReloadModal = true;
+    closeImportConflictModal: (state) => {
+      state.importConflictModal = emptyImportConflictModal;
+    },
+    closeProjectImportConfirmModal: (state) => {
+      state.projectImportConfirmModal = emptyProjectImportConfirmModal;
     },
     closeReloadModal: (state) => {
       state.openReloadModal = false;
     },
-    openSendHttpSuccessModal: (state) => {
-      const stored = localStorage.getItem('sendHttpSuccessModalDoNotShowAgain');
-      state.openSendHttpSuccessModal = stored === null ? true : stored !== 'true';
-    },
     closeSendHttpSuccessModal: (state) => {
       state.openSendHttpSuccessModal = false;
     },
-    openDeleteFolderModal: (state, action: PayloadAction<string>) => {
-      state.deleteFolderModal = { isOpen: true, folderId: action.payload };
+    closeSetAsDynamicVariableModal: (state) => {
+      state.setAsDynamicVariableModal = emptySetAsDynamicVariableModal;
     },
-    closeDeleteFolderModal: (state) => {
-      state.deleteFolderModal = { isOpen: false, folderId: null };
+    closeSettingsModal: (state) => {
+      state.settingsModal = { activeTab: 0, isOpen: false };
+    },
+    openCurlModal: (state) => {
+      state.openCurlModal = true;
+    },
+    openDeleteFolderModal: (state, action: PayloadAction<string>) => {
+      state.deleteFolderModal = { folderId: action.payload, isOpen: true };
+    },
+    openFollowModal: (state) => {
+      if (!state.openGitHubModal) state.openFollowModal = true;
+    },
+    openGitHubModal: (state) => {
+      if (!state.openFollowModal) state.openGitHubModal = true;
     },
     openImportConflictModal: (
       state,
@@ -123,40 +125,38 @@ export const modalsSlice = createSlice({
       }>,
     ) => {
       state.importConflictModal = {
-        isOpen: true,
-        importedCollection: action.payload.collection,
         conflictSummary: action.payload.conflictSummary,
+        importedCollection: action.payload.collection,
+        isOpen: true,
         warnings: action.payload.warnings,
       };
-    },
-    closeImportConflictModal: (state) => {
-      state.importConflictModal = emptyImportConflictModal;
-    },
-    openSetAsDynamicVariableModal: (state, action: PayloadAction<Omit<SetAsDynamicVariableModalState, 'isOpen'>>) => {
-      state.setAsDynamicVariableModal = { ...action.payload, isOpen: true };
-    },
-    closeSetAsDynamicVariableModal: (state) => {
-      state.setAsDynamicVariableModal = emptySetAsDynamicVariableModal;
     },
     openProjectImportConfirmModal: (
       state,
       action: PayloadAction<{
         data: ProjectData;
-        meta: ProjectMeta;
-        integrityStatus: IntegrityStatus;
         fileName: string;
+        integrityStatus: IntegrityStatus;
+        meta: ProjectMeta;
       }>,
     ) => {
-      state.projectImportConfirmModal = { isOpen: true, ...action.payload };
+      state.projectImportConfirmModal = { ...action.payload, isOpen: true };
     },
-    closeProjectImportConfirmModal: (state) => {
-      state.projectImportConfirmModal = emptyProjectImportConfirmModal;
+    openReloadModal: (state) => {
+      state.openReloadModal = true;
+    },
+    openSendHttpSuccessModal: (state) => {
+      const stored = localStorage.getItem('sendHttpSuccessModalDoNotShowAgain');
+      state.openSendHttpSuccessModal = stored === null ? true : stored !== 'true';
+    },
+    openSetAsDynamicVariableModal: (state, action: PayloadAction<Omit<SetAsDynamicVariableModalState, 'isOpen'>>) => {
+      state.setAsDynamicVariableModal = { ...action.payload, isOpen: true };
     },
     openSettingsModal: (state, action: PayloadAction<number | undefined>) => {
-      state.settingsModal = { isOpen: true, activeTab: action.payload ?? 0 };
+      state.settingsModal = { activeTab: action.payload ?? 0, isOpen: true };
     },
-    closeSettingsModal: (state) => {
-      state.settingsModal = { isOpen: false, activeTab: 0 };
+    setCurl: (state, action: PayloadAction<string>) => {
+      state.curl = action.payload;
     },
   },
 });

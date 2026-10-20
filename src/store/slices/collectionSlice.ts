@@ -24,16 +24,12 @@ interface CollectionState {
   data: PostmanCollection;
   selectedRequestId: string | null;
   selectedFolderId: string;
-  loading: boolean;
-  error: string | null;
 }
 
 const initialState: CollectionState = {
   data: createEmptyCollection(),
   selectedRequestId: null,
   selectedFolderId: DEFAULT_FOLDER_ID,
-  loading: false,
-  error: null,
 };
 
 export const loadCollection = createAsyncThunk('collection/load', async () => await loadCollectionFile());
@@ -42,14 +38,8 @@ export const collectionSlice = createSlice({
   name: 'collection',
   initialState,
   reducers: {
-    setCollection: (state, action: PayloadAction<PostmanCollection>) => {
-      state.data = action.payload;
-    },
-    selectRequest: (state, action: PayloadAction<string | null>) => {
-      state.selectedRequestId = action.payload;
-    },
-    selectFolder: (state, action: PayloadAction<string>) => {
-      state.selectedFolderId = action.payload;
+    addFolder: (state, action: PayloadAction<string>) => {
+      state.data = addFolderToCollection(state.data, action.payload);
     },
     addRequest: (
       state,
@@ -69,67 +59,15 @@ export const collectionSlice = createSlice({
       const folder = state.data.item.find((f) => f.id === targetFolderId);
       if (folder && folder.item.length > 0) state.selectedRequestId = folder.item[0].id;
     },
-    updateRequest: (
-      state,
-      action: PayloadAction<{
-        requestId: string;
-        method: string;
-        url: string;
-        headers: Record<string, string>;
-        body: string | null;
-      }>,
-    ) => {
-      const { requestId, method, url, headers, body } = action.payload;
-      state.data = updateRequestInCollection(state.data, requestId, method, url, headers, body);
-    },
-    removeRequest: (state, action: PayloadAction<string>) => {
-      state.data = removeRequestFromCollection(state.data, action.payload);
-      if (state.selectedRequestId === action.payload) {
-        state.selectedRequestId = null;
-      }
-    },
-    renameRequest: (state, action: PayloadAction<{ requestId: string; newName: string }>) => {
-      const { requestId, newName } = action.payload;
-      state.data = renameRequestInCollection(state.data, requestId, newName);
-    },
-    reorderRequest: (state, action: PayloadAction<{ activeId: string; overId: string }>) => {
-      const { activeId, overId } = action.payload;
-      state.data = reorderRequestInCollection(state.data, activeId, overId);
-    },
-    moveRequest: (
-      state,
-      action: PayloadAction<{
-        itemId: string;
-        targetFolderId: string;
-        targetIndex?: number;
-      }>,
-    ) => {
-      const { itemId, targetFolderId, targetIndex } = action.payload;
-      state.data = moveRequestToFolder(state.data, itemId, targetFolderId, targetIndex);
-    },
-    addFolder: (state, action: PayloadAction<string>) => {
-      state.data = addFolderToCollection(state.data, action.payload);
-    },
-    renameFolder: (state, action: PayloadAction<{ folderId: string; newName: string }>) => {
-      const { folderId, newName } = action.payload;
-      state.data = renameFolderInCollection(state.data, folderId, newName);
-    },
-    removeFolder: (state, action: PayloadAction<string>) => {
-      state.data = removeFolderFromCollection(state.data, action.payload);
-    },
-    reorderFolder: (state, action: PayloadAction<{ activeId: string; overId: string }>) => {
-      const { activeId, overId } = action.payload;
-      state.data = reorderFolderInCollection(state.data, activeId, overId);
-    },
     importCollection: (state, action: PayloadAction<{ collection: PostmanCollection; mode: ImportMode }>) => {
       const { collection, mode } = action.payload;
 
-      if (mode === 'replace') {
+      if (mode === 'replace')
         // Replace only matching folders, keep non-matching ones
         for (const importedFolder of collection.item) {
           const existingFolderIndex = state.data.item.findIndex((f) => f.name === importedFolder.name);
 
-          if (existingFolderIndex !== -1) {
+          if (existingFolderIndex !== -1)
             // Replace existing folder with imported one (new IDs)
             state.data.item[existingFolderIndex] = {
               ...importedFolder,
@@ -139,7 +77,7 @@ export const collectionSlice = createSlice({
                 id: generateRequestId(),
               })),
             };
-          } else {
+          else
             // Add new folder
             state.data.item.push({
               ...importedFolder,
@@ -149,9 +87,8 @@ export const collectionSlice = createSlice({
                 id: generateRequestId(),
               })),
             });
-          }
         }
-      } else if (mode === 'copy') {
+      else if (mode === 'copy')
         // Import as Copy: Generate new IDs and append "(copy)" to folder names
         for (const folder of collection.item) {
           const newFolder = {
@@ -165,11 +102,11 @@ export const collectionSlice = createSlice({
           };
           state.data.item.push(newFolder);
         }
-      } else {
+      else
         // Merge with deduplication: add only non-duplicate requests
         for (const folder of collection.item) {
           const existingFolder = state.data.item.find((f) => f.name === folder.name);
-          if (existingFolder) {
+          if (existingFolder)
             // Add only non-duplicate requests
             for (const request of folder.item) {
               const isDuplicate = existingFolder.item.some(
@@ -180,14 +117,13 @@ export const collectionSlice = createSlice({
                   // Duplicate by name
                   existing.name === request.name,
               );
-              if (!isDuplicate) {
+              if (!isDuplicate)
                 existingFolder.item.push({
                   ...request,
                   id: generateRequestId(), // Generate new ID to avoid collisions
                 });
-              }
             }
-          } else {
+          else
             // New folder - add with new IDs
             state.data.item.push({
               ...folder,
@@ -197,28 +133,72 @@ export const collectionSlice = createSlice({
                 id: generateRequestId(),
               })),
             });
-          }
         }
-      }
+    },
+    moveRequest: (
+      state,
+      action: PayloadAction<{
+        itemId: string;
+        targetFolderId: string;
+        targetIndex?: number;
+      }>,
+    ) => {
+      const { itemId, targetFolderId, targetIndex } = action.payload;
+      state.data = moveRequestToFolder(state.data, itemId, targetFolderId, targetIndex);
+    },
+    removeFolder: (state, action: PayloadAction<string>) => {
+      state.data = removeFolderFromCollection(state.data, action.payload);
+    },
+    removeRequest: (state, action: PayloadAction<string>) => {
+      state.data = removeRequestFromCollection(state.data, action.payload);
+      if (state.selectedRequestId === action.payload) state.selectedRequestId = null;
+    },
+    renameFolder: (state, action: PayloadAction<{ folderId: string; newName: string }>) => {
+      const { folderId, newName } = action.payload;
+      state.data = renameFolderInCollection(state.data, folderId, newName);
+    },
+    renameRequest: (state, action: PayloadAction<{ requestId: string; newName: string }>) => {
+      const { requestId, newName } = action.payload;
+      state.data = renameRequestInCollection(state.data, requestId, newName);
+    },
+    reorderFolder: (state, action: PayloadAction<{ activeId: string; overId: string }>) => {
+      const { activeId, overId } = action.payload;
+      state.data = reorderFolderInCollection(state.data, activeId, overId);
+    },
+    reorderRequest: (state, action: PayloadAction<{ activeId: string; overId: string }>) => {
+      const { activeId, overId } = action.payload;
+      state.data = reorderRequestInCollection(state.data, activeId, overId);
+    },
+    selectFolder: (state, action: PayloadAction<string>) => {
+      state.selectedFolderId = action.payload;
+    },
+    selectRequest: (state, action: PayloadAction<string | null>) => {
+      state.selectedRequestId = action.payload;
+    },
+    setCollection: (state, action: PayloadAction<PostmanCollection>) => {
+      state.data = action.payload;
+    },
+    updateRequest: (
+      state,
+      action: PayloadAction<{
+        requestId: string;
+        method: string;
+        url: string;
+        headers: Record<string, string>;
+        body: string | null;
+      }>,
+    ) => {
+      const { requestId, method, url, headers, body } = action.payload;
+      state.data = updateRequestInCollection(state.data, requestId, method, url, headers, body);
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(loadCollection.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(loadCollection.fulfilled, (state, action) => {
-        state.data = action.payload;
-        state.loading = false;
+    builder.addCase(loadCollection.fulfilled, (state, action) => {
+      state.data = action.payload;
 
-        const folder = state.data.item?.find((f) => f.id === DEFAULT_FOLDER_ID) ?? state.data.item?.[0];
-        if (folder) state.selectedFolderId = folder.id;
-      })
-      .addCase(loadCollection.rejected, (state, action) => {
-        state.error = action.error.message || 'Failed to load collection';
-        state.loading = false;
-      });
+      const folder = state.data.item?.find((f) => f.id === DEFAULT_FOLDER_ID) ?? state.data.item?.[0];
+      if (folder) state.selectedFolderId = folder.id;
+    });
   },
 });
 

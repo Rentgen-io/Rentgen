@@ -11,7 +11,7 @@ import { environmentActions } from 'src/store/slices/environmentSlice';
 import { historyActions } from 'src/store/slices/historySlice';
 import { mappingsActions } from 'src/store/slices/mappingsSlice';
 import { DynamicVariable, HttpResponse, PostmanFolder, PostmanItem, RequestParameters } from 'src/types';
-import { extractDynamicVariableFromResponseWithDetails } from 'src/utils';
+import { collectExtractionFailures } from 'src/utils';
 
 // History actions that should NOT trigger auto-save (read-only or loading actions)
 const historyReadOnlyActions = [
@@ -140,34 +140,16 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
       const response = (action as PayloadAction<HttpResponse>).payload;
       const dynamicVariables = state.environment.dynamicVariables as DynamicVariable[];
 
-      for (const dynamicVariable of dynamicVariables) {
-        const previousRequest = dynamicVariable.previousRequests?.find(
-          ({ requestId }) => requestId === selectedRequestId,
-        );
-        if (dynamicVariable.requestId !== selectedRequestId && !previousRequest) continue;
-
-        const currentDynamicVariable =
-          dynamicVariable.requestId === selectedRequestId
-            ? dynamicVariable
-            : {
-                ...dynamicVariable,
-                selector: previousRequest!.selector,
-                source: previousRequest!.source,
-              };
-        const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(
-          currentDynamicVariable,
-          response,
-        );
-
-        if (extractedDynamicVariables.success && extractedDynamicVariables.value !== null)
+      collectExtractionFailures(dynamicVariables, selectedRequestId, response, (current, extracted) => {
+        if (extracted.success && extracted.value !== null) {
           store.dispatch(
             environmentActions.updateDynamicVariableValue({
-              id: currentDynamicVariable.id,
-              value: extractedDynamicVariables.value,
+              id: current.id,
+              value: extracted.value,
             }),
           );
-        // Note: Extraction failures are tracked in collectionRunResult.warning
-      }
+        }
+      });
     }
   }
 

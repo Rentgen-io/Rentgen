@@ -11,6 +11,13 @@ export const mappingsSlice = createSlice({
   name: 'mappings',
   initialState,
   reducers: {
+    removeMappings: (state, action: PayloadAction<string>) => {
+      delete state[action.payload];
+    },
+    replaceMappings: (_, action: PayloadAction<MappingsState>) => ({
+      ...initialState,
+      ...action.payload,
+    }),
     setBodyMappings: (state, action: PayloadAction<{ requestId: string; mappings: RequestParameters }>) => {
       const { requestId, mappings } = action.payload;
       if (!state[requestId]) state[requestId] = { body: {}, query: {} };
@@ -23,13 +30,6 @@ export const mappingsSlice = createSlice({
 
       state[requestId].query = mappings;
     },
-    removeMappings: (state, action: PayloadAction<string>) => {
-      delete state[action.payload];
-    },
-    replaceMappings: (_, action: PayloadAction<MappingsState>) => ({
-      ...initialState,
-      ...action.payload,
-    }),
   },
   extraReducers: (builder) => {
     builder.addCase(loadMappings.fulfilled, (state, action: PayloadAction<MappingsState>) => {

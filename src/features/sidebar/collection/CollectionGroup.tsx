@@ -54,7 +54,7 @@ export default function CollectionGroup({
   const isThisFolderRunning = runningFolderId === folder.id;
   const isOtherFolderRunning = runningFolderId !== null && runningFolderId !== folder.id;
 
-  const folderStatus = useMemo(() => {
+  const statusClassName = useMemo(() => {
     const itemResults = folder.items.map((item) => runResults[item.id]).filter(Boolean);
 
     if (itemResults.length === 0) return null;
@@ -63,10 +63,11 @@ export default function CollectionGroup({
     const hasOrange = itemResults.some((r) => r.status && r.status >= 400 && r.status < 500);
     const hasYellow = itemResults.some((r) => r.warning && r.status && r.status >= 200 && r.status < 400);
 
-    if (hasRed) return 'red';
-    if (hasOrange) return 'orange';
-    if (hasYellow) return 'yellow';
-    return 'green';
+    if (hasRed) return 'bg-red-500';
+    if (hasOrange) return 'bg-orange-500';
+    if (hasYellow) return 'bg-yellow-500';
+
+    return 'bg-green-500';
   }, [folder.items, runResults]);
 
   const { attributes, isDragging, listeners, transform, transition, setNodeRef } = useSortable({
@@ -77,7 +78,8 @@ export default function CollectionGroup({
   const handleClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     setIsExpanded((prevIsExpanded) => !prevIsExpanded);
-    dispatch(collectionActions.selectFolder(folder.id));
+
+    if (!isSelected) dispatch(collectionActions.selectFolder(folder.id));
   };
 
   const handleEditClick = (event: React.MouseEvent) => {
@@ -131,16 +133,7 @@ export default function CollectionGroup({
               'rotate-90': isExpanded,
             })}
           />
-          {folderStatus && (
-            <span
-              className={cn('w-2 h-2 rounded-full shrink-0', {
-                'bg-green-500': folderStatus === 'green',
-                'bg-yellow-500': folderStatus === 'yellow',
-                'bg-orange-500': folderStatus === 'orange',
-                'bg-red-500': folderStatus === 'red',
-              })}
-            />
-          )}
+          {statusClassName && <span className={cn('w-2 h-2 rounded-full shrink-0', statusClassName)} />}
           <FolderIcon className="h-4 w-4 text-text-secondary" />
 
           {isEditing ? (

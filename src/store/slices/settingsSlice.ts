@@ -14,54 +14,76 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    setSerialNumber: (state, action: PayloadAction<string>) => {
-      state.ai.serialNumber = action.payload;
+    deleteAiProvider: (state, action: PayloadAction<string>) => {
+      state.ai.providers = state.ai.providers.filter((provider) => provider.id !== action.payload);
     },
-    setHistoryEnabled: (state, action: PayloadAction<boolean>) => {
-      state.general.history.enabled = action.payload;
+    replaceSettings: (state, action: PayloadAction<SettingsState>) => {
+      Object.assign(state, merge(initialState, action.payload));
+
+      if (action.payload.language) i18n.changeLanguage(action.payload.language);
+      applyTheme(state);
     },
-    setHistorySize: (state, action: PayloadAction<number>) => {
-      state.general.history.size = Math.max(1, Math.min(10000, action.payload));
+    setActiveAiProvider: (state, action: PayloadAction<string>) => {
+      state.ai.providers.forEach((provider) => {
+        provider.active = provider.id === action.payload;
+      });
     },
-    setHistoryRetention: (state, action: PayloadAction<HistoryRetention>) => {
-      state.general.history.retention = action.payload;
+    setAiProvider: (state, action: PayloadAction<AiProvider>) => {
+      if (state.ai.providers.length === 0) action.payload.active = true;
+
+      const index = state.ai.providers.findIndex((provider) => provider.id === action.payload.id);
+      if (index !== -1) state.ai.providers[index] = action.payload;
+      else state.ai.providers.push(action.payload);
     },
     setEmailDomain: (state, action: PayloadAction<string>) => {
       state.testEngine.configuration.email.domain = action.payload;
     },
-    setRandomEmailLength: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.randomEmail.length = action.payload;
-    },
-    setRandomIntMin: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.randomInt.min = action.payload;
-    },
-    setRandomIntMax: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.randomInt.max = action.payload;
-    },
-    setRandomStringLength: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.randomString.length = action.payload;
-    },
     setEnum: (state, action: PayloadAction<string>) => {
       state.testEngine.configuration.enum = action.payload;
     },
-    setNumberMin: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.number.min = action.payload;
+    setHistoryEnabled: (state, action: PayloadAction<boolean>) => {
+      state.general.history.enabled = action.payload;
+    },
+    setHistoryRetention: (state, action: PayloadAction<HistoryRetention>) => {
+      state.general.history.retention = action.payload;
+    },
+    setHistorySize: (state, action: PayloadAction<number>) => {
+      state.general.history.size = Math.max(1, Math.min(10000, action.payload));
+    },
+    setLanguage: (state, action: PayloadAction<Language>) => {
+      state.language = action.payload;
+      i18n.changeLanguage(action.payload);
     },
     setNumberMax: (state, action: PayloadAction<number>) => {
       state.testEngine.configuration.number.max = action.payload;
     },
-    setStringMinLength: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.string.minLength = action.payload;
+    setNumberMin: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.number.min = action.payload;
+    },
+    setRandomEmailLength: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.randomEmail.length = action.payload;
+    },
+    setRandomIntMax: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.randomInt.max = action.payload;
+    },
+    setRandomIntMin: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.randomInt.min = action.payload;
+    },
+    setRandomStringLength: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.randomString.length = action.payload;
+    },
+    setSerialNumber: (state, action: PayloadAction<string>) => {
+      state.ai.serialNumber = action.payload;
     },
     setStringMaxLength: (state, action: PayloadAction<number>) => {
       state.testEngine.configuration.string.maxLength = action.payload;
     },
-    toggleSecurityTest: (state, action: PayloadAction<string>) => {
-      if (state.testEngine.securityTests.disabled.includes(action.payload))
-        state.testEngine.securityTests.disabled = state.testEngine.securityTests.disabled.filter(
-          (test) => test !== action.payload,
-        );
-      else state.testEngine.securityTests.disabled.push(action.payload);
+    setStringMinLength: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.string.minLength = action.payload;
+    },
+    setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
+      state.theme = action.payload;
+      applyTheme(state);
     },
     togglePerformanceInsight: (state, action: PayloadAction<string>) => {
       if (state.testEngine.performanceInsights.disabled.includes(action.payload)) {
@@ -83,38 +105,16 @@ export const settingsSlice = createSlice({
           state.testEngine.performanceInsights.disabled.push(NETWORK_SHARE_TEST_NAME);
       }
     },
+    toggleSecurityTest: (state, action: PayloadAction<string>) => {
+      if (state.testEngine.securityTests.disabled.includes(action.payload))
+        state.testEngine.securityTests.disabled = state.testEngine.securityTests.disabled.filter(
+          (test) => test !== action.payload,
+        );
+      else state.testEngine.securityTests.disabled.push(action.payload);
+    },
     toggleTheme: (state) => {
       state.theme = state.theme === 'light' ? 'dark' : 'light';
       applyTheme(state);
-    },
-    setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
-      state.theme = action.payload;
-      applyTheme(state);
-    },
-    setLanguage: (state, action: PayloadAction<Language>) => {
-      state.language = action.payload;
-      i18n.changeLanguage(action.payload);
-    },
-    replaceSettings: (state, action: PayloadAction<SettingsState>) => {
-      Object.assign(state, merge(initialState, action.payload));
-
-      if (action.payload.language) i18n.changeLanguage(action.payload.language);
-      applyTheme(state);
-    },
-    setAiProvider: (state, action: PayloadAction<AiProvider>) => {
-      if (state.ai.providers.length === 0) action.payload.active = true;
-
-      const index = state.ai.providers.findIndex((provider) => provider.id === action.payload.id);
-      if (index !== -1) state.ai.providers[index] = action.payload;
-      else state.ai.providers.push(action.payload);
-    },
-    setActiveAiProvider: (state, action: PayloadAction<string>) => {
-      state.ai.providers.forEach((provider) => {
-        provider.active = provider.id === action.payload;
-      });
-    },
-    deleteAiProvider: (state, action: PayloadAction<string>) => {
-      state.ai.providers = state.ai.providers.filter((provider) => provider.id !== action.payload);
     },
   },
   extraReducers: (builder) => {
