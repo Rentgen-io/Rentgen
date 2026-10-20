@@ -117,7 +117,12 @@ export function AiRequestMaskControls({ onCancel }: Props) {
         <Button
           className="min-w-43 flex justify-center items-center"
           disabled={isAiRunning || !activeAiProvider || !testOptions}
-          onClick={() => executeAiTestsGeneration(testOptions)}
+          onClick={() => {
+            executeAiTestsGeneration(testOptions);
+            setTimeout(() => {
+              window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            });
+          }}
         >
           {isAiRunning ? (
             <Loader className="h-4 w-4 [&>span]:border-2!" mode="dark" />

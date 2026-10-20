@@ -54,7 +54,7 @@ export default function TestRunnerBar() {
   return (
     <>
       <div className="flex flex-col @xl:flex-row @xl:items-center @xl:justify-between gap-4 @xl:gap-2">
-        <div className="flex flex-col @xl:flex-row @xl:items-center gap-4 @xl:gap-2 @xl:min-w-0">
+        <div className="flex flex-col @xl:flex-row @xl:items-center gap-2 @xl:min-w-0">
           <Button
             className="@xl:shrink-0 @xl:whitespace-nowrap"
             disabled={disabledRunTests}

@@ -21,7 +21,7 @@ export default function FollowModal() {
 
   const isOpen = useAppSelector(selectOpenFollowModal);
   const hasAnyBug = [crudTests, dataDrivenTests, performanceTests, securityTests].some((tests) =>
-    tests.some((test) => test.status === TestStatus.Bug),
+    tests.some((test) => test?.status === TestStatus.Bug),
   );
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function FollowModal() {
         <h4 className="m-0">🎉 {t('modals.follow.title')}</h4>
         <p className="m-0 text-sm dark:text-text-secondary">{t('modals.follow.message')}</p>
         <p className="m-0 text-sm dark:text-text-secondary">{t('modals.follow.followUs')}</p>
-        <div className="flex items-center justify-end gap-4">
+        <div className="flex items-center justify-end gap-2">
           <Button
             onClick={() => {
               openExternal('https://www.linkedin.com/company/therentgen');

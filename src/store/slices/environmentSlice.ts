@@ -1,9 +1,10 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   loadDynamicVariables as loadDynamicVariablesFile,
   loadEnvironments as loadEnvironmentsFile,
 } from 'src/api/storage';
 import { DynamicVariable, Environment, EnvironmentVariable } from 'src/types';
+import { generateDynamicVariableId } from 'src/utils';
 
 interface EnvironmentState {
   environments: Environment[];
@@ -26,13 +27,6 @@ const initialState: EnvironmentState = {
   error: null,
   dynamicVariables: [],
 };
-
-/**
- * Generate a unique ID for dynamic variables
- */
-function generateDynamicVariableId(): string {
-  return `dvar_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-}
 
 export const loadEnvironments = createAsyncThunk('environment/load', async () => await loadEnvironmentsFile());
 

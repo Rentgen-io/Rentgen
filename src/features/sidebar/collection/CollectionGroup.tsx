@@ -41,12 +41,12 @@ export default function CollectionGroup({
   onEditingNameChange,
 }: Props) {
   const dispatch = useAppDispatch();
-  const { runFolder, cancelRun } = useCollectionRunner();
+  const { cancelFolderRun, runFolder } = useCollectionRunner();
   const { isOpen } = useContextMenu();
 
-  const selectedFolderId = useAppSelector(selectSelectedFolderId);
-  const runningFolderId = useAppSelector(selectRunningFolderId);
   const runResults = useAppSelector(selectCollectionRunResults);
+  const runningFolderId = useAppSelector(selectRunningFolderId);
+  const selectedFolderId = useAppSelector(selectSelectedFolderId);
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
@@ -74,26 +74,26 @@ export default function CollectionGroup({
     data: { type: 'folder' },
   });
 
-  const handleHeaderClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
     setIsExpanded((prevIsExpanded) => !prevIsExpanded);
     dispatch(collectionActions.selectFolder(folder.id));
   };
 
-  const handleEditClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleEditClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
     onStartEdit(folder.id);
   };
 
-  const handleDeleteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleDeleteClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
     if (folder.items.length === 0) dispatch(collectionActions.removeFolder(folder.id));
     else dispatch(modalsActions.openDeleteFolderModal(folder.id));
   };
 
-  const handlePlayClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (isThisFolderRunning) cancelRun();
+  const handlePlayClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    if (isThisFolderRunning) cancelFolderRun();
     else runFolder(folder.id);
   };
 
@@ -122,7 +122,7 @@ export default function CollectionGroup({
               'bg-button-secondary dark:bg-dark-input': isSelected,
             },
           )}
-          onClick={handleHeaderClick}
+          onClick={handleClick}
           {...attributes}
           {...listeners}
         >

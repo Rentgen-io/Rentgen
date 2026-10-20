@@ -46,24 +46,28 @@ const UPPERCASE_PATH_TEST_EXPECTED = `${RESPONSE_STATUS.OK} ${getResponseStatusT
 const UNSUPPORTED_METHOD_TEST_EXPECTED = `${RESPONSE_STATUS.METHOD_NOT_ALLOWED} ${getResponseStatusTitle(RESPONSE_STATUS.METHOD_NOT_ALLOWED)} or ${RESPONSE_STATUS.NOT_IMPLEMENTED} ${getResponseStatusTitle(RESPONSE_STATUS.NOT_IMPLEMENTED)}`;
 
 export class SecurityTests extends BaseTests {
+  private signal?: AbortSignal;
+
   constructor(
     protected options: TestOptions,
     private disabledTests: string[],
     protected onTestStart?: () => void,
   ) {
     super(options, onTestStart);
-
-    this.disabledTests = disabledTests;
   }
 
-  public async run(): Promise<{ crudTests: TestResult[]; securityTests: TestResult[] }> {
+  protected override async execute(
+    signal: AbortSignal,
+  ): Promise<{ crudTests: TestResult[]; securityTests: TestResult[] }> {
+    this.signal = signal;
+
     const securityTests: TestResult[] = [];
     const crudTests: TestResult[] = [];
     const request = createTestHttpRequest(this.options);
     const { headers, url } = request;
 
     try {
-      const response = await sendHttp(request);
+      const response = await sendHttp(request, this.signal);
 
       // Run all header-based security tests that depend on initial response
       const headerBasedTests: { name: string; run: () => TestResult }[] = [
@@ -206,7 +210,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { url: request.url, method: 'OPTIONS', headers: request.headers };
 
     try {
-      const response = await sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest, this.signal);
       const allowHeader =
         getHeaderValue(response.headers, 'allow') || getHeaderValue(response.headers, 'access-control-allow-methods');
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
@@ -249,7 +253,7 @@ export class SecurityTests extends BaseTests {
     const request = createTestHttpRequest({ ...this.options, method: 'FOOBAR' });
 
     try {
-      const response = await sendHttp(request);
+      const response = await sendHttp(request, this.signal);
       const { actual, status } = determineTestStatus(
         response,
         (response, statusCode) => {
@@ -294,7 +298,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { ...request, headers: minimalHeaders };
 
     try {
-      const response = await sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest, this.signal);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode === RESPONSE_STATUS.UNAUTHORIZED) testStatus.status = TestStatus.Pass;
@@ -350,7 +354,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { ...request, headers: modifiedHeaders };
 
     try {
-      const response = await sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest, this.signal);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode === RESPONSE_STATUS.UNAUTHORIZED) testStatus.status = TestStatus.Pass;
@@ -388,7 +392,7 @@ export class SecurityTests extends BaseTests {
     };
 
     try {
-      const response = await sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest, this.signal);
       const acaoHeader = getHeaderValue(response.headers, 'access-control-allow-origin');
 
       if (!acaoHeader)
@@ -423,7 +427,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { ...request, url: createNotFoundUrl(request.url) };
 
     try {
-      const response = await sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest, this.signal);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode === RESPONSE_STATUS.NOT_FOUND) testStatus.status = TestStatus.Pass;
@@ -461,7 +465,7 @@ export class SecurityTests extends BaseTests {
     };
 
     try {
-      const response = await sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest, this.signal);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const responseBody = typeof response.body === 'string' ? response.body : JSON.stringify(response.body);
         if (
@@ -502,7 +506,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { ...request, url: uppercaseDomain(request.url) };
 
     try {
-      const response = await sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest, this.signal);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.REDIRECT)
@@ -540,7 +544,7 @@ export class SecurityTests extends BaseTests {
     const modifiedRequest: HttpRequest = { ...request, url: uppercasePath(request.url) };
 
     try {
-      const response = await sendHttp(modifiedRequest);
+      const response = await sendHttp(modifiedRequest, this.signal);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode === RESPONSE_STATUS.OK || statusCode === RESPONSE_STATUS.NOT_FOUND)

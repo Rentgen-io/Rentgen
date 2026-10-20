@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { HTMLAttributes, ReactNode, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import ChevronIcon from 'src/assets/icons/chevron-icon.svg';
 
@@ -13,8 +14,8 @@ export default function Panel({ children, className, title, collapsible = true, 
 
   return (
     <div
-      className={cn(
-        'bg-white border border-border overflow-hidden',
+      className={twMerge(
+        'bg-white border border-border box-border overflow-hidden',
         'dark:bg-dark-input dark:border-dark-border',
         className,
       )}

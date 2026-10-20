@@ -34,8 +34,8 @@ export default function RequestEditors() {
         '@2xl:dark:divide-dark-body @2xl:dark:bg-dark-input @2xl:dark:border-dark-border',
       )}
     >
-      <div>
-        <label className="block mb-1 @2xl:p-3 @2xl:pb-0 font-bold text-sm">{t('request.headers')}</label>
+      <div className="flex flex-col gap-2">
+        <label className="@2xl:p-3 @2xl:pb-0 font-bold text-sm">{t('request.headers')}</label>
         <HighlightedTextarea
           className="@2xl:border-none"
           highlightColor={selectedEnvironment?.color}
@@ -48,8 +48,8 @@ export default function RequestEditors() {
         />
       </div>
 
-      <div className="@2xl:relative">
-        <label className="block mb-1 @2xl:p-3 @2xl:pb-0 font-bold text-sm">{t('request.body')}</label>
+      <div className="@2xl:relative flex flex-col gap-2">
+        <label className="@2xl:p-3 @2xl:pb-0 font-bold text-sm">{t('request.body')}</label>
         <div className="relative @2xl:static">
           <HighlightedTextarea
             className="@2xl:border-none"

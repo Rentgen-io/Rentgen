@@ -34,7 +34,7 @@ export default function ConfirmationModal({
         {title && <h4 className="m-0">{title}</h4>}
         {description && <p className="m-0 text-sm dark:text-text-secondary">{description}</p>}
         {children}
-        <div className="flex items-center justify-end gap-4">
+        <div className="flex items-center justify-end gap-2">
           <Button buttonType={confirmType} onClick={onConfirm}>
             {confirmText || t('common.ok')}
           </Button>

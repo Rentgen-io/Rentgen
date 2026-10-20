@@ -15,7 +15,6 @@ import {
   SUCCESS_RESPONSE_EXPECTED,
 } from '.';
 
-let activeController: AbortController | null = null;
 let aiResponseTimeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
 
 const AI_RESPONSE_TIMEOUT_MINUTES = 5;
@@ -241,23 +240,13 @@ export class AiTests extends BaseTests {
     this.aiProvider = aiProvider;
   }
 
-  public override abort(): void {
-    super.abort();
-    activeController?.abort();
-  }
-
-  public async run(): Promise<{ results: TestResult[]; usage: AiUsage | null }> {
-    clearTimeout(aiResponseTimeoutId);
-
-    activeController?.abort();
-    const controller = new AbortController();
-    activeController = controller;
-
+  protected override async execute(signal: AbortSignal): Promise<{ results: TestResult[]; usage: AiUsage | null }> {
     let timedOut = false;
 
+    clearTimeout(aiResponseTimeoutId);
     aiResponseTimeoutId = setTimeout(() => {
       timedOut = true;
-      controller.abort();
+      this.abort();
     }, AI_RESPONSE_TIMEOUT_MS);
 
     const { body, bodyParameters, headers, method, queryParameters, url } = this.options;
@@ -275,7 +264,7 @@ export class AiTests extends BaseTests {
         },
       ],
       RESPONSE_FORMAT,
-      controller.signal,
+      signal,
     );
 
     clearTimeout(aiResponseTimeoutId);

@@ -50,10 +50,6 @@
 }
 
 @layer base {
-  html {
-    @apply scrollbar-gutter-stable;
-  }
-
   body {
     @apply m-0 font-segoe-ui bg-body dark:bg-dark-body text-text dark:text-dark-text;
   }
@@ -127,22 +123,22 @@
   }
 
   .environment-data-table .rdt_headRow {
-    @apply min-h-auto! bg-body!;
+    @apply min-h-auto! bg-body! dark:bg-dark-body! border-border! dark:border-dark-border!;
   }
 
   .environment-data-table .rdt_cellBaseHead {
-    @apply py-2! px-3!;
+    @apply py-2! px-3! border-border! dark:border-dark-border!;
   }
 
   .environment-data-table .rdt_TableRow {
-    @apply min-h-auto! bg-transparent! [content-visibility:visible]!;
+    @apply min-h-auto! bg-white! dark:bg-dark-input! [content-visibility:visible]!;
   }
 
   .environment-data-table .rdt_TableCell {
-    @apply p-0! border-border! dark:border-dark-body! overflow-hidden!;
+    @apply p-0!  border-border! dark:border-dark-body! overflow-hidden!;
   }
 
-  .environment-data-table .rdt_TableCell:not(:last-of-type) {
+  .environment-data-table .rdt_cellBase:not(:last-of-type) {
     @apply border-r!;
   }
 }

@@ -9,6 +9,7 @@ import Panel from 'src/components/panels/Panel';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import { useElementHeight } from 'src/hooks/useElementHeight';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
+import { useSendHttpRequest } from 'src/hooks/useSendHttpRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBodyParameters,
@@ -25,16 +26,17 @@ import ParametersPanel from '../parameters/ParametersPanel';
 export default function HttpResponsePanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const [ref, height] = useElementHeight<HTMLDivElement>();
 
-  const httpResponse = useAppSelector(selectHttpResponse);
-  const runResult = useAppSelector(selectSelectedRequestRunResult);
   const bodyParameters = useAppSelector(selectBodyParameters);
   const queryParameters = useAppSelector(selectQueryParameters);
+  const httpResponse = useAppSelector(selectHttpResponse);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const requestWithFolder = useAppSelector(selectSelectedRequestWithFolder);
+  const runResult = useAppSelector(selectSelectedRequestRunResult);
 
+  const [ref, height] = useElementHeight<HTMLDivElement>();
   const { autoSaveRequest } = useSaveRequest();
+  const { isSending } = useSendHttpRequest();
 
   const setVariable = useCallback(
     (path: string, value: string, source: 'body' | 'header') => {
@@ -55,10 +57,10 @@ export default function HttpResponsePanel() {
     [requestWithFolder, selectedRequestId, dispatch],
   );
 
-  if (!httpResponse) return null;
+  if (!httpResponse && !isSending) return null;
 
-  const isSending = httpResponse.status === RESPONSE_STATUS_LABEL.SENDING;
-  const isNetworkError = httpResponse.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
+  const isAborted = httpResponse?.status === RESPONSE_STATUS_LABEL.ABORTED;
+  const isNetworkError = httpResponse?.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
   const hasBodyParameters = Object.keys(bodyParameters).length > 0;
   const hasQueryParameters = Object.keys(queryParameters).length > 0;
   const hasParameters = hasBodyParameters || hasQueryParameters;
@@ -68,19 +70,19 @@ export default function HttpResponsePanel() {
       title={
         <div
           className={cn('flex items-center justify-between gap-4 py-3 pr-4 text-sm font-bold', {
-            'text-green-500': httpResponse.status.startsWith('2') && !runResult?.warning,
-            'text-yellow-500': httpResponse.status.startsWith('2') && runResult?.warning,
-            'text-blue-500': httpResponse.status.startsWith('3'),
-            'text-orange-500': httpResponse.status.startsWith('4'),
-            'text-red-500': httpResponse.status.startsWith('5') || isNetworkError || httpResponse.status === 'Error',
+            'text-green-500': httpResponse?.status.startsWith('2') && !runResult?.warning,
+            'text-yellow-500': httpResponse?.status.startsWith('2') && runResult?.warning,
+            'text-blue-500': httpResponse?.status.startsWith('3'),
+            'text-orange-500': httpResponse?.status.startsWith('4') || isAborted,
+            'text-red-500': httpResponse?.status.startsWith('5') || isNetworkError || httpResponse?.status === 'Error',
           })}
         >
           {isSending ? (
             <Loader className="h-5 w-5 shrink-0 [&>span]:border-3!" />
           ) : (
             <>
-              {isNetworkError ? t('response.networkError') : httpResponse.status}{' '}
-              <span className="text-xs text-text dark:text-dark-text">{httpResponse.time.toFixed(2)} ms</span>
+              {isNetworkError ? t('response.networkError') : httpResponse?.status}{' '}
+              <span className="text-xs text-text dark:text-dark-text">{httpResponse?.time.toFixed(2)} ms</span>
             </>
           )}
         </div>
@@ -91,7 +93,7 @@ export default function HttpResponsePanel() {
           <span className="font-semibold">{t('common.warning')}:</span> {runResult.warning}
         </div>
       )}
-      {!isSending && (
+      {httpResponse && (
         <div
           className={cn('@2xl:grid divide-y @2xl:divide-y-0 @2xl:divide-x divide-border dark:divide-dark-body', {
             '@2xl:grid-cols-2': !isNetworkError && hasParameters,

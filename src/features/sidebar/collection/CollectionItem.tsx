@@ -13,8 +13,9 @@ import {
   selectCollectionData,
   selectCollectionRunResults,
   selectIsComparingTestResults,
+  selectIsRequestRunning,
   selectRequestTestResults,
-  selectRunningRequestId,
+  selectRunningFolderId,
   selectSelectedRequestId,
 } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
@@ -31,6 +32,7 @@ import {
 
 import EditIcon from 'src/assets/icons/edit-icon.svg';
 import PlayIcon from 'src/assets/icons/play-icon.svg';
+import StopIcon from 'src/assets/icons/stop-icon.svg';
 import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 interface Props {
@@ -40,16 +42,17 @@ interface Props {
 
 export default function CollectionItem({ item, searchTerm }: Props) {
   const dispatch = useAppDispatch();
-  const { runRequest } = useCollectionRunner();
+  const { cancelRequestRun, runRequest } = useCollectionRunner();
   const { isOpen } = useContextMenu();
   const reset = useReset();
 
   const collection = useAppSelector(selectCollectionData);
-  const runningRequestId = useAppSelector(selectRunningRequestId);
-  const runResults = useAppSelector(selectCollectionRunResults);
-  const requestTestResults = useAppSelector(selectRequestTestResults(item.id));
-  const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const isComparingTestResults = useAppSelector(selectIsComparingTestResults);
+  const isRequestRunning = useAppSelector(selectIsRequestRunning(item.id));
+  const requestTestResults = useAppSelector(selectRequestTestResults(item.id));
+  const runningFolderId = useAppSelector(selectRunningFolderId);
+  const runResults = useAppSelector(selectCollectionRunResults);
+  const selectedRequestId = useAppSelector(selectSelectedRequestId);
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editingName, setEditingName] = useState<string>(item.name);
@@ -63,7 +66,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
 
   useEffect(() => setEditingName(item.name), [isEditing, item.name]);
 
-  const onClick = useCallback(
+  const handleClick = useCallback(
     (id: string) => {
       if (isDragging) return;
       if (isSelected && isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
@@ -114,6 +117,13 @@ export default function CollectionItem({ item, searchTerm }: Props) {
     [collection, isComparingTestResults, isDragging, isSelected, requestTestResults, runResult, dispatch, reset],
   );
 
+  const handlePlayClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+
+    if (isRequestRunning) cancelRequestRun(item.id);
+    else runRequest(item.id);
+  };
+
   const onSaveEdit = useCallback(() => {
     if (editingName.trim() && editingName !== item.name)
       dispatch(collectionActions.renameRequest({ requestId: item.id, newName: editingName.trim() }));
@@ -136,7 +146,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
           'opacity-50 shadow-lg z-50': isDragging,
         },
       )}
-      onClick={() => onClick(item.id)}
+      onClick={() => handleClick(item.id)}
       {...attributes}
       {...listeners}
     >
@@ -176,18 +186,18 @@ export default function CollectionItem({ item, searchTerm }: Props) {
             {searchTerm ? <SearchHighlighter text={item.name} term={searchTerm} /> : item.name}
           </span>
           <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100">
-            <PlayIcon
-              className={cn('h-4 w-4 text-green-500 hover:text-green-600', {
-                'cursor-pointer': runningRequestId !== item.id,
-                'opacity-50 cursor-not-allowed': runningRequestId === item.id,
-              })}
-              onClick={(event: MouseEvent) => {
-                event.stopPropagation();
-
-                if (runningRequestId === item.id) return;
-                runRequest(item.id);
-              }}
-            />
+            {!runningFolderId &&
+              (isRequestRunning ? (
+                <StopIcon
+                  className="h-4 w-4 shrink-0 text-red-500 hover:text-red-600 cursor-pointer"
+                  onClick={handlePlayClick}
+                />
+              ) : (
+                <PlayIcon
+                  className="h-4 w-4 shrink-0 text-green-500 hover:text-green-600 cursor-pointer opacity-0 group-hover:opacity-100"
+                  onClick={handlePlayClick}
+                />
+              ))}
             <EditIcon
               className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-primary cursor-pointer"
               onClick={() => setIsEditing(true)}

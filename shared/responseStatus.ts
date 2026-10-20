@@ -21,7 +21,6 @@ export const RESPONSE_STATUS = {
 export const RESPONSE_STATUS_LABEL = {
   ABORTED: 'Aborted',
   NETWORK_ERROR: 'Network Error',
-  SENDING: 'Sending...',
 } as const;
 
 type ResponseStatusValue = (typeof RESPONSE_STATUS)[keyof typeof RESPONSE_STATUS];

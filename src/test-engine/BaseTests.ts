@@ -7,26 +7,40 @@ export const NOT_AVAILABLE_TEST = 'Not Available';
 export const ORIGINAL_REQUEST_TEST_PARAMETER_NAME = '[original request]';
 export const SUCCESS_RESPONSE_EXPECTED = '2xx';
 
-export abstract class BaseTests {
+export abstract class BaseTests<TResult = unknown> {
   private _aborted = false;
+  private _currentController: AbortController | null = null;
 
-  public get aborted() {
+  constructor(
+    protected readonly options: TestOptions,
+    protected readonly onTestStart?: () => void,
+  ) {}
+
+  public get aborted(): boolean {
     return this._aborted;
   }
 
-  constructor(
-    protected options: TestOptions,
-    protected onTestStart?: () => void,
-  ) {
-    this.options = options;
-    this.onTestStart = onTestStart;
-  }
-
-  public abort() {
+  public abort(reason?: unknown): void {
     this._aborted = true;
+    this._currentController?.abort(reason);
+    this._currentController = null;
   }
 
-  public abstract run(): any;
+  public async run(): Promise<TResult> {
+    this._currentController?.abort();
+
+    const controller = new AbortController();
+    this._currentController = controller;
+    this._aborted = false;
+
+    try {
+      return await this.execute(controller.signal);
+    } finally {
+      if (this._currentController === controller) this._currentController = null;
+    }
+  }
+
+  protected abstract execute(signal: AbortSignal): Promise<TResult>;
 }
 
 export function createTestResult(

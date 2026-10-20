@@ -27,7 +27,7 @@ export function MappingSettings() {
       <p className="m-0 text-xs text-text-secondary">{t('settings.configuration.description')}</p>
       <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden">
         <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="m-0 font-bold">{t('settings.configuration.email')}</label>
+          <label className="font-bold">{t('settings.configuration.email')}</label>
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.domain')}</span>
             <Input
@@ -58,7 +58,7 @@ export function MappingSettings() {
           </div>
         </div>
         <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="m-0 font-bold">{t('settings.configuration.enum')}</label>
+          <label className="font-bold">{t('settings.configuration.enum')}</label>
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.enumDescription')}</span>
             <Input
@@ -69,7 +69,7 @@ export function MappingSettings() {
           </div>
         </div>
         <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="m-0 font-bold">{t('settings.configuration.number')}</label>
+          <label className="font-bold">{t('settings.configuration.number')}</label>
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.minimumValue')}</span>
             <Input
@@ -98,7 +98,7 @@ export function MappingSettings() {
           </div>
         </div>
         <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="m-0 font-bold">{t('settings.configuration.string')}</label>
+          <label className="font-bold">{t('settings.configuration.string')}</label>
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.minimumValueLength')}</span>
             <Input
@@ -131,7 +131,7 @@ export function MappingSettings() {
           </div>
         </div>
         <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="m-0 font-bold">{t('settings.configuration.randomInteger')}</label>
+          <label className="font-bold">{t('settings.configuration.randomInteger')}</label>
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.minimumValue')}</span>
             <Input
@@ -168,7 +168,7 @@ export function MappingSettings() {
           </div>
         </div>
         <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="m-0 font-bold">{t('settings.configuration.randomString')}</label>
+          <label className="font-bold">{t('settings.configuration.randomString')}</label>
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.length')}</span>
             <Input

@@ -45,8 +45,8 @@ export default function RequestUrlBar() {
   const variables = useAppSelector(selectVariableNames);
   const wssConnected = useAppSelector(selectWssConnected);
 
-  const sendHttp = useSendHttpRequest();
   const { saveRequest, autoSaveRequest } = useSaveRequest();
+  const { isSending, abortRequest, sendHttpRequest } = useSendHttpRequest();
   const { connect, disconnect, send } = useWssActions();
 
   return (
@@ -79,9 +79,15 @@ export default function RequestUrlBar() {
       </div>
       {mode === 'HTTP' && (
         <>
-          <Button disabled={disabled} onClick={sendHttp}>
-            {t('common.send')}
-          </Button>
+          {isSending ? (
+            <Button buttonType={ButtonType.SECONDARY} disabled={disabled} onClick={abortRequest}>
+              {t('common.cancel')}
+            </Button>
+          ) : (
+            <Button disabled={disabled} onClick={sendHttpRequest}>
+              {t('common.send')}
+            </Button>
+          )}
           <ActionsButton
             actions={selectedRequestId ? [{ label: t('common.duplicate'), onClick: () => saveRequest(true) }] : []}
             buttonType={ButtonType.SECONDARY}

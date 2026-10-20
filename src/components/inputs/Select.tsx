@@ -34,6 +34,7 @@ export default function Select({ classNames, styles, isCreatable, ...otherProps 
           'rounded-none transition-none',
           {
             'hover:bg-select-hover dark:bg-dark-input! dark:hover:bg-dark-button-secondary!': !isSelected,
+            'text-text! dark:text-dark-text!': !(data as SelectOption<unknown>).className,
           },
           !isSelected ? (data as SelectOption<unknown>).className : undefined,
         ),

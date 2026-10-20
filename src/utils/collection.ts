@@ -9,7 +9,7 @@ import {
   PostmanRequest,
 } from 'src/types';
 
-export { createEmptyCollection, generateFolderId, generateRequestId } from 'shared/utils/collection';
+export { createEmptyCollection, generateFolderId, generateHistoryId, generateRequestId } from 'shared/utils/collection';
 
 export interface CollectionItemData {
   id: string;

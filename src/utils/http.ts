@@ -247,3 +247,7 @@ export function updateFormEntry(entries: Array<[string, string]>, key: string, v
     }
   }
 }
+
+export function applyMapping(extracted: RequestParameters, mapped: RequestParameters): RequestParameters {
+  return Object.fromEntries(Object.keys(extracted).map((key) => [key, key in mapped ? mapped[key] : extracted[key]]));
+}

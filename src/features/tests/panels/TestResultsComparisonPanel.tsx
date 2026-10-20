@@ -99,7 +99,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
   }, [items]);
 
   return (
-    <Panel className="flex flex-col flex-auto box-border" collapsible={false} title={title} {...otherProps}>
+    <Panel className="flex flex-col flex-auto border-none" collapsible={false} title={title} {...otherProps}>
       {items.length < 2 ? (
         <p className="p-4 m-0">{t('comparison.noTestResults')}</p>
       ) : (
@@ -111,7 +111,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
           selectedTabPanelClassName="flex! flex-col flex-auto"
           onSelect={(index) => setTabIndex(index)}
         >
-          <TabList className="flex m-0 px-2.5 border-b border-border dark:border-dark-body">
+          <TabList className="flex m-0 px-4 border-b border-border dark:border-dark-body">
             <Tab
               className="relative -bottom-px py-1.5 px-3 text-sm border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
               title={t('comparison.potentialBugs')}
@@ -162,7 +162,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
                 />
               </div>
               <JsonDiffViewer
-                className="flex-1 py-4"
+                className="flex-1 p-4"
                 data={filteredItems}
                 calculateStatistics={setStatistics}
                 isDiffReady={setDiffReady}

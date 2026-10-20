@@ -1,4 +1,4 @@
-import { DataType, DynamicVariable, Environment, EnvironmentVariable, HttpBody } from 'src/types';
+import { DataType, DynamicVariable, Environment, EnvironmentVariable, ExtractionFailure, HttpBody } from 'src/types';
 import { parseBody, parseHeaders } from './http';
 import { generateRandomValue } from './random';
 
@@ -110,9 +110,13 @@ export function substituteRequestVariables(
   };
 }
 
-/**
- * Generates a unique environment ID.
- */
 export function generateEnvironmentId(): string {
   return `env_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+}
+
+export function formatExtractionWarning(failures: ExtractionFailure[]): string | null {
+  if (failures.length === 0) return null;
+  if (failures.length === 1) return `Failed to extract {{${failures[0].variableName}}}: ${failures[0].reason}`;
+
+  return `Failed to extract: ${failures.map(({ variableName }) => `{{${variableName}}}`).join(', ')}`;
 }

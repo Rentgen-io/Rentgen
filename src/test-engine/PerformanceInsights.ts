@@ -61,7 +61,7 @@ export class PerformanceInsights extends BaseTests {
     this.disabledTests = disabledTests;
   }
 
-  public async run(): Promise<TestResult[]> {
+  protected override async execute(): Promise<TestResult[]> {
     const medianResponseTime = calculateMedian(
       this.testResults.map((result: TestResult) => result.response?.time).filter(Boolean) as number[],
     );

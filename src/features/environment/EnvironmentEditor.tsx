@@ -141,10 +141,14 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
   );
 
   return (
-    <Panel collapsible={false} title={isNew ? t('environment.newEnvironment') : t('environment.editEnvironment')}>
-      <div className="p-4 border-t border-border dark:border-dark-body">
-        <div className="mb-4">
-          <label className="block mb-1 font-bold text-sm">{t('environment.environmentName')}</label>
+    <Panel
+      className="border-none"
+      collapsible={false}
+      title={isNew ? t('environment.newEnvironment') : t('environment.editEnvironment')}
+    >
+      <div className="flex flex-col gap-4 p-4 bg-body dark:bg-dark-body border-t border-border dark:border-dark-border">
+        <div className="flex flex-col gap-2">
+          <label className="font-bold text-xs">{t('environment.environmentName')}</label>
           <Input
             className="w-full dark:bg-dark-body"
             placeholder={t('environment.environmentNamePlaceholder')}
@@ -152,9 +156,8 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-
-        <div className="mb-4">
-          <label className="block mb-1 font-bold text-sm">{t('environment.color')}</label>
+        <div className="flex flex-col gap-2">
+          <label className="font-bold text-xs">{t('environment.color')}</label>
           <div className="flex items-center gap-2">
             {COLOR_OPTIONS.map((c) => (
               <button
@@ -176,10 +179,9 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
             />
           </div>
         </div>
-
-        <div className="mb-4">
-          <label className="block mb-1 font-bold text-sm">{t('environment.variables')}</label>
-          <div className="border border-border dark:border-dark-body overflow-hidden">
+        <div className="flex flex-col gap-2">
+          <label className="font-bold text-xs">{t('environment.variables')}</label>
+          <div className="border border-border dark:border-dark-border overflow-hidden">
             <DataTable
               className="environment-data-table"
               columns={[
@@ -249,11 +251,10 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
             />
           </div>
         </div>
-
         {isNew && (
-          <div className="flex items-center justify-end gap-2">
-            <Button onClick={handleSave}>{t('common.create')}</Button>
-          </div>
+          <Button className="w-fit self-end" onClick={handleSave}>
+            {t('common.create')}
+          </Button>
         )}
       </div>
     </Panel>

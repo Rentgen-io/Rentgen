@@ -36,7 +36,11 @@ import { Abortable, Test } from './decorators';
 const VALUE_NORMALIZATION_TEST_EXPECTED = `${RESPONSE_STATUS.BAD_REQUEST} ${getResponseStatusTitle(RESPONSE_STATUS.BAD_REQUEST)}/${RESPONSE_STATUS.UNPROCESSABLE_ENTITY} ${getResponseStatusTitle(RESPONSE_STATUS.UNPROCESSABLE_ENTITY)} or Trimmed/Normalized Value`;
 
 export class DataDrivenTests extends BaseTests {
-  public async run(): Promise<TestResult[]> {
+  private signal?: AbortSignal;
+
+  protected async execute(signal: AbortSignal): Promise<TestResult[]> {
+    this.signal = signal;
+
     const results: TestResult[] = [];
     const { body, headers, method, url } = this.options;
     const request = createHttpRequest(body, headers, method, url);
@@ -61,6 +65,7 @@ export class DataDrivenTests extends BaseTests {
                 ? SUCCESS_RESPONSE_EXPECTED
                 : ERROR_RESPONSE_EXPECTED
               : VALUE_NORMALIZATION_TEST_EXPECTED,
+            this.signal!,
             type === 'enum' ? determineRequestParameterTestStatus : determineValueNormalizationTestStatus,
             this.onTestStart,
           ),
@@ -93,7 +98,7 @@ export class DataDrivenTests extends BaseTests {
     this.onTestStart?.();
 
     try {
-      const response = await sendHttp(request);
+      const response = await sendHttp(request, this.signal);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
         if (statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.REDIRECT)
@@ -149,6 +154,7 @@ export class DataDrivenTests extends BaseTests {
         await testRequestParameter(
           { ...options, testData: updateData },
           updateData.valid ? SUCCESS_RESPONSE_EXPECTED : ERROR_RESPONSE_EXPECTED,
+          this.signal!,
           determineRequestParameterTestStatus,
           this.onTestStart,
         ),
@@ -191,6 +197,7 @@ export async function runDataDrivenTests(
 async function testRequestParameter(
   options: TestOptions,
   expected: string,
+  signal: AbortSignal,
   determine: (
     response: HttpResponse,
     statusCode: number,
@@ -204,7 +211,7 @@ async function testRequestParameter(
   const request = createTestHttpRequest(options);
 
   try {
-    const response = await sendHttp(request);
+    const response = await sendHttp(request, signal);
     const { actual, status } = determineTestStatus(response, (response, statusCode) =>
       determine(response, statusCode, testData),
     );

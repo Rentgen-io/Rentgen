@@ -48,7 +48,7 @@ export default function GitHubModal() {
       <div className="flex flex-col gap-4">
         <h4 className="m-0">⭐ {t('modals.gitHub.title')}</h4>
         <p className="m-0 text-sm dark:text-text-secondary">{t('modals.gitHub.message')}</p>
-        <div className="flex items-center justify-end gap-4">
+        <div className="flex items-center justify-end gap-2">
           <Button
             onClick={() => {
               openExternal('https://github.com/Rentgen-io/Rentgen');

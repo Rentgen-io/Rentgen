@@ -124,38 +124,38 @@ export default function App() {
     <div className="flex">
       <Sidebar />
       <div className="@container flex-1 min-w-0 flex flex-col overflow-y-auto">
-        <div className="flex-1 flex flex-col gap-4 p-4">
-          {isEditingEnvironment && (
-            <div className="relative">
-              <EnvironmentEditor
-                environment={environments.find(({ id }) => id === editingEnvironmentId) || null}
-                isNew={editingEnvironmentId === null}
-                onSave={(environment) => dispatch(environmentActions.updateEnvironment(environment))}
-              />
-              <IconButton
-                className="absolute top-1.5 right-1.5"
-                onClick={() => dispatch(environmentActions.stopEditing())}
-              >
-                <ClearCrossIcon className="h-5 w-5" />
-              </IconButton>
-            </div>
-          )}
-          {!isEditingEnvironment && isComparingTestResults && compareResponse && (
-            <div className="relative flex flex-col flex-auto">
-              <TestResultsComparisonPanel
-                items={testResultsToCompare}
-                response={compareResponse}
-                title={t('comparison.title')}
-              />
-              <IconButton
-                className="absolute top-1.5 right-1.5"
-                onClick={() => dispatch(testsActions.clearResultsToCompare())}
-              >
-                <ClearCrossIcon className="h-5 w-5" />
-              </IconButton>
-            </div>
-          )}
-          {!isEditingEnvironment && !isComparingTestResults && (
+        {isEditingEnvironment && (
+          <div className="relative">
+            <EnvironmentEditor
+              environment={environments.find(({ id }) => id === editingEnvironmentId) || null}
+              isNew={editingEnvironmentId === null}
+              onSave={(environment) => dispatch(environmentActions.updateEnvironment(environment))}
+            />
+            <IconButton
+              className="absolute top-1.5 right-1.5"
+              onClick={() => dispatch(environmentActions.stopEditing())}
+            >
+              <ClearCrossIcon className="h-5 w-5" />
+            </IconButton>
+          </div>
+        )}
+        {!isEditingEnvironment && isComparingTestResults && compareResponse && (
+          <div className="relative flex flex-col flex-auto">
+            <TestResultsComparisonPanel
+              items={testResultsToCompare}
+              response={compareResponse}
+              title={t('comparison.title')}
+            />
+            <IconButton
+              className="absolute top-1.5 right-1.5"
+              onClick={() => dispatch(testsActions.clearResultsToCompare())}
+            >
+              <ClearCrossIcon className="h-5 w-5" />
+            </IconButton>
+          </div>
+        )}
+        {!isEditingEnvironment && !isComparingTestResults && (
+          <div className="flex-1 flex flex-col gap-4 p-4">
             <>
               <RequestModeBar />
               <RequestUrlBar />
@@ -165,8 +165,8 @@ export default function App() {
               <WssMessagesPanel />
               {mode === 'HTTP' && <TestRunnerBar />}
             </>
-          )}
-        </div>
+          </div>
+        )}
         {!isEditingEnvironment && !isComparingTestResults && testResults && (
           <Tabs
             className="flex flex-col flex-auto"
