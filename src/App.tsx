@@ -111,7 +111,19 @@ export default function App() {
         tests: crudTests,
       },
     ],
-    [aiTests, crudTests, dataDrivenTests, performanceTests, securityTests, t],
+    [
+      aiRunStartedAt,
+      aiTests,
+      crudTests,
+      dataDrivenTests,
+      disabledSecurityTests,
+      isDataDrivenRunning,
+      isPerformanceRunning,
+      isSecurityRunning,
+      performanceTests,
+      securityTests,
+      t,
+    ],
   );
 
   const { saveRequest } = useSaveRequest();
