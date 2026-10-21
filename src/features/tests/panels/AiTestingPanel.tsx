@@ -18,6 +18,7 @@ import {
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
+import { uiActions } from 'src/store/slices/uiSlice';
 import {
   determineRequestParameterTestStatus,
   determineTestStatus,
@@ -26,7 +27,6 @@ import {
 } from 'src/test-engine';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
-import { uiActions } from 'src/store/slices/uiSlice';
 
 export default function AiTestingPanel() {
   const dispatch = useAppDispatch();
