@@ -85,9 +85,9 @@ export interface TestResults {
 export interface AiTestsOverview {
   summary: string;
   topIssues: {
-    title: string;
     evidence: string;
     impact: string;
+    title: string;
   }[];
   attentionPoints: string[];
 }

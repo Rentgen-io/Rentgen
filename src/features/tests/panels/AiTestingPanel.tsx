@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { Accordion } from 'src/components/accordion/Accordion';
+import { AccordionItem } from 'src/components/accordion/AccordionItem';
 import Button from 'src/components/buttons/Button';
 import { Controls } from 'src/components/controls/Controls';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
@@ -9,6 +11,7 @@ import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectActiveAiProvider,
+  selectAiActiveTab,
   selectRunningAiTests,
   selectSelectedRequestId,
   selectSerialNumber,
@@ -23,6 +26,7 @@ import {
 } from 'src/test-engine';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
+import { uiActions } from 'src/store/slices/uiSlice';
 
 export default function AiTestingPanel() {
   const dispatch = useAppDispatch();
@@ -30,6 +34,7 @@ export default function AiTestingPanel() {
   const { aiOverview, aiTests, aiUsage, isRunningTests, cancelAiTestsGeneration, executeAiTest } = useTests();
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
+  const aiActiveTab = useAppSelector(selectAiActiveTab);
   const runningAiTests = useAppSelector(selectRunningAiTests);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const serialNumber = useAppSelector(selectSerialNumber);
@@ -44,24 +49,81 @@ export default function AiTestingPanel() {
       {aiOverview || (aiTests && aiTests.length > 0) ? (
         <div className="flex flex-col gap-4">
           <div>
-            <h5 className="m-0 mb-1">AI summary</h5>
+            <h5 className="m-0 mb-1">{t('ai.summary')}</h5>
             <p className="m-0 text-xs text-text-secondary">{aiOverview?.summary ?? '-'}</p>
           </div>
           <Tabs
             forceRenderTabPanel={true}
+            selectedIndex={aiActiveTab}
             selectedTabClassName="text-text dark:text-dark-text border-blue-500! cursor-default!"
-            selectedTabPanelClassName="block!"
+            selectedTabPanelClassName="flex! flex-col gap-4"
+            onSelect={(index) => {
+              dispatch(uiActions.setAiActiveTab(index));
+            }}
           >
             <TabList className="m-0 mb-6 p-0 flex gap-4 text-sm font-medium text-text-secondary">
-              <Tab className="pb-1 list-none border-b border-transparent outline-none cursor-pointer">Overview</Tab>
+              <Tab className="pb-1 list-none border-b border-transparent outline-none cursor-pointer">
+                {t('ai.overview')}
+              </Tab>
               <Tab className="pb-1 flex items-center gap-2 border-b border-transparent list-none outline-none cursor-pointer">
-                <span>Tests</span>
-                <span className="py-0.5 px-1.5 font-normal text-xs text-text-secondary bg-text-secondary/10">
+                {t('ai.tests')}
+                <span className="min-w-5 py-0.5 px-1.5 font-normal text-xs text-text-secondary bg-text-secondary/10 box-border">
                   {aiTests?.length ?? 0}
                 </span>
               </Tab>
             </TabList>
-            <TabPanel className="hidden">Overview</TabPanel>
+            <TabPanel className="hidden">
+              <h5 className="flex items-center gap-2 m-0 font-medium">
+                {t('ai.topFindings')}
+                <span className="font-normal text-xs text-text-secondary">{aiOverview?.topIssues.length ?? 0}</span>
+              </h5>
+              {aiOverview?.topIssues.length && (
+                <Accordion
+                  className="divide-y divide-border dark:divide-dark-border"
+                  items={aiOverview.topIssues.map(({ evidence, impact, title }, index) => ({
+                    content: (
+                      <div className="flex flex-col gap-2 ml-7 pb-3 text-xs text-text-secondary">
+                        <div className="flex flex-col gap-2 p-4 bg-body dark:bg-dark-body">
+                          <label className="font-bold">{t('ai.evidence')}</label>
+                          <p className="m-0">{evidence}</p>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <label className="font-bold">{t('ai.impact')}</label>
+                          <p className="m-0">{impact}</p>
+                        </div>
+                      </div>
+                    ),
+                    title: (
+                      <h5 className="flex items-center gap-2 py-3 m-0 font-medium">
+                        <span className="min-w-5 py-0.5 px-1.5 font-normal text-xs text-text-secondary bg-text-secondary/10 box-border">
+                          {index + 1}
+                        </span>
+                        {title}
+                      </h5>
+                    ),
+                  }))}
+                />
+              )}
+              <AccordionItem
+                content={
+                  <div className="flex flex-col gap-4 pt-4 text-xs">
+                    {(aiOverview?.attentionPoints ?? []).map((point, index) => (
+                      <p key={index} className="m-0">
+                        {point}
+                      </p>
+                    ))}
+                  </div>
+                }
+                title={
+                  <h5 className="flex items-center gap-2 m-0 font-medium">
+                    {t('ai.needsInvestigation')}
+                    <span className="font-normal text-xs text-text-secondary">
+                      {aiOverview?.attentionPoints.length ?? 0}
+                    </span>
+                  </h5>
+                }
+              />
+            </TabPanel>
             <TabPanel className="hidden">
               <TestsTable
                 columns={[

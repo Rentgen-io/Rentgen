@@ -526,6 +526,13 @@ const vi = {
     responseTimeout: 'Không nhận được phản hồi AI đầy đủ trong vòng {{minutes}} phút',
     waitingForResponse: 'Đang chờ phản hồi AI (hết thời gian sau <timer />)',
     usage: 'Tổng cộng đã dùng <total /> token (prompt: <prompt />, hoàn thành: <completion />)',
+    summary: 'Tóm tắt AI',
+    overview: 'Tổng quan',
+    tests: 'Kiểm thử',
+    topFindings: 'Phát hiện chính',
+    evidence: 'Bằng chứng',
+    impact: 'Tác động',
+    needsInvestigation: 'Cần điều tra',
   },
 };
 

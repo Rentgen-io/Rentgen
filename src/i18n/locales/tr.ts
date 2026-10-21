@@ -530,6 +530,13 @@ const tr = {
     responseTimeout: '{{minutes}} dakika içinde tam bir yapay zekâ yanıtı alınamadı',
     waitingForResponse: 'Yapay zekâ yanıtı bekleniyor (<timer /> içinde zaman aşımı)',
     usage: 'Toplam <total /> token kullanıldı (istem: <prompt />, tamamlama: <completion />)',
+    summary: 'Yapay zekâ özeti',
+    overview: 'Genel bakış',
+    tests: 'Testler',
+    topFindings: 'Önemli bulgular',
+    evidence: 'Kanıtlar',
+    impact: 'Etki',
+    needsInvestigation: 'İnceleme gerekiyor',
   },
 };
 

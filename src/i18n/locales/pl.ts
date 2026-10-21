@@ -527,6 +527,13 @@ const pl = {
     responseTimeout: 'Nie otrzymano pełnej odpowiedzi AI w ciągu {{minutes}} minut',
     waitingForResponse: 'Oczekiwanie na odpowiedź AI (limit czasu za <timer />)',
     usage: 'Łącznie użyto <total /> tokenów (prompt: <prompt />, odpowiedź: <completion />)',
+    summary: 'Podsumowanie AI',
+    overview: 'Przegląd',
+    tests: 'Testy',
+    topFindings: 'Najważniejsze ustalenia',
+    evidence: 'Dowody',
+    impact: 'Wpływ',
+    needsInvestigation: 'Wymaga zbadania',
   },
 };
 

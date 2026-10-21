@@ -525,6 +525,13 @@ const hi = {
     responseTimeout: '{{minutes}} मिनट के भीतर कोई पूर्ण AI प्रतिक्रिया प्राप्त नहीं हुई',
     waitingForResponse: 'AI प्रतिक्रिया की प्रतीक्षा की जा रही है (<timer /> में समय समाप्त)',
     usage: 'कुल <total /> टोकन उपयोग किए गए (प्रॉम्प्ट: <prompt />, कम्प्लीशन: <completion />)',
+    summary: 'AI सारांश',
+    overview: 'अवलोकन',
+    tests: 'टेस्ट',
+    topFindings: 'प्रमुख निष्कर्ष',
+    evidence: 'साक्ष्य',
+    impact: 'प्रभाव',
+    needsInvestigation: 'जांच आवश्यक',
   },
 };
 

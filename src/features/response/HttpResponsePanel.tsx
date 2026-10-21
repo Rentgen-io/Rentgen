@@ -103,15 +103,17 @@ export default function HttpResponsePanel() {
           <div className="flex flex-col gap-4 p-4">
             <h5 className="m-0">{t('response.title')}</h5>
             <Tabs
+              forceRenderTabPanel={true}
               className="relative flex flex-col flex-auto"
               selectedTabClassName="text-text dark:text-dark-text underline underline-offset-6 decoration-blue-500 cursor-default!"
+              selectedTabPanelClassName="block!"
             >
               <TabList className="m-0 mb-6 p-0 flex gap-4 text-xs font-medium text-text-secondary">
                 <Tab className="list-none outline-none cursor-pointer">{t('request.body')}</Tab>
                 <Tab className="list-none outline-none cursor-pointer">{t('request.headers')}</Tab>
               </TabList>
               <div ref={ref} className="flex flex-col flex-auto">
-                <TabPanel>
+                <TabPanel className="hidden">
                   {httpResponse.body && (
                     <CopyButton
                       className="absolute -top-0.75 right-0"
@@ -132,7 +134,7 @@ export default function HttpResponsePanel() {
                     onSetVariable={(path, value) => setVariable(path, value, 'body')}
                   />
                 </TabPanel>
-                <TabPanel>
+                <TabPanel className="hidden">
                   {httpResponse.headers && (
                     <CopyButton
                       className="absolute -top-0.75 right-0"

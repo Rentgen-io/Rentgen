@@ -528,6 +528,13 @@ const ru = {
     responseTimeout: 'Полный ответ ИИ не получен в течение {{minutes}} минут',
     waitingForResponse: 'Ожидание ответа ИИ (тайм-аут через <timer />)',
     usage: 'Всего использовано токенов: <total /> (запрос: <prompt />, ответ: <completion />)',
+    summary: 'Сводка ИИ',
+    overview: 'Обзор',
+    tests: 'Тесты',
+    topFindings: 'Основные выводы',
+    evidence: 'Доказательства',
+    impact: 'Влияние',
+    needsInvestigation: 'Требует изучения',
   },
 };
 

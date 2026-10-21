@@ -538,6 +538,13 @@ const fr = {
     responseTimeout: "Aucune réponse complète de l'IA reçue en {{minutes}} minutes",
     waitingForResponse: "En attente de la réponse de l'IA (expire dans <timer />)",
     usage: 'Total de <total /> jetons utilisés (prompt : <prompt />, complétion : <completion />)',
+    summary: 'Résumé IA',
+    overview: "Vue d'ensemble",
+    tests: 'Tests',
+    topFindings: 'Principaux constats',
+    evidence: 'Preuves',
+    impact: 'Impact',
+    needsInvestigation: 'Nécessite une investigation',
   },
 };
 

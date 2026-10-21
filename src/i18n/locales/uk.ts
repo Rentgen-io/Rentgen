@@ -527,6 +527,13 @@ const uk = {
     responseTimeout: 'Повну відповідь ШІ не отримано протягом {{minutes}} хвилин',
     waitingForResponse: 'Очікування відповіді ШІ (тайм-аут через <timer />)',
     usage: 'Усього використано токенів: <total /> (запит: <prompt />, відповідь: <completion />)',
+    summary: 'Підсумок ШІ',
+    overview: 'Огляд',
+    tests: 'Тести',
+    topFindings: 'Основні висновки',
+    evidence: 'Докази',
+    impact: 'Вплив',
+    needsInvestigation: 'Потребує дослідження',
   },
 };
 

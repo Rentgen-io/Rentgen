@@ -520,6 +520,13 @@ const zhCN = {
     responseTimeout: '{{minutes}} 分钟内未收到完整的 AI 响应',
     waitingForResponse: '正在等待 AI 响应（<timer /> 后超时）',
     usage: '共使用 <total /> 个 token（提示：<prompt />，补全：<completion />）',
+    summary: 'AI 摘要',
+    overview: '概览',
+    tests: '测试',
+    topFindings: '主要发现',
+    evidence: '证据',
+    impact: '影响',
+    needsInvestigation: '需要调查',
   },
 };
 

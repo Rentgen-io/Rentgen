@@ -38,7 +38,7 @@ export default function EnvironmentItem({ environment }: Props) {
         transition,
       }}
       className={cn(
-        'h-9 flex items-center gap-2 px-3 py-1.5',
+        'h-9 flex items-center gap-2 px-3 py-1.5 group',
         'hover:bg-button-secondary dark:hover:bg-dark-input box-border cursor-pointer outline-none',
         {
           'bg-button-secondary dark:bg-dark-input': isSelected,
@@ -52,7 +52,7 @@ export default function EnvironmentItem({ environment }: Props) {
       <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: environment.color }} />
       <span className="flex-1 text-xs truncate">{environment.title}</span>
       <TrashIcon
-        className="h-3 w-3 p-0.5 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+        className="h-3 w-3 p-0.5 text-button-text-secondary dark:text-text-secondary hover:text-button-danger opacity-0 group-hover:opacity-100 cursor-pointer"
         onClick={(e: React.MouseEvent) => {
           e.stopPropagation();
           dispatch(environmentActions.setEnvironmentToDelete(environment.id));

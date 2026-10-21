@@ -528,6 +528,13 @@ const lt = {
     responseTimeout: 'Per {{minutes}} minutes negautas pilnas AI atsakymas',
     waitingForResponse: 'Laukiama AI atsakymo (laikas baigsis po <timer />)',
     usage: 'Iš viso panaudota <total /> žetonų (užklausa: <prompt />, atsakymas: <completion />)',
+    summary: 'AI santrauka',
+    overview: 'Apžvalga',
+    tests: 'Testai',
+    topFindings: 'Pagrindinės išvados',
+    evidence: 'Įrodymai',
+    impact: 'Poveikis',
+    needsInvestigation: 'Reikia ištirti',
   },
 };
 

@@ -532,6 +532,13 @@ const nl = {
     responseTimeout: 'Geen volledig AI-antwoord ontvangen binnen {{minutes}} minuten',
     waitingForResponse: 'Wachten op AI-antwoord (time-out over <timer />)',
     usage: 'Totaal <total /> tokens gebruikt (prompt: <prompt />, voltooiing: <completion />)',
+    summary: 'AI-samenvatting',
+    overview: 'Overzicht',
+    tests: 'Tests',
+    topFindings: 'Belangrijkste bevindingen',
+    evidence: 'Bewijs',
+    impact: 'Impact',
+    needsInvestigation: 'Onderzoek nodig',
   },
 };
 

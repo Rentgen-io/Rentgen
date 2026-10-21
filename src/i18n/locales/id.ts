@@ -525,6 +525,13 @@ const id = {
     responseTimeout: 'Tidak ada respons AI lengkap yang diterima dalam {{minutes}} menit',
     waitingForResponse: 'Menunggu respons AI (waktu habis dalam <timer />)',
     usage: 'Total <total /> token digunakan (prompt: <prompt />, penyelesaian: <completion />)',
+    summary: 'Ringkasan AI',
+    overview: 'Ikhtisar',
+    tests: 'Tes',
+    topFindings: 'Temuan utama',
+    evidence: 'Bukti',
+    impact: 'Dampak',
+    needsInvestigation: 'Perlu diselidiki',
   },
 };
 

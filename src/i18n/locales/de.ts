@@ -532,6 +532,13 @@ const de = {
     responseTimeout: 'Innerhalb von {{minutes}} Minuten wurde keine vollständige KI-Antwort empfangen',
     waitingForResponse: 'KI-Antwort wird erwartet (Zeitüberschreitung in <timer />)',
     usage: 'Insgesamt <total /> Tokens verwendet (Prompt: <prompt />, Completion: <completion />)',
+    summary: 'KI-Zusammenfassung',
+    overview: 'Überblick',
+    tests: 'Tests',
+    topFindings: 'Wichtigste Erkenntnisse',
+    evidence: 'Belege',
+    impact: 'Auswirkung',
+    needsInvestigation: 'Untersuchung erforderlich',
   },
 };
 

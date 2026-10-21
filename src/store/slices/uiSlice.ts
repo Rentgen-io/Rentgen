@@ -2,12 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ReportFormat, SidebarTab } from 'src/types';
 
 interface UIState {
+  aiActiveTab: number;
   exportFormat: ReportFormat;
   sidebarActiveTab: SidebarTab;
   testsActiveTab: number;
 }
 
 const initialState: UIState = {
+  aiActiveTab: 0,
   exportFormat: 'json',
   sidebarActiveTab: 'collections',
   testsActiveTab: 0,
@@ -17,6 +19,9 @@ export const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
+    setAiActiveTab: (state, action: PayloadAction<number>) => {
+      state.aiActiveTab = action.payload;
+    },
     setExportFormat: (state, action: PayloadAction<ReportFormat>) => {
       state.exportFormat = action.payload;
     },

@@ -525,6 +525,13 @@ const th = {
     responseTimeout: 'ไม่ได้รับคำตอบจาก AI ที่สมบูรณ์ภายใน {{minutes}} นาที',
     waitingForResponse: 'กำลังรอคำตอบจาก AI (หมดเวลาใน <timer />)',
     usage: 'ใช้โทเค็นทั้งหมด <total /> (พรอมต์: <prompt />, คำตอบ: <completion />)',
+    summary: 'สรุปโดย AI',
+    overview: 'ภาพรวม',
+    tests: 'การทดสอบ',
+    topFindings: 'ข้อค้นพบสำคัญ',
+    evidence: 'หลักฐาน',
+    impact: 'ผลกระทบ',
+    needsInvestigation: 'ต้องตรวจสอบเพิ่มเติม',
   },
 };
 

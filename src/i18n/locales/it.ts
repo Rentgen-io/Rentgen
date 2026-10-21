@@ -532,6 +532,13 @@ const it = {
     responseTimeout: "Nessuna risposta completa dall'AI ricevuta entro {{minutes}} minuti",
     waitingForResponse: "In attesa della risposta dell'AI (scade tra <timer />)",
     usage: 'Token utilizzati in totale: <total /> (prompt: <prompt />, completamento: <completion />)',
+    summary: 'Riepilogo AI',
+    overview: 'Panoramica',
+    tests: 'Test',
+    topFindings: 'Risultati principali',
+    evidence: 'Evidenze',
+    impact: 'Impatto',
+    needsInvestigation: 'Richiede approfondimento',
   },
 };
 

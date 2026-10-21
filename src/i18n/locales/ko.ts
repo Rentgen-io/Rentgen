@@ -525,6 +525,13 @@ const ko = {
     responseTimeout: '{{minutes}}분 이내에 완전한 AI 응답을 받지 못했습니다',
     waitingForResponse: 'AI 응답을 기다리는 중 (<timer /> 후 시간 초과)',
     usage: '총 <total />개 토큰 사용 (프롬프트: <prompt />, 완성: <completion />)',
+    summary: 'AI 요약',
+    overview: '개요',
+    tests: '테스트',
+    topFindings: '주요 발견 사항',
+    evidence: '근거',
+    impact: '영향',
+    needsInvestigation: '조사 필요',
   },
 };
 

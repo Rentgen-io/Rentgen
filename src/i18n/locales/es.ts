@@ -532,6 +532,13 @@ const es = {
     responseTimeout: 'No se recibió una respuesta completa de la IA en {{minutes}} minutos',
     waitingForResponse: 'Esperando la respuesta de la IA (se agota en <timer />)',
     usage: 'Total de <total /> tokens usados (prompt: <prompt />, completado: <completion />)',
+    summary: 'Resumen de IA',
+    overview: 'Descripción general',
+    tests: 'Pruebas',
+    topFindings: 'Hallazgos principales',
+    evidence: 'Evidencia',
+    impact: 'Impacto',
+    needsInvestigation: 'Requiere investigación',
   },
 };
 

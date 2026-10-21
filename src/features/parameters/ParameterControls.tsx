@@ -109,18 +109,18 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
             value={type}
             onChange={onSelectTypeChange}
           />
-          <Toggle
-            checked={mandatory}
-            disabled={isDoNotTestType(type)}
-            title={isDoNotTestType(type) ? t('controls.mandatoryToggle') : undefined}
-            onChange={(e) => onChange({ ...parameterValue, mandatory: e.target.checked })}
-          />
           <IconButton
             className="h-7 w-7 shrink-0"
             onClick={() => onChange({ type: 'do-not-test', value: '', mandatory: false })}
           >
             <ClearCrossIcon className="h-4 w-4" />
           </IconButton>
+          <Toggle
+            checked={mandatory}
+            disabled={isDoNotTestType(type)}
+            title={isDoNotTestType(type) ? t('controls.mandatoryToggle') : undefined}
+            onChange={(e) => onChange({ ...parameterValue, mandatory: e.target.checked })}
+          />
         </div>
       </div>
     </div>
