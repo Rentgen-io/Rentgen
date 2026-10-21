@@ -118,7 +118,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
           <Toggle
             checked={mandatory}
             disabled={isDoNotTestType(type)}
-            title={isDoNotTestType(type) ? t('controls.mandatoryToggle') : undefined}
+            title={!isDoNotTestType(type) ? t('controls.mandatoryToggle') : undefined}
             onChange={(e) => onChange({ ...parameterValue, mandatory: e.target.checked })}
           />
         </div>
