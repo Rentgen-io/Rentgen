@@ -1,5 +1,4 @@
 import { DiffEditor, DiffOnMount } from '@monaco-editor/react';
-import cn from 'classnames';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api.js';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -118,7 +117,7 @@ export function JsonDiffViewer({
 
   return (
     <div
-      className={twMerge(cn('relative bg-white dark:bg-dark-input', className))}
+      className={twMerge('relative bg-white dark:bg-dark-input', className)}
       style={{ height: Math.min(Math.max(editorHeight, minHeight), maxHeight) }}
     >
       <DiffEditor
@@ -144,7 +143,7 @@ export function JsonDiffViewer({
             horizontalScrollbarSize: 8,
             alwaysConsumeMouseWheel: false,
           },
-          fontSize: 13,
+          fontSize: 12,
           fontFamily: 'monospace',
           automaticLayout: true,
           contextmenu: false,

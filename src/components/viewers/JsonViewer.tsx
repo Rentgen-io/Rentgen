@@ -329,10 +329,6 @@ export function JsonViewer({
   const isDark = theme === 'dark';
 
   useEffect(() => {
-    onSetVariableRef.current = onSetVariable;
-  }, [onSetVariable]);
-
-  useEffect(() => {
     responsePanelContextRef.current = responsePanelContext;
   }, [responsePanelContext]);
 
@@ -340,20 +336,20 @@ export function JsonViewer({
     sourceRef.current = source;
   }, [source]);
 
-  // Update widget visibility based on hovered line
+  useEffect(() => {
+    onSetVariableRef.current = onSetVariable;
+  }, [onSetVariable]);
+
   useEffect(() => {
     widgetDomNodesRef.current.forEach((domNode, id) => {
       const linePart = id.split('-')[1];
       const widgetLine = parseInt(linePart, 10);
-      if (widgetLine === hoveredLine) {
-        domNode.classList.add('line-hovered');
-      } else {
-        domNode.classList.remove('line-hovered');
-      }
+
+      if (widgetLine === hoveredLine) domNode.classList.add('line-hovered');
+      else domNode.classList.remove('line-hovered');
     });
   }, [hoveredLine]);
 
-  // Create content widget for a JSON value position
   const createPlusWidget = useCallback(
     (_: monaco.editor.IStandaloneCodeEditor, position: JsonValuePosition): monaco.editor.IContentWidget => {
       const domNode = document.createElement('button');
@@ -363,6 +359,7 @@ export function JsonViewer({
       domNode.onclick = (e) => {
         e.preventDefault();
         e.stopPropagation();
+
         const valueStr = stringifyExtractedValue(position.value);
         if (valueStr !== null && onSetVariableRef.current) onSetVariableRef.current(position.path, valueStr);
       };
@@ -382,19 +379,15 @@ export function JsonViewer({
     [t],
   );
 
-  // Dispose all widgets
   const disposeAllWidgets = useCallback(() => {
     const editor = editorRef.current;
     if (!editor) return;
 
-    widgetsRef.current.forEach((widget) => {
-      editor.removeContentWidget(widget);
-    });
+    widgetsRef.current.forEach((widget) => editor.removeContentWidget(widget));
     widgetsRef.current.clear();
     widgetDomNodesRef.current.clear();
   }, []);
 
-  // Create widgets when showVariableButtons is enabled
   useEffect(() => {
     const editor = editorRef.current;
     if (!editor || !showVariableButtons || typeof source !== 'object' || source === null) {
@@ -404,8 +397,6 @@ export function JsonViewer({
 
     const jsonString = JSON.stringify(source, null, 2);
     const positions = getAllJsonValuePositions(jsonString, source);
-
-    // Limit widgets for performance (cap at 500)
     const limitedPositions = positions.slice(0, 500);
 
     limitedPositions.forEach((pos) => {
@@ -414,10 +405,8 @@ export function JsonViewer({
       widgetsRef.current.set(widget.getId(), widget);
     });
 
-    return () => {
-      disposeAllWidgets();
-    };
-  }, [source, showVariableButtons, createPlusWidget, disposeAllWidgets, isEditorMounted]);
+    return () => disposeAllWidgets();
+  }, [isEditorMounted, source, showVariableButtons, createPlusWidget, disposeAllWidgets]);
 
   const isSourceObject = source != null && typeof source === 'object';
   const displayValue = isSourceObject ? JSON.stringify(source, null, 2) : String(source);
@@ -432,19 +421,19 @@ export function JsonViewer({
     monaco.editor.defineTheme('rentgen-dark-plaintext', rentgenDarkPlaintextTheme);
     monaco.editor.setTheme(isDark ? 'rentgen-dark' : 'rentgen-light');
 
-    setEditorHeight(editor.getContentHeight());
-    editor.onDidContentSizeChange((e) => setEditorHeight(e.contentHeight));
+    const isVisible = () => editor.getContainerDomNode().offsetWidth > 0;
+    const updateHeight = (contentHeight: number) => {
+      if (isVisible()) setEditorHeight(contentHeight);
+    };
 
-    // Track hovered line for widget visibility
+    updateHeight(editor.getContentHeight());
+    editor.onDidContentSizeChange((e) => updateHeight(e.contentHeight));
+
     editor.onMouseMove((e) => {
-      if (e.target.position) {
-        setHoveredLine(e.target.position.lineNumber);
-      }
+      if (e.target.position) setHoveredLine(e.target.position.lineNumber);
     });
 
-    editor.onMouseLeave(() => {
-      setHoveredLine(null);
-    });
+    editor.onMouseLeave(() => setHoveredLine(null));
 
     setIsEditorMounted(true);
 
@@ -457,7 +446,6 @@ export function JsonViewer({
       const selectedText = selection && model ? model.getValueInRange(selection) : '';
       const browserEvent = e.event.browserEvent as MouseEvent;
 
-      // Extract JSON path at cursor position
       let jsonPath: string | null = null;
       let jsonValue: string | null = null;
 
@@ -466,14 +454,12 @@ export function JsonViewer({
         const content = model.getValue();
         jsonPath = getJsonPathAtOffset(content, offset);
 
-        // Extract the actual value at the JSON path
         if (jsonPath && sourceRef.current && typeof sourceRef.current === 'object') {
           const extracted = extractValue(sourceRef.current, jsonPath);
           jsonValue = stringifyExtractedValue(extracted);
         }
       }
 
-      // Merge jsonPath and jsonValue into responsePanelContext
       const contextWithPath = responsePanelContextRef.current
         ? { ...responsePanelContextRef.current, jsonPath, jsonValue }
         : undefined;
@@ -512,7 +498,7 @@ export function JsonViewer({
             horizontalScrollbarSize: 8,
             alwaysConsumeMouseWheel: false,
           },
-          fontSize: 13,
+          fontSize: 12,
           fontFamily: 'monospace',
           wordWrap: 'on',
           automaticLayout: true,

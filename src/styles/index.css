@@ -65,7 +65,7 @@
 
 @layer components {
   .json-plus-button {
-    @apply inline-flex items-center justify-center align-middle h-4 w-4 mt-0.5 ml-1 p-0 text-xs leading-1 border-transparent bg-transparent text-text opacity-0 pointer-events-none cursor-pointer;
+    @apply inline-flex items-center justify-center align-middle h-3.75 w-3.75 mt-px ml-1 p-0 text-xs leading-1 border-transparent bg-transparent text-text opacity-0 pointer-events-none cursor-pointer;
   }
 
   .json-plus-button.line-hovered {
