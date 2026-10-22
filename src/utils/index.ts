@@ -9,6 +9,7 @@ export * from './http';
 export * from './number';
 export * from './object';
 export * from './random';
+export * from './report';
 export * from './statistics';
 export * from './url';
 export * from './validation';
