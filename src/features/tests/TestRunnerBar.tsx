@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { RESPONSE_STATUS } from 'shared/responseStatus';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Select, { SelectOption } from 'src/components/inputs/Select';
 import { useReportExport } from 'src/hooks/useReportExport';
@@ -8,7 +9,6 @@ import {
   selectBody,
   selectBodyParameters,
   selectCurrentTestResults,
-  selectDisabledRunTests,
   selectDynamicVariables,
   selectExportFormat,
   selectHeaders,
@@ -16,6 +16,7 @@ import {
   selectMethod,
   selectQueryParameters,
   selectSelectedEnvironment,
+  selectStatusCode,
   selectTestResultsToCompare,
   selectUrl,
 } from 'src/store/selectors';
@@ -40,9 +41,9 @@ export default function TestRunnerBar() {
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
   const httpResponse = useAppSelector(selectHttpResponse);
+  const statusCode = useAppSelector(selectStatusCode);
   const testResults = useAppSelector(selectCurrentTestResults);
   const testResultsToCompare = useAppSelector(selectTestResultsToCompare);
-  const disabledRunTests = useAppSelector(selectDisabledRunTests);
   const exportFormat = useAppSelector(selectExportFormat);
 
   const exportFormatOptions: SelectOption<ReportFormat>[] = [
@@ -55,23 +56,25 @@ export default function TestRunnerBar() {
     <>
       <div className="flex flex-col @xl:flex-row @xl:items-center @xl:justify-between gap-4 @xl:gap-2">
         <div className="flex flex-col @xl:flex-row @xl:items-center gap-2 @xl:min-w-0">
-          <Button
-            className="@xl:shrink-0 @xl:whitespace-nowrap"
-            disabled={disabledRunTests}
-            onClick={() => {
-              dispatch(uiActions.setTestsActiveTab(0));
-              executeAllTests({
-                ...substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables),
-                bodyParameters,
-                method,
-                queryParameters,
-              });
-            }}
-          >
-            {isRunningTests
-              ? t('tests.runningTests', { current: currentTest, total: testsCount })
-              : t('tests.generateAndRun')}
-          </Button>
+          {httpResponse && statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.BAD_REQUEST && (
+            <Button
+              className="@xl:shrink-0 @xl:whitespace-nowrap"
+              disabled={isRunningTests}
+              onClick={() => {
+                dispatch(uiActions.setTestsActiveTab(0));
+                executeAllTests({
+                  ...substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables),
+                  bodyParameters,
+                  method,
+                  queryParameters,
+                });
+              }}
+            >
+              {isRunningTests
+                ? t('tests.runningTests', { current: currentTest, total: testsCount })
+                : t('tests.generateAndRun')}
+            </Button>
+          )}
           {testResults && (
             <Button
               className="@xl:truncate"

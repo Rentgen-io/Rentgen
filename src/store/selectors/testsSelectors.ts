@@ -1,8 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { RESPONSE_STATUS } from 'shared/responseStatus';
 import { RootState } from 'src/store';
 import { TestResults } from 'src/types';
-import { selectHttpResponse, selectStatusCode } from './responseSelectors';
 
 export const selectAiOverview = (state: RootState) => state.tests.aiOverview;
 export const selectAiRunStartedAt = (state: RootState) => state.tests.aiRunStartedAt;
@@ -60,11 +58,6 @@ export const selectIsRunningTests = createSelector(
   [selectIsSecurityRunning, selectIsPerformanceRunning, selectIsDataDrivenRunning],
   (isSecurityRunning, isPerformanceRunning, isDataDrivenRunning) =>
     isSecurityRunning || isPerformanceRunning || isDataDrivenRunning,
-);
-export const selectDisabledRunTests = createSelector(
-  [selectIsRunningTests, selectHttpResponse, selectStatusCode],
-  (isRunning, response, statusCode) =>
-    isRunning || !response || statusCode < RESPONSE_STATUS.OK || statusCode >= RESPONSE_STATUS.BAD_REQUEST,
 );
 export const selectRequestTestResults = (requestId: string) =>
   createSelector([selectAllTestResults], (results) => results[requestId] || null);
