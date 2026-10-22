@@ -16,6 +16,7 @@ const pl = {
     copied: 'Skopiowano',
     failedCopy: 'Nie udało się skopiować',
     run: 'Uruchom',
+    runAll: 'Uruchom wszystkie',
     replace: 'Zamień',
     merge: 'Scal',
     overwrite: 'Nadpisz',
@@ -137,6 +138,7 @@ const pl = {
   tests: {
     generateAndRun: 'Generuj i uruchom testy',
     runningTests: 'Uruchamianie testów... ({{current}}/{{total}})',
+    noTestsGenerated: 'Nie wygenerowano testów',
     selectForCompare: 'Wybierz do porównania',
     compareWithSelected: 'Porównaj z wybranym',
     exportFormat: 'Format',

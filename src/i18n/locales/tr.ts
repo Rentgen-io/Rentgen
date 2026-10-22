@@ -16,6 +16,7 @@ const tr = {
     copied: 'Kopyalandı',
     failedCopy: 'Kopyalanamadı',
     run: 'Çalıştır',
+    runAll: 'Tümünü çalıştır',
     replace: 'Değiştir',
     merge: 'Birleştir',
     overwrite: 'Üzerine Yaz',
@@ -137,6 +138,7 @@ const tr = {
   tests: {
     generateAndRun: 'Testleri Oluştur ve Çalıştır',
     runningTests: 'Testler çalıştırılıyor... ({{current}}/{{total}})',
+    noTestsGenerated: 'Test oluşturulmadı',
     selectForCompare: 'Karşılaştırmak için seç',
     compareWithSelected: 'Seçilenle Karşılaştır',
     exportFormat: 'Format',

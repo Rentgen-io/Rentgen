@@ -16,6 +16,7 @@ const ja = {
     copied: 'コピーしました',
     failedCopy: 'コピーに失敗しました',
     run: '実行',
+    runAll: 'すべて実行',
     replace: '置き換え',
     merge: 'マージ',
     overwrite: '上書き',
@@ -137,6 +138,7 @@ const ja = {
   tests: {
     generateAndRun: 'テストを生成して実行',
     runningTests: 'テストを実行中... ({{current}}/{{total}})',
+    noTestsGenerated: 'テストが生成されませんでした',
     selectForCompare: '比較対象として選択',
     compareWithSelected: '選択したものと比較',
     exportFormat: 'フォーマット',

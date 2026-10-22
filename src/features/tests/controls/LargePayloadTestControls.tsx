@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Controls } from 'src/components/controls/Controls';
 import Input from 'src/components/inputs/Input';
 import { clamp } from 'src/utils';
+import { TestRunControls } from './TestRunControls';
 
 const MAX_PAYLOAD_SIZE_MB = 100;
 
@@ -17,7 +17,7 @@ export function LargePayloadTestControls({ isRunning, executeTest }: Props) {
   const [size, setSize] = useState<number>(10);
 
   return (
-    <Controls isRunning={isRunning} executeTest={() => executeTest(size)}>
+    <TestRunControls isRunning={isRunning} executeTest={() => executeTest(size)}>
       <div>
         <label className="block mb-0.5 font-bold text-[10px]">{t('controls.sizeMB')}</label>
         <Input
@@ -28,6 +28,6 @@ export function LargePayloadTestControls({ isRunning, executeTest }: Props) {
           onChange={(event) => setSize(clamp(Number(event.target.value), 1, MAX_PAYLOAD_SIZE_MB))}
         />
       </div>
-    </Controls>
+    </TestRunControls>
   );
 }

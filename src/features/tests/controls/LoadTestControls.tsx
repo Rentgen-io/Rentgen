@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Controls } from 'src/components/controls/Controls';
 import Input from 'src/components/inputs/Input';
 import { clamp } from 'src/utils';
+import { TestRunControls } from './TestRunControls';
 
 interface Props {
   isRunning: boolean;
@@ -16,7 +16,7 @@ export function LoadTestControls({ isRunning, executeTest }: Props) {
   const [requestCount, setRequestCount] = useState<number>(100);
 
   return (
-    <Controls isRunning={isRunning} executeTest={() => executeTest(threadCount, requestCount)}>
+    <TestRunControls isRunning={isRunning} executeTest={() => executeTest(threadCount, requestCount)}>
       <div>
         <label className="block mb-0.5 font-bold text-[10px]">{t('controls.threads')}</label>
         <Input
@@ -38,6 +38,6 @@ export function LoadTestControls({ isRunning, executeTest }: Props) {
           onChange={(event) => setRequestCount(clamp(Number(event.target.value), 1, 10000))}
         />
       </div>
-    </Controls>
+    </TestRunControls>
   );
 }

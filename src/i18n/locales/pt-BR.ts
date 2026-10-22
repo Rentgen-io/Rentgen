@@ -16,6 +16,7 @@ const ptBR = {
     copied: 'Copiado',
     failedCopy: 'Falha ao copiar',
     run: 'Executar',
+    runAll: 'Executar todos',
     replace: 'Substituir',
     merge: 'Mesclar',
     overwrite: 'Sobrescrever',
@@ -137,6 +138,7 @@ const ptBR = {
   tests: {
     generateAndRun: 'Gerar e executar testes',
     runningTests: 'Executando testes... ({{current}}/{{total}})',
+    noTestsGenerated: 'Nenhum teste gerado',
     selectForCompare: 'Selecionar para comparar',
     compareWithSelected: 'Comparar com selecionado',
     exportFormat: 'Formato',

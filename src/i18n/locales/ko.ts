@@ -16,6 +16,7 @@ const ko = {
     copied: '복사됨',
     failedCopy: '복사하지 못했습니다',
     run: '실행',
+    runAll: '모두 실행',
     replace: '바꾸기',
     merge: '병합',
     overwrite: '덮어쓰기',
@@ -137,6 +138,7 @@ const ko = {
   tests: {
     generateAndRun: '테스트 생성 및 실행',
     runningTests: '테스트 실행 중... ({{current}}/{{total}})',
+    noTestsGenerated: '생성된 테스트 없음',
     selectForCompare: '비교 대상으로 선택',
     compareWithSelected: '선택 항목과 비교',
     exportFormat: '포맷',

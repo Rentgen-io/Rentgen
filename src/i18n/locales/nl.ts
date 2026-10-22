@@ -16,6 +16,7 @@ const nl = {
     copied: 'Gekopieerd',
     failedCopy: 'Kopiëren mislukt',
     run: 'Uitvoeren',
+    runAll: 'Alles uitvoeren',
     replace: 'Vervangen',
     merge: 'Samenvoegen',
     overwrite: 'Overschrijven',
@@ -137,6 +138,7 @@ const nl = {
   tests: {
     generateAndRun: 'Tests genereren en uitvoeren',
     runningTests: 'Tests worden uitgevoerd... ({{current}}/{{total}})',
+    noTestsGenerated: 'Geen tests gegenereerd',
     selectForCompare: 'Selecteren om te vergelijken',
     compareWithSelected: 'Vergelijken met geselecteerde',
     exportFormat: 'Formaat',

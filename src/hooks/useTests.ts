@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { LARGE_PAYLOAD_TEST_NAME, LOAD_TEST_NAME, OPTIONS_METHOD_HANDLING_TEST_NAME } from 'shared/testNames';
 import { getDatasets } from 'src/constants/datasets';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -13,6 +13,7 @@ import {
   selectDataDrivenTests,
   selectDisabledPerformanceInsights,
   selectDisabledSecurityTests,
+  selectIsAiTestsRunning,
   selectIsDataDrivenRunning,
   selectIsLargePayloadTestRunning,
   selectIsLoadTestRunning,
@@ -20,6 +21,7 @@ import {
   selectIsRunningTests,
   selectIsSecurityRunning,
   selectPerformanceTests,
+  selectRunningAiTests,
   selectSecurityTests,
   selectSelectedRequestId,
   selectTestEngineConfiguration,
@@ -28,18 +30,22 @@ import {
 } from 'src/store/selectors';
 import { testsActions } from 'src/store/slices/testsSlice';
 import {
+  cancelLargePayloadTest,
+  cancelLoadTest,
   DataDrivenTests,
   generateDynamicTestData,
+  LOAD_TEST_EXPECTED,
   PerformanceInsights,
   runDataDrivenTests,
   runLargePayloadTest,
   runLoadTest,
   SecurityTests,
 } from 'src/test-engine';
-import { AiTests, runAiTest } from 'src/test-engine/AiTests';
+import { AiTests, cancelAllAiTests, runAiTest } from 'src/test-engine/AiTests';
 import { getTestCount } from 'src/test-engine/decorators';
-import { ParameterValue, TestOptions, TestResult } from 'src/types';
+import { ParameterValue, TestOptions, TestResult, TestStatus } from 'src/types';
 
+let abortAiTests = false;
 let abortAllTests = false;
 let aiTestsInstance: AiTests | null = null;
 let dataDrivenTestsInstance: DataDrivenTests | null = null;
@@ -59,6 +65,7 @@ const useTests = () => {
   const dataDrivenTests = useAppSelector(selectDataDrivenTests);
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
+  const isAiTestsRunning = useAppSelector(selectIsAiTestsRunning);
   const isDataDrivenRunning = useAppSelector(selectIsDataDrivenRunning);
   const isLargePayloadTestRunning = useAppSelector(selectIsLargePayloadTestRunning);
   const isLoadTestRunning = useAppSelector(selectIsLoadTestRunning);
@@ -66,6 +73,7 @@ const useTests = () => {
   const isRunningTests = useAppSelector(selectIsRunningTests);
   const isSecurityRunning = useAppSelector(selectIsSecurityRunning);
   const performanceTests = useAppSelector(selectPerformanceTests);
+  const runningAiTests = useAppSelector(selectRunningAiTests);
   const securityTests = useAppSelector(selectSecurityTests);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
@@ -73,6 +81,11 @@ const useTests = () => {
   const testsTimestamp = useAppSelector(selectTestsTimestamp);
 
   const emailConfiguration = testEngineConfiguration.email;
+
+  const pendingAiTests = useMemo(
+    () => aiTests?.filter((test) => !test.actual || test.status === TestStatus.Manual) ?? [],
+    [aiTests],
+  );
 
   const incrementCurrentTest = useCallback(() => {
     dispatch(testsActions.incrementCurrentTest());
@@ -106,6 +119,7 @@ const useTests = () => {
   }, []);
 
   const cancelAllTests = useCallback(() => {
+    abortAiTests = true;
     abortAllTests = true;
 
     aiTestsInstance?.abort();
@@ -113,25 +127,29 @@ const useTests = () => {
     performanceInsightsInstance?.abort();
     securityTestsInstance?.abort();
 
+    cancelAllAiTests();
+    cancelLargePayloadTest();
+    cancelLoadTest();
+
     dispatch(testsActions.resetTests());
   }, [dispatch]);
 
   const executeAiTest = useCallback(
-    async (id: number) => {
-      const aiTest = aiTests?.[id];
+    async (name: string) => {
+      const aiTest = aiTests?.find((test) => test.name === name);
       if (!aiTest) return;
 
-      dispatch(testsActions.setRunningAiTest({ id, isRunning: true }));
+      dispatch(testsActions.setRunningAiTest({ name, isRunning: true }));
 
       const result = await runAiTest(aiTest);
 
-      dispatch(testsActions.updateAiTest({ id, result }));
-      dispatch(testsActions.setRunningAiTest({ id, isRunning: false }));
+      dispatch(testsActions.setRunningAiTest({ name, isRunning: false }));
+      dispatch(testsActions.updateAiTest({ name, result }));
 
       if (selectedRequestId)
         dispatch(
           testsActions.updateAiTestResults({
-            id,
+            name,
             requestId: selectedRequestId,
             result,
           }),
@@ -195,8 +213,8 @@ const useTests = () => {
 
       dispatch(
         testsActions.updateSecurityTest({
+          name: LARGE_PAYLOAD_TEST_NAME,
           result: largePayloadTest,
-          testName: LARGE_PAYLOAD_TEST_NAME,
         }),
       );
       dispatch(testsActions.setLargePayloadTestRunning(false));
@@ -204,9 +222,9 @@ const useTests = () => {
       if (selectedRequestId)
         dispatch(
           testsActions.updateSecurityTestResults({
+            name: LARGE_PAYLOAD_TEST_NAME,
             requestId: selectedRequestId,
             result: largePayloadTest,
-            testName: LARGE_PAYLOAD_TEST_NAME,
           }),
         );
     },
@@ -230,13 +248,13 @@ const useTests = () => {
 
       dispatch(
         testsActions.updatePerformanceTest({
+          name: LOAD_TEST_NAME,
           result: {
             actual: formatLoadTestProgress(generateLoadBarProgress(0), 0, requestCount),
-            expected: '',
+            expected: LOAD_TEST_EXPECTED,
             name: LOAD_TEST_NAME,
-            status: performanceTests.find((t) => t.name === LOAD_TEST_NAME)?.status || 'info',
+            status: performanceTests.find((test) => test.name === LOAD_TEST_NAME)?.status || 'info',
           } as TestResult,
-          testName: LOAD_TEST_NAME,
         }),
       );
 
@@ -248,13 +266,13 @@ const useTests = () => {
           dispatch(testsActions.setLoadProgress(percent));
           dispatch(
             testsActions.updatePerformanceTest({
+              name: LOAD_TEST_NAME,
               result: {
                 actual: formatLoadTestProgress(generateLoadBarProgress(percent), sentRequestCount, totalRequestCount),
-                expected: '',
+                expected: LOAD_TEST_EXPECTED,
                 name: LOAD_TEST_NAME,
-                status: performanceTests.find((t) => t.name === LOAD_TEST_NAME)?.status || 'info',
+                status: performanceTests.find((test) => test.name === LOAD_TEST_NAME)?.status || 'info',
               } as TestResult,
-              testName: LOAD_TEST_NAME,
             }),
           );
         }
@@ -264,8 +282,8 @@ const useTests = () => {
 
       dispatch(
         testsActions.updatePerformanceTest({
+          name: LOAD_TEST_NAME,
           result: loadTestResult,
-          testName: LOAD_TEST_NAME,
         }),
       );
       dispatch(testsActions.setLoadTestRunning(false));
@@ -273,14 +291,27 @@ const useTests = () => {
       if (selectedRequestId)
         dispatch(
           testsActions.updatePerformanceTestResults({
+            name: LOAD_TEST_NAME,
             requestId: selectedRequestId,
             result: loadTestResult,
-            testName: LOAD_TEST_NAME,
           }),
         );
     },
     [performanceTests, selectedRequestId, dispatch],
   );
+
+  const executePendingAiTests = useCallback(async () => {
+    abortAiTests = false;
+
+    dispatch(testsActions.setAiTestsRunning(true));
+
+    for (const aiTest of pendingAiTests) {
+      if (abortAiTests) break;
+      await executeAiTest(aiTest.name);
+    }
+
+    dispatch(testsActions.setAiTestsRunning(false));
+  }, [pendingAiTests, dispatch, executeAiTest]);
 
   const executePerformanceTests = useCallback(
     async (options: TestOptions, testResults: TestResult[] = [], execute = true): Promise<TestResult[]> => {
@@ -385,13 +416,16 @@ const useTests = () => {
     crudTests,
     currentTest,
     dataDrivenTests,
+    isAiTestsRunning,
     isDataDrivenRunning,
     isLargePayloadTestRunning,
     isLoadTestRunning,
     isPerformanceRunning,
     isRunningTests,
     isSecurityRunning,
+    pendingAiTests,
     performanceTests,
+    runningAiTests,
     securityTests,
     testsCount,
     testsTimestamp,
@@ -403,6 +437,7 @@ const useTests = () => {
     executeDataDrivenTests,
     executeLargePayloadTest,
     executeLoadTest,
+    executePendingAiTests,
     executePerformanceTests,
     executeSecurityTests,
   };

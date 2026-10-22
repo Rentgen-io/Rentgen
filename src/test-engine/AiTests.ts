@@ -17,6 +17,8 @@ import {
 
 let aiResponseTimeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
 
+const activeControllers = new Map<string, AbortController>();
+
 const AI_RESPONSE_TIMEOUT_MINUTES = 5;
 export const AI_RESPONSE_TIMEOUT_MS = AI_RESPONSE_TIMEOUT_MINUTES * 60 * 1000;
 
@@ -322,8 +324,12 @@ export async function runAiTest(test: TestResult): Promise<TestResult> {
   const { name, expected, request, value } = test;
   if (!request) return createErrorTestResult(name, expected, 'Invalid request', request, value);
 
+  activeControllers.get(name)?.abort();
+  const controller = new AbortController();
+  activeControllers.set(name, controller);
+
   try {
-    const response = await sendHttp(request);
+    const response = await sendHttp(request, controller.signal);
     const { actual, status } = determineTestStatus(response, (response, statusCode) =>
       determineRequestParameterTestStatus(response, statusCode, {
         valid: expected === SUCCESS_RESPONSE_EXPECTED,
@@ -334,5 +340,12 @@ export async function runAiTest(test: TestResult): Promise<TestResult> {
     return createTestResult(name, expected, actual, status, request, response, value);
   } catch (error) {
     return createErrorTestResult(name, expected, String(error), request, value);
+  } finally {
+    if (activeControllers.get(name) === controller) activeControllers.delete(name);
   }
+}
+
+export function cancelAllAiTests() {
+  activeControllers.forEach((controller) => controller.abort());
+  activeControllers.clear();
 }

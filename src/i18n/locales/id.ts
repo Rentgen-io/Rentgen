@@ -16,6 +16,7 @@ const id = {
     copied: 'Tersalin',
     failedCopy: 'Gagal menyalin',
     run: 'Jalankan',
+    runAll: 'Jalankan Semua',
     replace: 'Ganti',
     merge: 'Gabungkan',
     overwrite: 'Timpa',
@@ -137,6 +138,7 @@ const id = {
   tests: {
     generateAndRun: 'Hasilkan & Jalankan Tes',
     runningTests: 'Menjalankan tes... ({{current}}/{{total}})',
+    noTestsGenerated: 'Tidak ada tes yang dihasilkan',
     selectForCompare: 'Pilih untuk Bandingkan',
     compareWithSelected: 'Bandingkan dengan Pilihan',
     exportFormat: 'Format',

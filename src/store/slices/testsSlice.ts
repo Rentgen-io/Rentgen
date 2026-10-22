@@ -6,6 +6,7 @@ interface TestState extends TestResults {
   aiRunStartedAt?: number;
   compareResponse: HttpResponse | null;
   currentTest: number;
+  isAiTestsRunning: boolean;
   isComparing: boolean;
   isDataDrivenRunning: boolean;
   isLargePayloadTestRunning: boolean;
@@ -16,7 +17,7 @@ interface TestState extends TestResults {
   results: Record<string, TestResults>;
   resultsToCompare: TestResults[];
   runningAiTests: {
-    [id: number]: boolean;
+    [name: string]: boolean;
   };
 }
 
@@ -30,6 +31,7 @@ const initialState: TestState = {
   crudTests: [],
   currentTest: 0,
   dataDrivenTests: [],
+  isAiTestsRunning: false,
   isComparing: false,
   isDataDrivenRunning: false,
   isLargePayloadTestRunning: false,
@@ -90,6 +92,7 @@ export const testsSlice = createSlice({
       state.crudTests = [];
       state.currentTest = 0;
       state.dataDrivenTests = [];
+      state.isAiTestsRunning = false;
       state.isDataDrivenRunning = false;
       state.isLargePayloadTestRunning = false;
       state.isLoadTestRunning = false;
@@ -116,6 +119,9 @@ export const testsSlice = createSlice({
       state.aiOverview = action.payload.overview;
       state.aiTests = action.payload.results;
       state.aiUsage = action.payload.usage;
+    },
+    setAiTestsRunning: (state, action: PayloadAction<boolean>) => {
+      state.isAiTestsRunning = action.payload;
     },
     setCompareResponse: (state, action: PayloadAction<HttpResponse | null>) => {
       state.compareResponse = action.payload;
@@ -153,9 +159,9 @@ export const testsSlice = createSlice({
     setPerformanceTests: (state, action: PayloadAction<TestResult[]>) => {
       state.performanceTests = action.payload;
     },
-    setRunningAiTest: (state, action: PayloadAction<{ id: number; isRunning: boolean }>) => {
-      if (!action.payload.isRunning) delete state.runningAiTests[action.payload.id];
-      else state.runningAiTests[action.payload.id] = action.payload.isRunning;
+    setRunningAiTest: (state, action: PayloadAction<{ isRunning: boolean; name: string }>) => {
+      if (!action.payload.isRunning) delete state.runningAiTests[action.payload.name];
+      else state.runningAiTests[action.payload.name] = action.payload.isRunning;
     },
     setSecurityRunning: (state, action: PayloadAction<boolean>) => {
       state.isSecurityRunning = action.payload;
@@ -178,16 +184,18 @@ export const testsSlice = createSlice({
       state.securityTests = [];
       state.timestamp = null;
     },
-    updateAiTest: (state, action: PayloadAction<{ id: number; result: TestResult }>) => {
-      if (!state.aiTests || !state.aiTests[action.payload.id]) return;
+    updateAiTest: (state, action: PayloadAction<{ name: string; result: TestResult }>) => {
+      if (!state.aiTests) return;
 
-      state.aiTests[action.payload.id] = action.payload.result;
+      const index = state.aiTests.findIndex((test) => test.name === action.payload.name);
+      if (index !== -1) state.aiTests[index] = action.payload.result;
     },
-    updateAiTestResults: (state, action: PayloadAction<{ id: number; requestId: string; result: TestResult }>) => {
+    updateAiTestResults: (state, action: PayloadAction<{ name: string; requestId: string; result: TestResult }>) => {
       const results = state.results[action.payload.requestId];
-      if (!results || !results.aiTests || !results.aiTests[action.payload.id]) return;
+      if (!results || !results.aiTests) return;
 
-      results.aiTests[action.payload.id] = action.payload.result;
+      const index = results.aiTests.findIndex((test) => test.name === action.payload.name);
+      if (index !== -1) results.aiTests[index] = action.payload.result;
     },
     updateDataDrivenTest: (state, action: PayloadAction<TestResult>) => {
       const index = state.dataDrivenTests.findIndex(
@@ -204,32 +212,32 @@ export const testsSlice = createSlice({
       );
       if (index !== -1) results.dataDrivenTests[index] = action.payload.result;
     },
-    updatePerformanceTest: (state, action: PayloadAction<{ result: TestResult; testName: string }>) => {
-      const index = state.performanceTests.findIndex((t) => t.name === action.payload.testName);
+    updatePerformanceTest: (state, action: PayloadAction<{ name: string; result: TestResult }>) => {
+      const index = state.performanceTests.findIndex((test) => test.name === action.payload.name);
       if (index !== -1) state.performanceTests[index] = action.payload.result;
     },
     updatePerformanceTestResults: (
       state,
-      action: PayloadAction<{ requestId: string; result: TestResult; testName: string }>,
+      action: PayloadAction<{ name: string; requestId: string; result: TestResult }>,
     ) => {
       const results = state.results[action.payload.requestId];
       if (!results) return;
 
-      const index = results.performanceTests.findIndex((test) => test.name === action.payload.testName);
+      const index = results.performanceTests.findIndex((test) => test.name === action.payload.name);
       if (index !== -1) results.performanceTests[index] = action.payload.result;
     },
-    updateSecurityTest: (state, action: PayloadAction<{ result: TestResult; testName: string }>) => {
-      const index = state.securityTests.findIndex((t) => t.name === action.payload.testName);
+    updateSecurityTest: (state, action: PayloadAction<{ name: string; result: TestResult }>) => {
+      const index = state.securityTests.findIndex((test) => test.name === action.payload.name);
       if (index !== -1) state.securityTests[index] = action.payload.result;
     },
     updateSecurityTestResults: (
       state,
-      action: PayloadAction<{ requestId: string; result: TestResult; testName: string }>,
+      action: PayloadAction<{ name: string; requestId: string; result: TestResult }>,
     ) => {
       const results = state.results[action.payload.requestId];
       if (!results) return;
 
-      const index = results.securityTests.findIndex((test) => test.name === action.payload.testName);
+      const index = results.securityTests.findIndex((test) => test.name === action.payload.name);
       if (index !== -1) results.securityTests[index] = action.payload.result;
     },
   },

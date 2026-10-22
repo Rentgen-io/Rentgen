@@ -26,7 +26,7 @@ export type Language = (typeof LANGUAGES)[number]['code'];
 
 export type HistoryRetention = '1w' | '1m' | '3m' | '6m' | '1y' | 'none';
 
-export type AiProviderType = 'ollama' | 'openai' | 'openai-compatible';
+export type AiProviderType = 'ollama' | 'openai';
 
 export type AiProvider = {
   apiKey: string;

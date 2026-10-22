@@ -4,7 +4,6 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { Accordion } from 'src/components/accordion/Accordion';
 import { AccordionItem } from 'src/components/accordion/AccordionItem';
 import Button from 'src/components/buttons/Button';
-import { Controls } from 'src/components/controls/Controls';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import { validateSerialNumber } from 'src/features/settings/ai/AiLicenseSettings';
 import useTests from 'src/hooks/useTests';
@@ -12,7 +11,6 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectActiveAiProvider,
   selectAiActiveTab,
-  selectRunningAiTests,
   selectSelectedRequestId,
   selectSerialNumber,
 } from 'src/store/selectors';
@@ -26,16 +24,27 @@ import {
   SUCCESS_RESPONSE_EXPECTED,
 } from 'src/test-engine';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
+import { TestRunControls } from '../controls/TestRunControls';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
 export default function AiTestingPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { aiOverview, aiTests, aiUsage, isRunningTests, cancelAiTestsGeneration, executeAiTest } = useTests();
+  const {
+    aiOverview,
+    aiTests,
+    aiUsage,
+    isAiTestsRunning,
+    isRunningTests,
+    pendingAiTests,
+    runningAiTests,
+    cancelAiTestsGeneration,
+    executeAiTest,
+    executePendingAiTests,
+  } = useTests();
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
   const aiActiveTab = useAppSelector(selectAiActiveTab);
-  const runningAiTests = useAppSelector(selectRunningAiTests);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const serialNumber = useAppSelector(selectSerialNumber);
 
@@ -53,6 +62,7 @@ export default function AiTestingPanel() {
             <p className="m-0 text-xs text-text-secondary">{aiOverview?.summary ?? '-'}</p>
           </div>
           <Tabs
+            className="relative"
             forceRenderTabPanel={true}
             selectedIndex={aiActiveTab}
             selectedTabClassName="text-text dark:text-dark-text border-blue-500! cursor-default!"
@@ -61,6 +71,14 @@ export default function AiTestingPanel() {
               dispatch(uiActions.setAiActiveTab(index));
             }}
           >
+            {aiActiveTab === 1 && pendingAiTests?.length > 0 && (
+              <TestRunControls
+                className="absolute top-0.5 right-0.5 min-w-22"
+                label={`${t('common.runAll')} (${pendingAiTests.length})`}
+                isRunning={isAiTestsRunning}
+                executeTest={executePendingAiTests}
+              />
+            )}
             <TabList className="m-0 mb-6 p-0 flex gap-4 text-sm font-medium text-text-secondary">
               <Tab className="pb-1 list-none border-b border-transparent outline-none cursor-pointer">
                 {t('ai.overview')}
@@ -142,7 +160,7 @@ export default function AiTestingPanel() {
                   {
                     name: t('tables.expected'),
                     selector: (row) => row.expected,
-                    cell: (row, id) =>
+                    cell: (row) =>
                       !row.response ? (
                         row.expected
                       ) : (
@@ -166,13 +184,13 @@ export default function AiTestingPanel() {
                             );
                             const testResult = { ...row, actual, expected, status };
 
-                            dispatch(testsActions.updateAiTest({ id, result: testResult }));
+                            dispatch(testsActions.updateAiTest({ name: row.name, result: testResult }));
 
                             if (selectedRequestId)
                               dispatch(
                                 testsActions.updateAiTestResults({
+                                  name: row.name,
                                   requestId: selectedRequestId,
-                                  id,
                                   result: testResult,
                                 }),
                               );
@@ -185,11 +203,14 @@ export default function AiTestingPanel() {
                     name: t('tables.result'),
                     selector: (row) => row.status,
                     width: '150px',
-                    cell: (row, id) => {
-                      if (row.actual) return row.status;
+                    cell: ({ actual, name, status }) => {
+                      if (actual) return status;
 
                       return (
-                        <Controls isRunning={runningAiTests[id]} executeTest={async () => await executeAiTest(id)} />
+                        <TestRunControls
+                          isRunning={runningAiTests[name]}
+                          executeTest={async () => await executeAiTest(name)}
+                        />
                       );
                     },
                   },

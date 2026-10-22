@@ -16,6 +16,7 @@ const th = {
     copied: 'คัดลอกแล้ว',
     failedCopy: 'คัดลอกไม่สำเร็จ',
     run: 'รัน',
+    runAll: 'รันทั้งหมด',
     replace: 'แทนที่',
     merge: 'รวม',
     overwrite: 'เขียนทับ',
@@ -137,6 +138,7 @@ const th = {
   tests: {
     generateAndRun: 'สร้างและรันเทสต์',
     runningTests: 'กำลังรันเทสต์... ({{current}}/{{total}})',
+    noTestsGenerated: 'ไม่มีการสร้างเทสต์',
     selectForCompare: 'เลือกเพื่อเปรียบเทียบ',
     compareWithSelected: 'เปรียบเทียบกับที่เลือก',
     exportFormat: 'รูปแบบ',

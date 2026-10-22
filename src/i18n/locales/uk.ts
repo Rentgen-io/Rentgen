@@ -16,6 +16,7 @@ const uk = {
     copied: 'Скопійовано',
     failedCopy: 'Не вдалося скопіювати',
     run: 'Запустити',
+    runAll: 'Запустити всі',
     replace: 'Замінити',
     merge: "Об'єднати",
     overwrite: 'Перезаписати',
@@ -137,6 +138,7 @@ const uk = {
   tests: {
     generateAndRun: 'Згенерувати та запустити тести',
     runningTests: 'Виконання тестів... ({{current}}/{{total}})',
+    noTestsGenerated: 'Тести не згенеровано',
     selectForCompare: 'Обрати для порівняння',
     compareWithSelected: 'Порівняти з обраним',
     exportFormat: 'Формат',

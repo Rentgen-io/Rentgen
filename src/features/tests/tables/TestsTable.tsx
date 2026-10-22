@@ -13,15 +13,19 @@ import { TestResult, TestStatus } from 'src/types';
 import { generateCurl, truncateValue } from 'src/utils';
 
 import GearIcon from 'src/assets/icons/gear-icon.svg';
+import { twMerge } from 'tailwind-merge';
 
 export default function TestsTable({
   columns,
   data,
   className,
+  noDataComponent,
   progressPending,
   progressComponent,
   ...otherProps
 }: TableProps<TestResult>) {
+  const { t } = useTranslation();
+
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
   const definedData = data?.filter((item) => item != null) ?? [];
@@ -31,7 +35,7 @@ export default function TestsTable({
 
   return (
     <DataTable
-      className={cn('border border-border dark:border-dark-border', className)}
+      className={twMerge(cn({ 'border border-border dark:border-dark-border': definedData.length > 0 }), className)}
       columns={columns}
       conditionalRowStyles={[
         {
@@ -60,6 +64,9 @@ export default function TestsTable({
         },
       ]}
       data={definedData}
+      noDataComponent={
+        noDataComponent ? noDataComponent : <p className="p-4 m-0 text-center text-sm">{t('tests.noTestsGenerated')}</p>
+      }
       progressComponent={progressComponent}
       progressPending={progressPending}
       {...otherProps}

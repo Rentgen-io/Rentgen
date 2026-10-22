@@ -16,6 +16,7 @@ const vi = {
     copied: 'Đã sao chép',
     failedCopy: 'Sao chép thất bại',
     run: 'Chạy',
+    runAll: 'Chạy tất cả',
     replace: 'Thay thế',
     merge: 'Hợp nhất',
     overwrite: 'Ghi đè',
@@ -137,6 +138,7 @@ const vi = {
   tests: {
     generateAndRun: 'Tạo và chạy kiểm thử',
     runningTests: 'Đang chạy kiểm thử... ({{current}}/{{total}})',
+    noTestsGenerated: 'Không có kiểm thử nào được tạo',
     selectForCompare: 'Chọn để so sánh',
     compareWithSelected: 'So sánh với mục đã chọn',
     exportFormat: 'Định dạng',

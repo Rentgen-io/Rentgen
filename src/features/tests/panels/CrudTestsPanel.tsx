@@ -1,15 +1,21 @@
 import { useTranslation } from 'react-i18next';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import useTests from 'src/hooks/useTests';
+import { useAppDispatch } from 'src/store/hooks';
+import { modalsActions } from 'src/store/slices/modalsSlice';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
 export default function CrudTestsPanel() {
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { crudTests, isSecurityRunning } = useTests();
 
   return (
     <>
-      <TestsTableHeader tests={crudTests} />
+      <TestsTableHeader
+        tests={crudTests}
+        onOpenSettings={!crudTests?.length ? () => dispatch(modalsActions.openSettingsModal()) : undefined}
+      />
       <TestsTable
         columns={getTestsTableColumns(['Method', 'Expected', 'Actual', 'Result'], t)}
         expandableRows

@@ -16,6 +16,7 @@ const de = {
     copied: 'Kopiert',
     failedCopy: 'Kopieren fehlgeschlagen',
     run: 'Ausführen',
+    runAll: 'Alle ausführen',
     replace: 'Ersetzen',
     merge: 'Zusammenführen',
     overwrite: 'Überschreiben',
@@ -137,6 +138,7 @@ const de = {
   tests: {
     generateAndRun: 'Tests generieren und ausführen',
     runningTests: 'Tests werden ausgeführt... ({{current}}/{{total}})',
+    noTestsGenerated: 'Keine Tests generiert',
     selectForCompare: 'Zum Vergleichen auswählen',
     compareWithSelected: 'Mit Auswahl vergleichen',
     exportFormat: 'Format',

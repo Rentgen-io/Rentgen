@@ -16,6 +16,7 @@ const it = {
     copied: 'Copiato',
     failedCopy: 'Copia non riuscita',
     run: 'Esegui',
+    runAll: 'Esegui tutto',
     replace: 'Sostituisci',
     merge: 'Unisci',
     overwrite: 'Sovrascrivi',
@@ -137,6 +138,7 @@ const it = {
   tests: {
     generateAndRun: 'Genera ed esegui test',
     runningTests: 'Esecuzione test in corso... ({{current}}/{{total}})',
+    noTestsGenerated: 'Nessun test generato',
     selectForCompare: 'Seleziona per confronto',
     compareWithSelected: 'Confronta con la selezione',
     exportFormat: 'Formato',

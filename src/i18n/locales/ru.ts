@@ -16,6 +16,7 @@ const ru = {
     copied: 'Скопировано',
     failedCopy: 'Не удалось скопировать',
     run: 'Запустить',
+    runAll: 'Запустить все',
     replace: 'Заменить',
     merge: 'Объединить',
     overwrite: 'Перезаписать',
@@ -137,6 +138,7 @@ const ru = {
   tests: {
     generateAndRun: 'Сгенерировать и запустить тесты',
     runningTests: 'Выполняются тесты... ({{current}}/{{total}})',
+    noTestsGenerated: 'Тесты не сгенерированы',
     selectForCompare: 'Выбрать для сравнения',
     compareWithSelected: 'Сравнить с выбранным',
     exportFormat: 'Формат',

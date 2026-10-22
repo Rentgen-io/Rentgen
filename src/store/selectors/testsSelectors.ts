@@ -13,6 +13,7 @@ export const selectCompareResponse = (state: RootState) => state.tests.compareRe
 export const selectCrudTests = (state: RootState) => state.tests.crudTests;
 export const selectCurrentTest = (state: RootState) => state.tests.currentTest;
 export const selectDataDrivenTests = (state: RootState) => state.tests.dataDrivenTests;
+export const selectIsAiTestsRunning = (state: RootState) => state.tests.isAiTestsRunning;
 export const selectIsComparingTestResults = (state: RootState) => state.tests.isComparing;
 export const selectIsDataDrivenRunning = (state: RootState) => state.tests.isDataDrivenRunning;
 export const selectIsLargePayloadTestRunning = (state: RootState) => state.tests.isLargePayloadTestRunning;

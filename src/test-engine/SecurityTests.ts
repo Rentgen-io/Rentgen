@@ -32,6 +32,8 @@ import {
 } from './BaseTests';
 import { Abortable, Test } from './decorators';
 
+let activeController: AbortController | null = null;
+
 export const SENSITIVE_HEADERS = new Set(['authorization', 'x-api-key', 'x-auth-token', 'api-key', 'apikey']);
 
 const AUTHORIZATION_TEST_EXPECTED = `${RESPONSE_STATUS.UNAUTHORIZED} ${getResponseStatusTitle(RESPONSE_STATUS.UNAUTHORIZED)}`;
@@ -632,8 +634,14 @@ export async function runLargePayloadTest(options: TestOptions, size: number): P
     body: 'A'.repeat(size * 1024 * 1024),
   };
 
+  activeController?.abort();
+  const controller = new AbortController();
+  activeController = controller;
+
   try {
-    const response = await sendHttp(modifiedRequest);
+    const response = await sendHttp(modifiedRequest, controller.signal);
+    if (controller.signal.aborted) return getManualLargePayloadTest();
+
     const { actual, status } = determineTestStatus(response, (response, statusCode) => {
       const testStatus = { actual: response.status, status: TestStatus.Fail };
       if (statusCode === RESPONSE_STATUS.PAYLOAD_TOO_LARGE) testStatus.status = TestStatus.Pass;
@@ -654,7 +662,13 @@ export async function runLargePayloadTest(options: TestOptions, size: number): P
     );
   } catch (error) {
     return createErrorTestResult(LARGE_PAYLOAD_TEST_NAME, LARGE_PAYLOAD_TEST_EXPECTED, String(error), modifiedRequest);
+  } finally {
+    activeController = null;
   }
+}
+
+export function cancelLargePayloadTest() {
+  activeController?.abort();
 }
 
 function createNotFoundUrl(url: string): string {
@@ -719,7 +733,7 @@ function validateCacheControl(
 
 function getManualTests(): TestResult[] {
   return [
-    createTestResult(LARGE_PAYLOAD_TEST_NAME, LARGE_PAYLOAD_TEST_EXPECTED, '', TestStatus.Manual),
+    getManualLargePayloadTest(),
     createTestResult(
       "Access Other User's Data",
       `${RESPONSE_STATUS.FORBIDDEN} ${getResponseStatusTitle(RESPONSE_STATUS.FORBIDDEN)} or ${RESPONSE_STATUS.NOT_FOUND} ${getResponseStatusTitle(RESPONSE_STATUS.NOT_FOUND)}`,
@@ -728,4 +742,8 @@ function getManualTests(): TestResult[] {
     ),
     createTestResult('Role-based Access Control', 'Restricted Per Role', NOT_AVAILABLE_TEST, TestStatus.Manual),
   ];
+}
+
+function getManualLargePayloadTest(): TestResult {
+  return createTestResult(LARGE_PAYLOAD_TEST_NAME, LARGE_PAYLOAD_TEST_EXPECTED, '', TestStatus.Manual);
 }

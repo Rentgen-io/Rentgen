@@ -16,6 +16,7 @@ const hi = {
     copied: 'कॉपी किया गया',
     failedCopy: 'कॉपी करने में विफल',
     run: 'चलाएँ',
+    runAll: 'सभी चलाएँ',
     replace: 'बदलें',
     merge: 'मर्ज करें',
     overwrite: 'अधिलेखित करें',
@@ -137,6 +138,7 @@ const hi = {
   tests: {
     generateAndRun: 'टेस्ट जनरेट करें और चलाएँ',
     runningTests: 'टेस्ट चल रहे हैं... ({{current}}/{{total}})',
+    noTestsGenerated: 'कोई टेस्ट जनरेट नहीं हुआ',
     selectForCompare: 'तुलना के लिए चुनें',
     compareWithSelected: 'चयनित के साथ तुलना करें',
     exportFormat: 'फ़ॉर्मेट',

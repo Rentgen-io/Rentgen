@@ -27,6 +27,8 @@ import {
 } from './BaseTests';
 import { Abortable, Test } from './decorators';
 
+let activeController: AbortController | null = null;
+
 const ARRAY_LIST_WITHOUT_PAGINATION_TEST_EXPECTED = 'Supports Pagination / Limit (Query Parameters Present)';
 
 const EXCELLENT_RESPONSE_TIME_MS = 500;
@@ -47,6 +49,8 @@ const NETWORK_SHARE_PASS_THRESHOLD = 30;
 const NETWORK_SHARE_WARNING_THRESHOLD = 50;
 
 const RESPONSE_SIZE_KB = 100;
+
+export const LOAD_TEST_EXPECTED = `Median <${EXCELLENT_RESPONSE_TIME_MS} ms (Pass), <${ACCEPTABLE_RESPONSE_TIME_MS} ms (Warning), ≥${ACCEPTABLE_RESPONSE_TIME_MS} ms (Fail)`;
 
 export class PerformanceInsights extends BaseTests<TestResult[]> {
   constructor(
@@ -237,24 +241,16 @@ export class PerformanceInsights extends BaseTests<TestResult[]> {
   }
 }
 
-function getManualTests(): TestResult[] {
-  return [
-    createTestResult(
-      LOAD_TEST_NAME,
-      `Median <${EXCELLENT_RESPONSE_TIME_MS} ms (Pass), <${ACCEPTABLE_RESPONSE_TIME_MS} ms (Warning), ≥${ACCEPTABLE_RESPONSE_TIME_MS} ms (Fail)`,
-      '',
-      TestStatus.Manual,
-    ),
-    createTestResult('Rate Limiting Implementation', EXPECTED_RATE_LIMIT_STATUS, NOT_AVAILABLE_TEST, TestStatus.Manual),
-  ];
-}
-
 export async function runLoadTest(
   options: TestOptions,
   threadCount: number,
   requestCount: number,
   updateProgress?: (sentRequestCount: number, requestCount: number) => void,
 ): Promise<TestResult> {
+  activeController?.abort();
+  const controller = new AbortController();
+  activeController = controller;
+
   const threads = Math.max(1, Math.min(MAX_CONCURRENCY, Math.floor(threadCount)));
   const requests = Math.max(1, Math.min(MAX_TOTAL_REQUESTS, Math.floor(requestCount)));
   const responseTimes: number[] = [];
@@ -267,10 +263,16 @@ export async function runLoadTest(
     response: HttpResponse | null = null;
 
   async function executeSingleRequest(): Promise<void> {
-    if (isAborted) return;
+    if (isAborted || controller.signal?.aborted) return;
 
-    request = createTestHttpRequest(options);
-    response = await sendHttp(request);
+    const currentRequest = createTestHttpRequest(options);
+    const currentResponse = await sendHttp(currentRequest, controller.signal);
+
+    // Discard responses of requests cancelled by the signal
+    if (controller.signal?.aborted) return;
+
+    request = currentRequest;
+    response = currentResponse;
     responseTimes.push(response.time);
 
     const statusCode = extractStatusCode(response);
@@ -286,20 +288,28 @@ export async function runLoadTest(
   }
 
   async function workerThread(): Promise<void> {
-    while (!isAborted) {
+    while (!isAborted && !controller.signal?.aborted) {
       const currentRequestIndex = requestsSent++;
       if (currentRequestIndex >= requests) break;
 
       await executeSingleRequest();
+      if (controller.signal?.aborted) break;
 
       // Report progress after each request
-      updateProgress?.(currentRequestIndex + 1, requestCount);
+      updateProgress?.(currentRequestIndex + 1, requests);
     }
   }
 
   // Execute concurrent worker threads
   const workers = Array.from({ length: Math.min(threads, requests) }, workerThread);
   await Promise.all(workers);
+
+  if (controller.signal?.aborted) {
+    activeController = null;
+    return getManualLoadTest();
+  }
+
+  activeController = null;
 
   // Calculate performance percentiles
   const p50 = calculatePercentile(responseTimes, 50);
@@ -318,11 +328,26 @@ export async function runLoadTest(
 
   return createTestResult(
     LOAD_TEST_NAME,
-    `Median <${EXCELLENT_RESPONSE_TIME_MS} ms (Pass), <${ACCEPTABLE_RESPONSE_TIME_MS} ms (Warning), ≥${ACCEPTABLE_RESPONSE_TIME_MS} ms (Fail)`,
+    LOAD_TEST_EXPECTED,
     `${threads} threads, ${requests} total req. Executed: ${responseTimes.length} req → p50=${p50.toFixed(0)}ms p90=${p90.toFixed(0)}ms p95=${p95.toFixed(0)}ms avg=${averageResponseTime.toFixed(0)}ms, 4xx=${client4xxFailures}, 5xx=${server5xxFailures}`,
     testStatus,
     request,
     response,
     { threads, requests },
   );
+}
+
+export function cancelLoadTest() {
+  activeController?.abort();
+}
+
+function getManualTests(): TestResult[] {
+  return [
+    getManualLoadTest(),
+    createTestResult('Rate Limiting Implementation', EXPECTED_RATE_LIMIT_STATUS, NOT_AVAILABLE_TEST, TestStatus.Manual),
+  ];
+}
+
+function getManualLoadTest() {
+  return createTestResult(LOAD_TEST_NAME, LOAD_TEST_EXPECTED, '', TestStatus.Manual);
 }

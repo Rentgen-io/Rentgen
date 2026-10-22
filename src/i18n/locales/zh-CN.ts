@@ -16,6 +16,7 @@ const zhCN = {
     copied: '已复制',
     failedCopy: '复制失败',
     run: '运行',
+    runAll: '全部运行',
     replace: '替换',
     merge: '合并',
     overwrite: '覆盖',
@@ -137,6 +138,7 @@ const zhCN = {
   tests: {
     generateAndRun: '生成并运行测试',
     runningTests: '正在运行测试... ({{current}}/{{total}})',
+    noTestsGenerated: '未生成测试',
     selectForCompare: '选择以进行比较',
     compareWithSelected: '与所选项比较',
     exportFormat: '格式',

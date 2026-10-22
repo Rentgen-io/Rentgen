@@ -25,9 +25,8 @@ const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
 const OPENAI_API_BASE_URL = 'https://api.openai.com';
 
 const providerNames: Record<AiProviderType, string> = {
+  openai: 'OpenAI (ChatGPT)',
   ollama: 'Ollama',
-  openai: 'OpenAI',
-  'openai-compatible': 'OpenAI-compatible',
 };
 
 const options: SelectOption<AiProviderType>[] = (Object.keys(providerNames) as AiProviderType[]).map((value) => ({
@@ -190,7 +189,7 @@ function AiProviderForm({
   const { t } = useTranslation();
 
   const [aiProviderId] = useState<string>(() => aiProvider?.id ?? `ai_provider_${uuidv4()}`);
-  const [aiProviderType, setAiProviderType] = useState<AiProviderType>(aiProvider?.type ?? 'ollama');
+  const [aiProviderType, setAiProviderType] = useState<AiProviderType>(aiProvider?.type ?? 'openai');
   const [apiKey, setApiKey] = useState<string>(aiProvider?.apiKey ?? '');
   const [baseUrl, setBaseUrl] = useState<string>(aiProvider?.baseUrl ?? '');
   const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -199,7 +198,6 @@ function AiProviderForm({
 
   const isOllama = aiProviderType === 'ollama';
   const isOpenAi = aiProviderType === 'openai';
-  const isOpenAiCompatible = aiProviderType === 'openai-compatible';
 
   const currentProvider = useMemo(() => {
     if (aiProvider?.type === aiProviderType) return aiProvider;
@@ -220,8 +218,7 @@ function AiProviderForm({
     [aiProviderId, aiProvider?.active, aiProviderType, apiKey, baseUrl, model, path],
   );
 
-  const disabled =
-    !provider.baseUrl || !path.trim() || !provider.model || (isOpenAi && isOpenAiCompatible && !provider.apiKey);
+  const disabled = !provider.baseUrl || !path.trim() || !provider.model || (isOpenAi && !provider.apiKey);
 
   useEffect(() => {
     setBaseUrl(currentProvider?.baseUrl ?? (isOpenAi ? OPENAI_API_BASE_URL : ''));

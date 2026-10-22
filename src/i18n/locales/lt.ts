@@ -16,6 +16,7 @@ const lt = {
     copied: 'Nukopijuota',
     failedCopy: 'Nepavyko nukopijuoti',
     run: 'Vykdyti',
+    runAll: 'Vykdyti visus',
     replace: 'Pakeisti',
     merge: 'Sujungti',
     overwrite: 'Perrašyti',
@@ -137,6 +138,7 @@ const lt = {
   tests: {
     generateAndRun: 'Generuoti ir vykdyti testus',
     runningTests: 'Vykdomi testai... ({{current}}/{{total}})',
+    noTestsGenerated: 'Nesugeneruota jokių testų',
     selectForCompare: 'Pasirinkti palyginimui',
     compareWithSelected: 'Palyginti su pasirinktu',
     exportFormat: 'Formatas',
