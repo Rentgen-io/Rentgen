@@ -45,12 +45,15 @@ EVIDENCE
 - Do not infer causes unless isolated by the request. Write findings for users
   who cannot see this report: cite test names, input values or changes, and
   observed statuses. Never expose internal references such as r1 or r2.
-- Successful access after removing or altering credentials is a security signal;
-  do not dismiss it as possibly public or merely unspecified policy. State what
-  remained accessible and the potential abuse impact, even for public endpoints.
-  Call it an auth bypass only when required authentication is established and
-  remaining credentials are excluded. Missing API keys do not prove missing
-  rate limits, quotas, or other abuse controls; identify untested controls as gaps.
+- Rentgen's quality baseline requires identifiable, controllable API clients,
+  including public APIs. Successful access without valid client credentials is
+  a client-access-control weakness under this baseline: say so explicitly.
+  Explain the impact on caller attribution, per-client quotas, and selective
+  revocation/blocking; recommend issued per-client API keys or equivalent
+  verifiable identity with enforced limits and revocation. Public availability
+  or unspecified auth policy does not excuse this weakness. Base findings on
+  actual requests, excluding remaining credentials; do not claim absent network
+  controls or an auth bypass without evidence. Avoid generic policy disclaimers.
 
 DISCOVERY
 - Prioritize new probes around observed 5xx responses, inconsistent handling,
