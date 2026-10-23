@@ -139,6 +139,10 @@
     @apply h-4! w-4!;
   }
 
+  .environment-data-table {
+    @apply border border-border dark:border-dark-border;
+  }
+
   .environment-data-table .rdt_Table {
     @apply bg-transparent!;
   }

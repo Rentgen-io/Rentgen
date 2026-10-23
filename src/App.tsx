@@ -137,7 +137,7 @@ export default function App() {
       <Sidebar />
       <div className="@container flex-1 min-w-0 flex flex-col overflow-y-auto">
         {isEditingEnvironment && (
-          <div className="relative">
+          <div className="relative flex flex-col flex-auto">
             <EnvironmentEditor
               environment={environments.find(({ id }) => id === editingEnvironmentId) || null}
               isNew={editingEnvironmentId === null}
@@ -167,7 +167,7 @@ export default function App() {
           </div>
         )}
         {!isEditingEnvironment && !isComparingTestResults && (
-          <div className="flex-1 flex flex-col gap-4 p-4">
+          <div className="flex flex-col gap-4 p-4">
             <>
               <RequestModeBar />
               <RequestUrlBar />

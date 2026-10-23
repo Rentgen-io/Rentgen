@@ -35,7 +35,10 @@ export default function TestsTable({
 
   return (
     <DataTable
-      className={twMerge(cn({ 'border border-border dark:border-dark-border': definedData.length > 0 }), className)}
+      className={twMerge(
+        cn({ 'bg-body dark:bg-dark-body border border-border dark:border-dark-border': definedData.length > 0 }),
+        className,
+      )}
       columns={columns}
       conditionalRowStyles={[
         {

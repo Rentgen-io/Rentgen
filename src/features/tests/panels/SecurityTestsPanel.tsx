@@ -82,6 +82,8 @@ export default function SecurityTestsPanel() {
         expandableRowDisabled={(row) => disabledSecurityTests.includes(row.name) || !row.request}
         expandOnRowClicked
         data={securityTests}
+        fixedHeader={true}
+        fixedHeaderScrollHeight="587px"
         progressComponent={
           <LoaderWithText className="flex-auto justify-center" text={t('tests.runningSecurityTests')} />
         }

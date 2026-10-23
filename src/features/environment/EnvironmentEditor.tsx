@@ -150,11 +150,11 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
   return (
     <Panel
-      className="border-none"
+      className="flex flex-col flex-auto border-none"
       collapsible={false}
       title={isNew ? t('environment.newEnvironment') : t('environment.editEnvironment')}
     >
-      <div className="flex flex-col gap-4 p-4 bg-body dark:bg-dark-body border-t border-border dark:border-dark-border">
+      <div className="flex flex-col flex-auto gap-4 p-4 bg-body dark:bg-dark-body border-t border-border dark:border-dark-border">
         <div className="flex flex-col gap-2">
           <label className="font-bold text-xs">{t('environment.environmentName')}</label>
           <Input
@@ -187,9 +187,9 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
             />
           </div>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col flex-auto gap-2">
           <label className="font-bold text-xs">{t('environment.variables')}</label>
-          <div className="border border-border dark:border-dark-border overflow-hidden">
+          <div className="flex flex-col flex-auto h-0 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
             <DataTable
               className="environment-data-table"
               columns={[
@@ -264,7 +264,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
               ]}
               data={allVariables}
               fixedHeader={true}
-              fixedHeaderScrollHeight="440px"
             />
           </div>
         </div>
