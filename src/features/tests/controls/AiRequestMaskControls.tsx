@@ -211,25 +211,29 @@ function buildSanitizedUrl(testOptions: TestOptions | null, masked: Set<string>)
 
   const { url, method } = testOptions;
   if (!url) return '';
-  if (masked.has(URL_FIELD)) return `${method} ${createRedactionToken(URL_FIELD)}`;
 
-  let parsedUrl: URL;
-  try {
-    parsedUrl = new URL(url);
-  } catch {
-    return `${method} ${url}`;
-  }
+  const isUrlMasked = masked.has(URL_FIELD);
+  const hashIndex = url.indexOf('#');
+  const urlWithoutHash = hashIndex === -1 ? url : url.slice(0, hashIndex);
+  const hash = hashIndex === -1 || isUrlMasked ? '' : url.slice(hashIndex);
+  const queryIndex = urlWithoutHash.indexOf('?');
+  const baseUrl = queryIndex === -1 ? urlWithoutHash : urlWithoutHash.slice(0, queryIndex);
+  const rawQuery = queryIndex === -1 ? '' : urlWithoutHash.slice(queryIndex + 1);
+  const query = rawQuery
+    .split('&')
+    .filter(Boolean)
+    .map((parameter) => {
+      const [name] = Array.from(new URLSearchParams(parameter).keys());
+      if (name === undefined || !masked.has(`${QUERY_PREFIX}${name}`)) return parameter;
 
-  const query = Array.from(parsedUrl.searchParams)
-    .map(([name, value]) => {
-      const masking = masked.has(`${QUERY_PREFIX}${name}`);
-      return `${encodeURIComponent(name)}=${masking ? createRedactionToken(name) : encodeURIComponent(value)}`;
+      const separatorIndex = parameter.indexOf('=');
+      const rawName = separatorIndex === -1 ? parameter : parameter.slice(0, separatorIndex);
+
+      return `${rawName}=${createRedactionToken(name)}`;
     })
     .join('&');
 
-  parsedUrl.search = '';
-
-  return `${method} ${parsedUrl.toString()}${query ? `?${query}` : ''}`;
+  return `${method} ${isUrlMasked ? createRedactionToken(URL_FIELD) : baseUrl}${query ? `?${query}` : ''}${hash}`;
 }
 
 function buildSanitizedHeaders(testOptions: TestOptions | null, masked: Set<string>): string {
