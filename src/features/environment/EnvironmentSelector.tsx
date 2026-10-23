@@ -9,6 +9,7 @@ function isColorDark(hexColor: string): boolean {
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
   return luminance < 0.7;
 }
 
@@ -40,7 +41,6 @@ export default function EnvironmentSelector({ className, environments, selectedE
       isSearchable={false}
       options={options}
       placeholder={t('environment.selectEnvironment')}
-      value={options.find((opt) => opt.value === selectedEnvironmentId) || options[0]}
       styles={
         hasColor
           ? {
@@ -60,7 +60,8 @@ export default function EnvironmentSelector({ className, environments, selectedE
             }
           : undefined
       }
-      onChange={(option) => onSelect((option as SelectOption<string | null>).value)}
+      value={options.find((option) => option.value === selectedEnvironmentId)}
+      onChange={(option) => onSelect(option!.value)}
     />
   );
 }

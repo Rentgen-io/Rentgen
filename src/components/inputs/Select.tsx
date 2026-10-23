@@ -1,9 +1,7 @@
-import ReactSelect, { ClassNamesConfig, GroupBase, Props as SelectProps } from 'react-select';
-import CreatableSelect from 'react-select/creatable';
 import cn from 'classnames';
+import ReactSelect, { ClassNamesConfig, GroupBase, Props as ReactSelectProps } from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import { twMerge } from 'tailwind-merge';
-
-type SelectClassNames = ClassNamesConfig<unknown, boolean, GroupBase<unknown>>;
 
 export interface SelectOption<T> {
   value: T;
@@ -11,12 +9,27 @@ export interface SelectOption<T> {
   className?: string;
 }
 
-interface Props extends SelectProps {
+type SelectClassNames<T, IsMulti extends boolean> = ClassNamesConfig<
+  SelectOption<T>,
+  IsMulti,
+  GroupBase<SelectOption<T>>
+>;
+
+export interface Props<T, IsMulti extends boolean> extends Omit<
+  ReactSelectProps<SelectOption<T>, IsMulti, GroupBase<SelectOption<T>>>,
+  'options'
+> {
   isCreatable?: boolean;
+  options?: readonly SelectOption<T>[];
 }
 
-export default function Select({ classNames, styles, isCreatable, ...otherProps }: Props) {
-  const selectClassNames = mergeClassNames(
+export default function Select<T, IsMulti extends boolean = false>({
+  classNames,
+  isCreatable,
+  styles,
+  ...otherProps
+}: Props<T, IsMulti>) {
+  const selectClassNames = mergeClassNames<T, IsMulti>(
     {
       container: () => 'min-w-27.5 text-xs',
       control: () =>
@@ -35,9 +48,9 @@ export default function Select({ classNames, styles, isCreatable, ...otherProps 
           {
             'text-white!': isSelected,
             'hover:bg-select-hover dark:bg-dark-input! dark:hover:bg-dark-button-secondary!': !isSelected,
-            'text-text! dark:text-dark-text!': !(data as SelectOption<unknown>).className && !isSelected,
+            'text-text! dark:text-dark-text!': !data.className && !isSelected,
           },
-          !isSelected ? (data as SelectOption<unknown>).className : undefined,
+          !isSelected ? data.className : undefined,
         ),
       placeholder: () => 'm-0!',
       singleValue: ({ data, isDisabled }) =>
@@ -45,9 +58,9 @@ export default function Select({ classNames, styles, isCreatable, ...otherProps 
           'm-0!',
           !styles?.singleValue && {
             'text-text/50! dark:text-dark-text/50!': isDisabled,
-            'text-text! dark:text-dark-text!': !(data as SelectOption<unknown>).className,
+            'text-text! dark:text-dark-text!': !data.className,
           },
-          (data as SelectOption<unknown>).className,
+          data.className,
         ),
       valueContainer: () => 'py-2! px-3!',
     },
@@ -64,11 +77,14 @@ export default function Select({ classNames, styles, isCreatable, ...otherProps 
       />
     );
 
-  return <ReactSelect {...otherProps} styles={styles} classNames={selectClassNames} />;
+  return <ReactSelect classNames={selectClassNames} styles={styles} {...otherProps} />;
 }
 
-function mergeClassNames(base: SelectClassNames, overrides: SelectClassNames = {}): SelectClassNames {
-  const keys = new Set([...Object.keys(base), ...Object.keys(overrides)]) as Set<keyof SelectClassNames>;
+export function mergeClassNames<T, IsMulti extends boolean>(
+  base: SelectClassNames<T, IsMulti>,
+  overrides: SelectClassNames<T, IsMulti> = {},
+): SelectClassNames<T, IsMulti> {
+  const keys = new Set([...Object.keys(base), ...Object.keys(overrides)]) as Set<keyof SelectClassNames<T, IsMulti>>;
   const merged: Record<string, (state: unknown) => string> = {};
 
   keys.forEach((key) => {
@@ -78,5 +94,5 @@ function mergeClassNames(base: SelectClassNames, overrides: SelectClassNames = {
     merged[key] = (state) => twMerge(baseClass?.(state), overrideClass?.(state));
   });
 
-  return merged as SelectClassNames;
+  return merged as SelectClassNames<T, IsMulti>;
 }

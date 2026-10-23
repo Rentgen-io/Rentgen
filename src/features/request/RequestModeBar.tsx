@@ -51,9 +51,9 @@ export default function RequestModeBar() {
           isSearchable={false}
           options={modeOptions}
           placeholder={t('request.modePlaceholder')}
-          value={modeOptions.find((option) => option.value == mode)}
+          value={modeOptions.find((option) => option.value === mode)}
           onChange={(option) => {
-            dispatch(requestActions.setMode((option as SelectOption<Mode>).value));
+            if (option) dispatch(requestActions.setMode(option.value));
             reset();
           }}
         />

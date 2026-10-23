@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonType } from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
-import Select from 'src/components/inputs/Select';
+import Select, { SelectOption } from 'src/components/inputs/Select';
 import ConfirmationModal from 'src/components/modals/ConfirmationModal';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectDynamicVariables, selectEnvironments, selectSetAsDynamicVariableModal } from 'src/store/selectors';
@@ -22,11 +22,6 @@ const sanitizeToVariableName = (val: string): string => {
     .replace(/_+/g, '_');
 };
 
-interface EnvironmentOption {
-  value: string;
-  label: string;
-}
-
 export default function SetAsDynamicVariableModal() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -37,7 +32,7 @@ export default function SetAsDynamicVariableModal() {
 
   const [name, setName] = useState<string>('');
   const [selector, setSelector] = useState<string>('');
-  const [selectedEnvironment, setSelectedEnvironment] = useState<EnvironmentOption | null>(null);
+  const [selectedEnvironment, setSelectedEnvironment] = useState<SelectOption<string> | null>(null);
   const [duplicateToOverwrite, setDuplicateToOverwrite] = useState<DynamicVariable | null>(null);
 
   useEffect(() => {
@@ -49,8 +44,8 @@ export default function SetAsDynamicVariableModal() {
     }
   }, [modalState.isOpen, modalState.initialSelector]);
 
-  const environmentOptions: EnvironmentOption[] = useMemo(() => {
-    const options: EnvironmentOption[] = [
+  const environmentOptions: SelectOption<string>[] = useMemo(() => {
+    const options: SelectOption<string>[] = [
       { value: ALL_ENVIRONMENTS_VALUE, label: t('modals.setDynamicVariable.allEnvironments') },
     ];
     environments.forEach((env) => {
@@ -176,10 +171,10 @@ export default function SetAsDynamicVariableModal() {
           <label className="text-xs text-text dark:text-dark-text">{t('modals.setDynamicVariable.environment')}</label>
           <Select
             options={environmentOptions}
-            value={selectedEnvironment}
             placeholder={t('modals.setDynamicVariable.selectEnvironment')}
+            value={selectedEnvironment}
             onChange={(option) => {
-              setSelectedEnvironment(option as EnvironmentOption);
+              setSelectedEnvironment(option);
               setDuplicateToOverwrite(null);
             }}
           />

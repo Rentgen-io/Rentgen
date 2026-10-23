@@ -3,8 +3,9 @@ import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import ActionsButton from 'src/components/buttons/ActionsButton';
 import Button, { ButtonType } from 'src/components/buttons/Button';
+import { CreatableSelect } from 'src/components/inputs/CreatableSelect';
 import HighlightedInput from 'src/components/inputs/HighlightedInput';
-import Select, { SelectOption } from 'src/components/inputs/Select';
+import { SelectOption } from 'src/components/inputs/Select';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
 import { useSendHttpRequest } from 'src/hooks/useSendHttpRequest';
 import { useWssActions } from 'src/hooks/useWebSocket';
@@ -53,18 +54,18 @@ export default function RequestUrlBar() {
     <div className="flex flex-col @lg:flex-row @lg:items-center gap-2">
       <div className="flex-auto flex items-center">
         {mode === 'HTTP' && (
-          <Select
-            className="font-bold uppercase"
+          <CreatableSelect
+            className="max-w-27.5 font-bold uppercase"
             classNames={{
               control: () => 'dark:border-r-dark-body!',
               input: () => '[&>:first-child]:uppercase',
             }}
-            isCreatable={true}
+            menuPosition="absolute"
             options={methodOptions}
             placeholder={t('request.methodPlaceholder')}
-            value={methodOptions.find((option) => option.value == method) || { value: method, label: method }}
+            value={methodOptions.find((option) => option.value === method) ?? { value: method, label: method }}
             onBlur={autoSaveRequest}
-            onChange={(option) => dispatch(requestActions.setMethod((option as SelectOption<Method>).value))}
+            onChange={(option) => option && dispatch(requestActions.setMethod(option.value))}
           />
         )}
         <HighlightedInput

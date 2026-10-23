@@ -3,8 +3,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import Button from 'src/components/buttons/Button';
+import { CreatableSelect } from 'src/components/inputs/CreatableSelect';
 import Input from 'src/components/inputs/Input';
-import Select, { SelectOption } from 'src/components/inputs/Select';
+import { SelectOption } from 'src/components/inputs/Select';
 import Panel from 'src/components/panels/Panel';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectDynamicVariables, selectSelectedEnvironmentId } from 'src/store/selectors';
@@ -33,6 +34,13 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
   const [title, setTitle] = useState<string>('');
   const [color, setColor] = useState<string>(COLOR_OPTIONS[4]);
   const [variables, setVariables] = useState<EnvironmentVariable[]>([]);
+
+  const options: SelectOption<DataType | (string & {})>[] = [
+    { value: 'randomEmail', label: t('environment.randomEmail') },
+    { value: 'randomGuid', label: t('environment.randomGuid') },
+    { value: 'randomInt', label: t('environment.randomInteger') },
+    { value: 'randomString', label: t('environment.randomString') },
+  ];
 
   const dynamicVariables = useMemo(() => {
     return allDynamicVariables.filter((dv) => dv.environmentId === null || dv.environmentId === selectedEnvironmentId);
@@ -227,10 +235,19 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                   cell: (row) => {
                     if (row.type === 'static')
                       return (
-                        <EnvironmentVariableSelect
-                          key={(row as EnvironmentVariable).value}
-                          value={(row as EnvironmentVariable).value}
-                          handleVariableChange={(value) => handleVariableChange(row.index, 'value', value)}
+                        <CreatableSelect
+                          classNames={{
+                            container: () => 'w-full',
+                            control: () => 'border-none!',
+                          }}
+                          options={options}
+                          value={
+                            options.find((option) => option.value === (row as EnvironmentVariable).value) ?? {
+                              value: (row as EnvironmentVariable).value,
+                              label: (row as EnvironmentVariable).value,
+                            }
+                          }
+                          onChange={(option) => handleVariableChange(row.index, 'value', option?.value ?? '')}
                         />
                       );
 
@@ -258,49 +275,5 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
         )}
       </div>
     </Panel>
-  );
-}
-
-function EnvironmentVariableSelect({
-  value,
-  handleVariableChange,
-}: {
-  value: string;
-  handleVariableChange: (value: string) => void;
-}) {
-  const { t } = useTranslation();
-  const options: SelectOption<DataType>[] = [
-    { value: 'randomEmail', label: t('environment.randomEmail') },
-    { value: 'randomGuid', label: t('environment.randomGuid') },
-    { value: 'randomInt', label: t('environment.randomInteger') },
-    { value: 'randomString', label: t('environment.randomString') },
-  ];
-  const selected = options.find((option) => option.value == value) || {
-    value: value,
-    label: value,
-  };
-  const [inputValue, setInputValue] = useState(selected.label);
-
-  return (
-    <Select
-      classNames={{
-        container: () => 'min-w-0 w-full overflow-hidden',
-        control: () => 'border-none! overflow-hidden!',
-        input: () => '[&>*]:opacity-100!',
-        singleValue: () => 'overflow-hidden! text-ellipsis! whitespace-nowrap!',
-      }}
-      isCreatable={true}
-      menuPosition="fixed"
-      options={options}
-      placeholder={t('environment.value')}
-      value={selected}
-      defaultInputValue={selected.label}
-      inputValue={inputValue}
-      onInputChange={(value, meta) => {
-        if (meta.action === 'input-change') setInputValue(value);
-        if (meta.action === 'input-blur') setInputValue(selected.label);
-      }}
-      onChange={(option) => handleVariableChange((option as SelectOption<DataType>).value)}
-    />
   );
 }

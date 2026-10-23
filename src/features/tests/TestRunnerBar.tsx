@@ -98,7 +98,7 @@ export default function TestRunnerBar() {
                 options={exportFormatOptions}
                 placeholder={t('tests.formatPlaceholder')}
                 value={exportFormatOptions.find((option) => option.value === exportFormat)}
-                onChange={(option) => dispatch(uiActions.setExportFormat((option as SelectOption<ReportFormat>).value))}
+                onChange={(option) => option && dispatch(uiActions.setExportFormat(option.value))}
               />
               <Button
                 buttonType={ButtonType.SECONDARY}

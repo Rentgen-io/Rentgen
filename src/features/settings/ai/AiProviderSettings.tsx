@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { testAiConnection } from 'src/api/ai';
 import { openExternal } from 'src/api/system';
 import Button, { ButtonType } from 'src/components/buttons/Button';
+import { CreatableSelect } from 'src/components/inputs/CreatableSelect';
 import { FieldLabel } from 'src/components/inputs/FieldLabel';
 import Input from 'src/components/inputs/Input';
 import { SelectOption } from 'src/components/inputs/Select';
@@ -23,16 +24,33 @@ import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
 const OPENAI_API_BASE_URL = 'https://api.openai.com';
+const OLLAMA_API_BASE_URL = 'http://localhost:11434';
 
 const providerNames: Record<AiProviderType, string> = {
   openai: 'OpenAI (ChatGPT)',
   ollama: 'Ollama',
 };
 
-const options: SelectOption<AiProviderType>[] = (Object.keys(providerNames) as AiProviderType[]).map((value) => ({
-  label: providerNames[value],
-  value,
-}));
+const ollamaModelOptions: SelectOption<string>[] = [
+  { label: 'qwen3.5:4b (~3-4 GB)', value: 'qwen3.5:4b' },
+  { label: 'qwen3.5:9b (~7 GB)', value: 'qwen3.5:9b' },
+  { label: 'gpt-oss:20b (~14 GB)', value: 'gpt-oss:20b' },
+  { label: 'qwen3.5:27b (~17-20 GB)', value: 'qwen3.5:27b' },
+];
+
+const openAiModelOptions: SelectOption<string>[] = [
+  { label: 'gpt-6-luna', value: 'gpt-6-luna' },
+  { label: 'gpt-5.6-luna', value: 'gpt-5.6-luna' },
+  { label: 'gpt-5.4-mini', value: 'gpt-5.4-mini' },
+  { label: 'gpt-6.1-sol', value: 'gpt-6.1-sol' },
+];
+
+const providerTypeOptions: SelectOption<AiProviderType>[] = (Object.keys(providerNames) as AiProviderType[]).map(
+  (value) => ({
+    label: providerNames[value],
+    value,
+  }),
+);
 
 export function AiProviderSettings() {
   const { t } = useTranslation();
@@ -190,14 +208,17 @@ function AiProviderForm({
 
   const [aiProviderId] = useState<string>(() => aiProvider?.id ?? `ai_provider_${uuidv4()}`);
   const [aiProviderType, setAiProviderType] = useState<AiProviderType>(aiProvider?.type ?? 'openai');
-  const [apiKey, setApiKey] = useState<string>(aiProvider?.apiKey ?? '');
-  const [baseUrl, setBaseUrl] = useState<string>(aiProvider?.baseUrl ?? '');
-  const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [model, setModel] = useState<string>(aiProvider?.model ?? '');
-  const [path, setPath] = useState<string>(aiProvider?.path ?? CHAT_COMPLETIONS_PATH);
 
   const isOllama = aiProviderType === 'ollama';
   const isOpenAi = aiProviderType === 'openai';
+  const defaultBaseUrl = isOpenAi ? OPENAI_API_BASE_URL : isOllama ? OLLAMA_API_BASE_URL : '';
+  const options = isOllama ? ollamaModelOptions : isOpenAi ? openAiModelOptions : [];
+
+  const [apiKey, setApiKey] = useState<string>(aiProvider?.apiKey ?? '');
+  const [baseUrl, setBaseUrl] = useState<string>(aiProvider?.baseUrl ?? defaultBaseUrl);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [model, setModel] = useState<string>(aiProvider?.model ?? '');
+  const [path, setPath] = useState<string>(aiProvider?.path ?? CHAT_COMPLETIONS_PATH);
 
   const currentProvider = useMemo(() => {
     if (aiProvider?.type === aiProviderType) return aiProvider;
@@ -221,11 +242,11 @@ function AiProviderForm({
   const disabled = !provider.baseUrl || !path.trim() || !provider.model || (isOpenAi && !provider.apiKey);
 
   useEffect(() => {
-    setBaseUrl(currentProvider?.baseUrl ?? (isOpenAi ? OPENAI_API_BASE_URL : ''));
+    setBaseUrl(currentProvider?.baseUrl ?? defaultBaseUrl);
     setModel(currentProvider?.model ?? '');
     setPath(currentProvider?.path ?? CHAT_COMPLETIONS_PATH);
     setApiKey(currentProvider?.apiKey ?? '');
-  }, [currentProvider, isOpenAi]);
+  }, [currentProvider, defaultBaseUrl]);
 
   const handleSave = useCallback(async () => {
     if (disabled || isSaving) return;
@@ -252,7 +273,7 @@ function AiProviderForm({
       <div className="flex-1 flex flex-col gap-2">
         <FieldLabel label={t('settings.ai.provider')} required />
         <SimpleSelect
-          options={options}
+          options={providerTypeOptions}
           value={aiProviderType}
           onChange={(event) => setAiProviderType(event.target.value as AiProviderType)}
         />
@@ -268,21 +289,29 @@ function AiProviderForm({
       <div className="flex flex-col md:flex-row gap-2">
         <div className="flex-1 flex flex-col gap-2">
           <FieldLabel label={t('settings.ai.baseUrl')} required />
-          <Input type="url" value={baseUrl} onChange={(e) => setBaseUrl(e.target.value)} />
+          <Input type="url" value={baseUrl} onChange={(event) => setBaseUrl(event.target.value)} />
         </div>
         <div className="flex-1 flex flex-col gap-2">
           <FieldLabel label={t('settings.ai.path')} required />
-          <Input value={path} onChange={(e) => setPath(e.target.value)} />
+          <Input value={path} onChange={(event) => setPath(event.target.value)} />
         </div>
       </div>
       <div className="flex flex-col md:flex-row gap-2">
         <div className="flex-1 flex flex-col gap-2">
           <FieldLabel label={t('settings.ai.model')} required />
-          <Input value={model} onChange={(e) => setModel(e.target.value)} />
+          {isOllama || isOpenAi ? (
+            <CreatableSelect
+              options={options}
+              value={options.find((option) => option.value === model) ?? { value: model, label: model }}
+              onChange={(option) => option && setModel(option.value)}
+            />
+          ) : (
+            <Input value={model} onChange={(e) => setModel(e.target.value)} />
+          )}
         </div>
         <div className="flex-1 flex flex-col gap-2">
           <FieldLabel label={t('settings.ai.apiKey')} required={isOpenAi} />
-          <Input type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
+          <Input type="password" value={apiKey} onChange={(event) => setApiKey(event.target.value)} />
           <span className="text-xs text-text-secondary">{t('settings.ai.apiKeyStorageNotice')}</span>
         </div>
       </div>
