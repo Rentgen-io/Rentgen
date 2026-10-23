@@ -159,16 +159,17 @@ const useTests = () => {
   );
 
   const executeAiTestsGeneration = useCallback(
-    async (options: TestOptions | null) => {
+    async (options: TestOptions | null, maskedFields: string[]) => {
       if (!options || !activeAiProvider) return;
 
       dispatch(testsActions.setAiRunning(true));
 
-      aiTestsInstance = new AiTests(
-        { crudTests, dataDrivenTests, performanceTests, securityTests },
-        activeAiProvider,
-        options,
-      );
+      aiTestsInstance = new AiTests(activeAiProvider, maskedFields, options, {
+        crudTests,
+        dataDrivenTests,
+        performanceTests,
+        securityTests,
+      });
       const { overview, results, usage } = await aiTestsInstance.run();
 
       dispatch(testsActions.setAiRunning(false));

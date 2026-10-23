@@ -60,9 +60,6 @@ export class PerformanceInsights extends BaseTests<TestResult[]> {
     protected onTestStart?: () => void,
   ) {
     super(options, onTestStart);
-
-    this.testResults = testResults;
-    this.disabledTests = disabledTests;
   }
 
   protected override async execute(): Promise<TestResult[]> {

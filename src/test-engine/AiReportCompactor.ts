@@ -1,6 +1,16 @@
-import { HttpRequest, HttpResponse, TestResult, TestStatus } from 'src/types';
-import { stringifyValue, tryParseJsonObject } from 'src/utils/object';
+import { HttpBody, HttpRequest, HttpResponse, TestResult, TestStatus } from 'src/types';
+import {
+  convertUrlEncodedToFormEntries,
+  extractPropertiesFromJson,
+  extractQueryParameters,
+  isObject,
+  isUrlEncodedContentType,
+  setDeepObjectProperty,
+  stringifyValue,
+  tryParseJsonObject,
+} from 'src/utils';
 import { ORIGINAL_REQUEST_TEST_PARAMETER_NAME } from './BaseTests';
+import { SENSITIVE_HEADERS } from './SecurityTests';
 
 // ---------- Types ----------
 
@@ -86,6 +96,8 @@ export interface CompactOptions {
   /** Max length of non-JSON (text/HTML) response bodies. */
   maxTextBody?: number;
   normalize?: NormalizeConfig;
+  /** User-masked request fields ("URL", "header.<name>", "body.<path>", "query.<name>"). */
+  maskedFields?: string[];
 }
 
 interface Volatility {
@@ -141,7 +153,7 @@ const DEFAULT_MAX_TEXT_BODY = 50;
 /** Prompt section describing the format produced by {@link AiReportCompactor}. Keep in sync with the code below. */
 export const AI_REPORT_FORMAT_PROMPT = `INPUT FORMAT (compact report)
 - originalRequest is the baseline: url, method, headers, body. It is never
-  truncated or masked.
+  truncated (it may contain withheld values, see below).
 - responses is a dictionary of deduplicated responses ({status, headers, body}).
   Tests reference them by key; several tests may share one response.
 - commonResponseHeaders are the headers most responses share. A response's full
@@ -183,7 +195,14 @@ export const AI_REPORT_FORMAT_PROMPT = `INPUT FORMAT (compact report)
   cookie names and all other attributes are preserved.
   Repeated response headers (e.g. several set-cookie) are joined with newlines.
   Do not treat placeholders as literal content or as defects.
-  Values echoed from the request are never masked.
+  Values echoed from the request are never masked by these placeholders.
+- {{REDACTED_<FIELD>}} tokens are values the user withheld (FIELD names the
+  request field, e.g. HEADER.AUTHORIZATION, BODY.USER.EMAIL, QUERY.TOKEN, URL).
+  The same token anywhere in the report (inside longer strings, values, or
+  responses) stands for that same original value. A field that shows a
+  different value really was sent with that value. Never guess withheld values
+  and do not treat tokens as defects. To keep a withheld baseline value in a
+  proposed request, copy its token exactly; Rentgen restores the real value.
 - Truncation (responses, value, req):
   strings ending in "…[+N chars]" are partial; their ORIGINAL length is the number
   of characters shown + N (use this for length/boundary reasoning).
@@ -381,22 +400,328 @@ function learnVolatility(tests: TestResult[]): Volatility {
   return { paths, headers };
 }
 
+// ---------- User-selected masking (redaction) ----------
+
+export const MASK_URL_FIELD = 'URL';
+export const MASK_BODY_PREFIX = 'body.';
+export const MASK_HEADER_PREFIX = 'header.';
+export const MASK_QUERY_PREFIX = 'query.';
+
+/** Shorter masked values are only replaced in their own field, never inside other text (too many false hits). */
+const MIN_REDACTED_TEXT_LENGTH = 4;
+
+type MaskableRequest = Pick<HttpRequest, 'url' | 'headers' | 'body'>;
+
+/** Field-qualified, so e.g. header "token" and query "token" get different tokens. */
+export const createRedactionToken = (field: string): string => `{{REDACTED_${field.toUpperCase()}}}`;
+
+function getValueAtPath(source: unknown, path: string): unknown {
+  return path
+    .replace(/\[(\d+)]/g, '.$1')
+    .split('.')
+    .reduce<unknown>((value, key) => (isObject(value) ? value[key] : undefined), source);
+}
+
+function getBodyFields(body: HttpBody | undefined, headers: Record<string, string>): Array<[string, unknown]> {
+  if (body === null || body === undefined || body === '') return [];
+
+  if (isUrlEncodedContentType(headers))
+    return convertUrlEncodedToFormEntries(String(body)).map(([name, value]) => [`${MASK_BODY_PREFIX}${name}`, value]);
+
+  const parsed = tryParseJsonObject(body);
+  if (!isObject(parsed)) return [];
+
+  return Object.entries(extractPropertiesFromJson(parsed))
+    .filter(([, type]) => type !== 'DO_NOT_TEST')
+    .map(([path]) => [`${MASK_BODY_PREFIX}${path}`, getValueAtPath(parsed, path)]);
+}
+
+/** Every field the user can mask, as [field name, original value]. */
+export function getMaskableFields({ url, headers = {}, body }: MaskableRequest): Array<[string, unknown]> {
+  return [
+    [MASK_URL_FIELD, url],
+    ...Object.entries(headers).map(([name, value]): [string, unknown] => [`${MASK_HEADER_PREFIX}${name}`, value]),
+    ...getBodyFields(body, headers),
+    ...Object.entries(extractQueryParameters(url)).map(([name, value]): [string, unknown] => [
+      `${MASK_QUERY_PREFIX}${name}`,
+      value,
+    ]),
+  ];
+}
+
+export function getSuggestedMaskedFields(headers: Record<string, string> = {}): string[] {
+  return Object.keys(headers)
+    .filter((name) => SENSITIVE_HEADERS.has(name.toLowerCase()))
+    .map((name) => `${MASK_HEADER_PREFIX}${name}`);
+}
+
+/** Splits a URL into base (before "?"), raw query, and hash without re-encoding anything. */
+function splitUrl(url: string): { base: string; query: string; hash: string } {
+  const hashIndex = url.indexOf('#');
+  const withoutHash = hashIndex === -1 ? url : url.slice(0, hashIndex);
+  const queryIndex = withoutHash.indexOf('?');
+
+  return {
+    base: queryIndex === -1 ? withoutHash : withoutHash.slice(0, queryIndex),
+    query: queryIndex === -1 ? '' : withoutHash.slice(queryIndex + 1),
+    hash: hashIndex === -1 ? '' : url.slice(hashIndex),
+  };
+}
+
+const sameValue = (a: unknown, b: unknown): boolean =>
+  deepEqual(a, b) || (!isObject(a) && !isObject(b) && a !== undefined && b !== undefined && String(a) === String(b));
+
+interface MaskedField {
+  token: string;
+  value: unknown;
+}
+
+/**
+ * Replaces user-masked request values with `{{REDACTED_<FIELD>}}` tokens before anything is sent to the AI,
+ * and puts the real values back into the requests the AI generates.
+ *
+ * A masked field is replaced wherever it still holds its original value (originalRequest, test requests,
+ * data-driven values, field mappings). Fields a test changed to a different value stay visible, except that
+ * longer original values are also replaced wherever they appear inside other text, e.g. a padded test value
+ * or a response that echoes them.
+ */
+export class RequestRedactor {
+  private readonly url: MaskedField | null = null;
+  private readonly headers = new Map<string, MaskedField>();
+  private readonly query = new Map<string, MaskedField>();
+  private readonly body = new Map<string, MaskedField>();
+  private readonly fields = new Map<string, MaskedField>();
+  /** [original text, token], longest first so overlapping secrets are replaced correctly. */
+  private readonly secrets: Array<[string, string]> = [];
+  private readonly tokens = new Map<string, MaskedField>();
+
+  constructor(original: MaskableRequest, maskedFields: Iterable<string>) {
+    const masked = new Set(maskedFields);
+    const values = getMaskableFields(original);
+
+    for (const [field, value] of values) {
+      if (!masked.has(field) || value === undefined || value === null) continue;
+
+      const entry: MaskedField = {
+        token: createRedactionToken(field),
+        value: field === MASK_URL_FIELD ? splitUrl(String(value)).base : value,
+      };
+      this.fields.set(field, entry);
+      this.tokens.set(entry.token, entry);
+
+      if (field === MASK_URL_FIELD) this.url = entry;
+      else if (field.startsWith(MASK_HEADER_PREFIX))
+        this.headers.set(field.slice(MASK_HEADER_PREFIX.length).toLowerCase(), entry);
+      else if (field.startsWith(MASK_QUERY_PREFIX)) this.query.set(field.slice(MASK_QUERY_PREFIX.length), entry);
+      else if (field.startsWith(MASK_BODY_PREFIX)) this.body.set(field.slice(MASK_BODY_PREFIX.length), entry);
+
+      const text = String(entry.value);
+      if (text.length >= MIN_REDACTED_TEXT_LENGTH) this.secrets.push([text, entry.token]);
+    }
+
+    this.secrets.sort(([a], [b]) => b.length - a.length);
+  }
+
+  get isActive(): boolean {
+    return this.fields.size > 0;
+  }
+
+  // ----- Redaction -----
+
+  redactRequest<T extends MaskableRequest>(request: T): T {
+    if (!this.isActive) return request;
+
+    const headers = Object.fromEntries(
+      Object.entries(request.headers ?? {}).map(([name, value]) => {
+        const masked = this.headers.get(name.toLowerCase());
+        return [name, masked && value === masked.value ? masked.token : this.redactText(value)];
+      }),
+    );
+    const redacted = { ...request, url: this.redactUrl(request.url), headers };
+    if ('body' in request) redacted.body = this.redactBody(request.body, request.headers ?? {}) as HttpBody;
+
+    return redacted;
+  }
+
+  redactResponse(response: HttpResponse): HttpResponse {
+    if (!this.isActive) return response;
+
+    const headers = Object.fromEntries(
+      Object.entries(response.headers ?? {}).map(([name, value]: [string, unknown]) => [
+        name,
+        Array.isArray(value) ? value.map((item) => this.redactText(String(item))) : this.redactText(String(value)),
+      ]),
+    ) as Record<string, string>;
+
+    return { ...response, headers, body: this.redactJson(response.body) as HttpBody };
+  }
+
+  /** A value of a request field (e.g. "body.email"): replaced by its token when it equals the original. */
+  redactFieldValue(field: string, value: unknown): unknown {
+    const masked = this.fields.get(field);
+    if (masked && sameValue(value, masked.value)) return masked.token;
+
+    return this.redactJson(value);
+  }
+
+  /** fieldMappings may keep original example values (e.g. email or date fields). */
+  redactFieldMappings<T>(mappings: T): T {
+    if (!this.isActive || !isObj(mappings)) return mappings;
+
+    const redacted = Object.fromEntries(
+      Object.entries(mappings).map(([location, parameters]) => [
+        location,
+        isObj(parameters)
+          ? Object.fromEntries(
+              Object.entries(parameters).map(([name, parameter]) => [
+                name,
+                isObj(parameter) && 'value' in parameter
+                  ? { ...parameter, value: this.redactFieldValue(`${location}.${name}`, parameter.value) }
+                  : parameter,
+              ]),
+            )
+          : parameters,
+      ]),
+    );
+
+    return this.redactJson(redacted) as T;
+  }
+
+  redactText(text: string): string {
+    let redacted = text;
+    for (const [secret, token] of this.secrets) {
+      if (redacted.includes(secret)) redacted = redacted.replaceAll(secret, token);
+
+      const encoded = encodeURIComponent(secret);
+      if (encoded !== secret && redacted.includes(encoded)) redacted = redacted.replaceAll(encoded, token);
+    }
+    return redacted;
+  }
+
+  redactJson(value: unknown): unknown {
+    if (!this.secrets.length) return value;
+    if (typeof value === 'string') return this.redactText(value);
+    if (typeof value === 'number' || typeof value === 'boolean') {
+      const text = String(value);
+      return this.secrets.find(([secret]) => secret === text)?.[1] ?? value;
+    }
+    if (Array.isArray(value)) return value.map((item) => this.redactJson(item));
+    if (isObj(value)) return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, this.redactJson(v)]));
+
+    return value;
+  }
+
+  private redactUrl(url: string): string {
+    const { base, query, hash } = splitUrl(url);
+    const parameters = query
+      .split('&')
+      .filter(Boolean)
+      .map((parameter) => {
+        const [entry] = Array.from(new URLSearchParams(parameter));
+        const masked = entry && this.query.get(entry[0]);
+        if (!masked || entry[1] !== masked.value) return this.redactText(parameter);
+
+        const separatorIndex = parameter.indexOf('=');
+        return `${separatorIndex === -1 ? parameter : parameter.slice(0, separatorIndex)}=${masked.token}`;
+      });
+
+    // Case-insensitive, so the uppercase domain/path security tests do not reveal the masked URL.
+    const isBaseMasked = this.url && base.toLowerCase() === String(this.url.value).toLowerCase();
+    const redactedBase = isBaseMasked ? this.url!.token : this.redactText(base);
+
+    return `${redactedBase}${parameters.length ? `?${parameters.join('&')}` : ''}${this.url ? '' : this.redactText(hash)}`;
+  }
+
+  private redactBody(body: unknown, headers: Record<string, string>): unknown {
+    if (body === null || body === undefined) return body;
+
+    if (typeof body === 'string' && isUrlEncodedContentType(headers))
+      return convertUrlEncodedToFormEntries(body)
+        .map(([name, value]) => {
+          const masked = this.body.get(name);
+          const encodedName = new URLSearchParams([[name, '']]).toString().slice(0, -1);
+          return masked && value === String(masked.value)
+            ? `${encodedName}=${masked.token}`
+            : this.redactText(new URLSearchParams([[name, value]]).toString());
+        })
+        .join('&');
+
+    const parsed = tryParseJsonObject(body);
+    if (!isObject(parsed)) return this.redactJson(parsed);
+
+    const redacted = structuredClone(parsed);
+    for (const [path, masked] of this.body)
+      if (sameValue(getValueAtPath(redacted, path), masked.value)) setDeepObjectProperty(redacted, path, masked.token);
+
+    return this.redactJson(redacted);
+  }
+
+  // ----- Restoration (AI output) -----
+
+  /** Puts the real values back into a request generated by the AI. */
+  restoreRequest(request: HttpRequest): HttpRequest {
+    if (!this.isActive) return request;
+
+    const restored: HttpRequest = {
+      ...request,
+      url: this.restoreText(request.url, true),
+      headers: Object.fromEntries(
+        Object.entries(request.headers ?? {}).map(([name, value]) => [name, this.restoreText(value, false)]),
+      ),
+    };
+    if ('body' in request)
+      restored.body =
+        typeof request.body === 'string'
+          ? this.restoreText(request.body, isUrlEncodedContentType(request.headers ?? {}))
+          : (this.restoreJson(request.body) as HttpBody);
+
+    return restored;
+  }
+
+  private restoreJson(value: unknown): unknown {
+    if (typeof value === 'string') {
+      const exact = this.tokens.get(value);
+      return exact ? exact.value : this.restoreText(value, false);
+    }
+    if (Array.isArray(value)) return value.map((item) => this.restoreJson(item));
+    if (isObj(value)) return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, this.restoreJson(v)]));
+
+    return value;
+  }
+
+  /** `encoded`: the text is a URL or form body, so restored values must be URL-encoded (except the base URL). */
+  private restoreText(text: string, encoded: boolean): string {
+    if (!text.includes('REDACTED_')) return text;
+
+    let restored = text;
+    for (const [token, { value }] of this.tokens) {
+      const replacement = encoded && token !== this.url?.token ? encodeURIComponent(String(value)) : String(value);
+      restored = restored.replaceAll(token, replacement).replaceAll(encodeURIComponent(token), replacement);
+    }
+    return restored;
+  }
+}
+
 // ---------- Report builder (one per compaction) ----------
 
 class ReportBuilder {
   private readonly responses: Record<string, CompactResponse> = {};
   private readonly responseIds = new Map<string, string>();
   private readonly echoedCache = new WeakMap<HttpRequest, Set<string>>();
+  private readonly redactedRequests = new WeakMap<HttpRequest, HttpRequest>();
+  private readonly redactedResponses = new WeakMap<HttpResponse, HttpResponse>();
   private readonly origHeaders: Map<string, { name: string; value: string }>;
   private readonly origBody: unknown;
   private readonly dropHeaders: Set<string>;
   private readonly maskHeaders: Set<string>;
 
+  /** `orig` must already be redacted. */
   constructor(
     private readonly orig: HttpRequest,
     private readonly vol: Volatility,
     private readonly limits: { response: Limits; inputs: Limits; maxTextBody: number },
     normalize: NormalizeConfig,
+    private readonly redactor: RequestRedactor,
   ) {
     this.origHeaders = new Map(
       Object.entries(orig.headers ?? {}).map(([name, value]) => [name.toLowerCase(), { name, value }]),
@@ -408,8 +733,8 @@ class ReportBuilder {
 
   compactTest(suiteName: string, t: TestResult): CompactTest {
     const out: CompactTest = { name: t.name, s: STATUS_MAP[t.status] ?? 'info' };
-    if (!isEmpty(t.expected)) out.exp = t.expected;
-    if (!isEmpty(t.actual) && t.actual !== t.expected) out.act = t.actual;
+    if (!isEmpty(t.expected)) out.exp = this.redactor.redactText(t.expected);
+    if (!isEmpty(t.actual) && t.actual !== t.expected) out.act = this.redactor.redactText(t.actual);
 
     // Performance tests carry only metrics; their request/response are the baseline.
     if (suiteName === 'performanceTests') {
@@ -417,21 +742,42 @@ class ReportBuilder {
       return out;
     }
 
-    const requestBody = normalizeBody(t.request?.body);
-    const isBaselineBodyValue = t.name === ORIGINAL_REQUEST_TEST_PARAMETER_NAME && deepEqual(t.value, requestBody);
-    if (t.value !== undefined && !isBaselineBodyValue) out.value = truncateJson(t.value, this.limits.inputs);
+    // Compared before redaction: short masked values are redacted in the body but not inside `value`.
+    const isBaselineBodyValue =
+      t.name === ORIGINAL_REQUEST_TEST_PARAMETER_NAME && deepEqual(t.value, normalizeBody(t.request?.body));
+    const value = t.value === undefined ? undefined : this.redactor.redactFieldValue(t.name, t.value);
+    if (value !== undefined && !isBaselineBodyValue) out.value = truncateJson(value, this.limits.inputs);
 
-    if (t.request) {
-      const tested = suiteName === 'dataDrivenTests' ? getTestedField(t) : undefined;
-      const req = this.diffRequest(t.request, requestBody, tested);
+    const request = t.request ? this.redactRequest(t.request) : undefined;
+    if (request) {
+      const tested = suiteName === 'dataDrivenTests' ? getTestedField({ ...t, value }) : undefined;
+      const req = this.diffRequest(request, normalizeBody(request.body), tested);
       if (req) out.req = req;
     }
 
-    const resId = this.addResponse(t.response, t.request ?? this.orig);
+    const resId = this.addResponse(t.response, request ?? this.orig);
     if (resId) out.res = resId;
     if (typeof t.response?.time === 'number') out.ms = Math.round(t.response.time);
 
     return out;
+  }
+
+  private redactRequest(request: HttpRequest): HttpRequest {
+    let redacted = this.redactedRequests.get(request);
+    if (!redacted) {
+      redacted = this.redactor.redactRequest(request);
+      this.redactedRequests.set(request, redacted);
+    }
+    return redacted;
+  }
+
+  private redactResponse(response: HttpResponse): HttpResponse {
+    let redacted = this.redactedResponses.get(response);
+    if (!redacted) {
+      redacted = this.redactor.redactResponse(response);
+      this.redactedResponses.set(response, redacted);
+    }
+    return redacted;
   }
 
   /**
@@ -512,18 +858,13 @@ class ReportBuilder {
 
   /** Patch of query parameters, undefined when equivalent, null when only a full URL can express the change. */
   private diffQuery(url: string, tested?: TestedField): ObjectPatch | undefined | null {
-    let base: URL;
-    let target: URL;
-    try {
-      base = new URL(this.orig.url);
-      target = new URL(url);
-    } catch {
-      return null;
-    }
-    if (base.origin !== target.origin || base.pathname !== target.pathname || base.hash !== target.hash) return null;
+    // String-based so it also works on redacted URLs such as "{{REDACTED_URL}}?page=1".
+    const base = splitUrl(this.orig.url);
+    const target = splitUrl(url);
+    if (base.base !== target.base || base.hash !== target.hash) return null;
 
-    const baseParams = singleValueParams(base.searchParams);
-    const targetParams = singleValueParams(target.searchParams);
+    const baseParams = singleValueParams(new URLSearchParams(base.query));
+    const targetParams = singleValueParams(new URLSearchParams(target.query));
     if (!baseParams || !targetParams) return null;
 
     const patch: ObjectPatch = {};
@@ -566,9 +907,10 @@ class ReportBuilder {
 
   // ----- Responses (normalize + dedup) -----
 
-  private addResponse(res: HttpResponse | null | undefined, req: HttpRequest): string | undefined {
-    if (!res) return undefined;
+  private addResponse(rawResponse: HttpResponse | null | undefined, req: HttpRequest): string | undefined {
+    if (!rawResponse) return undefined;
 
+    const res = this.redactResponse(rawResponse);
     const echoed = this.echoedValues(req);
     const norm: CompactResponse = { status: res.status, headers: this.normalizeHeaders(res.headers ?? {}, echoed) };
     if (res.body !== undefined) {
@@ -683,6 +1025,8 @@ class ReportBuilder {
 
 /** Turns a raw Rentgen report into a compact, deduplicated, masked report for the AI. */
 export class AiReportCompactor {
+  private redactor: RequestRedactor | null = null;
+
   constructor(private readonly options: CompactOptions = {}) {}
 
   compact(report: RawReport): CompactReport {
@@ -690,6 +1034,8 @@ export class AiReportCompactor {
     const response: Limits = { ...DEFAULT_TRUNCATE, ...this.options.truncate };
     const inputs: Limits = { ...response, ...this.options.truncateInputs };
     const suiteEntries = Object.entries(report.suites ?? {});
+    const redactor = this.getRedactor(report);
+    const originalRequest = redactor.redactRequest(report.originalRequest);
 
     const vol: Volatility =
       normalize.learnVolatile === false
@@ -697,7 +1043,7 @@ export class AiReportCompactor {
         : learnVolatility(suiteEntries.flatMap(([, tests]) => tests));
     normalize.volatilePaths?.forEach((path) => vol.paths.add(path));
 
-    const builder = new ReportBuilder(report.originalRequest, vol, { response, inputs, maxTextBody }, normalize);
+    const builder = new ReportBuilder(originalRequest, vol, { response, inputs, maxTextBody }, normalize, redactor);
     const suites: Record<string, CompactTest[]> = {};
 
     for (const [suiteName, tests] of suiteEntries) {
@@ -709,8 +1055,8 @@ export class AiReportCompactor {
     }
 
     return {
-      originalRequest: report.originalRequest,
-      fieldMappings: report.fieldMappings,
+      originalRequest,
+      fieldMappings: redactor.redactFieldMappings(report.fieldMappings),
       ...builder.finalize(),
       suites,
     };
@@ -721,7 +1067,23 @@ export class AiReportCompactor {
     try {
       return JSON.stringify(this.compact(report));
     } catch {
-      return JSON.stringify(report);
+      // Never fall back to unmasked data.
+      const redactor = this.getRedactor(report);
+      return JSON.stringify({
+        originalRequest: redactor.redactRequest(report.originalRequest),
+        fieldMappings: redactor.redactFieldMappings(report.fieldMappings),
+        suites: redactor.redactJson(report.suites),
+      });
     }
+  }
+
+  /** Puts the real values of masked fields back into a request generated by the AI. */
+  restoreRequest(request: HttpRequest): HttpRequest {
+    return this.redactor?.restoreRequest(request) ?? request;
+  }
+
+  private getRedactor(report: RawReport): RequestRedactor {
+    this.redactor = new RequestRedactor(report.originalRequest, this.options.maskedFields ?? []);
+    return this.redactor;
   }
 }

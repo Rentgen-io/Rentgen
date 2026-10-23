@@ -14,7 +14,7 @@ import {
   determineTestStatus,
   SUCCESS_RESPONSE_EXPECTED,
 } from '.';
-import { AI_REPORT_FORMAT_PROMPT, AiReportCompactor, type CompactOptions } from './AiReportCompactor';
+import { AI_REPORT_FORMAT_PROMPT, AiReportCompactor } from './AiReportCompactor';
 
 let aiResponseTimeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
 
@@ -70,9 +70,9 @@ DISCOVERY
 
 REQUESTS
 - Output tests as COMPLETE requests, not diffs. The compact diff format and
-  placeholders are for input only; never put placeholders in proposed requests.
+  <...> placeholders are for input only; never put them in proposed requests.
 - Copy the baseline and preserve unrelated fields, headers, identifiers, and
-  secret placeholders. Change one independent condition unless testing a named
+  {{REDACTED_...}} tokens. Change one independent condition unless testing a named
   interaction. Return complete executable requests without new placeholders.
 - Headers are an array of name/value string pairs. Omit an entry to remove it.
 - Body is exact raw text or null. Serialize modified JSON once, preserving its
@@ -232,21 +232,18 @@ export class AiTests extends BaseTests<{
   usage: AiUsage | null;
 }> {
   constructor(
+    private aiProvider: AiProvider,
+    private maskedFields: string[],
+    protected options: TestOptions,
     private testResults: {
       crudTests: TestResult[];
       dataDrivenTests: TestResult[];
       performanceTests: TestResult[];
       securityTests: TestResult[];
     },
-    private aiProvider: AiProvider,
-    protected options: TestOptions,
     protected onTestStart?: () => void,
-    private compactOptions: CompactOptions = {},
   ) {
     super(options, onTestStart);
-
-    this.testResults = testResults;
-    this.aiProvider = aiProvider;
   }
 
   protected override async execute(signal: AbortSignal): Promise<{
@@ -263,11 +260,14 @@ export class AiTests extends BaseTests<{
     }, AI_RESPONSE_TIMEOUT_MS);
 
     const { body, bodyParameters, headers, method, queryParameters, url } = this.options;
-    const report = new AiReportCompactor(this.compactOptions).serialize({
+    const compactor = new AiReportCompactor({ maskedFields: this.maskedFields });
+
+    const report = compactor.serialize({
       originalRequest: createHttpRequest(body, headers, method, url),
       fieldMappings: { body: bodyParameters, query: queryParameters },
       suites: this.testResults,
     });
+
     const response = await sendAiChatRequest(
       this.aiProvider,
       [
@@ -296,18 +296,24 @@ export class AiTests extends BaseTests<{
 
     const content = tryParseJsonObject(response.content) as AiContent;
     const results: TestResult[] = (content?.tests ?? []).map(({ name, expected, request }) =>
-      createTestResult(name, expected, '', TestStatus.Manual, {
-        url: request.url,
-        method: request.method,
-        headers: request.headers?.reduce(
-          (acc, { name, value }) => {
-            acc[name] = value;
-            return acc;
-          },
-          {} as Record<string, string>,
-        ),
-        body: tryParseJsonObject(request?.body),
-      }),
+      createTestResult(
+        name,
+        expected,
+        '',
+        TestStatus.Manual,
+        compactor.restoreRequest({
+          url: request.url,
+          method: request.method,
+          headers: request.headers?.reduce(
+            (acc, { name, value }) => {
+              acc[name] = value;
+              return acc;
+            },
+            {} as Record<string, string>,
+          ),
+          body: tryParseJsonObject(request?.body),
+        }),
+      ),
     );
 
     if (results.length === 0) notify.warning(i18n.t('ai.noTestsGenerated'), { toastId: 'warning-generate-ai-tests' });
