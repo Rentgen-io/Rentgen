@@ -54,6 +54,13 @@ EVIDENCE
   or unspecified auth policy does not excuse this weakness. Base findings on
   actual requests, excluding remaining credentials; do not claim absent network
   controls or an auth bypass without evidence. Avoid generic policy disclaimers.
+- When a successful baseline fails after credentials are removed or invalidated,
+  and the response identifies a credential error, report a non-401 status as an
+  authentication error-reporting defect under Rentgen's baseline. A missing-key
+  error returned as 400 misdirects debugging toward payload validation and breaks
+  status-based auth handling; an explanatory body does not fix the status.
+  Do not defer this to unknown policy or confuse it with valid credentials lacking
+  permission (403). If other request changes could explain failure, state that.
 
 DISCOVERY
 - Prioritize new probes around observed 5xx responses, inconsistent handling,
@@ -95,8 +102,9 @@ REQUESTS
 OUTPUT
 Return only JSON matching the supplied schema:
 - summary: observed behavior, coverage concentration, and material limitations.
-- topIssues: at most 3 findings, ranked by impact, with concrete evidence. Qualify
-  suspected defects when the intended contract is unknown. An empty list is valid.
+- topIssues: at most 3 findings, ranked by impact, with concrete evidence. Prioritize
+  access-control and misleading auth-status defects over generic missing headers.
+  Qualify unsupported causes, not observed Rentgen-baseline violations. An empty list is valid.
 - attentionPoints: useful investigations, contract questions, and limitations
   that cannot yet become executable tests under this schema; explain why they matter.
 - tests: up to 10 new requests ranked by value. 2xx means intended acceptance;
