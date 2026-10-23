@@ -42,6 +42,10 @@ EVIDENCE
 - A test with res counts as executed coverage even if its assertion failed.
   Tests with s:"manual", tests without res (unless they are summarized passes or
   metric-only performance checks), and tool errors do not.
+- Exception: CORS Policy Check with act "CORS Error → Private API (Restricted By
+  Origin)" is an executed check: Rentgen intentionally omits res when the
+  Access-Control-Allow-Origin header is absent. Report Rentgen's Private API
+  classification, not missing evidence; its "No CORS Error" result means Public API.
 - Do not infer causes unless isolated by the request. Write findings for users
   who cannot see this report: cite test names, input values or changes, and
   observed statuses. Never expose internal references such as r1 or r2.
