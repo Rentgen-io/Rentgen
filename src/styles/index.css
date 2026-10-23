@@ -50,6 +50,23 @@
 }
 
 @layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+  }
+
+  .dark,
+  .dark * {
+    scrollbar-color: var(--color-dark-border) transparent;
+  }
+  .dark::-webkit-scrollbar-thumb,
+  .dark *::-webkit-scrollbar-thumb {
+    background: var(--color-dark-border);
+  }
+
   html {
     @apply scrollbar-gutter-stable;
   }
