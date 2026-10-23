@@ -100,15 +100,12 @@ const createHelpMenu = (): void => {
     },
   ]);
 
-  Menu.setApplicationMenu(
-    Menu.buildFromTemplate(
-      menu.items.map(({ label, role, submenu }) => ({
-        label,
-        role,
-        submenu: role === 'help' ? helpSubmenu : submenu,
-      })),
-    ),
-  );
+  const template: Electron.MenuItemConstructorOptions[] = menu.items
+    .filter(({ role }) => role !== 'help')
+    .map(({ label, role, submenu }) => ({ label, role, submenu }));
+  template.push({ label: 'Help', role: 'help', submenu: helpSubmenu });
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 };
 
 // This method will be called when Electron has finished
