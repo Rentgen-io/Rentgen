@@ -42,9 +42,9 @@ EVIDENCE
 - A test with res counts as executed coverage even if its assertion failed.
   Tests with s:"manual", tests without res (unless they are summarized passes or
   metric-only performance checks), and tool errors do not.
-- Do not infer the cause of a failure unless the request isolates that condition.
-  Cite findings by suite, test name, and the distinguishing value or request
-  change (e.g. dataDrivenTests body.email = "" -> 500), since names can repeat.
+- Do not infer causes unless isolated by the request. Write findings for users
+  who cannot see this report: cite test names, input values or changes, and
+  observed statuses. Never expose internal references such as r1 or r2.
 
 DISCOVERY
 - Prioritize new probes around observed 5xx responses, inconsistent handling,
@@ -125,7 +125,7 @@ const RESPONSE_FORMAT: Record<string, unknown> = {
               evidence: {
                 type: 'string',
                 description:
-                  'Suite and test names with distinguishing request values, actual response status, and relevant response content.',
+                  'User-readable evidence: test name, distinguishing input or change, HTTP status, and relevant response content. No internal references.',
               },
               impact: {
                 type: 'string',
