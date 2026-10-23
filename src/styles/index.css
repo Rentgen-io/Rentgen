@@ -156,7 +156,7 @@
   }
 
   .environment-data-table .rdt_TableCell {
-    @apply p-0!  border-border! dark:border-dark-body! overflow-hidden!;
+    @apply p-0! border-0! border-border! dark:border-dark-body! overflow-hidden!;
   }
 
   .environment-data-table .rdt_cellBase:not(:last-of-type) {
