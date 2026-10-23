@@ -65,6 +65,12 @@ EVIDENCE
   status-based auth handling; an explanatory body does not fix the status.
   Do not defer this to unknown policy or confuse it with valid credentials lacking
   permission (403). If other request changes could explain failure, state that.
+- Large Payload Test expects 413: another status, including 400, is a payload-size
+  handling finding under Rentgen's baseline, not a passing generic 4xx rejection.
+  Its request body "[N MB string]" summarizes N MiB of actual input, not literal
+  wire content. Explain potential bandwidth, buffering, and parsing costs; recommend
+  early body-size enforcement. A 400 alone proves neither full parsing nor DoS;
+  the generated body is invalid JSON, so distinguish syntax rejection from size limits.
 
 DISCOVERY
 - Prioritize new probes around observed 5xx responses, inconsistent handling,
@@ -107,7 +113,7 @@ OUTPUT
 Return only JSON matching the supplied schema:
 - summary: observed behavior, coverage concentration, and material limitations.
 - topIssues: at most 3 findings, ranked by impact, with concrete evidence. Prioritize
-  access-control and misleading auth-status defects over generic missing headers.
+  access-control, payload-size handling, and misleading auth-status defects over generic missing headers.
   Qualify unsupported causes, not observed Rentgen-baseline violations. An empty list is valid.
 - attentionPoints: useful investigations, contract questions, and limitations
   that cannot yet become executable tests under this schema; explain why they matter.
