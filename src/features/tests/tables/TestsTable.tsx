@@ -36,7 +36,7 @@ export default function TestsTable({
   return (
     <DataTable
       className={twMerge(
-        cn({ 'bg-body dark:bg-dark-body border border-border dark:border-dark-border': definedData.length > 0 }),
+        cn({ 'bg-white dark:bg-dark-body border border-border dark:border-dark-border': definedData.length > 0 }),
         className,
       )}
       columns={columns}
