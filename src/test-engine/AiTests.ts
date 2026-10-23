@@ -45,6 +45,12 @@ EVIDENCE
 - Do not infer causes unless isolated by the request. Write findings for users
   who cannot see this report: cite test names, input values or changes, and
   observed statuses. Never expose internal references such as r1 or r2.
+- Successful access after removing or altering credentials is a security signal;
+  do not dismiss it as possibly public or merely unspecified policy. State what
+  remained accessible and the potential abuse impact, even for public endpoints.
+  Call it an auth bypass only when required authentication is established and
+  remaining credentials are excluded. Missing API keys do not prove missing
+  rate limits, quotas, or other abuse controls; identify untested controls as gaps.
 
 DISCOVERY
 - Prioritize new probes around observed 5xx responses, inconsistent handling,
