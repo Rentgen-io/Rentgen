@@ -42,9 +42,35 @@ EVIDENCE
 - A test with res counts as executed coverage even if its assertion failed.
   Tests with s:"manual", tests without res (unless they are summarized passes or
   metric-only performance checks), and tool errors do not.
-- Do not infer the cause of a failure unless the request isolates that condition.
-  Cite findings by suite, test name, and the distinguishing value or request
-  change (e.g. dataDrivenTests body.email = "" -> 500), since names can repeat.
+- Exception: CORS Policy Check with act "CORS Error → Private API (Restricted By
+  Origin)" is an executed check: Rentgen intentionally omits res when the
+  Access-Control-Allow-Origin header is absent. Report Rentgen's Private API
+  classification, not missing evidence; its "No CORS Error" result means Public API.
+- Do not infer causes unless isolated by the request. Write findings for users
+  who cannot see this report: cite test names, input values or changes, and
+  observed statuses. Never expose internal references such as r1 or r2.
+- Rentgen's quality baseline requires identifiable, controllable API clients,
+  including public APIs. Successful access without valid client credentials is
+  a client-access-control weakness under this baseline: say so explicitly.
+  Explain the impact on caller attribution, per-client quotas, and selective
+  revocation/blocking; recommend issued per-client API keys or equivalent
+  verifiable identity with enforced limits and revocation. Public availability
+  or unspecified auth policy does not excuse this weakness. Base findings on
+  actual requests, excluding remaining credentials; do not claim absent network
+  controls or an auth bypass without evidence. Avoid generic policy disclaimers.
+- When a successful baseline fails after credentials are removed or invalidated,
+  and the response identifies a credential error, report a non-401 status as an
+  authentication error-reporting defect under Rentgen's baseline. A missing-key
+  error returned as 400 misdirects debugging toward payload validation and breaks
+  status-based auth handling; an explanatory body does not fix the status.
+  Do not defer this to unknown policy or confuse it with valid credentials lacking
+  permission (403). If other request changes could explain failure, state that.
+- Large Payload Test expects 413: another status, including 400, is a payload-size
+  handling finding under Rentgen's baseline, not a passing generic 4xx rejection.
+  Its request body "[N MB string]" summarizes N MiB of actual input, not literal
+  wire content. Explain potential bandwidth, buffering, and parsing costs; recommend
+  early body-size enforcement. A 400 alone proves neither full parsing nor DoS;
+  the generated body is invalid JSON, so distinguish syntax rejection from size limits.
 
 DISCOVERY
 - Prioritize new probes around observed 5xx responses, inconsistent handling,
@@ -86,8 +112,9 @@ REQUESTS
 OUTPUT
 Return only JSON matching the supplied schema:
 - summary: observed behavior, coverage concentration, and material limitations.
-- topIssues: at most 3 findings, ranked by impact, with concrete evidence. Qualify
-  suspected defects when the intended contract is unknown. An empty list is valid.
+- topIssues: at most 3 findings, ranked by impact, with concrete evidence. Prioritize
+  access-control, payload-size handling, and misleading auth-status defects over generic missing headers.
+  Qualify unsupported causes, not observed Rentgen-baseline violations. An empty list is valid.
 - attentionPoints: useful investigations, contract questions, and limitations
   that cannot yet become executable tests under this schema; explain why they matter.
 - tests: up to 10 new requests ranked by value. 2xx means intended acceptance;
@@ -125,7 +152,7 @@ const RESPONSE_FORMAT: Record<string, unknown> = {
               evidence: {
                 type: 'string',
                 description:
-                  'Suite and test names with distinguishing request values, actual response status, and relevant response content.',
+                  'User-readable evidence: test name, distinguishing input or change, HTTP status, and relevant response content. No internal references.',
               },
               impact: {
                 type: 'string',
