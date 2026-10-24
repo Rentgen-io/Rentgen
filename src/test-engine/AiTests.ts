@@ -267,6 +267,7 @@ export class AiTests extends BaseTests<{
       fieldMappings: { body: bodyParameters, query: queryParameters },
       suites: this.testResults,
     });
+    console.log('AI Raw Report (testing):', report);
 
     const response = await sendAiChatRequest(
       this.aiProvider,
