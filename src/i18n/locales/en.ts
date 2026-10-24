@@ -228,7 +228,6 @@ const en = {
       selectorRequired: 'Selector is required',
       selectEnvironmentError: 'Please select an environment',
       duplicateWarning: 'A variable with this name already exists. It will be overwritten.',
-      saveVariable: 'Save Variable',
     },
     projectImport: {
       title: 'Import Project',

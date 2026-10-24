@@ -228,7 +228,6 @@ const ko = {
       selectorRequired: '셀렉터가 필요합니다',
       selectEnvironmentError: '환경을 선택해 주세요',
       duplicateWarning: '같은 이름의 변수가 이미 있습니다. 덮어쓰여집니다.',
-      saveVariable: '변수 저장',
     },
     projectImport: {
       title: '프로젝트 가져오기',

@@ -228,7 +228,6 @@ const th = {
       selectorRequired: 'จำเป็นต้องระบุ Selector',
       selectEnvironmentError: 'กรุณาเลือกเอนไวรอนเมนต์',
       duplicateWarning: 'มีตัวแปรชื่อนี้อยู่แล้ว ตัวแปรจะถูกเขียนทับ',
-      saveVariable: 'บันทึกตัวแปร',
     },
     projectImport: {
       title: 'นำเข้าโปรเจกต์',

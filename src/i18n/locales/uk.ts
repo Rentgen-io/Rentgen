@@ -228,7 +228,6 @@ const uk = {
       selectorRequired: 'Селектор є обовʼязковим',
       selectEnvironmentError: 'Будь ласка, оберіть середовище',
       duplicateWarning: 'Змінна з такою назвою вже існує. Її буде перезаписано.',
-      saveVariable: 'Зберегти змінну',
     },
     projectImport: {
       title: 'Імпортувати проєкт',

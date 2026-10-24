@@ -228,7 +228,6 @@ const lt = {
       selectorRequired: 'Selektorius privalomas',
       selectEnvironmentError: 'Prašome pasirinkti aplinką',
       duplicateWarning: 'Kintamasis su šiuo pavadinimu jau egzistuoja. Jis bus perrašytas.',
-      saveVariable: 'Išsaugoti kintamąjį',
     },
     projectImport: {
       title: 'Importuoti projektą',

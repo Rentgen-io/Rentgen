@@ -227,7 +227,6 @@ const zhCN = {
       selectorRequired: '选择器为必填项',
       selectEnvironmentError: '请选择一个环境',
       duplicateWarning: '已存在同名变量。它将被覆盖。',
-      saveVariable: '保存变量',
     },
     projectImport: {
       title: '导入项目',

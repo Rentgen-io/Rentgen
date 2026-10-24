@@ -230,7 +230,6 @@ const ptBR = {
       selectorRequired: 'O seletor é obrigatório',
       selectEnvironmentError: 'Por favor, selecione um ambiente',
       duplicateWarning: 'Já existe uma variável com este nome. Ela será sobrescrita.',
-      saveVariable: 'Salvar variável',
     },
     projectImport: {
       title: 'Importar projeto',

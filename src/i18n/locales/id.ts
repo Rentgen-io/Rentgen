@@ -228,7 +228,6 @@ const id = {
       selectorRequired: 'Selektor wajib diisi',
       selectEnvironmentError: 'Mohon pilih lingkungan',
       duplicateWarning: 'Variabel dengan nama ini sudah ada. Akan ditimpa.',
-      saveVariable: 'Simpan Variabel',
     },
     projectImport: {
       title: 'Impor Proyek',

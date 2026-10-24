@@ -228,7 +228,6 @@ const hi = {
       selectorRequired: 'सेलेक्टर आवश्यक है',
       selectEnvironmentError: 'कृपया एक एनवायरनमेंट चुनें',
       duplicateWarning: 'इस नाम का वैरिएबल पहले से मौजूद है। इसे अधिलेखित किया जाएगा।',
-      saveVariable: 'वैरिएबल सहेजें',
     },
     projectImport: {
       title: 'प्रोजेक्ट आयात करें',

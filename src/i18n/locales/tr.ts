@@ -228,7 +228,6 @@ const tr = {
       selectorRequired: 'Seçici gereklidir',
       selectEnvironmentError: 'Lütfen bir ortam seçin',
       duplicateWarning: 'Bu ada sahip bir değişken zaten var. Üzerine yazılacak.',
-      saveVariable: 'Değişkeni Kaydet',
     },
     projectImport: {
       title: 'Projeyi İçe Aktar',

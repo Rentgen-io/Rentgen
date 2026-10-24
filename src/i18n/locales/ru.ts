@@ -228,7 +228,6 @@ const ru = {
       selectorRequired: 'Селектор обязателен',
       selectEnvironmentError: 'Пожалуйста, выберите окружение',
       duplicateWarning: 'Переменная с таким именем уже существует. Она будет перезаписана.',
-      saveVariable: 'Сохранить переменную',
     },
     projectImport: {
       title: 'Импорт проекта',

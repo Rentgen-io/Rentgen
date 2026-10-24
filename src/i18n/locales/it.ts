@@ -230,7 +230,6 @@ const it = {
       selectorRequired: 'Il selettore è obbligatorio',
       selectEnvironmentError: 'Seleziona un ambiente',
       duplicateWarning: 'Esiste già una variabile con questo nome. Verrà sovrascritta.',
-      saveVariable: 'Salva variabile',
     },
     projectImport: {
       title: 'Importa progetto',

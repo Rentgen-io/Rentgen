@@ -229,7 +229,6 @@ const ja = {
       selectorRequired: 'セレクタは必須です',
       selectEnvironmentError: '環境を選択してください',
       duplicateWarning: 'この名前のバリアブルはすでに存在します。上書きされます。',
-      saveVariable: 'バリアブルを保存',
     },
     projectImport: {
       title: 'プロジェクトをインポート',

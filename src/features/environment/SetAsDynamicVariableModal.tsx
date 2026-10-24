@@ -132,12 +132,13 @@ export default function SetAsDynamicVariableModal() {
     }
 
     dispatch(modalsActions.closeSetAsDynamicVariableModal());
+    notify.success(t('common.saved'), { toastId: 'success-set-dynamic-variable' });
   };
 
   return (
     <ConfirmationModal
       className="[&>div]:w-150!"
-      confirmText={duplicateToOverwrite ? t('common.overwrite') : t('modals.setDynamicVariable.saveVariable')}
+      confirmText={duplicateToOverwrite ? t('common.overwrite') : t('common.save')}
       title={t('modals.setDynamicVariable.title')}
       isOpen={modalState.isOpen}
       confirmType={ButtonType.PRIMARY}

@@ -229,7 +229,6 @@ const nl = {
       selectorRequired: 'Selector is verplicht',
       selectEnvironmentError: 'Selecteer een omgeving',
       duplicateWarning: 'Er bestaat al een variabele met deze naam. Deze wordt overschreven.',
-      saveVariable: 'Variabele opslaan',
     },
     projectImport: {
       title: 'Project importeren',

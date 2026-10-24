@@ -228,7 +228,6 @@ const vi = {
       selectorRequired: 'Bắt buộc phải có bộ chọn',
       selectEnvironmentError: 'Vui lòng chọn một môi trường',
       duplicateWarning: 'Một biến với tên này đã tồn tại. Nó sẽ bị ghi đè.',
-      saveVariable: 'Lưu biến',
     },
     projectImport: {
       title: 'Nhập dự án',
