@@ -78,7 +78,7 @@ export function AiProviderSettings() {
   const handleStopAdding = () => setIsAdding(false);
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <SettingsHeader>
         <span>{t('settings.ai.connectTitle')}</span>
         {activeAiProvider && (
@@ -115,7 +115,7 @@ export function AiProviderSettings() {
           {t('common.add')}
         </Button>
       )}
-    </>
+    </div>
   );
 }
 

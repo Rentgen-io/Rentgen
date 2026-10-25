@@ -14,7 +14,13 @@ export const defaultSettings: SettingsState = {
     },
   },
   ai: {
-    licenseKey: null,
+    license: {
+      key: null,
+      trialUsed: false,
+      valid: false,
+      status: 'invalid',
+      error: '',
+    },
     providers: [],
   },
   testEngine: {

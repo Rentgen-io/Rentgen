@@ -5,14 +5,10 @@ import { Accordion } from 'src/components/accordion/Accordion';
 import { AccordionItem } from 'src/components/accordion/AccordionItem';
 import Button from 'src/components/buttons/Button';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
+import { useLicense } from 'src/hooks/useLicense';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import {
-  selectActiveAiProvider,
-  selectAiActiveTab,
-  selectLicenseKey,
-  selectSelectedRequestId,
-} from 'src/store/selectors';
+import { selectActiveAiProvider, selectAiActiveTab, selectSelectedRequestId } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { uiActions } from 'src/store/slices/uiSlice';
@@ -22,7 +18,6 @@ import {
   ERROR_RESPONSE_EXPECTED,
   SUCCESS_RESPONSE_EXPECTED,
 } from 'src/test-engine';
-import { verifyLicense } from 'src/utils';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
 import { TestRunControls } from '../controls/TestRunControls';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
@@ -42,11 +37,11 @@ export default function AiTestingPanel() {
     executeAiTest,
     executePendingAiTests,
   } = useTests();
+  const { isValidating, license, validateLicense } = useLicense();
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
   const aiActiveTab = useAppSelector(selectAiActiveTab);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
-  const licenseKey = useAppSelector(selectLicenseKey);
 
   const [showAiRequestMaskControls, setShowAiRequestMaskControls] = useState<boolean>(false);
 
@@ -232,9 +227,11 @@ export default function AiTestingPanel() {
               <p className="m-0 text-sm">{t('tests.aiTestingDescription')}</p>
               <Button
                 className="@xl:self-center"
-                disabled={isRunningTests}
+                disabled={isRunningTests || isValidating}
                 onClick={async () => {
-                  const result = await verifyLicense(licenseKey);
+                  if (isValidating) return;
+
+                  const result = await validateLicense(license?.key ?? null);
                   if (!result.valid || !activeAiProvider) {
                     dispatch(modalsActions.openSettingsModal(2));
                     return;

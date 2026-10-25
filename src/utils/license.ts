@@ -21,8 +21,8 @@ export interface LicenseInfo {
 }
 
 export type LicenseResult =
-  | { valid: true; status: 'valid'; license: LicenseInfo }
-  | { valid: false; status: 'expired' | 'not_yet_valid'; error: string; license: LicenseInfo }
+  | { valid: true; status: 'valid'; info: LicenseInfo }
+  | { valid: false; status: 'expired' | 'not_yet_valid'; error: string; info: LicenseInfo }
   | { valid: false; status: 'invalid'; error: string };
 
 export interface VerifyOptions {
@@ -142,17 +142,17 @@ export async function verifyLicense(
     const claims = decodeJson(payloadB64);
     if (!isLicenseClaims(claims)) return invalid('Invalid license claims');
 
-    const license: LicenseInfo = {
+    const info: LicenseInfo = {
       company: claims.company,
       plan: claims.plan,
       startsOn: claims.startsOn,
       expiresOn: claims.expiresOn,
-      daysLeft: Math.max(0, Math.ceil((claims.exp - now) / DAY_SECONDS)),
+      daysLeft: Math.round((claims.exp - now) / DAY_SECONDS),
     };
 
-    if (now < claims.nbf) return { valid: false, status: 'not_yet_valid', error: 'License is not yet valid', license };
-    if (now >= claims.exp) return { valid: false, status: 'expired', error: 'License has expired', license };
-    return { valid: true, status: 'valid', license };
+    if (now < claims.nbf) return { valid: false, status: 'not_yet_valid', error: 'License is not yet valid', info };
+    if (now >= claims.exp) return { valid: false, status: 'expired', error: 'License has expired', info };
+    return { valid: true, status: 'valid', info };
   } catch (error: unknown) {
     return invalid(error instanceof Error ? error.message : 'Invalid license key');
   }
@@ -162,7 +162,7 @@ export function showLicenseMessage(result: LicenseResult): void {
   switch (result.status) {
     case 'valid':
       notify.success(
-        i18n.t('settings.ai.validLicense', { company: result.license.company, expiresOn: result.license.expiresOn }),
+        i18n.t('settings.ai.validLicense', { company: result.info.company, expiresOn: result.info.expiresOn }),
         {
           toastId: 'success-license-validation',
         },
@@ -172,7 +172,7 @@ export function showLicenseMessage(result: LicenseResult): void {
       notify.error(i18n.t('settings.ai.expiredLicense'), { toastId: 'error-license-validation' });
       break;
     case 'not_yet_valid':
-      notify.warning(i18n.t('settings.ai.notYetValidLicense', { startsOn: result.license.startsOn }), {
+      notify.warning(i18n.t('settings.ai.notYetValidLicense', { startsOn: result.info.startsOn }), {
         toastId: 'error-license-warning',
       });
       break;

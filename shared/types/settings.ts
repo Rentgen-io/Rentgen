@@ -1,4 +1,5 @@
 import { Interval } from 'shared/types/testing';
+import { LicenseResult } from 'src/utils';
 
 export const LANGUAGES = [
   { code: 'en', label: 'English' },
@@ -39,6 +40,11 @@ export type AiProvider = {
   type: AiProviderType;
 };
 
+export type License = LicenseResult & {
+  key: string | null;
+  trialUsed: boolean;
+};
+
 export interface SettingsState {
   cli: unknown;
   general: {
@@ -49,7 +55,7 @@ export interface SettingsState {
     };
   };
   ai: {
-    licenseKey: string | null;
+    license: License;
     providers: AiProvider[];
   };
   testEngine: {
