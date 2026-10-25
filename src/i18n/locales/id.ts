@@ -278,12 +278,12 @@ const id = {
     ai: {
       name: 'AI',
       unlockTitle: 'Buka Pengujian AI Lebih Dalam',
-      unlockDescription: 'Memerlukan lisensi sekali bayar.',
+      unlockDescription: 'Memerlukan lisensi Rentgen Pro. Coba gratis sebelum membeli.',
       month: 'Bulan',
-      billedAnnually: 'Ditagih tahunan ({{price}}/tahun)',
+      billedAnnually: 'Ditagih tahunan (€{{price}}/tahun)',
       startFreeTrial: 'Mulai uji coba gratis',
       buyPro: 'Beli Pro - €{{price}}/bulan',
-      oneTimePayment:
+      oneAnnualPayment:
         'Satu pembayaran tahunan sebesar €{{price}} · Lisensi offline. Penggunaan model ditagih oleh penyedia yang Anda pilih.',
       alreadyHaveLicenseKey: 'Saya sudah punya kunci lisensi',
       activateLicense: 'Aktifkan lisensi',
@@ -292,7 +292,6 @@ const id = {
       notYetValidLicense: 'Kunci lisensi ini berlaku mulai {{startsOn}}.',
       invalidLicense: 'Kunci lisensi ini tidak valid.',
       licenseKey: 'Kunci lisensi',
-      invalidLicenseKey: 'Kunci lisensi tidak valid',
       connectTitle: 'Hubungkan penyedia AI',
       connectDescription: 'Rentgen mengirim permintaan langsung dari perangkat ini.',
       provider: 'Penyedia',

@@ -280,12 +280,12 @@ const pl = {
     ai: {
       name: 'AI',
       unlockTitle: 'Odblokuj głębsze testy AI',
-      unlockDescription: 'Wymagana jednorazowa licencja.',
+      unlockDescription: 'Wymaga licencji Rentgen Pro. Wypróbuj za darmo przed zakupem.',
       month: 'Miesiąc',
-      billedAnnually: 'Rozliczane rocznie ({{price}}/rok)',
+      billedAnnually: 'Rozliczane rocznie (€{{price}}/rok)',
       startFreeTrial: 'Rozpocznij bezpłatny okres próbny',
       buyPro: 'Kup Pro - €{{price}}/miesiąc',
-      oneTimePayment:
+      oneAnnualPayment:
         'Jedna roczna płatność w wysokości €{{price}} · Licencja offline. Za użycie modelu rozlicza wybrany przez Ciebie dostawca.',
       alreadyHaveLicenseKey: 'Mam już klucz licencyjny',
       activateLicense: 'Aktywuj licencję',
@@ -294,7 +294,6 @@ const pl = {
       notYetValidLicense: 'Ten klucz licencyjny jest ważny od {{startsOn}}.',
       invalidLicense: 'Ten klucz licencyjny jest nieprawidłowy.',
       licenseKey: 'Klucz licencyjny',
-      invalidLicenseKey: 'Nieprawidłowy klucz licencyjny',
       connectTitle: 'Połącz dostawcę AI',
       connectDescription: 'Rentgen wysyła żądania bezpośrednio z tego urządzenia.',
       provider: 'Dostawca',

@@ -279,12 +279,12 @@ const ru = {
     ai: {
       name: 'AI',
       unlockTitle: 'Разблокировать углублённое ИИ-тестирование',
-      unlockDescription: 'Требуется разовая лицензия.',
+      unlockDescription: 'Требуется лицензия Rentgen Pro. Попробуйте бесплатно перед покупкой.',
       month: 'Месяц',
-      billedAnnually: 'Оплата раз в год ({{price}}/год)',
+      billedAnnually: 'Оплата раз в год (€{{price}}/год)',
       startFreeTrial: 'Начать бесплатный пробный период',
       buyPro: 'Купить Pro - €{{price}}/месяц',
-      oneTimePayment:
+      oneAnnualPayment:
         'Один ежегодный платёж €{{price}} · Офлайн-лицензия. Использование модели оплачивается выбранному вами провайдеру.',
       alreadyHaveLicenseKey: 'У меня уже есть лицензионный ключ',
       activateLicense: 'Активировать лицензию',
@@ -293,7 +293,6 @@ const ru = {
       notYetValidLicense: 'Этот лицензионный ключ действителен с {{startsOn}}.',
       invalidLicense: 'Этот лицензионный ключ недействителен.',
       licenseKey: 'Лицензионный ключ',
-      invalidLicenseKey: 'Неверный лицензионный ключ',
       connectTitle: 'Подключить ИИ-провайдера',
       connectDescription: 'Rentgen отправляет запросы напрямую с этого устройства.',
       provider: 'Провайдер',

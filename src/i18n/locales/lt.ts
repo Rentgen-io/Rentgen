@@ -278,12 +278,12 @@ const lt = {
     ai: {
       name: 'AI',
       unlockTitle: 'Atrakinti gilesnį DI testavimą',
-      unlockDescription: 'Reikalinga vienkartinė licencija.',
+      unlockDescription: 'Reikalinga Rentgen Pro licencija. Išbandykite nemokamai prieš pirkdami.',
       month: 'Mėn.',
-      billedAnnually: 'Apmokama kasmet ({{price}}/metus)',
+      billedAnnually: 'Apmokama kasmet (€{{price}}/metus)',
       startFreeTrial: 'Pradėti nemokamą bandomąjį laikotarpį',
       buyPro: 'Pirkti Pro - €{{price}}/mėn.',
-      oneTimePayment:
+      oneAnnualPayment:
         'Vienas metinis €{{price}} mokėjimas · Neprisijungus veikianti licencija. Už modelio naudojimą atsiskaitoma pasirinktam tiekėjui.',
       alreadyHaveLicenseKey: 'Jau turiu licencijos raktą',
       activateLicense: 'Aktyvinti licenciją',
@@ -292,7 +292,6 @@ const lt = {
       notYetValidLicense: 'Šis licencijos raktas galioja nuo {{startsOn}}.',
       invalidLicense: 'Šis licencijos raktas neteisingas.',
       licenseKey: 'Licencijos raktas',
-      invalidLicenseKey: 'Neteisingas licencijos raktas',
       connectTitle: 'Prijungti DI tiekėją',
       connectDescription: 'Rentgen siunčia užklausas tiesiai iš šio įrenginio.',
       provider: 'Tiekėjas',

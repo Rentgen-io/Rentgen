@@ -280,12 +280,12 @@ const nl = {
     ai: {
       name: 'AI',
       unlockTitle: 'Diepgaander AI-testen ontgrendelen',
-      unlockDescription: 'Eenmalige licentie vereist.',
+      unlockDescription: 'Vereist een Rentgen Pro-licentie. Probeer het gratis voordat je koopt.',
       month: 'Maand',
-      billedAnnually: 'Jaarlijks gefactureerd ({{price}}/jaar)',
+      billedAnnually: 'Jaarlijks gefactureerd (€{{price}}/jaar)',
       startFreeTrial: 'Gratis proefperiode starten',
       buyPro: 'Pro kopen - €{{price}}/maand',
-      oneTimePayment:
+      oneAnnualPayment:
         'Eén jaarlijkse betaling van €{{price}} · Offline licentie. Modelgebruik wordt gefactureerd door de provider die je kiest.',
       alreadyHaveLicenseKey: 'Ik heb al een licentiesleutel',
       activateLicense: 'Licentie activeren',
@@ -294,7 +294,6 @@ const nl = {
       notYetValidLicense: 'Deze licentiesleutel is geldig vanaf {{startsOn}}.',
       invalidLicense: 'Deze licentiesleutel is ongeldig.',
       licenseKey: 'Licentiesleutel',
-      invalidLicenseKey: 'Ongeldige licentiesleutel',
       connectTitle: 'Een AI-provider verbinden',
       connectDescription: 'Rentgen verstuurt verzoeken rechtstreeks vanaf dit apparaat.',
       provider: 'Provider',

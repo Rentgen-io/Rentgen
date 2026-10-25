@@ -279,12 +279,12 @@ const vi = {
     ai: {
       name: 'AI',
       unlockTitle: 'Mở khóa kiểm thử AI chuyên sâu',
-      unlockDescription: 'Cần giấy phép trả một lần.',
+      unlockDescription: 'Yêu cầu giấy phép Rentgen Pro. Dùng thử miễn phí trước khi mua.',
       month: 'Tháng',
-      billedAnnually: 'Thanh toán hằng năm ({{price}}/năm)',
+      billedAnnually: 'Thanh toán hằng năm (€{{price}}/năm)',
       startFreeTrial: 'Bắt đầu dùng thử miễn phí',
       buyPro: 'Mua Pro - €{{price}}/tháng',
-      oneTimePayment:
+      oneAnnualPayment:
         'Một lần thanh toán hằng năm €{{price}} · Giấy phép ngoại tuyến. Việc sử dụng mô hình do nhà cung cấp bạn chọn tính phí.',
       alreadyHaveLicenseKey: 'Tôi đã có khóa giấy phép',
       activateLicense: 'Kích hoạt giấy phép',
@@ -293,7 +293,6 @@ const vi = {
       notYetValidLicense: 'Khóa giấy phép này có hiệu lực từ {{startsOn}}.',
       invalidLicense: 'Khóa giấy phép này không hợp lệ.',
       licenseKey: 'Khóa giấy phép',
-      invalidLicenseKey: 'Khóa giấy phép không hợp lệ',
       connectTitle: 'Kết nối nhà cung cấp AI',
       connectDescription: 'Rentgen gửi yêu cầu trực tiếp từ thiết bị này.',
       provider: 'Nhà cung cấp',

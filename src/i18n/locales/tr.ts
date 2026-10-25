@@ -279,12 +279,12 @@ const tr = {
     ai: {
       name: 'AI',
       unlockTitle: 'Daha Derin YZ Testlerinin Kilidini Aç',
-      unlockDescription: 'Tek seferlik lisans gerekir.',
+      unlockDescription: 'Rentgen Pro lisansı gerekir. Satın almadan önce ücretsiz deneyin.',
       month: 'Ay',
-      billedAnnually: 'Yıllık faturalandırılır ({{price}}/yıl)',
+      billedAnnually: 'Yıllık faturalandırılır (€{{price}}/yıl)',
       startFreeTrial: 'Ücretsiz denemeyi başlat',
       buyPro: 'Pro satın al - €{{price}}/ay',
-      oneTimePayment:
+      oneAnnualPayment:
         'Yılda tek seferlik €{{price}} ödeme · Çevrimdışı lisans. Model kullanımınız seçtiğiniz sağlayıcı tarafından faturalandırılır.',
       alreadyHaveLicenseKey: 'Zaten bir lisans anahtarım var',
       activateLicense: 'Lisansı etkinleştir',
@@ -293,7 +293,6 @@ const tr = {
       notYetValidLicense: 'Bu lisans anahtarı {{startsOn}} tarihinden itibaren geçerlidir.',
       invalidLicense: 'Bu lisans anahtarı geçersiz.',
       licenseKey: 'Lisans anahtarı',
-      invalidLicenseKey: 'Geçersiz lisans anahtarı',
       connectTitle: 'Bir YZ sağlayıcısı bağla',
       connectDescription: 'Rentgen istekleri doğrudan bu cihazdan gönderir.',
       provider: 'Sağlayıcı',

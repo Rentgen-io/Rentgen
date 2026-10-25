@@ -278,12 +278,12 @@ const th = {
     ai: {
       name: 'AI',
       unlockTitle: 'ปลดล็อกการทดสอบด้วย AI เชิงลึก',
-      unlockDescription: 'ต้องใช้ไลเซนส์แบบจ่ายครั้งเดียว',
+      unlockDescription: 'ต้องใช้ไลเซนส์ Rentgen Pro ทดลองใช้ฟรีก่อนซื้อ',
       month: 'เดือน',
-      billedAnnually: 'เรียกเก็บเงินรายปี ({{price}}/ปี)',
+      billedAnnually: 'เรียกเก็บเงินรายปี (€{{price}}/ปี)',
       startFreeTrial: 'เริ่มทดลองใช้ฟรี',
       buyPro: 'ซื้อ Pro - €{{price}}/เดือน',
-      oneTimePayment:
+      oneAnnualPayment:
         'ชำระรายปีครั้งเดียว €{{price}} · ไลเซนส์แบบออฟไลน์ การใช้งานโมเดลจะเรียกเก็บเงินโดยผู้ให้บริการที่คุณเลือก',
       alreadyHaveLicenseKey: 'ฉันมีคีย์ไลเซนส์อยู่แล้ว',
       activateLicense: 'เปิดใช้งานไลเซนส์',
@@ -292,7 +292,6 @@ const th = {
       notYetValidLicense: 'คีย์ไลเซนส์นี้ใช้ได้ตั้งแต่ {{startsOn}}',
       invalidLicense: 'คีย์ไลเซนส์นี้ไม่ถูกต้อง',
       licenseKey: 'คีย์ไลเซนส์',
-      invalidLicenseKey: 'คีย์ไลเซนส์ไม่ถูกต้อง',
       connectTitle: 'เชื่อมต่อผู้ให้บริการ AI',
       connectDescription: 'Rentgen ส่งคำขอโดยตรงจากอุปกรณ์นี้',
       provider: 'ผู้ให้บริการ',

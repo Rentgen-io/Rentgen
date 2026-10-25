@@ -278,12 +278,12 @@ const uk = {
     ai: {
       name: 'AI',
       unlockTitle: 'Розблокувати поглиблене ШІ-тестування',
-      unlockDescription: 'Потрібна одноразова ліцензія.',
+      unlockDescription: 'Потрібна ліцензія Rentgen Pro. Спробуйте безкоштовно перед покупкою.',
       month: 'Місяць',
-      billedAnnually: 'Оплата раз на рік ({{price}}/рік)',
+      billedAnnually: 'Оплата раз на рік (€{{price}}/рік)',
       startFreeTrial: 'Почати безкоштовний пробний період',
       buyPro: 'Купити Pro - €{{price}}/місяць',
-      oneTimePayment:
+      oneAnnualPayment:
         'Один щорічний платіж €{{price}} · Офлайн-ліцензія. Використання моделі оплачується обраному вами провайдеру.',
       alreadyHaveLicenseKey: 'У мене вже є ліцензійний ключ',
       activateLicense: 'Активувати ліцензію',
@@ -292,7 +292,6 @@ const uk = {
       notYetValidLicense: 'Цей ліцензійний ключ дійсний з {{startsOn}}.',
       invalidLicense: 'Цей ліцензійний ключ недійсний.',
       licenseKey: 'Ліцензійний ключ',
-      invalidLicenseKey: 'Невірний ліцензійний ключ',
       connectTitle: 'Підключити ШІ-провайдера',
       connectDescription: 'Rentgen надсилає запити безпосередньо з цього пристрою.',
       provider: 'Провайдер',

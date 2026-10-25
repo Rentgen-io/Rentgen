@@ -280,12 +280,12 @@ const ja = {
     ai: {
       name: 'AI',
       unlockTitle: 'より深いAIテストをアンロック',
-      unlockDescription: '買い切りライセンスが必要です。',
+      unlockDescription: 'Rentgen Pro ライセンスが必要です。購入前に無料でお試しいただけます。',
       month: '月',
-      billedAnnually: '年払い（{{price}}/年）',
+      billedAnnually: '年払い（€{{price}}/年）',
       startFreeTrial: '無料トライアルを開始',
       buyPro: 'Proを購入 - €{{price}}/月',
-      oneTimePayment:
+      oneAnnualPayment:
         '年1回のお支払い €{{price}} · オフラインライセンス。モデルの利用料は選択したプロバイダーから請求されます。',
       alreadyHaveLicenseKey: 'ライセンスキーをすでに持っています',
       activateLicense: 'ライセンスを有効化',
@@ -294,7 +294,6 @@ const ja = {
       notYetValidLicense: 'このライセンスキーは {{startsOn}} から有効です。',
       invalidLicense: 'このライセンスキーは無効です。',
       licenseKey: 'ライセンスキー',
-      invalidLicenseKey: 'ライセンスキーが無効です',
       connectTitle: 'AIプロバイダーを接続',
       connectDescription: 'Rentgenはこのデバイスから直接リクエストを送信します。',
       provider: 'プロバイダー',

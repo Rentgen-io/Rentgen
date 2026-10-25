@@ -281,12 +281,12 @@ const ptBR = {
     ai: {
       name: 'AI',
       unlockTitle: 'Desbloquear testes de IA mais profundos',
-      unlockDescription: 'Licença de pagamento único necessária.',
+      unlockDescription: 'Requer uma licença Rentgen Pro. Experimente grátis antes de comprar.',
       month: 'Mês',
-      billedAnnually: 'Cobrado anualmente ({{price}}/ano)',
+      billedAnnually: 'Cobrado anualmente (€{{price}}/ano)',
       startFreeTrial: 'Iniciar avaliação gratuita',
       buyPro: 'Comprar Pro - €{{price}}/mês',
-      oneTimePayment:
+      oneAnnualPayment:
         'Um pagamento anual de €{{price}} · Licença offline. O uso do modelo é cobrado pelo provedor que você escolher.',
       alreadyHaveLicenseKey: 'Já tenho uma chave de licença',
       activateLicense: 'Ativar licença',
@@ -295,7 +295,6 @@ const ptBR = {
       notYetValidLicense: 'Esta chave de licença é válida a partir de {{startsOn}}.',
       invalidLicense: 'Esta chave de licença é inválida.',
       licenseKey: 'Chave de licença',
-      invalidLicenseKey: 'Chave de licença inválida',
       connectTitle: 'Conectar um provedor de IA',
       connectDescription: 'O Rentgen envia as requisições diretamente deste dispositivo.',
       provider: 'Provedor',

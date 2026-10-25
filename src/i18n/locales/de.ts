@@ -280,12 +280,12 @@ const de = {
     ai: {
       name: 'AI',
       unlockTitle: 'Tiefere KI-Tests freischalten',
-      unlockDescription: 'Einmalige Lizenz erforderlich.',
+      unlockDescription: 'Erfordert eine Rentgen Pro-Lizenz. Testen Sie sie vor dem Kauf kostenlos.',
       month: 'Monat',
-      billedAnnually: 'Jährliche Abrechnung ({{price}}/Jahr)',
+      billedAnnually: 'Jährliche Abrechnung (€{{price}}/Jahr)',
       startFreeTrial: 'Kostenlos testen',
       buyPro: 'Pro kaufen - €{{price}}/Monat',
-      oneTimePayment:
+      oneAnnualPayment:
         'Eine jährliche Zahlung von €{{price}} · Offline-Lizenz. Die Modellnutzung wird von Ihrem gewählten Anbieter abgerechnet.',
       alreadyHaveLicenseKey: 'Ich habe bereits einen Lizenzschlüssel',
       activateLicense: 'Lizenz aktivieren',
@@ -294,7 +294,6 @@ const de = {
       notYetValidLicense: 'Dieser Lizenzschlüssel ist ab {{startsOn}} gültig.',
       invalidLicense: 'Dieser Lizenzschlüssel ist ungültig.',
       licenseKey: 'Lizenzschlüssel',
-      invalidLicenseKey: 'Ungültiger Lizenzschlüssel',
       connectTitle: 'KI-Anbieter verbinden',
       connectDescription: 'Rentgen sendet Anfragen direkt von diesem Gerät.',
       provider: 'Anbieter',

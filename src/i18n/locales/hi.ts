@@ -278,12 +278,12 @@ const hi = {
     ai: {
       name: 'AI',
       unlockTitle: 'गहन AI परीक्षण अनलॉक करें',
-      unlockDescription: 'एक बार का लाइसेंस आवश्यक है।',
+      unlockDescription: 'Rentgen Pro लाइसेंस आवश्यक है। खरीदने से पहले इसे निःशुल्क आज़माएँ।',
       month: 'माह',
-      billedAnnually: 'वार्षिक बिलिंग ({{price}}/वर्ष)',
+      billedAnnually: 'वार्षिक बिलिंग (€{{price}}/वर्ष)',
       startFreeTrial: 'निःशुल्क परीक्षण शुरू करें',
       buyPro: 'Pro खरीदें - €{{price}}/माह',
-      oneTimePayment:
+      oneAnnualPayment:
         '€{{price}} का एक वार्षिक भुगतान · ऑफ़लाइन लाइसेंस। मॉडल उपयोग का बिल आपके चुने हुए प्रदाता द्वारा लिया जाता है।',
       alreadyHaveLicenseKey: 'मेरे पास पहले से लाइसेंस कुंजी है',
       activateLicense: 'लाइसेंस सक्रिय करें',
@@ -292,7 +292,6 @@ const hi = {
       notYetValidLicense: 'यह लाइसेंस कुंजी {{startsOn}} से मान्य है।',
       invalidLicense: 'यह लाइसेंस कुंजी अमान्य है।',
       licenseKey: 'लाइसेंस कुंजी',
-      invalidLicenseKey: 'अमान्य लाइसेंस कुंजी',
       connectTitle: 'AI प्रदाता कनेक्ट करें',
       connectDescription: 'Rentgen अनुरोध सीधे इसी डिवाइस से भेजता है।',
       provider: 'प्रदाता',
