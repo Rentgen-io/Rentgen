@@ -45,6 +45,7 @@ const zhCN = {
     certificated: '已生成证书',
     duplicate: '创建副本',
     add: '添加',
+    back: '返回',
   },
 
   // Sidebar
@@ -285,8 +286,10 @@ const zhCN = {
       oneAnnualPayment: '每年支付一次 €{{price}} · 离线许可证。模型使用费用由您选择的提供商计费。',
       alreadyHaveLicenseKey: '我已有许可证密钥',
       activateLicense: '激活许可证',
+      reactivateLicense: '重新激活许可证',
       validLicense: '授权给 {{company}} · 有效期至 {{expiresOn}}',
       expiredLicense: '此许可证密钥已过期。',
+      trialUsedLicense: '试用许可证已被使用。',
       notYetValidLicense: '此许可证密钥自 {{startsOn}} 起生效。',
       invalidLicense: '此许可证密钥无效。',
       licenseKey: '许可证密钥',
@@ -296,6 +299,7 @@ const zhCN = {
       expiresToday: '今天到期',
       expired: '许可证已过期',
       expiresOn: '{{date, datetime(dateStyle: medium)}} 到期',
+      manageLicense: '管理许可证',
       connectTitle: '连接 AI 提供商',
       connectDescription: 'Rentgen 直接从本设备发送请求。',
       provider: '提供商',

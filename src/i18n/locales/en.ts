@@ -45,6 +45,7 @@ const en = {
     certificated: 'Certificated',
     duplicate: 'Duplicate',
     add: 'Add',
+    back: 'Back',
   },
 
   // Sidebar
@@ -288,8 +289,10 @@ const en = {
         'One annual payment of €{{price}} · Offline license. Your model usage is billed by your chosen provider.',
       alreadyHaveLicenseKey: 'I already have a license key',
       activateLicense: 'Activate License',
+      reactivateLicense: 'Reactivate License',
       validLicense: 'Licensed to {{company}} · valid until {{expiresOn}}',
       expiredLicense: 'This license key has expired.',
+      trialUsedLicense: 'Trial license has already been used.',
       notYetValidLicense: 'This license key is valid from {{startsOn}}.',
       invalidLicense: 'This license key is invalid.',
       licenseKey: 'License key',
@@ -299,6 +302,7 @@ const en = {
       expiresToday: 'Expires today',
       expired: 'License expired',
       expiresOn: 'expires {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Manage license',
       connectTitle: 'Connect an AI provider',
       connectDescription: 'Rentgen sends requests directly from this device.',
       provider: 'Provider',

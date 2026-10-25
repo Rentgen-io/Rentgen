@@ -45,6 +45,7 @@ const th = {
     certificated: 'รับรองแล้ว',
     duplicate: 'ทำสำเนา',
     add: 'เพิ่ม',
+    back: 'ย้อนกลับ',
   },
 
   // Sidebar
@@ -288,8 +289,10 @@ const th = {
         'ชำระรายปีครั้งเดียว €{{price}} · ไลเซนส์แบบออฟไลน์ การใช้งานโมเดลจะเรียกเก็บเงินโดยผู้ให้บริการที่คุณเลือก',
       alreadyHaveLicenseKey: 'ฉันมีคีย์ไลเซนส์อยู่แล้ว',
       activateLicense: 'เปิดใช้งานไลเซนส์',
+      reactivateLicense: 'เปิดใช้งานไลเซนส์อีกครั้ง',
       validLicense: 'ไลเซนส์สำหรับ {{company}} · ใช้ได้ถึง {{expiresOn}}',
       expiredLicense: 'คีย์ไลเซนส์นี้หมดอายุแล้ว',
+      trialUsedLicense: 'ไลเซนส์ทดลองถูกใช้งานไปแล้ว',
       notYetValidLicense: 'คีย์ไลเซนส์นี้ใช้ได้ตั้งแต่ {{startsOn}}',
       invalidLicense: 'คีย์ไลเซนส์นี้ไม่ถูกต้อง',
       licenseKey: 'คีย์ไลเซนส์',
@@ -299,6 +302,7 @@ const th = {
       expiresToday: 'หมดอายุวันนี้',
       expired: 'ไลเซนส์หมดอายุแล้ว',
       expiresOn: 'หมดอายุ {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'จัดการไลเซนส์',
       connectTitle: 'เชื่อมต่อผู้ให้บริการ AI',
       connectDescription: 'Rentgen ส่งคำขอโดยตรงจากอุปกรณ์นี้',
       provider: 'ผู้ให้บริการ',

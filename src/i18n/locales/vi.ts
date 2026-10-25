@@ -45,6 +45,7 @@ const vi = {
     certificated: 'Đã chứng nhận',
     duplicate: 'Nhân bản',
     add: 'Thêm',
+    back: 'Quay lại',
   },
 
   // Sidebar
@@ -289,8 +290,10 @@ const vi = {
         'Một lần thanh toán hằng năm €{{price}} · Giấy phép ngoại tuyến. Việc sử dụng mô hình do nhà cung cấp bạn chọn tính phí.',
       alreadyHaveLicenseKey: 'Tôi đã có khóa giấy phép',
       activateLicense: 'Kích hoạt giấy phép',
+      reactivateLicense: 'Kích hoạt lại giấy phép',
       validLicense: 'Cấp phép cho {{company}} · có hiệu lực đến {{expiresOn}}',
       expiredLicense: 'Khóa giấy phép này đã hết hạn.',
+      trialUsedLicense: 'Giấy phép dùng thử đã được sử dụng.',
       notYetValidLicense: 'Khóa giấy phép này có hiệu lực từ {{startsOn}}.',
       invalidLicense: 'Khóa giấy phép này không hợp lệ.',
       licenseKey: 'Khóa giấy phép',
@@ -300,6 +303,7 @@ const vi = {
       expiresToday: 'Hết hạn hôm nay',
       expired: 'Giấy phép đã hết hạn',
       expiresOn: 'hết hạn vào {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Quản lý giấy phép',
       connectTitle: 'Kết nối nhà cung cấp AI',
       connectDescription: 'Rentgen gửi yêu cầu trực tiếp từ thiết bị này.',
       provider: 'Nhà cung cấp',

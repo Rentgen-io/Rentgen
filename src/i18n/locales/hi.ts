@@ -45,6 +45,7 @@ const hi = {
     certificated: 'सर्टिफाइड',
     duplicate: 'डुप्लिकेट करें',
     add: 'जोड़ें',
+    back: 'वापस',
   },
 
   // Sidebar
@@ -288,8 +289,10 @@ const hi = {
         '€{{price}} का एक वार्षिक भुगतान · ऑफ़लाइन लाइसेंस। मॉडल उपयोग का बिल आपके चुने हुए प्रदाता द्वारा लिया जाता है।',
       alreadyHaveLicenseKey: 'मेरे पास पहले से लाइसेंस कुंजी है',
       activateLicense: 'लाइसेंस सक्रिय करें',
+      reactivateLicense: 'लाइसेंस फिर से सक्रिय करें',
       validLicense: '{{company}} को लाइसेंस प्राप्त · {{expiresOn}} तक मान्य',
       expiredLicense: 'इस लाइसेंस कुंजी की समय-सीमा समाप्त हो गई है।',
+      trialUsedLicense: 'ट्रायल लाइसेंस पहले ही उपयोग किया जा चुका है।',
       notYetValidLicense: 'यह लाइसेंस कुंजी {{startsOn}} से मान्य है।',
       invalidLicense: 'यह लाइसेंस कुंजी अमान्य है।',
       licenseKey: 'लाइसेंस कुंजी',
@@ -299,6 +302,7 @@ const hi = {
       expiresToday: 'आज समाप्त हो रहा है',
       expired: 'लाइसेंस समाप्त हो गया',
       expiresOn: '{{date, datetime(dateStyle: medium)}} को समाप्त होगा',
+      manageLicense: 'लाइसेंस प्रबंधित करें',
       connectTitle: 'AI प्रदाता कनेक्ट करें',
       connectDescription: 'Rentgen अनुरोध सीधे इसी डिवाइस से भेजता है।',
       provider: 'प्रदाता',

@@ -1,11 +1,18 @@
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLicense } from 'src/hooks/useLicense';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectShowLicenseSettings } from 'src/store/selectors';
+import { uiActions } from 'src/store/slices/uiSlice';
 import { AiLicenseSettings } from './AiLicenseSettings';
 import { AiProviderSettings } from './AiProviderSettings';
-import { useTranslation } from 'react-i18next';
 
 export function AiSettings() {
+  const dispatch = useAppDispatch();
+
+  const showLicenseSettings = useAppSelector(selectShowLicenseSettings);
+
   const { license, validateLicense } = useLicense();
   const [isLicenseValid, setIsLicenseValid] = useState<boolean | null>(null);
 
@@ -24,13 +31,16 @@ export function AiSettings() {
   if (isLicenseValid === null) return null;
   return (
     <div className="flex-1 flex flex-col justify-between gap-4">
-      {isLicenseValid ? <AiProviderSettings /> : <AiLicenseSettings />}
-      <LicenseFooter />
+      {!isLicenseValid || showLicenseSettings ? <AiLicenseSettings /> : <AiProviderSettings />}
+      <LicenseFooter
+        manage={!showLicenseSettings}
+        onClick={() => dispatch(uiActions.setShowLicenseSettings(!showLicenseSettings))}
+      />
     </div>
   );
 }
 
-function LicenseFooter() {
+function LicenseFooter({ manage, onClick }: { manage: boolean; onClick(): void }) {
   const { t } = useTranslation();
   const { license } = useLicense();
 
@@ -43,7 +53,7 @@ function LicenseFooter() {
   const warning = !expired && daysLeft <= 7;
 
   return (
-    <div className="flex gap-4 mt-t pt-4 border-t border-border dark:border-dark-border">
+    <div className="flex justify-between gap-4 mt-t pt-4 border-t border-border dark:border-dark-border">
       <span
         className={cn('text-xs', {
           'text-red-500': expired,
@@ -61,6 +71,11 @@ function LicenseFooter() {
         </strong>
         {hasDate && !expired && <> ({t('settings.ai.expiresOn', { date: expiry })})</>}
       </span>
+      {license.valid && (
+        <span className="w-fit text-xs text-button-primary hover:underline cursor-pointer" onClick={onClick}>
+          {manage ? t('settings.ai.manageLicense') : t('common.back')}
+        </span>
+      )}
     </div>
   );
 }

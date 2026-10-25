@@ -45,6 +45,7 @@ const ko = {
     certificated: '인증되었습니다',
     duplicate: '복제',
     add: '추가',
+    back: '뒤로',
   },
 
   // Sidebar
@@ -287,8 +288,10 @@ const ko = {
       oneAnnualPayment: '연 1회 €{{price}} 결제 · 오프라인 라이선스. 모델 사용 요금은 선택한 제공업체에서 청구합니다.',
       alreadyHaveLicenseKey: '이미 라이선스 키가 있습니다',
       activateLicense: '라이선스 활성화',
+      reactivateLicense: '라이선스 재활성화',
       validLicense: '{{company}}에 라이선스됨 · {{expiresOn}}까지 유효',
       expiredLicense: '이 라이선스 키는 만료되었습니다.',
+      trialUsedLicense: '체험판 라이선스는 이미 사용되었습니다.',
       notYetValidLicense: '이 라이선스 키는 {{startsOn}}부터 유효합니다.',
       invalidLicense: '이 라이선스 키는 유효하지 않습니다.',
       licenseKey: '라이선스 키',
@@ -298,6 +301,7 @@ const ko = {
       expiresToday: '오늘 만료',
       expired: '라이선스 만료됨',
       expiresOn: '{{date, datetime(dateStyle: medium)}} 만료',
+      manageLicense: '라이선스 관리',
       connectTitle: 'AI 제공업체 연결',
       connectDescription: 'Rentgen은 이 기기에서 직접 요청을 보냅니다.',
       provider: '제공자',

@@ -45,6 +45,7 @@ const ja = {
     certificated: '証明書を発行しました',
     duplicate: '複製',
     add: '追加',
+    back: '戻る',
   },
 
   // Sidebar
@@ -290,8 +291,10 @@ const ja = {
         '年1回のお支払い €{{price}} · オフラインライセンス。モデルの利用料は選択したプロバイダーから請求されます。',
       alreadyHaveLicenseKey: 'ライセンスキーをすでに持っています',
       activateLicense: 'ライセンスを有効化',
+      reactivateLicense: 'ライセンスを再有効化',
       validLicense: '{{company}} にライセンス供与 · {{expiresOn}} まで有効',
       expiredLicense: 'このライセンスキーは有効期限が切れています。',
+      trialUsedLicense: '試用ライセンスは既に使用されています。',
       notYetValidLicense: 'このライセンスキーは {{startsOn}} から有効です。',
       invalidLicense: 'このライセンスキーは無効です。',
       licenseKey: 'ライセンスキー',
@@ -301,6 +304,7 @@ const ja = {
       expiresToday: '本日で期限切れ',
       expired: 'ライセンス期限切れ',
       expiresOn: '有効期限: {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'ライセンスを管理',
       connectTitle: 'AIプロバイダーを接続',
       connectDescription: 'Rentgenはこのデバイスから直接リクエストを送信します。',
       provider: 'プロバイダー',

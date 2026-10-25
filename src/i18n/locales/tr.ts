@@ -45,6 +45,7 @@ const tr = {
     certificated: 'Sertifikalandı',
     duplicate: 'Çoğalt',
     add: 'Ekle',
+    back: 'Geri',
   },
 
   // Sidebar
@@ -289,8 +290,10 @@ const tr = {
         'Yılda tek seferlik €{{price}} ödeme · Çevrimdışı lisans. Model kullanımınız seçtiğiniz sağlayıcı tarafından faturalandırılır.',
       alreadyHaveLicenseKey: 'Zaten bir lisans anahtarım var',
       activateLicense: 'Lisansı etkinleştir',
+      reactivateLicense: 'Lisansı yeniden etkinleştir',
       validLicense: '{{company}} adına lisanslı · {{expiresOn}} tarihine kadar geçerli',
       expiredLicense: 'Bu lisans anahtarının süresi dolmuş.',
+      trialUsedLicense: 'Deneme lisansı zaten kullanılmış.',
       notYetValidLicense: 'Bu lisans anahtarı {{startsOn}} tarihinden itibaren geçerlidir.',
       invalidLicense: 'Bu lisans anahtarı geçersiz.',
       licenseKey: 'Lisans anahtarı',
@@ -300,6 +303,7 @@ const tr = {
       expiresToday: 'Bugün sona eriyor',
       expired: 'Lisansın süresi doldu',
       expiresOn: '{{date, datetime(dateStyle: medium)}} tarihinde sona eriyor',
+      manageLicense: 'Lisansı yönet',
       connectTitle: 'Bir YZ sağlayıcısı bağla',
       connectDescription: 'Rentgen istekleri doğrudan bu cihazdan gönderir.',
       provider: 'Sağlayıcı',

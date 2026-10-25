@@ -57,10 +57,12 @@ export const settingsSlice = createSlice({
     },
     setLicense: (state, action: PayloadAction<{ key: string | null; result: LicenseResult }>) => {
       const { key, result } = action.payload;
-      const isTrial =
-        'info' in result && isLessThanOneYear(new Date(result.info.startsOn), new Date(result.info.expiresOn));
 
-      state.ai.license = { ...result, key, trialUsed: state.ai.license.trialUsed || isTrial };
+      state.ai.license = {
+        ...result,
+        key,
+        trialUsed: state.ai.license.trialUsed || ('info' in result && result.info.trial),
+      };
     },
     setNumberMax: (state, action: PayloadAction<number>) => {
       state.testEngine.configuration.number.max = action.payload;
@@ -140,15 +142,6 @@ export const settingsSlice = createSlice({
 function applyTheme(state: SettingsState) {
   if (state.theme === 'light') document.documentElement.classList.remove('dark');
   else document.documentElement.classList.add('dark');
-}
-
-function isLessThanOneYear(date1: Date, date2: Date): boolean {
-  const [earlier, later] = date1 < date2 ? [date1, date2] : [date2, date1];
-
-  const oneYearLater = new Date(earlier);
-  oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
-
-  return later < oneYearLater;
 }
 
 export const settingsActions = settingsSlice.actions;

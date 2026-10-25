@@ -45,6 +45,7 @@ const id = {
     certificated: 'Tersertifikasi',
     duplicate: 'Duplikat',
     add: 'Tambah',
+    back: 'Kembali',
   },
 
   // Sidebar
@@ -288,8 +289,10 @@ const id = {
         'Satu pembayaran tahunan sebesar €{{price}} · Lisensi offline. Penggunaan model ditagih oleh penyedia yang Anda pilih.',
       alreadyHaveLicenseKey: 'Saya sudah punya kunci lisensi',
       activateLicense: 'Aktifkan lisensi',
+      reactivateLicense: 'Aktifkan ulang lisensi',
       validLicense: 'Dilisensikan untuk {{company}} · berlaku hingga {{expiresOn}}',
       expiredLicense: 'Kunci lisensi ini telah kedaluwarsa.',
+      trialUsedLicense: 'Lisensi uji coba sudah pernah digunakan.',
       notYetValidLicense: 'Kunci lisensi ini berlaku mulai {{startsOn}}.',
       invalidLicense: 'Kunci lisensi ini tidak valid.',
       licenseKey: 'Kunci lisensi',
@@ -299,6 +302,7 @@ const id = {
       expiresToday: 'Berakhir hari ini',
       expired: 'Lisensi kedaluwarsa',
       expiresOn: 'berakhir {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Kelola lisensi',
       connectTitle: 'Hubungkan penyedia AI',
       connectDescription: 'Rentgen mengirim permintaan langsung dari perangkat ini.',
       provider: 'Penyedia',

@@ -1,4 +1,5 @@
 import i18n from 'src/i18n';
+import store from 'src/store';
 import { notify } from './toast';
 
 const PUBLIC_KEY_PEM = `-----BEGIN PUBLIC KEY-----
@@ -14,15 +15,16 @@ export type LicenseStatus = 'valid' | 'expired' | 'not_yet_valid' | 'invalid';
 
 export interface LicenseInfo {
   company: string;
+  daysLeft: number;
+  expiresOn: string;
   plan: LicensePlan;
   startsOn: string;
-  expiresOn: string;
-  daysLeft: number;
+  trial: boolean;
 }
 
 export type LicenseResult =
   | { valid: true; status: 'valid'; info: LicenseInfo }
-  | { valid: false; status: 'expired' | 'not_yet_valid'; error: string; info: LicenseInfo }
+  | { valid: false; status: 'expired' | 'not_yet_valid' | 'trial_used'; error: string; info: LicenseInfo }
   | { valid: false; status: 'invalid'; error: string };
 
 export interface VerifyOptions {
@@ -99,6 +101,15 @@ function isLicenseClaims(p: unknown): p is LicenseClaims {
   );
 }
 
+function isLessThanOneYear(date1: Date, date2: Date): boolean {
+  const [earlier, later] = date1 < date2 ? [date1, date2] : [date2, date1];
+
+  const oneYearLater = new Date(earlier);
+  oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+
+  return later < oneYearLater;
+}
+
 let keyPromise: Promise<CryptoKey> | null = null;
 function getPublicKey(): Promise<CryptoKey> {
   keyPromise ??= crypto.subtle
@@ -148,10 +159,16 @@ export async function verifyLicense(
       startsOn: claims.startsOn,
       expiresOn: claims.expiresOn,
       daysLeft: Math.round((claims.exp - now) / DAY_SECONDS),
+      trial: isLessThanOneYear(new Date(claims.startsOn), new Date(claims.expiresOn)),
     };
+
+    const state = store.getState();
+    if (info.trial && state.settings.ai.license.trialUsed && licenseKey !== state.settings.ai.license.key)
+      return { valid: false, status: 'trial_used', error: 'Trial license already used', info };
 
     if (now < claims.nbf) return { valid: false, status: 'not_yet_valid', error: 'License is not yet valid', info };
     if (now >= claims.exp) return { valid: false, status: 'expired', error: 'License has expired', info };
+
     return { valid: true, status: 'valid', info };
   } catch (error: unknown) {
     return invalid(error instanceof Error ? error.message : 'Invalid license key');
@@ -170,6 +187,9 @@ export function showLicenseMessage(result: LicenseResult): void {
       break;
     case 'expired':
       notify.error(i18n.t('settings.ai.expiredLicense'), { toastId: 'error-license-validation' });
+      break;
+    case 'trial_used':
+      notify.error(i18n.t('settings.ai.trialUsedLicense'), { toastId: 'error-license-validation' });
       break;
     case 'not_yet_valid':
       notify.warning(i18n.t('settings.ai.notYetValidLicense', { startsOn: result.info.startsOn }), {

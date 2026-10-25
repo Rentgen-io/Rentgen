@@ -45,6 +45,7 @@ const nl = {
     certificated: 'Gecertificeerd',
     duplicate: 'Dupliceren',
     add: 'Toevoegen',
+    back: 'Terug',
   },
 
   // Sidebar
@@ -290,8 +291,10 @@ const nl = {
         'Eén jaarlijkse betaling van €{{price}} · Offline licentie. Modelgebruik wordt gefactureerd door de provider die je kiest.',
       alreadyHaveLicenseKey: 'Ik heb al een licentiesleutel',
       activateLicense: 'Licentie activeren',
+      reactivateLicense: 'Licentie opnieuw activeren',
       validLicense: 'Gelicentieerd aan {{company}} · geldig tot {{expiresOn}}',
       expiredLicense: 'Deze licentiesleutel is verlopen.',
+      trialUsedLicense: 'De proeflicentie is al gebruikt.',
       notYetValidLicense: 'Deze licentiesleutel is geldig vanaf {{startsOn}}.',
       invalidLicense: 'Deze licentiesleutel is ongeldig.',
       licenseKey: 'Licentiesleutel',
@@ -301,6 +304,7 @@ const nl = {
       expiresToday: 'Verloopt vandaag',
       expired: 'Licentie verlopen',
       expiresOn: 'verloopt op {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Licentie beheren',
       connectTitle: 'Een AI-provider verbinden',
       connectDescription: 'Rentgen verstuurt verzoeken rechtstreeks vanaf dit apparaat.',
       provider: 'Provider',

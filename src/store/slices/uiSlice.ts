@@ -4,6 +4,7 @@ import { ReportFormat, SidebarTab } from 'src/types';
 interface UIState {
   aiActiveTab: number;
   exportFormat: ReportFormat;
+  showLicenseSettings: boolean;
   sidebarActiveTab: SidebarTab;
   testsActiveTab: number;
 }
@@ -11,6 +12,7 @@ interface UIState {
 const initialState: UIState = {
   aiActiveTab: 0,
   exportFormat: 'json',
+  showLicenseSettings: false,
   sidebarActiveTab: 'collections',
   testsActiveTab: 0,
 };
@@ -24,6 +26,9 @@ export const uiSlice = createSlice({
     },
     setExportFormat: (state, action: PayloadAction<ReportFormat>) => {
       state.exportFormat = action.payload;
+    },
+    setShowLicenseSettings: (state, action: PayloadAction<boolean>) => {
+      state.showLicenseSettings = action.payload;
     },
     setSidebarActiveTab: (state, action: PayloadAction<SidebarTab>) => {
       state.sidebarActiveTab = action.payload;

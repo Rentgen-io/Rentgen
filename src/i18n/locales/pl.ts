@@ -45,6 +45,7 @@ const pl = {
     certificated: 'Certyfikowano',
     duplicate: 'Duplikuj',
     add: 'Dodaj',
+    back: 'Wstecz',
   },
 
   // Sidebar
@@ -290,8 +291,10 @@ const pl = {
         'Jedna roczna płatność w wysokości €{{price}} · Licencja offline. Za użycie modelu rozlicza wybrany przez Ciebie dostawca.',
       alreadyHaveLicenseKey: 'Mam już klucz licencyjny',
       activateLicense: 'Aktywuj licencję',
+      reactivateLicense: 'Aktywuj licencję ponownie',
       validLicense: 'Licencja dla {{company}} · ważna do {{expiresOn}}',
       expiredLicense: 'Ten klucz licencyjny wygasł.',
+      trialUsedLicense: 'Licencja próbna została już wykorzystana.',
       notYetValidLicense: 'Ten klucz licencyjny jest ważny od {{startsOn}}.',
       invalidLicense: 'Ten klucz licencyjny jest nieprawidłowy.',
       licenseKey: 'Klucz licencyjny',
@@ -303,6 +306,7 @@ const pl = {
       expiresToday: 'Wygasa dzisiaj',
       expired: 'Licencja wygasła',
       expiresOn: 'wygasa {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Zarządzaj licencją',
       connectTitle: 'Połącz dostawcę AI',
       connectDescription: 'Rentgen wysyła żądania bezpośrednio z tego urządzenia.',
       provider: 'Dostawca',

@@ -15,7 +15,7 @@ export function useLicense() {
       setIsValidating(true);
 
       const result = await verifyLicense(key);
-      dispatch(settingsActions.setLicense({ key, result }));
+      if (result.valid) dispatch(settingsActions.setLicense({ key, result }));
 
       setIsValidating(false);
 

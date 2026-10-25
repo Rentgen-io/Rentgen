@@ -45,6 +45,7 @@ const lt = {
     certificated: 'Sertifikuota',
     duplicate: 'Dubliuoti',
     add: 'Pridėti',
+    back: 'Atgal',
   },
 
   // Sidebar
@@ -288,8 +289,10 @@ const lt = {
         'Vienas metinis €{{price}} mokėjimas · Neprisijungus veikianti licencija. Už modelio naudojimą atsiskaitoma pasirinktam tiekėjui.',
       alreadyHaveLicenseKey: 'Jau turiu licencijos raktą',
       activateLicense: 'Aktyvinti licenciją',
+      reactivateLicense: 'Aktyvinti licenciją iš naujo',
       validLicense: 'Licencija suteikta {{company}} · galioja iki {{expiresOn}}',
       expiredLicense: 'Šio licencijos rakto galiojimas baigėsi.',
+      trialUsedLicense: 'Bandomoji licencija jau buvo panaudota.',
       notYetValidLicense: 'Šis licencijos raktas galioja nuo {{startsOn}}.',
       invalidLicense: 'Šis licencijos raktas neteisingas.',
       licenseKey: 'Licencijos raktas',
@@ -301,6 +304,7 @@ const lt = {
       expiresToday: 'Baigiasi šiandien',
       expired: 'Licencijos galiojimas baigėsi',
       expiresOn: 'galioja iki {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Tvarkyti licenciją',
       connectTitle: 'Prijungti DI tiekėją',
       connectDescription: 'Rentgen siunčia užklausas tiesiai iš šio įrenginio.',
       provider: 'Tiekėjas',

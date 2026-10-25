@@ -45,6 +45,7 @@ const de = {
     certificated: 'Zertifiziert',
     duplicate: 'Duplizieren',
     add: 'Hinzufügen',
+    back: 'Zurück',
   },
 
   // Sidebar
@@ -290,8 +291,10 @@ const de = {
         'Eine jährliche Zahlung von €{{price}} · Offline-Lizenz. Die Modellnutzung wird von Ihrem gewählten Anbieter abgerechnet.',
       alreadyHaveLicenseKey: 'Ich habe bereits einen Lizenzschlüssel',
       activateLicense: 'Lizenz aktivieren',
+      reactivateLicense: 'Lizenz erneut aktivieren',
       validLicense: 'Lizenziert für {{company}} · gültig bis {{expiresOn}}',
       expiredLicense: 'Dieser Lizenzschlüssel ist abgelaufen.',
+      trialUsedLicense: 'Die Testlizenz wurde bereits verwendet.',
       notYetValidLicense: 'Dieser Lizenzschlüssel ist ab {{startsOn}} gültig.',
       invalidLicense: 'Dieser Lizenzschlüssel ist ungültig.',
       licenseKey: 'Lizenzschlüssel',
@@ -301,6 +304,7 @@ const de = {
       expiresToday: 'Läuft heute ab',
       expired: 'Lizenz abgelaufen',
       expiresOn: 'läuft am {{date, datetime(dateStyle: medium)}} ab',
+      manageLicense: 'Lizenz verwalten',
       connectTitle: 'KI-Anbieter verbinden',
       connectDescription: 'Rentgen sendet Anfragen direkt von diesem Gerät.',
       provider: 'Anbieter',

@@ -45,6 +45,7 @@ const ptBR = {
     certificated: 'Certificado',
     duplicate: 'Duplicar',
     add: 'Adicionar',
+    back: 'Voltar',
   },
 
   // Sidebar
@@ -291,8 +292,10 @@ const ptBR = {
         'Um pagamento anual de €{{price}} · Licença offline. O uso do modelo é cobrado pelo provedor que você escolher.',
       alreadyHaveLicenseKey: 'Já tenho uma chave de licença',
       activateLicense: 'Ativar licença',
+      reactivateLicense: 'Reativar licença',
       validLicense: 'Licenciado para {{company}} · válido até {{expiresOn}}',
       expiredLicense: 'Esta chave de licença expirou.',
+      trialUsedLicense: 'A licença de avaliação já foi utilizada.',
       notYetValidLicense: 'Esta chave de licença é válida a partir de {{startsOn}}.',
       invalidLicense: 'Esta chave de licença é inválida.',
       licenseKey: 'Chave de licença',
@@ -302,6 +305,7 @@ const ptBR = {
       expiresToday: 'Expira hoje',
       expired: 'Licença expirada',
       expiresOn: 'expira em {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Gerenciar licença',
       connectTitle: 'Conectar um provedor de IA',
       connectDescription: 'O Rentgen envia as requisições diretamente deste dispositivo.',
       provider: 'Provedor',

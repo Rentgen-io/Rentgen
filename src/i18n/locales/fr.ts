@@ -45,6 +45,7 @@ const fr = {
     certificated: 'Certifié',
     duplicate: 'Dupliquer',
     add: 'Ajouter',
+    back: 'Retour',
   },
 
   // Sidebar
@@ -291,8 +292,10 @@ const fr = {
         "Un paiement annuel de €{{price}} · Licence hors ligne. L'utilisation du modèle est facturée par le fournisseur que vous choisissez.",
       alreadyHaveLicenseKey: "J'ai déjà une clé de licence",
       activateLicense: 'Activer la licence',
+      reactivateLicense: 'Réactiver la licence',
       validLicense: "Licence accordée à {{company}} · valable jusqu'au {{expiresOn}}",
       expiredLicense: 'Cette clé de licence a expiré.',
+      trialUsedLicense: "La licence d'essai a déjà été utilisée.",
       notYetValidLicense: 'Cette clé de licence est valable à partir du {{startsOn}}.',
       invalidLicense: "Cette clé de licence n'est pas valide.",
       licenseKey: 'Clé de licence',
@@ -302,6 +305,7 @@ const fr = {
       expiresToday: "Expire aujourd'hui",
       expired: 'Licence expirée',
       expiresOn: 'expire le {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Gérer la licence',
       connectTitle: 'Connecter un fournisseur IA',
       connectDescription: 'Rentgen envoie les requêtes directement depuis cet appareil.',
       provider: 'Fournisseur',

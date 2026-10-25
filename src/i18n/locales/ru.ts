@@ -45,6 +45,7 @@ const ru = {
     certificated: 'Сертификат создан',
     duplicate: 'Дублировать',
     add: 'Добавить',
+    back: 'Назад',
   },
 
   // Sidebar
@@ -289,8 +290,10 @@ const ru = {
         'Один ежегодный платёж €{{price}} · Офлайн-лицензия. Использование модели оплачивается выбранному вами провайдеру.',
       alreadyHaveLicenseKey: 'У меня уже есть лицензионный ключ',
       activateLicense: 'Активировать лицензию',
+      reactivateLicense: 'Повторно активировать лицензию',
       validLicense: 'Лицензия выдана {{company}} · действительна до {{expiresOn}}',
       expiredLicense: 'Срок действия этого лицензионного ключа истёк.',
+      trialUsedLicense: 'Пробная лицензия уже была использована.',
       notYetValidLicense: 'Этот лицензионный ключ действителен с {{startsOn}}.',
       invalidLicense: 'Этот лицензионный ключ недействителен.',
       licenseKey: 'Лицензионный ключ',
@@ -302,6 +305,7 @@ const ru = {
       expiresToday: 'Истекает сегодня',
       expired: 'Срок действия лицензии истёк',
       expiresOn: 'истекает {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Управление лицензией',
       connectTitle: 'Подключить ИИ-провайдера',
       connectDescription: 'Rentgen отправляет запросы напрямую с этого устройства.',
       provider: 'Провайдер',

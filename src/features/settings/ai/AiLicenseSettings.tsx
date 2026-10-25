@@ -5,6 +5,8 @@ import Button, { ButtonType } from 'src/components/buttons/Button';
 import { FieldLabel } from 'src/components/inputs/FieldLabel';
 import Textarea from 'src/components/inputs/Textarea';
 import { useLicense } from 'src/hooks/useLicense';
+import { useAppDispatch } from 'src/store/hooks';
+import { uiActions } from 'src/store/slices/uiSlice';
 import { showLicenseMessage } from 'src/utils';
 import SettingsHeader from '../SettingsHeader';
 
@@ -12,6 +14,7 @@ const RENTGEN_LICENSE_ANNUAL_PRICE = 36;
 const RENTGEN_LICENSE_MONTHLY_PRICE = 3;
 
 export function AiLicenseSettings() {
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { license, validateLicense } = useLicense();
 
@@ -27,7 +30,7 @@ export function AiLicenseSettings() {
       <div className="md:flex border border-border dark:border-dark-border divide-y md:divide-y-0 md:divide-x divide-border dark:divide-dark-border overflow-hidden">
         <div className="flex-1 flex flex-col gap-4 p-4">
           <label className="text-lg font-bold">Rentgen Pro</label>
-          <div className="flex-auto flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <span className="text-2xl font-bold">
               €{RENTGEN_LICENSE_MONTHLY_PRICE}
               <span className="font-normal text-text-secondary lowercase">/{t('settings.ai.month')}</span>
@@ -48,7 +51,7 @@ export function AiLicenseSettings() {
             </Button>
           )}
           <Button
-            buttonType={ButtonType.SECONDARY}
+            buttonType={!license.trialUsed ? ButtonType.SECONDARY : ButtonType.PRIMARY}
             onClick={() => openExternal('https://buy.stripe.com/6oU9AL66N2hj6Rf9ZX1Jm04')}
           >
             {t('settings.ai.buyPro', { price: RENTGEN_LICENSE_MONTHLY_PRICE })}
@@ -69,9 +72,13 @@ export function AiLicenseSettings() {
             onClick={async () => {
               const result = await validateLicense(licenseKey);
               showLicenseMessage(result);
+
+              if (result.valid) dispatch(uiActions.setShowLicenseSettings(false));
             }}
           >
-            {t('settings.ai.activateLicense')}
+            {license.valid || license.status === 'expired'
+              ? t('settings.ai.reactivateLicense')
+              : t('settings.ai.activateLicense')}
           </Button>
         </div>
       </div>

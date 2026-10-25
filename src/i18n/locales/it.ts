@@ -45,6 +45,7 @@ const it = {
     certificated: 'Certificato',
     duplicate: 'Duplica',
     add: 'Aggiungi',
+    back: 'Indietro',
   },
 
   // Sidebar
@@ -291,8 +292,10 @@ const it = {
         "Un pagamento annuale di €{{price}} · Licenza offline. L'uso del modello è fatturato dal provider che scegli.",
       alreadyHaveLicenseKey: 'Ho già una chiave di licenza',
       activateLicense: 'Attiva licenza',
+      reactivateLicense: 'Riattiva licenza',
       validLicense: 'Concesso in licenza a {{company}} · valida fino al {{expiresOn}}',
       expiredLicense: 'Questa chiave di licenza è scaduta.',
+      trialUsedLicense: 'La licenza di prova è già stata utilizzata.',
       notYetValidLicense: 'Questa chiave di licenza è valida dal {{startsOn}}.',
       invalidLicense: 'Questa chiave di licenza non è valida.',
       licenseKey: 'Chiave di licenza',
@@ -302,6 +305,7 @@ const it = {
       expiresToday: 'Scade oggi',
       expired: 'Licenza scaduta',
       expiresOn: 'scade il {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Gestisci licenza',
       connectTitle: 'Collega un provider IA',
       connectDescription: 'Rentgen invia le richieste direttamente da questo dispositivo.',
       provider: 'Provider',

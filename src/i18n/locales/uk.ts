@@ -45,6 +45,7 @@ const uk = {
     certificated: 'Сертифіковано',
     duplicate: 'Дублювати',
     add: 'Додати',
+    back: 'Назад',
   },
 
   // Sidebar
@@ -288,8 +289,10 @@ const uk = {
         'Один щорічний платіж €{{price}} · Офлайн-ліцензія. Використання моделі оплачується обраному вами провайдеру.',
       alreadyHaveLicenseKey: 'У мене вже є ліцензійний ключ',
       activateLicense: 'Активувати ліцензію',
+      reactivateLicense: 'Повторно активувати ліцензію',
       validLicense: 'Ліцензовано для {{company}} · дійсна до {{expiresOn}}',
       expiredLicense: 'Термін дії цього ліцензійного ключа минув.',
+      trialUsedLicense: 'Пробну ліцензію вже було використано.',
       notYetValidLicense: 'Цей ліцензійний ключ дійсний з {{startsOn}}.',
       invalidLicense: 'Цей ліцензійний ключ недійсний.',
       licenseKey: 'Ліцензійний ключ',
@@ -301,6 +304,7 @@ const uk = {
       expiresToday: 'Спливає сьогодні',
       expired: 'Термін дії ліцензії минув',
       expiresOn: 'спливає {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Керувати ліцензією',
       connectTitle: 'Підключити ШІ-провайдера',
       connectDescription: 'Rentgen надсилає запити безпосередньо з цього пристрою.',
       provider: 'Провайдер',
