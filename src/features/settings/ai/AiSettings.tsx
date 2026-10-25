@@ -1,14 +1,27 @@
+import { useEffect, useState } from 'react';
 import { useAppSelector } from 'src/store/hooks';
-import { selectSerialNumber } from 'src/store/selectors';
-import { AiLicenseSettings, validateSerialNumber } from './AiLicenseSettings';
+import { selectLicenseKey } from 'src/store/selectors';
+import { verifyLicense } from 'src/utils';
+import { AiLicenseSettings } from './AiLicenseSettings';
 import { AiProviderSettings } from './AiProviderSettings';
 
 export function AiSettings() {
-  const serialNumber = useAppSelector(selectSerialNumber);
+  const licenseKey = useAppSelector(selectLicenseKey);
 
-  return (
-    <div className="flex flex-col gap-4">
-      {!validateSerialNumber(serialNumber) ? <AiLicenseSettings /> : <AiProviderSettings />}
-    </div>
-  );
+  const [isLicenseValid, setIsLicenseValid] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    verifyLicense(licenseKey).then((result) => {
+      if (!cancelled) setIsLicenseValid(result.valid);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [licenseKey]);
+
+  if (isLicenseValid === null) return null;
+  return <div className="flex flex-col gap-4">{isLicenseValid ? <AiProviderSettings /> : <AiLicenseSettings />}</div>;
 }

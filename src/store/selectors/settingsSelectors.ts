@@ -10,6 +10,6 @@ export const selectHistoryEnabled = (state: RootState) => state.settings.general
 export const selectHistoryRetention = (state: RootState) => state.settings.general.history.retention;
 export const selectHistorySize = (state: RootState) => state.settings.general.history.size;
 export const selectLanguage = (state: RootState) => state.settings.language;
-export const selectSerialNumber = (state: RootState) => state.settings.ai.serialNumber;
+export const selectLicenseKey = (state: RootState) => state.settings.ai.licenseKey;
 export const selectTestEngineConfiguration = (state: RootState) => state.settings.testEngine.configuration;
 export const selectTheme = (state: RootState) => state.settings.theme;

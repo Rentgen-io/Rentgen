@@ -5,14 +5,13 @@ import { Accordion } from 'src/components/accordion/Accordion';
 import { AccordionItem } from 'src/components/accordion/AccordionItem';
 import Button from 'src/components/buttons/Button';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
-import { validateSerialNumber } from 'src/features/settings/ai/AiLicenseSettings';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectActiveAiProvider,
   selectAiActiveTab,
+  selectLicenseKey,
   selectSelectedRequestId,
-  selectSerialNumber,
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
@@ -23,6 +22,7 @@ import {
   ERROR_RESPONSE_EXPECTED,
   SUCCESS_RESPONSE_EXPECTED,
 } from 'src/test-engine';
+import { verifyLicense } from 'src/utils';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
 import { TestRunControls } from '../controls/TestRunControls';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
@@ -46,7 +46,7 @@ export default function AiTestingPanel() {
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
   const aiActiveTab = useAppSelector(selectAiActiveTab);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
-  const serialNumber = useAppSelector(selectSerialNumber);
+  const licenseKey = useAppSelector(selectLicenseKey);
 
   const [showAiRequestMaskControls, setShowAiRequestMaskControls] = useState<boolean>(false);
 
@@ -233,8 +233,9 @@ export default function AiTestingPanel() {
               <Button
                 className="@xl:self-center"
                 disabled={isRunningTests}
-                onClick={() => {
-                  if (!validateSerialNumber(serialNumber) || !activeAiProvider) {
+                onClick={async () => {
+                  const result = await verifyLicense(licenseKey);
+                  if (!result.valid || !activeAiProvider) {
                     dispatch(modalsActions.openSettingsModal(2));
                     return;
                   }

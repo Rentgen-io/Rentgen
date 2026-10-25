@@ -54,6 +54,9 @@ export const settingsSlice = createSlice({
       state.language = action.payload;
       i18n.changeLanguage(action.payload);
     },
+    setLicenseKey: (state, action: PayloadAction<string>) => {
+      state.ai.licenseKey = action.payload;
+    },
     setNumberMax: (state, action: PayloadAction<number>) => {
       state.testEngine.configuration.number.max = action.payload;
     },
@@ -71,9 +74,6 @@ export const settingsSlice = createSlice({
     },
     setRandomStringLength: (state, action: PayloadAction<number>) => {
       state.testEngine.configuration.randomString.length = action.payload;
-    },
-    setSerialNumber: (state, action: PayloadAction<string>) => {
-      state.ai.serialNumber = action.payload;
     },
     setStringMaxLength: (state, action: PayloadAction<number>) => {
       state.testEngine.configuration.string.maxLength = action.payload;

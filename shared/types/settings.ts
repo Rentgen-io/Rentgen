@@ -49,7 +49,7 @@ export interface SettingsState {
     };
   };
   ai: {
-    serialNumber: string | null;
+    licenseKey: string | null;
     providers: AiProvider[];
   };
   testEngine: {

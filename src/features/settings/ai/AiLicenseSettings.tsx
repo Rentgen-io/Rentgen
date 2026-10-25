@@ -1,18 +1,22 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { openExternal } from 'src/api/system';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import { FieldLabel } from 'src/components/inputs/FieldLabel';
-import Input from 'src/components/inputs/Input';
+import Textarea from 'src/components/inputs/Textarea';
 import { useAppDispatch } from 'src/store/hooks';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import { notify } from 'src/utils/toast';
+import { showLicenseMessage, verifyLicense } from 'src/utils';
 import SettingsHeader from '../SettingsHeader';
+
+const RENTGEN_LICENSE_ANNUAL_PRICE = 36;
+const RENTGEN_LICENSE_MONTHLY_PRICE = 3;
 
 export function AiLicenseSettings() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const [serialNumber, setSerialNumber] = useState<string>('');
+  const [licenseKey, setLicenseKey] = useState<string>('');
 
   return (
     <>
@@ -20,25 +24,49 @@ export function AiLicenseSettings() {
       <p className="m-0 text-xs text-text-secondary">{t('settings.ai.unlockDescription')}</p>
       <div className="md:flex border border-border dark:border-dark-border divide-y md:divide-y-0 md:divide-x divide-border dark:divide-dark-border overflow-hidden">
         <div className="flex-1 flex flex-col gap-4 p-4">
-          <label className="text-sm font-bold">{t('settings.ai.buyLicense')}</label>
+          <label className="text-lg font-bold">Rentgen Pro</label>
           <div className="flex-auto flex flex-col gap-2">
-            <span className="text-2xl font-bold">€79</span>
-            <span className="text-xs text-text-secondary">{t('settings.ai.oneTimePayment')}</span>
+            <span className="text-2xl font-bold">
+              €{RENTGEN_LICENSE_MONTHLY_PRICE}
+              <span className="font-normal text-text-secondary lowercase">/{t('settings.ai.month')}</span>
+            </span>
+            <span className="text-xs text-text-secondary">
+              {t('settings.ai.billedAnnually', { price: RENTGEN_LICENSE_ANNUAL_PRICE })}
+            </span>
           </div>
-          <Button>{t('settings.ai.buyLicense')}</Button>
+          <Button
+            onClick={() =>
+              openExternal(
+                "mailto:liudas@rentgen.io?subject=Rentgen%20Pro%20-%20Free%20Trial%20Request&body=Hi%20Liudas%2C%0A%0AI'd%20like%20to%20try%20Rentgen%20Pro.%20Could%20you%20please%20send%20me%20a%20free%20trial%20license%3F%0A%0ACompany%3A%0A%0AThanks!",
+              )
+            }
+          >
+            {t('settings.ai.startFreeTrial')}
+          </Button>
+          <Button
+            buttonType={ButtonType.SECONDARY}
+            onClick={() => openExternal('https://buy.stripe.com/6oU9AL66N2hj6Rf9ZX1Jm04')}
+          >
+            {t('settings.ai.buyPro', { price: RENTGEN_LICENSE_MONTHLY_PRICE })}
+          </Button>
+          <span className="text-xs text-text-secondary">
+            {t('settings.ai.oneAnnualPayment', { price: RENTGEN_LICENSE_ANNUAL_PRICE })}
+          </span>
         </div>
-        <div className="flex-1 flex flex-col gap-4 p-4">
-          <label className="text-sm font-bold">{t('settings.ai.alreadyHaveSerialNumber')}</label>
-          <div className="flex-auto flex flex-col gap-2">
-            <FieldLabel label={t('settings.ai.serialNumber')} required />
-            <Input placeholder="RG-AI-XXXX-XXXX-XXXX" onChange={(e) => setSerialNumber(e.target.value)} />
+        <div className="flex-1 flex flex-col justify-center gap-4 p-4">
+          <label className="text-sm font-bold">{t('settings.ai.alreadyHaveLicenseKey')}</label>
+          <div className="flex flex-col flex-auto gap-2">
+            <FieldLabel label={t('settings.ai.licenseKey')} required />
+            <Textarea className="flex-auto" onChange={(e) => setLicenseKey(e.target.value)} />
           </div>
           <Button
             buttonType={ButtonType.SECONDARY}
-            disabled={!serialNumber}
-            onClick={() => {
-              if (validateSerialNumber(serialNumber)) dispatch(settingsActions.setSerialNumber(serialNumber));
-              else notify.error(t('settings.ai.invalidSerialNumber'), { toastId: 'error-validate-serial-number' });
+            disabled={!licenseKey}
+            onClick={async () => {
+              const result = await verifyLicense(licenseKey);
+              if (result.valid) dispatch(settingsActions.setLicenseKey(licenseKey));
+
+              showLicenseMessage(result);
             }}
           >
             {t('settings.ai.activateLicense')}
@@ -47,9 +75,4 @@ export function AiLicenseSettings() {
       </div>
     </>
   );
-}
-
-export function validateSerialNumber(serialNumber: string | null) {
-  // TODO: Implement proper serial number validation logic
-  return serialNumber && serialNumber.length > 0;
 }

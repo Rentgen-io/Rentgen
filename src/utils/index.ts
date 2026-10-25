@@ -6,6 +6,7 @@ export * from './dynamicVariable';
 export * from './environment';
 export * from './error';
 export * from './http';
+export * from './license';
 export * from './number';
 export * from './object';
 export * from './random';
