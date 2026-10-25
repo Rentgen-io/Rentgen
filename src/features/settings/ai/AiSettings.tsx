@@ -28,6 +28,12 @@ export function AiSettings() {
     };
   }, [license?.key]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(uiActions.setShowLicenseSettings(false));
+    };
+  }, [dispatch]);
+
   if (isLicenseValid === null) return null;
   return (
     <div className="flex-1 flex flex-col justify-between gap-4">
