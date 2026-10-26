@@ -158,7 +158,7 @@ export async function verifyLicense(
       plan: claims.plan,
       startsOn: claims.startsOn,
       expiresOn: claims.expiresOn,
-      daysLeft: Math.round((claims.exp - now) / DAY_SECONDS),
+      daysLeft: Math.max(0, Math.floor((claims.exp - now) / DAY_SECONDS)),
       trial: isLessThanOneYear(new Date(claims.startsOn), new Date(claims.expiresOn)),
     };
 

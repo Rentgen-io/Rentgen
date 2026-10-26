@@ -75,7 +75,7 @@ function LicenseFooter({ manage, onClick }: { manage: boolean; onClick(): void }
               ? t('settings.ai.expiresToday')
               : t('settings.ai.daysLeft', { count: daysLeft })}
         </strong>
-        {hasDate && !expired && <> ({t('settings.ai.expiresOn', { date: expiry })})</>}
+        {hasDate && !expired && daysLeft > 0 && <> ({t('settings.ai.expiresOn', { date: expiry })})</>}
       </span>
       {license.valid && (
         <span className="w-fit text-xs text-button-primary hover:underline cursor-pointer" onClick={onClick}>
