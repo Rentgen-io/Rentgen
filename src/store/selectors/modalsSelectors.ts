@@ -1,6 +1,5 @@
 import { RootState } from 'src/store';
 
-export const selectCurl = (state: RootState) => state.modals.curl;
 export const selectDeleteFolderModal = (state: RootState) => state.modals.deleteFolderModal;
 export const selectImportConflictModal = (state: RootState) => state.modals.importConflictModal;
 export const selectOpenCurlModal = (state: RootState) => state.modals.openCurlModal;

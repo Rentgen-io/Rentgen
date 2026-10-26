@@ -1,8 +1,7 @@
 import { Method } from 'axios';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectCurl } from 'src/store/selectors';
+import { useAppDispatch } from 'src/store/hooks';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { extractCurl } from 'src/utils';
@@ -15,40 +14,41 @@ export function useCurlImport() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const curl = useAppSelector(selectCurl);
-
   const reset = useReset();
 
-  return useCallback(() => {
-    try {
-      if (curl.length > MAX_CURL_LENGTH) throw new Error('cURL too large');
+  return useCallback(
+    (curl: string) => {
+      try {
+        if (curl.length > MAX_CURL_LENGTH) throw new Error('cURL too large');
 
-      const {
-        body: curlBody,
-        decodedLines,
-        headers: curlHeaders,
-        method: curlMethod,
-        url: curlUrl,
-      } = extractCurl(curl);
+        const {
+          body: curlBody,
+          decodedLines,
+          headers: curlHeaders,
+          method: curlMethod,
+          url: curlUrl,
+        } = extractCurl(curl);
 
-      reset();
-      dispatch(requestActions.setUrl(curlUrl));
-      dispatch(requestActions.setMethod(curlMethod as Method));
-      dispatch(
-        requestActions.setHeaders(
-          Object.entries(curlHeaders)
-            .map(([key, value]) => `${key}: ${value}`)
-            .join('\n'),
-        ),
-      );
+        reset();
+        dispatch(requestActions.setUrl(curlUrl));
+        dispatch(requestActions.setMethod(curlMethod as Method));
+        dispatch(
+          requestActions.setHeaders(
+            Object.entries(curlHeaders)
+              .map(([key, value]) => `${key}: ${value}`)
+              .join('\n'),
+          ),
+        );
 
-      if (decodedLines.length > 0) dispatch(requestActions.setBody(decodedLines.join('\n')));
-      else dispatch(requestActions.setBody(curlBody ? String(curlBody).trim() : ''));
+        if (decodedLines.length > 0) dispatch(requestActions.setBody(decodedLines.join('\n')));
+        else dispatch(requestActions.setBody(curlBody ? String(curlBody).trim() : ''));
 
-      dispatch(modalsActions.closeCurlModal());
-    } catch (error) {
-      console.error(error);
-      notify.error(t('curl.invalidCurl'), { toastId: 'error-import-curl' });
-    }
-  }, [curl, reset, t, dispatch]);
+        dispatch(modalsActions.closeCurlModal());
+      } catch (error) {
+        console.error(error);
+        notify.error(t('curl.invalidCurl'), { toastId: 'error-import-curl' });
+      }
+    },
+    [reset, t, dispatch],
+  );
 }

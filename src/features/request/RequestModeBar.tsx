@@ -8,19 +8,14 @@ import Modal from 'src/components/modals/Modal';
 import { useCurlImport } from 'src/hooks/useCurlImport';
 import { useReset } from 'src/hooks/useReset';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import {
-  selectCurl,
-  selectEnvironments,
-  selectMode,
-  selectOpenCurlModal,
-  selectSelectedEnvironmentId,
-} from 'src/store/selectors';
+import { selectEnvironments, selectMode, selectOpenCurlModal, selectSelectedEnvironmentId } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { Mode, requestActions } from 'src/store/slices/requestSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import EnvironmentSelector from '../environment/EnvironmentSelector';
 
+import { useCallback, useState } from 'react';
 import DarkModeIcon from 'src/assets/icons/dark-mode-icon.svg';
 import LightModeIcon from 'src/assets/icons/light-mode-icon.svg';
 import ReloadIcon from 'src/assets/icons/reload-icon.svg';
@@ -35,13 +30,19 @@ export default function RequestModeBar() {
   const { t } = useTranslation();
 
   const mode = useAppSelector(selectMode);
-  const curl = useAppSelector(selectCurl);
   const openCurlModal = useAppSelector(selectOpenCurlModal);
   const environments = useAppSelector(selectEnvironments);
   const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
 
+  const [curl, setCurl] = useState<string>('');
+
   const reset = useReset();
   const importCurl = useCurlImport();
+
+  const handleCloseCurlModal = useCallback(() => {
+    dispatch(modalsActions.closeCurlModal());
+    setCurl('');
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col @lg:flex-row @lg:items-center gap-4 @lg:gap-2">
@@ -65,7 +66,7 @@ export default function RequestModeBar() {
             >
               {t('curl.importCurl')}
             </ActionsButton>
-            <Modal isOpen={openCurlModal} onClose={() => dispatch(modalsActions.closeCurlModal())}>
+            <Modal isOpen={openCurlModal} onClose={handleCloseCurlModal}>
               <div className="flex flex-col gap-4">
                 <h4 className="m-0">{t('curl.importCurl')}</h4>
                 <Textarea
@@ -73,11 +74,11 @@ export default function RequestModeBar() {
                   className="min-h-40"
                   placeholder={t('curl.importCurlPlaceholder')}
                   value={curl}
-                  onChange={(event) => dispatch(modalsActions.setCurl(event.target.value))}
+                  onChange={(event) => setCurl(event.target.value)}
                 />
                 <div className="flex items-center justify-end gap-2">
-                  <Button onClick={importCurl}>{t('common.import')}</Button>
-                  <Button buttonType={ButtonType.SECONDARY} onClick={() => dispatch(modalsActions.closeCurlModal())}>
+                  <Button onClick={() => importCurl(curl)}>{t('common.import')}</Button>
+                  <Button buttonType={ButtonType.SECONDARY} onClick={handleCloseCurlModal}>
                     {t('common.cancel')}
                   </Button>
                 </div>

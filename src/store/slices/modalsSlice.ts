@@ -11,7 +11,6 @@ import {
 } from 'src/types';
 
 interface ModalsState {
-  curl: string;
   deleteFolderModal: {
     folderId: string | null;
     isOpen: boolean;
@@ -56,7 +55,6 @@ const emptyProjectImportConfirmModal: ProjectImportConfirmModalState = {
 };
 
 const initialState: ModalsState = {
-  curl: '',
   deleteFolderModal: { isOpen: false, folderId: null },
   importConflictModal: emptyImportConflictModal,
   openCurlModal: false,
@@ -74,7 +72,6 @@ export const modalsSlice = createSlice({
   initialState,
   reducers: {
     closeCurlModal: (state) => {
-      state.curl = '';
       state.openCurlModal = false;
     },
     closeDeleteFolderModal: (state) => {
@@ -154,9 +151,6 @@ export const modalsSlice = createSlice({
     },
     openSettingsModal: (state, action: PayloadAction<number | undefined>) => {
       state.settingsModal = { activeTab: action.payload ?? 0, isOpen: true };
-    },
-    setCurl: (state, action: PayloadAction<string>) => {
-      state.curl = action.payload;
     },
   },
 });
