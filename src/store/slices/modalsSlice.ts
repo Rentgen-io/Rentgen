@@ -16,8 +16,8 @@ interface ModalsState {
     isOpen: boolean;
   };
   importConflictModal: ImportConflictModalState;
-  openCurlModal: boolean;
   openFollowModal: boolean;
+  openImportResourceModal: boolean;
   openGitHubModal: boolean;
   openReloadModal: boolean;
   openSendHttpSuccessModal: boolean;
@@ -57,8 +57,8 @@ const emptyProjectImportConfirmModal: ProjectImportConfirmModalState = {
 const initialState: ModalsState = {
   deleteFolderModal: { isOpen: false, folderId: null },
   importConflictModal: emptyImportConflictModal,
-  openCurlModal: false,
   openFollowModal: false,
+  openImportResourceModal: false,
   openGitHubModal: false,
   openReloadModal: false,
   openSendHttpSuccessModal: false,
@@ -71,9 +71,6 @@ export const modalsSlice = createSlice({
   name: 'modals',
   initialState,
   reducers: {
-    closeCurlModal: (state) => {
-      state.openCurlModal = false;
-    },
     closeDeleteFolderModal: (state) => {
       state.deleteFolderModal = { folderId: null, isOpen: false };
     },
@@ -85,6 +82,9 @@ export const modalsSlice = createSlice({
     },
     closeImportConflictModal: (state) => {
       state.importConflictModal = emptyImportConflictModal;
+    },
+    closeImportResourceModal: (state) => {
+      state.openImportResourceModal = false;
     },
     closeProjectImportConfirmModal: (state) => {
       state.projectImportConfirmModal = emptyProjectImportConfirmModal;
@@ -101,14 +101,14 @@ export const modalsSlice = createSlice({
     closeSettingsModal: (state) => {
       state.settingsModal = { activeTab: 0, isOpen: false };
     },
-    openCurlModal: (state) => {
-      state.openCurlModal = true;
-    },
     openDeleteFolderModal: (state, action: PayloadAction<string>) => {
       state.deleteFolderModal = { folderId: action.payload, isOpen: true };
     },
     openFollowModal: (state) => {
       if (!state.openGitHubModal) state.openFollowModal = true;
+    },
+    openImportResourceModal: (state) => {
+      state.openImportResourceModal = true;
     },
     openGitHubModal: (state) => {
       if (!state.openFollowModal) state.openGitHubModal = true;

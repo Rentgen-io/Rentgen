@@ -15,6 +15,7 @@ const ru = {
     copy: 'Копировать',
     copied: 'Скопировано',
     failedCopy: 'Не удалось скопировать',
+    failedReadFile: 'Не удалось прочитать файл',
     run: 'Запустить',
     runAll: 'Запустить все',
     replace: 'Заменить',
@@ -129,8 +130,11 @@ const ru = {
 
   // cURL
   curl: {
-    importCurl: 'Импортировать cURL',
-    importCurlPlaceholder: 'Введите cURL или вставьте текст',
+    importCurlPlaceholder: 'Вставьте cURL, обычный текст или URL',
+    dropAnywhereToImport: 'Перетащите в любое место для импорта',
+    orSelectFile: 'Или выберите <file>файл</file>',
+    pressEnterToImport: '<key>Enter</key> — импортировать',
+    noImportAvailable: 'Нечего импортировать',
     invalidCurl: 'Неверная команда cURL',
     copyCurl: 'Скопировать cURL',
   },
@@ -283,11 +287,11 @@ const ru = {
       unlockDescription: 'Требуется лицензия Rentgen Pro.',
       tryFree: 'Попробуйте бесплатно перед покупкой.',
       month: 'Месяц',
-      billedAnnually: 'Оплата раз в год (€{{price}}/год)',
+      billedAnnually: 'Оплата раз в год (${{price}}/год)',
       startFreeTrial: 'Начать бесплатный пробный период',
-      buyPro: 'Купить Pro - €{{price}}/месяц',
+      buyPro: 'Купить Pro - ${{price}}/месяц',
       oneAnnualPayment:
-        'Один ежегодный платёж €{{price}} · Офлайн-лицензия. Использование модели оплачивается выбранному вами провайдеру.',
+        'Один ежегодный платёж ${{price}} · Офлайн-лицензия. Использование модели оплачивается выбранному вами провайдеру.',
       alreadyHaveLicenseKey: 'У меня уже есть лицензионный ключ',
       activateLicense: 'Активировать лицензию',
       reactivateLicense: 'Повторно активировать лицензию',

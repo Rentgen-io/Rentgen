@@ -15,6 +15,7 @@ const lt = {
     copy: 'Kopijuoti',
     copied: 'Nukopijuota',
     failedCopy: 'Nepavyko nukopijuoti',
+    failedReadFile: 'Nepavyko perskaityti failo',
     run: 'Vykdyti',
     runAll: 'Vykdyti visus',
     replace: 'Pakeisti',
@@ -129,8 +130,11 @@ const lt = {
 
   // cURL
   curl: {
-    importCurl: 'Importuoti cURL',
-    importCurlPlaceholder: 'Įveskite cURL arba įklijuokite tekstą',
+    importCurlPlaceholder: 'Įklijuokite cURL, paprastą tekstą arba URL',
+    dropAnywhereToImport: 'Numeskite bet kur, kad importuotumėte',
+    orSelectFile: 'Arba pasirinkite <file>failą</file>',
+    pressEnterToImport: '<key>Enter</key> – importuoti',
+    noImportAvailable: 'Nėra ką importuoti',
     invalidCurl: 'Netinkama cURL komanda',
     copyCurl: 'Kopijuoti cURL',
   },
@@ -282,11 +286,11 @@ const lt = {
       unlockDescription: 'Reikalinga Rentgen Pro licencija.',
       tryFree: 'Išbandykite nemokamai prieš pirkdami.',
       month: 'Mėn.',
-      billedAnnually: 'Apmokama kasmet (€{{price}}/metus)',
+      billedAnnually: 'Apmokama kasmet (${{price}}/metus)',
       startFreeTrial: 'Pradėti nemokamą bandomąjį laikotarpį',
-      buyPro: 'Pirkti Pro - €{{price}}/mėn.',
+      buyPro: 'Pirkti Pro - ${{price}}/mėn.',
       oneAnnualPayment:
-        'Vienas metinis €{{price}} mokėjimas · Neprisijungus veikianti licencija. Už modelio naudojimą atsiskaitoma pasirinktam tiekėjui.',
+        'Vienas metinis ${{price}} mokėjimas · Neprisijungus veikianti licencija. Už modelio naudojimą atsiskaitoma pasirinktam tiekėjui.',
       alreadyHaveLicenseKey: 'Jau turiu licencijos raktą',
       activateLicense: 'Aktyvinti licenciją',
       reactivateLicense: 'Aktyvinti licenciją iš naujo',

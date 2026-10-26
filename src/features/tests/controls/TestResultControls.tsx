@@ -23,7 +23,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   testType: TestType;
 }
 
-export function TestResultControls({ children, className, testResult, testType, ...otherProps }: Props) {
+export default function TestResultControls({ children, className, testResult, testType, ...otherProps }: Props) {
   const { t } = useTranslation();
 
   return (

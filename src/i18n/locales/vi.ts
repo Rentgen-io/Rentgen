@@ -15,6 +15,7 @@ const vi = {
     copy: 'Sao chép',
     copied: 'Đã sao chép',
     failedCopy: 'Sao chép thất bại',
+    failedReadFile: 'Không thể đọc tệp',
     run: 'Chạy',
     runAll: 'Chạy tất cả',
     replace: 'Thay thế',
@@ -129,8 +130,11 @@ const vi = {
 
   // cURL
   curl: {
-    importCurl: 'Nhập cURL',
-    importCurlPlaceholder: 'Nhập cURL hoặc dán văn bản',
+    importCurlPlaceholder: 'Dán cURL, văn bản thô hoặc URL',
+    dropAnywhereToImport: 'Thả vào bất kỳ đâu để nhập',
+    orSelectFile: 'Hoặc chọn <file>tệp</file>',
+    pressEnterToImport: 'Nhấn <key>Enter</key> để nhập',
+    noImportAvailable: 'Không có dữ liệu để nhập',
     invalidCurl: 'Lệnh cURL không hợp lệ',
     copyCurl: 'Sao chép cURL',
   },
@@ -283,11 +287,11 @@ const vi = {
       unlockDescription: 'Yêu cầu giấy phép Rentgen Pro.',
       tryFree: 'Dùng thử miễn phí trước khi mua.',
       month: 'Tháng',
-      billedAnnually: 'Thanh toán hằng năm (€{{price}}/năm)',
+      billedAnnually: 'Thanh toán hằng năm (${{price}}/năm)',
       startFreeTrial: 'Bắt đầu dùng thử miễn phí',
-      buyPro: 'Mua Pro - €{{price}}/tháng',
+      buyPro: 'Mua Pro - ${{price}}/tháng',
       oneAnnualPayment:
-        'Một lần thanh toán hằng năm €{{price}} · Giấy phép ngoại tuyến. Việc sử dụng mô hình do nhà cung cấp bạn chọn tính phí.',
+        'Một lần thanh toán hằng năm ${{price}} · Giấy phép ngoại tuyến. Việc sử dụng mô hình do nhà cung cấp bạn chọn tính phí.',
       alreadyHaveLicenseKey: 'Tôi đã có khóa giấy phép',
       activateLicense: 'Kích hoạt giấy phép',
       reactivateLicense: 'Kích hoạt lại giấy phép',

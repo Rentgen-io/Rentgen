@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { LARGE_PAYLOAD_TEST_NAME, LOAD_TEST_NAME, OPTIONS_METHOD_HANDLING_TEST_NAME } from 'shared/testNames';
 import { getDatasets } from 'src/constants/datasets';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -43,7 +43,7 @@ import {
 } from 'src/test-engine';
 import { AiTests, cancelAllAiTests, runAiTest } from 'src/test-engine/AiTests';
 import { getTestCount } from 'src/test-engine/decorators';
-import { ParameterValue, TestOptions, TestResult, TestStatus } from 'src/types';
+import { ParameterValue, TestOptions, TestResult } from 'src/types';
 
 let abortAiTests = false;
 let abortAllTests = false;
@@ -81,11 +81,6 @@ const useTests = () => {
   const testsTimestamp = useAppSelector(selectTestsTimestamp);
 
   const emailConfiguration = testEngineConfiguration.email;
-
-  const pendingAiTests = useMemo(
-    () => aiTests?.filter((test) => !test.actual || test.status === TestStatus.Manual) ?? [],
-    [aiTests],
-  );
 
   const incrementCurrentTest = useCallback(() => {
     dispatch(testsActions.incrementCurrentTest());
@@ -187,6 +182,19 @@ const useTests = () => {
     },
     [activeAiProvider, crudTests, dataDrivenTests, performanceTests, securityTests, selectedRequestId, dispatch],
   );
+
+  const executeAllAiTests = useCallback(async () => {
+    abortAiTests = false;
+
+    dispatch(testsActions.setAiTestsRunning(true));
+
+    for (const aiTest of aiTests ?? []) {
+      if (abortAiTests) break;
+      await executeAiTest(aiTest.name);
+    }
+
+    dispatch(testsActions.setAiTestsRunning(false));
+  }, [aiTests, dispatch, executeAiTest]);
 
   const executeDataDrivenTests = useCallback(
     async (options: TestOptions, execute = true): Promise<TestResult[]> => {
@@ -301,19 +309,6 @@ const useTests = () => {
     [performanceTests, selectedRequestId, dispatch],
   );
 
-  const executePendingAiTests = useCallback(async () => {
-    abortAiTests = false;
-
-    dispatch(testsActions.setAiTestsRunning(true));
-
-    for (const aiTest of pendingAiTests) {
-      if (abortAiTests) break;
-      await executeAiTest(aiTest.name);
-    }
-
-    dispatch(testsActions.setAiTestsRunning(false));
-  }, [pendingAiTests, dispatch, executeAiTest]);
-
   const executePerformanceTests = useCallback(
     async (options: TestOptions, testResults: TestResult[] = [], execute = true): Promise<TestResult[]> => {
       if (!execute) return [];
@@ -424,7 +419,6 @@ const useTests = () => {
     isPerformanceRunning,
     isRunningTests,
     isSecurityRunning,
-    pendingAiTests,
     performanceTests,
     runningAiTests,
     securityTests,
@@ -434,11 +428,11 @@ const useTests = () => {
     cancelAllTests,
     executeAiTest,
     executeAiTestsGeneration,
+    executeAllAiTests,
     executeAllTests,
     executeDataDrivenTests,
     executeLargePayloadTest,
     executeLoadTest,
-    executePendingAiTests,
     executePerformanceTests,
     executeSecurityTests,
   };

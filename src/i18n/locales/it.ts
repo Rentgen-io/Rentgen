@@ -15,6 +15,7 @@ const it = {
     copy: 'Copia',
     copied: 'Copiato',
     failedCopy: 'Copia non riuscita',
+    failedReadFile: 'Lettura del file non riuscita',
     run: 'Esegui',
     runAll: 'Esegui tutto',
     replace: 'Sostituisci',
@@ -129,8 +130,11 @@ const it = {
 
   // cURL
   curl: {
-    importCurl: 'Importa cURL',
-    importCurlPlaceholder: 'Inserisci cURL o incolla testo',
+    importCurlPlaceholder: 'Incolla cURL, testo semplice o URL',
+    dropAnywhereToImport: 'Rilascia ovunque per importare',
+    orSelectFile: 'Oppure seleziona un <file>file</file>',
+    pressEnterToImport: '<key>Invio</key> per importare',
+    noImportAvailable: 'Nessuna importazione disponibile',
     invalidCurl: 'Comando cURL non valido',
     copyCurl: 'Copia cURL',
   },
@@ -285,11 +289,11 @@ const it = {
       unlockDescription: 'Richiede una licenza Rentgen Pro.',
       tryFree: 'Provala gratis prima di acquistare.',
       month: 'Mese',
-      billedAnnually: 'Fatturato annualmente (€{{price}}/anno)',
+      billedAnnually: 'Fatturato annualmente (${{price}}/anno)',
       startFreeTrial: 'Inizia la prova gratuita',
-      buyPro: 'Acquista Pro - €{{price}}/mese',
+      buyPro: 'Acquista Pro - ${{price}}/mese',
       oneAnnualPayment:
-        "Un pagamento annuale di €{{price}} · Licenza offline. L'uso del modello è fatturato dal provider che scegli.",
+        "Un pagamento annuale di ${{price}} · Licenza offline. L'uso del modello è fatturato dal provider che scegli.",
       alreadyHaveLicenseKey: 'Ho già una chiave di licenza',
       activateLicense: 'Attiva licenza',
       reactivateLicense: 'Riattiva licenza',

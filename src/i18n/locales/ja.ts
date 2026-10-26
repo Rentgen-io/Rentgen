@@ -15,6 +15,7 @@ const ja = {
     copy: 'コピー',
     copied: 'コピーしました',
     failedCopy: 'コピーに失敗しました',
+    failedReadFile: 'ファイルを読み込めませんでした',
     run: '実行',
     runAll: 'すべて実行',
     replace: '置き換え',
@@ -129,8 +130,11 @@ const ja = {
 
   // cURL
   curl: {
-    importCurl: 'cURL をインポート',
-    importCurlPlaceholder: 'cURL を入力するかテキストを貼り付け',
+    importCurlPlaceholder: 'cURL、プレーンテキスト、または URL を貼り付け',
+    dropAnywhereToImport: 'どこにでもドロップしてインポート',
+    orSelectFile: 'または<file>ファイル</file>を選択',
+    pressEnterToImport: '<key>Enter</key> でインポート',
+    noImportAvailable: 'インポートできる内容がありません',
     invalidCurl: '無効な cURL コマンド',
     copyCurl: 'cURL をコピー',
   },
@@ -284,11 +288,11 @@ const ja = {
       unlockDescription: 'Rentgen Pro ライセンスが必要です。',
       tryFree: '購入前に無料でお試しいただけます。',
       month: '月',
-      billedAnnually: '年払い（€{{price}}/年）',
+      billedAnnually: '年払い（${{price}}/年）',
       startFreeTrial: '無料トライアルを開始',
-      buyPro: 'Proを購入 - €{{price}}/月',
+      buyPro: 'Proを購入 - ${{price}}/月',
       oneAnnualPayment:
-        '年1回のお支払い €{{price}} · オフラインライセンス。モデルの利用料は選択したプロバイダーから請求されます。',
+        '年1回のお支払い ${{price}} · オフラインライセンス。モデルの利用料は選択したプロバイダーから請求されます。',
       alreadyHaveLicenseKey: 'ライセンスキーをすでに持っています',
       activateLicense: 'ライセンスを有効化',
       reactivateLicense: 'ライセンスを再有効化',

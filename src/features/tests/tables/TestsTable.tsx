@@ -121,7 +121,7 @@ export function TestsTableHeader({
           </span>
         )}
         {manual > 0 && (
-          <span className="py-px px-2 text-sm text-gray-500 bg-gray-500/10">
+          <span className="py-px px-2 text-sm text-gray-500 bg-gray-500/10 dark:text-gray-400 dark:bg-gray-500/20">
             {manual} {t('common.manual')}
           </span>
         )}

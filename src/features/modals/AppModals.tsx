@@ -17,6 +17,7 @@ import { environmentActions } from 'src/store/slices/environmentSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import FollowModal from './FollowModal';
 import GitHubModal from './GitHubModal';
+import ImportResourceModal from './ImportResourceModal';
 
 export default function AppModals() {
   const dispatch = useAppDispatch();
@@ -82,6 +83,7 @@ export default function AppModals() {
           dispatch(modalsActions.closeDeleteFolderModal());
         }}
       />
+      <ImportResourceModal />
       <SetAsDynamicVariableModal />
       <ImportConflictModal />
       <ProjectImportConfirmModal />

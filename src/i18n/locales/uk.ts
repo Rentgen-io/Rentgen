@@ -15,6 +15,7 @@ const uk = {
     copy: 'Копіювати',
     copied: 'Скопійовано',
     failedCopy: 'Не вдалося скопіювати',
+    failedReadFile: 'Не вдалося прочитати файл',
     run: 'Запустити',
     runAll: 'Запустити всі',
     replace: 'Замінити',
@@ -129,8 +130,11 @@ const uk = {
 
   // cURL
   curl: {
-    importCurl: 'Імпортувати cURL',
-    importCurlPlaceholder: 'Введіть cURL або вставте текст',
+    importCurlPlaceholder: 'Вставте cURL, звичайний текст або URL',
+    dropAnywhereToImport: 'Перетягніть будь-куди, щоб імпортувати',
+    orSelectFile: 'Або виберіть <file>файл</file>',
+    pressEnterToImport: '<key>Enter</key> — імпортувати',
+    noImportAvailable: 'Немає що імпортувати',
     invalidCurl: 'Некоректна команда cURL',
     copyCurl: 'Копіювати cURL',
   },
@@ -282,11 +286,11 @@ const uk = {
       unlockDescription: 'Потрібна ліцензія Rentgen Pro.',
       tryFree: 'Спробуйте безкоштовно перед покупкою.',
       month: 'Місяць',
-      billedAnnually: 'Оплата раз на рік (€{{price}}/рік)',
+      billedAnnually: 'Оплата раз на рік (${{price}}/рік)',
       startFreeTrial: 'Почати безкоштовний пробний період',
-      buyPro: 'Купити Pro - €{{price}}/місяць',
+      buyPro: 'Купити Pro - ${{price}}/місяць',
       oneAnnualPayment:
-        'Один щорічний платіж €{{price}} · Офлайн-ліцензія. Використання моделі оплачується обраному вами провайдеру.',
+        'Один щорічний платіж ${{price}} · Офлайн-ліцензія. Використання моделі оплачується обраному вами провайдеру.',
       alreadyHaveLicenseKey: 'У мене вже є ліцензійний ключ',
       activateLicense: 'Активувати ліцензію',
       reactivateLicense: 'Повторно активувати ліцензію',

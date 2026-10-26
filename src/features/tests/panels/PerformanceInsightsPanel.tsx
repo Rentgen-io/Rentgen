@@ -8,11 +8,11 @@ import {
 import Toggle from 'src/components/inputs/Toggle';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import { PERFORMANCE_INSIGHTS } from 'src/features/settings/test-engine/PerformanceInsightsSettings';
-import { LoadTestControls } from 'src/features/tests/controls/LoadTestControls';
-import { TestResultControls } from 'src/features/tests/controls/TestResultControls';
+import LoadTestControls from 'src/features/tests/controls/LoadTestControls';
+import TestResultControls from 'src/features/tests/controls/TestResultControls';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectDisabledPerformanceInsights, selectTestOptions } from 'src/store/selectors';
+import { selectDisabledPerformanceInsights } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import { TestStatus } from 'src/types';
@@ -21,10 +21,9 @@ import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColum
 export default function PerformanceInsightsPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { isLoadTestRunning, isPerformanceRunning, performanceTests, executeLoadTest } = useTests();
+  const { isPerformanceRunning, performanceTests } = useTests();
 
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
-  const testOptions = useAppSelector(selectTestOptions);
 
   const hasFailures = performanceTests.some(({ status }) =>
     [TestStatus.Bug, TestStatus.Fail, TestStatus.Warning].includes(status),
@@ -55,13 +54,8 @@ export default function PerformanceInsightsPanel() {
                 testResult={row}
                 testType="performance"
               >
-                {row.name === LOAD_TEST_NAME && testOptions ? (
-                  <LoadTestControls
-                    isRunning={isLoadTestRunning}
-                    executeTest={(threadCount: number, requestCount: number) =>
-                      executeLoadTest(testOptions, threadCount, requestCount)
-                    }
-                  />
+                {row.name === LOAD_TEST_NAME ? (
+                  <LoadTestControls />
                 ) : (
                   <p className="m-0 mr-2 whitespace-nowrap">{row.status}</p>
                 )}

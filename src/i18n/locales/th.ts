@@ -15,6 +15,7 @@ const th = {
     copy: 'คัดลอก',
     copied: 'คัดลอกแล้ว',
     failedCopy: 'คัดลอกไม่สำเร็จ',
+    failedReadFile: 'อ่านไฟล์ไม่สำเร็จ',
     run: 'รัน',
     runAll: 'รันทั้งหมด',
     replace: 'แทนที่',
@@ -129,8 +130,11 @@ const th = {
 
   // cURL
   curl: {
-    importCurl: 'นำเข้า cURL',
-    importCurlPlaceholder: 'ป้อน cURL หรือวางข้อความ',
+    importCurlPlaceholder: 'วาง cURL, ข้อความธรรมดา หรือ URL',
+    dropAnywhereToImport: 'วางที่ใดก็ได้เพื่อนำเข้า',
+    orSelectFile: 'หรือเลือก<file>ไฟล์</file>',
+    pressEnterToImport: 'กด <key>Enter</key> เพื่อนำเข้า',
+    noImportAvailable: 'ไม่มีข้อมูลให้นำเข้า',
     invalidCurl: 'คำสั่ง cURL ไม่ถูกต้อง',
     copyCurl: 'คัดลอก cURL',
   },
@@ -282,11 +286,11 @@ const th = {
       unlockDescription: 'ต้องใช้ไลเซนส์ Rentgen Pro',
       tryFree: 'ทดลองใช้ฟรีก่อนซื้อ',
       month: 'เดือน',
-      billedAnnually: 'เรียกเก็บเงินรายปี (€{{price}}/ปี)',
+      billedAnnually: 'เรียกเก็บเงินรายปี (${{price}}/ปี)',
       startFreeTrial: 'เริ่มทดลองใช้ฟรี',
-      buyPro: 'ซื้อ Pro - €{{price}}/เดือน',
+      buyPro: 'ซื้อ Pro - ${{price}}/เดือน',
       oneAnnualPayment:
-        'ชำระรายปีครั้งเดียว €{{price}} · ไลเซนส์แบบออฟไลน์ การใช้งานโมเดลจะเรียกเก็บเงินโดยผู้ให้บริการที่คุณเลือก',
+        'ชำระรายปีครั้งเดียว ${{price}} · ไลเซนส์แบบออฟไลน์ การใช้งานโมเดลจะเรียกเก็บเงินโดยผู้ให้บริการที่คุณเลือก',
       alreadyHaveLicenseKey: 'ฉันมีคีย์ไลเซนส์อยู่แล้ว',
       activateLicense: 'เปิดใช้งานไลเซนส์',
       reactivateLicense: 'เปิดใช้งานไลเซนส์อีกครั้ง',

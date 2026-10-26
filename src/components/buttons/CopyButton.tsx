@@ -34,8 +34,7 @@ export function CopyButton({
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => notify.info(t('common.copied'), { toastId: 'info-copy' }))
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
         notify.error(t('common.failedCopy'), { toastId: 'error-copy' });
       });
   }

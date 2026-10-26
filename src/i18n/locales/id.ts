@@ -15,6 +15,7 @@ const id = {
     copy: 'Salin',
     copied: 'Tersalin',
     failedCopy: 'Gagal menyalin',
+    failedReadFile: 'Gagal membaca file',
     run: 'Jalankan',
     runAll: 'Jalankan Semua',
     replace: 'Ganti',
@@ -129,8 +130,11 @@ const id = {
 
   // cURL
   curl: {
-    importCurl: 'Impor cURL',
-    importCurlPlaceholder: 'Masukkan cURL atau tempel teks',
+    importCurlPlaceholder: 'Tempel cURL, teks mentah, atau URL',
+    dropAnywhereToImport: 'Lepaskan di mana saja untuk mengimpor',
+    orSelectFile: 'Atau pilih <file>file</file>',
+    pressEnterToImport: '<key>Enter</key> untuk mengimpor',
+    noImportAvailable: 'Tidak ada yang dapat diimpor',
     invalidCurl: 'Perintah cURL tidak valid',
     copyCurl: 'Salin cURL',
   },
@@ -282,11 +286,11 @@ const id = {
       unlockDescription: 'Memerlukan lisensi Rentgen Pro.',
       tryFree: 'Coba gratis sebelum membeli.',
       month: 'Bulan',
-      billedAnnually: 'Ditagih tahunan (€{{price}}/tahun)',
+      billedAnnually: 'Ditagih tahunan (${{price}}/tahun)',
       startFreeTrial: 'Mulai uji coba gratis',
-      buyPro: 'Beli Pro - €{{price}}/bulan',
+      buyPro: 'Beli Pro - ${{price}}/bulan',
       oneAnnualPayment:
-        'Satu pembayaran tahunan sebesar €{{price}} · Lisensi offline. Penggunaan model ditagih oleh penyedia yang Anda pilih.',
+        'Satu pembayaran tahunan sebesar ${{price}} · Lisensi offline. Penggunaan model ditagih oleh penyedia yang Anda pilih.',
       alreadyHaveLicenseKey: 'Saya sudah punya kunci lisensi',
       activateLicense: 'Aktifkan lisensi',
       reactivateLicense: 'Aktifkan ulang lisensi',

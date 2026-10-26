@@ -15,6 +15,7 @@ const tr = {
     copy: 'Kopyala',
     copied: 'Kopyalandı',
     failedCopy: 'Kopyalanamadı',
+    failedReadFile: 'Dosya okunamadı',
     run: 'Çalıştır',
     runAll: 'Tümünü çalıştır',
     replace: 'Değiştir',
@@ -129,8 +130,11 @@ const tr = {
 
   // cURL
   curl: {
-    importCurl: 'cURL İçe Aktar',
-    importCurlPlaceholder: 'cURL girin veya metin yapıştırın',
+    importCurlPlaceholder: 'cURL, düz metin veya URL yapıştırın',
+    dropAnywhereToImport: 'İçe aktarmak için herhangi bir yere bırakın',
+    orSelectFile: 'Veya <file>dosya</file> seçin',
+    pressEnterToImport: 'İçe aktarmak için <key>Enter</key>',
+    noImportAvailable: 'İçe aktarılacak bir şey yok',
     invalidCurl: 'Geçersiz cURL komutu',
     copyCurl: 'cURL Kopyala',
   },
@@ -283,11 +287,11 @@ const tr = {
       unlockDescription: 'Rentgen Pro lisansı gerekir.',
       tryFree: 'Satın almadan önce ücretsiz deneyin.',
       month: 'Ay',
-      billedAnnually: 'Yıllık faturalandırılır (€{{price}}/yıl)',
+      billedAnnually: 'Yıllık faturalandırılır (${{price}}/yıl)',
       startFreeTrial: 'Ücretsiz denemeyi başlat',
-      buyPro: 'Pro satın al - €{{price}}/ay',
+      buyPro: 'Pro satın al - ${{price}}/ay',
       oneAnnualPayment:
-        'Yılda tek seferlik €{{price}} ödeme · Çevrimdışı lisans. Model kullanımınız seçtiğiniz sağlayıcı tarafından faturalandırılır.',
+        'Yılda tek seferlik ${{price}} ödeme · Çevrimdışı lisans. Model kullanımınız seçtiğiniz sağlayıcı tarafından faturalandırılır.',
       alreadyHaveLicenseKey: 'Zaten bir lisans anahtarım var',
       activateLicense: 'Lisansı etkinleştir',
       reactivateLicense: 'Lisansı yeniden etkinleştir',

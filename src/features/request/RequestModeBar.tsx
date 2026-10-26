@@ -1,21 +1,16 @@
 import { useTranslation } from 'react-i18next';
 import ActionsButton from 'src/components/buttons/ActionsButton';
-import Button, { ButtonType } from 'src/components/buttons/Button';
 import { IconButton } from 'src/components/buttons/IconButton';
 import Select, { SelectOption } from 'src/components/inputs/Select';
-import Textarea from 'src/components/inputs/Textarea';
-import Modal from 'src/components/modals/Modal';
-import { useCurlImport } from 'src/hooks/useCurlImport';
 import { useReset } from 'src/hooks/useReset';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectEnvironments, selectMode, selectOpenCurlModal, selectSelectedEnvironmentId } from 'src/store/selectors';
+import { selectEnvironments, selectMode, selectSelectedEnvironmentId } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { Mode, requestActions } from 'src/store/slices/requestSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import EnvironmentSelector from '../environment/EnvironmentSelector';
 
-import { useCallback, useState } from 'react';
 import DarkModeIcon from 'src/assets/icons/dark-mode-icon.svg';
 import LightModeIcon from 'src/assets/icons/light-mode-icon.svg';
 import ReloadIcon from 'src/assets/icons/reload-icon.svg';
@@ -30,19 +25,10 @@ export default function RequestModeBar() {
   const { t } = useTranslation();
 
   const mode = useAppSelector(selectMode);
-  const openCurlModal = useAppSelector(selectOpenCurlModal);
   const environments = useAppSelector(selectEnvironments);
   const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
 
-  const [curl, setCurl] = useState<string>('');
-
   const reset = useReset();
-  const importCurl = useCurlImport();
-
-  const handleCloseCurlModal = useCallback(() => {
-    dispatch(modalsActions.closeCurlModal());
-    setCurl('');
-  }, [dispatch]);
 
   return (
     <div className="flex flex-col @lg:flex-row @lg:items-center gap-4 @lg:gap-2">
@@ -62,28 +48,10 @@ export default function RequestModeBar() {
           <>
             <ActionsButton
               actions={[{ label: t('common.create'), onClick: reset }]}
-              onClick={() => dispatch(modalsActions.openCurlModal())}
+              onClick={() => dispatch(modalsActions.openImportResourceModal())}
             >
-              {t('curl.importCurl')}
+              {t('common.import')}
             </ActionsButton>
-            <Modal isOpen={openCurlModal} onClose={handleCloseCurlModal}>
-              <div className="flex flex-col gap-4">
-                <h4 className="m-0">{t('curl.importCurl')}</h4>
-                <Textarea
-                  autoFocus={true}
-                  className="min-h-40"
-                  placeholder={t('curl.importCurlPlaceholder')}
-                  value={curl}
-                  onChange={(event) => setCurl(event.target.value)}
-                />
-                <div className="flex items-center justify-end gap-2">
-                  <Button onClick={() => importCurl(curl)}>{t('common.import')}</Button>
-                  <Button buttonType={ButtonType.SECONDARY} onClick={handleCloseCurlModal}>
-                    {t('common.cancel')}
-                  </Button>
-                </div>
-              </div>
-            </Modal>
           </>
         )}
       </div>

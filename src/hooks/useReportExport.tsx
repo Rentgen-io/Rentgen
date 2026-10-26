@@ -48,8 +48,7 @@ export function useReportExport() {
       if (result?.canceled) return;
 
       notify.success(t('common.exported'), { toastId: 'success-export-report' });
-    } catch (error) {
-      console.error(error);
+    } catch {
       notify.error(t('tests.failedToExport'), { toastId: 'error-export-report' });
     }
   }, [testResults, exportFormat, httpResponse, dispatch]);
@@ -67,8 +66,7 @@ export function useReportExport() {
       if (result?.canceled) return;
 
       notify.success(t('common.certificated'), { toastId: 'success-generate-certificate' });
-    } catch (error) {
-      console.error(error);
+    } catch {
       notify.error(t('tests.failedToGenerateCertificate'), { toastId: 'error-generate-certificate' });
     }
   }, [testResults, t, dispatch]);

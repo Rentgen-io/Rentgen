@@ -19,24 +19,15 @@ import {
   SUCCESS_RESPONSE_EXPECTED,
 } from 'src/test-engine';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
-import { TestRunControls } from '../controls/TestRunControls';
+import AiTestRunControls from '../controls/AiTestRunControls';
+import TestRunControls from '../controls/TestRunControls';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
 export default function AiTestingPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const {
-    aiOverview,
-    aiTests,
-    aiUsage,
-    isAiTestsRunning,
-    isRunningTests,
-    pendingAiTests,
-    runningAiTests,
-    cancelAiTestsGeneration,
-    executeAiTest,
-    executePendingAiTests,
-  } = useTests();
+  const { aiOverview, aiTests, aiUsage, isAiTestsRunning, isRunningTests, cancelAiTestsGeneration, executeAllAiTests } =
+    useTests();
   const { isValidating, license, validateLicense } = useLicense();
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
@@ -66,12 +57,12 @@ export default function AiTestingPanel() {
               dispatch(uiActions.setAiActiveTab(index));
             }}
           >
-            {aiActiveTab === 1 && pendingAiTests?.length > 0 && (
+            {aiActiveTab === 1 && aiTests && aiTests.length > 0 && (
               <TestRunControls
                 className="absolute top-0.5 right-0.5 min-w-22"
-                label={`${t('common.runAll')} (${pendingAiTests.length})`}
+                label={`${t('common.runAll')} (${aiTests.length})`}
                 isRunning={isAiTestsRunning}
-                executeTest={executePendingAiTests}
+                executeTest={executeAllAiTests}
               />
             )}
             <TabList className="m-0 mb-6 p-0 flex gap-4 text-sm font-medium text-text-secondary">
@@ -198,16 +189,7 @@ export default function AiTestingPanel() {
                     name: t('tables.result'),
                     selector: (row) => row.status,
                     width: '150px',
-                    cell: ({ actual, name, status }) => {
-                      if (actual) return status;
-
-                      return (
-                        <TestRunControls
-                          isRunning={runningAiTests[name]}
-                          executeTest={async () => await executeAiTest(name)}
-                        />
-                      );
-                    },
+                    cell: ({ name }) => <AiTestRunControls name={name} />,
                   },
                 ]}
                 expandableRows

@@ -15,6 +15,7 @@ const hi = {
     copy: 'कॉपी करें',
     copied: 'कॉपी किया गया',
     failedCopy: 'कॉपी करने में विफल',
+    failedReadFile: 'फ़ाइल पढ़ने में विफल',
     run: 'चलाएँ',
     runAll: 'सभी चलाएँ',
     replace: 'बदलें',
@@ -129,8 +130,11 @@ const hi = {
 
   // cURL
   curl: {
-    importCurl: 'cURL आयात करें',
-    importCurlPlaceholder: 'cURL दर्ज करें या टेक्स्ट पेस्ट करें',
+    importCurlPlaceholder: 'cURL, सादा टेक्स्ट या URL पेस्ट करें',
+    dropAnywhereToImport: 'आयात करने के लिए कहीं भी छोड़ें',
+    orSelectFile: 'या <file>फ़ाइल</file> चुनें',
+    pressEnterToImport: 'आयात करने के लिए <key>Enter</key> दबाएँ',
+    noImportAvailable: 'आयात के लिए कुछ उपलब्ध नहीं है',
     invalidCurl: 'अमान्य cURL कमांड',
     copyCurl: 'cURL कॉपी करें',
   },
@@ -282,11 +286,11 @@ const hi = {
       unlockDescription: 'Rentgen Pro लाइसेंस आवश्यक है।',
       tryFree: 'खरीदने से पहले इसे निःशुल्क आज़माएँ।',
       month: 'माह',
-      billedAnnually: 'वार्षिक बिलिंग (€{{price}}/वर्ष)',
+      billedAnnually: 'वार्षिक बिलिंग (${{price}}/वर्ष)',
       startFreeTrial: 'निःशुल्क परीक्षण शुरू करें',
-      buyPro: 'Pro खरीदें - €{{price}}/माह',
+      buyPro: 'Pro खरीदें - ${{price}}/माह',
       oneAnnualPayment:
-        '€{{price}} का एक वार्षिक भुगतान · ऑफ़लाइन लाइसेंस। मॉडल उपयोग का बिल आपके चुने हुए प्रदाता द्वारा लिया जाता है।',
+        '${{price}} का एक वार्षिक भुगतान · ऑफ़लाइन लाइसेंस। मॉडल उपयोग का बिल आपके चुने हुए प्रदाता द्वारा लिया जाता है।',
       alreadyHaveLicenseKey: 'मेरे पास पहले से लाइसेंस कुंजी है',
       activateLicense: 'लाइसेंस सक्रिय करें',
       reactivateLicense: 'लाइसेंस फिर से सक्रिय करें',

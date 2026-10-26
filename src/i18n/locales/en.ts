@@ -15,6 +15,7 @@ const en = {
     copy: 'Copy',
     copied: 'Copied',
     failedCopy: 'Failed to copy',
+    failedReadFile: 'Failed to read file',
     run: 'Run',
     runAll: 'Run All',
     replace: 'Replace',
@@ -129,8 +130,11 @@ const en = {
 
   // cURL
   curl: {
-    importCurl: 'Import cURL',
-    importCurlPlaceholder: 'Enter cURL or paste text',
+    importCurlPlaceholder: 'Paste cURL, Raw text or URL',
+    dropAnywhereToImport: 'Drop anywhere to import',
+    orSelectFile: 'Or select <file>file</file>',
+    pressEnterToImport: '<key>Enter</key> to import',
+    noImportAvailable: 'No import available',
     invalidCurl: 'Invalid cURL command',
     copyCurl: 'Copy cURL',
   },
@@ -282,11 +286,11 @@ const en = {
       unlockDescription: 'Requires a Rentgen Pro license.',
       tryFree: 'Try it free before you buy.',
       month: 'Month',
-      billedAnnually: 'Billed annually (€{{price}}/year)',
+      billedAnnually: 'Billed annually (${{price}}/year)',
       startFreeTrial: 'Start Free Trial',
-      buyPro: 'Buy Pro - €{{price}}/month',
+      buyPro: 'Buy Pro - ${{price}}/month',
       oneAnnualPayment:
-        'One annual payment of €{{price}} · Offline license. Your model usage is billed by your chosen provider.',
+        'One annual payment of ${{price}} · Offline license. Your model usage is billed by your chosen provider.',
       alreadyHaveLicenseKey: 'I already have a license key',
       activateLicense: 'Activate License',
       reactivateLicense: 'Reactivate License',

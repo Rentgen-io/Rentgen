@@ -32,7 +32,7 @@ export function AiLicenseSettings() {
           <label className="text-lg font-bold">Rentgen Pro</label>
           <div className="flex flex-col gap-2">
             <span className="text-2xl font-bold">
-              €{RENTGEN_LICENSE_MONTHLY_PRICE}
+              ${RENTGEN_LICENSE_MONTHLY_PRICE}
               <span className="font-normal text-text-secondary lowercase">/{t('settings.ai.month')}</span>
             </span>
             <span className="text-xs text-text-secondary">

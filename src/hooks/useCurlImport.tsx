@@ -17,7 +17,7 @@ export function useCurlImport() {
   const reset = useReset();
 
   return useCallback(
-    (curl: string) => {
+    (curl: string): boolean => {
       try {
         if (curl.length > MAX_CURL_LENGTH) throw new Error('cURL too large');
 
@@ -43,10 +43,11 @@ export function useCurlImport() {
         if (decodedLines.length > 0) dispatch(requestActions.setBody(decodedLines.join('\n')));
         else dispatch(requestActions.setBody(curlBody ? String(curlBody).trim() : ''));
 
-        dispatch(modalsActions.closeCurlModal());
-      } catch (error) {
-        console.error(error);
+        dispatch(modalsActions.closeImportResourceModal());
+        return true;
+      } catch {
         notify.error(t('curl.invalidCurl'), { toastId: 'error-import-curl' });
+        return false;
       }
     },
     [reset, t, dispatch],

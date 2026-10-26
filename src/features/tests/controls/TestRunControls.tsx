@@ -10,7 +10,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   executeTest: () => Promise<void>;
 }
 
-export function TestRunControls({ className, children, label, isRunning, executeTest, ...otherProps }: Props) {
+export default function TestRunControls({ className, children, label, isRunning, executeTest, ...otherProps }: Props) {
   const { t } = useTranslation();
 
   return (

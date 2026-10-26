@@ -15,6 +15,7 @@ const nl = {
     copy: 'Kopiëren',
     copied: 'Gekopieerd',
     failedCopy: 'Kopiëren mislukt',
+    failedReadFile: 'Bestand lezen mislukt',
     run: 'Uitvoeren',
     runAll: 'Alles uitvoeren',
     replace: 'Vervangen',
@@ -129,8 +130,11 @@ const nl = {
 
   // cURL
   curl: {
-    importCurl: 'cURL importeren',
-    importCurlPlaceholder: 'Voer cURL in of plak tekst',
+    importCurlPlaceholder: 'Plak cURL, platte tekst of URL',
+    dropAnywhereToImport: 'Zet ergens neer om te importeren',
+    orSelectFile: 'Of selecteer een <file>bestand</file>',
+    pressEnterToImport: '<key>Enter</key> om te importeren',
+    noImportAvailable: 'Geen import beschikbaar',
     invalidCurl: 'Ongeldig cURL-commando',
     copyCurl: 'cURL kopiëren',
   },
@@ -284,11 +288,11 @@ const nl = {
       unlockDescription: 'Vereist een Rentgen Pro-licentie.',
       tryFree: 'Probeer het gratis voordat je koopt.',
       month: 'Maand',
-      billedAnnually: 'Jaarlijks gefactureerd (€{{price}}/jaar)',
+      billedAnnually: 'Jaarlijks gefactureerd (${{price}}/jaar)',
       startFreeTrial: 'Gratis proefperiode starten',
-      buyPro: 'Pro kopen - €{{price}}/maand',
+      buyPro: 'Pro kopen - ${{price}}/maand',
       oneAnnualPayment:
-        'Eén jaarlijkse betaling van €{{price}} · Offline licentie. Modelgebruik wordt gefactureerd door de provider die je kiest.',
+        'Eén jaarlijkse betaling van ${{price}} · Offline licentie. Modelgebruik wordt gefactureerd door de provider die je kiest.',
       alreadyHaveLicenseKey: 'Ik heb al een licentiesleutel',
       activateLicense: 'Licentie activeren',
       reactivateLicense: 'Licentie opnieuw activeren',
