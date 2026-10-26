@@ -70,7 +70,7 @@ export function AiLicenseSettings() {
             buttonType={ButtonType.SECONDARY}
             disabled={!licenseKey}
             onClick={async () => {
-              const result = await validateLicense(licenseKey);
+              const result = await validateLicense(licenseKey, false);
               showLicenseMessage(result);
 
               if (result.valid) dispatch(uiActions.setShowLicenseSettings(false));

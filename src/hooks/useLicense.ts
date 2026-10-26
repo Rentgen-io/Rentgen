@@ -11,11 +11,11 @@ export function useLicense() {
   const [isValidating, setIsValidating] = useState(false);
 
   const validateLicense = useCallback(
-    async (key: string | null) => {
+    async (key: string | null, saveInvalid = true) => {
       setIsValidating(true);
 
       const result = await verifyLicense(key);
-      if (result.valid) dispatch(settingsActions.setLicense({ key, result }));
+      if (result.valid || saveInvalid) dispatch(settingsActions.setLicense({ key, result }));
 
       setIsValidating(false);
 
