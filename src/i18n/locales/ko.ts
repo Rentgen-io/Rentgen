@@ -289,7 +289,8 @@ const ko = {
       billedAnnually: '연간 청구 (${{price}}/년)',
       startFreeTrial: '무료 체험 시작',
       buyPro: 'Pro 구매 - ${{price}}/월',
-      oneAnnualPayment: '연 1회 ${{price}} 결제 · 오프라인 라이선스. 모델 사용 요금은 선택한 제공업체에서 청구합니다.',
+      oneAnnualPayment:
+        '연 1회 ${{price}} 결제로 AI 통합이 활성화됩니다. 본인의 OpenAI API 키 또는 실행 중인 Ollama 모델이 필요합니다. AI 사용 요금은 포함되지 않습니다.',
       alreadyHaveLicenseKey: '이미 라이선스 키가 있습니다',
       activateLicense: '라이선스 활성화',
       reactivateLicense: '라이선스 재활성화',

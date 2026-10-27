@@ -290,7 +290,7 @@ const id = {
       startFreeTrial: 'Mulai uji coba gratis',
       buyPro: 'Beli Pro - ${{price}}/bulan',
       oneAnnualPayment:
-        'Satu pembayaran tahunan sebesar ${{price}} · Lisensi offline. Penggunaan model ditagih oleh penyedia yang Anda pilih.',
+        'Satu pembayaran tahunan sebesar ${{price}} membuka integrasi AI. Memerlukan kunci API OpenAI Anda sendiri atau model Ollama yang sedang berjalan. Penggunaan AI tidak termasuk.',
       alreadyHaveLicenseKey: 'Saya sudah punya kunci lisensi',
       activateLicense: 'Aktifkan lisensi',
       reactivateLicense: 'Aktifkan ulang lisensi',

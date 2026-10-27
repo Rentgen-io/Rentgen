@@ -287,7 +287,8 @@ const zhCN = {
       billedAnnually: '按年计费（${{price}}/年）',
       startFreeTrial: '开始免费试用',
       buyPro: '购买 Pro - ${{price}}/月',
-      oneAnnualPayment: '每年支付一次 ${{price}} · 离线许可证。模型使用费用由您选择的提供商计费。',
+      oneAnnualPayment:
+        '每年支付一次 ${{price}} 即可解锁 AI 集成。需要您自己的 OpenAI API 密钥或正在运行的 Ollama 模型。不包含 AI 使用费用。',
       alreadyHaveLicenseKey: '我已有许可证密钥',
       activateLicense: '激活许可证',
       reactivateLicense: '重新激活许可证',

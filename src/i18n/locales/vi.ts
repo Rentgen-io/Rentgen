@@ -291,7 +291,7 @@ const vi = {
       startFreeTrial: 'Bắt đầu dùng thử miễn phí',
       buyPro: 'Mua Pro - ${{price}}/tháng',
       oneAnnualPayment:
-        'Một lần thanh toán hằng năm ${{price}} · Giấy phép ngoại tuyến. Việc sử dụng mô hình do nhà cung cấp bạn chọn tính phí.',
+        'Một lần thanh toán hằng năm ${{price}} để mở khóa tích hợp AI. Yêu cầu khóa API OpenAI của riêng bạn hoặc mô hình Ollama đang chạy. Chưa bao gồm chi phí sử dụng AI.',
       alreadyHaveLicenseKey: 'Tôi đã có khóa giấy phép',
       activateLicense: 'Kích hoạt giấy phép',
       reactivateLicense: 'Kích hoạt lại giấy phép',

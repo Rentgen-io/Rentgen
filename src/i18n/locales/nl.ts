@@ -292,7 +292,7 @@ const nl = {
       startFreeTrial: 'Gratis proefperiode starten',
       buyPro: 'Pro kopen - ${{price}}/maand',
       oneAnnualPayment:
-        'Eén jaarlijkse betaling van ${{price}} · Offline licentie. Modelgebruik wordt gefactureerd door de provider die je kiest.',
+        'Eén jaarlijkse betaling van ${{price}} ontgrendelt de AI-integratie. Vereist je eigen OpenAI API-sleutel of een draaiend Ollama-model. AI-gebruik is niet inbegrepen.',
       alreadyHaveLicenseKey: 'Ik heb al een licentiesleutel',
       activateLicense: 'Licentie activeren',
       reactivateLicense: 'Licentie opnieuw activeren',

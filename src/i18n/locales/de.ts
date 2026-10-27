@@ -292,7 +292,7 @@ const de = {
       startFreeTrial: 'Kostenlos testen',
       buyPro: 'Pro kaufen - ${{price}}/Monat',
       oneAnnualPayment:
-        'Eine jährliche Zahlung von ${{price}} · Offline-Lizenz. Die Modellnutzung wird von Ihrem gewählten Anbieter abgerechnet.',
+        'Eine jährliche Zahlung von ${{price}} schaltet die KI-Integration frei. Erfordert Ihren eigenen OpenAI-API-Schlüssel oder ein laufendes Ollama-Modell. Die KI-Nutzung ist nicht enthalten.',
       alreadyHaveLicenseKey: 'Ich habe bereits einen Lizenzschlüssel',
       activateLicense: 'Lizenz aktivieren',
       reactivateLicense: 'Lizenz erneut aktivieren',

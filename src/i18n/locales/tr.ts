@@ -291,7 +291,7 @@ const tr = {
       startFreeTrial: 'Ücretsiz denemeyi başlat',
       buyPro: 'Pro satın al - ${{price}}/ay',
       oneAnnualPayment:
-        'Yılda tek seferlik ${{price}} ödeme · Çevrimdışı lisans. Model kullanımınız seçtiğiniz sağlayıcı tarafından faturalandırılır.',
+        'Yılda tek seferlik ${{price}} ödeme ile yapay zeka entegrasyonunun kilidi açılır. Kendi OpenAI API anahtarınız veya çalışan bir Ollama modeli gerekir. Yapay zeka kullanımı dahil değildir.',
       alreadyHaveLicenseKey: 'Zaten bir lisans anahtarım var',
       activateLicense: 'Lisansı etkinleştir',
       reactivateLicense: 'Lisansı yeniden etkinleştir',

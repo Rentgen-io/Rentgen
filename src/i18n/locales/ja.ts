@@ -292,7 +292,7 @@ const ja = {
       startFreeTrial: '無料トライアルを開始',
       buyPro: 'Proを購入 - ${{price}}/月',
       oneAnnualPayment:
-        '年1回のお支払い ${{price}} · オフラインライセンス。モデルの利用料は選択したプロバイダーから請求されます。',
+        '年1回 ${{price}} のお支払いで AI 連携が利用可能になります。ご自身の OpenAI API キー、または実行中の Ollama モデルが必要です。AI の利用料は含まれません。',
       alreadyHaveLicenseKey: 'ライセンスキーをすでに持っています',
       activateLicense: 'ライセンスを有効化',
       reactivateLicense: 'ライセンスを再有効化',

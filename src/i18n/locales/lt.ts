@@ -290,7 +290,7 @@ const lt = {
       startFreeTrial: 'Pradėti nemokamą bandomąjį laikotarpį',
       buyPro: 'Pirkti Pro - ${{price}}/mėn.',
       oneAnnualPayment:
-        'Vienas metinis ${{price}} mokėjimas · Neprisijungus veikianti licencija. Už modelio naudojimą atsiskaitoma pasirinktam tiekėjui.',
+        'Vienas metinis ${{price}} mokėjimas atrakina DI integraciją. Reikalingas jūsų nuosavas OpenAI API raktas arba veikiantis Ollama modelis. DI naudojimas neįskaičiuotas.',
       alreadyHaveLicenseKey: 'Jau turiu licencijos raktą',
       activateLicense: 'Aktyvinti licenciją',
       reactivateLicense: 'Aktyvinti licenciją iš naujo',
