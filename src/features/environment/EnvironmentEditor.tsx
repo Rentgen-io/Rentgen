@@ -253,8 +253,8 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
                     return (
                       <span
-                        className="py-2! px-3! text-xs font-monospace text-text-secondary dark:text-dark-text-secondary truncate block w-full min-w-0"
-                        title={(row as DynamicVariable).currentValue || ''}
+                        className="py-2 px-3 text-xs font-monospace text-text-secondary dark:text-dark-text-secondary truncate block w-full min-w-0"
+                        title={(row as DynamicVariable).currentValue || undefined}
                       >
                         {(row as DynamicVariable).currentValue || '—'}
                       </span>
