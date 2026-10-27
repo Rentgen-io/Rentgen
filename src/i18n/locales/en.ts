@@ -290,7 +290,7 @@ const en = {
       startFreeTrial: 'Start Free Trial',
       buyPro: 'Buy Pro - ${{price}}/month',
       oneAnnualPayment:
-        'One annual payment of ${{price}} · Offline license. Your model usage is billed by your chosen provider.',
+        'One annual payment of ${{price}} to unlocks the AI integration. Requires your own OpenAI API key or running Ollama model. AI usage is not included.',
       alreadyHaveLicenseKey: 'I already have a license key',
       activateLicense: 'Activate License',
       reactivateLicense: 'Reactivate License',
