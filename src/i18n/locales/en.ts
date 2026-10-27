@@ -130,7 +130,7 @@ const en = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'Paste cURL, Raw text or URL',
+    importPlaceholder: 'Paste cURL, OpenAPI schema or schema URL',
     dropAnywhereToImport: 'Drop anywhere to import',
     orSelectFile: 'Or select <file>file</file>',
     pressEnterToImport: '<key>Enter</key> to import',

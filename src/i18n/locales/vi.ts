@@ -130,12 +130,12 @@ const vi = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'Dán cURL, văn bản thô hoặc URL',
+    importPlaceholder: 'Dán cURL, lược đồ OpenAPI hoặc URL lược đồ',
     dropAnywhereToImport: 'Thả vào bất kỳ đâu để nhập',
     orSelectFile: 'Hoặc chọn <file>tệp</file>',
     pressEnterToImport: 'Nhấn <key>Enter</key> để nhập',
     noImportAvailable: 'Không có dữ liệu để nhập',
-    invalidCurl: 'Lệnh cURL không hợp lệ',
+    invalidFormat: 'Định dạng không đúng, vui lòng nhập đúng định dạng để nhập dữ liệu',
     copyCurl: 'Sao chép cURL',
   },
 

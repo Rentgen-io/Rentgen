@@ -130,12 +130,12 @@ const th = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'วาง cURL, ข้อความธรรมดา หรือ URL',
+    importPlaceholder: 'วาง cURL, สคีมา OpenAPI หรือ URL ของสคีมา',
     dropAnywhereToImport: 'วางที่ใดก็ได้เพื่อนำเข้า',
     orSelectFile: 'หรือเลือก<file>ไฟล์</file>',
     pressEnterToImport: 'กด <key>Enter</key> เพื่อนำเข้า',
     noImportAvailable: 'ไม่มีข้อมูลให้นำเข้า',
-    invalidCurl: 'คำสั่ง cURL ไม่ถูกต้อง',
+    invalidFormat: 'รูปแบบไม่ถูกต้อง โปรดป้อนรูปแบบที่ถูกต้องเพื่อนำเข้า',
     copyCurl: 'คัดลอก cURL',
   },
 

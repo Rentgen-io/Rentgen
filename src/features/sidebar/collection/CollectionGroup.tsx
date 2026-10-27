@@ -118,7 +118,7 @@ export default function CollectionGroup({
       >
         <div
           className={cn(
-            'h-9 flex items-center gap-2 px-3 py-1.5',
+            'relative h-9 flex items-center gap-2 px-3 py-1.5',
             'hover:bg-button-secondary dark:hover:bg-dark-input box-border group cursor-pointer outline-none',
             {
               'bg-button-secondary dark:bg-dark-input': isSelected,
@@ -159,35 +159,36 @@ export default function CollectionGroup({
             </span>
           )}
 
-          <span className={cn('text-xs text-text-secondary', { 'flex-auto': !isEditing })}>{folder.items.length}</span>
-
-          {folder.items.length > 0 &&
-            !isEditing &&
-            !isOtherFolderRunning &&
-            (isThisFolderRunning ? (
-              <StopIcon
-                className="h-4 w-4 shrink-0 text-red-500 hover:text-red-600 cursor-pointer"
-                onClick={handlePlayClick}
-              />
-            ) : (
-              <PlayIcon
-                className="h-4 w-4 shrink-0 text-green-500 hover:text-green-600 cursor-pointer opacity-0 group-hover:opacity-100"
-                onClick={handlePlayClick}
-              />
-            ))}
+          <span className={cn('text-xs text-text-secondary', { 'flex-auto text-right': !isEditing })}>
+            {folder.items.length}
+          </span>
 
           {!isEditing && (
-            <EditIcon
-              className="h-4 w-4 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-primary cursor-pointer opacity-0 group-hover:opacity-100"
-              onClick={handleEditClick}
-            />
-          )}
+            <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100">
+              {folder.items.length > 0 &&
+                !isOtherFolderRunning &&
+                (isThisFolderRunning ? (
+                  <StopIcon
+                    className="h-4 w-4 text-red-500 hover:text-red-600 cursor-pointer"
+                    onClick={handlePlayClick}
+                  />
+                ) : (
+                  <PlayIcon
+                    className="h-4 w-4 text-green-500 hover:text-green-600 cursor-pointer"
+                    onClick={handlePlayClick}
+                  />
+                ))}
 
-          {!isEditing && (
-            <TrashIcon
-              className="h-3 w-3 shrink-0 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer opacity-0 group-hover:opacity-100"
-              onClick={handleDeleteClick}
-            />
+              <EditIcon
+                className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-primary cursor-pointer"
+                onClick={handleEditClick}
+              />
+
+              <TrashIcon
+                className="h-3 w-3 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+                onClick={handleDeleteClick}
+              />
+            </div>
           )}
         </div>
       </div>

@@ -130,12 +130,12 @@ const nl = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'Plak cURL, platte tekst of URL',
+    importPlaceholder: 'Plak cURL, OpenAPI-schema of schema-URL',
     dropAnywhereToImport: 'Zet ergens neer om te importeren',
     orSelectFile: 'Of selecteer een <file>bestand</file>',
     pressEnterToImport: '<key>Enter</key> om te importeren',
     noImportAvailable: 'Geen import beschikbaar',
-    invalidCurl: 'Ongeldig cURL-commando',
+    invalidFormat: 'Onjuist formaat, voer het juiste formaat in om te importeren',
     copyCurl: 'cURL kopiëren',
   },
 

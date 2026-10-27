@@ -130,12 +130,12 @@ const ptBR = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'Cole cURL, texto simples ou URL',
+    importPlaceholder: 'Cole cURL, esquema OpenAPI ou URL do esquema',
     dropAnywhereToImport: 'Solte em qualquer lugar para importar',
     orSelectFile: 'Ou selecione um <file>arquivo</file>',
     pressEnterToImport: '<key>Enter</key> para importar',
     noImportAvailable: 'Nenhuma importação disponível',
-    invalidCurl: 'Comando cURL inválido',
+    invalidFormat: 'Formato incorreto, insira o formato correto para importar',
     copyCurl: 'Copiar cURL',
   },
 

@@ -3,9 +3,11 @@ import { ChangeEvent, DragEvent, KeyboardEvent, useCallback, useRef, useState } 
 import { Trans, useTranslation } from 'react-i18next';
 import { IconButton } from 'src/components/buttons/IconButton';
 import Textarea from 'src/components/inputs/Textarea';
+import Loader from 'src/components/loaders/Loader';
 import Modal from 'src/components/modals/Modal';
 import { useCurlImport } from 'src/hooks/useCurlImport';
 import { useOpenApiImport } from 'src/hooks/useOpenApiImport';
+import { useUrlImport } from 'src/hooks/useUrlImport';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectOpenImportResourceModal } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
@@ -13,13 +15,13 @@ import { fetchOpenApiSchema, isHttpUrl, isOpenApiSchema, parseJsonObject } from 
 import { notify } from 'src/utils/toast';
 
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
-import Loader from 'src/components/loaders/Loader';
 
 export default function ImportResourceModal() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const importCurl = useCurlImport();
   const importOpenApi = useOpenApiImport();
+  const importUrl = useUrlImport();
 
   const openImportResourceModal = useAppSelector(selectOpenImportResourceModal);
 
@@ -60,14 +62,14 @@ export default function ImportResourceModal() {
 
     if (isHttpUrl(trimmed)) {
       const schema = await fetchOpenApiSchema(trimmed);
-      if (schema) return importOpenApi(schema);
-    } else {
-      const schema = parseJsonObject(trimmed);
-      if (isOpenApiSchema(schema)) return importOpenApi(schema);
+      return schema ? importOpenApi(schema, trimmed) : importUrl(trimmed);
     }
 
+    const schema = parseJsonObject(trimmed);
+    if (isOpenApiSchema(schema)) return importOpenApi(schema);
+
     return importCurl(trimmed);
-  }, [value, importOpenApi, importCurl]);
+  }, [value, importOpenApi, importUrl, importCurl]);
 
   const handleKeyDown = useCallback(
     async (event: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -78,8 +80,10 @@ export default function ImportResourceModal() {
 
       setIsImporting(true);
       try {
-        if (await importResource()) handleClose();
-        else notify.error(t('curl.invalidFormat'), { toastId: 'error-import-resource' });
+        if (await importResource()) {
+          handleClose();
+          notify.success(t('common.imported'), { toastId: 'success-import-resource' });
+        } else notify.error(t('curl.invalidFormat'), { toastId: 'error-import-resource' });
       } finally {
         setIsImporting(false);
       }
@@ -127,7 +131,7 @@ export default function ImportResourceModal() {
               'h-8 min-h-auto overflow-hidden': !value,
               'opacity-50': isImporting,
             })}
-            placeholder={t('curl.importCurlPlaceholder')}
+            placeholder={t('curl.importPlaceholder')}
             readOnly={isImporting}
             value={value}
             onChange={(e) => setValue(e.target.value)}

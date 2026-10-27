@@ -130,12 +130,12 @@ const id = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'Tempel cURL, teks mentah, atau URL',
+    importPlaceholder: 'Tempel cURL, skema OpenAPI, atau URL skema',
     dropAnywhereToImport: 'Lepaskan di mana saja untuk mengimpor',
     orSelectFile: 'Atau pilih <file>file</file>',
     pressEnterToImport: '<key>Enter</key> untuk mengimpor',
     noImportAvailable: 'Tidak ada yang dapat diimpor',
-    invalidCurl: 'Perintah cURL tidak valid',
+    invalidFormat: 'Format salah, masukkan format yang benar untuk mengimpor',
     copyCurl: 'Salin cURL',
   },
 

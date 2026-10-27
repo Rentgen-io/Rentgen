@@ -130,12 +130,12 @@ const es = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'Pega cURL, texto sin formato o URL',
+    importPlaceholder: 'Pega cURL, esquema OpenAPI o URL del esquema',
     dropAnywhereToImport: 'Suelta en cualquier lugar para importar',
     orSelectFile: 'O selecciona un <file>archivo</file>',
     pressEnterToImport: '<key>Enter</key> para importar',
     noImportAvailable: 'No hay importación disponible',
-    invalidCurl: 'Comando cURL no válido',
+    invalidFormat: 'Formato incorrecto, introduce el formato correcto para importar',
     copyCurl: 'Copiar cURL',
   },
 

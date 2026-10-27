@@ -130,12 +130,12 @@ const uk = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'Вставте cURL, звичайний текст або URL',
+    importPlaceholder: 'Вставте cURL, схему OpenAPI або URL схеми',
     dropAnywhereToImport: 'Перетягніть будь-куди, щоб імпортувати',
     orSelectFile: 'Або виберіть <file>файл</file>',
     pressEnterToImport: '<key>Enter</key> — імпортувати',
     noImportAvailable: 'Немає що імпортувати',
-    invalidCurl: 'Некоректна команда cURL',
+    invalidFormat: 'Неправильний формат, введіть правильний формат для імпорту',
     copyCurl: 'Копіювати cURL',
   },
 

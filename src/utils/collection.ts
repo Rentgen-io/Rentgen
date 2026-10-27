@@ -249,6 +249,19 @@ export function addFolderToCollection(collection: PostmanCollection, name: strin
   };
 }
 
+/**
+ * Builds a folder name that does not collide with existing folders by appending a counter
+ */
+export function uniqueFolderName(collection: PostmanCollection, name: string): string {
+  const existingNames = new Set(collection.item.map((folder) => folder.name));
+  if (!existingNames.has(name)) return name;
+
+  let counter = 2;
+  while (existingNames.has(`${name} (${counter})`)) counter++;
+
+  return `${name} (${counter})`;
+}
+
 export function renameFolderInCollection(
   collection: PostmanCollection,
   folderId: string,

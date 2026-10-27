@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_FOLDER_ID } from 'shared/utils/collection';
 import { loadCollection as loadCollectionFile } from 'src/api/storage';
-import { PostmanCollection } from 'src/types';
+import { PostmanCollection, PostmanFolder } from 'src/types';
 import {
   addFolderToCollection,
   addRequestToCollection,
@@ -15,6 +15,7 @@ import {
   renameRequestInCollection,
   reorderFolderInCollection,
   reorderRequestInCollection,
+  uniqueFolderName,
   updateRequestInCollection,
 } from 'src/utils';
 
@@ -134,6 +135,13 @@ export const collectionSlice = createSlice({
               })),
             });
         }
+    },
+    importFolder: (state, action: PayloadAction<PostmanFolder>) => {
+      state.data.item.unshift({
+        id: generateFolderId(),
+        name: uniqueFolderName(state.data, action.payload.name),
+        item: action.payload.item.map((request) => ({ ...request, id: generateRequestId() })),
+      });
     },
     moveRequest: (
       state,

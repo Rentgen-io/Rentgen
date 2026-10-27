@@ -130,12 +130,12 @@ const ko = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'cURL, 일반 텍스트 또는 URL을 붙여넣으세요',
+    importPlaceholder: 'cURL, OpenAPI 스키마 또는 스키마 URL을 붙여넣으세요',
     dropAnywhereToImport: '아무 곳에나 놓아서 가져오기',
     orSelectFile: '또는 <file>파일</file> 선택',
     pressEnterToImport: '<key>Enter</key> 키를 눌러 가져오기',
     noImportAvailable: '가져올 항목이 없습니다',
-    invalidCurl: '유효하지 않은 cURL 명령',
+    invalidFormat: '형식이 올바르지 않습니다. 가져오려면 올바른 형식을 입력하세요',
     copyCurl: 'cURL 복사',
   },
 

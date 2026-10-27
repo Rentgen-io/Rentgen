@@ -43,6 +43,6 @@ export function useCurlImport() {
         return false;
       }
     },
-    [reset, dispatch],
+    [dispatch, reset],
   );
 }

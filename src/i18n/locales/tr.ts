@@ -130,12 +130,12 @@ const tr = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'cURL, düz metin veya URL yapıştırın',
+    importPlaceholder: 'cURL, OpenAPI şeması veya şema URL’si yapıştırın',
     dropAnywhereToImport: 'İçe aktarmak için herhangi bir yere bırakın',
     orSelectFile: 'Veya <file>dosya</file> seçin',
     pressEnterToImport: 'İçe aktarmak için <key>Enter</key>',
     noImportAvailable: 'İçe aktarılacak bir şey yok',
-    invalidCurl: 'Geçersiz cURL komutu',
+    invalidFormat: 'Hatalı biçim, içe aktarmak için lütfen doğru biçimi girin',
     copyCurl: 'cURL Kopyala',
   },
 

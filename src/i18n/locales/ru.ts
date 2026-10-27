@@ -130,12 +130,12 @@ const ru = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'Вставьте cURL, обычный текст или URL',
+    importPlaceholder: 'Вставьте cURL, схему OpenAPI или URL схемы',
     dropAnywhereToImport: 'Перетащите в любое место для импорта',
     orSelectFile: 'Или выберите <file>файл</file>',
     pressEnterToImport: '<key>Enter</key> — импортировать',
     noImportAvailable: 'Нечего импортировать',
-    invalidCurl: 'Неверная команда cURL',
+    invalidFormat: 'Неверный формат, введите правильный формат для импорта',
     copyCurl: 'Скопировать cURL',
   },
 

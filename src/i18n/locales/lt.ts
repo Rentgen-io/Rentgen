@@ -130,12 +130,12 @@ const lt = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'Įklijuokite cURL, paprastą tekstą arba URL',
+    importPlaceholder: 'Įklijuokite cURL, OpenAPI schemą arba schemos URL',
     dropAnywhereToImport: 'Numeskite bet kur, kad importuotumėte',
     orSelectFile: 'Arba pasirinkite <file>failą</file>',
     pressEnterToImport: '<key>Enter</key> – importuoti',
     noImportAvailable: 'Nėra ką importuoti',
-    invalidCurl: 'Netinkama cURL komanda',
+    invalidFormat: 'Netinkamas formatas, importavimui įveskite tinkamą formatą',
     copyCurl: 'Kopijuoti cURL',
   },
 

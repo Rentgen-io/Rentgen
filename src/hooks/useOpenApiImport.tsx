@@ -1,18 +1,25 @@
 import { useCallback } from 'react';
-import { OpenApiSchema } from 'src/utils';
-import { useReset } from './useReset';
+import { useAppDispatch } from 'src/store/hooks';
+import { collectionActions } from 'src/store/slices/collectionSlice';
+import { OpenApiDocument } from 'src/types';
+import { openApiToFolder } from 'src/utils';
 
 export function useOpenApiImport() {
-  const reset = useReset();
+  const dispatch = useAppDispatch();
 
   return useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    (schema: OpenApiSchema): boolean => {
-      // TODO: implement OpenAPI import
-      reset();
+    (document: OpenApiDocument, sourceUrl?: string): boolean => {
+      try {
+        const folder = openApiToFolder(document, sourceUrl);
+        if (folder.item.length === 0) return false;
 
-      return true;
+        dispatch(collectionActions.importFolder(folder));
+
+        return true;
+      } catch {
+        return false;
+      }
     },
-    [],
+    [dispatch],
   );
 }

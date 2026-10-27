@@ -130,12 +130,12 @@ const fr = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'Collez une commande cURL, du texte brut ou une URL',
+    importPlaceholder: 'Collez une commande cURL, un schéma OpenAPI ou son URL',
     dropAnywhereToImport: "Déposez n'importe où pour importer",
     orSelectFile: 'Ou sélectionnez un <file>fichier</file>',
     pressEnterToImport: '<key>Entrée</key> pour importer',
     noImportAvailable: 'Aucune importation disponible',
-    invalidCurl: 'Commande cURL invalide',
+    invalidFormat: 'Format incorrect, veuillez saisir le bon format pour importer',
     copyCurl: 'Copier cURL',
   },
 

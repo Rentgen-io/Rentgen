@@ -190,12 +190,12 @@ export default function CollectionItem({ item, searchTerm }: Props) {
             {!runningFolderId &&
               (isRequestRunning ? (
                 <StopIcon
-                  className="h-4 w-4 shrink-0 text-red-500 hover:text-red-600 cursor-pointer"
+                  className="h-4 w-4 text-red-500 hover:text-red-600 cursor-pointer"
                   onClick={handlePlayClick}
                 />
               ) : (
                 <PlayIcon
-                  className="h-4 w-4 shrink-0 text-green-500 hover:text-green-600 cursor-pointer opacity-0 group-hover:opacity-100"
+                  className="h-4 w-4 text-green-500 hover:text-green-600 cursor-pointer"
                   onClick={handlePlayClick}
                 />
               ))}

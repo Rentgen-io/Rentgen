@@ -130,12 +130,12 @@ const ja = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'cURL、プレーンテキスト、または URL を貼り付け',
+    importPlaceholder: 'cURL、OpenAPI スキーマ、またはスキーマの URL を貼り付け',
     dropAnywhereToImport: 'どこにでもドロップしてインポート',
     orSelectFile: 'または<file>ファイル</file>を選択',
     pressEnterToImport: '<key>Enter</key> でインポート',
     noImportAvailable: 'インポートできる内容がありません',
-    invalidCurl: '無効な cURL コマンド',
+    invalidFormat: '形式が正しくありません。インポートするには正しい形式を入力してください',
     copyCurl: 'cURL をコピー',
   },
 

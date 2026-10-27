@@ -4,6 +4,7 @@ export * from 'shared/types/history';
 export * from 'shared/types/http';
 export * from 'shared/types/ipc';
 export * from 'shared/types/mappings';
+export * from 'shared/types/openapi';
 export * from 'shared/types/postman';
 export * from 'shared/types/project';
 export * from 'shared/types/settings';

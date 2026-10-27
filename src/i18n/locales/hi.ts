@@ -130,12 +130,12 @@ const hi = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: 'cURL, सादा टेक्स्ट या URL पेस्ट करें',
+    importPlaceholder: 'cURL, OpenAPI स्कीमा या स्कीमा URL पेस्ट करें',
     dropAnywhereToImport: 'आयात करने के लिए कहीं भी छोड़ें',
     orSelectFile: 'या <file>फ़ाइल</file> चुनें',
     pressEnterToImport: 'आयात करने के लिए <key>Enter</key> दबाएँ',
     noImportAvailable: 'आयात के लिए कुछ उपलब्ध नहीं है',
-    invalidCurl: 'अमान्य cURL कमांड',
+    invalidFormat: 'गलत प्रारूप, आयात करने के लिए कृपया सही प्रारूप दर्ज करें',
     copyCurl: 'cURL कॉपी करें',
   },
 

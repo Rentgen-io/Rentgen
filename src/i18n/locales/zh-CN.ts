@@ -130,12 +130,12 @@ const zhCN = {
 
   // cURL
   curl: {
-    importCurlPlaceholder: '粘贴 cURL、纯文本或 URL',
+    importPlaceholder: '粘贴 cURL、OpenAPI 模式或模式 URL',
     dropAnywhereToImport: '拖放到任意位置以导入',
     orSelectFile: '或选择<file>文件</file>',
     pressEnterToImport: '按 <key>Enter</key> 导入',
     noImportAvailable: '没有可导入的内容',
-    invalidCurl: '无效的 cURL 命令',
+    invalidFormat: '格式不正确，请输入正确的格式以导入',
     copyCurl: '复制 cURL',
   },
 
