@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonType } from 'src/components/buttons/Button';
+import { FieldLabel } from 'src/components/inputs/FieldLabel';
 import Input from 'src/components/inputs/Input';
 import Select, { SelectOption } from 'src/components/inputs/Select';
 import ConfirmationModal from 'src/components/modals/ConfirmationModal';
@@ -146,8 +147,8 @@ export default function SetAsDynamicVariableModal() {
       onConfirm={onConfirm}
     >
       <>
-        <div className="flex flex-col gap-1">
-          <label className="text-xs text-text dark:text-dark-text">{t('modals.setDynamicVariable.variableName')}</label>
+        <div className="flex flex-col gap-2">
+          <FieldLabel label={t('modals.setDynamicVariable.variableName')} required />
           <Input
             placeholder={t('modals.setDynamicVariable.variableNamePlaceholder')}
             value={name}
@@ -159,17 +160,15 @@ export default function SetAsDynamicVariableModal() {
           />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-xs text-text dark:text-dark-text">{t('modals.setDynamicVariable.preview')}</label>
-          <div className="px-3 py-2 bg-body dark:bg-dark-body text-sm text-text-secondary dark:text-dark-text-secondary">
-            {modalState.initialValue.length > 50
-              ? modalState.initialValue.substring(0, 47) + '...'
-              : modalState.initialValue}
+        <div className="flex flex-col gap-2">
+          <FieldLabel label={t('modals.setDynamicVariable.preview')} />
+          <div className="px-3 py-2 bg-body dark:bg-dark-body text-xs text-text-secondary dark:text-dark-text-secondary truncate">
+            {modalState.initialValue}
           </div>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-xs text-text dark:text-dark-text">{t('modals.setDynamicVariable.environment')}</label>
+        <div className="flex flex-col gap-2">
+          <FieldLabel label={t('modals.setDynamicVariable.environment')} required />
           <Select
             options={environmentOptions}
             placeholder={t('modals.setDynamicVariable.selectEnvironment')}
@@ -181,12 +180,10 @@ export default function SetAsDynamicVariableModal() {
           />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-xs text-text dark:text-dark-text">
-            {t('modals.setDynamicVariable.linkedRequest')}
-          </label>
-          <div className="px-3 py-2 bg-body dark:bg-dark-body text-sm text-text-secondary dark:text-dark-text-secondary">
-            <span className="mr-1">📁</span>
+        <div className="flex flex-col gap-2">
+          <FieldLabel label={t('modals.setDynamicVariable.linkedRequest')} />
+          <div className="flex gap-2 px-3 py-2 bg-body dark:bg-dark-body text-xs text-text-secondary dark:text-dark-text-secondary">
+            <span>📁</span>
             {modalState.collectionName} → {modalState.requestName}
           </div>
         </div>

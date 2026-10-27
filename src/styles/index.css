@@ -143,6 +143,11 @@
     @apply border border-border dark:border-dark-border;
   }
 
+  .environment-data-table .rdt_wrapper,
+  .environment-data-table .rdt_Table {
+    @apply min-w-0!;
+  }
+
   .environment-data-table .rdt_Table {
     @apply bg-transparent!;
   }

@@ -119,8 +119,8 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
       },
       {
         component: (
-          <div className="flex flex-col flex-auto gap-4 h-0">
-            <div className="flex flex-col gap-4 text-sm">
+          <div className="flex flex-col flex-auto h-0">
+            <div className="flex flex-col p-4 gap-4 text-sm">
               <div className="flex items-center gap-2">
                 <span>
                   {t('comparison.behaviorChange')} <b>{statistics.percent}%</b>
@@ -181,7 +181,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
           {tabs.map(({ component, label, panelClassName }) => (
             <TabPanel
               key={label}
-              className={twMerge('hidden p-4 bg-body dark:bg-dark-body overflow-hidden', panelClassName)}
+              className={twMerge('hidden bg-body dark:bg-dark-body overflow-hidden', panelClassName)}
             >
               {component}
             </TabPanel>
