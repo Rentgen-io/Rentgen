@@ -3,7 +3,7 @@ import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import { type AiUsage, sendAiChatRequest } from 'src/api/ai';
 import { sendHttp } from 'src/api/network';
 import i18n from 'src/i18n';
-import { AiProvider, AiTestsOverview, TestOptions, TestResult, TestStatus } from 'src/types';
+import { AiProvider, AiTestsOverview, HttpBody, TestOptions, TestResult, TestStatus } from 'src/types';
 import { createHttpRequest, tryParseJsonObject } from 'src/utils';
 import { notify } from 'src/utils/toast';
 import {
@@ -346,7 +346,7 @@ export class AiTests extends BaseTests<{
             },
             {} as Record<string, string>,
           ),
-          body: tryParseJsonObject(request?.body),
+          body: tryParseJsonObject(request?.body) as HttpBody,
         }),
       ),
     );

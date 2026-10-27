@@ -135,7 +135,7 @@ const en = {
     orSelectFile: 'Or select <file>file</file>',
     pressEnterToImport: '<key>Enter</key> to import',
     noImportAvailable: 'No import available',
-    invalidCurl: 'Invalid cURL command',
+    invalidFormat: 'Incorrect format, please input the right format to import',
     copyCurl: 'Copy cURL',
   },
 

@@ -30,6 +30,10 @@ export function isObject(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object';
 }
 
+export function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return isObject(value) && !Array.isArray(value);
+}
+
 export function setDeepObjectProperty(targetObject: any, propertyPath: string, newValue: any): void {
   const pathParts = propertyPath.replace(/\[(\d+)\]/g, '.$1').split('.');
   let currentObject = targetObject;
@@ -68,7 +72,7 @@ export function truncateValue(value: any, maxLength = 100): string {
   return stringValue;
 }
 
-export function tryParseJsonObject(value: any): any {
+export function tryParseJsonObject(value: unknown): unknown {
   if (isObject(value)) return value;
   if (typeof value !== 'string') return value;
 
@@ -79,5 +83,15 @@ export function tryParseJsonObject(value: any): any {
     return value;
   } catch {
     return value;
+  }
+}
+
+export function parseJsonObject(value: unknown): unknown {
+  if (typeof value !== 'string') return value;
+
+  try {
+    return JSON.parse(value);
+  } catch {
+    return undefined;
   }
 }

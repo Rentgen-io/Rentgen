@@ -1,25 +1,20 @@
 import { Method } from 'axios';
 import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/store/hooks';
-import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { extractCurl } from 'src/utils';
-import { notify } from 'src/utils/toast';
 import { useReset } from './useReset';
 
 const MAX_CURL_LENGTH = 200_000;
 
 export function useCurlImport() {
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
-
   const reset = useReset();
 
   return useCallback(
     (curl: string): boolean => {
       try {
-        if (curl.length > MAX_CURL_LENGTH) throw new Error('cURL too large');
+        if (curl.length > MAX_CURL_LENGTH) return false;
 
         const {
           body: curlBody,
@@ -43,13 +38,11 @@ export function useCurlImport() {
         if (decodedLines.length > 0) dispatch(requestActions.setBody(decodedLines.join('\n')));
         else dispatch(requestActions.setBody(curlBody ? String(curlBody).trim() : ''));
 
-        dispatch(modalsActions.closeImportResourceModal());
         return true;
       } catch {
-        notify.error(t('curl.invalidCurl'), { toastId: 'error-import-curl' });
         return false;
       }
     },
-    [reset, t, dispatch],
+    [reset, dispatch],
   );
 }

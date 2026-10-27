@@ -21,6 +21,17 @@ export function hasQueryParameters(url: string): boolean {
   }
 }
 
+export function isHttpUrl(value: string): boolean {
+  if (!/^https?:\/\/\S+$/i.test(value)) return false;
+
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function uppercaseDomain(url: string): string {
   const parsedUrl = new URL(url);
   const uppercaseHostname = parsedUrl.hostname.toUpperCase();

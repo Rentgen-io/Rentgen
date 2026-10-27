@@ -1,3 +1,4 @@
+import { RESPONSE_STATUS } from 'shared/responseStatus';
 import i18n from 'src/i18n';
 import type { AiProvider, HttpBody } from 'src/types';
 import { extractStatusCode, isObject } from 'src/utils';
@@ -99,7 +100,7 @@ export async function sendAiChatRequest(
     );
     const statusCode = extractStatusCode(response);
 
-    if (statusCode < 200 || statusCode >= 300)
+    if (statusCode < RESPONSE_STATUS.OK || statusCode >= RESPONSE_STATUS.REDIRECT)
       return { ok: false, error: extractError(response.body, response.status), body: response.body };
 
     const content = extractContent(response.body);

@@ -202,7 +202,7 @@ export function isUrlEncodedContentTypeString(value: string): boolean {
 export function parseBody(body: string | null, headers: Record<string, string>): HttpBody {
   if (isUrlEncodedContentType(headers)) return convertFormEntriesToUrlEncoded(parseFormData(body));
 
-  return tryParseJsonObject(body);
+  return tryParseJsonObject(body) as HttpBody;
 }
 
 export function parseFormData(rawFormData: string | null): Array<[string, string]> {
