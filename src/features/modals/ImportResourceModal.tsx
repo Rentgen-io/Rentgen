@@ -5,13 +5,10 @@ import { IconButton } from 'src/components/buttons/IconButton';
 import Textarea from 'src/components/inputs/Textarea';
 import Loader from 'src/components/loaders/Loader';
 import Modal from 'src/components/modals/Modal';
-import { useCurlImport } from 'src/hooks/useCurlImport';
-import { useOpenApiImport } from 'src/hooks/useOpenApiImport';
-import { useUrlImport } from 'src/hooks/useUrlImport';
+import { useResourceImport } from 'src/hooks/useResourceImport';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectOpenImportResourceModal } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { fetchOpenApiSchema, isHttpUrl, isOpenApiSchema, parseJsonObject } from 'src/utils';
 import { notify } from 'src/utils/toast';
 
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
@@ -19,9 +16,7 @@ import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 export default function ImportResourceModal() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const importCurl = useCurlImport();
-  const importOpenApi = useOpenApiImport();
-  const importUrl = useUrlImport();
+  const importResource = useResourceImport();
 
   const openImportResourceModal = useAppSelector(selectOpenImportResourceModal);
 
@@ -57,20 +52,6 @@ export default function ImportResourceModal() {
     [readFile],
   );
 
-  const importResource = useCallback(async (): Promise<boolean> => {
-    const trimmed = value.trim();
-
-    if (isHttpUrl(trimmed)) {
-      const schema = await fetchOpenApiSchema(trimmed);
-      return schema ? importOpenApi(schema, trimmed) : importUrl(trimmed);
-    }
-
-    const schema = parseJsonObject(trimmed);
-    if (isOpenApiSchema(schema)) return importOpenApi(schema);
-
-    return importCurl(trimmed);
-  }, [value, importOpenApi, importUrl, importCurl]);
-
   const handleKeyDown = useCallback(
     async (event: KeyboardEvent<HTMLTextAreaElement>) => {
       if (event.key !== 'Enter' || event.shiftKey || event.nativeEvent.isComposing || !value) return;
@@ -80,7 +61,7 @@ export default function ImportResourceModal() {
 
       setIsImporting(true);
       try {
-        if (await importResource()) {
+        if (await importResource(value)) {
           handleClose();
           notify.success(t('common.imported'), { toastId: 'success-import-resource' });
         } else notify.error(t('curl.invalidFormat'), { toastId: 'error-import-resource' });
