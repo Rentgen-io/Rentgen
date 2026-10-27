@@ -477,7 +477,7 @@ const es = {
     masked: '{{masked}} enmascarados',
     sanitizedPreview: 'Vista previa saneada',
     readyToSend: 'Listo para enviar',
-    generateAdditionalTests: 'Generar pruebas adicionales',
+    analyzeAndGenerateTests: 'Analizar y generar pruebas',
   },
 
   // Parameter types

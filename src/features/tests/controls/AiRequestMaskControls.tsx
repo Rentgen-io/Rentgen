@@ -131,7 +131,7 @@ export function AiRequestMaskControls({ onCancel }: Props) {
           {isAiRunning ? (
             <Loader className="h-4 w-4 [&>span]:border-2!" mode="dark" />
           ) : (
-            t('controls.generateAdditionalTests')
+            t('controls.analyzeAndGenerateTests')
           )}
         </Button>
       </div>

@@ -471,7 +471,7 @@ const vi = {
     masked: 'Đã che {{masked}}',
     sanitizedPreview: 'Bản xem trước đã làm sạch',
     readyToSend: 'Sẵn sàng gửi',
-    generateAdditionalTests: 'Tạo thêm kiểm thử',
+    analyzeAndGenerateTests: 'Phân tích và tạo kiểm thử',
   },
 
   // Parameter types

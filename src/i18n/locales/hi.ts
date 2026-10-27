@@ -470,7 +470,7 @@ const hi = {
     masked: '{{masked}} मास्क किए गए',
     sanitizedPreview: 'सैनिटाइज़ किया गया पूर्वावलोकन',
     readyToSend: 'भेजने के लिए तैयार',
-    generateAdditionalTests: 'अतिरिक्त टेस्ट जनरेट करें',
+    analyzeAndGenerateTests: 'विश्लेषण करें और टेस्ट जनरेट करें',
   },
 
   // Parameter types

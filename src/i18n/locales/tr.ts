@@ -475,7 +475,7 @@ const tr = {
     masked: '{{masked}} maskelendi',
     sanitizedPreview: 'Temizlenmiş önizleme',
     readyToSend: 'Göndermeye hazır',
-    generateAdditionalTests: 'Ek Testler Oluştur',
+    analyzeAndGenerateTests: 'Analiz Et ve Testleri Oluştur',
   },
 
   // Parameter types

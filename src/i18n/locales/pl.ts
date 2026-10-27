@@ -474,7 +474,7 @@ const pl = {
     masked: 'Zamaskowano: {{masked}}',
     sanitizedPreview: 'Podgląd po oczyszczeniu',
     readyToSend: 'Gotowe do wysłania',
-    generateAdditionalTests: 'Generuj dodatkowe testy',
+    analyzeAndGenerateTests: 'Analizuj i generuj testy',
   },
 
   // Parameter types

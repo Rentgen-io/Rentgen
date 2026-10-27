@@ -477,7 +477,7 @@ const nl = {
     masked: '{{masked}} gemaskeerd',
     sanitizedPreview: 'Opgeschoonde voorbeeldweergave',
     readyToSend: 'Klaar om te verzenden',
-    generateAdditionalTests: 'Extra tests genereren',
+    analyzeAndGenerateTests: 'Analyseren en tests genereren',
   },
 
   // Parameter types

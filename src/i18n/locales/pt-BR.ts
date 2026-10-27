@@ -477,7 +477,7 @@ const ptBR = {
     masked: '{{masked}} mascarados',
     sanitizedPreview: 'Prévia higienizada',
     readyToSend: 'Pronto para enviar',
-    generateAdditionalTests: 'Gerar testes adicionais',
+    analyzeAndGenerateTests: 'Analisar e gerar testes',
   },
 
   // Parameter types

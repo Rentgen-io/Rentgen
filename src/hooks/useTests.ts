@@ -165,18 +165,19 @@ const useTests = () => {
         performanceTests,
         securityTests,
       });
-      const { overview, results, usage } = await aiTestsInstance.run();
+      const results = await aiTestsInstance.run();
 
       dispatch(testsActions.setAiRunning(false));
-      dispatch(testsActions.setAiTests({ overview, results, usage }));
+
+      if (!results) return;
+
+      dispatch(testsActions.setAiTests(results));
 
       if (selectedRequestId)
         dispatch(
           testsActions.addAiTestResults({
-            overview,
             requestId: selectedRequestId,
-            results,
-            usage,
+            ...results,
           }),
         );
     },
@@ -381,6 +382,9 @@ const useTests = () => {
           testsActions.addResults({
             requestId: selectedRequestId,
             results: {
+              aiOverview,
+              aiTests,
+              aiUsage,
               crudTests,
               count,
               dataDrivenTests,
@@ -393,6 +397,9 @@ const useTests = () => {
         );
     },
     [
+      aiOverview,
+      aiTests,
+      aiUsage,
       disabledPerformanceInsights,
       disabledSecurityTests,
       selectedRequestId,

@@ -10,7 +10,7 @@ import { selectDisabledSecurityTests } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import { TestStatus } from 'src/types';
-import LargePayloadTestRunControls from '../controls/LargePayloadTestControls';
+import LargePayloadTestRunControls from '../controls/LargePayloadTestRunControls';
 import TestResultControls from '../controls/TestResultControls';
 import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColumns } from '../tables/TestsTable';
 

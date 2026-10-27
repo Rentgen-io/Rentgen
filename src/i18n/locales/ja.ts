@@ -474,7 +474,7 @@ const ja = {
     masked: '{{masked}} 件をマスク',
     sanitizedPreview: 'サニタイズ後のプレビュー',
     readyToSend: '送信準備完了',
-    generateAdditionalTests: '追加テストを生成',
+    analyzeAndGenerateTests: '分析してテストを生成',
   },
 
   // Parameter types

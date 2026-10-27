@@ -483,7 +483,7 @@ const fr = {
     masked: '{{masked}} masquées',
     sanitizedPreview: 'Aperçu nettoyé',
     readyToSend: 'Prêt à envoyer',
-    generateAdditionalTests: 'Générer des tests supplémentaires',
+    analyzeAndGenerateTests: 'Analyser et générer les tests',
   },
 
   // Parameter types

@@ -470,7 +470,7 @@ const id = {
     masked: '{{masked}} disamarkan',
     sanitizedPreview: 'Pratinjau yang telah dibersihkan',
     readyToSend: 'Siap dikirim',
-    generateAdditionalTests: 'Buat Tes Tambahan',
+    analyzeAndGenerateTests: 'Analisis & Hasilkan Tes',
   },
 
   // Parameter types

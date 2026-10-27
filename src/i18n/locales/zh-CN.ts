@@ -464,7 +464,7 @@ const zhCN = {
     masked: '已屏蔽 {{masked}} 项',
     sanitizedPreview: '净化后的预览',
     readyToSend: '准备发送',
-    generateAdditionalTests: '生成额外测试',
+    analyzeAndGenerateTests: '分析并生成测试',
   },
 
   // Parameter types

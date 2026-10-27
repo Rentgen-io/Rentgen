@@ -475,7 +475,7 @@ const ru = {
     masked: 'Замаскировано: {{masked}}',
     sanitizedPreview: 'Очищенный предпросмотр',
     readyToSend: 'Готово к отправке',
-    generateAdditionalTests: 'Сгенерировать дополнительные тесты',
+    analyzeAndGenerateTests: 'Проанализировать и сгенерировать тесты',
   },
 
   // Parameter types

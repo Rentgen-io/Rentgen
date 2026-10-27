@@ -65,7 +65,7 @@ export const testsSlice = createSlice({
       if (!results) return;
 
       results.aiOverview = action.payload.overview;
-      results.aiTests = [...(results.aiTests || []), ...action.payload.results];
+      results.aiTests = action.payload.results;
       results.aiUsage = action.payload.usage;
     },
     addResults: (state, action: PayloadAction<{ requestId: string; results: TestResults }>) => {

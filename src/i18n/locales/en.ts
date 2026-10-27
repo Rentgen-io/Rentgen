@@ -471,7 +471,7 @@ const en = {
     masked: '{{masked}} masked',
     sanitizedPreview: 'Sanitized preview',
     readyToSend: 'Ready to send',
-    generateAdditionalTests: 'Generate Additional Tests',
+    analyzeAndGenerateTests: 'Analyze & Generate Tests',
   },
 
   // Parameter types

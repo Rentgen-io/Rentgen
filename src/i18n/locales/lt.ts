@@ -475,7 +475,7 @@ const lt = {
     masked: 'Užmaskuota: {{masked}}',
     sanitizedPreview: 'Išvalyta peržiūra',
     readyToSend: 'Paruošta siųsti',
-    generateAdditionalTests: 'Generuoti papildomus testus',
+    analyzeAndGenerateTests: 'Analizuoti ir generuoti testus',
   },
 
   // Parameter types

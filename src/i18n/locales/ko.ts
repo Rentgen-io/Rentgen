@@ -469,7 +469,7 @@ const ko = {
     masked: '{{masked}}개 마스킹됨',
     sanitizedPreview: '정제된 미리 보기',
     readyToSend: '전송 준비 완료',
-    generateAdditionalTests: '추가 테스트 생성',
+    analyzeAndGenerateTests: '분석 후 테스트 생성',
   },
 
   // Parameter types

@@ -7,7 +7,7 @@ import { selectTestOptions } from 'src/store/selectors';
 import { clamp } from 'src/utils';
 import TestRunControls from './TestRunControls';
 
-export default function LoadTestControls() {
+export default function LoadTestRunControls() {
   const { t } = useTranslation();
   const { isLoadTestRunning, executeLoadTest } = useTests();
 

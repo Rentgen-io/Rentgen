@@ -264,7 +264,7 @@ export class AiTests extends BaseTests<{
   overview: AiTestsOverview | null;
   results: TestResult[];
   usage: AiUsage | null;
-}> {
+} | null> {
   constructor(
     private aiProvider: AiProvider,
     private maskedFields: string[],
@@ -284,7 +284,7 @@ export class AiTests extends BaseTests<{
     overview: AiTestsOverview | null;
     results: TestResult[];
     usage: AiUsage | null;
-  }> {
+  } | null> {
     let timedOut = false;
 
     clearTimeout(aiResponseTimeoutId);
@@ -319,14 +319,14 @@ export class AiTests extends BaseTests<{
       notify.error(i18n.t('ai.responseTimeout', { minutes: AI_RESPONSE_TIMEOUT_MINUTES }), {
         toastId: 'error-generate-ai-tests',
       });
-      return { overview: null, results: [], usage: null };
+      return null;
     }
 
     if (!response?.ok) {
       if (response.error !== RESPONSE_STATUS_LABEL.ABORTED)
         notify.error(response.error, { toastId: 'error-generate-ai-tests' });
 
-      return { overview: null, results: [], usage: null };
+      return null;
     }
 
     const content = tryParseJsonObject(response.content) as AiContent;

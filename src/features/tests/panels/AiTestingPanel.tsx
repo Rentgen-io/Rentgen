@@ -26,22 +26,22 @@ import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHead
 export default function AiTestingPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { aiOverview, aiTests, aiUsage, isAiTestsRunning, isRunningTests, cancelAiTestsGeneration, executeAllAiTests } =
-    useTests();
-  const { isValidating, license, validateLicense } = useLicense();
+  const { aiOverview, aiTests, aiUsage, isAiTestsRunning, cancelAiTestsGeneration, executeAllAiTests } = useTests();
 
-  const activeAiProvider = useAppSelector(selectActiveAiProvider);
   const aiActiveTab = useAppSelector(selectAiActiveTab);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
 
   const [showAiRequestMaskControls, setShowAiRequestMaskControls] = useState<boolean>(false);
 
   useEffect(() => cancelAiTestsGeneration, [cancelAiTestsGeneration]);
+  useEffect(() => {
+    if (aiOverview || (aiTests && aiTests.length > 0)) setShowAiRequestMaskControls(false);
+  }, [aiOverview, aiTests]);
 
   return (
     <>
       <TestsTableHeader tests={aiTests ?? []} onOpenSettings={() => dispatch(modalsActions.openSettingsModal(2))} />
-      {aiOverview || (aiTests && aiTests.length > 0) ? (
+      {!showAiRequestMaskControls && (aiOverview || (aiTests && aiTests.length > 0)) ? (
         <div className="flex flex-col gap-4">
           <div>
             <h5 className="m-0 mb-1">{t('ai.summary')}</h5>
@@ -200,6 +200,21 @@ export default function AiTestingPanel() {
               />
             </TabPanel>
           </Tabs>
+          <div className="flex flex-col @xl:flex-row @xl:items-center gap-4">
+            {aiActiveTab === 1 && <RunAiTestingButton onClick={() => setShowAiRequestMaskControls(true)} />}
+            {aiUsage && (
+              <div className="flex-auto text-xs text-text-secondary @xl:text-right">
+                <Trans
+                  i18nKey="ai.usage"
+                  components={{
+                    total: <strong className="text-text dark:text-dark-text">{aiUsage.totalTokens}</strong>,
+                    prompt: <strong className="text-text dark:text-dark-text">{aiUsage.promptTokens}</strong>,
+                    completion: <strong className="text-text dark:text-dark-text">{aiUsage.completionTokens}</strong>,
+                  }}
+                />
+              </div>
+            )}
+          </div>
         </div>
       ) : (
         <div className="flex flex-col gap-4 text-center">
@@ -207,41 +222,42 @@ export default function AiTestingPanel() {
             <>
               <h5 className="m-0">{t('tests.aiTestingTitle')}</h5>
               <p className="m-0 text-sm">{t('tests.aiTestingDescription')}</p>
-              <Button
-                className="@xl:self-center"
-                disabled={isRunningTests || isValidating}
-                onClick={async () => {
-                  if (isValidating) return;
-
-                  const result = await validateLicense(license?.key ?? null);
-                  if (!result.valid || !activeAiProvider) {
-                    dispatch(modalsActions.openSettingsModal(2));
-                    return;
-                  }
-
-                  setShowAiRequestMaskControls(true);
-                }}
-              >
-                {t('tests.runAiTesting')}
-              </Button>
+              <RunAiTestingButton onClick={() => setShowAiRequestMaskControls(true)} />
             </>
           ) : (
             <AiRequestMaskControls onCancel={() => setShowAiRequestMaskControls(false)} />
           )}
         </div>
       )}
-      {aiUsage && (
-        <div className="text-xs text-text-secondary @xl:text-right">
-          <Trans
-            i18nKey="ai.usage"
-            components={{
-              total: <strong className="text-text dark:text-dark-text">{aiUsage.totalTokens}</strong>,
-              prompt: <strong className="text-text dark:text-dark-text">{aiUsage.promptTokens}</strong>,
-              completion: <strong className="text-text dark:text-dark-text">{aiUsage.completionTokens}</strong>,
-            }}
-          />
-        </div>
-      )}
     </>
+  );
+}
+
+function RunAiTestingButton({ onClick }: { onClick(): void }) {
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const { isRunningTests } = useTests();
+  const { isValidating, license, validateLicense } = useLicense();
+
+  const activeAiProvider = useAppSelector(selectActiveAiProvider);
+
+  return (
+    <Button
+      className="@xl:self-center"
+      disabled={isRunningTests || isValidating}
+      onClick={async () => {
+        if (isValidating) return;
+
+        const result = await validateLicense(license?.key ?? null);
+        if (!result.valid || !activeAiProvider) {
+          dispatch(modalsActions.openSettingsModal(2));
+          return;
+        }
+
+        onClick();
+      }}
+    >
+      {t('tests.runAiTesting')}
+    </Button>
   );
 }

@@ -8,7 +8,7 @@ import {
 import Toggle from 'src/components/inputs/Toggle';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import { PERFORMANCE_INSIGHTS } from 'src/features/settings/test-engine/PerformanceInsightsSettings';
-import LoadTestControls from 'src/features/tests/controls/LoadTestControls';
+import LoadTestRunControls from 'src/features/tests/controls/LoadTestRunControls';
 import TestResultControls from 'src/features/tests/controls/TestResultControls';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -55,7 +55,7 @@ export default function PerformanceInsightsPanel() {
                 testType="performance"
               >
                 {row.name === LOAD_TEST_NAME ? (
-                  <LoadTestControls />
+                  <LoadTestRunControls />
                 ) : (
                   <p className="m-0 mr-2 whitespace-nowrap">{row.status}</p>
                 )}

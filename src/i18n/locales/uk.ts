@@ -474,7 +474,7 @@ const uk = {
     masked: 'Замасковано: {{masked}}',
     sanitizedPreview: 'Очищений попередній перегляд',
     readyToSend: 'Готово до надсилання',
-    generateAdditionalTests: 'Згенерувати додаткові тести',
+    analyzeAndGenerateTests: 'Проаналізувати та згенерувати тести',
   },
 
   // Parameter types

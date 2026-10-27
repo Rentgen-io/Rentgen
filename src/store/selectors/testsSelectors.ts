@@ -28,6 +28,7 @@ export const selectTestsTimestamp = (state: RootState) => state.tests.timestamp;
 
 export const selectCurrentTestResults: (state: RootState) => TestResults | null = createSelector(
   [
+    selectAiOverview,
     selectAiTests,
     selectAiUsage,
     selectCrudTests,
@@ -38,10 +39,22 @@ export const selectCurrentTestResults: (state: RootState) => TestResults | null 
     selectTestsCount,
     selectTestsTimestamp,
   ],
-  (aiTests, aiUsage, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions, count, timestamp) => {
+  (
+    aiOverview,
+    aiTests,
+    aiUsage,
+    crudTests,
+    dataDrivenTests,
+    performanceTests,
+    securityTests,
+    testOptions,
+    count,
+    timestamp,
+  ) => {
     if (!count || !testOptions) return null;
 
     return {
+      aiOverview,
       aiTests,
       aiUsage,
       count,

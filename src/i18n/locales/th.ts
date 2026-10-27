@@ -470,7 +470,7 @@ const th = {
     masked: 'ปกปิดแล้ว {{masked}} รายการ',
     sanitizedPreview: 'ตัวอย่างหลังทำความสะอาดข้อมูล',
     readyToSend: 'พร้อมส่ง',
-    generateAdditionalTests: 'สร้างเทสต์เพิ่มเติม',
+    analyzeAndGenerateTests: 'วิเคราะห์และสร้างการทดสอบ',
   },
 
   // Parameter types
