@@ -21,12 +21,10 @@ export function hasQueryParameters(url: string): boolean {
   }
 }
 
-export function isHttpUrl(value: string): boolean {
-  if (!/^https?:\/\/\S+$/i.test(value)) return false;
-
+export function isHttpUrl(url: string): boolean {
   try {
-    new URL(value);
-    return true;
+    const parsedUrl = new URL(url);
+    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
   } catch {
     return false;
   }
