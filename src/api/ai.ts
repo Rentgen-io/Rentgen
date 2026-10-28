@@ -4,6 +4,9 @@ import type { AiProvider, HttpBody } from 'src/types';
 import { extractStatusCode, isObject } from 'src/utils';
 import { sendHttp } from './network';
 
+const ANTHROPIC_VERSION = '2023-06-01';
+const ANTHROPIC_MAX_TOKENS = 16000;
+
 export type AiRole = 'system' | 'user' | 'assistant';
 
 export interface AiMessage {
@@ -34,8 +37,10 @@ function extractUsage(body: HttpBody): AiUsage | null {
   if (!root) return null;
 
   const usage = asRecord(root.usage);
-  const promptTokens = asNumber(usage?.prompt_tokens) ?? asNumber(root.prompt_eval_count);
-  const completionTokens = asNumber(usage?.completion_tokens) ?? asNumber(root.eval_count);
+  const promptTokens =
+    asNumber(usage?.prompt_tokens) ?? asNumber(usage?.input_tokens) ?? asNumber(root.prompt_eval_count);
+  const completionTokens =
+    asNumber(usage?.completion_tokens) ?? asNumber(usage?.output_tokens) ?? asNumber(root.eval_count);
 
   if (promptTokens === null && completionTokens === null) return null;
 
@@ -49,10 +54,44 @@ function extractUsage(body: HttpBody): AiUsage | null {
   };
 }
 
-// Supports both the OpenAI-compatible shape (choices[].message.content) and Ollama's native shape (message.content).
+// Anthropic has no response_format; the schema is sent in the system prompt, so the reply may arrive wrapped in a code fence.
+const stripCodeFence = (text: string): string => text.trim().replace(/^```(?:json)?\s*([\s\S]*?)\s*```$/i, '$1');
+
+function buildAnthropicBody(
+  model: string,
+  messages: AiMessage[],
+  responseFormat?: Record<string, unknown>,
+): Record<string, unknown> {
+  const system = messages.filter(({ role }) => role === 'system').map(({ content }) => content);
+  const schema = asRecord(responseFormat?.json_schema)?.schema;
+
+  if (schema)
+    system.push(
+      `Respond with a single JSON object, without markdown or any other text, that matches this JSON schema:\n${JSON.stringify(schema)}`,
+    );
+
+  return {
+    model: model.replace(/^anthropic\|/, ''),
+    max_tokens: ANTHROPIC_MAX_TOKENS,
+    messages: messages.filter(({ role }) => role !== 'system'),
+    ...(system.length > 0 && { system: system.join('\n\n') }),
+  };
+}
+
+// Supports the OpenAI-compatible shape (choices[].message.content), Ollama's native shape (message.content) and Anthropic's (content[].text).
 function extractContent(body: HttpBody): string | null {
   const root = asRecord(body);
   if (!root) return null;
+
+  if (Array.isArray(root.content)) {
+    const text = root.content
+      .map((block) => asRecord(block))
+      .filter((block) => block?.type === 'text' && typeof block.text === 'string')
+      .map((block) => block?.text as string)
+      .join('');
+
+    return text ? stripCodeFence(text) : null;
+  }
 
   const choices = Array.isArray(root.choices) ? root.choices : null;
   const message = asRecord(choices?.[0]) ? asRecord(asRecord(choices?.[0])?.message) : asRecord(root.message);
@@ -82,10 +121,17 @@ export async function sendAiChatRequest(
   const { apiKey, baseUrl, model, path, type } = provider;
   if (!baseUrl || !path || !model) return { ok: false, error: i18n.t('ai.baseUrlAndModelRequired') };
 
+  const isAnthropic = type === 'anthropic';
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
-  const body: HttpBody = { model, messages, stream: false, response_format: responseFormat };
+  if (isAnthropic) {
+    if (apiKey) headers['x-api-key'] = apiKey;
+    headers['anthropic-version'] = ANTHROPIC_VERSION;
+  } else if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+
+  const body: Record<string, unknown> = isAnthropic
+    ? buildAnthropicBody(model, messages, responseFormat)
+    : { model, messages, stream: false, response_format: responseFormat };
   if (type === 'ollama') body.temperature = 0;
 
   try {
