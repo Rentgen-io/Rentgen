@@ -17,7 +17,7 @@ const cliBinaryPath = process.platform === 'win32' ? './cli-bin/rentgen.exe' : '
 function buildCliBinaryFor(forgePlatform: string, forgeArch: string) {
   const targetPlatform = forgePlatform === 'darwin' ? 'macos' : forgePlatform === 'win32' ? 'win' : 'linux';
   const env = { ...process.env, TARGET_PLATFORM: targetPlatform, TARGET_ARCH: forgeArch };
-  console.log(`[forge] Building CLI binary for ${targetPlatform}-${forgeArch}…`);
+  console.log(`[forge] Building CLI binary for ${targetPlatform}-${forgeArch}...`);
   execSync('npm run build:cli', { stdio: 'inherit', env });
   execSync('npm run build:cli:bin', { stdio: 'inherit', env });
 }
@@ -27,9 +27,7 @@ const config: ForgeConfig = {
     asar: true,
     executableName: 'Rentgen',
     icon: './assets/icons/rentgen',
-    osxSign: process.env.APPLE_SIGNING_IDENTITY
-      ? { identity: process.env.APPLE_SIGNING_IDENTITY }
-      : {},
+    osxSign: process.env.APPLE_SIGNING_IDENTITY ? { identity: process.env.APPLE_SIGNING_IDENTITY } : {},
     extraResource: [cliBinaryPath],
   },
   rebuildConfig: {},
@@ -45,7 +43,7 @@ const config: ForgeConfig = {
       if (identity && identity !== '-') return;
       for (const outPath of packageResult.outputPaths) {
         const appPath = `${outPath}/Rentgen.app`;
-        console.log(`[forge] Ad-hoc deep-signing ${appPath}…`);
+        console.log(`[forge] Ad-hoc deep-signing ${appPath}...`);
         execSync(`codesign --force --deep --sign - "${appPath}"`, { stdio: 'inherit' });
       }
     },
@@ -89,7 +87,6 @@ const config: ForgeConfig = {
     new WebpackPlugin({
       mainConfig,
       port: 41205,
-      loggerPort: 41206,
       renderer: {
         config: rendererConfig,
         entryPoints: [

@@ -1,73 +1,49 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Method } from 'axios';
-import { RequestParameters } from '../../types';
+import { RequestParameters } from 'src/types';
 
-type Mode = 'HTTP' | 'WSS';
+export type Mode = 'HTTP' | 'WSS';
 
 interface RequestState {
-  mode: Mode;
-  method: Method;
-  url: string;
-  headers: string;
   body: string;
   bodyParameters: RequestParameters;
+  headers: string;
+  isSending: boolean;
+  method: Method;
+  mode: Mode;
   queryParameters: RequestParameters;
-  protoFile: File | null;
-  messageType: string;
+  url: string;
 }
 
 const initialState: RequestState = {
-  mode: 'HTTP',
-  method: 'GET',
-  url: '',
-  headers: '',
   body: '{}',
   bodyParameters: {},
+  headers: '',
+  isSending: false,
+  method: 'GET',
+  mode: 'HTTP',
   queryParameters: {},
-  protoFile: null,
-  messageType: '',
+  url: '',
 };
 
 export const requestSlice = createSlice({
   name: 'request',
   initialState,
   reducers: {
-    setMode: (state, action: PayloadAction<Mode>) => {
-      state.mode = action.payload;
-    },
-    setMethod: (state, action: PayloadAction<Method>) => {
-      state.method = action.payload;
-    },
-    setUrl: (state, action: PayloadAction<string>) => {
-      state.url = action.payload;
-    },
-    setHeaders: (state, action: PayloadAction<string>) => {
-      state.headers = action.payload;
-    },
-    setBody: (state, action: PayloadAction<string>) => {
-      state.body = action.payload;
-    },
-    setBodyParameters: (state, action: PayloadAction<RequestParameters>) => {
-      state.bodyParameters = action.payload;
-    },
-    setQueryParameters: (state, action: PayloadAction<RequestParameters>) => {
-      state.queryParameters = action.payload;
-    },
-    setProtoFile: (state, action: PayloadAction<File | null>) => {
-      state.protoFile = action.payload;
-    },
-    setMessageType: (state, action: PayloadAction<string>) => {
-      state.messageType = action.payload;
-    },
-    resetRequest: (state) => {
-      state.method = 'GET';
-      state.url = '';
-      state.headers = '';
-      state.body = '{}';
-      state.bodyParameters = {};
-      state.queryParameters = {};
-      state.protoFile = null;
-      state.messageType = '';
+    importFromCurl: (
+      state,
+      action: PayloadAction<{
+        url: string;
+        method: string;
+        headers: string;
+        body: string;
+      }>,
+    ) => {
+      const { url, method, headers, body } = action.payload;
+      state.url = url;
+      state.method = method as Method;
+      state.headers = headers;
+      state.body = body;
     },
     loadFromCollection: (
       state,
@@ -86,20 +62,37 @@ export const requestSlice = createSlice({
       state.bodyParameters = {};
       state.queryParameters = {};
     },
-    importFromCurl: (
-      state,
-      action: PayloadAction<{
-        url: string;
-        method: string;
-        headers: string;
-        body: string;
-      }>,
-    ) => {
-      const { url, method, headers, body } = action.payload;
-      state.url = url;
-      state.method = method as Method;
-      state.headers = headers;
-      state.body = body;
+    resetRequest: (state) => {
+      state.method = 'GET';
+      state.url = '';
+      state.headers = '';
+      state.body = '{}';
+      state.bodyParameters = {};
+      state.queryParameters = {};
+    },
+    setBody: (state, action: PayloadAction<string>) => {
+      state.body = action.payload;
+    },
+    setBodyParameters: (state, action: PayloadAction<RequestParameters>) => {
+      state.bodyParameters = action.payload;
+    },
+    setHeaders: (state, action: PayloadAction<string>) => {
+      state.headers = action.payload;
+    },
+    setIsSending: (state, action: PayloadAction<boolean>) => {
+      state.isSending = action.payload;
+    },
+    setMethod: (state, action: PayloadAction<Method>) => {
+      state.method = action.payload;
+    },
+    setMode: (state, action: PayloadAction<Mode>) => {
+      state.mode = action.payload;
+    },
+    setQueryParameters: (state, action: PayloadAction<RequestParameters>) => {
+      state.queryParameters = action.payload;
+    },
+    setUrl: (state, action: PayloadAction<string>) => {
+      state.url = action.payload;
     },
   },
 });

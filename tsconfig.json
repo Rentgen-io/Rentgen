@@ -2,21 +2,22 @@
   "compilerOptions": {
     "target": "ES2023",
     "allowJs": true,
-    "module": "commonjs",
+    "module": "preserve",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
-    "baseUrl": ".",
+    "rootDir": ".",
     "outDir": "dist",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "paths": {
-      "*": ["node_modules/*"]
-    },
     "jsx": "react-jsx",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "src/*": ["./src/*"],
+      "shared/*": ["./shared/*"]
+    }
   },
   "include": ["src/**/*", "electron/**/*", "shared/**/*"]
 }

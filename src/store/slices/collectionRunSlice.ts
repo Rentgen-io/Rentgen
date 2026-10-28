@@ -1,25 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HttpResponse, RequestParameters } from '../../types';
+import { HttpResponse, RequestParameters } from 'src/types';
 
 export interface CollectionRunResult {
+  bodyParameters: RequestParameters | null;
+  error: string | null;
+  queryParameters: RequestParameters | null;
+  response: HttpResponse | null;
   requestId: string;
   status: number | null;
-  response: HttpResponse | null;
-  bodyParameters: RequestParameters | null;
-  queryParameters: RequestParameters | null;
-  error: string | null;
   warning?: string | null;
 }
 
 interface CollectionRunState {
-  runningFolderId: string | null;
-  runningRequestId: string | null;
   results: Record<string, CollectionRunResult>;
+  runningFolderId: string | null;
+  runningRequestIds: string[];
 }
 
 const initialState: CollectionRunState = {
   runningFolderId: null,
-  runningRequestId: null,
+  runningRequestIds: [],
   results: {},
 };
 
@@ -27,34 +27,26 @@ export const collectionRunSlice = createSlice({
   name: 'collectionRun',
   initialState,
   reducers: {
-    startRun: (state, action: PayloadAction<{ folderId: string; totalRequests: number }>) => {
-      state.runningFolderId = action.payload.folderId;
-    },
-    startRequestRun: (state, action: PayloadAction<string>) => {
-      state.runningRequestId = action.payload;
-    },
     addResult: (state, action: PayloadAction<CollectionRunResult>) => {
       state.results[action.payload.requestId] = action.payload;
     },
-    finishRun: (state) => {
-      state.runningFolderId = null;
-      state.runningRequestId = null;
-    },
-    finishRequestRun: (state) => {
-      state.runningRequestId = null;
-    },
-    cancelRun: (state) => {
-      state.runningFolderId = null;
-      state.runningRequestId = null;
-    },
     clearFolderResults: (state, action: PayloadAction<string[]>) => {
-      // action.payload is array of requestIds to clear
       action.payload.forEach((requestId) => {
         delete state.results[requestId];
       });
     },
-    clearAllResults: (state) => {
-      state.results = {};
+    finishFolderRun: (state) => {
+      state.runningFolderId = null;
+      state.runningRequestIds = [];
+    },
+    finishRequestRun: (state, action: PayloadAction<string>) => {
+      state.runningRequestIds = state.runningRequestIds.filter((id) => id !== action.payload);
+    },
+    startRequestRun: (state, action: PayloadAction<string>) => {
+      state.runningRequestIds.push(action.payload);
+    },
+    startFolderRun: (state, action: PayloadAction<{ folderId: string; totalRequests: number }>) => {
+      state.runningFolderId = action.payload.folderId;
     },
   },
 });

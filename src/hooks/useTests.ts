@@ -1,41 +1,53 @@
 import { useCallback } from 'react';
-import { getDatasets } from '../constants/datasets';
-import { getTestCount } from '../decorators';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { LARGE_PAYLOAD_TEST_NAME, LOAD_TEST_NAME, OPTIONS_METHOD_HANDLING_TEST_NAME } from 'shared/testNames';
+import { getDatasets } from 'src/constants/datasets';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
+  selectActiveAiProvider,
+  selectAiOverview,
+  selectAiRunStartedAt,
+  selectAiTests,
+  selectAiUsage,
   selectCrudTests,
   selectCurrentTest,
   selectDataDrivenTests,
   selectDisabledPerformanceInsights,
   selectDisabledSecurityTests,
+  selectIsAiTestsRunning,
   selectIsDataDrivenRunning,
   selectIsLargePayloadTestRunning,
   selectIsLoadTestRunning,
   selectIsPerformanceRunning,
+  selectIsRunningTests,
   selectIsSecurityRunning,
   selectPerformanceTests,
+  selectRunningAiTests,
   selectSecurityTests,
   selectSelectedRequestId,
   selectTestEngineConfiguration,
   selectTestsCount,
   selectTestsTimestamp,
-} from '../store/selectors';
-import { testActions } from '../store/slices/testSlice';
+} from 'src/store/selectors';
+import { testsActions } from 'src/store/slices/testsSlice';
 import {
+  cancelLargePayloadTest,
+  cancelLoadTest,
   DataDrivenTests,
   generateDynamicTestData,
-  LARGE_PAYLOAD_TEST_NAME,
-  LOAD_TEST_NAME,
-  OPTIONS_METHOD_HANDLING_TEST_NAME,
+  LOAD_TEST_EXPECTED,
   PerformanceInsights,
   runDataDrivenTests,
   runLargePayloadTest,
   runLoadTest,
   SecurityTests,
-} from '../tests';
-import { ParameterValue, TestOptions, TestResult } from '../types';
+} from 'src/test-engine';
+import { AiTests, cancelAllAiTests, runAiTest } from 'src/test-engine/AiTests';
+import { getTestCount } from 'src/test-engine/decorators';
+import { ParameterValue, TestOptions, TestResult } from 'src/types';
 
+let abortAiTests = false;
 let abortAllTests = false;
+let aiTestsInstance: AiTests | null = null;
 let dataDrivenTestsInstance: DataDrivenTests | null = null;
 let performanceInsightsInstance: PerformanceInsights | null = null;
 let securityTestsInstance: SecurityTests | null = null;
@@ -43,97 +55,267 @@ let securityTestsInstance: SecurityTests | null = null;
 const useTests = () => {
   const dispatch = useAppDispatch();
 
-  const selectedRequestId = useAppSelector(selectSelectedRequestId);
-
-  const currentTest = useAppSelector(selectCurrentTest);
-  const testsCount = useAppSelector(selectTestsCount);
-  const testsTimestamp = useAppSelector(selectTestsTimestamp);
-
+  const activeAiProvider = useAppSelector(selectActiveAiProvider);
+  const aiOverview = useAppSelector(selectAiOverview);
+  const aiRunStartedAt = useAppSelector(selectAiRunStartedAt);
+  const aiTests = useAppSelector(selectAiTests);
+  const aiUsage = useAppSelector(selectAiUsage);
   const crudTests = useAppSelector(selectCrudTests);
+  const currentTest = useAppSelector(selectCurrentTest);
   const dataDrivenTests = useAppSelector(selectDataDrivenTests);
-  const performanceTests = useAppSelector(selectPerformanceTests);
-  const securityTests = useAppSelector(selectSecurityTests);
-
+  const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
+  const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
+  const isAiTestsRunning = useAppSelector(selectIsAiTestsRunning);
   const isDataDrivenRunning = useAppSelector(selectIsDataDrivenRunning);
   const isLargePayloadTestRunning = useAppSelector(selectIsLargePayloadTestRunning);
   const isLoadTestRunning = useAppSelector(selectIsLoadTestRunning);
   const isPerformanceRunning = useAppSelector(selectIsPerformanceRunning);
+  const isRunningTests = useAppSelector(selectIsRunningTests);
   const isSecurityRunning = useAppSelector(selectIsSecurityRunning);
-  const isRunning = isDataDrivenRunning || isPerformanceRunning || isSecurityRunning;
-
+  const performanceTests = useAppSelector(selectPerformanceTests);
+  const runningAiTests = useAppSelector(selectRunningAiTests);
+  const securityTests = useAppSelector(selectSecurityTests);
+  const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
-  const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
-  const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
+  const testsCount = useAppSelector(selectTestsCount);
+  const testsTimestamp = useAppSelector(selectTestsTimestamp);
+
   const emailConfiguration = testEngineConfiguration.email;
 
   const incrementCurrentTest = useCallback(() => {
-    dispatch(testActions.incrementCurrentTest());
+    dispatch(testsActions.incrementCurrentTest());
   }, [dispatch]);
 
-  const calculateDataDrivenTestsCount = useCallback(async (options: TestOptions): Promise<number> => {
-    let dataDrivenTestsCount = 0;
-    const datasets = getDatasets(emailConfiguration.domain);
+  const calculateDataDrivenTestsCount = useCallback(
+    async (options: TestOptions): Promise<number> => {
+      let dataDrivenTestsCount = 0;
+      const datasets = getDatasets(emailConfiguration.domain);
 
-    await runDataDrivenTests(
-      options,
-      async () => {
-        dataDrivenTestsCount += 1;
-      },
-      async (_, value: ParameterValue) => {
-        dataDrivenTestsCount += [...generateDynamicTestData(value), ...(datasets[value.type] || [])].length;
-      },
-      async (_, value: ParameterValue) => {
-        dataDrivenTestsCount += [...generateDynamicTestData(value), ...(datasets[value.type] || [])].length;
-      },
-    );
+      await runDataDrivenTests(
+        options,
+        async () => {
+          dataDrivenTestsCount += 1;
+        },
+        async (_, value: ParameterValue) => {
+          dataDrivenTestsCount += [...generateDynamicTestData(value), ...(datasets[value.type] || [])].length;
+        },
+        async (_, value: ParameterValue) => {
+          dataDrivenTestsCount += [...generateDynamicTestData(value), ...(datasets[value.type] || [])].length;
+        },
+      );
 
-    return dataDrivenTestsCount;
+      return dataDrivenTestsCount;
+    },
+    [emailConfiguration.domain],
+  );
+
+  const cancelAiTestsGeneration = useCallback(() => {
+    aiTestsInstance?.abort();
   }, []);
 
-  const executeSecurityTests = useCallback(
-    async (options: TestOptions, execute = true): Promise<{ crudTests: TestResult[]; securityTests: TestResult[] }> => {
-      if (!execute) return { crudTests: [], securityTests: [] };
+  const cancelAllTests = useCallback(() => {
+    abortAiTests = true;
+    abortAllTests = true;
 
-      dispatch(testActions.setSecurityRunning(true));
-      dispatch(testActions.setSecurityTests([]));
-      dispatch(testActions.setCrudTests([]));
+    aiTestsInstance?.abort();
+    dataDrivenTestsInstance?.abort();
+    performanceInsightsInstance?.abort();
+    securityTestsInstance?.abort();
 
-      securityTestsInstance = new SecurityTests(options, disabledSecurityTests, incrementCurrentTest);
-      const { crudTests, securityTests } = await securityTestsInstance.run();
+    cancelAllAiTests();
+    cancelLargePayloadTest();
+    cancelLoadTest();
 
-      dispatch(testActions.setCrudTests(crudTests));
-      dispatch(testActions.setSecurityTests(securityTests));
-      dispatch(testActions.setSecurityRunning(false));
+    dispatch(testsActions.resetTests());
+  }, [dispatch]);
 
-      return { crudTests, securityTests };
+  const executeAiTest = useCallback(
+    async (name: string) => {
+      const aiTest = aiTests?.find((test) => test.name === name);
+      if (!aiTest) return;
+
+      dispatch(testsActions.setRunningAiTest({ name, isRunning: true }));
+
+      const result = await runAiTest(aiTest);
+
+      dispatch(testsActions.setRunningAiTest({ name, isRunning: false }));
+      dispatch(testsActions.updateAiTest({ name, result }));
+
+      if (selectedRequestId)
+        dispatch(
+          testsActions.updateAiTestResults({
+            name,
+            requestId: selectedRequestId,
+            result,
+          }),
+        );
     },
-    [disabledSecurityTests, dispatch, incrementCurrentTest],
+    [aiTests, selectedRequestId, dispatch],
   );
+
+  const executeAiTestsGeneration = useCallback(
+    async (options: TestOptions | null, maskedFields: string[]) => {
+      if (!options || !activeAiProvider) return;
+
+      dispatch(testsActions.setAiRunning(true));
+
+      aiTestsInstance = new AiTests(activeAiProvider, maskedFields, options, {
+        crudTests,
+        dataDrivenTests,
+        performanceTests,
+        securityTests,
+      });
+      const results = await aiTestsInstance.run();
+
+      dispatch(testsActions.setAiRunning(false));
+
+      if (!results) return;
+
+      dispatch(testsActions.setAiTests(results));
+
+      if (selectedRequestId)
+        dispatch(
+          testsActions.addAiTestResults({
+            requestId: selectedRequestId,
+            ...results,
+          }),
+        );
+    },
+    [activeAiProvider, crudTests, dataDrivenTests, performanceTests, securityTests, selectedRequestId, dispatch],
+  );
+
+  const executeAllAiTests = useCallback(async () => {
+    abortAiTests = false;
+
+    dispatch(testsActions.setAiTestsRunning(true));
+
+    for (const aiTest of aiTests ?? []) {
+      if (abortAiTests) break;
+      await executeAiTest(aiTest.name);
+    }
+
+    dispatch(testsActions.setAiTestsRunning(false));
+  }, [aiTests, dispatch, executeAiTest]);
 
   const executeDataDrivenTests = useCallback(
     async (options: TestOptions, execute = true): Promise<TestResult[]> => {
       if (!execute) return [];
 
-      dispatch(testActions.setDataDrivenRunning(true));
-      dispatch(testActions.setDataDrivenTests([]));
+      dispatch(testsActions.setDataDrivenRunning(true));
+      dispatch(testsActions.setDataDrivenTests([]));
 
       dataDrivenTestsInstance = new DataDrivenTests(options, incrementCurrentTest);
       const dataDrivenTestResults = await dataDrivenTestsInstance.run();
 
-      dispatch(testActions.setDataDrivenTests(dataDrivenTestResults));
-      dispatch(testActions.setDataDrivenRunning(false));
+      dispatch(testsActions.setDataDrivenTests(dataDrivenTestResults));
+      dispatch(testsActions.setDataDrivenRunning(false));
 
       return dataDrivenTestResults;
     },
     [dispatch, incrementCurrentTest],
   );
 
+  const executeLargePayloadTest = useCallback(
+    async (options: TestOptions, size: number) => {
+      dispatch(testsActions.setLargePayloadTestRunning(true));
+
+      const largePayloadTest = await runLargePayloadTest(options, size);
+
+      dispatch(
+        testsActions.updateSecurityTest({
+          name: LARGE_PAYLOAD_TEST_NAME,
+          result: largePayloadTest,
+        }),
+      );
+      dispatch(testsActions.setLargePayloadTestRunning(false));
+
+      if (selectedRequestId)
+        dispatch(
+          testsActions.updateSecurityTestResults({
+            name: LARGE_PAYLOAD_TEST_NAME,
+            requestId: selectedRequestId,
+            result: largePayloadTest,
+          }),
+        );
+    },
+    [selectedRequestId, dispatch],
+  );
+
+  const executeLoadTest = useCallback(
+    async (options: TestOptions, threadCount: number, requestCount: number) => {
+      const formatLoadTestProgress = (loadBar: string, sentRequestCount: number, requestCount: number): string => {
+        return `${loadBar} (${sentRequestCount}/${requestCount})`;
+      };
+
+      const generateLoadBarProgress = (percent: number) => {
+        const width = 20;
+        const filled = Math.round((percent / 100) * width);
+        return '▓'.repeat(filled) + '░'.repeat(width - filled) + ` ${percent}%`;
+      };
+
+      dispatch(testsActions.setLoadTestRunning(true));
+      dispatch(testsActions.setLoadProgress(0));
+
+      dispatch(
+        testsActions.updatePerformanceTest({
+          name: LOAD_TEST_NAME,
+          result: {
+            actual: formatLoadTestProgress(generateLoadBarProgress(0), 0, requestCount),
+            expected: LOAD_TEST_EXPECTED,
+            name: LOAD_TEST_NAME,
+            status: performanceTests.find((test) => test.name === LOAD_TEST_NAME)?.status || 'info',
+          } as TestResult,
+        }),
+      );
+
+      let lastPercent = 0;
+      const updateLoadProgress = (sentRequestCount: number, totalRequestCount: number) => {
+        const percent = Math.floor((sentRequestCount / totalRequestCount) * 100);
+        if (percent !== lastPercent) {
+          lastPercent = percent;
+          dispatch(testsActions.setLoadProgress(percent));
+          dispatch(
+            testsActions.updatePerformanceTest({
+              name: LOAD_TEST_NAME,
+              result: {
+                actual: formatLoadTestProgress(generateLoadBarProgress(percent), sentRequestCount, totalRequestCount),
+                expected: LOAD_TEST_EXPECTED,
+                name: LOAD_TEST_NAME,
+                status: performanceTests.find((test) => test.name === LOAD_TEST_NAME)?.status || 'info',
+              } as TestResult,
+            }),
+          );
+        }
+      };
+
+      const loadTestResult = await runLoadTest(options, threadCount, requestCount, updateLoadProgress);
+
+      dispatch(
+        testsActions.updatePerformanceTest({
+          name: LOAD_TEST_NAME,
+          result: loadTestResult,
+        }),
+      );
+      dispatch(testsActions.setLoadTestRunning(false));
+
+      if (selectedRequestId)
+        dispatch(
+          testsActions.updatePerformanceTestResults({
+            name: LOAD_TEST_NAME,
+            requestId: selectedRequestId,
+            result: loadTestResult,
+          }),
+        );
+    },
+    [performanceTests, selectedRequestId, dispatch],
+  );
+
   const executePerformanceTests = useCallback(
     async (options: TestOptions, testResults: TestResult[] = [], execute = true): Promise<TestResult[]> => {
       if (!execute) return [];
 
-      dispatch(testActions.setPerformanceRunning(true));
-      dispatch(testActions.setPerformanceTests([]));
+      dispatch(testsActions.setPerformanceRunning(true));
+      dispatch(testsActions.setPerformanceTests([]));
 
       performanceInsightsInstance = new PerformanceInsights(
         testResults,
@@ -143,20 +325,40 @@ const useTests = () => {
       );
       const performanceTestResults = await performanceInsightsInstance.run();
 
-      dispatch(testActions.setPerformanceTests(performanceTestResults));
-      dispatch(testActions.setPerformanceRunning(false));
+      dispatch(testsActions.setPerformanceTests(performanceTestResults));
+      dispatch(testsActions.setPerformanceRunning(false));
 
       return performanceTestResults;
     },
     [disabledPerformanceInsights, dispatch, incrementCurrentTest],
   );
 
+  const executeSecurityTests = useCallback(
+    async (options: TestOptions, execute = true): Promise<{ crudTests: TestResult[]; securityTests: TestResult[] }> => {
+      if (!execute) return { crudTests: [], securityTests: [] };
+
+      dispatch(testsActions.setSecurityRunning(true));
+      dispatch(testsActions.setSecurityTests([]));
+      dispatch(testsActions.setCrudTests([]));
+
+      securityTestsInstance = new SecurityTests(options, disabledSecurityTests, incrementCurrentTest);
+      const { crudTests, securityTests } = await securityTestsInstance.run();
+
+      dispatch(testsActions.setCrudTests(crudTests));
+      dispatch(testsActions.setSecurityTests(securityTests));
+      dispatch(testsActions.setSecurityRunning(false));
+
+      return { crudTests, securityTests };
+    },
+    [disabledSecurityTests, dispatch, incrementCurrentTest],
+  );
+
   const executeAllTests = useCallback(
     async (options: TestOptions) => {
       abortAllTests = false;
 
-      dispatch(testActions.setOptions(options));
-      dispatch(testActions.startAllTests());
+      dispatch(testsActions.setOptions(options));
+      dispatch(testsActions.startAllTests());
 
       const count =
         (await calculateDataDrivenTestsCount(options)) +
@@ -168,8 +370,8 @@ const useTests = () => {
         disabledPerformanceInsights.length;
       const timestamp = new Date().getTime();
 
-      dispatch(testActions.setCount(count));
-      dispatch(testActions.setTimestamp(timestamp));
+      dispatch(testsActions.setCount(count));
+      dispatch(testsActions.setTimestamp(timestamp));
 
       const { crudTests, securityTests } = await executeSecurityTests(options, !abortAllTests);
       const dataDrivenTests = await executeDataDrivenTests(options, !abortAllTests);
@@ -177,159 +379,69 @@ const useTests = () => {
 
       if (!abortAllTests && selectedRequestId)
         dispatch(
-          testActions.addResults({
+          testsActions.addResults({
             requestId: selectedRequestId,
             results: {
-              count,
-              timestamp,
+              aiOverview,
+              aiTests,
+              aiUsage,
               crudTests,
+              count,
               dataDrivenTests,
               performanceTests,
               securityTests,
               testOptions: options,
+              timestamp,
             },
           }),
         );
     },
     [
+      aiOverview,
+      aiTests,
+      aiUsage,
       disabledPerformanceInsights,
       disabledSecurityTests,
       selectedRequestId,
-      dispatch,
       calculateDataDrivenTestsCount,
-      executeSecurityTests,
+      dispatch,
       executeDataDrivenTests,
       executePerformanceTests,
+      executeSecurityTests,
     ],
   );
 
-  const executeLargePayloadTest = useCallback(
-    async (options: TestOptions, size: number) => {
-      dispatch(testActions.setLargePayloadTestRunning(true));
-
-      const largePayloadTest = await runLargePayloadTest(options, size);
-
-      dispatch(
-        testActions.updateSecurityTest({
-          testName: LARGE_PAYLOAD_TEST_NAME,
-          result: largePayloadTest,
-        }),
-      );
-      dispatch(testActions.setLargePayloadTestRunning(false));
-
-      if (selectedRequestId)
-        dispatch(
-          testActions.updateSecurityTestResults({
-            requestId: selectedRequestId,
-            testName: LARGE_PAYLOAD_TEST_NAME,
-            result: largePayloadTest,
-          }),
-        );
-    },
-    [selectedRequestId, dispatch],
-  );
-
-  const cancelAllTests = useCallback(() => {
-    abortAllTests = true;
-
-    securityTestsInstance?.abort();
-    dataDrivenTestsInstance?.abort();
-    performanceInsightsInstance?.abort();
-
-    dispatch(testActions.resetTests());
-  }, [dispatch]);
-
-  const generateLoadBarProgress = (percent: number) => {
-    const width = 20;
-    const filled = Math.round((percent / 100) * width);
-    return '▓'.repeat(filled) + '░'.repeat(width - filled) + ` ${percent}%`;
-  };
-
-  const formatLoadTestProgress = (loadBar: string, sentRequestCount: number, requestCount: number): string => {
-    return `${loadBar} (${sentRequestCount}/${requestCount})`;
-  };
-
-  const executeLoadTest = useCallback(
-    async (options: TestOptions, threadCount: number, requestCount: number) => {
-      dispatch(testActions.setLoadTestRunning(true));
-      dispatch(testActions.setLoadProgress(0));
-
-      // Update initial progress display
-      dispatch(
-        testActions.updatePerformanceTest({
-          testName: LOAD_TEST_NAME,
-          result: {
-            name: LOAD_TEST_NAME,
-            status: performanceTests.find((t) => t.name === LOAD_TEST_NAME)?.status || 'info',
-            expected: '',
-            actual: formatLoadTestProgress(generateLoadBarProgress(0), 0, requestCount),
-          } as TestResult,
-        }),
-      );
-
-      let lastPercent = 0;
-      const updateLoadProgress = (sentRequestCount: number, totalRequestCount: number) => {
-        const percent = Math.floor((sentRequestCount / totalRequestCount) * 100);
-        if (percent !== lastPercent) {
-          lastPercent = percent;
-          dispatch(testActions.setLoadProgress(percent));
-          dispatch(
-            testActions.updatePerformanceTest({
-              testName: LOAD_TEST_NAME,
-              result: {
-                name: LOAD_TEST_NAME,
-                status: performanceTests.find((t) => t.name === LOAD_TEST_NAME)?.status || 'info',
-                expected: '',
-                actual: formatLoadTestProgress(generateLoadBarProgress(percent), sentRequestCount, totalRequestCount),
-              } as TestResult,
-            }),
-          );
-        }
-      };
-
-      const loadTestResult = await runLoadTest(options, threadCount, requestCount, updateLoadProgress);
-
-      dispatch(
-        testActions.updatePerformanceTest({
-          testName: LOAD_TEST_NAME,
-          result: loadTestResult,
-        }),
-      );
-      dispatch(testActions.setLoadTestRunning(false));
-
-      if (selectedRequestId)
-        dispatch(
-          testActions.updatePerformanceTestResults({
-            requestId: selectedRequestId,
-            testName: LOAD_TEST_NAME,
-            result: loadTestResult,
-          }),
-        );
-    },
-    [performanceTests, selectedRequestId, dispatch],
-  );
-
   return {
+    aiOverview,
+    aiRunStartedAt,
+    aiTests,
+    aiUsage,
     crudTests,
     currentTest,
     dataDrivenTests,
+    isAiTestsRunning,
     isDataDrivenRunning,
     isLargePayloadTestRunning,
     isLoadTestRunning,
     isPerformanceRunning,
+    isRunningTests,
     isSecurityRunning,
-    isRunning,
     performanceTests,
+    runningAiTests,
     securityTests,
     testsCount,
     testsTimestamp,
+    cancelAiTestsGeneration,
     cancelAllTests,
+    executeAiTest,
+    executeAiTestsGeneration,
+    executeAllAiTests,
     executeAllTests,
     executeDataDrivenTests,
     executeLargePayloadTest,
     executeLoadTest,
-    executeSecurityTests,
     executePerformanceTests,
+    executeSecurityTests,
   };
 };
 

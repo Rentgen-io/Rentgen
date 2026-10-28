@@ -28,6 +28,16 @@ function collectLeafPaths(
   return out;
 }
 
+// Some languages need extra CLDR plural forms (e.g. ru/pl `_few`, `_many`) that en doesn't have.
+const EXTRA_PLURAL_SUFFIX = /_(zero|two|few|many)$/;
+
+function isLocalePluralForm(path: string, sourceSet: Set<string>): boolean {
+  return (
+    EXTRA_PLURAL_SUFFIX.test(path) &&
+    sourceSet.has(path.replace(EXTRA_PLURAL_SUFFIX, '_other'))
+  );
+}
+
 async function loadLocaleDefault(file: string): Promise<Plain> {
   const mod = await import(pathToFileURL(file).href);
   const def = mod.default;
@@ -90,7 +100,9 @@ async function main(): Promise<number> {
     }
     const set = collectLeafPaths(obj);
     const missing = [...sourceSet].filter((p) => !set.has(p)).sort();
-    const extra = [...set].filter((p) => !sourceSet.has(p)).sort();
+    const extra = [...set]
+      .filter((p) => !sourceSet.has(p) && !isLocalePluralForm(p, sourceSet))
+      .sort();
 
     if (missing.length === 0 && extra.length === 0) {
       console.log(`  ${chalk.green('✓')} ${f}`);

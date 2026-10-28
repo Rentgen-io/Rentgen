@@ -16,7 +16,7 @@ export default function SimpleSelect({ className, disabled, options, placeholder
       className={twMerge(
         cn(
           { 'opacity-50': disabled },
-          'm-0 py-1.75 px-3 font-segoe-ui text-xs text-text border border-border rounded-md outline-none',
+          'm-0 py-1.75 px-3 font-segoe-ui text-xs text-text border border-border outline-none',
           'dark:text-dark-text dark:bg-dark-input dark:border-dark-border',
           optionClassName,
           className,

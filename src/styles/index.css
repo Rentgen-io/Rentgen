@@ -50,58 +50,125 @@
 }
 
 @layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+  }
+
+  .dark,
+  .dark * {
+    scrollbar-color: var(--color-dark-border) transparent;
+  }
+  .dark::-webkit-scrollbar-thumb,
+  .dark *::-webkit-scrollbar-thumb {
+    background: var(--color-dark-border);
+  }
+
+  html {
+    @apply scrollbar-gutter-stable;
+  }
+
   body {
     @apply m-0 font-segoe-ui bg-body dark:bg-dark-body text-text dark:text-dark-text;
+  }
+
+  h5 {
+    @apply text-sm;
   }
 }
 
 @layer components {
-  /* JSON Plus Button - inline buttons for setting dynamic variables */
   .json-plus-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 16px;
-    height: 16px;
-    margin-left: 4px;
-    margin-top: 2px;
-    padding: 0;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 1;
-    border-radius: 4px;
-    border: 1px solid transparent;
-    background-color: transparent;
-    color: #6b7280;
-    opacity: 0;
-    pointer-events: none;
-    cursor: pointer;
-    transition:
-      opacity 0.15s ease,
-      background-color 0.15s ease,
-      color 0.15s ease;
-    vertical-align: middle;
+    @apply inline-flex items-center justify-center align-middle h-3.75 w-3.75 mt-px ml-1 p-0 text-xs leading-1 border-transparent bg-transparent text-text opacity-0 pointer-events-none cursor-pointer;
   }
 
-  /* Show on line hover */
   .json-plus-button.line-hovered {
-    opacity: 0.6;
-    pointer-events: auto;
+    @apply opacity-60 pointer-events-auto;
   }
 
   .json-plus-button.line-hovered:hover {
-    opacity: 1;
-    background-color: #3b82f6;
-    color: white;
+    @apply opacity-100 bg-button-primary-hover text-white;
   }
 
-  /* Dark mode */
   .dark .json-plus-button {
-    color: #9ca3af;
+    @apply text-dark-text;
   }
 
-  .dark .json-plus-button.line-hovered:hover {
-    background-color: #3b82f6;
-    color: white;
+  .Toastify__toast {
+    @apply gap-2! min-h-12! font-segoe-ui! text-sm rounded-none!;
+  }
+
+  .Toastify__toast-icon {
+    @apply h-4! w-4! m-0! shrink-0!;
+  }
+
+  .Toastify__close-button {
+    @apply static! shrink-0!;
+  }
+
+  .Toastify__progress-bar--wrp {
+    @apply rounded-none!;
+  }
+
+  .rdt_headRow {
+    @apply text-black! dark:text-white! dark:bg-dark-body!;
+  }
+
+  .rdt_cellBaseHead::before {
+    @apply hidden!;
+  }
+
+  .rdt_columnExpander,
+  .rdt_cellExpander {
+    @apply min-w-7!;
+  }
+
+  .rdt_expanderButton:hover:not(:disabled),
+  .rdt_expanderButton:focus {
+    @apply bg-transparent!;
+  }
+
+  .rdt_expanderButton:disabled {
+    @apply hidden!;
+  }
+
+  .rdt_expanderButton > * {
+    @apply h-4! w-4!;
+  }
+
+  .environment-data-table {
+    @apply border border-border dark:border-dark-border;
+  }
+
+  .environment-data-table .rdt_wrapper,
+  .environment-data-table .rdt_Table {
+    @apply min-w-0!;
+  }
+
+  .environment-data-table .rdt_Table {
+    @apply bg-transparent!;
+  }
+
+  .environment-data-table .rdt_headRow {
+    @apply min-h-auto! bg-body! dark:bg-dark-body! border-border! dark:border-dark-border!;
+  }
+
+  .environment-data-table .rdt_cellBaseHead {
+    @apply py-2! px-3! border-border! dark:border-dark-border!;
+  }
+
+  .environment-data-table .rdt_TableRow {
+    @apply min-h-auto! bg-white! dark:bg-dark-input! [content-visibility:visible]!;
+  }
+
+  .environment-data-table .rdt_TableCell {
+    @apply p-0! border-0! border-border! dark:border-dark-body! overflow-hidden!;
+  }
+
+  .environment-data-table .rdt_cellBase:not(:last-of-type) {
+    @apply border-r!;
   }
 }

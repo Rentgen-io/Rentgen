@@ -1,0 +1,76 @@
+import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from 'src/store';
+import { TestResults } from 'src/types';
+
+export const selectAiOverview = (state: RootState) => state.tests.aiOverview;
+export const selectAiRunStartedAt = (state: RootState) => state.tests.aiRunStartedAt;
+export const selectAiTests = (state: RootState) => state.tests.aiTests;
+export const selectAiUsage = (state: RootState) => state.tests.aiUsage;
+export const selectAllTestResults = (state: RootState) => state.tests.results;
+export const selectCompareResponse = (state: RootState) => state.tests.compareResponse;
+export const selectCrudTests = (state: RootState) => state.tests.crudTests;
+export const selectCurrentTest = (state: RootState) => state.tests.currentTest;
+export const selectDataDrivenTests = (state: RootState) => state.tests.dataDrivenTests;
+export const selectIsAiTestsRunning = (state: RootState) => state.tests.isAiTestsRunning;
+export const selectIsComparingTestResults = (state: RootState) => state.tests.isComparing;
+export const selectIsDataDrivenRunning = (state: RootState) => state.tests.isDataDrivenRunning;
+export const selectIsLargePayloadTestRunning = (state: RootState) => state.tests.isLargePayloadTestRunning;
+export const selectIsLoadTestRunning = (state: RootState) => state.tests.isLoadTestRunning;
+export const selectIsPerformanceRunning = (state: RootState) => state.tests.isPerformanceRunning;
+export const selectIsSecurityRunning = (state: RootState) => state.tests.isSecurityRunning;
+export const selectPerformanceTests = (state: RootState) => state.tests.performanceTests;
+export const selectRunningAiTests = (state: RootState) => state.tests.runningAiTests;
+export const selectSecurityTests = (state: RootState) => state.tests.securityTests;
+export const selectTestOptions = (state: RootState) => state.tests.testOptions;
+export const selectTestResultsToCompare = (state: RootState) => state.tests.resultsToCompare;
+export const selectTestsCount = (state: RootState) => state.tests.count;
+export const selectTestsTimestamp = (state: RootState) => state.tests.timestamp;
+
+export const selectCurrentTestResults: (state: RootState) => TestResults | null = createSelector(
+  [
+    selectAiOverview,
+    selectAiTests,
+    selectAiUsage,
+    selectCrudTests,
+    selectDataDrivenTests,
+    selectPerformanceTests,
+    selectSecurityTests,
+    selectTestOptions,
+    selectTestsCount,
+    selectTestsTimestamp,
+  ],
+  (
+    aiOverview,
+    aiTests,
+    aiUsage,
+    crudTests,
+    dataDrivenTests,
+    performanceTests,
+    securityTests,
+    testOptions,
+    count,
+    timestamp,
+  ) => {
+    if (!count || !testOptions) return null;
+
+    return {
+      aiOverview,
+      aiTests,
+      aiUsage,
+      count,
+      crudTests,
+      dataDrivenTests,
+      performanceTests,
+      securityTests,
+      testOptions,
+      timestamp,
+    };
+  },
+);
+export const selectIsRunningTests = createSelector(
+  [selectIsSecurityRunning, selectIsPerformanceRunning, selectIsDataDrivenRunning],
+  (isSecurityRunning, isPerformanceRunning, isDataDrivenRunning) =>
+    isSecurityRunning || isPerformanceRunning || isDataDrivenRunning,
+);
+export const selectRequestTestResults = (requestId: string) =>
+  createSelector([selectAllTestResults], (results) => results[requestId] || null);

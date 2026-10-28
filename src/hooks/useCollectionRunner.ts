@@ -1,183 +1,100 @@
 import { useCallback, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { RESPONSE_STATUS } from 'shared/responseStatus';
+import { sendHttp } from 'src/api/network';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectCollectionData,
   selectDynamicVariables,
   selectMappings,
   selectSelectedEnvironment,
-} from '../store/selectors';
-import { collectionRunActions } from '../store/slices/collectionRunSlice';
-import { environmentActions } from '../store/slices/environmentSlice';
-import { DynamicVariable, ExtractionFailure, HttpResponse, PostmanItem } from '../types';
+} from 'src/store/selectors';
+import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
+import { environmentActions } from 'src/store/slices/environmentSlice';
+import { DynamicVariable, PostmanItem } from 'src/types';
 import {
+  applyMapping,
+  collectExtractionFailures,
   createHttpRequest,
   detectDataType,
   extractBodyParameters,
   extractQueryParameters,
   extractStatusCode,
+  findRequestById,
+  formatExtractionWarning,
   getInitialParameterValue,
-  parseBody,
-  parseHeaders,
+  headersRecordToString,
+  postmanHeadersToRecord,
   substituteRequestVariables,
-} from '../utils';
-import { findRequestById, headersRecordToString, postmanHeadersToRecord } from '../utils/collection';
-import { extractDynamicVariableFromResponseWithDetails } from '../utils/dynamicVariable';
+} from 'src/utils';
+
+const activeControllers = new Map<string, AbortController>();
 
 export function useCollectionRunner() {
   const dispatch = useAppDispatch();
+
   const collection = useAppSelector(selectCollectionData);
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
   const mappings = useAppSelector(selectMappings);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
+
   const dynamicVariablesRef = useRef<DynamicVariable[]>(dynamicVariables);
   dynamicVariablesRef.current = dynamicVariables;
-  const cancelRef = useRef(false);
+  const cancelRef = useRef<boolean>(false);
 
-  const runFolder = useCallback(
-    async (folderId: string) => {
-      const folder = collection.item.find((f) => f.id === folderId);
-      if (!folder || folder.item.length === 0) return;
+  const cancelFolderRun = useCallback(() => {
+    activeControllers.forEach((controller) => controller.abort());
+    activeControllers.clear();
 
-      cancelRef.current = false;
+    cancelRef.current = true;
+    dispatch(collectionRunActions.finishFolderRun());
+  }, [dispatch]);
 
-      // Clear previous results for this folder's requests
-      const requestIds = folder.item.map((item) => item.id);
-      dispatch(collectionRunActions.clearFolderResults(requestIds));
+  const cancelRequestRun = useCallback(
+    (requestId: string) => {
+      activeControllers.get(requestId)?.abort();
+      activeControllers.delete(requestId);
 
-      // Start the run
-      dispatch(
-        collectionRunActions.startRun({
-          folderId,
-          totalRequests: folder.item.length,
-        }),
-      );
-
-      // Execute requests sequentially
-      for (let i = 0; i < folder.item.length; i++) {
-        if (cancelRef.current) break;
-
-        await executeRequest(folder.item[i]);
-      }
-
-      dispatch(collectionRunActions.finishRun());
+      dispatch(collectionRunActions.finishRequestRun(requestId));
     },
-    [collection, mappings, selectedEnvironment, dispatch],
-  );
-
-  const runRequest = useCallback(
-    async (requestId: string) => {
-      const item = findRequestById(collection, requestId);
-      if (!item) return;
-
-      dispatch(collectionRunActions.clearFolderResults([item.id]));
-      await executeRequest(item);
-      dispatch(collectionRunActions.finishRequestRun());
-    },
-    [collection, mappings, selectedEnvironment, dispatch],
+    [dispatch],
   );
 
   const executeRequest = useCallback(
     async (item: PostmanItem) => {
+      activeControllers.get(item.id)?.abort();
+      const controller = new AbortController();
+      activeControllers.set(item.id, controller);
+
       dispatch(collectionRunActions.startRequestRun(item.id));
 
       try {
         const { request } = item;
-        const headers = postmanHeadersToRecord(request.header);
-        const headersString = headersRecordToString(headers);
-        const body = request.body?.raw || '';
-
-        // Apply environment variable substitution (including dynamic variables)
-        const substituted = substituteRequestVariables(
+        const { body, headers, url } = substituteRequestVariables(
           request.url,
-          headersString,
-          body,
-          '', // messageType - not stored in collection
+          headersRecordToString(postmanHeadersToRecord(request.header)),
+          request.body?.raw || '',
           selectedEnvironment,
           dynamicVariablesRef.current,
         );
 
-        const parsedHeaders = parseHeaders(substituted.headers);
-        const parsedBody = parseBody(substituted.body, parsedHeaders, '', null);
-        const httpRequest = createHttpRequest(parsedBody, parsedHeaders, request.method, substituted.url);
-        const response: HttpResponse = await window.electronAPI.sendHttp(httpRequest);
+        const httpRequest = createHttpRequest(body, headers, request.method, url);
+        const response = await sendHttp(httpRequest, controller.signal);
         const status = extractStatusCode(response);
 
         let bodyParameters = {};
         let queryParameters = {};
 
-        if (status >= 200 && status < 300) {
-          const extractedBodyParameters = extractBodyParameters(parsedBody, parsedHeaders);
-          const mappedBodyParameters = mappings[item.id]?.body || {};
-
-          bodyParameters = Object.fromEntries(
-            Object.keys(extractedBodyParameters).map((key) => [
-              key,
-              key in mappedBodyParameters ? mappedBodyParameters[key] : extractedBodyParameters[key],
-            ]),
+        if (status >= RESPONSE_STATUS.OK && status < RESPONSE_STATUS.REDIRECT) {
+          bodyParameters = applyMapping(extractBodyParameters(body, headers), mappings[item.id]?.body || {});
+          queryParameters = applyMapping(
+            Object.fromEntries(
+              Object.entries(extractQueryParameters(url)).map(([key, value]) => [
+                key,
+                getInitialParameterValue(detectDataType(value), value),
+              ]),
+            ),
+            mappings[item.id]?.query || {},
           );
-
-          const extractedQueryParameters = Object.fromEntries(
-            Object.entries(extractQueryParameters(request.url)).map(([key, value]) => [
-              key,
-              getInitialParameterValue(detectDataType(value), value),
-            ]),
-          );
-          const mappedQueryParameters = mappings[item.id]?.query || {};
-
-          queryParameters = Object.fromEntries(
-            Object.keys(extractedQueryParameters).map((key) => [
-              key,
-              key in mappedQueryParameters ? mappedQueryParameters[key] : extractedQueryParameters[key],
-            ]),
-          );
-        }
-
-        // Extract and update dynamic variables for this request
-        const extractionFailures: ExtractionFailure[] = [];
-
-        for (const dynamicVariable of dynamicVariablesRef.current) {
-          const previousRequest = dynamicVariable.previousRequests?.find(({ requestId }) => requestId === item.id);
-          if (dynamicVariable.requestId !== item.id && !previousRequest) continue;
-
-          const currentDynamicVariable =
-            dynamicVariable.requestId === item.id
-              ? dynamicVariable
-              : {
-                  ...dynamicVariable,
-                  selector: previousRequest!.selector,
-                  source: previousRequest!.source,
-                };
-          const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(
-            currentDynamicVariable,
-            response,
-          );
-
-          if (extractedDynamicVariables.success && extractedDynamicVariables.value !== null)
-            dispatch(
-              environmentActions.updateDynamicVariableValue({
-                id: currentDynamicVariable.id,
-                value: extractedDynamicVariables.value,
-              }),
-            );
-          else
-            extractionFailures.push({
-              variableName: currentDynamicVariable.key,
-              selector: currentDynamicVariable.selector,
-              source: currentDynamicVariable.source,
-              reason: extractedDynamicVariables.error || 'unknown error',
-            });
-        }
-
-        // Build warning message if any extractions failed
-        let warning: string | null = null;
-        if (extractionFailures.length > 0) {
-          if (extractionFailures.length === 1) {
-            const f = extractionFailures[0];
-            warning = `Failed to extract {{${f.variableName}}}: ${f.reason}`;
-          } else {
-            const details = extractionFailures.map((f) => `{{${f.variableName}}}`).join(', ');
-            warning = `Failed to extract: ${details}`;
-          }
         }
 
         dispatch(
@@ -188,7 +105,18 @@ export function useCollectionRunner() {
             bodyParameters,
             queryParameters,
             error: null,
-            warning,
+            warning: formatExtractionWarning(
+              collectExtractionFailures(dynamicVariablesRef.current, item.id, response, (current, extracted) => {
+                if (extracted.success && extracted.value !== null) {
+                  dispatch(
+                    environmentActions.updateDynamicVariableValue({
+                      id: current.id,
+                      value: extracted.value,
+                    }),
+                  );
+                }
+              }),
+            ),
           }),
         );
       } catch (error) {
@@ -203,15 +131,52 @@ export function useCollectionRunner() {
             warning: null,
           }),
         );
+      } finally {
+        if (activeControllers.get(item.id) === controller) activeControllers.delete(item.id);
       }
     },
     [mappings, selectedEnvironment, dispatch],
   );
 
-  const cancelRun = useCallback(() => {
-    cancelRef.current = true;
-    dispatch(collectionRunActions.cancelRun());
-  }, [dispatch]);
+  const runFolder = useCallback(
+    async (folderId: string) => {
+      const folder = collection.item.find((f) => f.id === folderId);
+      if (!folder || folder.item.length === 0) return;
 
-  return { runFolder, runRequest, cancelRun };
+      cancelRef.current = false;
+
+      const requestIds = folder.item.map((item) => item.id);
+      dispatch(collectionRunActions.clearFolderResults(requestIds));
+
+      dispatch(
+        collectionRunActions.startFolderRun({
+          folderId,
+          totalRequests: folder.item.length,
+        }),
+      );
+
+      for (let i = 0; i < folder.item.length; i++) {
+        if (cancelRef.current) break;
+
+        await executeRequest(folder.item[i]);
+      }
+
+      dispatch(collectionRunActions.finishFolderRun());
+    },
+    [collection, mappings, selectedEnvironment, dispatch],
+  );
+
+  const runRequest = useCallback(
+    async (requestId: string) => {
+      const item = findRequestById(collection, requestId);
+      if (!item) return;
+
+      dispatch(collectionRunActions.clearFolderResults([item.id]));
+      await executeRequest(item);
+      dispatch(collectionRunActions.finishRequestRun(item.id));
+    },
+    [collection, mappings, selectedEnvironment, dispatch],
+  );
+
+  return { cancelFolderRun, cancelRequestRun, runFolder, runRequest };
 }

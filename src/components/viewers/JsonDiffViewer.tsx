@@ -1,26 +1,37 @@
 import { DiffEditor, DiffOnMount } from '@monaco-editor/react';
-import cn from 'classnames';
-import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
+import { editor } from 'monaco-editor/esm/vs/editor/editor.api.js';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { rentgenDarkTheme, rentgenLightTheme } from 'src/monaco/themes';
+import { useAppSelector } from 'src/store/hooks';
+import { selectTheme } from 'src/store/selectors';
 import { twMerge } from 'tailwind-merge';
-import { useAppSelector } from '../../store/hooks';
-import { selectTheme } from '../../store/selectors';
-import TestRunningLoader from '../loaders/TestRunningLoader';
-import { rentgenDarkTheme, rentgenLightTheme } from '../monaco/themes';
+import LoaderWithText from '../loaders/LoaderWithText';
 
 interface Props {
   className?: string;
-  data: object[];
+  data: (object | null)[];
+  maxHeight?: number;
+  minHeight?: number;
   calculateStatistics?(statistics: { percent: number; added: number; removed: number; unchanged: number }): void;
   isDiffReady?(ready: boolean): void;
 }
 
-export function JsonDiffViewer({ className, data, calculateStatistics, isDiffReady }: Props) {
+export function JsonDiffViewer({
+  className,
+  data,
+  maxHeight = 280,
+  minHeight = 40,
+  calculateStatistics,
+  isDiffReady,
+}: Props) {
   const { t } = useTranslation();
+
   const theme = useAppSelector(selectTheme);
+
   const diffEditorRef = useRef<editor.IStandaloneDiffEditor | null>(null);
   const [diffReady, setDiffReady] = useState<boolean>(false);
+  const [editorHeight, setEditorHeight] = useState<number>(minHeight);
   const isDark = theme === 'dark';
 
   useEffect(() => {
@@ -29,11 +40,11 @@ export function JsonDiffViewer({ className, data, calculateStatistics, isDiffRea
       diffEditorRef.current
         .getOriginalEditor()
         .getModel()
-        .setValue(JSON.stringify(data[0], null, 2));
+        ?.setValue(JSON.stringify(data[0], null, 2));
       diffEditorRef.current
         .getModifiedEditor()
         .getModel()
-        .setValue(JSON.stringify(data[1], null, 2));
+        ?.setValue(JSON.stringify(data[1], null, 2));
     }
   }, [data]);
 
@@ -48,8 +59,8 @@ export function JsonDiffViewer({ className, data, calculateStatistics, isDiffRea
     if (!editor) return;
 
     const changes = editor.getLineChanges() || [];
-    const originalLines = editor.getOriginalEditor().getModel().getLineCount();
-    const modifiedLines = editor.getModifiedEditor().getModel().getLineCount();
+    const originalLines = editor.getOriginalEditor().getModel()?.getLineCount() ?? 0;
+    const modifiedLines = editor.getModifiedEditor().getModel()?.getLineCount() ?? 0;
 
     let added = 0;
     let removed = 0;
@@ -78,7 +89,18 @@ export function JsonDiffViewer({ className, data, calculateStatistics, isDiffRea
     monaco.editor.defineTheme('rentgen-dark', rentgenDarkTheme);
     monaco.editor.setTheme(isDark ? 'rentgen-dark' : 'rentgen-light');
 
+    const updateHeight = () =>
+      setEditorHeight(
+        Math.max(editor.getOriginalEditor().getContentHeight(), editor.getModifiedEditor().getContentHeight()),
+      );
+
+    updateHeight();
+
+    editor.getOriginalEditor().onDidContentSizeChange(updateHeight);
+    editor.getModifiedEditor().onDidContentSizeChange(updateHeight);
+
     editor.onDidUpdateDiff(() => {
+      updateHeight();
       computeStatistics();
       setDiffReady(true);
     });
@@ -94,7 +116,10 @@ export function JsonDiffViewer({ className, data, calculateStatistics, isDiffRea
   }, []);
 
   return (
-    <div className={twMerge(cn('relative bg-white dark:bg-dark-input', className))}>
+    <div
+      className={twMerge('relative bg-white dark:bg-dark-input', className)}
+      style={{ height: Math.min(Math.max(editorHeight, minHeight), maxHeight) }}
+    >
       <DiffEditor
         height="100%"
         language="json"
@@ -118,7 +143,7 @@ export function JsonDiffViewer({ className, data, calculateStatistics, isDiffRea
             horizontalScrollbarSize: 8,
             alwaysConsumeMouseWheel: false,
           },
-          fontSize: 13,
+          fontSize: 12,
           fontFamily: 'monospace',
           automaticLayout: true,
           contextmenu: false,
@@ -135,7 +160,7 @@ export function JsonDiffViewer({ className, data, calculateStatistics, isDiffRea
       />
       {!diffReady && (
         <div className="absolute inset-0 flex z-90">
-          <TestRunningLoader
+          <LoaderWithText
             className="justify-center bg-white dark:bg-dark-input"
             text={t('tests.computingDifferences')}
           />

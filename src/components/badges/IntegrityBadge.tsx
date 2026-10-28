@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { IntegrityStatus } from '../../types';
+import { IntegrityStatus } from 'src/types';
 
 export default function IntegrityBadge({ status }: { status: IntegrityStatus }) {
   const { t } = useTranslation();
+
   switch (status) {
     case 'verified':
       return <span className="text-green-600 dark:text-green-400 text-xs font-medium">{t('badges.verified')}</span>;

@@ -1,11 +1,10 @@
 import cn from 'classnames';
-import { ReactNode, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { notify } from 'src/utils/toast';
 import { twMerge } from 'tailwind-merge';
 import Button, { Props as ButtonProps, ButtonSize, ButtonType } from './Button';
 
 interface Props extends ButtonProps {
-  copiedFallback?: ReactNode;
   textToCopy: string;
 }
 
@@ -14,13 +13,10 @@ export function CopyButton({
   buttonSize = ButtonSize.SMALL,
   children,
   className,
-  copiedFallback,
   textToCopy,
   ...otherProps
 }: Props) {
   const { t } = useTranslation();
-  const [copied, setCopied] = useState<boolean>(false);
-  const copiedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   return (
     <Button
@@ -30,20 +26,16 @@ export function CopyButton({
       {...otherProps}
       onClick={copyToClipboard}
     >
-      {copied ? (copiedFallback ?? t('common.copied')) : children}
+      {children}
     </Button>
   );
 
   function copyToClipboard() {
     navigator.clipboard
       .writeText(textToCopy)
-      .then(() => {
-        setCopied(true);
-        if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
-        copiedTimeoutRef.current = setTimeout(() => setCopied(false), 2000);
-      })
-      .catch((error) => {
-        console.error('Failed to copy clipboard', error);
+      .then(() => notify.info(t('common.copied'), { toastId: 'info-copy' }))
+      .catch(() => {
+        notify.error(t('common.failedCopy'), { toastId: 'error-copy' });
       });
   }
 }

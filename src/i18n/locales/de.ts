@@ -3,8 +3,9 @@ const de = {
   common: {
     send: 'Senden',
     save: 'Speichern',
-    saved: 'Gespeichert ✅',
+    saved: 'Gespeichert',
     cancel: 'Abbrechen',
+    cancelled: 'Abgebrochen',
     close: 'Schließen',
     ok: 'OK',
     create: 'Erstellen',
@@ -12,8 +13,11 @@ const de = {
     import: 'Importieren',
     export: 'Exportieren',
     copy: 'Kopieren',
-    copied: 'Kopiert ✅',
+    copied: 'Kopiert',
+    failedCopy: 'Kopieren fehlgeschlagen',
+    failedReadFile: 'Datei konnte nicht gelesen werden',
     run: 'Ausführen',
+    runAll: 'Alle ausführen',
     replace: 'Ersetzen',
     merge: 'Zusammenführen',
     overwrite: 'Überschreiben',
@@ -33,8 +37,16 @@ const de = {
     bugs: 'Fehler',
     warning: 'Warnung',
     warnings: 'Warnungen',
+    manual: 'Manuell',
+    info: 'Info',
     ignore: 'Ignorieren',
     ignored: 'Ignoriert',
+    exported: 'Exportiert',
+    imported: 'Importiert',
+    certificated: 'Zertifiziert',
+    duplicate: 'Duplizieren',
+    add: 'Hinzufügen',
+    back: 'Zurück',
   },
 
   // Sidebar
@@ -58,8 +70,6 @@ const de = {
     importFailed: 'Import fehlgeschlagen: {{error}}',
     exportFailed: 'Export fehlgeschlagen: {{error}}',
     importedWithWarnings: 'Importiert mit {{count}} Warnung(en)',
-    collectionImported: 'Sammlung importiert',
-    collectionExported: 'Sammlung exportiert',
   },
 
   // Environment
@@ -106,11 +116,6 @@ const de = {
     body: 'Body',
     bodyPlaceholderHttp: 'Anfrage-Body eingeben (JSON oder Form Data)',
     bodyPlaceholderWss: 'Nachrichten-Body',
-    protobufSchema: 'Protobuf-Schema und Nachrichtentyp',
-    protobufDescription: 'Experimenteller und optionaler Bereich. Bei Verwendung müssen beide Felder ausgefüllt werden',
-    messageTypePlaceholder: 'Nachrichtentyp (z. B. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Proto-Schema geladen',
-    protoSchemaParseFailed: '🔴 Proto konnte nicht geparst werden: ',
     wssUrlRequired: '🔴 Bitte verwenden Sie eine ws:// oder wss:// URL',
     modePlaceholder: 'MODUS',
     methodPlaceholder: 'METHODE',
@@ -125,10 +130,12 @@ const de = {
 
   // cURL
   curl: {
-    importCurl: 'cURL importieren',
-    importCurlPlaceholder: 'cURL eingeben oder Text einfügen',
-    invalidCurl:
-      'Der angegebene cURL-Befehl scheint ungültig zu sein. Bitte überprüfen Sie ihn und versuchen Sie es erneut',
+    importPlaceholder: 'cURL, OpenAPI-Schema oder Schema-URL einfügen',
+    dropAnywhereToImport: 'Zum Importieren irgendwo ablegen',
+    orSelectFile: 'Oder <file>Datei</file> auswählen',
+    pressEnterToImport: '<key>Enter</key> zum Importieren',
+    noImportAvailable: 'Kein Import verfügbar',
+    invalidFormat: 'Falsches Format, bitte geben Sie zum Importieren das richtige Format ein',
     copyCurl: 'cURL kopieren',
   },
 
@@ -136,13 +143,14 @@ const de = {
   tests: {
     generateAndRun: 'Tests generieren und ausführen',
     runningTests: 'Tests werden ausgeführt... ({{current}}/{{total}})',
+    noTestsGenerated: 'Keine Tests generiert',
     selectForCompare: 'Zum Vergleichen auswählen',
     compareWithSelected: 'Mit Auswahl vergleichen',
     exportFormat: 'Format',
-    exported: 'Exportiert ✅',
     generateCertificate: 'Zertifikat generieren',
-    certificated: 'Zertifiziert ✅',
     notEligible: 'Nicht berechtigt (mindestens 70 Tests erforderlich)',
+    failedToExport: 'Bericht konnte nicht exportiert werden',
+    failedToGenerateCertificate: 'Zertifikat konnte nicht generiert werden',
     securityTests: 'Sicherheitstests',
     performanceInsights: 'Performance-Analysen',
     dataDrivenTests: 'Datengetriebene Tests',
@@ -150,15 +158,20 @@ const de = {
     runningSecurityTests: 'Sicherheitstests werden ausgeführt...',
     runningPerformanceInsights: 'Performance-Analysen werden ausgeführt...',
     runningDataDrivenTests: 'Datengetriebene Tests werden ausgeführt...',
-    preparingCrud: 'CRUD wird vorbereitet…',
+    preparingCrud: 'CRUD wird vorbereitet...',
     crudDescription: 'CRUD wird auf Basis der Antwort des OPTIONS-Methodentests in den Sicherheitstests generiert.',
     crudNote: 'Hinweis:',
     crudNoteText: 'Wenn der OPTIONS-Methodentest deaktiviert ist, wird CRUD nicht generiert.',
     copyBugReport: 'Fehlerbericht kopieren',
-    computingDifferences: 'Unterschiede werden berechnet…',
-    bodyParameters: 'Body-Parameter',
-    queryParameters: 'Query-Parameter',
+    computingDifferences: 'Unterschiede werden berechnet...',
+    parameters: 'Parameter',
+    bodyParameters: 'Body',
+    queryParameters: 'Query',
     formatPlaceholder: 'Format',
+    aiTesting: 'Tiefere KI-Tests',
+    aiTestingTitle: 'Tests finden, die der deterministische Scan nicht ableiten konnte',
+    aiTestingDescription: 'Die KI analysiert den Lauf, schlägt zusätzliche Experimente vor, und Rentgen führt sie aus.',
+    runAiTesting: 'KI-Tests ausführen',
   },
 
   // Comparison Panel
@@ -220,7 +233,6 @@ const de = {
       selectorRequired: 'Selektor ist erforderlich',
       selectEnvironmentError: 'Bitte wählen Sie eine Umgebung aus',
       duplicateWarning: 'Eine Variable mit diesem Namen existiert bereits. Sie wird überschrieben.',
-      saveVariable: 'Variable speichern',
     },
     projectImport: {
       title: 'Projekt importieren',
@@ -239,7 +251,6 @@ const de = {
       mappingsInfo: 'Zuordnungen (Body- und Abfrageparameter)',
       cannotBeUndone: 'Diese Aktion kann nicht rückgängig gemacht werden.',
       backupBefore: 'Sichern Sie Ihr aktuelles Projekt vor dem Import:',
-      exportedCheck: 'Exportiert ✓',
       exportCurrentProject: 'Aktuelles Projekt exportieren',
       importProject: 'Projekt importieren',
     },
@@ -271,13 +282,50 @@ const de = {
     themesDescription: 'Personalisieren Sie Ihre Erfahrung mit Designs, die zu Ihrem Stil passen.',
     themeLight: 'Hell',
     themeDark: 'Dunkel',
+    ai: {
+      name: 'AI',
+      unlockTitle: 'Tiefere KI-Tests freischalten',
+      unlockDescription: 'Erfordert eine Rentgen Pro-Lizenz.',
+      tryFree: 'Testen Sie sie vor dem Kauf kostenlos.',
+      month: 'Monat',
+      billedAnnually: 'Jährliche Abrechnung (${{price}}/Jahr)',
+      startFreeTrial: 'Kostenlos testen',
+      buyPro: 'Pro kaufen - ${{price}}/Monat',
+      oneAnnualPayment:
+        'Eine jährliche Zahlung von ${{price}} schaltet die KI-Integration frei. Erfordert Ihren eigenen OpenAI-API-Schlüssel oder ein laufendes Ollama-Modell. Die KI-Nutzung ist nicht enthalten.',
+      alreadyHaveLicenseKey: 'Ich habe bereits einen Lizenzschlüssel',
+      activateLicense: 'Lizenz aktivieren',
+      reactivateLicense: 'Lizenz erneut aktivieren',
+      validLicense: 'Lizenziert für {{company}} · gültig bis {{expiresOn}}',
+      expiredLicense: 'Dieser Lizenzschlüssel ist abgelaufen.',
+      trialUsedLicense: 'Die Testlizenz wurde bereits verwendet.',
+      notYetValidLicense: 'Dieser Lizenzschlüssel ist ab {{startsOn}} gültig.',
+      invalidLicense: 'Dieser Lizenzschlüssel ist ungültig.',
+      licenseKey: 'Lizenzschlüssel',
+      licenseActive: 'Lizenz aktiv',
+      daysLeft_one: 'Noch {{count}} Tag',
+      daysLeft_other: 'Noch {{count}} Tage',
+      expiresToday: 'Läuft heute ab',
+      expired: 'Lizenz abgelaufen',
+      expiresOn: 'läuft am {{date, datetime(dateStyle: medium)}} ab',
+      manageLicense: 'Lizenz verwalten',
+      connectTitle: 'KI-Anbieter verbinden',
+      connectDescription: 'Rentgen sendet Anfragen direkt von diesem Gerät.',
+      provider: 'Anbieter',
+      baseUrl: 'Basis-URL',
+      model: 'Modell',
+      path: 'Pfad',
+      apiKey: 'API-Schlüssel',
+      apiKeyStorageNotice: 'API-Schlüssel werden lokal gespeichert. Rentgen erhält sie nicht.',
+      howToRunOllamaLocally: 'Wie führe ich Ollama lokal aus?',
+    },
     cli: {
       name: 'CLI',
       intro:
         'Das Rentgen-CLI führt einen Ordner mit Anfragen aus einem <c>.rentgen</c>-Projektexport direkt vom Terminal aus — entwickelt für CI-Pipelines und skriptgesteuerte Smoke-Tests. Es liest dieselbe Datei, die von <e>Allgemein → Projekt exportieren</e> erzeugt wird, und schreibt nie zurück.',
       fullDocumentation: 'Vollständige Dokumentation:',
       installInPath: 'In Shell-PATH installieren ({{platform}})',
-      checkingStatus: 'Installationsstatus wird geprüft…',
+      checkingStatus: 'Installationsstatus wird geprüft...',
       runCli: 'CLI ausführen',
       runCliDescription:
         'Rentgen stellt einen einzigen Unterbefehl bereit, <c>xray</c> (Alias: <c>run</c>). Verweisen Sie ihn auf eine Projektdatei, die Sie aus der App exportiert haben.',
@@ -285,7 +333,7 @@ const de = {
       noProjectFileYet:
         'Sie haben noch keine Projektdatei? Exportieren Sie jetzt eine — dieselbe Aktion wie <e>Allgemein → Projekt exportieren</e>.',
       developmentNote:
-        'Während der Entwicklung können Sie es direkt aus dem Repository mit <c>npm run dev:cli -- xray …</c> aufrufen.',
+        'Während der Entwicklung können Sie es direkt aus dem Repository mit <c>npm run dev:cli -- xray ...</c> aufrufen.',
       options: 'Optionen',
       examples: 'Beispiele',
       exampleInteractive: 'Wählen Sie einen Ordner und eine Umgebung interaktiv aus:',
@@ -317,7 +365,7 @@ const de = {
           'Klicken Sie unten auf <e>Installieren</e>, um <c>rentgen</c> zu Ihrem Shell-PATH hinzuzufügen.',
       },
       action: {
-        working: 'Arbeite…',
+        working: 'Arbeite...',
         uninstall: 'CLI deinstallieren',
         reinstall: 'Neu installieren',
         installRentgenInPath: 'rentgen-Befehl im PATH installieren',
@@ -422,6 +470,14 @@ const de = {
     stringLabel: 'Minimale/maximale Wertelänge',
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
+    reviewDataSentToAi: 'An die KI gesendete Daten prüfen',
+    reviewDataSentToAiDescription:
+      'Wählen Sie die zu maskierenden Werte aus. Automatische Vorschläge sind bereits ausgewählt.',
+    requestFields: 'Anfragefelder',
+    masked: '{{masked}} maskiert',
+    sanitizedPreview: 'Bereinigte Vorschau',
+    readyToSend: 'Bereit zum Senden',
+    analyzeAndGenerateTests: 'Analysieren und Tests generieren',
   },
 
   // Parameter types
@@ -479,11 +535,6 @@ const de = {
     noFileChosen: 'Keine Datei ausgewählt',
   },
 
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Dekodiertes Protobuf:',
-  },
-
   // Messages panel
   messages: {
     title: 'Nachrichten',
@@ -494,6 +545,23 @@ const de = {
     json: 'JSON (.json)',
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
+  },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'Basis-URL und Modell sind erforderlich.',
+    unexpectedResponse: 'Unerwartete Antwort vom KI-Anbieter.',
+    noTestsGenerated: 'Die KI hat keine Tests generiert.',
+    responseTimeout: 'Innerhalb von {{minutes}} Minuten wurde keine vollständige KI-Antwort empfangen',
+    waitingForResponse: 'KI-Antwort wird erwartet (Zeitüberschreitung in <timer />)',
+    usage: 'Insgesamt <total /> Tokens verwendet (Prompt: <prompt />, Completion: <completion />)',
+    summary: 'KI-Zusammenfassung',
+    overview: 'Überblick',
+    tests: 'Tests',
+    topFindings: 'Wichtigste Erkenntnisse',
+    evidence: 'Belege',
+    impact: 'Auswirkung',
+    needsInvestigation: 'Untersuchung erforderlich',
   },
 };
 

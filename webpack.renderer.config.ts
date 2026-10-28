@@ -1,5 +1,6 @@
 import type { Configuration } from 'webpack';
 import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
+import path from 'node:path';
 
 import { rules } from './webpack.rules';
 import { plugins } from './webpack.plugins';
@@ -22,6 +23,10 @@ export const rendererConfig: Configuration & { devServer?: DevServerConfiguratio
   plugins,
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
+    alias: {
+      src: path.resolve(__dirname, 'src'),
+      shared: path.resolve(__dirname, 'shared'),
+    },
   },
   devServer: {
     client: {

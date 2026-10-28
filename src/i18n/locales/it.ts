@@ -3,8 +3,9 @@ const it = {
   common: {
     send: 'Invia',
     save: 'Salva',
-    saved: 'Salvato ✅',
+    saved: 'Salvato',
     cancel: 'Annulla',
+    cancelled: 'Annullato',
     close: 'Chiudi',
     ok: 'OK',
     create: 'Crea',
@@ -12,8 +13,11 @@ const it = {
     import: 'Importa',
     export: 'Esporta',
     copy: 'Copia',
-    copied: 'Copiato ✅',
+    copied: 'Copiato',
+    failedCopy: 'Copia non riuscita',
+    failedReadFile: 'Lettura del file non riuscita',
     run: 'Esegui',
+    runAll: 'Esegui tutto',
     replace: 'Sostituisci',
     merge: 'Unisci',
     overwrite: 'Sovrascrivi',
@@ -33,8 +37,16 @@ const it = {
     bugs: 'Bug',
     warning: 'Avviso',
     warnings: 'Avvisi',
+    manual: 'Manuale',
+    info: 'Info',
     ignore: 'Ignora',
     ignored: 'Ignorato',
+    exported: 'Esportato',
+    imported: 'Importato',
+    certificated: 'Certificato',
+    duplicate: 'Duplica',
+    add: 'Aggiungi',
+    back: 'Indietro',
   },
 
   // Sidebar
@@ -58,8 +70,6 @@ const it = {
     importFailed: 'Importazione non riuscita: {{error}}',
     exportFailed: 'Esportazione non riuscita: {{error}}',
     importedWithWarnings: 'Importato con {{count}} avviso/i',
-    collectionImported: 'Raccolta importata',
-    collectionExported: 'Raccolta esportata',
   },
 
   // Environment
@@ -106,11 +116,6 @@ const it = {
     body: 'Corpo',
     bodyPlaceholderHttp: 'Inserisci il corpo della richiesta (JSON o Form Data)',
     bodyPlaceholderWss: 'Corpo del messaggio',
-    protobufSchema: 'Schema Protobuf e tipo di messaggio',
-    protobufDescription: 'Sezione sperimentale e facoltativa. Se utilizzata, entrambi i campi devono essere compilati',
-    messageTypePlaceholder: 'Tipo di messaggio (es. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Schema proto caricato',
-    protoSchemaParseFailed: '🔴 Impossibile analizzare il proto: ',
     wssUrlRequired: '🔴 Utilizza un URL ws:// o wss://',
     modePlaceholder: 'MODALITÀ',
     methodPlaceholder: 'METODO',
@@ -125,9 +130,12 @@ const it = {
 
   // cURL
   curl: {
-    importCurl: 'Importa cURL',
-    importCurlPlaceholder: 'Inserisci cURL o incolla testo',
-    invalidCurl: 'Il comando cURL fornito sembra non valido. Verificalo e riprova',
+    importPlaceholder: 'Incolla cURL, schema OpenAPI o URL dello schema',
+    dropAnywhereToImport: 'Rilascia ovunque per importare',
+    orSelectFile: 'Oppure seleziona un <file>file</file>',
+    pressEnterToImport: '<key>Invio</key> per importare',
+    noImportAvailable: 'Nessuna importazione disponibile',
+    invalidFormat: 'Formato non corretto, inserisci il formato giusto per importare',
     copyCurl: 'Copia cURL',
   },
 
@@ -135,13 +143,14 @@ const it = {
   tests: {
     generateAndRun: 'Genera ed esegui test',
     runningTests: 'Esecuzione test in corso... ({{current}}/{{total}})',
+    noTestsGenerated: 'Nessun test generato',
     selectForCompare: 'Seleziona per confronto',
     compareWithSelected: 'Confronta con la selezione',
     exportFormat: 'Formato',
-    exported: 'Esportato ✅',
     generateCertificate: 'Genera certificato',
-    certificated: 'Certificato ✅',
     notEligible: 'Non idoneo (sono necessari almeno 70 test)',
+    failedToExport: 'Esportazione del report non riuscita',
+    failedToGenerateCertificate: 'Generazione del certificato non riuscita',
     securityTests: 'Test di sicurezza',
     performanceInsights: 'Analisi delle prestazioni',
     dataDrivenTests: 'Test basati sui dati',
@@ -149,16 +158,21 @@ const it = {
     runningSecurityTests: 'Esecuzione test di sicurezza...',
     runningPerformanceInsights: 'Esecuzione analisi delle prestazioni...',
     runningDataDrivenTests: 'Esecuzione test basati sui dati...',
-    preparingCrud: 'Preparazione CRUD…',
+    preparingCrud: 'Preparazione CRUD...',
     crudDescription:
       'I CRUD sono generati in base alla risposta del test di gestione del metodo OPTIONS nei test di sicurezza.',
     crudNote: 'Nota:',
     crudNoteText: 'Se il test di gestione del metodo OPTIONS è disabilitato, i CRUD non verranno generati.',
     copyBugReport: 'Copia segnalazione bug',
-    computingDifferences: 'Calcolo delle differenze…',
-    bodyParameters: 'Parametri del corpo',
-    queryParameters: 'Parametri query',
+    computingDifferences: 'Calcolo delle differenze...',
+    parameters: 'Parametri',
+    bodyParameters: 'Corpo',
+    queryParameters: 'Query',
     formatPlaceholder: 'Formato',
+    aiTesting: 'Test IA approfonditi',
+    aiTestingTitle: 'Trova i test che la scansione deterministica non è riuscita a dedurre',
+    aiTestingDescription: "L'IA analizza l'esecuzione, suggerisce ulteriori esperimenti e Rentgen li esegue.",
+    runAiTesting: 'Esegui test IA',
   },
 
   // Comparison Panel
@@ -221,7 +235,6 @@ const it = {
       selectorRequired: 'Il selettore è obbligatorio',
       selectEnvironmentError: 'Seleziona un ambiente',
       duplicateWarning: 'Esiste già una variabile con questo nome. Verrà sovrascritta.',
-      saveVariable: 'Salva variabile',
     },
     projectImport: {
       title: 'Importa progetto',
@@ -240,7 +253,6 @@ const it = {
       mappingsInfo: 'Mappature (parametri del body e della query)',
       cannotBeUndone: 'Questa azione non può essere annullata.',
       backupBefore: "Esegui il backup del progetto attuale prima dell'importazione:",
-      exportedCheck: 'Esportato ✓',
       exportCurrentProject: 'Esporta progetto attuale',
       importProject: 'Importa progetto',
     },
@@ -271,13 +283,50 @@ const it = {
     themesDescription: 'Personalizza la tua esperienza con temi che si adattano al tuo stile.',
     themeLight: 'Chiaro',
     themeDark: 'Scuro',
+    ai: {
+      name: 'AI',
+      unlockTitle: 'Sblocca i test IA approfonditi',
+      unlockDescription: 'Richiede una licenza Rentgen Pro.',
+      tryFree: 'Provala gratis prima di acquistare.',
+      month: 'Mese',
+      billedAnnually: 'Fatturato annualmente (${{price}}/anno)',
+      startFreeTrial: 'Inizia la prova gratuita',
+      buyPro: 'Acquista Pro - ${{price}}/mese',
+      oneAnnualPayment:
+        "Un pagamento annuale di ${{price}} sblocca l'integrazione IA. Richiede la tua chiave API OpenAI o un modello Ollama in esecuzione. L'utilizzo dell'IA non è incluso.",
+      alreadyHaveLicenseKey: 'Ho già una chiave di licenza',
+      activateLicense: 'Attiva licenza',
+      reactivateLicense: 'Riattiva licenza',
+      validLicense: 'Concesso in licenza a {{company}} · valida fino al {{expiresOn}}',
+      expiredLicense: 'Questa chiave di licenza è scaduta.',
+      trialUsedLicense: 'La licenza di prova è già stata utilizzata.',
+      notYetValidLicense: 'Questa chiave di licenza è valida dal {{startsOn}}.',
+      invalidLicense: 'Questa chiave di licenza non è valida.',
+      licenseKey: 'Chiave di licenza',
+      licenseActive: 'Licenza attiva',
+      daysLeft_one: 'Manca {{count}} giorno',
+      daysLeft_other: 'Mancano {{count}} giorni',
+      expiresToday: 'Scade oggi',
+      expired: 'Licenza scaduta',
+      expiresOn: 'scade il {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Gestisci licenza',
+      connectTitle: 'Collega un provider IA',
+      connectDescription: 'Rentgen invia le richieste direttamente da questo dispositivo.',
+      provider: 'Provider',
+      baseUrl: 'URL di base',
+      model: 'Modello',
+      path: 'Percorso',
+      apiKey: 'Chiave API',
+      apiKeyStorageNotice: 'Le chiavi API sono archiviate localmente. Rentgen non le riceve.',
+      howToRunOllamaLocally: 'Come eseguire Ollama in locale?',
+    },
     cli: {
       name: 'CLI',
       intro:
         'La CLI di Rentgen esegue una cartella di richieste a partire da un export di progetto <c>.rentgen</c>, direttamente dal terminale — pensata per pipeline CI e smoke test scriptati. Legge lo stesso file prodotto da <e>Generale → Esporta progetto</e> e non vi riscrive mai.',
       fullDocumentation: 'Documentazione completa:',
       installInPath: 'Installa nel PATH della shell ({{platform}})',
-      checkingStatus: "Verifica dello stato d'installazione…",
+      checkingStatus: "Verifica dello stato d'installazione...",
       runCli: 'Esegui la CLI',
       runCliDescription:
         "Rentgen espone un unico sottocomando, <c>xray</c> (alias: <c>run</c>). Puntalo a un file di progetto esportato dall'app.",
@@ -285,7 +334,7 @@ const it = {
       noProjectFileYet:
         'Non hai ancora un file di progetto? Esportane uno ora — stessa azione di <e>Generale → Esporta progetto</e>.',
       developmentNote:
-        'Durante lo sviluppo, invocala direttamente dal repository con <c>npm run dev:cli -- xray …</c>.',
+        'Durante lo sviluppo, invocala direttamente dal repository con <c>npm run dev:cli -- xray ...</c>.',
       options: 'Opzioni',
       examples: 'Esempi',
       exampleInteractive: 'Scegli una cartella e un ambiente in modo interattivo:',
@@ -317,7 +366,7 @@ const it = {
           'Clicca su <e>Installa</e> qui sotto per aggiungere <c>rentgen</c> al PATH della tua shell.',
       },
       action: {
-        working: 'In corso…',
+        working: 'In corso...',
         uninstall: 'Disinstalla la CLI',
         reinstall: 'Reinstalla',
         installRentgenInPath: 'Installa il comando rentgen nel PATH',
@@ -422,6 +471,13 @@ const it = {
     stringLabel: 'Lunghezza minima/massima del valore',
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
+    reviewDataSentToAi: "Rivedi i dati inviati all'AI",
+    reviewDataSentToAiDescription: 'Seleziona i valori da mascherare. I suggerimenti automatici sono già selezionati.',
+    requestFields: 'Campi della richiesta',
+    masked: '{{masked}} mascherati',
+    sanitizedPreview: 'Anteprima sanificata',
+    readyToSend: "Pronto per l'invio",
+    analyzeAndGenerateTests: 'Analizza e genera test',
   },
 
   // Parameter types
@@ -479,11 +535,6 @@ const it = {
     noFileChosen: 'Nessun file scelto',
   },
 
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Protobuf decodificato:',
-  },
-
   // Messages panel
   messages: {
     title: 'Messaggi',
@@ -494,6 +545,23 @@ const it = {
     json: 'JSON (.json)',
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
+  },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: "L'URL di base e il modello sono obbligatori.",
+    unexpectedResponse: 'Risposta imprevista dal provider AI.',
+    noTestsGenerated: "L'AI non ha generato alcun test.",
+    responseTimeout: "Nessuna risposta completa dall'AI ricevuta entro {{minutes}} minuti",
+    waitingForResponse: "In attesa della risposta dell'AI (scade tra <timer />)",
+    usage: 'Token utilizzati in totale: <total /> (prompt: <prompt />, completamento: <completion />)',
+    summary: 'Riepilogo AI',
+    overview: 'Panoramica',
+    tests: 'Test',
+    topFindings: 'Risultati principali',
+    evidence: 'Evidenze',
+    impact: 'Impatto',
+    needsInvestigation: 'Richiede approfondimento',
   },
 };
 

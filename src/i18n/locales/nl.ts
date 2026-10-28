@@ -3,8 +3,9 @@ const nl = {
   common: {
     send: 'Verzenden',
     save: 'Opslaan',
-    saved: 'Opgeslagen ✅',
+    saved: 'Opgeslagen',
     cancel: 'Annuleren',
+    cancelled: 'Geannuleerd',
     close: 'Sluiten',
     ok: 'OK',
     create: 'Aanmaken',
@@ -12,8 +13,11 @@ const nl = {
     import: 'Importeren',
     export: 'Exporteren',
     copy: 'Kopiëren',
-    copied: 'Gekopieerd ✅',
+    copied: 'Gekopieerd',
+    failedCopy: 'Kopiëren mislukt',
+    failedReadFile: 'Bestand lezen mislukt',
     run: 'Uitvoeren',
+    runAll: 'Alles uitvoeren',
     replace: 'Vervangen',
     merge: 'Samenvoegen',
     overwrite: 'Overschrijven',
@@ -33,8 +37,16 @@ const nl = {
     bugs: 'Bugs',
     warning: 'Waarschuwing',
     warnings: 'Waarschuwingen',
+    manual: 'Handmatig',
+    info: 'Info',
     ignore: 'Negeren',
     ignored: 'Genegeerd',
+    exported: 'Geëxporteerd',
+    imported: 'Geïmporteerd',
+    certificated: 'Gecertificeerd',
+    duplicate: 'Dupliceren',
+    add: 'Toevoegen',
+    back: 'Terug',
   },
 
   // Sidebar
@@ -58,8 +70,6 @@ const nl = {
     importFailed: 'Importeren mislukt: {{error}}',
     exportFailed: 'Exporteren mislukt: {{error}}',
     importedWithWarnings: 'Geïmporteerd met {{count}} waarschuwing(en)',
-    collectionImported: 'Collectie geïmporteerd',
-    collectionExported: 'Collectie geëxporteerd',
   },
 
   // Environment
@@ -106,11 +116,6 @@ const nl = {
     body: 'Body',
     bodyPlaceholderHttp: 'Voer body van verzoek in (JSON of Form Data)',
     bodyPlaceholderWss: 'Body van bericht',
-    protobufSchema: 'Protobuf-schema & berichttype',
-    protobufDescription: 'Experimentele en optionele sectie. Bij gebruik moeten beide velden worden ingevuld',
-    messageTypePlaceholder: 'Berichttype (bijv. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Proto-schema geladen',
-    protoSchemaParseFailed: '🔴 Proto kon niet worden geparseerd: ',
     wssUrlRequired: '🔴 Gebruik een ws:// of wss:// URL',
     modePlaceholder: 'MODUS',
     methodPlaceholder: 'METHODE',
@@ -125,9 +130,12 @@ const nl = {
 
   // cURL
   curl: {
-    importCurl: 'cURL importeren',
-    importCurlPlaceholder: 'Voer cURL in of plak tekst',
-    invalidCurl: 'Het opgegeven cURL-commando lijkt ongeldig. Controleer het en probeer het opnieuw',
+    importPlaceholder: 'Plak cURL, OpenAPI-schema of schema-URL',
+    dropAnywhereToImport: 'Zet ergens neer om te importeren',
+    orSelectFile: 'Of selecteer een <file>bestand</file>',
+    pressEnterToImport: '<key>Enter</key> om te importeren',
+    noImportAvailable: 'Geen import beschikbaar',
+    invalidFormat: 'Onjuist formaat, voer het juiste formaat in om te importeren',
     copyCurl: 'cURL kopiëren',
   },
 
@@ -135,13 +143,14 @@ const nl = {
   tests: {
     generateAndRun: 'Tests genereren en uitvoeren',
     runningTests: 'Tests worden uitgevoerd... ({{current}}/{{total}})',
+    noTestsGenerated: 'Geen tests gegenereerd',
     selectForCompare: 'Selecteren om te vergelijken',
     compareWithSelected: 'Vergelijken met geselecteerde',
     exportFormat: 'Formaat',
-    exported: 'Geëxporteerd ✅',
     generateCertificate: 'Certificaat genereren',
-    certificated: 'Gecertificeerd ✅',
     notEligible: 'Niet geschikt (minimaal 70 tests nodig)',
+    failedToExport: 'Exporteren van rapport mislukt',
+    failedToGenerateCertificate: 'Genereren van certificaat mislukt',
     securityTests: 'Beveiligingstests',
     performanceInsights: 'Prestatie-inzichten',
     dataDrivenTests: 'Datagedreven tests',
@@ -149,16 +158,21 @@ const nl = {
     runningSecurityTests: 'Beveiligingstests worden uitgevoerd...',
     runningPerformanceInsights: 'Prestatie-inzichten worden uitgevoerd...',
     runningDataDrivenTests: 'Datagedreven tests worden uitgevoerd...',
-    preparingCrud: 'CRUD wordt voorbereid…',
+    preparingCrud: 'CRUD wordt voorbereid...',
     crudDescription:
       'CRUD wordt gegenereerd op basis van de testreactie voor de OPTIONS-methode in de beveiligingstests.',
     crudNote: 'Let op:',
     crudNoteText: 'Als de test voor de OPTIONS-methode is uitgeschakeld, wordt CRUD niet gegenereerd.',
     copyBugReport: 'Bugrapport kopiëren',
-    computingDifferences: 'Verschillen worden berekend…',
-    bodyParameters: 'Body-parameters',
-    queryParameters: 'Queryparameters',
+    computingDifferences: 'Verschillen worden berekend...',
+    parameters: 'Parameters',
+    bodyParameters: 'Body',
+    queryParameters: 'Query',
     formatPlaceholder: 'Formaat',
+    aiTesting: 'Diepgaander AI-testen',
+    aiTestingTitle: 'Vind tests die de deterministische scan niet kon afleiden',
+    aiTestingDescription: 'AI analyseert de run, stelt extra experimenten voor en Rentgen voert ze uit.',
+    runAiTesting: 'AI-testen uitvoeren',
   },
 
   // Comparison Panel
@@ -220,7 +234,6 @@ const nl = {
       selectorRequired: 'Selector is verplicht',
       selectEnvironmentError: 'Selecteer een omgeving',
       duplicateWarning: 'Er bestaat al een variabele met deze naam. Deze wordt overschreven.',
-      saveVariable: 'Variabele opslaan',
     },
     projectImport: {
       title: 'Project importeren',
@@ -239,7 +252,6 @@ const nl = {
       mappingsInfo: 'Toewijzingen (body- en queryparameters)',
       cannotBeUndone: 'Deze actie kan niet ongedaan worden gemaakt.',
       backupBefore: 'Maak een back-up van je huidige project voordat je importeert:',
-      exportedCheck: 'Geëxporteerd ✓',
       exportCurrentProject: 'Huidig project exporteren',
       importProject: 'Project importeren',
     },
@@ -270,13 +282,50 @@ const nl = {
     themesDescription: "Personaliseer je ervaring met thema's die bij jouw stijl passen.",
     themeLight: 'Licht',
     themeDark: 'Donker',
+    ai: {
+      name: 'AI',
+      unlockTitle: 'Diepgaander AI-testen ontgrendelen',
+      unlockDescription: 'Vereist een Rentgen Pro-licentie.',
+      tryFree: 'Probeer het gratis voordat je koopt.',
+      month: 'Maand',
+      billedAnnually: 'Jaarlijks gefactureerd (${{price}}/jaar)',
+      startFreeTrial: 'Gratis proefperiode starten',
+      buyPro: 'Pro kopen - ${{price}}/maand',
+      oneAnnualPayment:
+        'Eén jaarlijkse betaling van ${{price}} ontgrendelt de AI-integratie. Vereist je eigen OpenAI API-sleutel of een draaiend Ollama-model. AI-gebruik is niet inbegrepen.',
+      alreadyHaveLicenseKey: 'Ik heb al een licentiesleutel',
+      activateLicense: 'Licentie activeren',
+      reactivateLicense: 'Licentie opnieuw activeren',
+      validLicense: 'Gelicentieerd aan {{company}} · geldig tot {{expiresOn}}',
+      expiredLicense: 'Deze licentiesleutel is verlopen.',
+      trialUsedLicense: 'De proeflicentie is al gebruikt.',
+      notYetValidLicense: 'Deze licentiesleutel is geldig vanaf {{startsOn}}.',
+      invalidLicense: 'Deze licentiesleutel is ongeldig.',
+      licenseKey: 'Licentiesleutel',
+      licenseActive: 'Licentie actief',
+      daysLeft_one: 'Nog {{count}} dag',
+      daysLeft_other: 'Nog {{count}} dagen',
+      expiresToday: 'Verloopt vandaag',
+      expired: 'Licentie verlopen',
+      expiresOn: 'verloopt op {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Licentie beheren',
+      connectTitle: 'Een AI-provider verbinden',
+      connectDescription: 'Rentgen verstuurt verzoeken rechtstreeks vanaf dit apparaat.',
+      provider: 'Provider',
+      baseUrl: 'Basis-URL',
+      model: 'Model',
+      path: 'Pad',
+      apiKey: 'API-sleutel',
+      apiKeyStorageNotice: 'API-sleutels worden lokaal opgeslagen. Rentgen ontvangt ze niet.',
+      howToRunOllamaLocally: 'Hoe voer je Ollama lokaal uit?',
+    },
     cli: {
       name: 'CLI',
       intro:
         'De Rentgen CLI voert een map met verzoeken uit een <c>.rentgen</c> projectexport uit, rechtstreeks vanuit de terminal — gebouwd voor CI-pipelines en gescripte smoke tests. Het leest hetzelfde bestand dat wordt aangemaakt door <e>Algemeen → Project exporteren</e> en schrijft er nooit naar terug.',
       fullDocumentation: 'Volledige documentatie:',
       installInPath: 'Installeren in shell-PATH ({{platform}})',
-      checkingStatus: 'Installatiestatus controleren…',
+      checkingStatus: 'Installatiestatus controleren...',
       runCli: 'De CLI uitvoeren',
       runCliDescription:
         'Rentgen biedt één subcommando, <c>xray</c> (alias: <c>run</c>). Wijs het naar een projectbestand dat je vanuit de app hebt geëxporteerd.',
@@ -284,7 +333,7 @@ const nl = {
       noProjectFileYet:
         'Heb je nog geen projectbestand? Exporteer er nu een — dezelfde actie als <e>Algemeen → Project exporteren</e>.',
       developmentNote:
-        'Roep het tijdens de ontwikkeling rechtstreeks vanuit de repo aan met <c>npm run dev:cli -- xray …</c>.',
+        'Roep het tijdens de ontwikkeling rechtstreeks vanuit de repo aan met <c>npm run dev:cli -- xray ...</c>.',
       options: 'Opties',
       examples: 'Voorbeelden',
       exampleInteractive: 'Kies interactief een map en omgeving:',
@@ -316,7 +365,7 @@ const nl = {
           'Klik hieronder op <e>Installeren</e> om <c>rentgen</c> aan je shell-PATH toe te voegen.',
       },
       action: {
-        working: 'Bezig…',
+        working: 'Bezig...',
         uninstall: 'CLI verwijderen',
         reinstall: 'Opnieuw installeren',
         installRentgenInPath: 'Rentgen-commando installeren in PATH',
@@ -421,6 +470,14 @@ const nl = {
     stringLabel: 'Minimale/maximale waardelengte',
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
+    reviewDataSentToAi: 'Controleer de gegevens die naar de AI worden verzonden',
+    reviewDataSentToAiDescription:
+      'Selecteer de waarden die je wilt maskeren. Automatische suggesties zijn al geselecteerd.',
+    requestFields: 'Aanvraagvelden',
+    masked: '{{masked}} gemaskeerd',
+    sanitizedPreview: 'Opgeschoonde voorbeeldweergave',
+    readyToSend: 'Klaar om te verzenden',
+    analyzeAndGenerateTests: 'Analyseren en tests genereren',
   },
 
   // Parameter types
@@ -478,11 +535,6 @@ const nl = {
     noFileChosen: 'Geen bestand gekozen',
   },
 
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Gedecodeerde Protobuf:',
-  },
-
   // Messages panel
   messages: {
     title: 'Berichten',
@@ -493,6 +545,23 @@ const nl = {
     json: 'JSON (.json)',
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
+  },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'Basis-URL en model zijn verplicht.',
+    unexpectedResponse: 'Onverwacht antwoord van de AI-provider.',
+    noTestsGenerated: 'De AI heeft geen tests gegenereerd.',
+    responseTimeout: 'Geen volledig AI-antwoord ontvangen binnen {{minutes}} minuten',
+    waitingForResponse: 'Wachten op AI-antwoord (time-out over <timer />)',
+    usage: 'Totaal <total /> tokens gebruikt (prompt: <prompt />, voltooiing: <completion />)',
+    summary: 'AI-samenvatting',
+    overview: 'Overzicht',
+    tests: 'Tests',
+    topFindings: 'Belangrijkste bevindingen',
+    evidence: 'Bewijs',
+    impact: 'Impact',
+    needsInvestigation: 'Onderzoek nodig',
   },
 };
 

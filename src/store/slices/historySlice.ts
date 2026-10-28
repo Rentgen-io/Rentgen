@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HistoryEntry } from '../../types/history';
+import { loadHistory as loadHistoryFile } from 'src/api/storage';
+import { HistoryEntry } from 'src/types';
 
 function getRetentionCutoff(retention: string): number | null {
   const now = Date.now();
@@ -16,17 +17,13 @@ function getRetentionCutoff(retention: string): number | null {
 
 interface HistoryState {
   entries: HistoryEntry[];
-  loading: boolean;
-  error: string | null;
 }
 
 const initialState: HistoryState = {
   entries: [],
-  loading: false,
-  error: null,
 };
 
-export const loadHistory = createAsyncThunk('history/load', async () => await window.electronAPI.loadHistory());
+export const loadHistory = createAsyncThunk('history/load', async () => await loadHistoryFile());
 
 export const historySlice = createSlice({
   name: 'history',
@@ -35,40 +32,27 @@ export const historySlice = createSlice({
     addEntry: (state, action: PayloadAction<HistoryEntry>) => {
       state.entries.unshift(action.payload);
     },
-    removeEntry: (state, action: PayloadAction<string>) => {
-      state.entries = state.entries.filter((entry) => entry.id !== action.payload);
-    },
     clearHistory: (state) => {
       state.entries = [];
-    },
-    setEntries: (state, action: PayloadAction<HistoryEntry[]>) => {
-      state.entries = action.payload;
     },
     enforceRetention: (state, action: PayloadAction<{ maxSize: number; retention: string }>) => {
       const { maxSize, retention } = action.payload;
       const cutoff = getRetentionCutoff(retention);
-      if (cutoff !== null) {
-        state.entries = state.entries.filter((entry) => entry.timestamp >= cutoff);
-      }
-      if (state.entries.length > maxSize) {
-        state.entries = state.entries.slice(0, maxSize);
-      }
+
+      if (cutoff !== null) state.entries = state.entries.filter((entry) => entry.timestamp >= cutoff);
+      if (state.entries.length > maxSize) state.entries = state.entries.slice(0, maxSize);
+    },
+    removeEntry: (state, action: PayloadAction<string>) => {
+      state.entries = state.entries.filter((entry) => entry.id !== action.payload);
+    },
+    setEntries: (state, action: PayloadAction<HistoryEntry[]>) => {
+      state.entries = action.payload;
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(loadHistory.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(loadHistory.fulfilled, (state, action) => {
-        state.entries = action.payload;
-        state.loading = false;
-      })
-      .addCase(loadHistory.rejected, (state, action) => {
-        state.error = action.error.message || 'Failed to load history';
-        state.loading = false;
-      });
+    builder.addCase(loadHistory.fulfilled, (state, action) => {
+      state.entries = action.payload;
+    });
   },
 });
 

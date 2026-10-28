@@ -1,0 +1,199 @@
+import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ButtonType } from 'src/components/buttons/Button';
+import { FieldLabel } from 'src/components/inputs/FieldLabel';
+import Input from 'src/components/inputs/Input';
+import Select, { SelectOption } from 'src/components/inputs/Select';
+import ConfirmationModal from 'src/components/modals/ConfirmationModal';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectDynamicVariables, selectEnvironments, selectSetAsDynamicVariableModal } from 'src/store/selectors';
+import { environmentActions } from 'src/store/slices/environmentSlice';
+import { modalsActions } from 'src/store/slices/modalsSlice';
+import { DynamicVariable } from 'src/types';
+import { notify } from 'src/utils/toast';
+
+const ALL_ENVIRONMENTS_VALUE = 'all';
+
+const sanitizeToVariableName = (val: string): string => {
+  return val
+    .toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_]/g, '')
+    .replace(/^_+|_+$/g, '')
+    .replace(/_+/g, '_');
+};
+
+export default function SetAsDynamicVariableModal() {
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
+  const modalState = useAppSelector(selectSetAsDynamicVariableModal);
+  const environments = useAppSelector(selectEnvironments);
+  const dynamicVariables = useAppSelector(selectDynamicVariables);
+
+  const [name, setName] = useState<string>('');
+  const [selector, setSelector] = useState<string>('');
+  const [selectedEnvironment, setSelectedEnvironment] = useState<SelectOption<string> | null>(null);
+  const [duplicateToOverwrite, setDuplicateToOverwrite] = useState<DynamicVariable | null>(null);
+
+  useEffect(() => {
+    if (modalState.isOpen) {
+      setName(sanitizeToVariableName(modalState.initialSelector));
+      setSelector(modalState.initialSelector);
+      setSelectedEnvironment({ value: ALL_ENVIRONMENTS_VALUE, label: t('modals.setDynamicVariable.allEnvironments') });
+      setDuplicateToOverwrite(null);
+    }
+  }, [modalState.isOpen, modalState.initialSelector]);
+
+  const environmentOptions: SelectOption<string>[] = useMemo(() => {
+    const options: SelectOption<string>[] = [
+      { value: ALL_ENVIRONMENTS_VALUE, label: t('modals.setDynamicVariable.allEnvironments') },
+    ];
+    environments.forEach((env) => {
+      options.push({ value: env.id, label: env.title || t('modals.setDynamicVariable.untitledEnvironment') });
+    });
+    return options;
+  }, [environments]);
+
+  const findDuplicateDynamicVariable = (): DynamicVariable | null => {
+    if (!selectedEnvironment) return null;
+
+    const sanitizedName = name.trim();
+    const envId = selectedEnvironment.value === ALL_ENVIRONMENTS_VALUE ? null : selectedEnvironment.value;
+    const existingDynamicVariable = dynamicVariables.find((dv) => {
+      if (envId !== null && dv.environmentId !== null && dv.environmentId !== envId) return false;
+      return dv.key === sanitizedName;
+    });
+
+    return existingDynamicVariable || null;
+  };
+
+  const onConfirm = () => {
+    const sanitizedName = name.trim();
+    if (!sanitizedName) {
+      notify.error(t('modals.setDynamicVariable.variableNameRequired'), { toastId: 'error-set-dynamic-variable' });
+      return;
+    }
+
+    if (!selector) {
+      notify.error(t('modals.setDynamicVariable.selectorRequired'), { toastId: 'error-set-dynamic-variable' });
+      return;
+    }
+
+    if (!selectedEnvironment) {
+      notify.error(t('modals.setDynamicVariable.selectEnvironmentError'), { toastId: 'error-set-dynamic-variable' });
+      return;
+    }
+
+    const envId = selectedEnvironment.value === ALL_ENVIRONMENTS_VALUE ? null : selectedEnvironment.value;
+    const existingDynamicVariable = findDuplicateDynamicVariable();
+
+    if (existingDynamicVariable && !duplicateToOverwrite) {
+      setDuplicateToOverwrite(existingDynamicVariable);
+      return;
+    }
+
+    if (duplicateToOverwrite) {
+      const previousRequests = (duplicateToOverwrite.previousRequests ?? []).filter(
+        ({ requestId }) => requestId !== modalState.requestId && requestId !== duplicateToOverwrite.requestId,
+      );
+      if (modalState.requestId !== duplicateToOverwrite.requestId)
+        previousRequests.push({
+          requestId: duplicateToOverwrite.requestId,
+          selector: duplicateToOverwrite.selector,
+          source: duplicateToOverwrite.source,
+        });
+
+      dispatch(
+        environmentActions.updateDynamicVariable({
+          id: duplicateToOverwrite.id,
+          updates: {
+            key: sanitizedName,
+            selector,
+            source: modalState.source,
+            requestId: modalState.requestId,
+            environmentId: envId,
+            currentValue: modalState.initialValue || null,
+            lastUpdated: modalState.initialValue ? Date.now() : null,
+            previousRequests,
+          },
+        }),
+      );
+    } else {
+      dispatch(
+        environmentActions.addDynamicVariable({
+          key: sanitizedName,
+          selector,
+          source: modalState.source,
+          requestId: modalState.requestId,
+          environmentId: envId,
+          currentValue: modalState.initialValue || null,
+        }),
+      );
+    }
+
+    dispatch(modalsActions.closeSetAsDynamicVariableModal());
+    notify.success(t('common.saved'), { toastId: 'success-set-dynamic-variable' });
+  };
+
+  return (
+    <ConfirmationModal
+      className="[&>div]:w-150!"
+      confirmText={duplicateToOverwrite ? t('common.overwrite') : t('common.save')}
+      title={t('modals.setDynamicVariable.title')}
+      isOpen={modalState.isOpen}
+      confirmType={ButtonType.PRIMARY}
+      onClose={() => dispatch(modalsActions.closeSetAsDynamicVariableModal())}
+      onConfirm={onConfirm}
+    >
+      <>
+        <div className="flex flex-col gap-2">
+          <FieldLabel label={t('modals.setDynamicVariable.variableName')} required />
+          <Input
+            placeholder={t('modals.setDynamicVariable.variableNamePlaceholder')}
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+              setDuplicateToOverwrite(null);
+            }}
+            autoFocus
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <FieldLabel label={t('modals.setDynamicVariable.preview')} />
+          <div className="px-3 py-2 bg-body dark:bg-dark-body text-xs text-text-secondary dark:text-dark-text-secondary truncate">
+            {modalState.initialValue}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <FieldLabel label={t('modals.setDynamicVariable.environment')} required />
+          <Select
+            options={environmentOptions}
+            placeholder={t('modals.setDynamicVariable.selectEnvironment')}
+            value={selectedEnvironment}
+            onChange={(option) => {
+              setSelectedEnvironment(option);
+              setDuplicateToOverwrite(null);
+            }}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <FieldLabel label={t('modals.setDynamicVariable.linkedRequest')} />
+          <div className="flex gap-2 px-3 py-2 bg-body dark:bg-dark-body text-xs text-text-secondary dark:text-dark-text-secondary">
+            <span>📁</span>
+            {modalState.collectionName} → {modalState.requestName}
+          </div>
+        </div>
+
+        {duplicateToOverwrite && (
+          <p className="text-xs text-yellow-600 dark:text-yellow-400 m-0">
+            {t('modals.setDynamicVariable.duplicateWarning')}
+          </p>
+        )}
+      </>
+    </ConfirmationModal>
+  );
+}

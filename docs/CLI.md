@@ -12,16 +12,17 @@ The CLI ships **inside the desktop app**: install Rentgen once, click a button i
 
 Download the latest installer for your platform from [Rentgen Releases](https://github.com/Rentgen-io/Rentgen/releases/latest):
 
-| Platform | File |
-|---|---|
-| macOS (Apple Silicon) | `Rentgen-<version>-mac-arm64.dmg` |
-| macOS (Intel) | `Rentgen-<version>-mac-x64.dmg` |
-| Windows (x64) | `Rentgen-<version>-win-x64.exe` |
-| Windows (ARM64) | `Rentgen-<version>-win-arm64.exe` |
-| Debian / Ubuntu | `Rentgen-<version>-linux-x64.deb` or `linux-arm64.deb` |
-| Fedora / RHEL | `Rentgen-<version>-linux-x64.rpm` or `linux-arm64.rpm` |
+| Platform              | File                                                   |
+| --------------------- | ------------------------------------------------------ |
+| macOS (Apple Silicon) | `Rentgen-<version>-mac-arm64.dmg`                      |
+| macOS (Intel)         | `Rentgen-<version>-mac-x64.dmg`                        |
+| Windows (x64)         | `Rentgen-<version>-win-x64.exe`                        |
+| Windows (ARM64)       | `Rentgen-<version>-win-arm64.exe`                      |
+| Debian / Ubuntu       | `Rentgen-<version>-linux-x64.deb` or `linux-arm64.deb` |
+| Fedora / RHEL         | `Rentgen-<version>-linux-x64.rpm` or `linux-arm64.rpm` |
 
 Install it the normal way:
+
 - **macOS**: open the `.dmg` and drag Rentgen to Applications
 - **Windows**: run the `.exe`
 - **Linux (deb)**: `sudo apt install ./Rentgen-<version>-linux-x64.deb`
@@ -97,10 +98,10 @@ docker pull ghcr.io/rentgen-io/rentgen-cli:latest
 
 Tags published per release:
 
-| Tag | Meaning |
-|---|---|
-| `:1.21.0` | Exact version. **Recommended for CI** — fully reproducible. |
-| `:1.21` | Latest patch in the 1.21 minor line. Picks up bug fixes automatically. |
+| Tag       | Meaning                                                                                         |
+| --------- | ----------------------------------------------------------------------------------------------- |
+| `:1.21.0` | Exact version. **Recommended for CI** — fully reproducible.                                     |
+| `:1.21`   | Latest patch in the 1.21 minor line. Picks up bug fixes automatically.                          |
 | `:latest` | Newest published release. Convenient, but a major release will change behavior without warning. |
 
 Both `linux/amd64` and `linux/arm64` are published — Docker pulls the right one automatically.
@@ -195,7 +196,7 @@ Open **Settings → CLI** and click **Uninstall CLI**. This removes the symlink 
 ### Everything (CLI + desktop app)
 
 - **macOS**: drag `Rentgen.app` to Trash. The CLI symlink will become a broken link — remove it with `sudo rm /usr/local/bin/rentgen`.
-- **Windows**: uninstall Rentgen from *Add or Remove Programs*. Optionally remove the resources directory from your user PATH (Settings → CLI → Uninstall, before removing the app).
+- **Windows**: uninstall Rentgen from _Add or Remove Programs_. Optionally remove the resources directory from your user PATH (Settings → CLI → Uninstall, before removing the app).
 - **Debian / Ubuntu**: `sudo apt remove rentgen` — removes the app and the `/usr/bin/rentgen` symlink.
 - **Fedora / RHEL**: `sudo dnf remove rentgen` — same.
 
@@ -213,6 +214,7 @@ Open **Settings → CLI** and click **Uninstall CLI**. This removes the symlink 
 ### `rentgen` runs but it's a different program
 
 Another tool may already provide a `rentgen` binary on your PATH. The Settings panel shows a yellow warning when this happens. Either:
+
 - Uninstall the conflicting tool, or
 - Reorder PATH so Rentgen's directory comes first, or
 - Rename our symlink (e.g., `rentgen-cli`) by editing it manually.
@@ -228,8 +230,9 @@ On first run from a fresh install, Windows may show a SmartScreen prompt. Click 
 ### Linux: glibc / libstdc++ errors
 
 The bundled binary uses the same Node 18 runtime that pkg ships. If your distro is older than glibc 2.28 (Debian 10, CentOS 7), the binary won't run. Workarounds:
+
 - Upgrade your distro, or
-- Build the CLI from source: `git clone … && npm ci && npm run build:cli && node ./dist/cli/index.js run …`
+- Build the CLI from source: `git clone ... && npm ci && npm run build:cli && node ./dist/cli/index.js run ...`
 
 ### "Bundled CLI binary not found in this build"
 
@@ -239,22 +242,22 @@ You're running an unpackaged dev build (or the binary failed to bundle). Either 
 
 ## Reference
 
-| Flag | Description |
-|---|---|
-| `--collection <name>` | Folder to run from the project file. Omit to pick interactively. |
-| `--env <name>` | Environment to use. Pass `--env=none` to run without any environment. |
-| `--skip-integrity-check` | Skip the checksum confirmation prompt. |
-| `--var <key=value>` | Override a variable. Repeatable. Highest priority over env and dynamic values. |
-| `--timeout <ms>` | Per-request timeout in milliseconds. Default 30000. |
-| `--fail-fast` | Stop after the first non-2xx response. |
-| `--report <format>` | Machine-readable output. Supported: `json` (writes JSON to stdout, suppresses human output). |
-| `--no-color` | Disable colored output. |
-| `--verbose` | Print full request/response details and warn about unresolved variables. |
+| Flag                     | Description                                                                                  |
+| ------------------------ | -------------------------------------------------------------------------------------------- |
+| `--collection <name>`    | Folder to run from the project file. Omit to pick interactively.                             |
+| `--env <name>`           | Environment to use. Pass `--env=none` to run without any environment.                        |
+| `--skip-integrity-check` | Skip the checksum confirmation prompt.                                                       |
+| `--var <key=value>`      | Override a variable. Repeatable. Highest priority over env and dynamic values.               |
+| `--timeout <ms>`         | Per-request timeout in milliseconds. Default 30000.                                          |
+| `--fail-fast`            | Stop after the first non-2xx response.                                                       |
+| `--report <format>`      | Machine-readable output. Supported: `json` (writes JSON to stdout, suppresses human output). |
+| `--no-color`             | Disable colored output.                                                                      |
+| `--verbose`              | Print full request/response details and warn about unresolved variables.                     |
 
-| Exit code | Meaning |
-|---|---|
-| `0` | All requests passed. |
-| `1` | Run completed with failures, aborted at the checksum prompt, or interrupted with Ctrl+C. |
-| `2` | Invalid input: missing file, bad JSON, wrong shape, ambiguous or unknown `--collection` / `--env`, or CI mode without the required flags. |
+| Exit code | Meaning                                                                                                                                   |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `0`       | All requests passed.                                                                                                                      |
+| `1`       | Run completed with failures, aborted at the checksum prompt, or interrupted with Ctrl+C.                                                  |
+| `2`       | Invalid input: missing file, bad JSON, wrong shape, ambiguous or unknown `--collection` / `--env`, or CI mode without the required flags. |
 
 The CLI never writes to the project file. Dynamic variables extracted from responses are kept in memory for the duration of a single run, so two back-to-back invocations against an unmodified project produce byte-identical resolved URLs, headers, and bodies.

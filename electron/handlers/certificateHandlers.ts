@@ -18,8 +18,9 @@ import {
   RESPONSE_SIZE_CHECK_TEST_NAME,
   UNSUPPORTED_METHOD_TEST_NAME,
   UPPERCASE_PATH_TEST_NAME,
-} from '../../src/tests';
-import { ExportResult, TestResults, TestStatus } from '../../src/types';
+} from 'shared/testNames';
+import type { ExportResult } from 'shared/types/ipc';
+import { TestResults, TestStatus } from 'shared/types/testing';
 
 interface TestPenalty {
   name: string;
@@ -140,8 +141,8 @@ const MAX_5XX_COUNT_PER_SOURCE = 3;
 
 export function registerCertificateHandlers(): void {
   ipcMain.handle('generate-certificate', async (_, results: TestResults): Promise<ExportResult> => {
-    const { dataDrivenTests, count, performanceTests, securityTests, testOptions, timestamp } = results;
-    const domain = new URL(testOptions.url).hostname;
+    const { aiTests, dataDrivenTests, count, performanceTests, securityTests, testOptions, timestamp } = results;
+    const domain = new URL(testOptions?.url ?? '').hostname;
     const appliedPenalties: { title: string; points: number }[] = [];
 
     let score = 100;
@@ -161,8 +162,10 @@ export function registerCertificateHandlers(): void {
         }
     }
 
-    const dataDrivenBugCount = dataDrivenTests.filter((testResult) => testResult.status === TestStatus.Bug).length;
-    tests5xxCount += dataDrivenBugCount < MAX_5XX_COUNT_PER_SOURCE ? dataDrivenBugCount : MAX_5XX_COUNT_PER_SOURCE;
+    const bugCount = [...(aiTests ?? []), ...dataDrivenTests].filter(
+      (testResult) => testResult.status === TestStatus.Bug,
+    ).length;
+    tests5xxCount += bugCount < MAX_5XX_COUNT_PER_SOURCE ? bugCount : MAX_5XX_COUNT_PER_SOURCE;
 
     if (tests5xxCount > 5) tests5xxPenalty = 50;
     else if (tests5xxCount > 2) tests5xxPenalty = 25;
@@ -515,7 +518,7 @@ export function registerCertificateHandlers(): void {
                   </div>
                   <div class="meta-row">
                     <span class="meta-k">Test date</span>
-                    <span class="meta-v">${new Date(timestamp).toLocaleString()}</span>
+                    <span class="meta-v">${new Date(timestamp ?? Date.now()).toLocaleString()}</span>
                   </div>
                 </div>
                 <div class="note">

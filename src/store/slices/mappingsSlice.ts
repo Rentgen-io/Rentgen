@@ -1,21 +1,23 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RequestParameters } from '../../types';
+import { defaultMappings } from 'shared/defaults';
+import { loadMappings as loadMappingsFile } from 'src/api/storage';
+import { MappingsState, RequestParameters } from 'src/types';
 
-export interface MappingsState {
-  [key: string]: {
-    body: RequestParameters;
-    query: RequestParameters;
-  };
-}
+export const initialState: MappingsState = defaultMappings;
 
-export const initialState: MappingsState = {};
-
-export const loadMappings = createAsyncThunk('mappings/load', async () => await window.electronAPI.loadMappings());
+export const loadMappings = createAsyncThunk('mappings/load', async () => await loadMappingsFile());
 
 export const mappingsSlice = createSlice({
   name: 'mappings',
   initialState,
   reducers: {
+    removeMappings: (state, action: PayloadAction<string>) => {
+      delete state[action.payload];
+    },
+    replaceMappings: (_, action: PayloadAction<MappingsState>) => ({
+      ...initialState,
+      ...action.payload,
+    }),
     setBodyMappings: (state, action: PayloadAction<{ requestId: string; mappings: RequestParameters }>) => {
       const { requestId, mappings } = action.payload;
       if (!state[requestId]) state[requestId] = { body: {}, query: {} };
@@ -28,13 +30,6 @@ export const mappingsSlice = createSlice({
 
       state[requestId].query = mappings;
     },
-    removeMappings: (state, action: PayloadAction<string>) => {
-      delete state[action.payload];
-    },
-    replaceMappings: (_, action: PayloadAction<MappingsState>) => ({
-      ...initialState,
-      ...action.payload,
-    }),
   },
   extraReducers: (builder) => {
     builder.addCase(loadMappings.fulfilled, (state, action: PayloadAction<MappingsState>) => {

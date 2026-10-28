@@ -1,8 +1,8 @@
 import { app, dialog, ipcMain } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import type { ProjectData, ProjectExportResult, ProjectFile, ProjectImportResult } from '../../shared/types/project';
-import { computeChecksum, verifyChecksum } from '../../shared/checksum';
+import type { ProjectData, ProjectExportResult, ProjectFile, ProjectImportResult } from 'shared/types/project';
+import { computeChecksum, verifyChecksum } from 'shared/utils/checksum';
 
 const userDataPath = () => app.getPath('userData');
 
@@ -62,7 +62,7 @@ export function registerProjectHandlers(): void {
 
     const result = await dialog.showSaveDialog({
       title: 'Export Project',
-      defaultPath: 'rentgen-project.rentgen',
+      defaultPath: `rentgen-project-${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.rentgen`,
       filters: [
         { name: 'Rentgen Project', extensions: ['rentgen'] },
         { name: 'All Files', extensions: ['*'] },
@@ -96,7 +96,7 @@ export function registerProjectHandlers(): void {
       const parsed = JSON.parse(content);
 
       if (!validateProjectFile(parsed))
-        return { error: 'Invalid Rentgen project file. Missing required data sections.' };
+        return { error: 'Invalid Rentgen project file. Missing required data sections' };
 
       const integrityStatus = verifyChecksum(parsed.meta.checksum, parsed.data);
 
@@ -108,7 +108,7 @@ export function registerProjectHandlers(): void {
         fileName: path.basename(result.filePaths[0]),
       };
     } catch (error) {
-      if (error instanceof SyntaxError) return { error: 'Invalid JSON file.' };
+      if (error instanceof SyntaxError) return { error: 'Invalid JSON file' };
       return { error: String(error) };
     }
   });

@@ -1,9 +1,17 @@
 import { Action, Middleware, PayloadAction } from '@reduxjs/toolkit';
-import { DynamicVariable, HttpResponse, PostmanFolder, PostmanItem, RequestParameters } from '../../types';
-import { extractDynamicVariableFromResponseWithDetails } from '../../utils/dynamicVariable';
-import { environmentActions } from '../slices/environmentSlice';
-import { historyActions } from '../slices/historySlice';
-import { mappingsActions } from '../slices/mappingsSlice';
+import {
+  saveCollection,
+  saveDynamicVariables,
+  saveEnvironments,
+  saveHistory,
+  saveMappings,
+  saveSettings,
+} from 'src/api/storage';
+import { environmentActions } from 'src/store/slices/environmentSlice';
+import { historyActions } from 'src/store/slices/historySlice';
+import { mappingsActions } from 'src/store/slices/mappingsSlice';
+import { DynamicVariable, HttpResponse, PostmanFolder, PostmanItem, RequestParameters } from 'src/types';
+import { collectExtractionFailures } from 'src/utils';
 
 // History actions that should NOT trigger auto-save (read-only or loading actions)
 const historyReadOnlyActions = [
@@ -74,7 +82,7 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
   // Auto-save collection after mutation actions
   if (actionType && actionType.startsWith('collection/') && !collectionReadOnlyActions.includes(actionType)) {
     const state = store.getState();
-    window.electronAPI.saveCollection(state.collection.data);
+    saveCollection(state.collection.data);
 
     // When a request is removed, also remove its mappings
     if (actionType === 'collection/removeRequest')
@@ -88,11 +96,11 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
     !environmentReadOnlyActions.includes(actionType) &&
     !dynamicVariableActions.includes(actionType)
   )
-    window.electronAPI.saveEnvironments(store.getState().environment.environments);
+    saveEnvironments(store.getState().environment.environments);
 
   // Auto-save dynamic variables after their mutation actions
   if (actionType && dynamicVariableActions.includes(actionType))
-    window.electronAPI.saveDynamicVariables(store.getState().environment.dynamicVariables);
+    saveDynamicVariables(store.getState().environment.dynamicVariables);
 
   // Auto-save history after mutation actions
   if (actionType && actionType.startsWith('history/') && !historyReadOnlyActions.includes(actionType)) {
@@ -102,24 +110,24 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
     store.dispatch(historyActions.enforceRetention({ maxSize: size, retention }));
 
     const stateToSave = store.getState();
-    window.electronAPI.saveHistory(stateToSave.history.entries);
+    saveHistory(stateToSave.history.entries);
   }
 
   // Auto-save mappings after mutation actions
   if (actionType && actionType.startsWith('mappings/') && !mappingsReadOnlyActions.includes(actionType))
-    window.electronAPI.saveMappings(store.getState().mappings);
+    saveMappings(store.getState().mappings);
 
   // Auto-save settings after mutation actions
   if (actionType && actionType.startsWith('settings/') && !settingsReadOnlyActions.includes(actionType)) {
     const state = store.getState();
-    window.electronAPI.saveSettings(state.settings);
+    saveSettings(state.settings);
 
     // Enforce retention when history size or retention settings change
     if (actionType === 'settings/setHistorySize' || actionType === 'settings/setHistoryRetention') {
       const { size, retention } = state.settings.general.history;
       store.dispatch(historyActions.enforceRetention({ maxSize: size, retention }));
       const updatedState = store.getState();
-      window.electronAPI.saveHistory(updatedState.history.entries);
+      saveHistory(updatedState.history.entries);
     }
   }
 
@@ -132,34 +140,16 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
       const response = (action as PayloadAction<HttpResponse>).payload;
       const dynamicVariables = state.environment.dynamicVariables as DynamicVariable[];
 
-      for (const dynamicVariable of dynamicVariables) {
-        const previousRequest = dynamicVariable.previousRequests?.find(
-          ({ requestId }) => requestId === selectedRequestId,
-        );
-        if (dynamicVariable.requestId !== selectedRequestId && !previousRequest) continue;
-
-        const currentDynamicVariable =
-          dynamicVariable.requestId === selectedRequestId
-            ? dynamicVariable
-            : {
-                ...dynamicVariable,
-                selector: previousRequest!.selector,
-                source: previousRequest!.source,
-              };
-        const extractedDynamicVariables = extractDynamicVariableFromResponseWithDetails(
-          currentDynamicVariable,
-          response,
-        );
-
-        if (extractedDynamicVariables.success && extractedDynamicVariables.value !== null)
+      collectExtractionFailures(dynamicVariables, selectedRequestId, response, (current, extracted) => {
+        if (extracted.success && extracted.value !== null) {
           store.dispatch(
             environmentActions.updateDynamicVariableValue({
-              id: currentDynamicVariable.id,
-              value: extractedDynamicVariables.value,
+              id: current.id,
+              value: extracted.value,
             }),
           );
-        // Note: Extraction failures are tracked in collectionRunResult.warning
-      }
+        }
+      });
     }
   }
 

@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
-import { useAppDispatch } from '../store/hooks';
-import { collectionActions } from '../store/slices/collectionSlice';
-import { requestActions } from '../store/slices/requestSlice';
-import { responseActions } from '../store/slices/responseSlice';
-import { websocketActions } from '../store/slices/websocketSlice';
+import { useAppDispatch } from 'src/store/hooks';
+import { collectionActions } from 'src/store/slices/collectionSlice';
+import { requestActions } from 'src/store/slices/requestSlice';
+import { responseActions } from 'src/store/slices/responseSlice';
+import { websocketActions } from 'src/store/slices/websocketSlice';
 import useTests from './useTests';
 
 export function useReset() {
   const dispatch = useAppDispatch();
+
   const { cancelAllTests } = useTests();
 
   const reset = useCallback(

@@ -1,29 +1,16 @@
-import { app, ipcMain } from 'electron';
 import { exec, execFile } from 'child_process';
-import { promisify } from 'util';
+import { app, ipcMain } from 'electron';
 import * as fs from 'fs';
-import * as path from 'path';
 import * as os from 'os';
+import * as path from 'path';
+import { promisify } from 'util';
+
+import type { CliActionResult, CliStatus } from 'shared/types/cli';
 
 const execAsync = promisify(exec);
 const execFileAsync = promisify(execFile);
 
 const BIN_NAME = process.platform === 'win32' ? 'rentgen.exe' : 'rentgen';
-
-export interface CliStatus {
-  platform: NodeJS.Platform;
-  bundled: { available: boolean; path: string | null };
-  pathEntry: { found: boolean; resolvedPath: string | null; pointsToBundled: boolean; version: string | null };
-  managedBy: 'package-manager' | 'app' | 'manual' | 'none';
-  recommendedTarget: string | null;
-  notes: string[];
-}
-
-export interface CliActionResult {
-  success: boolean;
-  message: string;
-  details?: string;
-}
 
 function getBundledCliPath(): string | null {
   if (!app.isPackaged) return null;

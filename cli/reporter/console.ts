@@ -20,9 +20,7 @@ export class ConsoleReporter {
     const envLabel = ctx.environmentTitle ?? 'none';
     process.stdout.write(chalk.bold(`Rentgen CLI v${version}`) + '\n');
     process.stdout.write('\n');
-    process.stdout.write(
-      `${ctx.projectName} › ${ctx.folderName} · env: ${envLabel} (${ctx.totalRequests} requests)\n`,
-    );
+    process.stdout.write(`${ctx.projectName} › ${ctx.folderName} · env: ${envLabel} (${ctx.totalRequests} requests)\n`);
     process.stdout.write(chalk.dim('─'.repeat(40)) + '\n');
     process.stdout.write('\n');
   }
@@ -126,7 +124,7 @@ export class ConsoleReporter {
 
   private truncate(text: string, maxLen: number): string {
     if (text.length <= maxLen) return text;
-    return text.slice(0, maxLen) + '… (truncated)';
+    return text.slice(0, maxLen) + '... (truncated)';
   }
 
   private formatDuration(ms: number): string {

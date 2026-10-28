@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HttpResponse } from '../../types';
+import { HttpResponse } from 'src/types';
 
 interface ResponseState {
   httpResponse: HttpResponse | null;

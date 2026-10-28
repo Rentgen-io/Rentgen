@@ -1,0 +1,360 @@
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import Button from 'src/components/buttons/Button';
+import Toggle from 'src/components/inputs/Toggle';
+import Panel, { Props as PanelProps } from 'src/components/panels/Panel';
+import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
+import { ORIGINAL_REQUEST_TEST_PARAMETER_NAME } from 'src/test-engine';
+import { HttpBody, HttpRequest, HttpResponse, TestResult, TestResults } from 'src/types';
+import { detectObjectType, truncateValue } from 'src/utils';
+import { twMerge } from 'tailwind-merge';
+import PotentialBugsTable, { PotentialBug } from '../tables/PotentialBugsTable';
+
+interface Props extends PanelProps {
+  items: TestResults[];
+  response: HttpResponse;
+}
+
+export default function TestResultsComparisonPanel({ items, title, response, ...otherProps }: Props) {
+  const { t } = useTranslation();
+
+  const [diffReady, setDiffReady] = useState<boolean>(false);
+  const [showNoise, setShowNoise] = useState<boolean>(false);
+  const [statistics, setStatistics] = useState({
+    percent: 0,
+    added: 0,
+    removed: 0,
+    unchanged: 0,
+  });
+  const [tabIndex, setTabIndex] = useState<number>(0);
+
+  const noisePaths = useMemo(() => {
+    if (items.length < 2) return null;
+
+    const originalResponse = items[0].dataDrivenTests.find(
+      (test) => test.name === ORIGINAL_REQUEST_TEST_PARAMETER_NAME,
+    )?.response;
+    if (!originalResponse) return null;
+
+    return findNoiseFields(originalResponse, response);
+  }, [items, response]);
+
+  const filteredItems = useMemo(() => {
+    const filterTestArray = (tests: TestResult[]) =>
+      tests.map((test) => {
+        const updatedTest = { ...test };
+        delete (updatedTest as { request?: HttpRequest | null }).request;
+
+        return {
+          ...updatedTest,
+          response:
+            !noisePaths || noisePaths.length === 0 || !updatedTest.response || showNoise
+              ? updatedTest.response
+              : removeNoiseFields(updatedTest.response, noisePaths),
+        };
+      });
+
+    return items.map((item) => ({
+      crudTests: filterTestArray(item.crudTests),
+      dataDrivenTests: filterTestArray(item.dataDrivenTests),
+      performanceTests: filterTestArray(item.performanceTests),
+      securityTests: filterTestArray(item.securityTests),
+    }));
+  }, [items, noisePaths, showNoise]);
+
+  const potentialBugs = useMemo(() => {
+    if (items.length < 2) return null;
+
+    const collectPotentialBugs = (
+      originalTests: TestResult[],
+      modifiedTests: TestResult[],
+      matchByValue?: boolean,
+    ): PotentialBug[] =>
+      originalTests.flatMap((originalTest, index) => {
+        const modifiedTest =
+          modifiedTests.find(
+            (test) => test.name === originalTest.name && (!matchByValue || test.value === originalTest.value),
+          ) || (matchByValue ? modifiedTests[index] : null);
+        const originalResponse = originalTest?.response;
+        const modifiedResponse = modifiedTest?.response ?? null;
+        const issues = compareHttpResponses(originalResponse, modifiedResponse);
+
+        if (issues.length === 0) return [];
+
+        return [
+          {
+            name: `⚠️ ${originalTest.name}` + (matchByValue ? ` (value: ${truncateValue(originalTest.value)})` : ''),
+            issue: transformIssues(issues),
+            originalResponse,
+            modifiedResponse,
+          },
+        ];
+      });
+
+    return [
+      ...collectPotentialBugs(items[0].securityTests, items[1].securityTests),
+      ...collectPotentialBugs(items[0].performanceTests, items[1].performanceTests),
+      ...collectPotentialBugs(items[0].dataDrivenTests, items[1].dataDrivenTests, true),
+    ];
+  }, [items]);
+
+  const tabs = useMemo(
+    () => [
+      {
+        component: (
+          <div className="flex flex-col flex-auto h-0 gap-4 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
+            {!potentialBugs || potentialBugs.length === 0 ? (
+              <p className="m-0 p-2.5 text-sm text-white text-center bg-green-600">{t('comparison.noPotentialBugs')}</p>
+            ) : (
+              <PotentialBugsTable data={potentialBugs} />
+            )}
+            <Button className="w-fit" onClick={() => setTabIndex(1)}>
+              {t('comparison.showFullBehaviorChanges')}
+            </Button>
+          </div>
+        ),
+        label: t('comparison.potentialBugs'),
+        panelClassName: 'p-4 overflow-hidden',
+      },
+      {
+        component: (
+          <div className="flex flex-col flex-auto h-0">
+            <div className="flex flex-col p-4 gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <span>
+                  {t('comparison.behaviorChange')} <b>{statistics.percent}%</b>
+                </span>
+                <span className="text-green-500">+{statistics.added}</span>
+                <span className="text-red-500">-{statistics.removed}</span>
+                <span>={statistics.unchanged}</span>
+              </div>
+              <Toggle
+                className="w-fit"
+                label={t('comparison.showNoise')}
+                disabled={!diffReady}
+                onChange={(e) => {
+                  setShowNoise(e.target.checked);
+                  setDiffReady(false);
+                }}
+              />
+            </div>
+            <JsonDiffViewer
+              className="flex-1 p-4 border-t border-border dark:border-dark-body"
+              data={filteredItems}
+              calculateStatistics={setStatistics}
+              isDiffReady={setDiffReady}
+            />
+          </div>
+        ),
+        label: t('comparison.fullBehaviorChanges'),
+      },
+    ],
+    [diffReady, filteredItems, potentialBugs, statistics, t],
+  );
+
+  return (
+    <Panel className="flex flex-col flex-auto border-none" collapsible={false} title={title} {...otherProps}>
+      {items.length < 2 ? (
+        <p className="p-4 m-0">{t('comparison.noTestResults')}</p>
+      ) : (
+        <Tabs
+          className="flex flex-col flex-auto overflow-hidden"
+          forceRenderTabPanel={true}
+          selectedIndex={tabIndex}
+          selectedTabClassName="bg-body border-border! text-text dark:bg-dark-body dark:border-dark-body! dark:text-dark-text cursor-default!"
+          selectedTabPanelClassName="flex! flex-col flex-auto"
+          onSelect={(index) => setTabIndex(index)}
+        >
+          <TabList className="flex m-0 px-4 text-sm font-medium border-b border-border dark:border-dark-body">
+            {tabs.map(({ label }) => (
+              <Tab
+                key={label}
+                className="relative -bottom-px py-1.5 px-3 border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
+                title={label}
+              >
+                {label}
+              </Tab>
+            ))}
+          </TabList>
+
+          {tabs.map(({ component, label, panelClassName }) => (
+            <TabPanel
+              key={label}
+              className={twMerge('hidden bg-body dark:bg-dark-body overflow-hidden', panelClassName)}
+            >
+              {component}
+            </TabPanel>
+          ))}
+        </Tabs>
+      )}
+    </Panel>
+  );
+}
+
+function findNoiseFields(firstObject: Record<string, any>, secondObject: Record<string, any>, path = ''): string[] {
+  if (!firstObject || !secondObject) return [];
+
+  const result: string[] = [];
+  const keys = new Set<string>([...Object.keys(firstObject), ...Object.keys(secondObject)]);
+
+  for (const key of keys) {
+    const currentPath = path ? `${path}.${key}` : key;
+    const firstValue = firstObject[key];
+    const secondValue = secondObject[key];
+    const bothObjects =
+      typeof firstValue === 'object' &&
+      typeof secondValue === 'object' &&
+      firstValue !== null &&
+      secondValue !== null &&
+      !Array.isArray(firstValue) &&
+      !Array.isArray(secondValue);
+
+    if (bothObjects) result.push(...findNoiseFields(firstValue, secondValue, currentPath));
+    else if (firstValue !== secondValue) result.push(currentPath);
+  }
+
+  return result;
+}
+
+function removeNoiseFields<T extends object>(object: T, noisePaths: string[]): T {
+  const clone = structuredClone(object);
+
+  for (const path of noisePaths) {
+    const keys = path.split('.');
+    let current: any = clone;
+
+    for (let i = 0; i < keys.length - 1; i++) {
+      if (!current || typeof current !== 'object') {
+        current = null;
+        break;
+      }
+      current = current[keys[i]];
+    }
+
+    const lastKey = keys[keys.length - 1];
+    if (current && typeof current === 'object' && Object.prototype.hasOwnProperty.call(current, lastKey))
+      delete current[lastKey];
+  }
+
+  return clone;
+}
+
+function compareHttpResponses(originalResponse: HttpResponse | null, modifiedResponse: HttpResponse | null): string[] {
+  const issues: string[] = [];
+
+  if (originalResponse === null && modifiedResponse === null) return issues;
+  if (originalResponse !== null && modifiedResponse === null) return ['Entire response disappeared'];
+  if (originalResponse === null && modifiedResponse !== null) return ['Entire response appeared'];
+
+  if (originalResponse!.status !== modifiedResponse!.status)
+    issues.push(`Status changed: '${originalResponse!.status}' → '${modifiedResponse!.status}'`);
+
+  issues.push(...compareHttpResponseBodies(originalResponse!.body, modifiedResponse!.body));
+
+  return issues;
+}
+
+function compareHttpResponseBodies(originalValue: HttpBody, modifiedValue: HttpBody, path: string = 'body'): string[] {
+  const issues: string[] = [];
+
+  const hasOwnKey = (record: Record<string, unknown>, key: string): boolean =>
+    Object.prototype.hasOwnProperty.call(record, key);
+
+  const compare = (
+    previous: unknown,
+    current: unknown,
+    currentPath: string,
+    previousExists: boolean,
+    currentExists: boolean,
+  ): void => {
+    if (previousExists && !currentExists) {
+      issues.push(`'${currentPath}' disappeared`);
+      return;
+    }
+
+    if (!previousExists && currentExists) {
+      issues.push(`'${currentPath}' appeared`);
+      return;
+    }
+
+    if (!previousExists && !currentExists) return;
+
+    const previousType = detectObjectType(previous);
+    const currentType = detectObjectType(current);
+
+    if (previousType !== currentType) {
+      issues.push(`Type changed at '${currentPath}': '${previousType}' → '${currentType}'`);
+      return;
+    }
+
+    if (previousType === 'object') {
+      const previousObject =
+        previous !== null && typeof previous === 'object' && !Array.isArray(previous)
+          ? (previous as Record<string, unknown>)
+          : {};
+      const currentObject =
+        current !== null && typeof current === 'object' && !Array.isArray(current)
+          ? (current as Record<string, unknown>)
+          : {};
+      const allKeys = new Set([...Object.keys(previousObject), ...Object.keys(currentObject)]);
+
+      for (const key of allKeys) {
+        compare(
+          previousObject[key],
+          currentObject[key],
+          `${currentPath}.${key}`,
+          hasOwnKey(previousObject, key),
+          hasOwnKey(currentObject, key),
+        );
+      }
+
+      return;
+    }
+
+    if (previousType === 'array') {
+      const previousArray = Array.isArray(previous) ? previous : [];
+      const currentArray = Array.isArray(current) ? current : [];
+      const maxLength = Math.max(previousArray.length, currentArray.length);
+
+      for (let index = 0; index < maxLength; index++) {
+        compare(
+          previousArray[index],
+          currentArray[index],
+          `${currentPath}[${index}]`,
+          index < previousArray.length,
+          index < currentArray.length,
+        );
+      }
+
+      return;
+    }
+  };
+
+  compare(originalValue, modifiedValue, path, originalValue !== undefined, modifiedValue !== undefined);
+
+  return issues;
+}
+
+function transformIssues(issues: string[]): string {
+  const appeared: string[] = [];
+  const disappeared: string[] = [];
+  const otherLines: string[] = [];
+
+  for (const issue of issues) {
+    const match = issue.trim().match(/^'([^']+)'\s+(appeared|disappeared)$/);
+
+    if (match) {
+      const [, field, status] = match;
+
+      if (status === 'appeared') appeared.push(`'${field}'`);
+      else disappeared.push(`'${field}'`);
+    } else otherLines.push(issue);
+  }
+
+  const summary: string[] = [];
+  if (appeared.length) summary.push(`Appeared: ${appeared.join(', ')}.`);
+  if (disappeared.length) summary.push(`Disappeared: ${disappeared.join(', ')}.`);
+
+  return [...otherLines, ...summary].join('\n');
+}

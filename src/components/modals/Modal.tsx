@@ -1,7 +1,7 @@
 import cn from 'classnames';
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useEffect } from 'react';
+import useClickOutside from 'src/hooks/useClickOutside';
 import { twMerge } from 'tailwind-merge';
-import useClickOutside from '../../hooks/useClickOutside';
 
 export interface Props extends HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
@@ -11,22 +11,34 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
 export default function Modal({ className, children, isOpen, onClose }: Props) {
   const refModal = useClickOutside<HTMLDivElement>(onClose);
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const html = document.documentElement;
+    const { style } = html;
+    const previousOverflow = style.overflow;
+
+    style.overflow = 'hidden';
+
+    return () => {
+      style.overflow = previousOverflow;
+
+      if (!style.length) html.removeAttribute('style');
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
     <div
       className={twMerge(
-        cn(
-          'fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black/40 z-100',
-          'dark:bg-dark-input/80',
-          className,
-        ),
+        cn('fixed inset-0 flex items-center justify-center bg-black/40 z-100', 'dark:bg-dark-input/80', className),
       )}
     >
       <div
         ref={refModal}
         className={cn(
-          'relative w-150 max-w-[90%] p-5 bg-white rounded-md shadow-[0_4px_12px_rgba(0,0,0,0.3)]',
+          'relative w-150 max-w-[90%] m-4 p-4 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.3)]',
           'dark:bg-dark-body',
         )}
       >

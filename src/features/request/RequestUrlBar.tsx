@@ -1,0 +1,118 @@
+import { Method } from 'axios';
+import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
+import ActionsButton from 'src/components/buttons/ActionsButton';
+import Button, { ButtonType } from 'src/components/buttons/Button';
+import { CreatableSelect } from 'src/components/inputs/CreatableSelect';
+import HighlightedInput from 'src/components/inputs/HighlightedInput';
+import { SelectOption } from 'src/components/inputs/Select';
+import { useSaveRequest } from 'src/hooks/useSaveRequest';
+import { useSendHttpRequest } from 'src/hooks/useSendHttpRequest';
+import { useWssActions } from 'src/hooks/useWebSocket';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import {
+  selectIsRequestDisabled,
+  selectMethod,
+  selectMode,
+  selectSelectedEnvironment,
+  selectSelectedRequestId,
+  selectUrl,
+  selectVariableNames,
+  selectWssConnected,
+} from 'src/store/selectors';
+import { requestActions } from 'src/store/slices/requestSlice';
+
+const methodOptions: SelectOption<Method>[] = [
+  { value: 'GET', label: 'GET', className: 'text-method-get! dark:text-dark-method-get!' },
+  { value: 'POST', label: 'POST', className: 'text-method-post! dark:text-dark-method-post!' },
+  { value: 'PUT', label: 'PUT', className: 'text-method-put! dark:text-dark-method-put!' },
+  { value: 'PATCH', label: 'PATCH', className: 'text-method-patch! dark:text-dark-method-patch!' },
+  { value: 'DELETE', label: 'DELETE', className: 'text-method-delete! dark:text-dark-method-delete!' },
+  { value: 'HEAD', label: 'HEAD', className: 'text-method-head! dark:text-dark-method-head!' },
+  { value: 'QUERY', label: 'QUERY', className: 'text-method-query! dark:text-dark-method-query!' },
+  { value: 'OPTIONS', label: 'OPTIONS', className: 'text-method-options! dark:text-dark-method-options!' },
+];
+
+export default function RequestUrlBar() {
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
+  const mode = useAppSelector(selectMode);
+  const method = useAppSelector(selectMethod);
+  const url = useAppSelector(selectUrl);
+  const disabled = useAppSelector(selectIsRequestDisabled);
+  const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
+  const selectedRequestId = useAppSelector(selectSelectedRequestId);
+  const variables = useAppSelector(selectVariableNames);
+  const wssConnected = useAppSelector(selectWssConnected);
+
+  const { saveRequest, autoSaveRequest } = useSaveRequest();
+  const { isSending, abortRequest, sendHttpRequest } = useSendHttpRequest();
+  const { connect, disconnect, send } = useWssActions();
+
+  return (
+    <div className="flex flex-col @lg:flex-row @lg:items-center gap-2">
+      <div className="flex-auto flex items-center">
+        {mode === 'HTTP' && (
+          <CreatableSelect
+            className="max-w-27.5 font-bold uppercase"
+            classNames={{
+              control: () => 'dark:border-r-dark-body!',
+              input: () => '[&>:first-child]:uppercase',
+            }}
+            menuPosition="absolute"
+            options={methodOptions}
+            placeholder={t('request.methodPlaceholder')}
+            value={methodOptions.find((option) => option.value === method) ?? { value: method, label: method }}
+            onBlur={autoSaveRequest}
+            onChange={(option) => option && dispatch(requestActions.setMethod(option.value))}
+          />
+        )}
+        <HighlightedInput
+          className={cn('flex-auto', { 'border-l-0': mode === 'HTTP' })}
+          highlightColor={selectedEnvironment?.color}
+          placeholder={t('request.enterUrl')}
+          value={url}
+          variables={variables}
+          onBlur={autoSaveRequest}
+          onChange={(event) => dispatch(requestActions.setUrl(event.target.value))}
+        />
+      </div>
+      {mode === 'HTTP' && (
+        <>
+          {isSending ? (
+            <Button buttonType={ButtonType.SECONDARY} disabled={disabled} onClick={abortRequest}>
+              {t('common.cancel')}
+            </Button>
+          ) : (
+            <Button disabled={disabled} onClick={sendHttpRequest}>
+              {t('common.send')}
+            </Button>
+          )}
+          <ActionsButton
+            actions={selectedRequestId ? [{ label: t('common.duplicate'), onClick: () => saveRequest(true) }] : []}
+            buttonType={ButtonType.SECONDARY}
+            disabled={disabled}
+            onClick={() => saveRequest()}
+          >
+            {t('common.save')}
+          </ActionsButton>
+        </>
+      )}
+      {mode === 'WSS' && (
+        <>
+          <Button
+            buttonType={wssConnected ? ButtonType.SECONDARY : ButtonType.PRIMARY}
+            disabled={!wssConnected && !url}
+            onClick={wssConnected ? disconnect : connect}
+          >
+            {wssConnected ? t('common.disconnect') : t('common.connect')}
+          </Button>
+          <Button disabled={!wssConnected} onClick={send}>
+            {t('common.send')}
+          </Button>
+        </>
+      )}
+    </div>
+  );
+}

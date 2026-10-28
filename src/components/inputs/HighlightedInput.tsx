@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
-import VariableHighlighter from '../VariableHighlighter';
+import VariableHighlighter from '../highlighters/VariableHighlighter';
 
 const DEFAULT_HIGHLIGHT_COLOR = '#6B7280';
 
@@ -28,7 +28,7 @@ export default function HighlightedInput({
   return (
     <div
       className={cn(
-        'relative leading-0 text-text bg-white border border-border rounded-md',
+        'relative leading-0 text-text bg-white border border-border',
         'dark:text-dark-text dark:bg-dark-input dark:border-dark-border',
         className,
       )}
@@ -46,7 +46,7 @@ export default function HighlightedInput({
         {...otherProps}
       />
       <div
-        className="absolute inset-0 flex items-center mx-3 py-2 font-monospace text-xs whitespace-pre overflow-x-auto [scrollbar-width:none]"
+        className="absolute inset-0 flex items-center mx-3 py-2 font-monospace text-xs whitespace-pre overflow-x-auto scrollbar-none"
         ref={highlighterRef}
       >
         <VariableHighlighter

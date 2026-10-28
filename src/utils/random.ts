@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { store } from '../store';
-import { DataType } from '../types';
+import { store } from 'src/store';
+import { DataType } from 'src/types';
 
 export function generateRandomString(length: number): string {
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';

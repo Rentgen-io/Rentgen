@@ -1,8 +1,9 @@
 import { dialog, ipcMain } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import type { ExportResult, ImportResult, PostmanCollection } from '../../src/types';
-import { rentgenToPostman, postmanToRentgen, validatePostmanCollection } from '../../src/utils/postman-converter';
+import { postmanToRentgen, rentgenToPostman, validatePostmanCollection } from 'shared/utils/postman-converter';
+import type { ExportResult, ImportResult } from 'shared/types/ipc';
+import type { PostmanCollection } from 'shared/types/postman';
 
 export function registerImportExportHandlers(): void {
   // Import Postman collection from file
@@ -16,9 +17,7 @@ export function registerImportExportHandlers(): void {
       properties: ['openFile'],
     });
 
-    if (result.canceled || result.filePaths.length === 0) {
-      return { canceled: true };
-    }
+    if (result.canceled || result.filePaths.length === 0) return { canceled: true };
 
     try {
       const content = fs.readFileSync(result.filePaths[0], 'utf-8');
@@ -26,9 +25,7 @@ export function registerImportExportHandlers(): void {
 
       // Validate
       const validation = validatePostmanCollection(parsed);
-      if (!validation.valid) {
-        return { error: validation.error };
-      }
+      if (!validation.valid) return { error: validation.error };
 
       // Convert to Rentgen format
       const { collection, warnings } = postmanToRentgen(parsed);
@@ -40,9 +37,8 @@ export function registerImportExportHandlers(): void {
         fileName: path.basename(result.filePaths[0]),
       };
     } catch (error) {
-      if (error instanceof SyntaxError) {
-        return { error: 'Invalid JSON file' };
-      }
+      if (error instanceof SyntaxError) return { error: 'Invalid JSON file' };
+
       return { error: String(error) };
     }
   });
@@ -53,7 +49,7 @@ export function registerImportExportHandlers(): void {
 
     const result = await dialog.showSaveDialog({
       title: 'Export Collection',
-      defaultPath: `${fileName}.collection.json`,
+      defaultPath: `${fileName}-${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.collection.json`,
       filters: [{ name: 'Rentgen Collection', extensions: ['json'] }],
     });
 

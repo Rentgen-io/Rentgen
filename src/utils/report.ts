@@ -1,22 +1,13 @@
-import { ExportReport, ReportFormat, ReportSuite, TestResult } from '../types';
+import { AiUsage } from 'src/api/ai';
+import { ExportReport, ReportFormat, ReportSuite, TestResult } from 'src/types';
 
-export function buildSuite(name: string, tests: TestResult[]): ReportSuite {
+export function buildSuite(name: string, tests: TestResult[], usage?: AiUsage | null): ReportSuite {
   return {
     name,
     summary: summarizeSuite(tests),
     tests,
+    usage,
   };
-}
-
-export function summarizeSuite(tests: TestResult[]) {
-  return tests.reduce(
-    (acc, test) => {
-      acc.total += 1;
-      acc.byStatus[test.status] = (acc.byStatus[test.status] ?? 0) + 1;
-      return acc;
-    },
-    { total: 0, byStatus: {} as Record<string, number> },
-  );
 }
 
 export function formatReport(
@@ -46,6 +37,17 @@ export function formatReport(
   };
 }
 
+function summarizeSuite(tests: TestResult[]) {
+  return tests.reduce(
+    (acc, test) => {
+      acc.total += 1;
+      acc.byStatus[test.status] = (acc.byStatus[test.status] ?? 0) + 1;
+      return acc;
+    },
+    { total: 0, byStatus: {} as Record<string, number> },
+  );
+}
+
 function toMarkdown(report: ExportReport) {
   const lines: string[] = [];
   lines.push(`# Rentgen Report`);
@@ -55,7 +57,6 @@ function toMarkdown(report: ExportReport) {
   lines.push(`## Target`);
   lines.push(`- URL: ${report.target.url}`);
   lines.push(`- Method: ${report.target.method}`);
-  lines.push(`- Proto file: ${report.target.protoFileName ?? 'n/a'}`);
   lines.push('');
 
   for (const suite of report.suites) {

@@ -1,0 +1,111 @@
+import { RESPONSE_STATUS } from 'shared/responseStatus';
+import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from 'src/types';
+import { extractStatusCode } from 'src/utils';
+
+export const ERROR_RESPONSE_EXPECTED = '4xx';
+export const NOT_AVAILABLE_TEST = 'Not Available';
+export const ORIGINAL_REQUEST_TEST_PARAMETER_NAME = '[original request]';
+export const SUCCESS_RESPONSE_EXPECTED = '2xx';
+
+export abstract class BaseTests<TResult = unknown> {
+  private _aborted = false;
+  private _currentController: AbortController | null = null;
+
+  constructor(
+    protected readonly options: TestOptions,
+    protected readonly onTestStart?: () => void,
+  ) {}
+
+  public get aborted(): boolean {
+    return this._aborted;
+  }
+
+  public abort(reason?: unknown): void {
+    this._aborted = true;
+    this._currentController?.abort(reason);
+    this._currentController = null;
+  }
+
+  public async run(): Promise<TResult> {
+    this._currentController?.abort();
+
+    const controller = new AbortController();
+    this._currentController = controller;
+    this._aborted = false;
+
+    try {
+      return await this.execute(controller.signal);
+    } finally {
+      if (this._currentController === controller) this._currentController = null;
+    }
+  }
+
+  protected abstract execute(signal: AbortSignal): Promise<TResult>;
+}
+
+export function createTestResult(
+  name: string,
+  expected: string,
+  actual: string,
+  status: TestStatus,
+  request: HttpRequest | null = null,
+  response: HttpResponse | null = null,
+  value: any = undefined,
+): TestResult {
+  return { name, expected, actual, status, value, request, response };
+}
+
+export function createErrorTestResult(
+  name: string,
+  expected: string,
+  actual: string,
+  request: HttpRequest | null = null,
+  value: any = undefined,
+): TestResult {
+  return createTestResult(name, expected, `Unexpected Error: ${actual}`, TestStatus.Bug, request, null, value);
+}
+
+export function determineTestStatus(
+  response: HttpResponse,
+  determine: (response: HttpResponse, statusCode: number) => { actual: string; status: TestStatus },
+  allowedStatusCodes: number[] = [],
+): {
+  actual: string;
+  status: TestStatus;
+} {
+  const statusCode = extractStatusCode(response);
+  if (statusCode >= RESPONSE_STATUS.SERVER_ERROR && !allowedStatusCodes.includes(statusCode))
+    return { actual: response.status, status: TestStatus.Bug };
+
+  return determine(response, statusCode);
+}
+
+export function getTestsStatistics(tests: TestResult[], disabledTests?: string[]) {
+  return tests.reduce(
+    (acc, { name, status }) => {
+      switch (status) {
+        case TestStatus.Bug:
+          if (!disabledTests?.includes(name)) acc.bugs += 1;
+          break;
+        case TestStatus.Fail:
+        case TestStatus.FailNoResponse:
+          if (!disabledTests?.includes(name)) acc.failed += 1;
+          break;
+        case TestStatus.Info:
+          if (!disabledTests?.includes(name)) acc.info += 1;
+          break;
+        case TestStatus.Manual:
+          if (!disabledTests?.includes(name)) acc.manual += 1;
+          break;
+        case TestStatus.Pass:
+          if (!disabledTests?.includes(name)) acc.passed += 1;
+          break;
+        case TestStatus.Warning:
+          if (!disabledTests?.includes(name)) acc.warnings += 1;
+          break;
+      }
+      return acc;
+    },
+    { bugs: 0, failed: 0, info: 0, manual: 0, passed: 0, warnings: 0 },
+  );
+}

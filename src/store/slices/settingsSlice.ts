@@ -1,152 +1,96 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import merge from 'deepmerge';
-import { appConfig } from '../../constants/appConfig';
-import { MAX_INT32 } from '../../constants/datasets';
-import i18n from '../../i18n';
-import { Language } from '../../i18n/languages';
-import { Interval } from '../../types';
+import { defaultSettings } from 'shared/defaults';
+import { MEDIAN_RESPONSE_TIME_TEST_NAME, NETWORK_SHARE_TEST_NAME, PING_LATENCY_TEST_NAME } from 'shared/testNames';
+import { loadSettings as loadSettingsFile } from 'src/api/storage';
+import i18n from 'src/i18n';
+import { AiProvider, HistoryRetention, Language, SettingsState } from 'src/types';
+import { LicenseResult } from 'src/utils';
 
-export const MEDIAN_RESPONSE_TIME_TEST_NAME = 'Median Response Time';
-export const NETWORK_SHARE_TEST_NAME = 'Network Share Calculation';
-export const PING_LATENCY_TEST_NAME = 'Ping Latency';
+export const initialState: SettingsState = defaultSettings;
 
-export type HistoryRetention = '1w' | '1m' | '3m' | '6m' | '1y' | 'none';
-
-export interface SettingsState {
-  cli: unknown;
-  general: {
-    history: {
-      enabled: boolean;
-      size: number;
-      retention: HistoryRetention;
-    };
-  };
-  testEngine: {
-    configuration: {
-      email: {
-        domain: string;
-      };
-      randomEmail: {
-        length: number;
-      };
-      randomInt: Interval;
-      randomString: {
-        length: number;
-      };
-      enum: string;
-      number: Interval;
-      string: {
-        maxLength: number;
-        minLength: number;
-      };
-    };
-    securityTests: {
-      disabled: string[];
-    };
-    performanceInsights: {
-      disabled: string[];
-    };
-  };
-  theme: 'light' | 'dark';
-  language: Language;
-}
-
-export const initialState: SettingsState = {
-  cli: {},
-  general: {
-    history: {
-      enabled: true,
-      size: 1000,
-      retention: 'none',
-    },
-  },
-  testEngine: {
-    configuration: {
-      email: {
-        domain: appConfig.domain,
-      },
-      randomEmail: {
-        length: 8,
-      },
-      randomInt: {
-        min: 0,
-        max: MAX_INT32,
-      },
-      randomString: {
-        length: 32,
-      },
-      enum: '',
-      number: {
-        min: -10000,
-        max: 10000,
-      },
-      string: {
-        minLength: 1,
-        maxLength: 128,
-      },
-    },
-    securityTests: {
-      disabled: [],
-    },
-    performanceInsights: {
-      disabled: [],
-    },
-  },
-  theme: 'light',
-  language: 'en',
-};
-
-export const loadSettings = createAsyncThunk('settings/load', async () => await window.electronAPI.loadSettings());
+export const loadSettings = createAsyncThunk('settings/load', async () => await loadSettingsFile());
 
 export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    setHistoryEnabled: (state, action: PayloadAction<boolean>) => {
-      state.general.history.enabled = action.payload;
+    deleteAiProvider: (state, action: PayloadAction<string>) => {
+      state.ai.providers = state.ai.providers.filter((provider) => provider.id !== action.payload);
     },
-    setHistorySize: (state, action: PayloadAction<number>) => {
-      state.general.history.size = Math.max(1, Math.min(10000, action.payload));
+    replaceSettings: (state, action: PayloadAction<SettingsState>) => {
+      Object.assign(state, merge(initialState, action.payload));
+
+      if (action.payload.language) i18n.changeLanguage(action.payload.language);
+      applyTheme(state);
     },
-    setHistoryRetention: (state, action: PayloadAction<HistoryRetention>) => {
-      state.general.history.retention = action.payload;
+    setActiveAiProvider: (state, action: PayloadAction<string>) => {
+      state.ai.providers.forEach((provider) => {
+        provider.active = provider.id === action.payload;
+      });
+    },
+    setAiProvider: (state, action: PayloadAction<AiProvider>) => {
+      if (state.ai.providers.length === 0) action.payload.active = true;
+
+      const index = state.ai.providers.findIndex((provider) => provider.id === action.payload.id);
+      if (index !== -1) state.ai.providers[index] = action.payload;
+      else state.ai.providers.push(action.payload);
     },
     setEmailDomain: (state, action: PayloadAction<string>) => {
       state.testEngine.configuration.email.domain = action.payload;
     },
-    setRandomEmailLength: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.randomEmail.length = action.payload;
-    },
-    setRandomIntMin: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.randomInt.min = action.payload;
-    },
-    setRandomIntMax: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.randomInt.max = action.payload;
-    },
-    setRandomStringLength: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.randomString.length = action.payload;
-    },
     setEnum: (state, action: PayloadAction<string>) => {
       state.testEngine.configuration.enum = action.payload;
     },
-    setNumberMin: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.number.min = action.payload;
+    setHistoryEnabled: (state, action: PayloadAction<boolean>) => {
+      state.general.history.enabled = action.payload;
+    },
+    setHistoryRetention: (state, action: PayloadAction<HistoryRetention>) => {
+      state.general.history.retention = action.payload;
+    },
+    setHistorySize: (state, action: PayloadAction<number>) => {
+      state.general.history.size = Math.max(1, Math.min(10000, action.payload));
+    },
+    setLanguage: (state, action: PayloadAction<Language>) => {
+      state.language = action.payload;
+      i18n.changeLanguage(action.payload);
+    },
+    setLicense: (state, action: PayloadAction<{ key: string | null; result: LicenseResult }>) => {
+      const { key, result } = action.payload;
+
+      state.ai.license = {
+        ...result,
+        key,
+        trialUsed: state.ai.license.trialUsed || ('info' in result && result.info.trial),
+      };
     },
     setNumberMax: (state, action: PayloadAction<number>) => {
       state.testEngine.configuration.number.max = action.payload;
     },
-    setStringMinLength: (state, action: PayloadAction<number>) => {
-      state.testEngine.configuration.string.minLength = action.payload;
+    setNumberMin: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.number.min = action.payload;
+    },
+    setRandomEmailLength: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.randomEmail.length = action.payload;
+    },
+    setRandomIntMax: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.randomInt.max = action.payload;
+    },
+    setRandomIntMin: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.randomInt.min = action.payload;
+    },
+    setRandomStringLength: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.randomString.length = action.payload;
     },
     setStringMaxLength: (state, action: PayloadAction<number>) => {
       state.testEngine.configuration.string.maxLength = action.payload;
     },
-    toggleSecurityTest: (state, action: PayloadAction<string>) => {
-      if (state.testEngine.securityTests.disabled.includes(action.payload))
-        state.testEngine.securityTests.disabled = state.testEngine.securityTests.disabled.filter(
-          (test) => test !== action.payload,
-        );
-      else state.testEngine.securityTests.disabled.push(action.payload);
+    setStringMinLength: (state, action: PayloadAction<number>) => {
+      state.testEngine.configuration.string.minLength = action.payload;
+    },
+    setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
+      state.theme = action.payload;
+      applyTheme(state);
     },
     togglePerformanceInsight: (state, action: PayloadAction<string>) => {
       if (state.testEngine.performanceInsights.disabled.includes(action.payload)) {
@@ -168,30 +112,24 @@ export const settingsSlice = createSlice({
           state.testEngine.performanceInsights.disabled.push(NETWORK_SHARE_TEST_NAME);
       }
     },
+    toggleSecurityTest: (state, action: PayloadAction<string>) => {
+      if (state.testEngine.securityTests.disabled.includes(action.payload))
+        state.testEngine.securityTests.disabled = state.testEngine.securityTests.disabled.filter(
+          (test) => test !== action.payload,
+        );
+      else state.testEngine.securityTests.disabled.push(action.payload);
+    },
     toggleTheme: (state) => {
       state.theme = state.theme === 'light' ? 'dark' : 'light';
-      applyTheme(state);
-    },
-    setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
-      state.theme = action.payload;
-      applyTheme(state);
-    },
-    setLanguage: (state, action: PayloadAction<Language>) => {
-      state.language = action.payload;
-      i18n.changeLanguage(action.payload);
-    },
-    replaceSettings: (state, action: PayloadAction<SettingsState>) => {
-      Object.assign(state, merge(initialState, action.payload));
-
-      if (action.payload.language) i18n.changeLanguage(action.payload.language);
       applyTheme(state);
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loadSettings.fulfilled, (state, action: PayloadAction<SettingsState>) => {
       state.cli = action.payload.cli;
-      state.general = merge(state.general, action.payload.general);
-      state.testEngine = merge(state.testEngine, action.payload.testEngine);
+      state.general = merge(state.general, action.payload.general || {});
+      state.ai = merge(state.ai, action.payload.ai || {});
+      state.testEngine = merge(state.testEngine, action.payload.testEngine || {});
       state.theme = action.payload.theme;
       state.language = action.payload.language || 'en';
 

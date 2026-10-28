@@ -1,0 +1,12 @@
+import { RootState } from 'src/store';
+
+export const selectDeleteFolderModal = (state: RootState) => state.modals.deleteFolderModal;
+export const selectImportConflictModal = (state: RootState) => state.modals.importConflictModal;
+export const selectOpenFollowModal = (state: RootState) => state.modals.openFollowModal;
+export const selectOpenGitHubModal = (state: RootState) => state.modals.openGitHubModal;
+export const selectOpenImportResourceModal = (state: RootState) => state.modals.openImportResourceModal;
+export const selectOpenReloadModal = (state: RootState) => state.modals.openReloadModal;
+export const selectOpenSendHttpSuccessModal = (state: RootState) => state.modals.openSendHttpSuccessModal;
+export const selectProjectImportConfirmModal = (state: RootState) => state.modals.projectImportConfirmModal;
+export const selectSetAsDynamicVariableModal = (state: RootState) => state.modals.setAsDynamicVariableModal;
+export const selectSettingsModal = (state: RootState) => state.modals.settingsModal;

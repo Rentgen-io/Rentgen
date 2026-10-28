@@ -1,14 +1,38 @@
-import { DynamicVariable, ExtractionResult, HttpResponse } from '../types';
+import { DynamicVariable, ExtractionFailure, ExtractionResult, HttpResponse } from 'src/types';
 import { extractValue, stringifyExtractedValue } from './environment';
+import { isObject } from './object';
 
-/**
- * Extract the value for a dynamic variable from an HTTP response with detailed result.
- * Handles both body (JSON path) and header extraction.
- *
- * @param variable - The dynamic variable configuration
- * @param response - The HTTP response to extract from
- * @returns ExtractionResult with value, success flag, and error message if failed
- */
+export function collectExtractionFailures(
+  dynamicVariables: DynamicVariable[],
+  requestId: string,
+  response: HttpResponse,
+  onSuccess?: (current: DynamicVariable, extracted: ExtractionResult) => void,
+): ExtractionFailure[] {
+  const failures: ExtractionFailure[] = [];
+
+  for (const dynamicVariable of dynamicVariables) {
+    const previousRequest = dynamicVariable.previousRequests?.find((entry) => entry.requestId === requestId);
+    if (dynamicVariable.requestId !== requestId && !previousRequest) continue;
+
+    const current =
+      dynamicVariable.requestId === requestId
+        ? dynamicVariable
+        : { ...dynamicVariable, selector: previousRequest!.selector, source: previousRequest!.source };
+    const extracted = extractDynamicVariableFromResponseWithDetails(current, response);
+
+    if (!extracted.success)
+      failures.push({
+        variableName: current.key,
+        selector: current.selector,
+        source: current.source,
+        reason: extracted.error || 'unknown error',
+      });
+    else onSuccess?.(current, extracted);
+  }
+
+  return failures;
+}
+
 export function extractDynamicVariableFromResponseWithDetails(
   variable: DynamicVariable,
   response: HttpResponse,
@@ -23,7 +47,7 @@ export function extractDynamicVariableFromResponseWithDetails(
 
       let body: unknown;
       try {
-        body = JSON.parse(response.body);
+        body = !isObject(response.body) ? JSON.parse(JSON.stringify(response.body, null, 2)) : response.body;
       } catch {
         return { value: null, success: false, error: 'response body is not valid JSON' };
       }
@@ -58,16 +82,6 @@ export function extractDynamicVariableFromResponseWithDetails(
   }
 }
 
-/**
- * Extract the value for a dynamic variable from an HTTP response.
- * Handles both body (JSON path) and header extraction.
- *
- * @param variable - The dynamic variable configuration
- * @param response - The HTTP response to extract from
- * @returns The extracted value as a string, or null if extraction failed
- * @deprecated Use extractDynamicVariableFromResponseWithDetails for better error reporting
- */
-export function extractDynamicVariableFromResponse(variable: DynamicVariable, response: HttpResponse): string | null {
-  const result = extractDynamicVariableFromResponseWithDetails(variable, response);
-  return result.value;
+export function generateDynamicVariableId(): string {
+  return `dvar_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 }

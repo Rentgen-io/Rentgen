@@ -1,18 +1,17 @@
 import MonacoEditor, { OnMount, loader } from '@monaco-editor/react';
-import cn from 'classnames';
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from '../../store/hooks';
-import { selectTheme } from '../../store/selectors';
-import { extractValue, stringifyExtractedValue } from '../../utils';
-import { ResponsePanelContext, useContextMenu } from '../context-menu';
+import { ResponsePanelContext, useContextMenu } from 'src/features/context-menu';
 import {
   rentgenDarkPlaintextTheme,
   rentgenDarkTheme,
   rentgenLightPlaintextTheme,
   rentgenLightTheme,
-} from '../monaco/themes';
+} from 'src/monaco/themes';
+import { useAppSelector } from 'src/store/hooks';
+import { selectTheme } from 'src/store/selectors';
+import { extractValue, stringifyExtractedValue } from 'src/utils';
 
 // Configure Monaco to use local ESM bundle instead of CDN (required for Electron)
 loader.config({ monaco });
@@ -292,30 +291,42 @@ function getAllJsonValuePositions(jsonString: string, sourceObject: object): Jso
 }
 
 interface Props {
-  source?: string | object | null;
   className?: string;
+  maxHeight?: number;
+  minHeight?: number;
+  options?: monaco.editor.IStandaloneEditorConstructionOptions;
   responsePanelContext?: ResponsePanelContext;
+  source?: string | number | boolean | object | null;
   showVariableButtons?: boolean;
   onSetVariable?: (path: string, value: string) => void;
 }
 
-export function JsonViewer({ source, className, responsePanelContext, showVariableButtons, onSetVariable }: Props) {
-  const theme = useAppSelector(selectTheme);
+export function JsonViewer({
+  className,
+  maxHeight = 280,
+  minHeight = 40,
+  options,
+  responsePanelContext,
+  source,
+  showVariableButtons,
+  onSetVariable,
+}: Props) {
   const { t } = useTranslation();
   const { showContextMenu } = useContextMenu();
-  const isDark = theme === 'dark';
+
+  const theme = useAppSelector(selectTheme);
+
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const responsePanelContextRef = useRef<ResponsePanelContext | undefined>(responsePanelContext);
-  const sourceRef = useRef<string | object | null>(source);
+  const sourceRef = useRef<string | number | boolean | object | null>(source);
   const widgetsRef = useRef<Map<string, monaco.editor.IContentWidget>>(new Map());
   const widgetDomNodesRef = useRef<Map<string, HTMLButtonElement>>(new Map());
-  const [hoveredLine, setHoveredLine] = useState<number | null>(null);
-  const [isEditorMounted, setIsEditorMounted] = useState(false);
   const onSetVariableRef = useRef(onSetVariable);
+  const [hoveredLine, setHoveredLine] = useState<number | null>(null);
+  const [isEditorMounted, setIsEditorMounted] = useState<boolean>(false);
+  const [editorHeight, setEditorHeight] = useState<number>(minHeight);
 
-  useEffect(() => {
-    onSetVariableRef.current = onSetVariable;
-  }, [onSetVariable]);
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     responsePanelContextRef.current = responsePanelContext;
@@ -325,20 +336,20 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
     sourceRef.current = source;
   }, [source]);
 
-  // Update widget visibility based on hovered line
+  useEffect(() => {
+    onSetVariableRef.current = onSetVariable;
+  }, [onSetVariable]);
+
   useEffect(() => {
     widgetDomNodesRef.current.forEach((domNode, id) => {
       const linePart = id.split('-')[1];
       const widgetLine = parseInt(linePart, 10);
-      if (widgetLine === hoveredLine) {
-        domNode.classList.add('line-hovered');
-      } else {
-        domNode.classList.remove('line-hovered');
-      }
+
+      if (widgetLine === hoveredLine) domNode.classList.add('line-hovered');
+      else domNode.classList.remove('line-hovered');
     });
   }, [hoveredLine]);
 
-  // Create content widget for a JSON value position
   const createPlusWidget = useCallback(
     (_: monaco.editor.IStandaloneCodeEditor, position: JsonValuePosition): monaco.editor.IContentWidget => {
       const domNode = document.createElement('button');
@@ -348,6 +359,7 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
       domNode.onclick = (e) => {
         e.preventDefault();
         e.stopPropagation();
+
         const valueStr = stringifyExtractedValue(position.value);
         if (valueStr !== null && onSetVariableRef.current) onSetVariableRef.current(position.path, valueStr);
       };
@@ -367,19 +379,15 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
     [t],
   );
 
-  // Dispose all widgets
   const disposeAllWidgets = useCallback(() => {
     const editor = editorRef.current;
     if (!editor) return;
 
-    widgetsRef.current.forEach((widget) => {
-      editor.removeContentWidget(widget);
-    });
+    widgetsRef.current.forEach((widget) => editor.removeContentWidget(widget));
     widgetsRef.current.clear();
     widgetDomNodesRef.current.clear();
   }, []);
 
-  // Create widgets when showVariableButtons is enabled
   useEffect(() => {
     const editor = editorRef.current;
     if (!editor || !showVariableButtons || typeof source !== 'object' || source === null) {
@@ -389,8 +397,6 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
 
     const jsonString = JSON.stringify(source, null, 2);
     const positions = getAllJsonValuePositions(jsonString, source);
-
-    // Limit widgets for performance (cap at 500)
     const limitedPositions = positions.slice(0, 500);
 
     limitedPositions.forEach((pos) => {
@@ -399,34 +405,35 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
       widgetsRef.current.set(widget.getId(), widget);
     });
 
-    return () => {
-      disposeAllWidgets();
-    };
-  }, [source, showVariableButtons, createPlusWidget, disposeAllWidgets, isEditorMounted]);
+    return () => disposeAllWidgets();
+  }, [isEditorMounted, source, showVariableButtons, createPlusWidget, disposeAllWidgets]);
 
   const isSourceObject = source != null && typeof source === 'object';
   const displayValue = isSourceObject ? JSON.stringify(source, null, 2) : String(source);
   const editorLanguage = isSourceObject ? 'json' : 'plaintext';
 
-  const onMount: OnMount = (editor, monacoInstance) => {
+  const onMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
 
-    monacoInstance.editor.defineTheme('rentgen-light', rentgenLightTheme);
-    monacoInstance.editor.defineTheme('rentgen-dark', rentgenDarkTheme);
-    monacoInstance.editor.defineTheme('rentgen-light-plaintext', rentgenLightPlaintextTheme);
-    monacoInstance.editor.defineTheme('rentgen-dark-plaintext', rentgenDarkPlaintextTheme);
-    monacoInstance.editor.setTheme(isDark ? 'rentgen-dark' : 'rentgen-light');
+    monaco.editor.defineTheme('rentgen-light', rentgenLightTheme);
+    monaco.editor.defineTheme('rentgen-dark', rentgenDarkTheme);
+    monaco.editor.defineTheme('rentgen-light-plaintext', rentgenLightPlaintextTheme);
+    monaco.editor.defineTheme('rentgen-dark-plaintext', rentgenDarkPlaintextTheme);
+    monaco.editor.setTheme(isDark ? 'rentgen-dark' : 'rentgen-light');
 
-    // Track hovered line for widget visibility
+    const isVisible = () => editor.getContainerDomNode().offsetWidth > 0;
+    const updateHeight = (contentHeight: number) => {
+      if (isVisible()) setEditorHeight(contentHeight);
+    };
+
+    updateHeight(editor.getContentHeight());
+    editor.onDidContentSizeChange((e) => updateHeight(e.contentHeight));
+
     editor.onMouseMove((e) => {
-      if (e.target.position) {
-        setHoveredLine(e.target.position.lineNumber);
-      }
+      if (e.target.position) setHoveredLine(e.target.position.lineNumber);
     });
 
-    editor.onMouseLeave(() => {
-      setHoveredLine(null);
-    });
+    editor.onMouseLeave(() => setHoveredLine(null));
 
     setIsEditorMounted(true);
 
@@ -439,7 +446,6 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
       const selectedText = selection && model ? model.getValueInRange(selection) : '';
       const browserEvent = e.event.browserEvent as MouseEvent;
 
-      // Extract JSON path at cursor position
       let jsonPath: string | null = null;
       let jsonValue: string | null = null;
 
@@ -448,14 +454,12 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
         const content = model.getValue();
         jsonPath = getJsonPathAtOffset(content, offset);
 
-        // Extract the actual value at the JSON path
         if (jsonPath && sourceRef.current && typeof sourceRef.current === 'object') {
           const extracted = extractValue(sourceRef.current, jsonPath);
           jsonValue = stringifyExtractedValue(extracted);
         }
       }
 
-      // Merge jsonPath and jsonValue into responsePanelContext
       const contextWithPath = responsePanelContextRef.current
         ? { ...responsePanelContextRef.current, jsonPath, jsonValue }
         : undefined;
@@ -465,7 +469,13 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
   };
 
   return (
-    <div className={cn('h-90', className)}>
+    <div
+      className={className}
+      style={{
+        height: Math.min(Math.max(editorHeight, minHeight), maxHeight),
+        overflow: 'hidden',
+      }}
+    >
       <MonacoEditor
         height="100%"
         language={editorLanguage}
@@ -488,7 +498,7 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
             horizontalScrollbarSize: 8,
             alwaysConsumeMouseWheel: false,
           },
-          fontSize: 13,
+          fontSize: 12,
           fontFamily: 'monospace',
           wordWrap: 'on',
           automaticLayout: true,
@@ -500,6 +510,7 @@ export function JsonViewer({ source, className, responsePanelContext, showVariab
             indentation: true,
             bracketPairs: false,
           },
+          ...options,
         }}
         theme={
           isDark

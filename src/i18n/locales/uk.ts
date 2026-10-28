@@ -3,8 +3,9 @@ const uk = {
   common: {
     send: 'Надіслати',
     save: 'Зберегти',
-    saved: 'Збережено ✅',
+    saved: 'Збережено',
     cancel: 'Скасувати',
+    cancelled: 'Скасовано',
     close: 'Закрити',
     ok: 'OK',
     create: 'Створити',
@@ -12,8 +13,11 @@ const uk = {
     import: 'Імпортувати',
     export: 'Експортувати',
     copy: 'Копіювати',
-    copied: 'Скопійовано ✅',
+    copied: 'Скопійовано',
+    failedCopy: 'Не вдалося скопіювати',
+    failedReadFile: 'Не вдалося прочитати файл',
     run: 'Запустити',
+    runAll: 'Запустити всі',
     replace: 'Замінити',
     merge: "Об'єднати",
     overwrite: 'Перезаписати',
@@ -33,8 +37,16 @@ const uk = {
     bugs: 'Помилки',
     warning: 'Попередження',
     warnings: 'Попередження',
+    manual: 'Вручну',
+    info: 'Інфо',
     ignore: 'Ігнорувати',
     ignored: 'Проігноровано',
+    exported: 'Експортовано',
+    imported: 'Імпортовано',
+    certificated: 'Сертифіковано',
+    duplicate: 'Дублювати',
+    add: 'Додати',
+    back: 'Назад',
   },
 
   // Sidebar
@@ -58,8 +70,6 @@ const uk = {
     importFailed: 'Імпорт не вдався: {{error}}',
     exportFailed: 'Експорт не вдався: {{error}}',
     importedWithWarnings: 'Імпортовано з {{count}} попередженням(-ями)',
-    collectionImported: 'Колекцію імпортовано',
-    collectionExported: 'Колекцію експортовано',
   },
 
   // Environment
@@ -106,12 +116,6 @@ const uk = {
     body: 'Тіло',
     bodyPlaceholderHttp: 'Введіть тіло запиту (JSON або Form Data)',
     bodyPlaceholderWss: 'Тіло повідомлення',
-    protobufSchema: 'Схема Protobuf та тип повідомлення',
-    protobufDescription:
-      'Експериментальний та необовʼязковий розділ. При використанні обидва поля мають бути заповнені',
-    messageTypePlaceholder: 'Тип повідомлення (напр. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Схему Proto завантажено',
-    protoSchemaParseFailed: '🔴 Не вдалося розібрати proto: ',
     wssUrlRequired: '🔴 Використовуйте URL з ws:// або wss://',
     modePlaceholder: 'РЕЖИМ',
     methodPlaceholder: 'МЕТОД',
@@ -126,9 +130,12 @@ const uk = {
 
   // cURL
   curl: {
-    importCurl: 'Імпортувати cURL',
-    importCurlPlaceholder: 'Введіть cURL або вставте текст',
-    invalidCurl: 'Введена команда cURL виглядає некоректною. Перевірте її та спробуйте ще раз',
+    importPlaceholder: 'Вставте cURL, схему OpenAPI або URL схеми',
+    dropAnywhereToImport: 'Перетягніть будь-куди, щоб імпортувати',
+    orSelectFile: 'Або виберіть <file>файл</file>',
+    pressEnterToImport: '<key>Enter</key> — імпортувати',
+    noImportAvailable: 'Немає що імпортувати',
+    invalidFormat: 'Неправильний формат, введіть правильний формат для імпорту',
     copyCurl: 'Копіювати cURL',
   },
 
@@ -136,13 +143,14 @@ const uk = {
   tests: {
     generateAndRun: 'Згенерувати та запустити тести',
     runningTests: 'Виконання тестів... ({{current}}/{{total}})',
+    noTestsGenerated: 'Тести не згенеровано',
     selectForCompare: 'Обрати для порівняння',
     compareWithSelected: 'Порівняти з обраним',
     exportFormat: 'Формат',
-    exported: 'Експортовано ✅',
     generateCertificate: 'Згенерувати сертифікат',
-    certificated: 'Сертифіковано ✅',
     notEligible: 'Не підходить (потрібно щонайменше 70 тестів)',
+    failedToExport: 'Не вдалося експортувати звіт',
+    failedToGenerateCertificate: 'Не вдалося згенерувати сертифікат',
     securityTests: 'Тести безпеки',
     performanceInsights: 'Аналіз продуктивності',
     dataDrivenTests: 'Тести на основі даних',
@@ -150,15 +158,20 @@ const uk = {
     runningSecurityTests: 'Запуск тестів безпеки...',
     runningPerformanceInsights: 'Запуск аналізу продуктивності...',
     runningDataDrivenTests: 'Запуск тестів на основі даних...',
-    preparingCrud: 'Підготовка CRUD…',
+    preparingCrud: 'Підготовка CRUD...',
     crudDescription: 'CRUD генерується на основі відповіді тесту обробки методу OPTIONS у тестах безпеки.',
     crudNote: 'Примітка:',
     crudNoteText: 'Якщо тест обробки методу OPTIONS вимкнено, CRUD не буде згенеровано.',
     copyBugReport: 'Копіювати звіт про помилку',
-    computingDifferences: 'Обчислення відмінностей…',
-    bodyParameters: 'Параметри тіла',
-    queryParameters: 'Параметри запиту',
+    computingDifferences: 'Обчислення відмінностей...',
+    parameters: 'Параметри',
+    bodyParameters: 'Тіло',
+    queryParameters: 'Запит',
     formatPlaceholder: 'Формат',
+    aiTesting: 'Поглиблене ШІ-тестування',
+    aiTestingTitle: 'Знайти тести, які детерміноване сканування не змогло вивести',
+    aiTestingDescription: 'ШІ аналізує запуск, пропонує додаткові експерименти, а Rentgen виконує їх.',
+    runAiTesting: 'Запустити ШІ-тестування',
   },
 
   // Comparison Panel
@@ -220,7 +233,6 @@ const uk = {
       selectorRequired: 'Селектор є обовʼязковим',
       selectEnvironmentError: 'Будь ласка, оберіть середовище',
       duplicateWarning: 'Змінна з такою назвою вже існує. Її буде перезаписано.',
-      saveVariable: 'Зберегти змінну',
     },
     projectImport: {
       title: 'Імпортувати проєкт',
@@ -239,7 +251,6 @@ const uk = {
       mappingsInfo: 'Зіставлення (параметри тіла та запиту)',
       cannotBeUndone: 'Цю дію неможливо скасувати.',
       backupBefore: 'Створіть резервну копію поточного проєкту перед імпортом:',
-      exportedCheck: 'Експортовано ✓',
       exportCurrentProject: 'Експортувати поточний проєкт',
       importProject: 'Імпортувати проєкт',
     },
@@ -269,13 +280,52 @@ const uk = {
     themesDescription: 'Персоналізуйте свій досвід темами, що відповідають вашому стилю.',
     themeLight: 'Світла',
     themeDark: 'Темна',
+    ai: {
+      name: 'AI',
+      unlockTitle: 'Розблокувати поглиблене ШІ-тестування',
+      unlockDescription: 'Потрібна ліцензія Rentgen Pro.',
+      tryFree: 'Спробуйте безкоштовно перед покупкою.',
+      month: 'Місяць',
+      billedAnnually: 'Оплата раз на рік (${{price}}/рік)',
+      startFreeTrial: 'Почати безкоштовний пробний період',
+      buyPro: 'Купити Pro - ${{price}}/місяць',
+      oneAnnualPayment:
+        'Один щорічний платіж ${{price}} відкриває доступ до інтеграції з ШІ. Потрібен власний API-ключ OpenAI або запущена модель Ollama. Використання ШІ не включено.',
+      alreadyHaveLicenseKey: 'У мене вже є ліцензійний ключ',
+      activateLicense: 'Активувати ліцензію',
+      reactivateLicense: 'Повторно активувати ліцензію',
+      validLicense: 'Ліцензовано для {{company}} · дійсна до {{expiresOn}}',
+      expiredLicense: 'Термін дії цього ліцензійного ключа минув.',
+      trialUsedLicense: 'Пробну ліцензію вже було використано.',
+      notYetValidLicense: 'Цей ліцензійний ключ дійсний з {{startsOn}}.',
+      invalidLicense: 'Цей ліцензійний ключ недійсний.',
+      licenseKey: 'Ліцензійний ключ',
+      licenseActive: 'Ліцензія активна',
+      daysLeft_one: 'Залишився {{count}} день',
+      daysLeft_few: 'Залишилося {{count}} дні',
+      daysLeft_many: 'Залишилося {{count}} днів',
+      daysLeft_other: 'Залишилося {{count}} дня',
+      expiresToday: 'Спливає сьогодні',
+      expired: 'Термін дії ліцензії минув',
+      expiresOn: 'спливає {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Керувати ліцензією',
+      connectTitle: 'Підключити ШІ-провайдера',
+      connectDescription: 'Rentgen надсилає запити безпосередньо з цього пристрою.',
+      provider: 'Провайдер',
+      baseUrl: 'Базовий URL',
+      model: 'Модель',
+      path: 'Шлях',
+      apiKey: 'API-ключ',
+      apiKeyStorageNotice: 'API-ключі зберігаються локально. Rentgen їх не отримує.',
+      howToRunOllamaLocally: 'Як запустити Ollama локально?',
+    },
     cli: {
       name: 'CLI',
       intro:
         'Rentgen CLI запускає теку запитів з експорту проєкту <c>.rentgen</c> прямо з терміналу — створений для CI-конвеєрів і скриптових smoke-тестів. Читає той самий файл, що створюється <e>Загальні → Експортувати проєкт</e>, і ніколи в нього не пише.',
       fullDocumentation: 'Повна документація:',
       installInPath: 'Встановити у shell PATH ({{platform}})',
-      checkingStatus: 'Перевірка статусу встановлення…',
+      checkingStatus: 'Перевірка статусу встановлення...',
       runCli: 'Запустити CLI',
       runCliDescription:
         'Rentgen надає одну субкоманду, <c>xray</c> (alias: <c>run</c>). Вкажіть її на файл проєкту, експортований з застосунку.',
@@ -283,7 +333,7 @@ const uk = {
       noProjectFileYet:
         'Ще немає файлу проєкту? Експортуйте зараз — та сама дія, що <e>Загальні → Експортувати проєкт</e>.',
       developmentNote:
-        'Під час розробки викликайте безпосередньо з репозиторію за допомогою <c>npm run dev:cli -- xray …</c>.',
+        'Під час розробки викликайте безпосередньо з репозиторію за допомогою <c>npm run dev:cli -- xray ...</c>.',
       options: 'Параметри',
       examples: 'Приклади',
       exampleInteractive: 'Виберіть теку та середовище інтерактивно:',
@@ -314,7 +364,7 @@ const uk = {
         notInstalledDescription: 'Натисніть <e>Встановити</e> нижче, щоб додати <c>rentgen</c> до вашого shell PATH.',
       },
       action: {
-        working: 'Виконується…',
+        working: 'Виконується...',
         uninstall: 'Видалити CLI',
         reinstall: 'Перевстановити',
         installRentgenInPath: 'Встановити команду rentgen у PATH',
@@ -418,6 +468,13 @@ const uk = {
     stringLabel: 'Мінімальна/максимальна довжина значення',
     minPlaceholder: 'Мін',
     maxPlaceholder: 'Макс',
+    reviewDataSentToAi: 'Перевірте дані, що надсилаються до ШІ',
+    reviewDataSentToAiDescription: 'Виберіть значення для маскування. Автоматичні пропозиції вже вибрані.',
+    requestFields: 'Поля запиту',
+    masked: 'Замасковано: {{masked}}',
+    sanitizedPreview: 'Очищений попередній перегляд',
+    readyToSend: 'Готово до надсилання',
+    analyzeAndGenerateTests: 'Проаналізувати та згенерувати тести',
   },
 
   // Parameter types
@@ -475,11 +532,6 @@ const uk = {
     noFileChosen: 'Файл не обрано',
   },
 
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Декодований Protobuf:',
-  },
-
   // Messages panel
   messages: {
     title: 'Повідомлення',
@@ -490,6 +542,23 @@ const uk = {
     json: 'JSON (.json)',
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
+  },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'Базовий URL і модель є обовʼязковими.',
+    unexpectedResponse: 'Неочікувана відповідь від постачальника ШІ.',
+    noTestsGenerated: 'ШІ не згенерував жодного тесту.',
+    responseTimeout: 'Повну відповідь ШІ не отримано протягом {{minutes}} хвилин',
+    waitingForResponse: 'Очікування відповіді ШІ (тайм-аут через <timer />)',
+    usage: 'Усього використано токенів: <total /> (запит: <prompt />, відповідь: <completion />)',
+    summary: 'Підсумок ШІ',
+    overview: 'Огляд',
+    tests: 'Тести',
+    topFindings: 'Основні висновки',
+    evidence: 'Докази',
+    impact: 'Вплив',
+    needsInvestigation: 'Потребує дослідження',
   },
 };
 

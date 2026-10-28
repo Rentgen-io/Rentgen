@@ -3,8 +3,9 @@ const ptBR = {
   common: {
     send: 'Enviar',
     save: 'Salvar',
-    saved: 'Salvo ✅',
+    saved: 'Salvo',
     cancel: 'Cancelar',
+    cancelled: 'Cancelado',
     close: 'Fechar',
     ok: 'OK',
     create: 'Criar',
@@ -12,8 +13,11 @@ const ptBR = {
     import: 'Importar',
     export: 'Exportar',
     copy: 'Copiar',
-    copied: 'Copiado ✅',
+    copied: 'Copiado',
+    failedCopy: 'Falha ao copiar',
+    failedReadFile: 'Falha ao ler o arquivo',
     run: 'Executar',
+    runAll: 'Executar todos',
     replace: 'Substituir',
     merge: 'Mesclar',
     overwrite: 'Sobrescrever',
@@ -33,8 +37,16 @@ const ptBR = {
     bugs: 'Bugs',
     warning: 'Aviso',
     warnings: 'Avisos',
+    manual: 'Manual',
+    info: 'Info',
     ignore: 'Ignorar',
     ignored: 'Ignorado',
+    exported: 'Exportado',
+    imported: 'Importado',
+    certificated: 'Certificado',
+    duplicate: 'Duplicar',
+    add: 'Adicionar',
+    back: 'Voltar',
   },
 
   // Sidebar
@@ -58,8 +70,6 @@ const ptBR = {
     importFailed: 'Falha na importação: {{error}}',
     exportFailed: 'Falha na exportação: {{error}}',
     importedWithWarnings: 'Importado com {{count}} aviso(s)',
-    collectionImported: 'Coleção importada',
-    collectionExported: 'Coleção exportada',
   },
 
   // Environment
@@ -106,11 +116,6 @@ const ptBR = {
     body: 'Corpo',
     bodyPlaceholderHttp: 'Digite o corpo da requisição (JSON ou Form Data)',
     bodyPlaceholderWss: 'Corpo da mensagem',
-    protobufSchema: 'Esquema Protobuf e tipo de mensagem',
-    protobufDescription: 'Seção experimental e opcional. Se usada, ambos os campos devem ser preenchidos',
-    messageTypePlaceholder: 'Tipo de mensagem (ex. mypackage.MyMessage)',
-    protoSchemaLoaded: '🟢 Esquema proto carregado',
-    protoSchemaParseFailed: '🔴 Falha ao analisar o proto: ',
     wssUrlRequired: '🔴 Por favor, use uma URL ws:// ou wss://',
     modePlaceholder: 'MODO',
     methodPlaceholder: 'MÉTODO',
@@ -125,9 +130,12 @@ const ptBR = {
 
   // cURL
   curl: {
-    importCurl: 'Importar cURL',
-    importCurlPlaceholder: 'Digite o cURL ou cole o texto',
-    invalidCurl: 'O comando cURL fornecido parece ser inválido. Verifique e tente novamente',
+    importPlaceholder: 'Cole cURL, esquema OpenAPI ou URL do esquema',
+    dropAnywhereToImport: 'Solte em qualquer lugar para importar',
+    orSelectFile: 'Ou selecione um <file>arquivo</file>',
+    pressEnterToImport: '<key>Enter</key> para importar',
+    noImportAvailable: 'Nenhuma importação disponível',
+    invalidFormat: 'Formato incorreto, insira o formato correto para importar',
     copyCurl: 'Copiar cURL',
   },
 
@@ -135,13 +143,14 @@ const ptBR = {
   tests: {
     generateAndRun: 'Gerar e executar testes',
     runningTests: 'Executando testes... ({{current}}/{{total}})',
+    noTestsGenerated: 'Nenhum teste gerado',
     selectForCompare: 'Selecionar para comparar',
     compareWithSelected: 'Comparar com selecionado',
     exportFormat: 'Formato',
-    exported: 'Exportado ✅',
     generateCertificate: 'Gerar certificado',
-    certificated: 'Certificado ✅',
     notEligible: 'Não elegível (necessário pelo menos 70 testes)',
+    failedToExport: 'Falha ao exportar o relatório',
+    failedToGenerateCertificate: 'Falha ao gerar o certificado',
     securityTests: 'Testes de segurança',
     performanceInsights: 'Insights de desempenho',
     dataDrivenTests: 'Testes orientados a dados',
@@ -149,16 +158,21 @@ const ptBR = {
     runningSecurityTests: 'Executando testes de segurança...',
     runningPerformanceInsights: 'Executando insights de desempenho...',
     runningDataDrivenTests: 'Executando testes orientados a dados...',
-    preparingCrud: 'Preparando CRUD…',
+    preparingCrud: 'Preparando CRUD...',
     crudDescription:
       'O CRUD é gerado a partir da resposta do teste de tratamento do método OPTIONS nos testes de segurança.',
     crudNote: 'Observação:',
     crudNoteText: 'Se o teste de tratamento do método OPTIONS estiver desativado, o CRUD não será gerado.',
     copyBugReport: 'Copiar relatório de bug',
-    computingDifferences: 'Calculando diferenças…',
-    bodyParameters: 'Parâmetros do corpo',
-    queryParameters: 'Parâmetros de consulta',
+    computingDifferences: 'Calculando diferenças...',
+    parameters: 'Parâmetros',
+    bodyParameters: 'Corpo',
+    queryParameters: 'Consulta',
     formatPlaceholder: 'Formato',
+    aiTesting: 'Testes de IA mais profundos',
+    aiTestingTitle: 'Encontre testes que a varredura determinística não conseguiu inferir',
+    aiTestingDescription: 'A IA analisa a execução, sugere experimentos adicionais e o Rentgen os executa.',
+    runAiTesting: 'Executar testes de IA',
   },
 
   // Comparison Panel
@@ -221,7 +235,6 @@ const ptBR = {
       selectorRequired: 'O seletor é obrigatório',
       selectEnvironmentError: 'Por favor, selecione um ambiente',
       duplicateWarning: 'Já existe uma variável com este nome. Ela será sobrescrita.',
-      saveVariable: 'Salvar variável',
     },
     projectImport: {
       title: 'Importar projeto',
@@ -240,7 +253,6 @@ const ptBR = {
       mappingsInfo: 'Mapeamentos (parâmetros do corpo e da query)',
       cannotBeUndone: 'Esta ação não pode ser desfeita.',
       backupBefore: 'Faça backup do seu projeto atual antes de importar:',
-      exportedCheck: 'Exportado ✓',
       exportCurrentProject: 'Exportar projeto atual',
       importProject: 'Importar projeto',
     },
@@ -271,13 +283,50 @@ const ptBR = {
     themesDescription: 'Personalize sua experiência com temas que combinam com seu estilo.',
     themeLight: 'Claro',
     themeDark: 'Escuro',
+    ai: {
+      name: 'AI',
+      unlockTitle: 'Desbloquear testes de IA mais profundos',
+      unlockDescription: 'Requer uma licença Rentgen Pro.',
+      tryFree: 'Experimente grátis antes de comprar.',
+      month: 'Mês',
+      billedAnnually: 'Cobrado anualmente (${{price}}/ano)',
+      startFreeTrial: 'Iniciar avaliação gratuita',
+      buyPro: 'Comprar Pro - ${{price}}/mês',
+      oneAnnualPayment:
+        'Um pagamento anual de ${{price}} desbloqueia a integração com IA. Requer sua própria chave de API da OpenAI ou um modelo Ollama em execução. O uso de IA não está incluído.',
+      alreadyHaveLicenseKey: 'Já tenho uma chave de licença',
+      activateLicense: 'Ativar licença',
+      reactivateLicense: 'Reativar licença',
+      validLicense: 'Licenciado para {{company}} · válido até {{expiresOn}}',
+      expiredLicense: 'Esta chave de licença expirou.',
+      trialUsedLicense: 'A licença de avaliação já foi utilizada.',
+      notYetValidLicense: 'Esta chave de licença é válida a partir de {{startsOn}}.',
+      invalidLicense: 'Esta chave de licença é inválida.',
+      licenseKey: 'Chave de licença',
+      licenseActive: 'Licença ativa',
+      daysLeft_one: 'Resta {{count}} dia',
+      daysLeft_other: 'Restam {{count}} dias',
+      expiresToday: 'Expira hoje',
+      expired: 'Licença expirada',
+      expiresOn: 'expira em {{date, datetime(dateStyle: medium)}}',
+      manageLicense: 'Gerenciar licença',
+      connectTitle: 'Conectar um provedor de IA',
+      connectDescription: 'O Rentgen envia as requisições diretamente deste dispositivo.',
+      provider: 'Provedor',
+      baseUrl: 'URL base',
+      model: 'Modelo',
+      path: 'Caminho',
+      apiKey: 'Chave de API',
+      apiKeyStorageNotice: 'As chaves de API são armazenadas localmente. O Rentgen não as recebe.',
+      howToRunOllamaLocally: 'Como executar o Ollama localmente?',
+    },
     cli: {
       name: 'CLI',
       intro:
         'O CLI do Rentgen executa uma pasta de requisições a partir de uma exportação de projeto <c>.rentgen</c>, direto do terminal — feito para pipelines de CI e testes de fumaça via script. Ele lê o mesmo arquivo produzido por <e>Geral → Exportar Projeto</e> e nunca grava nele.',
       fullDocumentation: 'Documentação completa:',
       installInPath: 'Instalar no PATH do shell ({{platform}})',
-      checkingStatus: 'Verificando status da instalação…',
+      checkingStatus: 'Verificando status da instalação...',
       runCli: 'Executar o CLI',
       runCliDescription:
         'O Rentgen expõe um único subcomando, <c>xray</c> (alias: <c>run</c>). Aponte-o para um arquivo de projeto exportado do aplicativo.',
@@ -285,7 +334,7 @@ const ptBR = {
       noProjectFileYet:
         'Ainda não tem um arquivo de projeto? Exporte um agora — mesma ação que <e>Geral → Exportar Projeto</e>.',
       developmentNote:
-        'Durante o desenvolvimento, invoque diretamente do repositório com <c>npm run dev:cli -- xray …</c>.',
+        'Durante o desenvolvimento, invoque diretamente do repositório com <c>npm run dev:cli -- xray ...</c>.',
       options: 'Opções',
       examples: 'Exemplos',
       exampleInteractive: 'Escolha uma pasta e um ambiente de forma interativa:',
@@ -317,7 +366,7 @@ const ptBR = {
         notInstalledDescription: 'Clique em <e>Instalar</e> abaixo para adicionar <c>rentgen</c> ao PATH do seu shell.',
       },
       action: {
-        working: 'Trabalhando…',
+        working: 'Trabalhando...',
         uninstall: 'Desinstalar CLI',
         reinstall: 'Reinstalar',
         installRentgenInPath: 'Instalar o comando rentgen no PATH',
@@ -421,6 +470,14 @@ const ptBR = {
     stringLabel: 'Comprimento mínimo/máximo do valor',
     minPlaceholder: 'Mín',
     maxPlaceholder: 'Máx',
+    reviewDataSentToAi: 'Revisar os dados enviados à IA',
+    reviewDataSentToAiDescription:
+      'Selecione os valores que deseja mascarar. As sugestões automáticas já estão selecionadas.',
+    requestFields: 'Campos da requisição',
+    masked: '{{masked}} mascarados',
+    sanitizedPreview: 'Prévia higienizada',
+    readyToSend: 'Pronto para enviar',
+    analyzeAndGenerateTests: 'Analisar e gerar testes',
   },
 
   // Parameter types
@@ -478,11 +535,6 @@ const ptBR = {
     noFileChosen: 'Nenhum arquivo escolhido',
   },
 
-  // Protobuf
-  protobuf: {
-    decodedProtobuf: 'Protobuf decodificado:',
-  },
-
   // Messages panel
   messages: {
     title: 'Mensagens',
@@ -493,6 +545,23 @@ const ptBR = {
     json: 'JSON (.json)',
     markdown: 'Markdown (.md)',
     csv: 'CSV (.csv)',
+  },
+
+  // AI
+  ai: {
+    baseUrlAndModelRequired: 'A URL base e o modelo são obrigatórios.',
+    unexpectedResponse: 'Resposta inesperada do provedor de IA.',
+    noTestsGenerated: 'A IA não gerou nenhum teste.',
+    responseTimeout: 'Nenhuma resposta completa da IA recebida em {{minutes}} minutos',
+    waitingForResponse: 'Aguardando resposta da IA (expira em <timer />)',
+    usage: 'Total de <total /> tokens usados (prompt: <prompt />, conclusão: <completion />)',
+    summary: 'Resumo da IA',
+    overview: 'Visão geral',
+    tests: 'Testes',
+    topFindings: 'Principais descobertas',
+    evidence: 'Evidências',
+    impact: 'Impacto',
+    needsInvestigation: 'Requer investigação',
   },
 };
 

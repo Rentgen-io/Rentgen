@@ -1,77 +1,105 @@
 import axios from 'axios';
 import { exec } from 'child_process';
 import { ipcMain } from 'electron';
-import { HttpResponse } from '../../src/types';
+import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
+import { HttpBody, HttpRequest, HttpResponse } from 'shared/types/http';
+
+function decodeToText(data: unknown): string | null {
+  if (typeof data === 'string') return data;
+  if (data instanceof ArrayBuffer) return new TextDecoder().decode(new Uint8Array(data));
+  if (ArrayBuffer.isView(data))
+    return new TextDecoder().decode(new Uint8Array(data.buffer, data.byteOffset, data.byteLength));
+
+  return null;
+}
+
+function toBody(data: unknown, contentType: string): HttpBody {
+  if (data === null || data === undefined) return null;
+
+  const text = decodeToText(data);
+  if (text === null) {
+    if (Array.isArray(data)) return data;
+    if (typeof data === 'object') return data as Record<string, unknown>;
+    if (typeof data === 'number' || typeof data === 'boolean') return data;
+
+    return String(data);
+  }
+  if (text === '') return null;
+  if (!/\bapplication\/([\w.-]+\+)?json\b/i.test(contentType)) return text;
+
+  try {
+    return JSON.parse(text) as HttpBody;
+  } catch {
+    return text;
+  }
+}
+
+const activeRequests = new Map<string, AbortController>();
 
 export function registerHttpHandlers(): void {
-  ipcMain.handle('http-request', async (_event, { url, method, headers, body }): Promise<HttpResponse> => {
-    const requestStartTime = performance.now();
+  ipcMain.on('http-abort', (_event, requestId: string) => {
+    activeRequests.get(requestId)?.abort();
+  });
 
-    try {
-      const response = await axios({
-        url,
-        method,
-        headers,
-        data: body,
-        maxBodyLength: Infinity,
-        maxContentLength: Infinity,
-        responseType: 'arraybuffer',
-        validateStatus: () => true,
-      });
-      const responseTime = performance.now() - requestStartTime;
-      const contentTypeRaw = response.headers && (response.headers['content-type'] || response.headers['Content-Type']);
-      const contentType = typeof contentTypeRaw === 'string' ? contentTypeRaw : '';
-      const data = response.data;
-      let responseBody: string;
+  ipcMain.handle(
+    'http-request',
+    async (_event, { url, method, headers, body }: HttpRequest, requestId?: string): Promise<HttpResponse> => {
+      const requestStartTime = performance.now();
+      const controller = requestId ? new AbortController() : undefined;
+
+      if (requestId && controller) activeRequests.set(requestId, controller);
 
       try {
-        if (
-          data instanceof ArrayBuffer ||
-          (data && typeof data === 'object' && typeof (data as any).byteLength === 'number')
-        ) {
-          const uint8 = new Uint8Array(data as any);
-          responseBody = new TextDecoder().decode(uint8);
+        const response = await axios({
+          url,
+          method,
+          headers,
+          data: body,
+          maxBodyLength: Infinity,
+          maxContentLength: Infinity,
+          responseType: 'arraybuffer',
+          validateStatus: () => true,
+          signal: controller?.signal,
+        });
+        const responseTime = performance.now() - requestStartTime;
+        const contentTypeRaw =
+          response.headers && (response.headers['content-type'] || response.headers['Content-Type']);
+        const contentType = typeof contentTypeRaw === 'string' ? contentTypeRaw : '';
 
-          if (contentType.includes('application/json')) {
-            try {
-              responseBody = JSON.stringify(JSON.parse(responseBody), null, 2);
-            } catch {
-              // Keep as plain text if JSON parsing fails
-            }
-          }
-        } else if (typeof data === 'string') {
-          responseBody = data;
-        } else {
-          responseBody = typeof data === 'object' ? JSON.stringify(data, null, 2) : String(data);
-        }
-      } catch {
+        let responseBody: HttpBody;
+
         try {
-          responseBody = String(data);
+          responseBody = toBody(response.data, contentType);
         } catch {
           responseBody = '[unprintable response]';
         }
-      }
 
-      return {
-        status: `${response.status} ${response.statusText}`,
-        time: responseTime,
-        headers: response.headers as Record<string, string>,
-        body: responseBody,
-      };
-    } catch (error) {
-      const responseTime = performance.now() - requestStartTime;
-
-      if (error.code === 'EPIPE')
         return {
-          status: '413 Payload Too Large (EPIPE)',
+          status: `${response.status} ${response.statusText}`,
           time: responseTime,
-          headers: {},
-          body: '',
+          headers: response.headers as Record<string, string>,
+          body: responseBody,
         };
+      } catch (error) {
+        const responseTime = performance.now() - requestStartTime;
 
-      return { status: 'Error', time: responseTime, headers: {}, body: String(error) };
-    }
-  });
+        if (axios.isCancel(error))
+          return { status: RESPONSE_STATUS_LABEL.ABORTED, time: responseTime, headers: {}, body: null };
+
+        if ((error as NodeJS.ErrnoException)?.code === 'EPIPE')
+          return {
+            status: '413 Payload Too Large (EPIPE)',
+            time: responseTime,
+            headers: {},
+            body: null,
+          };
+
+        return { status: 'Error', time: responseTime, headers: {}, body: String(error) };
+      } finally {
+        if (requestId) activeRequests.delete(requestId);
+      }
+    },
+  );
 
   ipcMain.handle('ping-host', async (_, host: string) => {
     return new Promise<number>((resolve, reject) => {

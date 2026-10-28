@@ -1,9 +1,15 @@
-import { ImportConflict, ImportConflictSummary } from '../store/slices/uiSlice';
-import { PostmanCollection, PostmanFolder, PostmanHeader, PostmanItem, PostmanRequest } from '../types';
+import { DEFAULT_FOLDER_ID, DEFAULT_FOLDER_NAME, generateFolderId, generateRequestId } from 'shared/utils/collection';
+import {
+  ImportConflict,
+  ImportConflictSummary,
+  PostmanCollection,
+  PostmanFolder,
+  PostmanHeader,
+  PostmanItem,
+  PostmanRequest,
+} from 'src/types';
 
-const DEFAULT_FOLDER_ID = 'default';
-const DEFAULT_FOLDER_NAME = 'All Requests';
-const COLLECTION_SCHEMA = 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json';
+export { createEmptyCollection, generateFolderId, generateHistoryId, generateRequestId } from 'shared/utils/collection';
 
 export interface CollectionItemData {
   id: string;
@@ -17,27 +23,6 @@ export interface CollectionFolderData {
   id: string;
   name: string;
   items: CollectionItemData[];
-}
-
-export function createEmptyCollection(): PostmanCollection {
-  return {
-    info: {
-      name: 'Rentgen Collection',
-      description: 'Saved HTTP requests from Rentgen',
-      schema: COLLECTION_SCHEMA,
-    },
-    item: [
-      {
-        id: DEFAULT_FOLDER_ID,
-        name: DEFAULT_FOLDER_NAME,
-        item: [],
-      },
-    ],
-  };
-}
-
-export function generateRequestId(): string {
-  return `req_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 }
 
 export function headersToPostmanFormat(headers: Record<string, string>): PostmanHeader[] {
@@ -252,10 +237,6 @@ export function collectionToGroupedSidebarData(collection: PostmanCollection): C
   }));
 }
 
-export function generateFolderId(): string {
-  return `folder_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-}
-
 export function addFolderToCollection(collection: PostmanCollection, name: string): PostmanCollection {
   const newFolder = {
     id: generateFolderId(),
@@ -266,6 +247,19 @@ export function addFolderToCollection(collection: PostmanCollection, name: strin
     ...collection,
     item: [newFolder, ...collection.item],
   };
+}
+
+/**
+ * Builds a folder name that does not collide with existing folders by appending a counter
+ */
+export function uniqueFolderName(collection: PostmanCollection, name: string): string {
+  const existingNames = new Set(collection.item.map((folder) => folder.name));
+  if (!existingNames.has(name)) return name;
+
+  let counter = 2;
+  while (existingNames.has(`${name} (${counter})`)) counter++;
+
+  return `${name} (${counter})`;
 }
 
 export function renameFolderInCollection(
