@@ -23,13 +23,33 @@ import EditIcon from 'src/assets/icons/edit-icon.svg';
 import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
+const MESSAGES_PATH = '/v1/messages';
+const ANTHROPIC_API_BASE_URL = 'https://api.anthropic.com';
 const OPENAI_API_BASE_URL = 'https://api.openai.com';
 const OLLAMA_API_BASE_URL = 'http://localhost:11434';
 
 const providerNames: Record<AiProviderType, string> = {
   openai: 'OpenAI (ChatGPT)',
+  anthropic: 'Anthropic (Claude)',
   ollama: 'Ollama',
 };
+
+const anthropicModelOptions: SelectOption<string>[] = [
+  { label: 'Claude Fable 5', value: 'claude-fable-5' },
+  { label: 'Claude Fable 5.1', value: 'claude-fable-5-1' },
+  { label: 'Claude Haiku 4.5', value: 'claude-haiku-4-5-20251001' },
+  { label: 'Claude Haiku 5.5', value: 'claude-haiku-5-5' },
+  { label: 'Claude Opus 4.5', value: 'claude-opus-4-5-20251101' },
+  { label: 'Claude Opus 4.6', value: 'claude-opus-4-6' },
+  { label: 'Claude Opus 4.7', value: 'claude-opus-4-7' },
+  { label: 'Claude Opus 4.8', value: 'claude-opus-4-8' },
+  { label: 'Claude Opus 5', value: 'claude-opus-5' },
+  { label: 'Claude Opus 5.5', value: 'claude-opus-5-5' },
+  { label: 'Claude Sonnet 4.5', value: 'claude-sonnet-4-5-20250929' },
+  { label: 'Claude Sonnet 4.6', value: 'claude-sonnet-4-6' },
+  { label: 'Claude Sonnet 5', value: 'claude-sonnet-5' },
+  { label: 'Claude Sonnet 5.5', value: 'claude-sonnet-5-5' },
+];
 
 const ollamaModelOptions: SelectOption<string>[] = [
   { label: 'qwen3.5:4b (~3-4 GB)', value: 'qwen3.5:4b' },
@@ -209,16 +229,18 @@ function AiProviderForm({
   const [aiProviderId] = useState<string>(() => aiProvider?.id ?? `ai_provider_${uuidv4()}`);
   const [aiProviderType, setAiProviderType] = useState<AiProviderType>(aiProvider?.type ?? 'openai');
 
+  const isAnthropic = aiProviderType === 'anthropic';
   const isOllama = aiProviderType === 'ollama';
   const isOpenAi = aiProviderType === 'openai';
-  const defaultBaseUrl = isOpenAi ? OPENAI_API_BASE_URL : isOllama ? OLLAMA_API_BASE_URL : '';
-  const options = isOllama ? ollamaModelOptions : isOpenAi ? openAiModelOptions : [];
+  const defaultBaseUrl = getDefaultBaseUrl(aiProviderType);
+  const defaultPath = getDefaultPath(aiProviderType);
+  const options = getDefaultOptions(aiProviderType);
 
   const [apiKey, setApiKey] = useState<string>(aiProvider?.apiKey ?? '');
   const [baseUrl, setBaseUrl] = useState<string>(aiProvider?.baseUrl ?? defaultBaseUrl);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [model, setModel] = useState<string>(aiProvider?.model ?? '');
-  const [path, setPath] = useState<string>(aiProvider?.path ?? CHAT_COMPLETIONS_PATH);
+  const [path, setPath] = useState<string>(aiProvider?.path ?? defaultPath);
 
   const currentProvider = useMemo(() => {
     if (aiProvider?.type === aiProviderType) return aiProvider;
@@ -239,14 +261,15 @@ function AiProviderForm({
     [aiProviderId, aiProvider?.active, aiProviderType, apiKey, baseUrl, model, path],
   );
 
-  const disabled = !provider.baseUrl || !path.trim() || !provider.model || (isOpenAi && !provider.apiKey);
+  const disabled =
+    !provider.baseUrl || !path.trim() || !provider.model || ((isAnthropic || isOpenAi) && !provider.apiKey);
 
   useEffect(() => {
     setBaseUrl(currentProvider?.baseUrl ?? defaultBaseUrl);
     setModel(currentProvider?.model ?? '');
-    setPath(currentProvider?.path ?? CHAT_COMPLETIONS_PATH);
+    setPath(currentProvider?.path ?? defaultPath);
     setApiKey(currentProvider?.apiKey ?? '');
-  }, [currentProvider, defaultBaseUrl]);
+  }, [currentProvider, defaultBaseUrl, defaultPath]);
 
   const handleSave = useCallback(async () => {
     if (disabled || isSaving) return;
@@ -299,18 +322,14 @@ function AiProviderForm({
       <div className="flex flex-col md:flex-row gap-2">
         <div className="flex-1 flex flex-col gap-2">
           <FieldLabel label={t('settings.ai.model')} required />
-          {isOllama || isOpenAi ? (
-            <CreatableSelect
-              options={options}
-              value={options.find((option) => option.value === model) ?? { value: model, label: model }}
-              onChange={(option) => option && setModel(option.value)}
-            />
-          ) : (
-            <Input value={model} onChange={(e) => setModel(e.target.value)} />
-          )}
+          <CreatableSelect
+            options={options}
+            value={options.find((option) => option.value === model) ?? { value: model, label: model }}
+            onChange={(option) => option && setModel(option.value)}
+          />
         </div>
         <div className="flex-1 flex flex-col gap-2">
-          <FieldLabel label={t('settings.ai.apiKey')} required={isOpenAi} />
+          <FieldLabel label={t('settings.ai.apiKey')} required={isAnthropic || isOpenAi} />
           <Input type="password" value={apiKey} onChange={(event) => setApiKey(event.target.value)} />
           <span className="text-xs text-text-secondary">{t('settings.ai.apiKeyStorageNotice')}</span>
         </div>
@@ -331,4 +350,42 @@ function AiProviderForm({
       </div>
     </div>
   );
+}
+
+function getDefaultBaseUrl(aiProviderType: AiProviderType) {
+  switch (aiProviderType) {
+    case 'anthropic':
+      return ANTHROPIC_API_BASE_URL;
+    case 'ollama':
+      return OLLAMA_API_BASE_URL;
+    case 'openai':
+      return OPENAI_API_BASE_URL;
+    default:
+      return '';
+  }
+}
+
+function getDefaultPath(aiProviderType: AiProviderType) {
+  switch (aiProviderType) {
+    case 'anthropic':
+      return MESSAGES_PATH;
+    case 'ollama':
+    case 'openai':
+      return CHAT_COMPLETIONS_PATH;
+    default:
+      return '';
+  }
+}
+
+function getDefaultOptions(aiProviderType: AiProviderType) {
+  switch (aiProviderType) {
+    case 'anthropic':
+      return anthropicModelOptions;
+    case 'ollama':
+      return ollamaModelOptions;
+    case 'openai':
+      return openAiModelOptions;
+    default:
+      return [];
+  }
 }
