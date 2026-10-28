@@ -36,114 +36,115 @@ export default function DataDrivenTestsPanel() {
   return (
     <>
       <TestsTableHeader tests={dataDrivenTests} />
-      <TestsTable
-        columns={[
-          ...getTestsTableColumns(['Parameter', 'Value'], t),
-          {
-            name: t('tables.expected'),
-            selector: (row) => row.expected,
-            cell: (row, id) => {
-              const readOnlyCell = (
-                <div className="pl-0.5" data-column-id={id} data-tag="allowRowEvents">
-                  {row.expected}
-                </div>
-              );
+      <div className="flex flex-col flex-auto min-h-146.75! gap-4 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
+        <TestsTable
+          columns={[
+            ...getTestsTableColumns(['Parameter', 'Value'], t),
+            {
+              name: t('tables.expected'),
+              selector: (row) => row.expected,
+              cell: (row, id) => {
+                const readOnlyCell = (
+                  <div className="pl-0.5" data-column-id={id} data-tag="allowRowEvents">
+                    {row.expected}
+                  </div>
+                );
 
-              const isBodyParameter = row.name.startsWith('body.');
-              const isQueryParameter = row.name.startsWith('query.');
+                const isBodyParameter = row.name.startsWith('body.');
+                const isQueryParameter = row.name.startsWith('query.');
 
-              if (!isBodyParameter && !isQueryParameter) return readOnlyCell;
+                if (!isBodyParameter && !isQueryParameter) return readOnlyCell;
 
-              const parameters = isBodyParameter ? bodyParameters : queryParameters;
-              const name = row.name.replace(/^(body|query)\./, '');
-              const parameter = parameters[name];
+                const parameters = isBodyParameter ? bodyParameters : queryParameters;
+                const name = row.name.replace(/^(body|query)\./, '');
+                const parameter = parameters[name];
 
-              if (!parameter) return readOnlyCell;
+                if (!parameter) return readOnlyCell;
 
-              let dataset = datasets[parameter.type]?.find((item) => item.value === row.value);
+                let dataset = datasets[parameter.type]?.find((item) => item.value === row.value);
 
-              // Dynamic test configurability: 2xx and 4xx.
-              // Handles dynamically generated test cases for enum type.
-              if (!dataset && parameter.type === 'enum') {
-                if (/^ {3}(.*) {3}$/.test(row.value)) dataset = { value: row.value, valid: false };
-                else {
-                  const enumDatasets = generateEnumTestData(parameter.value as string);
-                  dataset = enumDatasets.find((enumDataset) => enumDataset.value === row.value && !enumDataset.valid);
+                // Dynamic test configurability: 2xx and 4xx.
+                // Handles dynamically generated test cases for enum type.
+                if (!dataset && parameter.type === 'enum') {
+                  if (/^ {3}(.*) {3}$/.test(row.value)) dataset = { value: row.value, valid: false };
+                  else {
+                    const enumDatasets = generateEnumTestData(parameter.value as string);
+                    dataset = enumDatasets.find((enumDataset) => enumDataset.value === row.value && !enumDataset.valid);
+                  }
                 }
-              }
 
-              if (!dataset) return readOnlyCell;
+                if (!dataset) return readOnlyCell;
 
-              return (
-                <SimpleSelect
-                  className="pl-0 text-[13px] text-inherit bg-transparent border-none dark:text-inherit dark:bg-transparent dark:border-none"
-                  options={[
-                    { value: SUCCESS_RESPONSE_EXPECTED, label: SUCCESS_RESPONSE_EXPECTED },
-                    { value: ERROR_RESPONSE_EXPECTED, label: ERROR_RESPONSE_EXPECTED },
-                  ]}
-                  value={row.expected}
-                  onChange={(event) => {
-                    const expected = event.target.value as string;
-                    const valid = expected === SUCCESS_RESPONSE_EXPECTED;
-                    const testData = { value: row.value, valid };
-                    const overrides = [...(parameter.overrides ?? [])];
-                    const index = overrides.findIndex((item) => item.value === testData.value);
+                return (
+                  <SimpleSelect
+                    className="pl-0 text-[13px] text-inherit bg-transparent border-none dark:text-inherit dark:bg-transparent dark:border-none"
+                    options={[
+                      { value: SUCCESS_RESPONSE_EXPECTED, label: SUCCESS_RESPONSE_EXPECTED },
+                      { value: ERROR_RESPONSE_EXPECTED, label: ERROR_RESPONSE_EXPECTED },
+                    ]}
+                    value={row.expected}
+                    onChange={(event) => {
+                      const expected = event.target.value as string;
+                      const valid = expected === SUCCESS_RESPONSE_EXPECTED;
+                      const testData = { value: row.value, valid };
+                      const overrides = [...(parameter.overrides ?? [])];
+                      const index = overrides.findIndex((item) => item.value === testData.value);
 
-                    if (index !== -1) {
-                      if (dataset.valid === testData.valid) overrides.splice(index, 1);
-                      else overrides[index] = testData;
-                    } else overrides.push(testData);
+                      if (index !== -1) {
+                        if (dataset.valid === testData.valid) overrides.splice(index, 1);
+                        else overrides[index] = testData;
+                      } else overrides.push(testData);
 
-                    if (isBodyParameter)
-                      dispatch(
-                        requestActions.setBodyParameters({
-                          ...bodyParameters,
-                          [name]: { ...parameter, overrides },
-                        }),
+                      if (isBodyParameter)
+                        dispatch(
+                          requestActions.setBodyParameters({
+                            ...bodyParameters,
+                            [name]: { ...parameter, overrides },
+                          }),
+                        );
+                      else
+                        dispatch(
+                          requestActions.setQueryParameters({
+                            ...queryParameters,
+                            [name]: { ...parameter, overrides },
+                          }),
+                        );
+
+                      if (!row.response) return;
+
+                      const { actual, status } = determineTestStatus(row.response, (response, statusCode) =>
+                        determineRequestParameterTestStatus(response, statusCode, testData),
                       );
-                    else
-                      dispatch(
-                        requestActions.setQueryParameters({
-                          ...queryParameters,
-                          [name]: { ...parameter, overrides },
-                        }),
-                      );
+                      const testResult = { ...row, actual, expected, status };
 
-                    if (!row.response) return;
+                      dispatch(testsActions.updateDataDrivenTest(testResult));
 
-                    const { actual, status } = determineTestStatus(row.response, (response, statusCode) =>
-                      determineRequestParameterTestStatus(response, statusCode, testData),
-                    );
-                    const testResult = { ...row, actual, expected, status };
-
-                    dispatch(testsActions.updateDataDrivenTest(testResult));
-
-                    if (selectedRequestId)
-                      dispatch(
-                        testsActions.updateDataDrivenTestResults({
-                          requestId: selectedRequestId,
-                          result: testResult,
-                        }),
-                      );
-                  }}
-                />
-              );
+                      if (selectedRequestId)
+                        dispatch(
+                          testsActions.updateDataDrivenTestResults({
+                            requestId: selectedRequestId,
+                            result: testResult,
+                          }),
+                        );
+                    }}
+                  />
+                );
+              },
             },
-          },
-          ...getTestsTableColumns(['Actual', 'Result'], t),
-        ]}
-        expandableRows
-        expandableRowsComponent={ExpandedTestComponent}
-        expandOnRowClicked
-        data={dataDrivenTests}
-        fixedHeader={true}
-        fixedHeaderScrollHeight="587px"
-        progressComponent={
-          <LoaderWithText className="flex-auto justify-center" text={t('tests.runningDataDrivenTests')} />
-        }
-        progressPending={isDataDrivenRunning}
-        progressSkeleton={false}
-      />
+            ...getTestsTableColumns(['Actual', 'Result'], t),
+          ]}
+          expandableRows
+          expandableRowsComponent={ExpandedTestComponent}
+          expandOnRowClicked
+          data={dataDrivenTests}
+          fixedHeader={true}
+          progressComponent={
+            <LoaderWithText className="flex-auto justify-center" text={t('tests.runningDataDrivenTests')} />
+          }
+          progressPending={isDataDrivenRunning}
+          progressSkeleton={false}
+        />
+      </div>
     </>
   );
 }
