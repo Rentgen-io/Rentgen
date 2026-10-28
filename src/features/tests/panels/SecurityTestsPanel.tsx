@@ -32,60 +32,61 @@ export default function SecurityTestsPanel() {
         tests={securityTests}
         onOpenSettings={() => dispatch(modalsActions.openSettingsModal())}
       />
-      <TestsTable
-        columns={[
-          ...getTestsTableColumns(['Check', 'Expected', 'Actual'], t),
-          {
-            name: t('tables.result'),
-            selector: (row) => row.status,
-            width: hasFailures ? '270px' : '150px',
-            cell: (row, id) => (
-              <TestResultControls
-                className={cn('py-1', { 'items-end': row.name === LARGE_PAYLOAD_TEST_NAME })}
-                data-column-id={id}
-                data-tag="allowRowEvents"
-                testResult={row}
-                testType="security"
-              >
-                {row.name === LARGE_PAYLOAD_TEST_NAME ? (
-                  <LargePayloadTestRunControls />
-                ) : (
-                  <p className="m-0 mr-2 whitespace-nowrap" data-column-id={id} data-tag="allowRowEvents">
-                    {row.status}
-                  </p>
-                )}
-              </TestResultControls>
-            ),
-          },
-          {
-            name: t('common.ignore'),
-            width: '80px',
-            cell: (row, id) => (
-              <div data-column-id={id} data-tag="allowRowEvents">
-                {SECURITY_TESTS.includes(row.name) && (
-                  <Toggle
-                    key={id}
-                    checked={!disabledSecurityTests.includes(row.name)}
-                    onChange={() => dispatch(settingsActions.toggleSecurityTest(row.name))}
-                  />
-                )}
-              </div>
-            ),
-          },
-        ]}
-        expandableRows
-        expandableRowsComponent={ExpandedTestComponent}
-        expandableRowDisabled={(row) => disabledSecurityTests.includes(row.name) || !row.request}
-        expandOnRowClicked
-        data={securityTests}
-        fixedHeader={true}
-        fixedHeaderScrollHeight="587px"
-        progressComponent={
-          <LoaderWithText className="flex-auto justify-center" text={t('tests.runningSecurityTests')} />
-        }
-        progressPending={isSecurityRunning}
-        progressSkeleton={false}
-      />
+      <div className="flex flex-col flex-auto min-h-146.75! gap-4 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
+        <TestsTable
+          columns={[
+            ...getTestsTableColumns(['Check', 'Expected', 'Actual'], t),
+            {
+              name: t('tables.result'),
+              selector: (row) => row.status,
+              width: hasFailures ? '270px' : '150px',
+              cell: (row, id) => (
+                <TestResultControls
+                  className={cn('py-1', { 'items-end': row.name === LARGE_PAYLOAD_TEST_NAME })}
+                  data-column-id={id}
+                  data-tag="allowRowEvents"
+                  testResult={row}
+                  testType="security"
+                >
+                  {row.name === LARGE_PAYLOAD_TEST_NAME ? (
+                    <LargePayloadTestRunControls />
+                  ) : (
+                    <p className="m-0 mr-2 whitespace-nowrap" data-column-id={id} data-tag="allowRowEvents">
+                      {row.status}
+                    </p>
+                  )}
+                </TestResultControls>
+              ),
+            },
+            {
+              name: t('common.ignore'),
+              width: '80px',
+              cell: (row, id) => (
+                <div data-column-id={id} data-tag="allowRowEvents">
+                  {SECURITY_TESTS.includes(row.name) && (
+                    <Toggle
+                      key={id}
+                      checked={!disabledSecurityTests.includes(row.name)}
+                      onChange={() => dispatch(settingsActions.toggleSecurityTest(row.name))}
+                    />
+                  )}
+                </div>
+              ),
+            },
+          ]}
+          expandableRows
+          expandableRowsComponent={ExpandedTestComponent}
+          expandableRowDisabled={(row) => disabledSecurityTests.includes(row.name) || !row.request}
+          expandOnRowClicked
+          data={securityTests}
+          fixedHeader={true}
+          progressComponent={
+            <LoaderWithText className="flex-auto justify-center" text={t('tests.runningSecurityTests')} />
+          }
+          progressPending={isSecurityRunning}
+          progressSkeleton={false}
+        />
+      </div>
     </>
   );
 }
