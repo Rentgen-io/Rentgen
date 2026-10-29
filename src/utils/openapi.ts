@@ -19,6 +19,7 @@ import {
 import { generateFolderId, generateRequestId } from './collection';
 import { extractStatusCode } from './http';
 import { isPlainObject, parseJsonObject } from './object';
+import { generateRandomNumber } from './random';
 
 const HTTP_METHODS: OpenApiMethod[] = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace'];
 const JSON_CONTENT_TYPE = /^application\/([\w.+-]+\+)?json$/i;
@@ -26,10 +27,16 @@ const ABSOLUTE_URL = /^[a-z][a-z\d+\-.]*:\/\//i;
 const TEMPLATE_PLACEHOLDER = /\{([^{}]+)}/g;
 const RENTGEN_VARIABLE = /^\{\{[^{}]+}}$/;
 const DEFAULT_FOLDER_NAME = 'Imported API';
+const BASE_URL_PLACEHOLDER = '{{baseUrl}}';
 const MAX_NAME_LENGTH = 80;
 const MAX_REQUESTS = 1000;
 const MAX_SAMPLE_DEPTH = 5;
 const MAX_SAMPLE_PROPERTIES = 50;
+const RANDOM_NUMBER_MIN = 0;
+const RANDOM_NUMBER_MAX = 10000;
+
+// Random numbers generated for one first path segment during an import, keyed by their `min:max` range
+type RandomNumberCache = Map<string, number>;
 
 export function isOpenApiSchema(value: unknown): value is OpenApiDocument {
   if (!isPlainObject(value) || !isPlainObject(value.info)) return false;
@@ -60,9 +67,10 @@ export async function fetchOpenApiSchema(url: string): Promise<OpenApiDocument |
  * `sourceUrl` is the location the document was downloaded from and is used to resolve relative server URLs.
  */
 export function openApiToFolder(document: OpenApiDocument, sourceUrl?: string): PostmanFolder {
-  const documentBaseUrl = resolveBaseUrl(document.servers, document, sourceUrl);
+  const documentBaseUrl = resolveBaseUrl(document.servers, document, sourceUrl) || BASE_URL_PLACEHOLDER;
   const paths = isPlainObject(document.paths) ? document.paths : {};
   const items: PostmanItem[] = [];
+  const randomNumbersBySegment = new Map<string, RandomNumberCache>();
 
   for (const [path, rawPathItem] of Object.entries(paths)) {
     if (items.length >= MAX_REQUESTS) break;
@@ -70,13 +78,20 @@ export function openApiToFolder(document: OpenApiDocument, sourceUrl?: string): 
     const pathItem = deref<OpenApiPathItem>(document, rawPathItem);
     if (!pathItem) continue;
 
+    const segment = firstPathSegment(path);
+    let randomNumbers = randomNumbersBySegment.get(segment);
+    if (!randomNumbers) {
+      randomNumbers = new Map();
+      randomNumbersBySegment.set(segment, randomNumbers);
+    }
+
     for (const method of HTTP_METHODS) {
       if (items.length >= MAX_REQUESTS) break;
 
       const operation = pathItem[method];
       if (!isPlainObject(operation)) continue;
 
-      items.push(buildItem(document, pathItem, operation, method, path, documentBaseUrl, sourceUrl));
+      items.push(buildItem(document, pathItem, operation, method, path, documentBaseUrl, randomNumbers, sourceUrl));
     }
   }
 
@@ -87,6 +102,10 @@ export function openApiToFolder(document: OpenApiDocument, sourceUrl?: string): 
   };
 }
 
+function firstPathSegment(path: string): string {
+  return path.split('/').find((segment) => segment.length > 0) ?? '';
+}
+
 function buildItem(
   document: OpenApiDocument,
   pathItem: OpenApiPathItem,
@@ -94,13 +113,14 @@ function buildItem(
   method: OpenApiMethod,
   path: string,
   documentBaseUrl: string,
+  randomNumbers: RandomNumberCache,
   sourceUrl?: string,
 ): PostmanItem {
   const parameters = collectParameters(document, pathItem, operation);
   const security = buildSecurity(document, operation);
   const baseUrl = resolveBaseUrl(operation.servers ?? pathItem.servers, document, sourceUrl) || documentBaseUrl;
   const { body, contentType } = buildBody(document, operation, parameters);
-  const query = buildQuery(document, parameters, security.query);
+  const query = buildQuery(document, parameters, security.query, randomNumbers);
 
   const request: PostmanRequest = {
     method: method.toUpperCase(),
@@ -112,20 +132,20 @@ function buildItem(
 
   return {
     id: generateRequestId(),
-    name: operationName(operation, method, path),
+    name: operationName(operation, path),
     request,
   };
 }
 
 /**
  * Operations often carry a full sentence as their summary, which is unreadable in the collection list,
- * so long summaries fall back to the operation id or to `METHOD /path`.
+ * so long summaries fall back to the operation id or to `/path`.
  */
-function operationName(operation: OpenApiOperation, method: OpenApiMethod, path: string): string {
+function operationName(operation: OpenApiOperation, path: string): string {
   const summary = operation.summary?.trim();
   if (summary && summary.length <= MAX_NAME_LENGTH) return summary;
 
-  return operation.operationId?.trim() || `${method.toUpperCase()} ${path}`;
+  return operation.operationId?.trim() || path;
 }
 
 function resolveRef(document: OpenApiDocument, ref: string): unknown {
@@ -155,6 +175,10 @@ function deref<T>(document: OpenApiDocument, value: unknown): T | undefined {
   return isPlainObject(current) ? (current as T) : undefined;
 }
 
+/**
+ * Base URL declared by the given servers (or Swagger 2.0 `host`/`basePath`), or an empty string when none is declared.
+ * Relative URLs are resolved against `sourceUrl`, or prefixed with the `{{baseUrl}}` placeholder when it is unknown.
+ */
 function resolveBaseUrl(servers: OpenApiServer[] | undefined, document: OpenApiDocument, sourceUrl?: string): string {
   const server = servers?.find((candidate) => !!candidate?.url);
   let baseUrl = server?.url ? substituteServerVariables(server.url, server) : '';
@@ -165,12 +189,20 @@ function resolveBaseUrl(servers: OpenApiServer[] | undefined, document: OpenApiD
     else baseUrl = document.basePath || '';
   }
 
-  if (sourceUrl && !ABSOLUTE_URL.test(baseUrl))
-    try {
-      baseUrl = new URL(baseUrl || '/', sourceUrl).toString();
-    } catch {
-      // Keep the relative base URL when it cannot be resolved against the source
-    }
+  if (!baseUrl) return '';
+
+  if (!ABSOLUTE_URL.test(baseUrl)) {
+    let resolved: string | undefined;
+
+    if (sourceUrl)
+      try {
+        resolved = new URL(baseUrl, sourceUrl).toString();
+      } catch {
+        // Fall back to the placeholder when the relative base URL cannot be resolved against the source
+      }
+
+    baseUrl = resolved ?? `${BASE_URL_PLACEHOLDER}/${baseUrl.replace(/^\/+/, '')}`;
+  }
 
   return baseUrl.replace(/\/+$/, '');
 }
@@ -244,17 +276,66 @@ function buildPath(document: OpenApiDocument, path: string, parameters: OpenApiP
   });
 }
 
-function buildQuery(document: OpenApiDocument, parameters: OpenApiParameter[], securityQuery: PostmanHeader[]): string {
-  const pairs = parameters
-    .filter(
-      (parameter) =>
-        parameter.in === 'query' && (parameter.required || declaredValue(document, parameter) !== undefined),
-    )
-    .map((parameter) => `${encodeURIComponent(parameter.name!)}=${encodeValue(parameterValue(document, parameter))}`);
+function buildQuery(
+  document: OpenApiDocument,
+  parameters: OpenApiParameter[],
+  securityQuery: PostmanHeader[],
+  randomNumbers: RandomNumberCache,
+): string {
+  const pairs: string[] = [];
+
+  for (const parameter of parameters) {
+    if (parameter.in !== 'query') continue;
+
+    const value =
+      declaredValue(document, parameter) !== undefined
+        ? parameterValue(document, parameter)
+        : generatedQueryValue(document, parameter, randomNumbers);
+    if (value !== undefined) pairs.push(`${encodeURIComponent(parameter.name!)}=${encodeValue(value)}`);
+    else if (parameter.required)
+      pairs.push(`${encodeURIComponent(parameter.name!)}=${encodeValue(parameterValue(document, parameter))}`);
+  }
 
   for (const { key, value } of securityQuery) pairs.push(`${encodeURIComponent(key)}=${encodeValue(value)}`);
 
   return pairs.length > 0 ? `?${pairs.join('&')}` : '';
+}
+
+/**
+ * Sample value for a query parameter without a declared value, so the imported request is runnable as-is.
+ * Only scalar string and numeric parameters get one; other types return `undefined`.
+ */
+function generatedQueryValue(
+  document: OpenApiDocument,
+  parameter: OpenApiParameter,
+  randomNumbers: RandomNumberCache,
+): string | undefined {
+  // Swagger 2.0 declares type, format and bounds on the parameter itself instead of a schema
+  const schema = deref<OpenApiSchemaObject>(document, parameter.schema) ?? parameter;
+  const type = Array.isArray(schema.type) ? schema.type.find((candidate) => candidate !== 'null') : schema.type;
+
+  if (type === 'integer' || type === 'number')
+    return String(
+      cachedRandomNumber(randomNumbers, schema.minimum ?? RANDOM_NUMBER_MIN, schema.maximum ?? RANDOM_NUMBER_MAX),
+    );
+  if (type === 'string') return String(samplePrimitive(type, schema.format));
+
+  return undefined;
+}
+
+/**
+ * Reuses the number generated earlier for an identical range, so related parameters stay consistent.
+ */
+function cachedRandomNumber(randomNumbers: RandomNumberCache, min: number, max: number): number {
+  const key = `${min}:${max}`;
+  let value = randomNumbers.get(key);
+
+  if (value === undefined) {
+    value = generateRandomNumber(min, max);
+    randomNumbers.set(key, value);
+  }
+
+  return value;
 }
 
 function buildHeaders(

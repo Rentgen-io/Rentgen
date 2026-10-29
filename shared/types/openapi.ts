@@ -19,6 +19,8 @@ export interface OpenApiSchemaObject {
   example?: unknown;
   format?: string;
   items?: OpenApiSchemaObject;
+  maximum?: number;
+  minimum?: number;
   oneOf?: OpenApiSchemaObject[];
   properties?: Record<string, OpenApiSchemaObject>;
   required?: string[];
@@ -43,6 +45,8 @@ export interface OpenApiParameter {
   example?: unknown;
   format?: string;
   in?: 'path' | 'query' | 'header' | 'cookie' | 'body' | 'formData';
+  maximum?: number;
+  minimum?: number;
   name?: string;
   required?: boolean;
   schema?: OpenApiSchemaObject;

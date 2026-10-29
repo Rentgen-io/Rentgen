@@ -295,14 +295,11 @@ export class AiTests extends BaseTests<{
 
     const { body, bodyParameters, headers, method, queryParameters, url } = this.options;
     const compactor = new AiReportCompactor({ maskedFields: this.maskedFields });
-
     const report = compactor.serialize({
       originalRequest: createHttpRequest(body, headers, method, url),
       fieldMappings: { body: bodyParameters, query: queryParameters },
       suites: this.testResults,
     });
-    console.log('AI Raw Report (testing):', report);
-
     const response = await sendAiChatRequest(
       this.aiProvider,
       [

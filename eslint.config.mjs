@@ -5,14 +5,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: [
-      'node_modules/**',
-      'dist/**',
-      'out/**',
-      '.webpack/**',
-      'build/**',
-      'coverage/**',
-    ],
+    ignores: ['node_modules/**', 'dist/**', 'out/**', '.webpack/**', 'build/**', 'coverage/**'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
