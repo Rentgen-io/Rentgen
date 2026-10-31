@@ -1,4 +1,17 @@
 const tr = {
+  ux: {
+    requestTitle: 'Yeni istek',
+    requestHint: 'Bir API URL’si girin ve isteği gönderin.',
+    responseHint: 'Yanıt gövdesi, başlıklar ve yanıt süresi burada görünecek.',
+    testsHint: 'Yanıttan test oluşturmak için bir istek gönderin.',
+    testsUnavailable: 'Test oluşturmak için başarılı bir yanıt gerekir (HTTP 2xx veya 3xx).',
+    resultsTitle: 'Test sonuçları',
+    resultsHint: 'Önce hataları ve başarısız testleri inceleyin. İstek ve yanıtı görmek için testi genişletin.',
+    reviewFindings: 'Bulguları incele',
+    exportReport: 'Raporu dışa aktar',
+    toggleTheme: 'Temayı değiştir',
+  },
+
   // Common
   common: {
     send: 'Gönder',

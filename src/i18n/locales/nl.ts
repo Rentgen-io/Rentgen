@@ -1,4 +1,17 @@
 const nl = {
+  ux: {
+    requestTitle: 'Nieuw verzoek',
+    requestHint: 'Voer een API-URL in en verstuur het verzoek.',
+    responseHint: 'Hier verschijnen de inhoud, headers en responstijd.',
+    testsHint: 'Verstuur een verzoek om tests te genereren op basis van het antwoord.',
+    testsUnavailable: 'Tests genereren vereist een succesvol antwoord (HTTP 2xx of 3xx).',
+    resultsTitle: 'Testresultaten',
+    resultsHint: 'Bekijk eerst bugs en mislukte tests. Klap een test uit om het verzoek en antwoord te zien.',
+    reviewFindings: 'Bevindingen bekijken',
+    exportReport: 'Rapport exporteren',
+    toggleTheme: 'Thema wisselen',
+  },
+
   // Common
   common: {
     send: 'Verzenden',

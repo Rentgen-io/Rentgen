@@ -1,4 +1,17 @@
 const ja = {
+  ux: {
+    requestTitle: '新しいリクエスト',
+    requestHint: 'API URLを入力し、リクエストを送信してください。',
+    responseHint: 'レスポンスの本文、ヘッダー、応答時間がここに表示されます。',
+    testsHint: 'リクエストを送信すると、レスポンスからテストを生成できます。',
+    testsUnavailable: 'テスト生成には成功レスポンス（HTTP 2xxまたは3xx）が必要です。',
+    resultsTitle: 'テスト結果',
+    resultsHint: 'まずバグと失敗したテストを確認してください。テストを展開するとリクエストとレスポンスを表示できます。',
+    reviewFindings: '検出内容を確認',
+    exportReport: 'レポートをエクスポート',
+    toggleTheme: 'テーマを切り替え',
+  },
+
   // Common
   common: {
     send: '送信',

@@ -1,4 +1,17 @@
 const pl = {
+  ux: {
+    requestTitle: 'Nowe żądanie',
+    requestHint: 'Wpisz adres URL API i wyślij żądanie.',
+    responseHint: 'Tutaj pojawią się treść, nagłówki i czas odpowiedzi.',
+    testsHint: 'Wyślij żądanie, aby wygenerować testy na podstawie odpowiedzi.',
+    testsUnavailable: 'Generowanie testów wymaga poprawnej odpowiedzi (HTTP 2xx lub 3xx).',
+    resultsTitle: 'Wyniki testów',
+    resultsHint: 'Najpierw sprawdź błędy i nieudane testy. Rozwiń test, aby zobaczyć żądanie i odpowiedź.',
+    reviewFindings: 'Przejrzyj problemy',
+    exportReport: 'Eksportuj raport',
+    toggleTheme: 'Zmień motyw',
+  },
+
   // Common
   common: {
     send: 'Wyślij',

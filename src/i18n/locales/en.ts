@@ -1,4 +1,17 @@
 const en = {
+  ux: {
+    requestTitle: 'New request',
+    requestHint: 'Enter an API URL, then send your request.',
+    responseHint: 'The response body, headers and timing will appear here.',
+    testsHint: 'Send a request to generate tests from its response.',
+    testsUnavailable: 'Test generation requires a successful response (HTTP 2xx or 3xx).',
+    resultsTitle: 'Test results',
+    resultsHint: 'Review bugs and failed checks first. Expand a test for request and response details.',
+    reviewFindings: 'Review findings',
+    exportReport: 'Export report',
+    toggleTheme: 'Switch theme',
+  },
+
   // Common
   common: {
     send: 'Send',
@@ -25,7 +38,7 @@ const en = {
     disabled: 'Disabled',
     connect: 'Connect',
     disconnect: 'Disconnect',
-    beautify: 'Beautify',
+    beautify: 'Format',
     reload: 'Reload',
     cut: 'Cut',
     paste: 'Paste',
@@ -144,8 +157,8 @@ const en = {
     generateAndRun: 'Generate & Run Tests',
     runningTests: 'Running tests... ({{current}}/{{total}})',
     noTestsGenerated: 'No tests generated',
-    selectForCompare: 'Select for Compare',
-    compareWithSelected: 'Compare with Selected',
+    selectForCompare: 'Use as Baseline',
+    compareWithSelected: 'Compare Results',
     exportFormat: 'Format',
     generateCertificate: 'Generate Certificate',
     notEligible: 'Not eligible (need at least 70 tests)',
@@ -168,7 +181,7 @@ const en = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Format',
-    aiTesting: 'Deeper AI Testing',
+    aiTesting: 'AI Testing',
     aiTestingTitle: 'Find tests the deterministic scan could not infer',
     aiTestingDescription: 'AI analyzes the run, suggests additional experiments, and Rentgen executes them.',
     runAiTesting: 'Run AI Testing',

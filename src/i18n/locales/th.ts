@@ -1,4 +1,17 @@
 const th = {
+  ux: {
+    requestTitle: 'คำขอใหม่',
+    requestHint: 'ป้อน URL ของ API แล้วส่งคำขอ',
+    responseHint: 'เนื้อหา เฮดเดอร์ และเวลาตอบกลับจะแสดงที่นี่',
+    testsHint: 'ส่งคำขอเพื่อสร้างการทดสอบจากการตอบกลับ',
+    testsUnavailable: 'การสร้างการทดสอบต้องใช้การตอบกลับที่สำเร็จ (HTTP 2xx หรือ 3xx)',
+    resultsTitle: 'ผลการทดสอบ',
+    resultsHint: 'ตรวจสอบบั๊กและการทดสอบที่ไม่ผ่านก่อน ขยายการทดสอบเพื่อดูคำขอและการตอบกลับ',
+    reviewFindings: 'ดูปัญหาที่พบ',
+    exportReport: 'ส่งออกรายงาน',
+    toggleTheme: 'เปลี่ยนธีม',
+  },
+
   // Common
   common: {
     send: 'ส่ง',

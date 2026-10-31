@@ -1,4 +1,17 @@
 const de = {
+  ux: {
+    requestTitle: 'Neue Anfrage',
+    requestHint: 'API-URL eingeben und Anfrage senden.',
+    responseHint: 'Antwortinhalt, Header und Dauer erscheinen hier.',
+    testsHint: 'Senden Sie eine Anfrage, um Tests aus der Antwort zu generieren.',
+    testsUnavailable: 'Die Testgenerierung erfordert eine erfolgreiche Antwort (HTTP 2xx oder 3xx).',
+    resultsTitle: 'Testergebnisse',
+    resultsHint: 'Prüfen Sie zuerst Fehler und fehlgeschlagene Tests. Klappen Sie einen Test auf, um Anfrage und Antwort zu sehen.',
+    reviewFindings: 'Befunde prüfen',
+    exportReport: 'Bericht exportieren',
+    toggleTheme: 'Design wechseln',
+  },
+
   // Common
   common: {
     send: 'Senden',

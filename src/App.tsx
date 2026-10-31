@@ -6,6 +6,7 @@ import { twMerge } from 'tailwind-merge';
 import { IconButton } from './components/buttons/IconButton';
 import EnvironmentEditor from './features/environment/EnvironmentEditor';
 import AppModals from './features/modals/AppModals';
+import FollowModal from './features/modals/FollowModal';
 import RequestEditors from './features/request/RequestEditors';
 import RequestModeBar from './features/request/RequestModeBar';
 import RequestUrlBar from './features/request/RequestUrlBar';
@@ -19,6 +20,7 @@ import PerformanceInsightsPanel from './features/tests/panels/PerformanceInsight
 import SecurityTestsPanel from './features/tests/panels/SecurityTestsPanel';
 import TestResultsComparisonPanel from './features/tests/panels/TestResultsComparisonPanel';
 import TestRunnerBar from './features/tests/TestRunnerBar';
+import TestResultsSummary from './features/tests/TestResultsSummary';
 import { useCtrlS } from './hooks/useCtrlS';
 import { useInitialDataLoad } from './hooks/useInitialDataLoad';
 import { useRunResultSync } from './hooks/useRunResultSync';
@@ -37,6 +39,9 @@ import {
   selectIsEditingEnvironment,
   selectIsRequestDisabled,
   selectMode,
+  selectSidebarActiveTab,
+  selectMethod,
+  selectSelectedRequestWithFolder,
   selectTestResultsToCompare,
   selectTestsActiveTab,
 } from './store/selectors';
@@ -44,6 +49,7 @@ import { environmentActions } from './store/slices/environmentSlice';
 import { testsActions } from './store/slices/testsSlice';
 import { getTestsStatistics } from './test-engine';
 
+import MethodBadge from './components/badges/MethodBadge';
 import ClearCrossIcon from './assets/icons/clear-cross-icon.svg';
 import Loader from './components/loaders/Loader';
 import { uiActions } from './store/slices/uiSlice';
@@ -59,6 +65,8 @@ export default function App() {
     isDataDrivenRunning,
     isPerformanceRunning,
     isSecurityRunning,
+    isRunningTests,
+    isAiTestsRunning,
     performanceTests,
     securityTests,
   } = useTests();
@@ -72,6 +80,9 @@ export default function App() {
   const isComparingTestResults = useAppSelector(selectIsComparingTestResults);
   const isEditingEnvironment = useAppSelector(selectIsEditingEnvironment);
   const mode = useAppSelector(selectMode);
+  const sidebarTab = useAppSelector(selectSidebarActiveTab);
+  const method = useAppSelector(selectMethod);
+  const selectedRequest = useAppSelector(selectSelectedRequestWithFolder);
   const testResults = useAppSelector(selectCurrentTestResults);
   const testResultsToCompare = useAppSelector(selectTestResultsToCompare);
   const testsActiveTab = useAppSelector(selectTestsActiveTab);
@@ -117,6 +128,7 @@ export default function App() {
       crudTests,
       dataDrivenTests,
       disabledSecurityTests,
+      disabledPerformanceInsights,
       isDataDrivenRunning,
       isPerformanceRunning,
       isSecurityRunning,
@@ -133,100 +145,138 @@ export default function App() {
   useCtrlS(!disabled ? saveRequest : undefined);
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="@container flex-1 min-w-0 flex flex-col overflow-y-auto">
-        {isEditingEnvironment && (
-          <div className="relative flex flex-col flex-auto">
-            <EnvironmentEditor
-              environment={environments.find(({ id }) => id === editingEnvironmentId) || null}
-              isNew={editingEnvironmentId === null}
-              onSave={(environment) => dispatch(environmentActions.updateEnvironment(environment))}
-            />
-            <IconButton
-              className="absolute top-1.5 right-1.5"
-              onClick={() => dispatch(environmentActions.stopEditing())}
-            >
-              <ClearCrossIcon className="h-5 w-5" />
-            </IconButton>
-          </div>
-        )}
-        {!isEditingEnvironment && isComparingTestResults && compareResponse && (
-          <div className="relative flex flex-col flex-auto">
-            <TestResultsComparisonPanel
-              items={testResultsToCompare}
-              response={compareResponse}
-              title={t('comparison.title')}
-            />
-            <IconButton
-              className="absolute top-1.5 right-1.5"
-              onClick={() => dispatch(testsActions.clearResultsToCompare())}
-            >
-              <ClearCrossIcon className="h-5 w-5" />
-            </IconButton>
-          </div>
-        )}
-        {!isEditingEnvironment && !isComparingTestResults && (
-          <div className="flex flex-col gap-4 p-4">
+    <div className="app-shell">
+      <header className="app-header">
+        <span className="app-brand">
+          <span className="app-brand-mark">R</span> Rentgen
+        </span>
+        <span className="app-header-divider" />
+        <span className="app-workspace-name">{t(`sidebar.${sidebarTab || 'collections'}`)}</span>
+        <span className="app-header-caption">API · {t('ai.tests')}</span>
+      </header>
+      <div className="app-workbench">
+        <Sidebar />
+        <div className="@container app-main flex-1 min-w-0 flex flex-col overflow-y-auto" id="main-workbench">
+          {isEditingEnvironment && (
+            <div className="relative flex flex-col flex-auto">
+              <EnvironmentEditor
+                environment={environments.find(({ id }) => id === editingEnvironmentId) || null}
+                isNew={editingEnvironmentId === null}
+                onSave={(environment) => dispatch(environmentActions.updateEnvironment(environment))}
+              />
+              <IconButton
+                className="absolute top-1.5 right-1.5"
+                aria-label={t('common.close')}
+                onClick={() => dispatch(environmentActions.stopEditing())}
+              >
+                <ClearCrossIcon className="h-5 w-5" />
+              </IconButton>
+            </div>
+          )}
+          {!isEditingEnvironment && isComparingTestResults && compareResponse && (
+            <div className="relative flex flex-col flex-auto">
+              <TestResultsComparisonPanel
+                items={testResultsToCompare}
+                response={compareResponse}
+                title={t('comparison.title')}
+              />
+              <IconButton
+                className="absolute top-1.5 right-1.5"
+                aria-label={t('common.close')}
+                onClick={() => dispatch(testsActions.clearResultsToCompare())}
+              >
+                <ClearCrossIcon className="h-5 w-5" />
+              </IconButton>
+            </div>
+          )}
+          {!isEditingEnvironment && !isComparingTestResults && (
+            <div className="request-workbench flex flex-col">
+              <div className="request-document-bar">
+                <MethodBadge method={mode === 'HTTP' ? method : mode} />
+                <span className="truncate">{selectedRequest?.request.name || t('ux.requestTitle')}</span>
+                {selectedRequest && <span className="request-document-folder">{selectedRequest.folder.name}</span>}
+              </div>
+              <>
+                <RequestModeBar />
+                <RequestUrlBar />
+                <RequestEditors />
+
+                {mode === 'HTTP' && <HttpResponsePanel />}
+                <WssMessagesPanel />
+                {mode === 'HTTP' && <TestRunnerBar />}
+              </>
+            </div>
+          )}
+          {!isEditingEnvironment && !isComparingTestResults && testResults && (
             <>
-              <RequestModeBar />
-              <RequestUrlBar />
-              <RequestEditors />
+              <TestResultsSummary
+                suites={testsTabs}
+                isRunning={isRunningTests || isAiTestsRunning || Boolean(aiRunStartedAt)}
+                onReview={(index) => {
+                  dispatch(uiActions.setTestsActiveTab(index));
+                  requestAnimationFrame(() => {
+                    const tab = document.querySelector<HTMLElement>('#test-results-detail [role="tab"][aria-selected="true"]');
+                    tab?.focus({ preventScroll: true });
+                    tab?.scrollIntoView({ block: 'start', behavior: 'instant' });
+                  });
+                }}
+              />
+              <Tabs
+                id="test-results-detail"
+                className="tests-detail flex flex-col flex-auto"
+                forceRenderTabPanel={true}
+                selectedIndex={testsActiveTab}
+                selectedTabClassName="test-category-active"
+                selectedTabPanelClassName="flex! flex-col flex-auto gap-4"
+                onSelect={(index) => {
+                  dispatch(uiActions.setTestsActiveTab(index));
+                }}
+              >
+                <TabList className="tests-category-tabs flex m-0 px-4 text-sm font-medium border-b border-border dark:border-dark-body">
+                  {testsTabs.map(({ disabledTests, isRunning, label, tests }) => {
+                    const { bugs, failed, passed, warnings } = getTestsStatistics(tests ?? [], disabledTests);
 
-              {mode === 'HTTP' && <HttpResponsePanel />}
-              <WssMessagesPanel />
-              {mode === 'HTTP' && <TestRunnerBar />}
-            </>
-          </div>
-        )}
-        {!isEditingEnvironment && !isComparingTestResults && testResults && (
-          <Tabs
-            className="flex flex-col flex-auto"
-            forceRenderTabPanel={true}
-            selectedIndex={testsActiveTab}
-            selectedTabClassName="bg-white border-border! text-text dark:bg-dark-input dark:border-dark-body! dark:text-dark-text cursor-default!"
-            selectedTabPanelClassName="flex! flex-col flex-auto gap-4"
-            onSelect={(index) => {
-              dispatch(uiActions.setTestsActiveTab(index));
-            }}
-          >
-            <TabList className="flex m-0 px-4 text-sm font-medium border-b border-border dark:border-dark-body">
-              {testsTabs.map(({ disabledTests, isRunning, label, tests }) => {
-                const { bugs, failed, passed, warnings } = getTestsStatistics(tests ?? [], disabledTests);
-
-                return (
-                  <Tab
-                    key={label}
-                    className="relative flex items-center gap-2 -bottom-px py-1.5 px-3 border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
-                    title={label}
-                  >
-                    {isRunning ? (
-                      <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
-                    ) : (
-                      <span
-                        className={twMerge(
-                          cn('w-2 h-2 m-1 rounded-full shrink-0 bg-gray-400', {
-                            'bg-green-500': passed > 0 && failed === 0 && warnings === 0 && bugs === 0,
-                            'bg-yellow-500': warnings > 0 && failed === 0 && bugs === 0,
-                            'bg-red-500': failed > 0 && bugs === 0,
-                            'bg-purple-500': bugs > 0,
-                          }),
+                    return (
+                      <Tab
+                        key={label}
+                        className="test-category"
+                        title={label}
+                      >
+                        {isRunning ? (
+                          <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
+                        ) : (
+                          <span
+                            className={twMerge(
+                              cn('w-2 h-2 m-1 rounded-full shrink-0 bg-gray-400', {
+                                'bg-green-500': passed > 0 && failed === 0 && warnings === 0 && bugs === 0,
+                                'bg-yellow-500': warnings > 0 && failed === 0 && bugs === 0,
+                                'bg-red-500': failed > 0 && bugs === 0,
+                                'bg-purple-500': bugs > 0,
+                              }),
+                            )}
+                          />
                         )}
-                      />
-                    )}
 
-                    <span className="truncate">{label}</span>
-                  </Tab>
-                );
-              })}
-            </TabList>
-            {testsTabs.map(({ component, label }) => (
-              <TabPanel key={label} className="hidden min-h-51.5 p-4 bg-white dark:bg-dark-input">
-                {component}
-              </TabPanel>
-            ))}
-          </Tabs>
-        )}
+                        <span className="truncate">{label}</span>
+                        {bugs + failed + warnings > 0 && (
+                          <span className="test-category-count" aria-label={`${t('common.bugs')}: ${bugs}, ${t('common.failed')}: ${failed}, ${t('common.warnings')}: ${warnings}`}>
+                            {bugs + failed + warnings}
+                          </span>
+                        )}
+                      </Tab>
+                    );
+                  })}
+                </TabList>
+                {testsTabs.map(({ component, label }) => (
+                  <TabPanel key={label} className="hidden min-h-51.5 p-4 bg-white dark:bg-dark-input">
+                    {component}
+                  </TabPanel>
+                ))}
+              </Tabs>
+              <FollowModal />
+            </>
+          )}
+        </div>
       </div>
       <AppModals />
     </div>

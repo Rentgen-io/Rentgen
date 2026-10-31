@@ -15,7 +15,7 @@ export default function Panel({ children, className, title, collapsible = true, 
   return (
     <div
       className={twMerge(
-        'bg-white border border-border box-border overflow-hidden',
+        'workspace-panel bg-white border border-border box-border overflow-hidden',
         'dark:bg-dark-input dark:border-dark-border',
         className,
       )}
@@ -32,7 +32,7 @@ export default function Panel({ children, className, title, collapsible = true, 
             })}
           />
         )}
-        {typeof title === 'string' ? <h5 className={cn('m-0 py-3 px-4', collapsible && 'pl-0')}>{title}</h5> : title}
+        {typeof title === 'string' ? <h5 className={cn('m-0 py-2.5 px-4', collapsible && 'pl-0')}>{title}</h5> : title}
       </div>
       {isOpen && children}
     </div>

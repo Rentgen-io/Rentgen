@@ -1,4 +1,17 @@
 const vi = {
+  ux: {
+    requestTitle: 'Yêu cầu mới',
+    requestHint: 'Nhập URL API rồi gửi yêu cầu.',
+    responseHint: 'Nội dung, tiêu đề và thời gian phản hồi sẽ xuất hiện tại đây.',
+    testsHint: 'Gửi yêu cầu để tạo kiểm thử từ phản hồi.',
+    testsUnavailable: 'Việc tạo kiểm thử cần phản hồi thành công (HTTP 2xx hoặc 3xx).',
+    resultsTitle: 'Kết quả kiểm thử',
+    resultsHint: 'Xem lỗi và các kiểm thử thất bại trước. Mở rộng kiểm thử để xem yêu cầu và phản hồi.',
+    reviewFindings: 'Xem vấn đề',
+    exportReport: 'Xuất báo cáo',
+    toggleTheme: 'Đổi giao diện',
+  },
+
   // Common
   common: {
     send: 'Gửi',

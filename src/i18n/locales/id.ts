@@ -1,4 +1,17 @@
 const id = {
+  ux: {
+    requestTitle: 'Permintaan baru',
+    requestHint: 'Masukkan URL API, lalu kirim permintaan.',
+    responseHint: 'Isi, header, dan waktu respons akan muncul di sini.',
+    testsHint: 'Kirim permintaan untuk membuat pengujian berdasarkan responsnya.',
+    testsUnavailable: 'Pembuatan pengujian memerlukan respons berhasil (HTTP 2xx atau 3xx).',
+    resultsTitle: 'Hasil pengujian',
+    resultsHint: 'Tinjau bug dan pengujian yang gagal terlebih dahulu. Perluas pengujian untuk melihat permintaan dan respons.',
+    reviewFindings: 'Tinjau temuan',
+    exportReport: 'Ekspor laporan',
+    toggleTheme: 'Ganti tema',
+  },
+
   // Common
   common: {
     send: 'Kirim',

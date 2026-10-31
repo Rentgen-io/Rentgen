@@ -57,7 +57,17 @@ export default function HttpResponsePanel() {
     [requestWithFolder, selectedRequestId, dispatch],
   );
 
-  if (!httpResponse && !isSending) return null;
+  if (!httpResponse && !isSending)
+    return (
+      <section className="response-empty" aria-label={t('response.title')}>
+        <div className="response-empty-heading">{t('response.title')}</div>
+        <div className="response-empty-content">
+          <span className="response-empty-symbol" aria-hidden="true">↗</span>
+          <strong>{t('ux.requestHint')}</strong>
+          <span>{t('ux.responseHint')}</span>
+        </div>
+      </section>
+    );
 
   const isAborted = httpResponse?.status === RESPONSE_STATUS_LABEL.ABORTED;
   const isNetworkError = httpResponse?.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
@@ -77,8 +87,12 @@ export default function HttpResponsePanel() {
             'text-red-500': httpResponse?.status.startsWith('5') || isNetworkError || httpResponse?.status === 'Error',
           })}
         >
+          <span className="response-section-label">{t('response.title')}</span>
           {isSending ? (
-            <Loader className="h-5 w-5 shrink-0 [&>span]:border-3!" />
+            <span className="flex items-center gap-2" role="status">
+              <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
+              {t('response.sending')}
+            </span>
           ) : (
             <>
               {isNetworkError ? t('response.networkError') : httpResponse?.status}{' '}

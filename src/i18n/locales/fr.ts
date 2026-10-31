@@ -1,4 +1,17 @@
 const fr = {
+  ux: {
+    requestTitle: 'Nouvelle requête',
+    requestHint: 'Saisissez une URL API, puis envoyez la requête.',
+    responseHint: 'Le corps, les en-têtes et le temps de réponse apparaîtront ici.',
+    testsHint: 'Envoyez une requête pour générer des tests à partir de sa réponse.',
+    testsUnavailable: 'La génération de tests nécessite une réponse réussie (HTTP 2xx ou 3xx).',
+    resultsTitle: 'Résultats des tests',
+    resultsHint: 'Examinez les anomalies et les tests échoués en premier. Développez un test pour voir la requête et la réponse.',
+    reviewFindings: 'Examiner les résultats',
+    exportReport: 'Exporter le rapport',
+    toggleTheme: 'Changer de thème',
+  },
+
   // Common
   common: {
     send: 'Envoyer',

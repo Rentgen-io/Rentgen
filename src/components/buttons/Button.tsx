@@ -32,7 +32,7 @@ export default function Button({
     <button
       className={twMerge(
         cn(
-          'm-0 font-segoe-ui text-xs font-bold border',
+          'm-0 rounded font-segoe-ui text-xs font-semibold border transition-colors',
           {
             'py-0.5 px-2': buttonSize === ButtonSize.SMALL,
             'min-w-20 py-2 px-3': buttonSize === ButtonSize.MEDIUM,

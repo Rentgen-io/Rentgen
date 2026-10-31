@@ -1,4 +1,17 @@
 const zhCN = {
+  ux: {
+    requestTitle: '新建请求',
+    requestHint: '输入 API URL，然后发送请求。',
+    responseHint: '响应正文、响应头和耗时将显示在这里。',
+    testsHint: '发送请求后，即可根据响应生成测试。',
+    testsUnavailable: '生成测试需要成功的响应（HTTP 2xx 或 3xx）。',
+    resultsTitle: '测试结果',
+    resultsHint: '请先检查缺陷和失败的测试。展开测试可查看请求和响应详情。',
+    reviewFindings: '查看问题',
+    exportReport: '导出报告',
+    toggleTheme: '切换主题',
+  },
+
   // Common
   common: {
     send: '发送',

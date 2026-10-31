@@ -1,4 +1,17 @@
 const es = {
+  ux: {
+    requestTitle: 'Nueva solicitud',
+    requestHint: 'Introduce una URL de API y envía la solicitud.',
+    responseHint: 'Aquí aparecerán el cuerpo, las cabeceras y el tiempo de respuesta.',
+    testsHint: 'Envía una solicitud para generar pruebas a partir de su respuesta.',
+    testsUnavailable: 'Para generar pruebas se necesita una respuesta correcta (HTTP 2xx o 3xx).',
+    resultsTitle: 'Resultados de pruebas',
+    resultsHint: 'Revisa primero los errores y las pruebas fallidas. Expande una prueba para ver la solicitud y la respuesta.',
+    reviewFindings: 'Revisar hallazgos',
+    exportReport: 'Exportar informe',
+    toggleTheme: 'Cambiar tema',
+  },
+
   // Common
   common: {
     send: 'Enviar',

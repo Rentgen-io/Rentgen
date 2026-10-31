@@ -1,4 +1,17 @@
 const ko = {
+  ux: {
+    requestTitle: '새 요청',
+    requestHint: 'API URL을 입력하고 요청을 보내세요.',
+    responseHint: '응답 본문, 헤더 및 응답 시간이 여기에 표시됩니다.',
+    testsHint: '요청을 보내면 응답을 바탕으로 테스트를 생성할 수 있습니다.',
+    testsUnavailable: '테스트 생성에는 성공 응답(HTTP 2xx 또는 3xx)이 필요합니다.',
+    resultsTitle: '테스트 결과',
+    resultsHint: '버그와 실패한 테스트를 먼저 확인하세요. 테스트를 펼치면 요청과 응답을 볼 수 있습니다.',
+    reviewFindings: '문제 검토',
+    exportReport: '보고서 내보내기',
+    toggleTheme: '테마 전환',
+  },
+
   // Common
   common: {
     send: '보내기',
