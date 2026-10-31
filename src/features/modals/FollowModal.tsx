@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { openExternal } from 'src/api/system';
 import Button, { ButtonType } from 'src/components/buttons/Button';
+import Modal from 'src/components/modals/Modal';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectOpenFollowModal } from 'src/store/selectors';
@@ -38,28 +39,29 @@ export default function FollowModal() {
     dispatch(modalsActions.closeFollowModal());
   };
 
-  if (!isOpen) return null;
-
   return (
-    <aside className="follow-prompt" aria-label={t('modals.follow.title')}>
-      <p>{t('modals.follow.followUs')}</p>
-      <div className="follow-prompt-actions">
-        <Button
-          buttonType={ButtonType.SECONDARY}
-          onClick={() => {
-            openExternal('https://www.linkedin.com/company/therentgen');
-            onClose();
-          }}
-        >
-          {t('modals.follow.followOnLinkedIn')}
-        </Button>
-        <Button buttonType={ButtonType.SECONDARY} onClick={() => onClose(new Date(Date.now() + WEEK_MS))}>
-          {t('modals.follow.later')}
-        </Button>
-        <Button buttonType={ButtonType.SECONDARY} onClick={() => onClose()}>
-          {t('modals.follow.neverAskAgain')}
-        </Button>
+    <Modal isOpen={isOpen} onClose={() => onClose(new Date(Date.now() + WEEK_MS))}>
+      <div className="flex flex-col gap-4">
+        <h4 className="m-0">🎉 {t('modals.follow.title')}</h4>
+        <p className="m-0 text-sm dark:text-text-secondary">{t('modals.follow.message')}</p>
+        <p className="m-0 text-sm dark:text-text-secondary">{t('modals.follow.followUs')}</p>
+        <div className="flex items-center justify-end gap-2">
+          <Button
+            onClick={() => {
+              openExternal('https://www.linkedin.com/company/therentgen');
+              onClose();
+            }}
+          >
+            {t('modals.follow.followOnLinkedIn')}
+          </Button>
+          <Button buttonType={ButtonType.SECONDARY} onClick={() => onClose(new Date(Date.now() + WEEK_MS))}>
+            {t('modals.follow.later')}
+          </Button>
+          <Button buttonType={ButtonType.SECONDARY} onClick={() => onClose()}>
+            {t('modals.follow.neverAskAgain')}
+          </Button>
+        </div>
       </div>
-    </aside>
+    </Modal>
   );
 }

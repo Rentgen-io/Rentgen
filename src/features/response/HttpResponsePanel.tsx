@@ -115,7 +115,6 @@ export default function HttpResponsePanel() {
           })}
         >
           <div className="flex flex-col gap-4 p-4">
-            <h5 className="m-0">{t('response.title')}</h5>
             <Tabs
               forceRenderTabPanel={true}
               className="relative flex flex-col flex-auto"

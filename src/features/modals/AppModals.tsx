@@ -15,6 +15,7 @@ import {
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
+import FollowModal from './FollowModal';
 import GitHubModal from './GitHubModal';
 import ImportResourceModal from './ImportResourceModal';
 
@@ -87,6 +88,7 @@ export default function AppModals() {
       <ImportConflictModal />
       <ProjectImportConfirmModal />
       <SettingsModal />
+      <FollowModal />
       <GitHubModal />
     </>
   );

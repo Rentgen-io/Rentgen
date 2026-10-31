@@ -23,6 +23,15 @@ export default function Panel({ children, className, title, collapsible = true, 
     >
       <div
         className={cn(collapsible && 'relative cursor-pointer pl-10')}
+        role={collapsible ? 'button' : undefined}
+        tabIndex={collapsible ? 0 : undefined}
+        aria-expanded={collapsible ? isOpen : undefined}
+        onKeyDown={(event) => {
+          if (collapsible && event.target === event.currentTarget && (event.key === 'Enter' || event.key === ' ')) {
+            event.preventDefault();
+            setIsOpen((prevIsOpen) => !prevIsOpen);
+          }
+        }}
         onClick={() => collapsible && setIsOpen((prevIsOpen) => !prevIsOpen)}
       >
         {collapsible && (

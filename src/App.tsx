@@ -6,7 +6,6 @@ import { twMerge } from 'tailwind-merge';
 import { IconButton } from './components/buttons/IconButton';
 import EnvironmentEditor from './features/environment/EnvironmentEditor';
 import AppModals from './features/modals/AppModals';
-import FollowModal from './features/modals/FollowModal';
 import RequestEditors from './features/request/RequestEditors';
 import RequestModeBar from './features/request/RequestModeBar';
 import RequestUrlBar from './features/request/RequestUrlBar';
@@ -39,7 +38,6 @@ import {
   selectIsEditingEnvironment,
   selectIsRequestDisabled,
   selectMode,
-  selectSidebarActiveTab,
   selectMethod,
   selectSelectedRequestWithFolder,
   selectTestResultsToCompare,
@@ -80,7 +78,6 @@ export default function App() {
   const isComparingTestResults = useAppSelector(selectIsComparingTestResults);
   const isEditingEnvironment = useAppSelector(selectIsEditingEnvironment);
   const mode = useAppSelector(selectMode);
-  const sidebarTab = useAppSelector(selectSidebarActiveTab);
   const method = useAppSelector(selectMethod);
   const selectedRequest = useAppSelector(selectSelectedRequestWithFolder);
   const testResults = useAppSelector(selectCurrentTestResults);
@@ -146,14 +143,6 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <header className="app-header">
-        <span className="app-brand">
-          <span className="app-brand-mark">R</span> Rentgen
-        </span>
-        <span className="app-header-divider" />
-        <span className="app-workspace-name">{t(`sidebar.${sidebarTab || 'collections'}`)}</span>
-        <span className="app-header-caption">API · {t('ai.tests')}</span>
-      </header>
       <div className="app-workbench">
         <Sidebar />
         <div className="@container app-main flex-1 min-w-0 flex flex-col overflow-y-auto" id="main-workbench">
@@ -199,7 +188,7 @@ export default function App() {
               <>
                 <RequestModeBar />
                 <RequestUrlBar />
-                <RequestEditors />
+                <RequestEditors key={mode} />
 
                 {mode === 'HTTP' && <HttpResponsePanel />}
                 <WssMessagesPanel />
@@ -215,7 +204,9 @@ export default function App() {
                 onReview={(index) => {
                   dispatch(uiActions.setTestsActiveTab(index));
                   requestAnimationFrame(() => {
-                    const tab = document.querySelector<HTMLElement>('#test-results-detail [role="tab"][aria-selected="true"]');
+                    const tab = document.querySelector<HTMLElement>(
+                      '#test-results-detail [role="tab"][aria-selected="true"]',
+                    );
                     tab?.focus({ preventScroll: true });
                     tab?.scrollIntoView({ block: 'start', behavior: 'instant' });
                   });
@@ -237,11 +228,7 @@ export default function App() {
                     const { bugs, failed, passed, warnings } = getTestsStatistics(tests ?? [], disabledTests);
 
                     return (
-                      <Tab
-                        key={label}
-                        className="test-category"
-                        title={label}
-                      >
+                      <Tab key={label} className="test-category" title={label}>
                         {isRunning ? (
                           <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
                         ) : (
@@ -273,7 +260,6 @@ export default function App() {
                   </TabPanel>
                 ))}
               </Tabs>
-              <FollowModal />
             </>
           )}
         </div>

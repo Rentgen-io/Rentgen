@@ -191,22 +191,6 @@
     --chrome: #262626;
     --muted: #a0a0a0;
   }
-  .app-header {
-    height: 44px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    padding: 0 16px;
-    background: var(--chrome);
-    border-bottom: 1px solid var(--color-border);
-    user-select: none;
-  }
-  .app-brand { display: flex; align-items: center; gap: 9px; font-weight: 650; letter-spacing: -.3px; }
-  .app-brand-mark { display: grid; place-items: center; width: 23px; height: 23px; border-radius: 7px; background: #ff6c37; color: white; font-size: 14px; }
-  .app-header-divider { height: 18px; border-left: 1px solid var(--color-border); }
-  .app-workspace-name { font-size: 12px; font-weight: 600; }
-  .app-header-caption { margin-left: auto; color: var(--muted); font-size: 11px; }
   .app-workbench { display: flex; flex: 1; min-height: 0; }
   .app-sidebar { background: var(--chrome); min-height: 0; }
   .app-activity-rail { border-right: 0; }
@@ -240,12 +224,12 @@
   .response-empty-content { flex: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px; padding: 28px 16px; color: var(--muted); font-size: 12px; }
   .response-empty-symbol { font-size: 26px; color: var(--muted); opacity: .5; }
   .app-shell [role='tab'][aria-selected='true'] { text-decoration-color: #ff6c37; }
-  .app-shell :is(button, input, textarea, [role='tab']):focus-visible { outline: 2px solid #ff6c37; outline-offset: 2px; }
-  .dark :is(.app-header, .app-header-divider, .request-document-bar, .request-toolbar, .request-editors, .editor-tabs, .response-empty, .response-empty-heading) { border-color: var(--color-dark-border); }
+  .app-shell :is(button, input, textarea, [role='tab'], [role='button']):focus-visible { outline: 2px solid #ff6c37; outline-offset: 2px; }
+  .dark :is(.request-document-bar, .request-toolbar, .request-editors, .editor-tabs, .response-empty, .response-empty-heading) { border-color: var(--color-dark-border); }
   @media (max-width: 900px) {
     .app-sidebar.w-82 { width: 272px; }
     .app-sidebar .w-64 { width: 200px; }
-    .app-header-caption, .request-document-folder { display: none; }
+    .request-document-folder { display: none; }
   }
 }
 
@@ -314,11 +298,7 @@
   }
 }
 
-@layer components {
-  .follow-prompt { margin: 0 20px 20px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); background: var(--chrome); }
-  .follow-prompt p { font-size: 12px; line-height: 1.6; margin: 0 0 12px; }
-  .follow-prompt-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-}
+
 
 @layer components {
   .results-additional { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
