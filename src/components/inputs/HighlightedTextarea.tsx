@@ -2,18 +2,21 @@ import cn from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import AutosizeTextarea, { TextareaAutosizeProps } from 'react-textarea-autosize';
 import VariableHighlighter from '../highlighters/VariableHighlighter';
+import JsonHighlighter from '../highlighters/JsonHighlighter';
 
 const DEFAULT_HIGHLIGHT_COLOR = '#6B7280';
 
 interface Props extends TextareaAutosizeProps {
   highlightColor?: string;
   variables?: string[];
+  highlightJson?: boolean;
 }
 
 export default function HighlightedTextarea({
   className,
   highlightColor,
   variables,
+  highlightJson = false,
   value,
   onScroll,
   ...otherProps
@@ -24,6 +27,7 @@ export default function HighlightedTextarea({
     scrollLeft: 0,
   });
   const textValue = typeof value === 'string' ? value : '';
+  const Highlighter = highlightJson ? JsonHighlighter : VariableHighlighter;
 
   useEffect(() => {
     if (highlighterRef.current) {
@@ -53,10 +57,11 @@ export default function HighlightedTextarea({
         {...otherProps}
       />
       <div
+        aria-hidden="true"
         className="absolute inset-0 mx-3 py-2 font-monospace text-xs wrap-break-word whitespace-pre-wrap overflow-hidden scrollbar-gutter-stable"
         ref={highlighterRef}
       >
-        <VariableHighlighter
+        <Highlighter
           text={textValue + '\u200B'} // ensure trailing newlines are rendered
           highlightColor={highlightColor || DEFAULT_HIGHLIGHT_COLOR}
           variables={variables}

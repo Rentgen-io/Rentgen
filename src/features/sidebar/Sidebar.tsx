@@ -64,15 +64,16 @@ export default function Sidebar() {
 
   return (
     <div
-      className={cn('h-screen sticky top-0 flex border-r border-border dark:border-dark-border', {
-        'w-20': !activeTab,
-        'w-100': activeTab,
+      className={cn('app-sidebar shrink-0 flex border-r border-border dark:border-dark-border', {
+        'w-18': !activeTab,
+        'w-82': activeTab,
       })}
     >
-      <div className="w-20 shrink-0 flex flex-col justify-between">
+      <div className="app-activity-rail w-18 shrink-0 flex flex-col justify-between">
         <div>
           <SidebarButton
             label={t('sidebar.collections')}
+            aria-pressed={activeTab === 'collections'}
             className={activeTab === 'collections' ? 'bg-button-secondary dark:bg-dark-input' : ''}
             onClick={handleCollectionClick}
           >
@@ -80,6 +81,7 @@ export default function Sidebar() {
           </SidebarButton>
           <SidebarButton
             label={t('sidebar.environments')}
+            aria-pressed={activeTab === 'environments'}
             className={activeTab === 'environments' ? 'bg-button-secondary dark:bg-dark-input' : ''}
             onClick={handleEnvironmentClick}
           >
@@ -88,6 +90,7 @@ export default function Sidebar() {
           {historyEnabled && (
             <SidebarButton
               label={t('sidebar.history')}
+            aria-pressed={activeTab === 'history'}
               className={activeTab === 'history' ? 'bg-button-secondary dark:bg-dark-input' : ''}
               onClick={handleHistoryClick}
             >
@@ -114,7 +117,8 @@ export default function Sidebar() {
         </div>
       </div>
       <div className="border-l border-border dark:border-dark-border overflow-hidden">
-        <div className="max-h-screen h-full w-80 flex flex-col overflow-hidden">
+        <div className="h-full w-64 flex flex-col overflow-hidden">
+          {activeTab && <div className="sidebar-panel-heading">{t(`sidebar.${activeTab}`)}</div>}
           {sidebarPanels.map(({ tab, Component }) => (
             <div key={tab} className={cn('overflow-hidden', activeTab === tab ? 'flex flex-col flex-1' : 'hidden')}>
               <Component />

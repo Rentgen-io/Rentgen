@@ -1,4 +1,23 @@
 const ptBR = {
+  ux: {
+    metricHelp: {
+      bugs: "Erro inesperado do servidor (HTTP 5xx) ou de execução. A API pode ter falhado ou estar indisponível. Revise a requisição e a resposta.",
+      failed: "O resultado real difere do esperado ou nenhuma resposta foi recebida. Verifique a expectativa, o mapeamento de dados e o comportamento da API.",
+      warnings: "Possível risco ou recomendação, geralmente de uma verificação de segurança. A importância depende da API e do caso de uso. Avalie se é necessário agir.",
+      passed: "O resultado real corresponde ao esperado nesta verificação. O teste passou, mas isso não garante que toda a API esteja livre de problemas.",
+    },
+    requestTitle: 'Nova requisição',
+    requestHint: 'Insira uma URL de API e envie a requisição.',
+    responseHint: 'O corpo, os cabeçalhos e o tempo de resposta aparecerão aqui.',
+    testsHint: 'Envie uma requisição para gerar testes com base na resposta.',
+    testsUnavailable: 'A geração de testes exige uma resposta bem-sucedida (HTTP 2xx ou 3xx).',
+    resultsTitle: 'Resultados dos testes',
+    resultsHint: 'Revise primeiro os bugs e os testes com falha. Expanda um teste para ver a requisição e a resposta.',
+    reviewFindings: 'Revisar problemas',
+    exportReport: 'Exportar relatório',
+    toggleTheme: 'Alternar tema',
+  },
+
   // Common
   common: {
     send: 'Enviar',

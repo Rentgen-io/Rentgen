@@ -1,4 +1,23 @@
 const pl = {
+  ux: {
+    metricHelp: {
+      bugs: "Nieoczekiwany błąd serwera (HTTP 5xx) lub wykonania. API mogło ulec awarii lub być niedostępne. Sprawdź żądanie i odpowiedź.",
+      failed: "Wynik rzeczywisty różni się od oczekiwanego lub nie otrzymano odpowiedzi. Sprawdź oczekiwania, mapowanie danych i zachowanie API.",
+      warnings: "Potencjalne ryzyko lub zalecenie, często z kontroli bezpieczeństwa. Znaczenie zależy od API i sposobu użycia. Oceń, czy potrzebne jest działanie.",
+      passed: "Wynik rzeczywisty jest zgodny z oczekiwanym w tej kontroli. Test przeszedł, ale nie gwarantuje to braku problemów w całym API.",
+    },
+    requestTitle: 'Nowe żądanie',
+    requestHint: 'Wpisz adres URL API i wyślij żądanie.',
+    responseHint: 'Tutaj pojawią się treść, nagłówki i czas odpowiedzi.',
+    testsHint: 'Wyślij żądanie, aby wygenerować testy na podstawie odpowiedzi.',
+    testsUnavailable: 'Generowanie testów wymaga poprawnej odpowiedzi (HTTP 2xx lub 3xx).',
+    resultsTitle: 'Wyniki testów',
+    resultsHint: 'Najpierw sprawdź błędy i nieudane testy. Rozwiń test, aby zobaczyć żądanie i odpowiedź.',
+    reviewFindings: 'Przejrzyj problemy',
+    exportReport: 'Eksportuj raport',
+    toggleTheme: 'Zmień motyw',
+  },
+
   // Common
   common: {
     send: 'Wyślij',

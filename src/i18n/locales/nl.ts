@@ -1,4 +1,23 @@
 const nl = {
+  ux: {
+    metricHelp: {
+      bugs: "Onverwachte serverfout (HTTP 5xx) of uitvoeringsfout. De API is mogelijk gecrasht of onbereikbaar. Bekijk het verzoek en het antwoord.",
+      failed: "Het werkelijke resultaat wijkt af van het verwachte, of er is geen antwoord ontvangen. Controleer de verwachting, gegevenstoewijzing en het API-gedrag.",
+      warnings: "Mogelijk risico of aanbeveling, vaak uit een beveiligingscontrole. Het belang hangt af van uw API en gebruikssituatie. Beoordeel of actie nodig is.",
+      passed: "Het werkelijke resultaat komt overeen met de verwachting voor deze controle. De test is geslaagd; dit garandeert niet dat de hele API probleemloos is.",
+    },
+    requestTitle: 'Nieuw verzoek',
+    requestHint: 'Voer een API-URL in en verstuur het verzoek.',
+    responseHint: 'Hier verschijnen de inhoud, headers en responstijd.',
+    testsHint: 'Verstuur een verzoek om tests te genereren op basis van het antwoord.',
+    testsUnavailable: 'Tests genereren vereist een succesvol antwoord (HTTP 2xx of 3xx).',
+    resultsTitle: 'Testresultaten',
+    resultsHint: 'Bekijk eerst bugs en mislukte tests. Klap een test uit om het verzoek en antwoord te zien.',
+    reviewFindings: 'Bevindingen bekijken',
+    exportReport: 'Rapport exporteren',
+    toggleTheme: 'Thema wisselen',
+  },
+
   // Common
   common: {
     send: 'Verzenden',

@@ -51,8 +51,16 @@ export default function RequestUrlBar() {
   const { connect, disconnect, send } = useWssActions();
 
   return (
-    <div className="flex flex-col @lg:flex-row @lg:items-center gap-2">
-      <div className="flex-auto flex items-center">
+    <div className="request-urlbar flex flex-col @lg:flex-row @lg:items-center gap-2">
+      <div
+        className="request-address flex-auto min-w-0 flex items-center"
+        onKeyDown={(event) => {
+          if (mode === 'HTTP' && event.key === 'Enter' && (event.metaKey || event.ctrlKey) && !disabled && !isSending) {
+            event.preventDefault();
+            sendHttpRequest();
+          }
+        }}
+      >
         {mode === 'HTTP' && (
           <CreatableSelect
             className="max-w-27.5 font-bold uppercase"
@@ -71,6 +79,7 @@ export default function RequestUrlBar() {
         <HighlightedInput
           className={cn('flex-auto', { 'border-l-0': mode === 'HTTP' })}
           highlightColor={selectedEnvironment?.color}
+          aria-label={t('request.enterUrl')}
           placeholder={t('request.enterUrl')}
           value={url}
           variables={variables}
@@ -85,7 +94,7 @@ export default function RequestUrlBar() {
               {t('common.cancel')}
             </Button>
           ) : (
-            <Button disabled={disabled} onClick={sendHttpRequest}>
+            <Button disabled={disabled} title={`${t('common.send')} (⌘ / Ctrl + Enter)`} aria-keyshortcuts="Meta+Enter Control+Enter" onClick={sendHttpRequest}>
               {t('common.send')}
             </Button>
           )}

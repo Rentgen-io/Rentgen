@@ -1,4 +1,23 @@
 const fr = {
+  ux: {
+    metricHelp: {
+      bugs: "Erreur serveur inattendue (HTTP 5xx) ou erreur d’exécution. L’API a peut-être planté ou est indisponible. Examinez la requête et la réponse.",
+      failed: "Le résultat obtenu diffère du résultat attendu, ou aucune réponse n’a été reçue. Vérifiez les attentes, la correspondance des données et le comportement de l’API.",
+      warnings: "Risque potentiel ou recommandation, souvent issu d’un contrôle de sécurité. Son importance dépend de votre API et de son usage. Évaluez si une action est nécessaire.",
+      passed: "Le résultat obtenu correspond au résultat attendu pour ce contrôle. Le test est réussi, sans garantir que toute l’API est exempte de problèmes.",
+    },
+    requestTitle: 'Nouvelle requête',
+    requestHint: 'Saisissez une URL API, puis envoyez la requête.',
+    responseHint: 'Le corps, les en-têtes et le temps de réponse apparaîtront ici.',
+    testsHint: 'Envoyez une requête pour générer des tests à partir de sa réponse.',
+    testsUnavailable: 'La génération de tests nécessite une réponse réussie (HTTP 2xx ou 3xx).',
+    resultsTitle: 'Résultats des tests',
+    resultsHint: 'Examinez les anomalies et les tests échoués en premier. Développez un test pour voir la requête et la réponse.',
+    reviewFindings: 'Examiner les résultats',
+    exportReport: 'Exporter le rapport',
+    toggleTheme: 'Changer de thème',
+  },
+
   // Common
   common: {
     send: 'Envoyer',

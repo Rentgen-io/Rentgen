@@ -7,7 +7,7 @@ import { CopyButton } from 'src/components/buttons/CopyButton';
 import { IconButton } from 'src/components/buttons/IconButton';
 import { HttpPanel } from 'src/components/panels/HttpPanel';
 import { useAppSelector } from 'src/store/hooks';
-import { selectDisabledPerformanceInsights, selectDisabledSecurityTests } from 'src/store/selectors';
+import { selectDisabledPerformanceInsights, selectDisabledSecurityTests, selectTheme } from 'src/store/selectors';
 import { getTestsStatistics } from 'src/test-engine';
 import { TestResult, TestStatus } from 'src/types';
 import { generateCurl, truncateValue } from 'src/utils';
@@ -26,6 +26,7 @@ export default function TestsTable({
 }: TableProps<TestResult>) {
   const { t } = useTranslation();
 
+  const isDark = useAppSelector(selectTheme) === 'dark';
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
   const definedData = data?.filter((item) => item != null) ?? [];
@@ -44,22 +45,25 @@ export default function TestsTable({
         {
           when: () => true,
           style: (row) => {
-            const styles = disabledTests.includes(row.name) ? { opacity: 0.5, cursor: 'not-allowed' } : {};
+            const styles = {
+              color: isDark ? '#e6e6e6' : '#212121',
+              ...(disabledTests.includes(row.name) ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
+            };
 
             switch (row.status) {
               case TestStatus.Pass:
-                return { ...styles, backgroundColor: '#d4edda' };
+                return { ...styles, backgroundColor: isDark ? '#182e24' : '#f0f8f3' };
               case TestStatus.Fail:
               case TestStatus.FailNoResponse:
-                return { ...styles, backgroundColor: '#f8d7da' };
+                return { ...styles, backgroundColor: isDark ? '#342223' : '#fff2f1' };
               case TestStatus.Manual:
-                return { ...styles, backgroundColor: '#e2e3e5' };
+                return { ...styles, backgroundColor: isDark ? '#2c2c2c' : '#f5f5f5' };
               case TestStatus.Warning:
-                return { ...styles, backgroundColor: '#fff3cd' };
+                return { ...styles, backgroundColor: isDark ? '#342d1c' : '#fff9eb' };
               case TestStatus.Info:
-                return { ...styles, backgroundColor: '#e6f0ff' };
+                return { ...styles, backgroundColor: isDark ? '#202c3a' : '#f0f5fc' };
               case TestStatus.Bug:
-                return { ...styles, backgroundColor: '#f3e8ff' };
+                return { ...styles, backgroundColor: isDark ? '#2d2338' : '#f8f2fc' };
               default:
                 return styles;
             }

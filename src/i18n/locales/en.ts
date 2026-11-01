@@ -1,4 +1,23 @@
 const en = {
+  ux: {
+    metricHelp: {
+      bugs: "An unexpected server error (HTTP 5xx) or execution error occurred. The API may have crashed or become unavailable. Review the request and response to find the cause.",
+      failed: "The actual result did not match the expected result, or no response was received. Check the expectation, data mapping and API behavior to determine the cause.",
+      warnings: "A potential risk or recommendation, often from a security check. Its importance depends on your API and use case. Review it to decide whether action is needed.",
+      passed: "The actual result matched the expected result for this check. This test passed; it does not guarantee the entire API is free of issues.",
+    },
+    requestTitle: 'New request',
+    requestHint: 'Enter an API URL, then send your request.',
+    responseHint: 'The response body, headers and timing will appear here.',
+    testsHint: 'Send a request to generate tests from its response.',
+    testsUnavailable: 'Test generation requires a successful response (HTTP 2xx or 3xx).',
+    resultsTitle: 'Test results',
+    resultsHint: 'Review bugs and failed checks first. Expand a test for request and response details.',
+    reviewFindings: 'Review findings',
+    exportReport: 'Export report',
+    toggleTheme: 'Switch theme',
+  },
+
   // Common
   common: {
     send: 'Send',
@@ -25,7 +44,7 @@ const en = {
     disabled: 'Disabled',
     connect: 'Connect',
     disconnect: 'Disconnect',
-    beautify: 'Beautify',
+    beautify: 'Format',
     reload: 'Reload',
     cut: 'Cut',
     paste: 'Paste',
@@ -144,8 +163,8 @@ const en = {
     generateAndRun: 'Generate & Run Tests',
     runningTests: 'Running tests... ({{current}}/{{total}})',
     noTestsGenerated: 'No tests generated',
-    selectForCompare: 'Select for Compare',
-    compareWithSelected: 'Compare with Selected',
+    selectForCompare: 'Use as Baseline',
+    compareWithSelected: 'Compare Results',
     exportFormat: 'Format',
     generateCertificate: 'Generate Certificate',
     notEligible: 'Not eligible (need at least 70 tests)',
@@ -168,7 +187,7 @@ const en = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Format',
-    aiTesting: 'Deeper AI Testing',
+    aiTesting: 'AI Testing',
     aiTestingTitle: 'Find tests the deterministic scan could not infer',
     aiTestingDescription: 'AI analyzes the run, suggests additional experiments, and Rentgen executes them.',
     runAiTesting: 'Run AI Testing',

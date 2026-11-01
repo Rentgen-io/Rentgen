@@ -1,4 +1,23 @@
 const zhCN = {
+  ux: {
+    metricHelp: {
+      bugs: "发生了意外的服务器错误（HTTP 5xx）或执行错误。API 可能已崩溃或无法访问。请检查请求和响应以查找原因。",
+      failed: "实际结果与预期不符，或未收到响应。请检查预期值、数据映射和 API 行为以确定原因。",
+      warnings: "潜在风险或建议，通常来自安全检查。其重要性取决于 API 和使用场景。请评估是否需要采取措施。",
+      passed: "本次检查的实际结果与预期一致。测试通过，但不保证整个 API 没有问题。",
+    },
+    requestTitle: '新建请求',
+    requestHint: '输入 API URL，然后发送请求。',
+    responseHint: '响应正文、响应头和耗时将显示在这里。',
+    testsHint: '发送请求后，即可根据响应生成测试。',
+    testsUnavailable: '生成测试需要成功的响应（HTTP 2xx 或 3xx）。',
+    resultsTitle: '测试结果',
+    resultsHint: '请先检查缺陷和失败的测试。展开测试可查看请求和响应详情。',
+    reviewFindings: '查看问题',
+    exportReport: '导出报告',
+    toggleTheme: '切换主题',
+  },
+
   // Common
   common: {
     send: '发送',

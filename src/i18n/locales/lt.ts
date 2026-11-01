@@ -1,4 +1,23 @@
 const lt = {
+  ux: {
+    metricHelp: {
+      bugs: "Įvyko netikėta serverio klaida (HTTP 5xx) arba vykdymo klaida. API galėjo nulūžti arba tapti nepasiekiama. Peržiūrėkite užklausą ir atsakymą, kad rastumėte priežastį.",
+      failed: "Gautas rezultatas neatitiko laukiamo arba nebuvo gautas atsakymas. Patikrinkite laukiamą rezultatą, duomenų susiejimą ir API veikimą, kad nustatytumėte priežastį.",
+      warnings: "Galima rizika arba rekomendacija, dažnai iš saugumo patikros. Svarba priklauso nuo jūsų API ir naudojimo scenarijaus. Peržiūrėkite ir nuspręskite, ar reikia imtis veiksmų.",
+      passed: "Gautas rezultatas sutapo su laukiamu šioje patikroje. Testas sėkmingas, tačiau tai negarantuoja, kad visoje API nėra problemų.",
+    },
+    requestTitle: 'Nauja užklausa',
+    requestHint: 'Įveskite API adresą ir išsiųskite užklausą.',
+    responseHint: 'Čia matysite atsakymo turinį, antraštes ir trukmę.',
+    testsHint: 'Išsiųskite užklausą, kad galėtumėte generuoti testus pagal jos atsakymą.',
+    testsUnavailable: 'Testams generuoti reikia sėkmingo atsakymo (HTTP 2xx arba 3xx).',
+    resultsTitle: 'Testų rezultatai',
+    resultsHint: 'Pirmiausia peržiūrėkite klaidas ir nepavykusius testus. Išskleiskite testą, kad matytumėte užklausą ir atsakymą.',
+    reviewFindings: 'Peržiūrėti problemas',
+    exportReport: 'Eksportuoti ataskaitą',
+    toggleTheme: 'Pakeisti temą',
+  },
+
   // Common
   common: {
     send: 'Siųsti',
@@ -144,8 +163,8 @@ const lt = {
     generateAndRun: 'Generuoti ir vykdyti testus',
     runningTests: 'Vykdomi testai... ({{current}}/{{total}})',
     noTestsGenerated: 'Nesugeneruota jokių testų',
-    selectForCompare: 'Pasirinkti palyginimui',
-    compareWithSelected: 'Palyginti su pasirinktu',
+    selectForCompare: 'Naudoti kaip palyginimo pagrindą',
+    compareWithSelected: 'Palyginti rezultatus',
     exportFormat: 'Formatas',
     generateCertificate: 'Generuoti sertifikatą',
     notEligible: 'Netinkama (reikia bent 70 testų)',
@@ -168,7 +187,7 @@ const lt = {
     bodyParameters: 'Turinys',
     queryParameters: 'Užklausa',
     formatPlaceholder: 'Formatas',
-    aiTesting: 'Gilesnis DI testavimas',
+    aiTesting: 'DI testavimas',
     aiTestingTitle: 'Rasti testus, kurių deterministinis skenavimas negalėjo nustatyti',
     aiTestingDescription: 'DI analizuoja vykdymą, siūlo papildomus eksperimentus, o Rentgen juos įvykdo.',
     runAiTesting: 'Vykdyti DI testavimą',

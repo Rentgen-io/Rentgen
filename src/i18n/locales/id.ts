@@ -1,4 +1,23 @@
 const id = {
+  ux: {
+    metricHelp: {
+      bugs: "Terjadi kesalahan server tak terduga (HTTP 5xx) atau kesalahan eksekusi. API mungkin mengalami crash atau tidak tersedia. Tinjau permintaan dan respons.",
+      failed: "Hasil aktual tidak sesuai harapan atau tidak ada respons. Periksa ekspektasi, pemetaan data, dan perilaku API.",
+      warnings: "Potensi risiko atau rekomendasi, sering dari pemeriksaan keamanan. Pentingnya bergantung pada API dan kasus penggunaan. Tinjau apakah perlu tindakan.",
+      passed: "Hasil aktual sesuai harapan dalam pemeriksaan ini. Tes lulus, tetapi tidak menjamin seluruh API bebas masalah.",
+    },
+    requestTitle: 'Permintaan baru',
+    requestHint: 'Masukkan URL API, lalu kirim permintaan.',
+    responseHint: 'Isi, header, dan waktu respons akan muncul di sini.',
+    testsHint: 'Kirim permintaan untuk membuat pengujian berdasarkan responsnya.',
+    testsUnavailable: 'Pembuatan pengujian memerlukan respons berhasil (HTTP 2xx atau 3xx).',
+    resultsTitle: 'Hasil pengujian',
+    resultsHint: 'Tinjau bug dan pengujian yang gagal terlebih dahulu. Perluas pengujian untuk melihat permintaan dan respons.',
+    reviewFindings: 'Tinjau temuan',
+    exportReport: 'Ekspor laporan',
+    toggleTheme: 'Ganti tema',
+  },
+
   // Common
   common: {
     send: 'Kirim',

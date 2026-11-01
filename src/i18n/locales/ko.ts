@@ -1,4 +1,23 @@
 const ko = {
+  ux: {
+    metricHelp: {
+      bugs: "예기치 않은 서버 오류(HTTP 5xx) 또는 실행 오류가 발생했습니다. API가 중단되었거나 접근할 수 없을 수 있습니다. 요청과 응답을 확인하세요.",
+      failed: "실제 결과가 예상 결과와 다르거나 응답을 받지 못했습니다. 예상값, 데이터 매핑 및 API 동작을 확인하세요.",
+      warnings: "잠재적 위험 또는 권장 사항으로, 주로 보안 검사에서 발견됩니다. 중요도는 API와 사용 사례에 따라 다릅니다. 조치가 필요한지 검토하세요.",
+      passed: "이 검사에서 실제 결과가 예상 결과와 일치했습니다. 테스트는 통과했지만 API 전체에 문제가 없음을 보장하지는 않습니다.",
+    },
+    requestTitle: '새 요청',
+    requestHint: 'API URL을 입력하고 요청을 보내세요.',
+    responseHint: '응답 본문, 헤더 및 응답 시간이 여기에 표시됩니다.',
+    testsHint: '요청을 보내면 응답을 바탕으로 테스트를 생성할 수 있습니다.',
+    testsUnavailable: '테스트 생성에는 성공 응답(HTTP 2xx 또는 3xx)이 필요합니다.',
+    resultsTitle: '테스트 결과',
+    resultsHint: '버그와 실패한 테스트를 먼저 확인하세요. 테스트를 펼치면 요청과 응답을 볼 수 있습니다.',
+    reviewFindings: '문제 검토',
+    exportReport: '보고서 내보내기',
+    toggleTheme: '테마 전환',
+  },
+
   // Common
   common: {
     send: '보내기',
