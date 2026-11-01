@@ -1,5 +1,11 @@
 const pl = {
   ux: {
+    metricHelp: {
+      bugs: "Nieoczekiwany błąd serwera (HTTP 5xx) lub wykonania. API mogło ulec awarii lub być niedostępne. Sprawdź żądanie i odpowiedź.",
+      failed: "Wynik rzeczywisty różni się od oczekiwanego lub nie otrzymano odpowiedzi. Sprawdź oczekiwania, mapowanie danych i zachowanie API.",
+      warnings: "Potencjalne ryzyko lub zalecenie, często z kontroli bezpieczeństwa. Znaczenie zależy od API i sposobu użycia. Oceń, czy potrzebne jest działanie.",
+      passed: "Wynik rzeczywisty jest zgodny z oczekiwanym w tej kontroli. Test przeszedł, ale nie gwarantuje to braku problemów w całym API.",
+    },
     requestTitle: 'Nowe żądanie',
     requestHint: 'Wpisz adres URL API i wyślij żądanie.',
     responseHint: 'Tutaj pojawią się treść, nagłówki i czas odpowiedzi.',

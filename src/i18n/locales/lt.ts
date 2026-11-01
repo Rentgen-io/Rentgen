@@ -1,5 +1,11 @@
 const lt = {
   ux: {
+    metricHelp: {
+      bugs: "Įvyko netikėta serverio klaida (HTTP 5xx) arba vykdymo klaida. API galėjo nulūžti arba tapti nepasiekiama. Peržiūrėkite užklausą ir atsakymą, kad rastumėte priežastį.",
+      failed: "Gautas rezultatas neatitiko laukiamo arba nebuvo gautas atsakymas. Patikrinkite laukiamą rezultatą, duomenų susiejimą ir API veikimą, kad nustatytumėte priežastį.",
+      warnings: "Galima rizika arba rekomendacija, dažnai iš saugumo patikros. Svarba priklauso nuo jūsų API ir naudojimo scenarijaus. Peržiūrėkite ir nuspręskite, ar reikia imtis veiksmų.",
+      passed: "Gautas rezultatas sutapo su laukiamu šioje patikroje. Testas sėkmingas, tačiau tai negarantuoja, kad visoje API nėra problemų.",
+    },
     requestTitle: 'Nauja užklausa',
     requestHint: 'Įveskite API adresą ir išsiųskite užklausą.',
     responseHint: 'Čia matysite atsakymo turinį, antraštes ir trukmę.',

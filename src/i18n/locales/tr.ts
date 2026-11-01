@@ -1,5 +1,11 @@
 const tr = {
   ux: {
+    metricHelp: {
+      bugs: "Beklenmeyen sunucu hatası (HTTP 5xx) veya yürütme hatası oluştu. API çökmüş veya erişilemez olabilir. İsteği ve yanıtı inceleyin.",
+      failed: "Gerçek sonuç beklenenle eşleşmedi veya yanıt alınamadı. Beklentiyi, veri eşlemesini ve API davranışını kontrol edin.",
+      warnings: "Genellikle güvenlik kontrolünden gelen olası risk veya öneri. Önemi API ve kullanım senaryosuna bağlıdır. İşlem gerekip gerekmediğini değerlendirin.",
+      passed: "Bu kontrolde gerçek sonuç beklenenle eşleşti. Test geçti; ancak bu, API genelinde sorun olmadığını garanti etmez.",
+    },
     requestTitle: 'Yeni istek',
     requestHint: 'Bir API URL’si girin ve isteği gönderin.',
     responseHint: 'Yanıt gövdesi, başlıklar ve yanıt süresi burada görünecek.',

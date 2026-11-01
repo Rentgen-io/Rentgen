@@ -1,5 +1,11 @@
 const ptBR = {
   ux: {
+    metricHelp: {
+      bugs: "Erro inesperado do servidor (HTTP 5xx) ou de execução. A API pode ter falhado ou estar indisponível. Revise a requisição e a resposta.",
+      failed: "O resultado real difere do esperado ou nenhuma resposta foi recebida. Verifique a expectativa, o mapeamento de dados e o comportamento da API.",
+      warnings: "Possível risco ou recomendação, geralmente de uma verificação de segurança. A importância depende da API e do caso de uso. Avalie se é necessário agir.",
+      passed: "O resultado real corresponde ao esperado nesta verificação. O teste passou, mas isso não garante que toda a API esteja livre de problemas.",
+    },
     requestTitle: 'Nova requisição',
     requestHint: 'Insira uma URL de API e envie a requisição.',
     responseHint: 'O corpo, os cabeçalhos e o tempo de resposta aparecerão aqui.',

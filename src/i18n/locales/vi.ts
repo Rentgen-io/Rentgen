@@ -1,5 +1,11 @@
 const vi = {
   ux: {
+    metricHelp: {
+      bugs: "Đã xảy ra lỗi máy chủ ngoài dự kiến (HTTP 5xx) hoặc lỗi thực thi. API có thể đã bị sập hoặc không truy cập được. Hãy xem yêu cầu và phản hồi.",
+      failed: "Kết quả thực tế không khớp kỳ vọng hoặc không nhận được phản hồi. Kiểm tra kỳ vọng, ánh xạ dữ liệu và hành vi API.",
+      warnings: "Rủi ro tiềm ẩn hoặc khuyến nghị, thường từ kiểm tra bảo mật. Mức độ quan trọng tùy thuộc API và trường hợp sử dụng. Xem xét có cần hành động không.",
+      passed: "Kết quả thực tế khớp kỳ vọng trong lần kiểm tra này. Kiểm thử đạt, nhưng không đảm bảo toàn bộ API không có vấn đề.",
+    },
     requestTitle: 'Yêu cầu mới',
     requestHint: 'Nhập URL API rồi gửi yêu cầu.',
     responseHint: 'Nội dung, tiêu đề và thời gian phản hồi sẽ xuất hiện tại đây.',

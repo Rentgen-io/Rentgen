@@ -302,4 +302,26 @@
 
 @layer components {
   .results-additional { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .result-metric dt { display: flex; align-items: center; gap: 5px; }
+  .metric-help-button {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; margin: -6px 0; padding: 0;
+    border: 0; border-radius: 50%; background: transparent; color: inherit;
+    opacity: .65; cursor: help; transition: background-color 150ms, opacity 150ms;
+  }
+  .metric-help-button:hover, .metric-help-button:focus-visible {
+    opacity: 1; background: var(--chrome);
+  }
+  .metric-help-popover {
+    position: fixed; inset: auto; margin: 0; box-sizing: border-box;
+    width: min(288px, calc(100vw - 24px)); padding: 16px 18px;
+    border: 1px solid #e6e6e6; border-radius: 12px;
+    background: #fff; color: #212121; text-align: left;
+    box-shadow: 0 8px 32px #00000014, 0 2px 8px #00000008;
+    font-family: var(--font-segoe-ui); font-size: 12px; line-height: 1.6;
+  }
+  .metric-help-popover strong { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600; }
+  .metric-help-popover p { margin: 0; color: #555; }
+  .dark .metric-help-popover { background: #2b2b2b; border-color: #454545; color: #e6e6e6; box-shadow: 0 8px 32px #00000040; }
+  .dark .metric-help-popover p { color: #bdbdbd; }
 }

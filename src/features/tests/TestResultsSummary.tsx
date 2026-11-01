@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { getTestsStatistics } from 'src/test-engine';
 import { TestResult } from 'src/types';
 import Button, { ButtonType } from 'src/components/buttons/Button';
+import MetricHelp from 'src/components/help/MetricHelp';
 
 interface Suite {
   label: string;
@@ -59,7 +60,10 @@ export default function TestResultsSummary({ suites, isRunning, onReview }: Prop
           ['passed', 'common.passed'],
         ] as const).map(([key, label]) => (
           <div key={key} className={`result-metric result-metric-${key}`} data-empty={totals[key] === 0}>
-            <dt>{t(label)}</dt>
+            <dt>
+              {t(label)}
+              <MetricHelp label={t(label)} description={t(`ux.metricHelp.${key}`)} />
+            </dt>
             <dd>{totals[key]}</dd>
           </div>
         ))}

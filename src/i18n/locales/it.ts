@@ -1,5 +1,11 @@
 const it = {
   ux: {
+    metricHelp: {
+      bugs: "Errore imprevisto del server (HTTP 5xx) o di esecuzione. L’API potrebbe essersi arrestata o essere irraggiungibile. Esamina richiesta e risposta.",
+      failed: "Il risultato effettivo non corrisponde a quello atteso oppure non è arrivata una risposta. Verifica aspettative, mappatura dei dati e comportamento dell’API.",
+      warnings: "Potenziale rischio o raccomandazione, spesso da un controllo di sicurezza. L’importanza dipende dall’API e dal caso d’uso. Valuta se intervenire.",
+      passed: "Il risultato effettivo corrisponde a quello atteso per questo controllo. Il test è superato, ma non garantisce che l’intera API sia priva di problemi.",
+    },
     requestTitle: 'Nuova richiesta',
     requestHint: 'Inserisci un URL API e invia la richiesta.',
     responseHint: 'Qui appariranno il corpo, le intestazioni e il tempo di risposta.',

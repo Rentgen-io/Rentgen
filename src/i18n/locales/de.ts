@@ -1,5 +1,11 @@
 const de = {
   ux: {
+    metricHelp: {
+      bugs: "Unerwarteter Serverfehler (HTTP 5xx) oder Ausführungsfehler. Die API könnte abgestürzt oder nicht erreichbar sein. Prüfen Sie Anfrage und Antwort.",
+      failed: "Das tatsächliche Ergebnis weicht vom erwarteten ab oder es fehlt eine Antwort. Prüfen Sie Erwartung, Datenzuordnung und API-Verhalten.",
+      warnings: "Mögliches Risiko oder Empfehlung, häufig aus einer Sicherheitsprüfung. Die Bedeutung hängt von Ihrer API und dem Anwendungsfall ab. Prüfen Sie den Handlungsbedarf.",
+      passed: "Das tatsächliche Ergebnis entspricht der Erwartung dieser Prüfung. Der Test ist bestanden; die gesamte API ist damit nicht zwangsläufig fehlerfrei.",
+    },
     requestTitle: 'Neue Anfrage',
     requestHint: 'API-URL eingeben und Anfrage senden.',
     responseHint: 'Antwortinhalt, Header und Dauer erscheinen hier.',

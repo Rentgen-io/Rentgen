@@ -1,5 +1,11 @@
 const es = {
   ux: {
+    metricHelp: {
+      bugs: "Error inesperado del servidor (HTTP 5xx) o de ejecución. La API podría haber fallado o no estar disponible. Revise la solicitud y la respuesta.",
+      failed: "El resultado real no coincide con el esperado o no se recibió respuesta. Revise la expectativa, el mapeo de datos y el comportamiento de la API.",
+      warnings: "Posible riesgo o recomendación, a menudo de una comprobación de seguridad. Su importancia depende de la API y del caso de uso. Revise si requiere alguna acción.",
+      passed: "El resultado real coincide con el esperado en esta comprobación. El test pasó; esto no garantiza que toda la API esté libre de problemas.",
+    },
     requestTitle: 'Nueva solicitud',
     requestHint: 'Introduce una URL de API y envía la solicitud.',
     responseHint: 'Aquí aparecerán el cuerpo, las cabeceras y el tiempo de respuesta.',
