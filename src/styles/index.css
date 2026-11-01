@@ -218,6 +218,16 @@
   .request-code-editor { border: 0; border-radius: 0; }
   .request-code-editor textarea { min-height: 135px; line-height: 1.7; }
   .request-code-editor > div { line-height: 1.7; }
+  .json-token-key { color: #0451a5; }
+  .json-token-string { color: #a31515; }
+  .json-token-number { color: #098658; }
+  .json-token-literal { color: #0000ff; }
+  .json-token-punctuation { color: #555; }
+  .dark .json-token-key { color: #9cdcfe; }
+  .dark .json-token-string { color: #ce9178; }
+  .dark .json-token-number { color: #b5cea8; }
+  .dark .json-token-literal { color: #569cd6; }
+  .dark .json-token-punctuation { color: #d4d4d4; }
   .request-workbench > .workspace-panel { border-width: 0 0 1px; }
   .response-empty { min-height: 180px; display: flex; flex-direction: column; border-bottom: 1px solid var(--color-border); }
   .response-empty-heading { padding: 11px 16px; font-size: 12px; font-weight: 600; border-bottom: 1px solid var(--color-border); }

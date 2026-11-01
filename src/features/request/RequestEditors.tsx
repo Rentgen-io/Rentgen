@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import HighlightedTextarea from 'src/components/inputs/HighlightedTextarea';
+import { MAX_JSON_HIGHLIGHT_LENGTH, shouldHighlightJson } from 'src/components/highlighters/jsonSyntax';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -12,7 +13,7 @@ import {
   selectVariableNames,
 } from 'src/store/selectors';
 import { requestActions } from 'src/store/slices/requestSlice';
-import { formatBody, parseHeaders } from 'src/utils';
+import { formatBody, getHeaderValue, parseHeaders } from 'src/utils';
 
 export default function RequestEditors() {
   const dispatch = useAppDispatch();
@@ -63,6 +64,7 @@ export default function RequestEditors() {
             <HighlightedTextarea
               className="request-code-editor"
               aria-label={t('request.body')}
+              highlightJson={body.length <= MAX_JSON_HIGHLIGHT_LENGTH && shouldHighlightJson(body, getHeaderValue(parseHeaders(headers), 'content-type'))}
               highlightColor={selectedEnvironment?.color}
               maxRows={15}
               placeholder={mode === 'HTTP' ? t('request.bodyPlaceholderHttp') : t('request.bodyPlaceholderWss')}
