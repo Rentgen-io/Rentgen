@@ -1,5 +1,7 @@
 import cn from 'classnames';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import PreEvaluationPanel from './features/pre-evaluation/PreEvaluationPanel';
+import Button, { ButtonType } from './components/buttons/Button';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { twMerge } from 'tailwind-merge';
@@ -54,6 +56,8 @@ import { uiActions } from './store/slices/uiSlice';
 
 export default function App() {
   const dispatch = useAppDispatch();
+  const [preEvaluation, setPreEvaluation] = useState(false);
+  const evaluationRequestId = useAppSelector(s => s.collection.selectedRequestId);
   const { t } = useTranslation();
   const {
     aiRunStartedAt,
@@ -190,13 +194,20 @@ export default function App() {
                 <RequestUrlBar />
                 <RequestEditors key={mode} />
 
-                {mode === 'HTTP' && <HttpResponsePanel />}
+                {mode === 'HTTP' && <HttpResponsePanel hideMappings={preEvaluation} />}
                 <WssMessagesPanel />
-                {mode === 'HTTP' && <TestRunnerBar />}
+                {mode === 'HTTP' && <>
+                  <div className="flex gap-2 px-4 py-2" role="tablist" aria-label="Request use case">
+                    <Button role="tab" aria-selected={!preEvaluation} buttonType={preEvaluation ? ButtonType.SECONDARY : ButtonType.PRIMARY} onClick={() => setPreEvaluation(false)}>Tests / Baseline</Button>
+                    <Button role="tab" aria-selected={preEvaluation} buttonType={preEvaluation ? ButtonType.PRIMARY : ButtonType.SECONDARY} onClick={() => setPreEvaluation(true)}>✦ Pre-Evaluation</Button>
+                  </div>
+                  {!preEvaluation && <TestRunnerBar />}
+                  <div hidden={!preEvaluation}><PreEvaluationPanel key={evaluationRequestId ?? 'draft'} /></div>
+                </>}
               </>
             </div>
           )}
-          {!isEditingEnvironment && !isComparingTestResults && testResults && (
+          {!isEditingEnvironment && !isComparingTestResults && !preEvaluation && testResults && (
             <>
               <TestResultsSummary
                 suites={testsTabs}

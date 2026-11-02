@@ -41,6 +41,7 @@ export function useSaveRequest() {
 
   const saveRequest = useCallback(
     (duplicate = false) => {
+      const evaluation = store.getState().request.preEvaluation;
       let requestId: string | null = selectedRequestId;
       const parsedHeaders = parseHeaders(headers);
 
@@ -54,6 +55,8 @@ export function useSaveRequest() {
         requestId = store.getState().collection.selectedRequestId;
         if (requestId && testResults) dispatch(testsActions.addResults({ requestId, results: testResults }));
       }
+
+      if (requestId && evaluation) dispatch(collectionActions.setPreEvaluation({ requestId, evaluation }));
 
       if (requestId && httpResponse)
         dispatch(

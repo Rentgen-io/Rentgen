@@ -1,3 +1,4 @@
+import { PreEvaluation } from './preEvaluation';
 // Postman Collection Format v2 Types
 export interface PostmanHeader {
   key: string;
@@ -17,6 +18,7 @@ export interface PostmanRequest {
 }
 
 export interface PostmanItem {
+  preEvaluation?: PreEvaluation;
   id: string;
   name: string;
   request: PostmanRequest;

@@ -1,3 +1,4 @@
+import { PreEvaluation } from 'shared/types/preEvaluation';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Method } from 'axios';
 import { RequestParameters } from 'src/types';
@@ -5,6 +6,7 @@ import { RequestParameters } from 'src/types';
 export type Mode = 'HTTP' | 'WSS';
 
 interface RequestState {
+  preEvaluation?: PreEvaluation;
   body: string;
   bodyParameters: RequestParameters;
   headers: string;
@@ -30,6 +32,7 @@ export const requestSlice = createSlice({
   name: 'request',
   initialState,
   reducers: {
+    setPreEvaluation: (state, action: PayloadAction<PreEvaluation>) => { state.preEvaluation = action.payload; },
     importFromCurl: (
       state,
       action: PayloadAction<{
@@ -40,6 +43,7 @@ export const requestSlice = createSlice({
       }>,
     ) => {
       const { url, method, headers, body } = action.payload;
+      state.preEvaluation = undefined;
       state.url = url;
       state.method = method as Method;
       state.headers = headers;
@@ -56,6 +60,7 @@ export const requestSlice = createSlice({
     ) => {
       const { method, url, headers, body } = action.payload;
       state.method = method as Method;
+      state.preEvaluation = undefined;
       state.url = url;
       state.headers = headers;
       state.body = body;
@@ -63,6 +68,7 @@ export const requestSlice = createSlice({
       state.queryParameters = {};
     },
     resetRequest: (state) => {
+      state.preEvaluation = undefined;
       state.method = 'GET';
       state.url = '';
       state.headers = '';

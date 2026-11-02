@@ -1,3 +1,4 @@
+import { PreEvaluation } from 'shared/types/preEvaluation';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_FOLDER_ID } from 'shared/utils/collection';
 import { loadCollection as loadCollectionFile } from 'src/api/storage';
@@ -39,6 +40,10 @@ export const collectionSlice = createSlice({
   name: 'collection',
   initialState,
   reducers: {
+    setPreEvaluation: (state, action: PayloadAction<{ requestId: string; evaluation: PreEvaluation }>) => {
+      const item = state.data.item.flatMap(folder => folder.item).find(item => item.id === action.payload.requestId);
+      if (item) item.preEvaluation = action.payload.evaluation;
+    },
     addFolder: (state, action: PayloadAction<string>) => {
       state.data = addFolderToCollection(state.data, action.payload);
     },

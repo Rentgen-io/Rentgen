@@ -23,7 +23,7 @@ import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import ParametersPanel from '../parameters/ParametersPanel';
 
-export default function HttpResponsePanel() {
+export default function HttpResponsePanel({ hideMappings = false }: { hideMappings?: boolean }) {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -73,7 +73,7 @@ export default function HttpResponsePanel() {
   const isNetworkError = httpResponse?.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
   const hasBodyParameters = Object.keys(bodyParameters).length > 0;
   const hasQueryParameters = Object.keys(queryParameters).length > 0;
-  const hasParameters = hasBodyParameters || hasQueryParameters;
+  const hasParameters = !hideMappings && (hasBodyParameters || hasQueryParameters);
 
   return (
     <Panel
