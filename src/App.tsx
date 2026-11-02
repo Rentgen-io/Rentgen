@@ -1,7 +1,6 @@
 import cn from 'classnames';
 import { useMemo, useState } from 'react';
 import PreEvaluationPanel from './features/pre-evaluation/PreEvaluationPanel';
-import Button, { ButtonType } from './components/buttons/Button';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { twMerge } from 'tailwind-merge';
@@ -197,12 +196,20 @@ export default function App() {
                 {mode === 'HTTP' && <HttpResponsePanel hideMappings={preEvaluation} />}
                 <WssMessagesPanel />
                 {mode === 'HTTP' && <>
-                  <div className="flex gap-2 px-4 py-2" role="tablist" aria-label="Request use case">
-                    <Button role="tab" aria-selected={!preEvaluation} buttonType={preEvaluation ? ButtonType.SECONDARY : ButtonType.PRIMARY} onClick={() => setPreEvaluation(false)}>Tests / Baseline</Button>
-                    <Button role="tab" aria-selected={preEvaluation} buttonType={preEvaluation ? ButtonType.PRIMARY : ButtonType.SECONDARY} onClick={() => setPreEvaluation(true)}>✦ Pre-Evaluation</Button>
-                  </div>
-                  {!preEvaluation && <TestRunnerBar />}
-                  <div hidden={!preEvaluation}><PreEvaluationPanel key={evaluationRequestId ?? 'draft'} /></div>
+                  <Tabs
+                    selectedIndex={preEvaluation ? 1 : 0}
+                    onSelect={(index) => setPreEvaluation(index === 1)}
+                    selectedTabClassName="editor-tab-active"
+                    selectedTabPanelClassName="block!"
+                    forceRenderTabPanel
+                  >
+                    <TabList className="editor-tabs" aria-label="Working mode">
+                      <Tab className="editor-tab focus-visible:outline-2 focus-visible:outline-offset-2">API Testing</Tab>
+                      <Tab className="editor-tab focus-visible:outline-2 focus-visible:outline-offset-2">LLM Pre-Evaluation</Tab>
+                    </TabList>
+                    <TabPanel className="hidden"><TestRunnerBar /></TabPanel>
+                    <TabPanel className="hidden"><PreEvaluationPanel key={evaluationRequestId ?? 'draft'} /></TabPanel>
+                  </Tabs>
                 </>}
               </>
             </div>
