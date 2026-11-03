@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { twMerge } from 'tailwind-merge';
 import { IconButton } from './components/buttons/IconButton';
+import Loader from './components/loaders/Loader';
 import EnvironmentEditor from './features/environment/EnvironmentEditor';
 import AppModals from './features/modals/AppModals';
+import RequestDetails from './features/request/RequestDetails';
 import RequestEditors from './features/request/RequestEditors';
 import RequestModeBar from './features/request/RequestModeBar';
 import RequestUrlBar from './features/request/RequestUrlBar';
@@ -42,11 +44,10 @@ import {
 } from './store/selectors';
 import { environmentActions } from './store/slices/environmentSlice';
 import { testsActions } from './store/slices/testsSlice';
+import { uiActions } from './store/slices/uiSlice';
 import { getTestsStatistics } from './test-engine';
 
 import ClearCrossIcon from './assets/icons/clear-cross-icon.svg';
-import Loader from './components/loaders/Loader';
-import { uiActions } from './store/slices/uiSlice';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -135,21 +136,13 @@ export default function App() {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="@container flex-1 min-w-0 flex flex-col overflow-y-auto">
+      <div className="@container flex-1 min-w-0 flex flex-col">
         {isEditingEnvironment && (
-          <div className="relative flex flex-col flex-auto">
-            <EnvironmentEditor
-              environment={environments.find(({ id }) => id === editingEnvironmentId) || null}
-              isNew={editingEnvironmentId === null}
-              onSave={(environment) => dispatch(environmentActions.updateEnvironment(environment))}
-            />
-            <IconButton
-              className="absolute top-1.5 right-1.5"
-              onClick={() => dispatch(environmentActions.stopEditing())}
-            >
-              <ClearCrossIcon className="h-5 w-5" />
-            </IconButton>
-          </div>
+          <EnvironmentEditor
+            environment={environments.find(({ id }) => id === editingEnvironmentId) || null}
+            isNew={editingEnvironmentId === null}
+            onSave={(environment) => dispatch(environmentActions.updateEnvironment(environment))}
+          />
         )}
         {!isEditingEnvironment && isComparingTestResults && compareResponse && (
           <div className="relative flex flex-col flex-auto">
@@ -167,16 +160,17 @@ export default function App() {
           </div>
         )}
         {!isEditingEnvironment && !isComparingTestResults && (
-          <div className="flex flex-col gap-4 p-4">
-            <>
-              <RequestModeBar />
+          <div className="flex flex-col flex-auto divide-y divide-border">
+            <RequestDetails />
+            <RequestModeBar />
+            <div className="border-0">
               <RequestUrlBar />
-              <RequestEditors />
+            </div>
+            <RequestEditors />
 
-              {mode === 'HTTP' && <HttpResponsePanel />}
-              <WssMessagesPanel />
-              {mode === 'HTTP' && <TestRunnerBar />}
-            </>
+            {mode === 'HTTP' && <HttpResponsePanel />}
+            <WssMessagesPanel />
+            {mode === 'HTTP' && <TestRunnerBar />}
           </div>
         )}
         {!isEditingEnvironment && !isComparingTestResults && testResults && (

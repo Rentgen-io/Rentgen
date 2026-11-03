@@ -39,7 +39,7 @@ const exitCodes: ExitCode[] = [
 const transComponents = { c: <code />, e: <em /> };
 
 const CodeBlock = ({ children }: { children: string }) => (
-  <pre className="m-0 px-3 py-2 text-xs font-mono bg-button-secondary dark:bg-dark-input overflow-x-auto whitespace-pre-wrap break-all">
+  <pre className="m-0 px-3 py-2 text-xs font-mono bg-surface overflow-x-auto whitespace-pre-wrap break-all">
     <code>{children}</code>
   </pre>
 );
@@ -63,7 +63,7 @@ function StatusBadge({ status }: { status: CliStatus }) {
         <span className="inline-block w-2 h-2 mt-1 rounded-full bg-amber-500 shrink-0" />
         <div className="flex flex-col">
           <span className="text-xs font-medium">{t('settings.cli.status.binaryUnavailable')}</span>
-          <span className="text-xs text-text-secondary">
+          <span className="text-xs text-muted-foreground">
             {status.notes[0] ?? t('settings.cli.status.binaryUnavailableReinstall')}
           </span>
         </div>
@@ -80,7 +80,7 @@ function StatusBadge({ status }: { status: CliStatus }) {
             {t('settings.cli.status.installed')}
             {status.managedBy === 'package-manager' ? t('settings.cli.status.managedByPackageManager') : ''}
           </span>
-          <span className="text-xs text-text-secondary">
+          <span className="text-xs text-muted-foreground">
             {status.pathEntry.version ? `${status.pathEntry.version} at ` : 'at '}
             <code>{status.pathEntry.resolvedPath}</code>
           </span>
@@ -95,7 +95,7 @@ function StatusBadge({ status }: { status: CliStatus }) {
         <span className="inline-block w-2 h-2 mt-1 rounded-full bg-amber-500 shrink-0" />
         <div className="flex flex-col">
           <span className="text-xs font-medium">{t('settings.cli.status.conflictingPath')}</span>
-          <span className="text-xs text-text-secondary">
+          <span className="text-xs text-muted-foreground">
             <Trans
               i18nKey="settings.cli.status.conflictingPathDescription"
               values={{ path: status.pathEntry.resolvedPath ?? '' }}
@@ -109,10 +109,10 @@ function StatusBadge({ status }: { status: CliStatus }) {
 
   return (
     <div className="flex items-start gap-2">
-      <span className="inline-block w-2 h-2 mt-1 rounded-full bg-text-secondary shrink-0" />
+      <span className="inline-block w-2 h-2 mt-1 rounded-full bg-muted-foreground shrink-0" />
       <div className="flex flex-col">
         <span className="text-xs font-medium">{t('settings.cli.status.notInstalled')}</span>
-        <span className="text-xs text-text-secondary">
+        <span className="text-xs text-muted-foreground">
           <Trans i18nKey="settings.cli.status.notInstalledDescription" components={transComponents} />
         </span>
       </div>
@@ -136,7 +136,7 @@ function ActionRow({
 
   if (status.managedBy === 'package-manager') {
     return (
-      <p className="m-0 text-xs text-text-secondary">
+      <p className="m-0 text-xs text-muted-foreground">
         <Trans i18nKey="settings.cli.action.packageManagerNote" components={transComponents} />
       </p>
     );
@@ -165,21 +165,21 @@ function ActionRow({
 function PlatformTip({ platform }: { platform: NodeJS.Platform }) {
   if (platform === 'darwin') {
     return (
-      <p className="m-0 text-xs text-text-secondary">
+      <p className="m-0 text-xs text-muted-foreground">
         <Trans i18nKey="settings.cli.platformTip.macos" components={transComponents} />
       </p>
     );
   }
   if (platform === 'win32') {
     return (
-      <p className="m-0 text-xs text-text-secondary">
+      <p className="m-0 text-xs text-muted-foreground">
         <Trans i18nKey="settings.cli.platformTip.windows" components={transComponents} />
       </p>
     );
   }
   if (platform === 'linux') {
     return (
-      <p className="m-0 text-xs text-text-secondary">
+      <p className="m-0 text-xs text-muted-foreground">
         <Trans i18nKey="settings.cli.platformTip.linux" components={transComponents} />
       </p>
     );
@@ -254,118 +254,127 @@ export function CliSettings() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <p className="m-0 text-xs text-text-secondary">
-        <Trans i18nKey="settings.cli.intro" components={transComponents} />
-      </p>
-      <p className="m-0 text-xs text-text-secondary">
-        {t('settings.cli.fullDocumentation')}{' '}
-        <button
-          type="button"
-          onClick={() => openExternal('https://rentgen.io/cli')}
-          className="p-0 bg-transparent border-0 underline text-button-primary hover:text-button-primary-hover cursor-pointer"
-        >
-          rentgen.io/cli
-        </button>
-      </p>
-
-      <SettingsHeader className="mt-4">
-        {t('settings.cli.installInPath', { platform: status ? platformLabel(status.platform) : '...' })}
-      </SettingsHeader>
-
-      {status === null ? (
-        <p className="m-0 text-xs text-text-secondary">{t('settings.cli.checkingStatus')}</p>
-      ) : (
-        <>
-          <div className="flex flex-col gap-4 p-3 border border-border dark:border-dark-border">
-            <StatusBadge status={status} />
-            <ActionRow status={status} busy={busy} onInstall={handleInstall} onUninstall={handleUninstall} />
-          </div>
-
-          <PlatformTip platform={status.platform} />
-
-          {status.notes.length > 0 && (
-            <ul className="m-0 pl-4 text-xs text-text-secondary">
-              {status.notes.map((note, i) => (
-                <li key={i}>{note}</li>
-              ))}
-            </ul>
-          )}
-
-          {lastResult && <ResultBanner result={lastResult} />}
-        </>
-      )}
-
-      <SettingsHeader className="mt-4">{t('settings.cli.runCli')}</SettingsHeader>
-      <p className="m-0 text-xs text-text-secondary">
-        <Trans i18nKey="settings.cli.runCliDescription" components={transComponents} />
-      </p>
-      <CodeBlock>rentgen xray &lt;project-file&gt; [options]</CodeBlock>
-      <div className="flex items-center gap-4">
-        <Button className="shrink-0" buttonType={ButtonType.PRIMARY} onClick={handleExportProject}>
-          {t('settings.cli.exportProject')}
-        </Button>
-        <span className="text-xs text-text-secondary">
-          <Trans i18nKey="settings.cli.noProjectFileYet" components={transComponents} />
-        </span>
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-4">
+        <p className="m-0 text-xs text-muted-foreground">
+          <Trans i18nKey="settings.cli.intro" components={transComponents} />
+        </p>
+        <p className="m-0 text-xs text-muted-foreground">
+          {t('settings.cli.fullDocumentation')}{' '}
+          <button
+            type="button"
+            onClick={() => openExternal('https://rentgen.io/cli')}
+            className="p-0 bg-transparent border-0 text-blue-500 hover:underline cursor-pointer"
+          >
+            rentgen.io/cli
+          </button>
+        </p>
       </div>
-      <p className="m-0 text-xs text-text-secondary">
-        <Trans i18nKey="settings.cli.developmentNote" components={transComponents} />
-      </p>
+      <div className="flex flex-col gap-4">
+        <SettingsHeader>
+          {t('settings.cli.installInPath', { platform: status ? platformLabel(status.platform) : '...' })}
+        </SettingsHeader>
 
-      <SettingsHeader className="mt-4">{t('settings.cli.options')}</SettingsHeader>
-      <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden text-xs">
-        {flags.map((f) => (
-          <div key={f.flag} className="grid grid-cols-[auto_1fr] items-start gap-4 py-2 px-3">
-            <code className="font-mono whitespace-nowrap">{f.flag}</code>
-            <span className="text-text-secondary">{t(f.descKey)}</span>
-          </div>
-        ))}
+        {status === null ? (
+          <p className="m-0 text-xs text-muted-foreground">{t('settings.cli.checkingStatus')}</p>
+        ) : (
+          <>
+            <div className="flex flex-col gap-4 p-3 border border-border">
+              <StatusBadge status={status} />
+              <ActionRow status={status} busy={busy} onInstall={handleInstall} onUninstall={handleUninstall} />
+            </div>
+
+            <PlatformTip platform={status.platform} />
+
+            {status.notes.length > 0 && (
+              <ul className="m-0 pl-4 text-xs text-muted-foreground">
+                {status.notes.map((note, i) => (
+                  <li key={i}>{note}</li>
+                ))}
+              </ul>
+            )}
+
+            {lastResult && <ResultBanner result={lastResult} />}
+          </>
+        )}
       </div>
+      <div className="flex flex-col gap-4">
+        <SettingsHeader>{t('settings.cli.runCli')}</SettingsHeader>
+        <p className="m-0 text-xs text-muted-foreground">
+          <Trans i18nKey="settings.cli.runCliDescription" components={transComponents} />
+        </p>
+        <CodeBlock>rentgen xray &lt;project-file&gt; [options]</CodeBlock>
+        <div className="flex items-center gap-4">
+          <Button className="shrink-0" buttonType={ButtonType.PRIMARY} onClick={handleExportProject}>
+            {t('settings.cli.exportProject')}
+          </Button>
+          <span className="text-xs text-muted-foreground">
+            <Trans i18nKey="settings.cli.noProjectFileYet" components={transComponents} />
+          </span>
+        </div>
+        <p className="m-0 text-xs text-muted-foreground">
+          <Trans i18nKey="settings.cli.developmentNote" components={transComponents} />
+        </p>
+      </div>
+      <div className="flex flex-col gap-4">
+        <SettingsHeader>{t('settings.cli.options')}</SettingsHeader>
+        <div className="flex flex-col text-xs divide-y divide-border">
+          {flags.map((f) => (
+            <div key={f.flag} className="grid grid-cols-[auto_1fr] items-start gap-4 py-2">
+              <code className="font-mono whitespace-nowrap">{f.flag}</code>
+              <span className="text-muted-foreground">{t(f.descKey)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col gap-4">
+        <SettingsHeader>{t('settings.cli.examples')}</SettingsHeader>
+        <p className="m-0 text-xs text-muted-foreground">{t('settings.cli.exampleInteractive')}</p>
+        <CodeBlock>rentgen xray ./rentgen-project.rentgen</CodeBlock>
 
-      <SettingsHeader className="mt-4">{t('settings.cli.examples')}</SettingsHeader>
-      <p className="m-0 text-xs text-text-secondary">{t('settings.cli.exampleInteractive')}</p>
-      <CodeBlock>rentgen xray ./rentgen-project.rentgen</CodeBlock>
-
-      <p className="m-0 text-xs text-text-secondary">{t('settings.cli.exampleCi')}</p>
-      <CodeBlock>{`rentgen xray ./rentgen-project.rentgen \\
+        <p className="m-0 text-xs text-muted-foreground">{t('settings.cli.exampleCi')}</p>
+        <CodeBlock>{`rentgen xray ./rentgen-project.rentgen \\
   --collection="Smoke Tests" \\
   --env=staging \\
   --fail-fast \\
   --skip-integrity-check`}</CodeBlock>
 
-      <p className="m-0 text-xs text-text-secondary">{t('settings.cli.exampleCiJson')}</p>
-      <CodeBlock>{`rentgen xray ./rentgen-project.rentgen \\
+        <p className="m-0 text-xs text-muted-foreground">{t('settings.cli.exampleCiJson')}</p>
+        <CodeBlock>{`rentgen xray ./rentgen-project.rentgen \\
   --collection="Smoke Tests" \\
   --env=staging \\
   --fail-fast \\
   --skip-integrity-check \\
   --report=json`}</CodeBlock>
 
-      <p className="m-0 text-xs text-text-secondary">{t('settings.cli.exampleOverrideVars')}</p>
-      <CodeBlock>{`rentgen xray ./rentgen-project.rentgen \\
+        <p className="m-0 text-xs text-muted-foreground">{t('settings.cli.exampleOverrideVars')}</p>
+        <CodeBlock>{`rentgen xray ./rentgen-project.rentgen \\
   --collection="Smoke Tests" \\
   --env=none \\
   --var apiKey=abc123 \\
   --var host=https://staging.example.com`}</CodeBlock>
-
-      <SettingsHeader className="mt-4">{t('settings.cli.integrityCheck')}</SettingsHeader>
-      <p className="m-0 text-xs text-text-secondary">
-        <Trans i18nKey="settings.cli.integrityCheckDescription" components={transComponents} />
-      </p>
-
-      <SettingsHeader className="mt-4">{t('settings.cli.exitCodesTitle')}</SettingsHeader>
-      <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden text-xs">
-        {exitCodes.map((e) => (
-          <div key={e.code} className="grid grid-cols-[auto_1fr] items-start gap-4 py-2 px-3">
-            <code className="font-mono whitespace-nowrap">{e.code}</code>
-            <span className="text-text-secondary">{t(e.meaningKey)}</span>
-          </div>
-        ))}
       </div>
-
-      <SettingsHeader className="mt-4">{t('settings.cli.idempotency')}</SettingsHeader>
-      <p className="m-0 text-xs text-text-secondary">{t('settings.cli.idempotencyDescription')}</p>
+      <div className="flex flex-col gap-4">
+        <SettingsHeader>{t('settings.cli.integrityCheck')}</SettingsHeader>
+        <p className="m-0 text-xs text-muted-foreground">
+          <Trans i18nKey="settings.cli.integrityCheckDescription" components={transComponents} />
+        </p>
+      </div>
+      <div className="flex flex-col gap-4">
+        <SettingsHeader>{t('settings.cli.exitCodesTitle')}</SettingsHeader>
+        <div className="flex flex-col text-xs divide-y divide-border">
+          {exitCodes.map((e) => (
+            <div key={e.code} className="grid grid-cols-[auto_1fr] items-start gap-4 py-2">
+              <code className="font-mono whitespace-nowrap">{e.code}</code>
+              <span className="text-muted-foreground">{t(e.meaningKey)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col gap-4">
+        <SettingsHeader>{t('settings.cli.idempotency')}</SettingsHeader>
+        <p className="m-0 text-xs text-muted-foreground">{t('settings.cli.idempotencyDescription')}</p>
+      </div>
     </div>
   );
 }

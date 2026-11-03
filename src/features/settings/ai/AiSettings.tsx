@@ -59,7 +59,7 @@ function LicenseFooter({ manage, onClick }: { manage: boolean; onClick(): void }
   const warning = !expired && daysLeft <= 7;
 
   return (
-    <div className="flex justify-between gap-4 mt-t pt-4 border-t border-border dark:border-dark-border">
+    <div className="flex justify-between gap-4 mt-t pt-4 border-t border-border">
       <span
         className={cn('text-xs', {
           'text-red-500': expired,
@@ -78,7 +78,7 @@ function LicenseFooter({ manage, onClick }: { manage: boolean; onClick(): void }
         {hasDate && !expired && daysLeft > 0 && <> ({t('settings.ai.expiresOn', { date: expiry })})</>}
       </span>
       {license.valid && (
-        <span className="w-fit text-xs text-button-primary hover:underline cursor-pointer" onClick={onClick}>
+        <span className="w-fit text-xs text-blue-500 hover:underline cursor-pointer" onClick={onClick}>
           {manage ? t('settings.ai.manageLicense') : t('common.back')}
         </span>
       )}

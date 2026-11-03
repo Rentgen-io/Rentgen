@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { HTMLAttributes, useEffect } from 'react';
 import useClickOutside from 'src/hooks/useClickOutside';
 import { twMerge } from 'tailwind-merge';
@@ -30,17 +29,10 @@ export default function Modal({ className, children, isOpen, onClose }: Props) {
   if (!isOpen) return null;
 
   return (
-    <div
-      className={twMerge(
-        cn('fixed inset-0 flex items-center justify-center bg-black/40 z-100', 'dark:bg-dark-input/80', className),
-      )}
-    >
+    <div className={twMerge('fixed inset-0 flex items-center justify-center bg-[rgb(26,26,26)]/60 z-100', className)}>
       <div
         ref={refModal}
-        className={cn(
-          'relative w-150 max-w-[90%] m-4 p-4 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.3)]',
-          'dark:bg-dark-body',
-        )}
+        className="relative w-150 max-w-[90%] m-4 p-4 bg-background rounded shadow-[0_16px_24px_-8px_rgba(107,107,107,0.24)] dark:shadow-[0_0_1px_rgba(255,255,255,0.72),0_16px_24px_-8px_rgba(0,0,0,0.32)]"
       >
         {children}
       </div>

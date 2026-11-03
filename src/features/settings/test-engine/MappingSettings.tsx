@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { appConfig } from 'shared/constants';
+import { FieldLabel } from 'src/components/inputs/FieldLabel';
 import Input from 'src/components/inputs/Input';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectTestEngineConfiguration } from 'src/store/selectors';
@@ -24,10 +25,10 @@ export function MappingSettings() {
   return (
     <div className="flex flex-col gap-4">
       <SettingsHeader>{t('settings.configuration.title')}</SettingsHeader>
-      <p className="m-0 text-xs text-text-secondary">{t('settings.configuration.description')}</p>
-      <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden">
-        <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="font-bold">{t('settings.configuration.email')}</label>
+      <p className="m-0 text-xs text-muted-foreground">{t('settings.configuration.description')}</p>
+      <div className="flex flex-col divide-y divide-border">
+        <div className="flex flex-col gap-2 py-1.75 text-xs">
+          <FieldLabel className="font-medium" label={t('settings.configuration.email')} />
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.domain')}</span>
             <Input
@@ -57,8 +58,8 @@ export function MappingSettings() {
             />
           </div>
         </div>
-        <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="font-bold">{t('settings.configuration.enum')}</label>
+        <div className="flex flex-col gap-2 py-1.75 text-xs">
+          <FieldLabel className="font-medium" label={t('settings.configuration.enum')} />
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.enumDescription')}</span>
             <Input
@@ -68,8 +69,8 @@ export function MappingSettings() {
             />
           </div>
         </div>
-        <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="font-bold">{t('settings.configuration.number')}</label>
+        <div className="flex flex-col gap-2 py-1.75 text-xs">
+          <FieldLabel className="font-medium" label={t('settings.configuration.number')} />
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.minimumValue')}</span>
             <Input
@@ -97,8 +98,8 @@ export function MappingSettings() {
             />
           </div>
         </div>
-        <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="font-bold">{t('settings.configuration.string')}</label>
+        <div className="flex flex-col gap-2 py-1.75 text-xs">
+          <FieldLabel className="font-medium" label={t('settings.configuration.string')} />
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.minimumValueLength')}</span>
             <Input
@@ -130,8 +131,8 @@ export function MappingSettings() {
             />
           </div>
         </div>
-        <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="font-bold">{t('settings.configuration.randomInteger')}</label>
+        <div className="flex flex-col gap-2 py-1.75 text-xs">
+          <FieldLabel className="font-medium" label={t('settings.configuration.randomInteger')} />
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.minimumValue')}</span>
             <Input
@@ -167,8 +168,8 @@ export function MappingSettings() {
             />
           </div>
         </div>
-        <div className="flex flex-col gap-2 py-1.75 px-3 text-xs">
-          <label className="font-bold">{t('settings.configuration.randomString')}</label>
+        <div className="flex flex-col gap-2 py-1.75 text-xs">
+          <FieldLabel className="font-medium" label={t('settings.configuration.randomString')} />
           <div className="flex items-center justify-between">
             <span>{t('settings.configuration.length')}</span>
             <Input

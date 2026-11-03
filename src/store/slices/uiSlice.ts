@@ -36,7 +36,7 @@ export const uiSlice = createSlice({
     setTestsActiveTab: (state, action: PayloadAction<number>) => {
       state.testsActiveTab = action.payload;
     },
-    toggleSidebarTab: (state, action: PayloadAction<'collections' | 'environments' | 'history'>) => {
+    toggleSidebarTab: (state, action: PayloadAction<SidebarTab>) => {
       state.sidebarActiveTab = state.sidebarActiveTab === action.payload ? null : action.payload;
     },
   },

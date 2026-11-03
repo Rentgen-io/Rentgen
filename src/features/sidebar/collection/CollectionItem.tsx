@@ -140,10 +140,9 @@ export default function CollectionItem({ item, searchTerm }: Props) {
         transition,
       }}
       className={cn(
-        'relative h-9 flex items-center gap-2 px-3 py-1.5',
-        'hover:bg-button-secondary dark:hover:bg-dark-input box-border group cursor-pointer outline-none',
+        'relative h-9 flex items-center gap-2 px-3 py-1.5 hover:bg-muted box-border group cursor-pointer outline-none',
         {
-          'bg-button-secondary dark:bg-dark-input': isSelected,
+          'bg-muted': isSelected,
           'opacity-50 shadow-lg z-50': isDragging,
         },
       )}
@@ -166,7 +165,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       {isEditing && (
         <input
           autoFocus
-          className="flex-1 py-px px-1 text-xs leading-none bg-transparent border border-border dark:border-dark-input dark:text-dark-text outline-none"
+          className="flex-1 py-px px-1 text-xs leading-none bg-transparent text-foreground border border-blue-300 outline-none"
           value={editingName}
           type="text"
           onBlur={() => !isOpen && onSaveEdit()}
@@ -186,7 +185,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
           <span className="flex-1 text-xs truncate" title={item.name}>
             {searchTerm ? <SearchHighlighter text={item.name} term={searchTerm} /> : item.name}
           </span>
-          <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100">
+          <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-muted opacity-0 group-hover:opacity-100">
             {!runningFolderId &&
               (isRequestRunning ? (
                 <StopIcon
@@ -200,11 +199,11 @@ export default function CollectionItem({ item, searchTerm }: Props) {
                 />
               ))}
             <EditIcon
-              className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-primary cursor-pointer"
+              className="h-4 w-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
               onClick={() => setIsEditing(true)}
             />
             <TrashIcon
-              className="h-3 w-3 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+              className="h-3 w-3 text-muted-foreground hover:text-red-600 cursor-pointer"
               onClick={(event: MouseEvent) => {
                 event.stopPropagation();
                 dispatch(collectionActions.removeRequest(item.id));

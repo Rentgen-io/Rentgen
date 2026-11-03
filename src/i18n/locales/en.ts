@@ -77,11 +77,11 @@ const en = {
     newEnvironment: 'New Environment',
     editEnvironment: 'Edit Environment',
     noEnvironmentsCreated: 'No environments created',
-    environmentName: 'Environment Name',
+    environmentName: 'Name',
     environmentNamePlaceholder: 'e.g., Production, Staging, Local',
     color: 'Color',
     variables: 'Variables',
-    variableName: 'Variable Name',
+    variableName: 'Variable',
     addVariable: 'Add variable',
     value: 'Value',
     refreshValue: 'Refresh value',
@@ -110,6 +110,7 @@ const en = {
 
   // Request
   request: {
+    untitledRequest: 'Untitled Request',
     enterUrl: 'Enter URL or paste text',
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +127,8 @@ const en = {
     title: 'Response',
     sending: 'Sending...',
     networkError: 'Network Error',
+    requestHint: 'Enter an API URL, then send your request.',
+    responseHint: 'The response body, headers and timing will appear here.',
   },
 
   // cURL

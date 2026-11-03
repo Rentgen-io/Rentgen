@@ -64,7 +64,7 @@ export default function Sidebar() {
 
   return (
     <div
-      className={cn('h-screen sticky top-0 flex border-r border-border dark:border-dark-border', {
+      className={cn('h-screen sticky top-0 flex bg-surface border-r border-border', {
         'w-20': !activeTab,
         'w-100': activeTab,
       })}
@@ -72,25 +72,21 @@ export default function Sidebar() {
       <div className="w-20 shrink-0 flex flex-col justify-between">
         <div>
           <SidebarButton
+            active={activeTab === 'collections'}
             label={t('sidebar.collections')}
-            className={activeTab === 'collections' ? 'bg-button-secondary dark:bg-dark-input' : ''}
             onClick={handleCollectionClick}
           >
             <CollectionIcon className="h-4 w-4" />
           </SidebarButton>
           <SidebarButton
+            active={activeTab === 'environments'}
             label={t('sidebar.environments')}
-            className={activeTab === 'environments' ? 'bg-button-secondary dark:bg-dark-input' : ''}
             onClick={handleEnvironmentClick}
           >
             <EnvironmentIcon className="h-4 w-4" />
           </SidebarButton>
           {historyEnabled && (
-            <SidebarButton
-              label={t('sidebar.history')}
-              className={activeTab === 'history' ? 'bg-button-secondary dark:bg-dark-input' : ''}
-              onClick={handleHistoryClick}
-            >
+            <SidebarButton active={activeTab === 'history'} label={t('sidebar.history')} onClick={handleHistoryClick}>
               <HistoryIcon className="h-4 w-4" />
             </SidebarButton>
           )}
@@ -113,10 +109,16 @@ export default function Sidebar() {
           </SidebarButton>
         </div>
       </div>
-      <div className="border-l border-border dark:border-dark-border overflow-hidden">
+      <div className="border-l border-border overflow-hidden">
         <div className="max-h-screen h-full w-80 flex flex-col overflow-hidden">
           {sidebarPanels.map(({ tab, Component }) => (
-            <div key={tab} className={cn('overflow-hidden', activeTab === tab ? 'flex flex-col flex-1' : 'hidden')}>
+            <div
+              key={tab}
+              className={cn('overflow-hidden', {
+                'flex flex-col flex-1': activeTab === tab,
+                hidden: activeTab !== tab,
+              })}
+            >
               <Component />
             </div>
           ))}

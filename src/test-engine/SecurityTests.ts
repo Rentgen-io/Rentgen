@@ -66,7 +66,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
     const securityTests: TestResult[] = [];
     const crudTests: TestResult[] = [];
     const request = createTestHttpRequest(this.options);
-    const { headers, url } = request;
+    const { headers, method, url } = request;
 
     try {
       const response = await sendHttp(request, this.signal);
@@ -109,7 +109,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
     for (const test of responseIndependentTests.filter((test) => !this.disabledTests.includes(test.name)))
       securityTests.push(await test.run());
 
-    securityTests.push(...getManualTests());
+    securityTests.push(getManualLargePayloadTest(method === 'POST'), ...getManualTests());
 
     return { securityTests, crudTests };
   }
@@ -733,7 +733,6 @@ function validateCacheControl(
 
 function getManualTests(): TestResult[] {
   return [
-    getManualLargePayloadTest(),
     createTestResult(
       "Access Other User's Data",
       `${RESPONSE_STATUS.FORBIDDEN} ${getResponseStatusTitle(RESPONSE_STATUS.FORBIDDEN)} or ${RESPONSE_STATUS.NOT_FOUND} ${getResponseStatusTitle(RESPONSE_STATUS.NOT_FOUND)}`,
@@ -744,6 +743,11 @@ function getManualTests(): TestResult[] {
   ];
 }
 
-function getManualLargePayloadTest(): TestResult {
-  return createTestResult(LARGE_PAYLOAD_TEST_NAME, LARGE_PAYLOAD_TEST_EXPECTED, '', TestStatus.Manual);
+function getManualLargePayloadTest(available?: boolean): TestResult {
+  return createTestResult(
+    LARGE_PAYLOAD_TEST_NAME,
+    LARGE_PAYLOAD_TEST_EXPECTED,
+    available ? '' : NOT_AVAILABLE_TEST,
+    TestStatus.Manual,
+  );
 }

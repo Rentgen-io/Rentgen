@@ -172,33 +172,29 @@ export default function CollectionsPanel() {
 
   return (
     <>
-      <div className="h-9 shrink-0 flex items-center justify-between gap-2 border-b border-border dark:border-dark-border box-border">
+      <div className="h-9 shrink-0 flex items-center justify-between gap-2 border-b border-border box-border">
         <div
-          className="h-full flex items-center gap-2 w-full px-3 py-2 hover:bg-button-secondary dark:hover:bg-dark-input box-border cursor-pointer outline-none"
+          className="h-full flex items-center gap-2 w-full px-3 py-2 hover:bg-muted box-border cursor-pointer outline-none"
           onClick={() => dispatch(collectionActions.addFolder('New Folder'))}
           title={t('collections.newFolder')}
         >
-          <AddIcon className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary" />
-          <span className="text-xs text-text-secondary dark:text-dark-text-secondary">
-            {t('collections.newFolder')}
-          </span>
+          <AddIcon className="w-4 h-4 text-muted-foreground" />
+          <span className="text-xs text-muted-foreground">{t('collections.newFolder')}</span>
         </div>
         <div className="flex items-center gap-2 pr-2">
           <ImportIcon
-            className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary hover:text-button-primary cursor-pointer"
+            className="w-4 h-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
             onClick={handleImport}
             title={t('collections.importCollection')}
           />
           <ExportIcon
-            className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary hover:text-button-primary cursor-pointer"
+            className="w-4 h-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
             onClick={handleExport}
             title={t('collections.exportCollection')}
           />
         </div>
       </div>
-
       <SideBarSearch value={searchTerm} onChange={setSearchTerm} />
-
       {filteredFolders.length > 0 ? (
         <div className="h-full overflow-x-hidden overflow-y-auto">
           {isSearching ? (
@@ -235,7 +231,7 @@ export default function CollectionsPanel() {
           )}
         </div>
       ) : (
-        <div className="flex items-center justify-center h-full w-full p-5 text-xs text-text-secondary dark:text-dark-text-secondary">
+        <div className="flex items-center justify-center h-full w-full p-4 text-xs text-muted-foreground">
           {isSearching ? t('collections.noMatchingRequests') : t('collections.noSavedRequests')}
         </div>
       )}

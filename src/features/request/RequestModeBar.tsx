@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import ActionsButton from 'src/components/buttons/ActionsButton';
+import { ButtonType } from 'src/components/buttons/Button';
 import { IconButton } from 'src/components/buttons/IconButton';
 import Select, { SelectOption } from 'src/components/inputs/Select';
 import { useReset } from 'src/hooks/useReset';
@@ -31,7 +32,7 @@ export default function RequestModeBar() {
   const reset = useReset();
 
   return (
-    <div className="flex flex-col @lg:flex-row @lg:items-center gap-4 @lg:gap-2">
+    <div className="flex flex-col @lg:flex-row @lg:items-center gap-2 py-3 px-4">
       <div className="flex flex-col @lg:flex-row @lg:items-center gap-2">
         <Select
           className="font-bold"
@@ -45,14 +46,13 @@ export default function RequestModeBar() {
           }}
         />
         {mode === 'HTTP' && (
-          <>
-            <ActionsButton
-              actions={[{ label: t('common.create'), onClick: reset }]}
-              onClick={() => dispatch(modalsActions.openImportResourceModal())}
-            >
-              {t('common.import')}
-            </ActionsButton>
-          </>
+          <ActionsButton
+            actions={[{ label: t('common.create'), onClick: reset }]}
+            buttonType={ButtonType.SECONDARY}
+            onClick={() => dispatch(modalsActions.openImportResourceModal())}
+          >
+            {t('common.import')}
+          </ActionsButton>
         )}
       </div>
       <div className="flex-auto flex items-center justify-end gap-2">

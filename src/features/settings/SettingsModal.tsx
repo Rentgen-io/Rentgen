@@ -85,14 +85,14 @@ export default function SettingsModal() {
       <Tabs
         className="h-full flex"
         defaultIndex={activeTab}
-        selectedTabClassName="bg-white dark:bg-dark-body cursor-default!"
+        selectedTabClassName="bg-background cursor-default!"
         selectedTabPanelClassName="block!"
       >
-        <TabList className="min-w-40 flex flex-col m-0 p-0 bg-button-secondary dark:bg-dark-input">
+        <TabList className="min-w-40 flex flex-col m-0 p-0 bg-surface">
           {settingsTabs.map(({ name, icon }) => (
             <Tab
               key={name}
-              className="flex items-center gap-2 py-3 px-4 text-sm list-none outline-none cursor-pointer hover:bg-white dark:hover:bg-dark-body"
+              className="flex items-center gap-2 py-3 px-4 text-sm list-none outline-none cursor-pointer hover:bg-background"
             >
               {icon}
               {name}

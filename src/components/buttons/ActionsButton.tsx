@@ -24,7 +24,13 @@ export default function ActionsButton({
 
   return (
     <div className={twMerge(cn('relative flex', className))} ref={refButton}>
-      <Button className="w-full" buttonSize={buttonSize} buttonType={buttonType} disabled={disabled} {...otherProps}>
+      <Button
+        className="w-full rounded-r-none"
+        buttonSize={buttonSize}
+        buttonType={buttonType}
+        disabled={disabled}
+        {...otherProps}
+      >
         {children}
       </Button>
       {actions && actions.length > 0 && (
@@ -34,7 +40,7 @@ export default function ActionsButton({
             buttonType={buttonType}
             disabled={disabled}
             className={twMerge(
-              cn('min-w-auto flex items-center justify-center', {
+              cn('min-w-auto flex items-center justify-center rounded-l-none', {
                 'p-0.5': buttonSize === ButtonSize.SMALL,
                 'p-1.5': buttonSize === ButtonSize.MEDIUM,
               }),
@@ -49,12 +55,12 @@ export default function ActionsButton({
             />
           </Button>
           {openActions && (
-            <div className="absolute top-full right-0 w-full bg-white dark:bg-dark-input shadow-lg z-50">
+            <div className="absolute top-full right-0 w-full bg-background shadow-lg z-50">
               {actions.map(({ label, onClick }, index) => (
                 <div
                   key={index}
                   className={cn(
-                    'text-xs hover:bg-select-hover dark:hover:bg-dark-button-secondary cursor-pointer',
+                    'text-xs hover:bg-secondary-hover cursor-pointer',
                     { 'py-2 px-3': buttonSize === ButtonSize.MEDIUM },
                     { 'py-1 px-2': buttonSize === ButtonSize.SMALL },
                   )}

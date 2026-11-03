@@ -11,6 +11,7 @@ export enum ButtonSize {
 export enum ButtonType {
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
+  SECONDARY_UNDERLINE = 'secondary-underline',
   DANGER = 'danger',
 }
 
@@ -32,24 +33,18 @@ export default function Button({
     <button
       className={twMerge(
         cn(
-          'm-0 font-segoe-ui text-xs font-bold border',
+          'm-0 font-segoe-ui text-xs font-medium border rounded',
           {
             'py-0.5 px-2': buttonSize === ButtonSize.SMALL,
             'min-w-20 py-2 px-3': buttonSize === ButtonSize.MEDIUM,
-            'bg-button-primary border-button-primary text-white': buttonType === ButtonType.PRIMARY,
-            'hover:bg-button-primary-hover hover:border-button-primary-hover':
-              buttonType === ButtonType.PRIMARY && !disabled,
-            'bg-button-secondary border-button-secondary text-button-text-secondary':
-              buttonType === ButtonType.SECONDARY,
-            'dark:bg-dark-button-secondary dark:border-dark-button-secondary dark:text-dark-text':
-              buttonType === ButtonType.SECONDARY,
-            'hover:bg-button-secondary-hover hover:border-button-secondary-hover hover:text-button-text-secondary-hover':
-              buttonType === ButtonType.SECONDARY && !disabled,
-            'dark:hover:bg-dark-button-secondary-hover dark:hover:border-dark-button-secondary-hover dark:hover:text-dark-text':
-              buttonType === ButtonType.SECONDARY && !disabled,
-            'bg-button-danger border-button-danger text-white': buttonType === ButtonType.DANGER,
-            'hover:bg-button-danger-hover hover:border-button-danger-hover':
-              buttonType === ButtonType.DANGER && !disabled,
+            'bg-primary border-primary text-white': buttonType === ButtonType.PRIMARY,
+            'hover:bg-primary-hover hover:border-primary-hover': buttonType === ButtonType.PRIMARY && !disabled,
+            'bg-secondary border-secondary text-foreground dark:text-white': buttonType === ButtonType.SECONDARY,
+            'hover:bg-secondary-hover hover:border-secondary-hover': buttonType === ButtonType.SECONDARY && !disabled,
+            'bg-transparent border-foreground/20 text-foreground': buttonType === ButtonType.SECONDARY_UNDERLINE,
+            'hover:border-foreground/40': buttonType === ButtonType.SECONDARY_UNDERLINE && !disabled,
+            'bg-destructive border-destructive text-white': buttonType === ButtonType.DANGER,
+            'hover:bg-destructive-hover hover:border-destructive-hover': buttonType === ButtonType.DANGER && !disabled,
             'opacity-50 cursor-not-allowed': disabled,
             'cursor-pointer': !disabled,
           },

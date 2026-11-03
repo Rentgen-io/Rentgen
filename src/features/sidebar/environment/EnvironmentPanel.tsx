@@ -8,7 +8,6 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectEnvironments } from 'src/store/selectors';
@@ -43,18 +42,12 @@ export default function EnvironmentPanel() {
   return (
     <>
       <div
-        className={cn(
-          'h-9 shrink-0 flex items-center gap-2 px-3 py-2 border-b border-border dark:border-dark-border',
-          'hover:bg-button-secondary dark:hover:bg-dark-input box-border cursor-pointer outline-none',
-        )}
+        className="h-9 shrink-0 flex items-center gap-2 px-3 py-2 border-b border-border hover:bg-muted box-border cursor-pointer outline-none"
         onClick={() => dispatch(environmentActions.startAddEnvironment())}
       >
-        <AddIcon className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary" />
-        <span className="text-xs text-text-secondary dark:text-dark-text-secondary">
-          {t('environment.newEnvironment')}
-        </span>
+        <AddIcon className="w-4 h-4 text-muted-foreground" />
+        <span className="text-xs text-muted-foreground">{t('environment.newEnvironment')}</span>
       </div>
-
       {environments.length > 0 ? (
         <div className="h-full overflow-x-hidden overflow-y-auto">
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -66,7 +59,7 @@ export default function EnvironmentPanel() {
           </DndContext>
         </div>
       ) : (
-        <div className="flex items-center justify-center h-full w-full p-0 text-xs text-text-secondary dark:text-dark-text-secondary">
+        <div className="flex items-center justify-center h-full w-full p-4 text-xs text-muted-foreground">
           {t('environment.noEnvironmentsCreated')}
         </div>
       )}

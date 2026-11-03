@@ -2,11 +2,12 @@ import cn from 'classnames';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
-import Button from 'src/components/buttons/Button';
+import Button, { ButtonType } from 'src/components/buttons/Button';
+import { IconButton } from 'src/components/buttons/IconButton';
 import { CreatableSelect } from 'src/components/inputs/CreatableSelect';
+import { FieldLabel } from 'src/components/inputs/FieldLabel';
 import Input from 'src/components/inputs/Input';
 import { SelectOption } from 'src/components/inputs/Select';
-import Panel from 'src/components/panels/Panel';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectDynamicVariables, selectSelectedEnvironmentId } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';
@@ -14,6 +15,7 @@ import { DataType, DynamicVariable, Environment, EnvironmentVariable } from 'src
 import { generateEnvironmentId } from 'src/utils';
 import { notify } from 'src/utils/toast';
 
+import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 const COLOR_OPTIONS = ['#EF4444', '#F97316', '#EAB308', '#22C55E', '#3B82F6', '#8B5CF6', '#EC4899', '#6B7280'];
@@ -35,7 +37,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
   const [color, setColor] = useState<string>(COLOR_OPTIONS[4]);
   const [variables, setVariables] = useState<EnvironmentVariable[]>([]);
 
-  const options: SelectOption<DataType | (string & {})>[] = [
+  const options: SelectOption<DataType | (string & {}), string>[] = [
     { value: 'randomEmail', label: t('environment.randomEmail') },
     { value: 'randomGuid', label: t('environment.randomGuid') },
     { value: 'randomInt', label: t('environment.randomInteger') },
@@ -149,30 +151,35 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
   );
 
   return (
-    <Panel
-      className="flex flex-col flex-auto border-none"
-      collapsible={false}
-      title={isNew ? t('environment.newEnvironment') : t('environment.editEnvironment')}
-    >
-      <div className="flex flex-col flex-auto gap-4 p-4 bg-body dark:bg-dark-body border-t border-border dark:border-dark-border">
+    <div className="relative flex flex-col flex-auto">
+      <h5 className="m-0 py-3 px-4 bg-surface">
+        {isNew ? t('environment.newEnvironment') : t('environment.editEnvironment')}
+      </h5>
+      <IconButton
+        buttonType={ButtonType.SECONDARY_UNDERLINE}
+        className="absolute top-1.5 right-1.5"
+        onClick={() => dispatch(environmentActions.stopEditing())}
+      >
+        <ClearCrossIcon className="h-5 w-5" />
+      </IconButton>
+      <div className="flex flex-col flex-auto gap-4 p-4 border-t border-border">
         <div className="flex flex-col gap-2">
-          <label className="font-bold text-xs">{t('environment.environmentName')}</label>
+          <FieldLabel label={t('environment.environmentName')} required />
           <Input
-            className="w-full dark:bg-dark-body"
             placeholder={t('environment.environmentNamePlaceholder')}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="font-bold text-xs">{t('environment.color')}</label>
+          <FieldLabel label={t('environment.color')} required />
           <div className="flex items-center gap-2">
             {COLOR_OPTIONS.map((c) => (
               <button
                 key={c}
                 className={cn(
-                  'w-8 h-8 border-2 cursor-pointer',
-                  color === c ? 'border-text dark:border-dark-text' : 'border-transparent',
+                  'w-8 h-8 border-2 rounded cursor-pointer',
+                  color === c ? 'border-foreground' : 'border-transparent',
                 )}
                 style={{ backgroundColor: c }}
                 onClick={() => setColor(c)}
@@ -188,7 +195,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           </div>
         </div>
         <div className="flex flex-col flex-auto gap-2">
-          <label className="font-bold text-xs">{t('environment.variables')}</label>
+          <FieldLabel label={t('environment.variables')} />
           <div className="flex flex-col flex-auto h-0 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
             <DataTable
               className="environment-data-table"
@@ -213,11 +220,11 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                         <div
                           className={cn(
                             'absolute top-0 bottom-0 right-0',
-                            'flex items-center gap-2 px-2 bg-white dark:bg-dark-input opacity-0 group-hover:opacity-100',
+                            'flex items-center gap-2 px-2 bg-background opacity-0 group-hover:opacity-100',
                           )}
                         >
                           <TrashIcon
-                            className="h-3 w-3 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+                            className="h-3 w-3 text-muted-foreground hover:text-red-600 cursor-pointer"
                             onClick={() =>
                               row.type === 'static'
                                 ? handleVariableChange(row.index, 'key', '')
@@ -253,7 +260,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
                     return (
                       <span
-                        className="py-2 px-3 text-xs font-monospace text-text-secondary dark:text-dark-text-secondary truncate block w-full min-w-0"
+                        className="py-2 px-3 text-xs font-monospace text-muted-foreground truncate block w-fit min-w-0"
                         title={(row as DynamicVariable).currentValue || undefined}
                       >
                         {(row as DynamicVariable).currentValue || '—'}
@@ -273,6 +280,6 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           </Button>
         )}
       </div>
-    </Panel>
+    </div>
   );
 }
