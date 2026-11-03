@@ -144,6 +144,9 @@ const en = {
 
   // Tests
   tests: {
+    testsTitle: 'Tests',
+    testsHint: 'Send a request to generate tests from its response.',
+    testsUnavailable: 'Test generation requires a successful response (HTTP 2xx or 3xx).',
     generateAndRun: 'Generate & Run Tests',
     runningTests: 'Running tests... ({{current}}/{{total}})',
     noTestsGenerated: 'No tests generated',
@@ -171,7 +174,7 @@ const en = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Format',
-    aiTesting: 'Deeper AI Testing',
+    aiTesting: 'AI Testing',
     aiTestingTitle: 'Find tests the deterministic scan could not infer',
     aiTestingDescription: 'AI analyzes the run, suggests additional experiments, and Rentgen executes them.',
     runAiTesting: 'Run AI Testing',

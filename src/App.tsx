@@ -160,7 +160,7 @@ export default function App() {
           </div>
         )}
         {!isEditingEnvironment && !isComparingTestResults && (
-          <div className="flex flex-col flex-auto divide-y divide-border">
+          <div className={cn('flex flex-col divide-y divide-border', { 'flex-auto': mode === 'WSS' })}>
             <RequestDetails />
             <RequestModeBar />
             <div className="border-0">
@@ -169,29 +169,33 @@ export default function App() {
             <RequestEditors />
 
             {mode === 'HTTP' && <HttpResponsePanel />}
-            <WssMessagesPanel />
-            {mode === 'HTTP' && <TestRunnerBar />}
+            {mode === 'WSS' && <WssMessagesPanel />}
+            {mode === 'HTTP' && (
+              <div className="border-b border-border">
+                <TestRunnerBar />
+              </div>
+            )}
           </div>
         )}
         {!isEditingEnvironment && !isComparingTestResults && testResults && (
           <Tabs
             className="flex flex-col flex-auto"
-            forceRenderTabPanel={true}
+            forceRenderTabPanel
             selectedIndex={testsActiveTab}
-            selectedTabClassName="bg-white border-border! text-text dark:bg-dark-input dark:border-dark-body! dark:text-dark-text cursor-default!"
+            selectedTabClassName="text-foreground border-primary! cursor-default!"
             selectedTabPanelClassName="flex! flex-col flex-auto gap-4"
             onSelect={(index) => {
               dispatch(uiActions.setTestsActiveTab(index));
             }}
           >
-            <TabList className="flex m-0 px-4 text-sm font-medium border-b border-border dark:border-dark-body">
+            <TabList className="flex gap-4 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
               {testsTabs.map(({ disabledTests, isRunning, label, tests }) => {
                 const { bugs, failed, passed, warnings } = getTestsStatistics(tests ?? [], disabledTests);
 
                 return (
                   <Tab
                     key={label}
-                    className="relative flex items-center gap-2 -bottom-px py-1.5 px-3 border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
+                    className="relative flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer"
                     title={label}
                   >
                     {isRunning ? (
@@ -199,7 +203,7 @@ export default function App() {
                     ) : (
                       <span
                         className={twMerge(
-                          cn('w-2 h-2 m-1 rounded-full shrink-0 bg-gray-400', {
+                          cn('w-2 h-2 rounded-full shrink-0 bg-gray-400', {
                             'bg-green-500': passed > 0 && failed === 0 && warnings === 0 && bugs === 0,
                             'bg-yellow-500': warnings > 0 && failed === 0 && bugs === 0,
                             'bg-red-500': failed > 0 && bugs === 0,
@@ -215,7 +219,7 @@ export default function App() {
               })}
             </TabList>
             {testsTabs.map(({ component, label }) => (
-              <TabPanel key={label} className="hidden min-h-51.5 p-4 bg-white dark:bg-dark-input">
+              <TabPanel key={label} className="hidden min-h-51.5 py-3 px-4">
                 {component}
               </TabPanel>
             ))}

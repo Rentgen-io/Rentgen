@@ -76,7 +76,7 @@ export default function HttpResponsePanel() {
     <Panel
       title={
         <div className="flex items-center justify-between gap-4 py-3 pr-4 text-sm font-medium text-muted-foreground">
-          <span className="flex-auto">
+          <span className="flex-auto text-foreground">
             {t('response.title')} {hasParameters && '/ ' + t('tests.parameters')}
           </span>
           {isSending ? (

@@ -45,7 +45,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
     { value: 'url', label: t('parameterTypes.url') },
   ];
   const { mandatory, type, value } = parameterValue;
-  const inputClassName = 'w-full p-[5px] dark:border-border/20';
+  const inputClassName = 'w-full p-1.25';
 
   return (
     <div className="w-full max-w-110">
@@ -103,12 +103,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
           </div>
         )}
         <div className="col-start-2 flex items-center gap-1">
-          <SimpleSelect
-            className="w-full p-1 dark:border-border/20"
-            options={parameterOptions}
-            value={type}
-            onChange={onSelectTypeChange}
-          />
+          <SimpleSelect className="w-full p-1" options={parameterOptions} value={type} onChange={onSelectTypeChange} />
           <IconButton
             className="h-7 w-7 shrink-0"
             onClick={() => onChange({ type: 'do-not-test', value: '', mandatory: false })}
@@ -143,7 +138,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
 
     if (!label) return null;
 
-    return <div className="mb-1 text-xs text-text-secondary">{label}</div>;
+    return <div className="mb-1 text-xs text-muted-foreground">{label}</div>;
   }
 
   function onMinBlur(minValue: number) {

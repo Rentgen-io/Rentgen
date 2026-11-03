@@ -2,6 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { RESPONSE_STATUS } from 'shared/responseStatus';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Select, { SelectOption } from 'src/components/inputs/Select';
+import LoaderWithText from 'src/components/loaders/LoaderWithText';
+import ProgressBar from 'src/components/loaders/ProgressBar';
 import { useReportExport } from 'src/hooks/useReportExport';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -13,6 +15,7 @@ import {
   selectExportFormat,
   selectHeaders,
   selectHttpResponse,
+  selectIsSending,
   selectMethod,
   selectQueryParameters,
   selectSelectedEnvironment,
@@ -30,21 +33,23 @@ export default function TestRunnerBar() {
   const { t } = useTranslation();
 
   const { exportReport, generateCertificate } = useReportExport();
-  const { currentTest, isRunningTests, testsCount, executeAllTests } = useTests();
+  const { aiRunStartedAt, currentTest, isAiTestsRunning, isRunningTests, testsCount, cancelAllTests, executeAllTests } =
+    useTests();
 
-  const url = useAppSelector(selectUrl);
-  const headers = useAppSelector(selectHeaders);
   const body = useAppSelector(selectBody);
-  const method = useAppSelector(selectMethod);
   const bodyParameters = useAppSelector(selectBodyParameters);
+  const dynamicVariables = useAppSelector(selectDynamicVariables);
+  const exportFormat = useAppSelector(selectExportFormat);
+  const headers = useAppSelector(selectHeaders);
+  const httpResponse = useAppSelector(selectHttpResponse);
+  const isSending = useAppSelector(selectIsSending);
+  const method = useAppSelector(selectMethod);
   const queryParameters = useAppSelector(selectQueryParameters);
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
-  const dynamicVariables = useAppSelector(selectDynamicVariables);
-  const httpResponse = useAppSelector(selectHttpResponse);
   const statusCode = useAppSelector(selectStatusCode);
   const testResults = useAppSelector(selectCurrentTestResults);
   const testResultsToCompare = useAppSelector(selectTestResultsToCompare);
-  const exportFormat = useAppSelector(selectExportFormat);
+  const url = useAppSelector(selectUrl);
 
   const exportFormatOptions: SelectOption<ReportFormat>[] = [
     { value: 'json', label: t('exportFormats.json') },
@@ -52,14 +57,34 @@ export default function TestRunnerBar() {
     { value: 'csv', label: t('exportFormats.csv') },
   ];
 
+  const isResponseSuccessful =
+    httpResponse && statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.BAD_REQUEST;
+  const isRunning = isRunningTests || isAiTestsRunning || Boolean(aiRunStartedAt);
+
   return (
-    <>
-      <div className="flex flex-col @xl:flex-row @xl:items-center @xl:justify-between gap-4 @xl:gap-2">
+    <div className="flex flex-col gap-4 bg-surface py-3 px-4">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-col gap-2">
+          <h5 className="m-0">{t('tests.testsTitle')}</h5>
+          {!isResponseSuccessful && (
+            <p className="m-0 text-xs text-muted-foreground">
+              {t(httpResponse ? 'tests.testsUnavailable' : 'tests.testsHint')}
+            </p>
+          )}
+        </div>
+        {isRunningTests && (
+          <LoaderWithText
+            className="w-auto text-xs font-normal [&_.loader]:h-4 [&_.loader]:w-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
+            text={t('tests.runningTests', { current: currentTest, total: testsCount })}
+          />
+        )}
+      </div>
+      <div className="flex flex-col @xl:flex-row @xl:items-center @xl:justify-between gap-2">
         <div className="flex flex-col @xl:flex-row @xl:items-center gap-2 @xl:min-w-0">
-          {httpResponse && statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.BAD_REQUEST && (
+          {!isRunningTests ? (
             <Button
-              className="@xl:shrink-0 @xl:whitespace-nowrap"
-              disabled={isRunningTests}
+              className="@xl:truncate"
+              disabled={isRunning || isSending || !isResponseSuccessful}
               onClick={() => {
                 dispatch(uiActions.setTestsActiveTab(0));
                 executeAllTests({
@@ -70,16 +95,18 @@ export default function TestRunnerBar() {
                 });
               }}
             >
-              {isRunningTests
-                ? t('tests.runningTests', { current: currentTest, total: testsCount })
-                : t('tests.generateAndRun')}
+              {t('tests.generateAndRun')}
+            </Button>
+          ) : (
+            <Button className="@xl:truncate" onClick={cancelAllTests}>
+              {t('common.cancel')}
             </Button>
           )}
-          {testResults && (
+          {testResults && !isRunningTests && (
             <Button
               className="@xl:truncate"
-              buttonType={ButtonType.SECONDARY}
-              disabled={isRunningTests}
+              buttonType={ButtonType.SECONDARY_UNDERLINE}
+              disabled={isRunning}
               onClick={() => {
                 dispatch(testsActions.addResultToCompare(testResults));
                 if (testResultsToCompare.length < 1) dispatch(testsActions.setCompareResponse(httpResponse));
@@ -89,8 +116,7 @@ export default function TestRunnerBar() {
             </Button>
           )}
         </div>
-
-        {testResults && (
+        {testResults && !isRunningTests && (
           <div className="flex flex-col @xl:flex-row @xl:justify-end @xl:items-center gap-4 @xl:gap-2 @xl:min-w-0">
             <div className="flex flex-col @xl:flex-row @xl:items-center gap-2">
               <Select
@@ -100,21 +126,22 @@ export default function TestRunnerBar() {
                 value={exportFormatOptions.find((option) => option.value === exportFormat)}
                 onChange={(option) => option && dispatch(uiActions.setExportFormat(option.value))}
               />
-              <Button
-                buttonType={ButtonType.SECONDARY}
-                className="min-w-28"
-                disabled={isRunningTests}
-                onClick={exportReport}
-              >
+              <Button buttonType={ButtonType.SECONDARY_UNDERLINE} disabled={isRunning} onClick={exportReport}>
                 {t('common.export')}
               </Button>
             </div>
-            <Button className="@xl:truncate" disabled={isRunningTests} onClick={generateCertificate}>
+            <Button
+              buttonType={ButtonType.SECONDARY_UNDERLINE}
+              className="@xl:truncate"
+              disabled={isRunning}
+              onClick={generateCertificate}
+            >
               {t('tests.generateCertificate')}
             </Button>
           </div>
         )}
       </div>
-    </>
+      {isRunningTests && testsCount > 0 && <ProgressBar max={testsCount} value={currentTest} />}
+    </div>
   );
 }
