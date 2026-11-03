@@ -51,7 +51,7 @@ export default function RequestUrlBar() {
   const { connect, disconnect, send } = useWssActions();
 
   return (
-    <div className="flex flex-col @lg:flex-row @lg:items-center gap-2 py-3 px-4">
+    <div className="flex flex-col @lg:flex-row @lg:items-center gap-2 py-3 px-4 border-0">
       <div
         className="flex-auto flex items-center"
         onKeyDown={(event) => {

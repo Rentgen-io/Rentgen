@@ -14,7 +14,7 @@ const initialState: UIState = {
   exportFormat: 'json',
   showLicenseSettings: false,
   sidebarActiveTab: 'collections',
-  testsActiveTab: 0,
+  testsActiveTab: 1,
 };
 
 export const uiSlice = createSlice({

@@ -196,7 +196,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
         </div>
         <div className="flex flex-col flex-auto gap-2">
           <FieldLabel label={t('environment.variables')} />
-          <div className="flex flex-col flex-auto h-0 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
+          <div className="flex flex-col flex-auto h-0 table-layout">
             <DataTable
               className="environment-data-table"
               columns={[

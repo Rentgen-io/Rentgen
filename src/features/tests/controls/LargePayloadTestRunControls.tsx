@@ -25,7 +25,7 @@ export default function LargePayloadTestRunControls() {
       executeTest={() => executeLargePayloadTest(testOptions, size)}
     >
       <div>
-        <label className="block mb-0.5 font-bold text-[10px]">{t('controls.sizeMB')}</label>
+        <label className="block mb-0.5 font-medium text-[10px]">{t('controls.sizeMB')}</label>
         <Input
           className="w-16 p-0.5 text-center"
           type="number"

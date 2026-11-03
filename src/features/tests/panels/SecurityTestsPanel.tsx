@@ -33,7 +33,7 @@ export default function SecurityTestsPanel() {
         tests={securityTests}
         onOpenSettings={() => dispatch(modalsActions.openSettingsModal())}
       />
-      <div className="flex flex-col flex-auto min-h-146.75! gap-4 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
+      <div className={cn('flex flex-col flex-auto table-layout', { 'min-h-132.75!': !isSecurityRunning })}>
         <TestsTable
           columns={[
             ...getTestsTableColumns(['Check', 'Expected', 'Actual'], t),
@@ -81,9 +81,7 @@ export default function SecurityTestsPanel() {
           expandOnRowClicked
           data={securityTests}
           fixedHeader={true}
-          progressComponent={
-            <LoaderWithText className="flex-auto justify-center" text={t('tests.runningSecurityTests')} />
-          }
+          progressComponent={<LoaderWithText className="justify-center" text={t('tests.runningSecurityTests')} />}
           progressPending={isSecurityRunning}
           progressSkeleton={false}
         />

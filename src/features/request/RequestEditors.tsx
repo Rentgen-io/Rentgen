@@ -37,6 +37,7 @@ export default function RequestEditors() {
 
   return (
     <Tabs
+      className="border-b border-border"
       forceRenderTabPanel
       selectedIndex={activeTab}
       selectedTabClassName="text-foreground border-primary! cursor-default!"

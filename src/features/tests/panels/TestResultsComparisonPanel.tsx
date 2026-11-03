@@ -103,7 +103,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
     () => [
       {
         component: (
-          <div className="flex flex-col flex-auto h-0 gap-4 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
+          <div className="flex flex-col flex-auto h-0 gap-4 table-layout">
             {!potentialBugs || potentialBugs.length === 0 ? (
               <p className="m-0 p-2.5 text-sm text-white text-center bg-green-600">{t('comparison.noPotentialBugs')}</p>
             ) : (
@@ -160,7 +160,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
       ) : (
         <Tabs
           className="flex flex-col flex-auto overflow-hidden"
-          forceRenderTabPanel={true}
+          forceRenderTabPanel
           selectedIndex={tabIndex}
           selectedTabClassName="bg-body border-border! text-text dark:bg-dark-body dark:border-dark-body! dark:text-dark-text cursor-default!"
           selectedTabPanelClassName="flex! flex-col flex-auto"

@@ -122,7 +122,7 @@ export default function ImportResourceModal() {
             <div
               className={cn(
                 'flex flex-auto flex-col items-center justify-center gap-1 border border-dashed text-xs leading-normal select-none',
-                isDragging ? 'bg-gray-500/10 dark:bg-gray-500/20' : 'border-border dark:border-dark-input',
+                isDragging ? 'bg-gray-500/10 dark:bg-gray-500/20' : 'border-border',
               )}
               onDragEnter={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -136,7 +136,7 @@ export default function ImportResourceModal() {
                   components={{
                     file: (
                       <span
-                        className="text-button-primary hover:underline cursor-pointer"
+                        className="text-blue-500 hover:underline cursor-pointer"
                         onClick={() => fileInputRef.current?.click()}
                       />
                     ),

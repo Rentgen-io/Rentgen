@@ -62,7 +62,7 @@ export default function TestRunnerBar() {
   const isRunning = isRunningTests || isAiTestsRunning || Boolean(aiRunStartedAt);
 
   return (
-    <div className="flex flex-col gap-4 bg-surface py-3 px-4">
+    <div className="relative flex flex-col gap-4 bg-surface py-3 px-4 border-b border-border">
       <div className="flex items-center justify-between gap-2">
         <div className="flex flex-col gap-2">
           <h5 className="m-0">{t('tests.testsTitle')}</h5>
@@ -86,7 +86,7 @@ export default function TestRunnerBar() {
               className="@xl:truncate"
               disabled={isRunning || isSending || !isResponseSuccessful}
               onClick={() => {
-                dispatch(uiActions.setTestsActiveTab(0));
+                dispatch(uiActions.setTestsActiveTab(1));
                 executeAllTests({
                   ...substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables),
                   bodyParameters,
@@ -104,8 +104,8 @@ export default function TestRunnerBar() {
           )}
           {testResults && !isRunningTests && (
             <Button
-              className="@xl:truncate"
               buttonType={ButtonType.SECONDARY_UNDERLINE}
+              className="@xl:truncate"
               disabled={isRunning}
               onClick={() => {
                 dispatch(testsActions.addResultToCompare(testResults));
@@ -141,7 +141,9 @@ export default function TestRunnerBar() {
           </div>
         )}
       </div>
-      {isRunningTests && testsCount > 0 && <ProgressBar max={testsCount} value={currentTest} />}
+      {isRunningTests && testsCount > 0 && (
+        <ProgressBar className="absolute bottom-0 left-0" max={testsCount} value={currentTest} />
+      )}
     </div>
   );
 }

@@ -14,7 +14,7 @@ export default function Panel({ children, className, title, collapsible = true, 
   return (
     <div className={className} {...otherProps}>
       <div
-        className={cn(collapsible && 'relative cursor-pointer pl-10', 'bg-surface')}
+        className={cn(collapsible && 'relative cursor-pointer pl-10')}
         onClick={() => collapsible && setIsOpen((prevIsOpen) => !prevIsOpen)}
       >
         {collapsible && (

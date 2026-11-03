@@ -69,40 +69,36 @@ export function AiRequestMaskControls({ onCancel }: Props) {
       <div className="flex items-center gap-4">
         <div className="flex-auto">
           <h5 className="m-0 mb-1">{t('controls.reviewDataSentToAi')}</h5>
-          <p className="m-0 text-xs text-text-secondary">{t('controls.reviewDataSentToAiDescription')}</p>
+          <p className="m-0 text-xs text-muted-foreground">{t('controls.reviewDataSentToAiDescription')}</p>
         </div>
         <div className="text-xs">
           {activeAiProvider?.name} · {activeAiProvider?.model}
         </div>
       </div>
-      <div className="@2xl:grid @2xl:grid-cols-2 border border-border dark:border-dark-body divide-y @2xl:divide-y-0 @2xl:divide-x divide-border dark:divide-dark-body">
+      <div className="@2xl:grid @2xl:grid-cols-2 border border-border divide-y @2xl:divide-y-0 @2xl:divide-x divide-border">
         <div>
-          <label className="flex items-center justify-between gap-4 m-0 py-2 px-4 bg-body dark:bg-dark-body text-sm font-bold truncate">
+          <label className="flex items-center justify-between gap-4 m-0 py-2 px-4 bg-surface text-xs font-medium truncate">
             {t('controls.requestFields')}
-            <span className="font-normal text-xs text-text-secondary truncate">
+            <span className="font-normal text-muted-foreground truncate">
               {t('controls.masked', { masked: masked.size })}
             </span>
           </label>
-          <div className="flex border-t border-border dark:border-dark-body flex-col gap-4 p-4">
+          <div className="flex flex-col gap-4 p-4 border-t border-border">
             {requestFields.map(([name, value]) => (
               <div key={name} className="flex items-center gap-4 text-xs">
                 <Toggle checked={masked.has(name)} onChange={() => toggleMask(name)} />
-                <span className="flex-1 min-w-36 font-monospace text-[#a31515] dark:text-[#9cdcfe] truncate">
-                  {name}
-                </span>
-                <span className="flex-3 font-monospace text-[#0451a5] dark:text-[#ce9178] truncate">
-                  {String(value)}
-                </span>
+                <span className="flex-1 min-w-36 font-monospace text-token-key truncate">{name}</span>
+                <span className="flex-3 font-monospace text-token-string truncate">{String(value)}</span>
               </div>
             ))}
           </div>
         </div>
         <div>
-          <label className="flex items-center justify-between gap-4 m-0 py-2 px-4 bg-body dark:bg-dark-body text-sm font-bold truncate">
+          <label className="flex items-center justify-between gap-4 m-0 py-2 px-4 bg-surface text-xs font-medium truncate">
             {t('controls.sanitizedPreview')}
-            <span className="font-normal text-xs text-text-secondary truncate">{t('controls.readyToSend')}</span>
+            <span className="font-normal text-xs text-muted-foreground truncate">{t('controls.readyToSend')}</span>
           </label>
-          <div className="flex flex-col gap-4 border-t border-border dark:border-dark-body p-4">
+          <div className="flex flex-col gap-4 p-4 border-t border-border">
             {sanitizedRequest &&
               ([sanitizedRequest.url, sanitizedRequest.headers, sanitizedRequest.body] as const).map(
                 (source, index) => {
@@ -136,13 +132,13 @@ export function AiRequestMaskControls({ onCancel }: Props) {
         </Button>
       </div>
       {isAiRunning && (
-        <div className="@xl:text-right text-xs text-text-secondary">
+        <div className="@xl:text-right text-xs text-muted-foreground">
           <Trans
             i18nKey="ai.waitingForResponse"
             components={{
               timer: (
                 <Timer
-                  className="font-bold text-text dark:text-dark-text"
+                  className="font-bold text-foreground"
                   startedAt={aiRunStartedAt}
                   timeoutMs={AI_RESPONSE_TIMEOUT_MS}
                 />

@@ -163,17 +163,15 @@ export default function App() {
           <div className={cn('flex flex-col divide-y divide-border', { 'flex-auto': mode === 'WSS' })}>
             <RequestDetails />
             <RequestModeBar />
-            <div className="border-0">
-              <RequestUrlBar />
-            </div>
+            <RequestUrlBar />
             <RequestEditors />
 
-            {mode === 'HTTP' && <HttpResponsePanel />}
             {mode === 'WSS' && <WssMessagesPanel />}
             {mode === 'HTTP' && (
-              <div className="border-b border-border">
+              <>
+                <HttpResponsePanel />
                 <TestRunnerBar />
-              </div>
+              </>
             )}
           </div>
         )}
@@ -188,7 +186,7 @@ export default function App() {
               dispatch(uiActions.setTestsActiveTab(index));
             }}
           >
-            <TabList className="flex gap-4 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
+            <TabList className="flex gap-6 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
               {testsTabs.map(({ disabledTests, isRunning, label, tests }) => {
                 const { bugs, failed, passed, warnings } = getTestsStatistics(tests ?? [], disabledTests);
 
