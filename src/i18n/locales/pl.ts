@@ -5,7 +5,6 @@ const pl = {
     save: 'Zapisz',
     saved: 'Zapisano',
     cancel: 'Anuluj',
-    cancelled: 'Anulowano',
     close: 'Zamknij',
     ok: 'OK',
     create: 'Utwórz',
@@ -26,7 +25,6 @@ const pl = {
     connect: 'Połącz',
     disconnect: 'Rozłącz',
     beautify: 'Formatuj',
-    reload: 'Odśwież',
     cut: 'Wytnij',
     paste: 'Wklej',
     enable: 'Włącz',
@@ -47,6 +45,7 @@ const pl = {
     duplicate: 'Duplikuj',
     add: 'Dodaj',
     back: 'Wstecz',
+    stop: 'Zatrzymaj',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const pl = {
     newEnvironment: 'Nowe środowisko',
     editEnvironment: 'Edytuj środowisko',
     noEnvironmentsCreated: 'Nie utworzono żadnych środowisk',
-    environmentName: 'Nazwa środowiska',
+    environmentName: 'Nazwa',
     environmentNamePlaceholder: 'np. Produkcja, Staging, Lokalne',
     color: 'Kolor',
     variables: 'Zmienne',
-    variableName: 'Nazwa zmiennej',
+    variableName: 'Zmienna',
     addVariable: 'Dodaj zmienną',
     value: 'Wartość',
-    refreshValue: 'Odśwież wartość',
-    refreshAll: 'Odśwież wszystko',
     noEnvironment: 'Brak środowiska',
     selectEnvironment: 'Wybierz środowisko',
     randomEmail: 'Losowy e-mail',
@@ -110,6 +107,7 @@ const pl = {
 
   // Request
   request: {
+    untitledRequest: 'Zapytanie bez nazwy',
     enterUrl: 'Wpisz URL lub wklej tekst',
     headers: 'Nagłówki',
     headersPlaceholder: 'Klucz-Nagłówka: wartość',
@@ -126,6 +124,8 @@ const pl = {
     title: 'Odpowiedź',
     sending: 'Wysyłanie...',
     networkError: 'Błąd sieci',
+    requestHint: 'Wpisz URL API, a następnie wyślij zapytanie.',
+    responseHint: 'Treść odpowiedzi, nagłówki i czasy pojawią się tutaj.',
   },
 
   // cURL
@@ -141,12 +141,14 @@ const pl = {
 
   // Tests
   tests: {
+    testsTitle: 'Testy',
+    testsHint: 'Wyślij zapytanie, aby wygenerować testy na podstawie odpowiedzi.',
+    testsUnavailable: 'Generowanie testów wymaga poprawnej odpowiedzi (HTTP 2xx lub 3xx).',
     generateAndRun: 'Generuj i uruchom testy',
     runningTests: 'Uruchamianie testów... ({{current}}/{{total}})',
     noTestsGenerated: 'Nie wygenerowano testów',
     selectForCompare: 'Wybierz do porównania',
     compareWithSelected: 'Porównaj z wybranym',
-    exportFormat: 'Format',
     generateCertificate: 'Generuj certyfikat',
     notEligible: 'Nie kwalifikuje się (wymagane min. 70 testów)',
     failedToExport: 'Nie udało się wyeksportować raportu',
@@ -169,7 +171,7 @@ const pl = {
     bodyParameters: 'Treść',
     queryParameters: 'Zapytanie',
     formatPlaceholder: 'Format',
-    aiTesting: 'Głębsze testy AI',
+    aiTesting: 'Testy AI',
     aiTestingTitle: 'Znajdź testy, których deterministyczne skanowanie nie potrafiło wywnioskować',
     aiTestingDescription: 'AI analizuje przebieg, proponuje dodatkowe eksperymenty, a Rentgen je wykonuje.',
     runAiTesting: 'Uruchom testy AI',
@@ -181,7 +183,7 @@ const pl = {
     noTestResults: 'Brak wyników testów do porównania',
     potentialBugs: 'Potencjalne błędy',
     fullBehaviorChanges: 'Pełne zmiany zachowania',
-    noPotentialBugs: 'Nie wykryto potencjalnych błędów ✅',
+    noPotentialBugs: 'Nie wykryto potencjalnych błędów',
     showFullBehaviorChanges: 'Pokaż pełne zmiany zachowania',
     behaviorChange: 'Zmiana zachowania:',
     showNoise: 'Pokaż szum',
@@ -365,7 +367,6 @@ const pl = {
         notInstalledDescription: 'Kliknij <e>Zainstaluj</e> poniżej, aby dodać <c>rentgen</c> do shell PATH.',
       },
       action: {
-        working: 'Trwa...',
         uninstall: 'Odinstaluj CLI',
         reinstall: 'Zainstaluj ponownie',
         installRentgenInPath: 'Zainstaluj polecenie rentgen w PATH',
@@ -446,7 +447,6 @@ const pl = {
       description: 'Włączaj lub wyłączaj poszczególne analizy wydajności, aby dostosować testowanie.',
     },
     languageSection: {
-      title: 'Język',
       description: 'Wybierz preferowany język interfejsu aplikacji.',
       feedback:
         'Znalazłeś problem z tłumaczeniem lub chcesz dodać inny język? Utwórz zgłoszenie ze wszystkimi szczegółami, a zrobimy co w naszej mocy.',
@@ -524,12 +524,6 @@ const pl = {
     verified: 'Zweryfikowany',
     modified: 'Zmodyfikowany',
     noChecksum: 'Brak sumy kontrolnej',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: 'Wybierz plik',
-    noFileChosen: 'Nie wybrano pliku',
   },
 
   // Messages panel

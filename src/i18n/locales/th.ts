@@ -5,7 +5,6 @@ const th = {
     save: 'บันทึก',
     saved: 'บันทึกแล้ว',
     cancel: 'ยกเลิก',
-    cancelled: 'ยกเลิกแล้ว',
     close: 'ปิด',
     ok: 'ตกลง',
     create: 'สร้าง',
@@ -26,7 +25,6 @@ const th = {
     connect: 'เชื่อมต่อ',
     disconnect: 'ตัดการเชื่อมต่อ',
     beautify: 'จัดรูปแบบ',
-    reload: 'โหลดใหม่',
     cut: 'ตัด',
     paste: 'วาง',
     enable: 'เปิดใช้งาน',
@@ -47,6 +45,7 @@ const th = {
     duplicate: 'ทำสำเนา',
     add: 'เพิ่ม',
     back: 'ย้อนกลับ',
+    stop: 'หยุด',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const th = {
     newEnvironment: 'เอนไวรอนเมนต์ใหม่',
     editEnvironment: 'แก้ไขเอนไวรอนเมนต์',
     noEnvironmentsCreated: 'ยังไม่มีการสร้างเอนไวรอนเมนต์',
-    environmentName: 'ชื่อเอนไวรอนเมนต์',
+    environmentName: 'ชื่อ',
     environmentNamePlaceholder: 'เช่น Production, Staging, Local',
     color: 'สี',
     variables: 'ตัวแปร',
-    variableName: 'ชื่อตัวแปร',
+    variableName: 'ตัวแปร',
     addVariable: 'เพิ่มตัวแปร',
     value: 'ค่า',
-    refreshValue: 'รีเฟรชค่า',
-    refreshAll: 'รีเฟรชทั้งหมด',
     noEnvironment: 'ไม่มีเอนไวรอนเมนต์',
     selectEnvironment: 'เลือกเอนไวรอนเมนต์',
     randomEmail: 'อีเมลสุ่ม',
@@ -110,6 +107,7 @@ const th = {
 
   // Request
   request: {
+    untitledRequest: 'คำขอที่ไม่มีชื่อ',
     enterUrl: 'ป้อน URL หรือวางข้อความ',
     headers: 'เฮดเดอร์',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +124,8 @@ const th = {
     title: 'การตอบกลับ',
     sending: 'กำลังส่ง...',
     networkError: 'ข้อผิดพลาดเครือข่าย',
+    requestHint: 'ป้อน URL ของ API แล้วส่งคำขอของคุณ',
+    responseHint: 'บอดี้ของการตอบกลับ เฮดเดอร์ และเวลาจะแสดงที่นี่',
   },
 
   // cURL
@@ -141,12 +141,14 @@ const th = {
 
   // Tests
   tests: {
+    testsTitle: 'การทดสอบ',
+    testsHint: 'ส่งคำขอเพื่อสร้างเทสต์จากการตอบกลับ',
+    testsUnavailable: 'การสร้างเทสต์ต้องใช้การตอบกลับที่สำเร็จ (HTTP 2xx หรือ 3xx)',
     generateAndRun: 'สร้างและรันเทสต์',
     runningTests: 'กำลังรันเทสต์... ({{current}}/{{total}})',
     noTestsGenerated: 'ไม่มีการสร้างเทสต์',
     selectForCompare: 'เลือกเพื่อเปรียบเทียบ',
     compareWithSelected: 'เปรียบเทียบกับที่เลือก',
-    exportFormat: 'รูปแบบ',
     generateCertificate: 'สร้างใบรับรอง',
     notEligible: 'ไม่ผ่านเกณฑ์ (ต้องมีอย่างน้อย 70 เทสต์)',
     failedToExport: 'ส่งออกรายงานไม่สำเร็จ',
@@ -168,7 +170,7 @@ const th = {
     bodyParameters: 'บอดี้',
     queryParameters: 'Query',
     formatPlaceholder: 'รูปแบบ',
-    aiTesting: 'การทดสอบด้วย AI เชิงลึก',
+    aiTesting: 'การทดสอบด้วย AI',
     aiTestingTitle: 'ค้นหาการทดสอบที่การสแกนแบบกำหนดได้ไม่สามารถอนุมานได้',
     aiTestingDescription: 'AI วิเคราะห์การรัน แนะนำการทดลองเพิ่มเติม และ Rentgen จะดำเนินการให้',
     runAiTesting: 'เรียกใช้การทดสอบด้วย AI',
@@ -180,7 +182,7 @@ const th = {
     noTestResults: 'ไม่มีผลลัพธ์เทสต์ให้เปรียบเทียบ',
     potentialBugs: 'บั๊กที่อาจเกิดขึ้น',
     fullBehaviorChanges: 'การเปลี่ยนแปลงพฤติกรรมทั้งหมด',
-    noPotentialBugs: 'ไม่พบบั๊กที่อาจเกิดขึ้น ✅',
+    noPotentialBugs: 'ไม่พบบั๊กที่อาจเกิดขึ้น',
     showFullBehaviorChanges: 'แสดงการเปลี่ยนแปลงพฤติกรรมทั้งหมด',
     behaviorChange: 'การเปลี่ยนแปลงพฤติกรรม:',
     showNoise: 'แสดง noise',
@@ -360,7 +362,6 @@ const th = {
         notInstalledDescription: 'คลิก <e>ติดตั้ง</e> ด้านล่างเพื่อเพิ่ม <c>rentgen</c> ลงใน shell PATH ของคุณ',
       },
       action: {
-        working: 'กำลังดำเนินการ...',
         uninstall: 'ถอนการติดตั้ง CLI',
         reinstall: 'ติดตั้งใหม่',
         installRentgenInPath: 'ติดตั้งคำสั่ง rentgen ลงใน PATH',
@@ -442,7 +443,6 @@ const th = {
       description: 'เปิดหรือปิดข้อมูลเชิงลึกประสิทธิภาพแต่ละรายการเพื่อปรับแต่งประสบการณ์การทดสอบของคุณ',
     },
     languageSection: {
-      title: 'ภาษา',
       description: 'เลือกภาษาที่คุณต้องการสำหรับอินเทอร์เฟซแอปพลิเคชัน',
       feedback:
         'พบปัญหาการแปลหรือต้องการเพิ่มภาษาอื่น? สร้าง ticket พร้อมรายละเอียดทั้งหมด แล้วเราจะพยายามอย่างเต็มที่',
@@ -520,12 +520,6 @@ const th = {
     verified: 'ตรวจสอบแล้ว',
     modified: 'แก้ไขแล้ว',
     noChecksum: 'ไม่มี checksum',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: 'เลือกไฟล์',
-    noFileChosen: 'ยังไม่ได้เลือกไฟล์',
   },
 
   // Messages panel

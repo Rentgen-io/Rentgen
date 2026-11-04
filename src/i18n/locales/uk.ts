@@ -5,7 +5,6 @@ const uk = {
     save: 'Зберегти',
     saved: 'Збережено',
     cancel: 'Скасувати',
-    cancelled: 'Скасовано',
     close: 'Закрити',
     ok: 'OK',
     create: 'Створити',
@@ -26,7 +25,6 @@ const uk = {
     connect: "З'єднати",
     disconnect: "Від'єднати",
     beautify: 'Форматувати',
-    reload: 'Перезавантажити',
     cut: 'Вирізати',
     paste: 'Вставити',
     enable: 'Увімкнути',
@@ -47,6 +45,7 @@ const uk = {
     duplicate: 'Дублювати',
     add: 'Додати',
     back: 'Назад',
+    stop: 'Зупинити',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const uk = {
     newEnvironment: 'Нове середовище',
     editEnvironment: 'Редагувати середовище',
     noEnvironmentsCreated: 'Середовища не створено',
-    environmentName: 'Назва середовища',
+    environmentName: 'Назва',
     environmentNamePlaceholder: 'напр., Продакшн, Стейджинг, Локальне',
     color: 'Колір',
     variables: 'Змінні',
-    variableName: 'Назва змінної',
+    variableName: 'Змінна',
     addVariable: 'Додати змінну',
     value: 'Значення',
-    refreshValue: 'Оновити значення',
-    refreshAll: 'Оновити все',
     noEnvironment: 'Без середовища',
     selectEnvironment: 'Обрати середовище',
     randomEmail: 'Випадковий email',
@@ -110,6 +107,7 @@ const uk = {
 
   // Request
   request: {
+    untitledRequest: 'Запит без назви',
     enterUrl: 'Введіть URL або вставте текст',
     headers: 'Заголовки',
     headersPlaceholder: 'Ключ-Заголовка: значення',
@@ -126,6 +124,8 @@ const uk = {
     title: 'Відповідь',
     sending: 'Надсилання...',
     networkError: 'Помилка мережі',
+    requestHint: 'Введіть URL API, а потім надішліть запит.',
+    responseHint: "Тіло відповіді, заголовки та час виконання з'являться тут.",
   },
 
   // cURL
@@ -141,12 +141,14 @@ const uk = {
 
   // Tests
   tests: {
+    testsTitle: 'Тести',
+    testsHint: 'Надішліть запит, щоб згенерувати тести на основі відповіді.',
+    testsUnavailable: 'Для генерації тестів потрібна успішна відповідь (HTTP 2xx або 3xx).',
     generateAndRun: 'Згенерувати та запустити тести',
     runningTests: 'Виконання тестів... ({{current}}/{{total}})',
     noTestsGenerated: 'Тести не згенеровано',
     selectForCompare: 'Обрати для порівняння',
     compareWithSelected: 'Порівняти з обраним',
-    exportFormat: 'Формат',
     generateCertificate: 'Згенерувати сертифікат',
     notEligible: 'Не підходить (потрібно щонайменше 70 тестів)',
     failedToExport: 'Не вдалося експортувати звіт',
@@ -168,7 +170,7 @@ const uk = {
     bodyParameters: 'Тіло',
     queryParameters: 'Запит',
     formatPlaceholder: 'Формат',
-    aiTesting: 'Поглиблене ШІ-тестування',
+    aiTesting: 'ШІ-тестування',
     aiTestingTitle: 'Знайти тести, які детерміноване сканування не змогло вивести',
     aiTestingDescription: 'ШІ аналізує запуск, пропонує додаткові експерименти, а Rentgen виконує їх.',
     runAiTesting: 'Запустити ШІ-тестування',
@@ -180,7 +182,7 @@ const uk = {
     noTestResults: 'Немає результатів тестів для порівняння',
     potentialBugs: 'Потенційні помилки',
     fullBehaviorChanges: 'Повні зміни поведінки',
-    noPotentialBugs: 'Потенційних помилок не виявлено ✅',
+    noPotentialBugs: 'Потенційних помилок не виявлено',
     showFullBehaviorChanges: 'Показати повні зміни поведінки',
     behaviorChange: 'Зміна поведінки:',
     showNoise: 'Показати шум',
@@ -364,7 +366,6 @@ const uk = {
         notInstalledDescription: 'Натисніть <e>Встановити</e> нижче, щоб додати <c>rentgen</c> до вашого shell PATH.',
       },
       action: {
-        working: 'Виконується...',
         uninstall: 'Видалити CLI',
         reinstall: 'Перевстановити',
         installRentgenInPath: 'Встановити команду rentgen у PATH',
@@ -446,7 +447,6 @@ const uk = {
       description: 'Вмикайте або вимикайте окремі елементи аналізу продуктивності для налаштування тестування.',
     },
     languageSection: {
-      title: 'Мова',
       description: 'Оберіть бажану мову інтерфейсу застосунку.',
       feedback:
         'Знайшли проблему з перекладом або хочете додати іншу мову? Створіть тікет з усіма деталями, і ми зробимо все можливе.',
@@ -524,12 +524,6 @@ const uk = {
     verified: 'Перевірено',
     modified: 'Змінено',
     noChecksum: 'Немає контрольної суми',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: 'Обрати файл',
-    noFileChosen: 'Файл не обрано',
   },
 
   // Messages panel

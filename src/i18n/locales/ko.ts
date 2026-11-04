@@ -5,7 +5,6 @@ const ko = {
     save: '저장',
     saved: '저장됨',
     cancel: '취소',
-    cancelled: '취소됨',
     close: '닫기',
     ok: '확인',
     create: '생성',
@@ -26,7 +25,6 @@ const ko = {
     connect: '연결',
     disconnect: '연결 해제',
     beautify: '정리',
-    reload: '새로 고침',
     cut: '잘라내기',
     paste: '붙여넣기',
     enable: '활성화',
@@ -47,6 +45,7 @@ const ko = {
     duplicate: '복제',
     add: '추가',
     back: '뒤로',
+    stop: '중지',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const ko = {
     newEnvironment: '새 환경',
     editEnvironment: '환경 편집',
     noEnvironmentsCreated: '생성된 환경이 없습니다',
-    environmentName: '환경 이름',
+    environmentName: '이름',
     environmentNamePlaceholder: '예: Production, Staging, Local',
     color: '색상',
     variables: '변수',
-    variableName: '변수 이름',
+    variableName: '변수',
     addVariable: '변수 추가',
     value: '값',
-    refreshValue: '값 새로 고침',
-    refreshAll: '모두 새로 고침',
     noEnvironment: '환경 없음',
     selectEnvironment: '환경 선택',
     randomEmail: '랜덤 이메일',
@@ -110,6 +107,7 @@ const ko = {
 
   // Request
   request: {
+    untitledRequest: '제목 없는 요청',
     enterUrl: 'URL을 입력하거나 텍스트를 붙여넣으세요',
     headers: '헤더',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +124,8 @@ const ko = {
     title: '응답',
     sending: '보내는 중...',
     networkError: '네트워크 오류',
+    requestHint: 'API URL을 입력한 후 요청을 보내세요.',
+    responseHint: '응답 본문, 헤더 및 소요 시간이 여기에 표시됩니다.',
   },
 
   // cURL
@@ -141,12 +141,14 @@ const ko = {
 
   // Tests
   tests: {
+    testsTitle: '테스트',
+    testsHint: '요청을 보내면 응답을 기반으로 테스트를 생성합니다.',
+    testsUnavailable: '테스트를 생성하려면 성공한 응답(HTTP 2xx 또는 3xx)이 필요합니다.',
     generateAndRun: '테스트 생성 및 실행',
     runningTests: '테스트 실행 중... ({{current}}/{{total}})',
     noTestsGenerated: '생성된 테스트 없음',
     selectForCompare: '비교 대상으로 선택',
     compareWithSelected: '선택 항목과 비교',
-    exportFormat: '포맷',
     generateCertificate: '인증서 생성',
     notEligible: '대상 아님 (테스트 70개 이상 필요)',
     failedToExport: '보고서를 내보내지 못했습니다',
@@ -168,7 +170,7 @@ const ko = {
     bodyParameters: '바디',
     queryParameters: '쿼리',
     formatPlaceholder: '포맷',
-    aiTesting: '심층 AI 테스트',
+    aiTesting: 'AI 테스트',
     aiTestingTitle: '결정론적 스캔이 추론하지 못한 테스트 찾기',
     aiTestingDescription: 'AI가 실행을 분석해 추가 실험을 제안하고 Rentgen이 이를 실행합니다.',
     runAiTesting: 'AI 테스트 실행',
@@ -180,7 +182,7 @@ const ko = {
     noTestResults: '비교할 테스트 결과가 없습니다',
     potentialBugs: '잠재적 버그',
     fullBehaviorChanges: '전체 동작 변경',
-    noPotentialBugs: '잠재적 버그가 발견되지 않았습니다 ✅',
+    noPotentialBugs: '잠재적 버그가 발견되지 않았습니다',
     showFullBehaviorChanges: '전체 동작 변경 표시',
     behaviorChange: '동작 변경:',
     showNoise: '노이즈 표시',
@@ -361,7 +363,6 @@ const ko = {
         notInstalledDescription: '아래 <e>설치</e>를 눌러 셸 PATH에 <c>rentgen</c>을 추가하세요.',
       },
       action: {
-        working: '작업 중...',
         uninstall: 'CLI 제거',
         reinstall: '다시 설치',
         installRentgenInPath: 'PATH에 rentgen 명령 설치',
@@ -442,7 +443,6 @@ const ko = {
       description: '개별 성능 인사이트를 켜거나 꺼서 테스트 경험을 맞춤 설정하세요.',
     },
     languageSection: {
-      title: '언어',
       description: '애플리케이션 인터페이스에 사용할 언어를 선택하세요.',
       feedback:
         '번역 문제를 발견하셨거나 다른 언어를 추가하고 싶으신가요? 자세한 내용을 담아 티켓을 만들어 주시면 최선을 다해 반영하겠습니다.',
@@ -520,12 +520,6 @@ const ko = {
     verified: '확인됨',
     modified: '수정됨',
     noChecksum: 'checksum 없음',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: '파일 선택',
-    noFileChosen: '선택된 파일 없음',
   },
 
   // Messages panel

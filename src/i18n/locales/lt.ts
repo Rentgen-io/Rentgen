@@ -5,7 +5,6 @@ const lt = {
     save: 'Išsaugoti',
     saved: 'Išsaugota',
     cancel: 'Atšaukti',
-    cancelled: 'Atšaukta',
     close: 'Uždaryti',
     ok: 'Gerai',
     create: 'Sukurti',
@@ -26,7 +25,6 @@ const lt = {
     connect: 'Prisijungti',
     disconnect: 'Atsijungti',
     beautify: 'Formatuoti',
-    reload: 'Perkrauti',
     cut: 'Iškirpti',
     paste: 'Įklijuoti',
     enable: 'Įjungti',
@@ -47,6 +45,7 @@ const lt = {
     duplicate: 'Dubliuoti',
     add: 'Pridėti',
     back: 'Atgal',
+    stop: 'Sustabdyti',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const lt = {
     newEnvironment: 'Nauja aplinka',
     editEnvironment: 'Redaguoti aplinką',
     noEnvironmentsCreated: 'Aplinkų nesukurta',
-    environmentName: 'Aplinkos pavadinimas',
+    environmentName: 'Pavadinimas',
     environmentNamePlaceholder: 'pvz., Produkcija, Testavimas, Lokali',
     color: 'Spalva',
     variables: 'Kintamieji',
-    variableName: 'Kintamojo pavadinimas',
+    variableName: 'Kintamasis',
     addVariable: 'Pridėti kintamąjį',
     value: 'Reikšmė',
-    refreshValue: 'Atnaujinti reikšmę',
-    refreshAll: 'Atnaujinti viską',
     noEnvironment: 'Be aplinkos',
     selectEnvironment: 'Pasirinkti aplinką',
     randomEmail: 'Atsitiktinis el. paštas',
@@ -110,6 +107,7 @@ const lt = {
 
   // Request
   request: {
+    untitledRequest: 'Užklausa be pavadinimo',
     enterUrl: 'Įveskite URL arba įklijuokite tekstą',
     headers: 'Antraštės',
     headersPlaceholder: 'Antraštės-Raktas: reikšmė',
@@ -126,6 +124,8 @@ const lt = {
     title: 'Atsakymas',
     sending: 'Siunčiama...',
     networkError: 'Tinklo klaida',
+    requestHint: 'Įveskite API URL, tada išsiųskite užklausą.',
+    responseHint: 'Atsakymo turinys, antraštės ir laikas bus rodomi čia.',
   },
 
   // cURL
@@ -141,12 +141,14 @@ const lt = {
 
   // Tests
   tests: {
+    testsTitle: 'Testai',
+    testsHint: 'Išsiųskite užklausą, kad pagal jos atsakymą būtų sugeneruoti testai.',
+    testsUnavailable: 'Testams generuoti reikalingas sėkmingas atsakymas (HTTP 2xx arba 3xx).',
     generateAndRun: 'Generuoti ir vykdyti testus',
     runningTests: 'Vykdomi testai... ({{current}}/{{total}})',
     noTestsGenerated: 'Nesugeneruota jokių testų',
     selectForCompare: 'Pasirinkti palyginimui',
     compareWithSelected: 'Palyginti su pasirinktu',
-    exportFormat: 'Formatas',
     generateCertificate: 'Generuoti sertifikatą',
     notEligible: 'Netinkama (reikia bent 70 testų)',
     failedToExport: 'Nepavyko eksportuoti ataskaitos',
@@ -168,7 +170,7 @@ const lt = {
     bodyParameters: 'Turinys',
     queryParameters: 'Užklausa',
     formatPlaceholder: 'Formatas',
-    aiTesting: 'Gilesnis DI testavimas',
+    aiTesting: 'DI testavimas',
     aiTestingTitle: 'Rasti testus, kurių deterministinis skenavimas negalėjo nustatyti',
     aiTestingDescription: 'DI analizuoja vykdymą, siūlo papildomus eksperimentus, o Rentgen juos įvykdo.',
     runAiTesting: 'Vykdyti DI testavimą',
@@ -180,7 +182,7 @@ const lt = {
     noTestResults: 'Nėra testų rezultatų palyginimui',
     potentialBugs: 'Galimos klaidos',
     fullBehaviorChanges: 'Visi elgsenos pokyčiai',
-    noPotentialBugs: 'Galimų klaidų nerasta ✅',
+    noPotentialBugs: 'Galimų klaidų nerasta',
     showFullBehaviorChanges: 'Rodyti visus elgsenos pokyčius',
     behaviorChange: 'Elgsenos pokytis:',
     showNoise: 'Rodyti triukšmą',
@@ -364,7 +366,6 @@ const lt = {
           'Spustelėkite <e>Įdiegti</e> žemiau, kad pridėtumėte <c>rentgen</c> į savo shell PATH.',
       },
       action: {
-        working: 'Vykdoma...',
         uninstall: 'Pašalinti CLI',
         reinstall: 'Pakartotinai įdiegti',
         installRentgenInPath: 'Įdiegti rentgen komandą į PATH',
@@ -446,7 +447,6 @@ const lt = {
       description: 'Įjunkite arba išjunkite atskiras našumo įžvalgas, kad pritaikytumėte savo testavimo patirtį.',
     },
     languageSection: {
-      title: 'Kalba',
       description: 'Pasirinkite pageidaujamą programos sąsajos kalbą.',
       feedback:
         'Radote vertimo klaidą arba norite pridėti kitą kalbą? Sukurkite užklausą su visa informacija ir mes padarysime viską, ką galime.',
@@ -525,12 +525,6 @@ const lt = {
     verified: 'Patvirtinta',
     modified: 'Pakeista',
     noChecksum: 'Nėra kontrolinės sumos',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: 'Pasirinkti failą',
-    noFileChosen: 'Failas nepasirinktas',
   },
 
   // Messages panel

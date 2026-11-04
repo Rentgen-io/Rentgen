@@ -5,7 +5,6 @@ const en = {
     save: 'Save',
     saved: 'Saved',
     cancel: 'Cancel',
-    cancelled: 'Cancelled',
     close: 'Close',
     ok: 'OK',
     create: 'Create',
@@ -26,7 +25,6 @@ const en = {
     connect: 'Connect',
     disconnect: 'Disconnect',
     beautify: 'Beautify',
-    reload: 'Reload',
     cut: 'Cut',
     paste: 'Paste',
     enable: 'Enable',
@@ -47,6 +45,7 @@ const en = {
     duplicate: 'Duplicate',
     add: 'Add',
     back: 'Back',
+    stop: 'Stop',
   },
 
   // Sidebar
@@ -84,8 +83,6 @@ const en = {
     variableName: 'Variable',
     addVariable: 'Add variable',
     value: 'Value',
-    refreshValue: 'Refresh value',
-    refreshAll: 'Refresh All',
     noEnvironment: 'No Environment',
     selectEnvironment: 'Select Environment',
     randomEmail: 'Random email',
@@ -152,7 +149,6 @@ const en = {
     noTestsGenerated: 'No tests generated',
     selectForCompare: 'Select for Compare',
     compareWithSelected: 'Compare with Selected',
-    exportFormat: 'Format',
     generateCertificate: 'Generate Certificate',
     notEligible: 'Not eligible (need at least 70 tests)',
     failedToExport: 'Failed to export report',
@@ -448,7 +444,6 @@ const en = {
       description: 'Toggle individual performance insights on or off to customize your testing experience.',
     },
     languageSection: {
-      title: 'Language',
       description: 'Select your preferred language for the application interface.',
       feedback:
         'Found a translation issue or want to add another language? Create a ticket with all the details and we will do our best.',
@@ -526,12 +521,6 @@ const en = {
     verified: 'Verified',
     modified: 'Modified',
     noChecksum: 'No checksum',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: 'Choose File',
-    noFileChosen: 'No file chosen',
   },
 
   // Messages panel

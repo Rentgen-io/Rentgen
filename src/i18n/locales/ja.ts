@@ -5,7 +5,6 @@ const ja = {
     save: '保存',
     saved: '保存しました',
     cancel: 'キャンセル',
-    cancelled: 'キャンセルしました',
     close: '閉じる',
     ok: 'OK',
     create: '作成',
@@ -26,7 +25,6 @@ const ja = {
     connect: '接続',
     disconnect: '切断',
     beautify: '整形',
-    reload: '再読み込み',
     cut: '切り取り',
     paste: '貼り付け',
     enable: '有効にする',
@@ -47,6 +45,7 @@ const ja = {
     duplicate: '複製',
     add: '追加',
     back: '戻る',
+    stop: '停止',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const ja = {
     newEnvironment: '新規環境',
     editEnvironment: '環境を編集',
     noEnvironmentsCreated: '環境が作成されていません',
-    environmentName: '環境名',
+    environmentName: '名前',
     environmentNamePlaceholder: '例: Production、Staging、Local',
     color: '色',
     variables: 'バリアブル',
-    variableName: 'バリアブル名',
+    variableName: 'バリアブル',
     addVariable: 'バリアブルを追加',
     value: '値',
-    refreshValue: '値を更新',
-    refreshAll: 'すべて更新',
     noEnvironment: '環境なし',
     selectEnvironment: '環境を選択',
     randomEmail: 'ランダムメールアドレス',
@@ -110,6 +107,7 @@ const ja = {
 
   // Request
   request: {
+    untitledRequest: '無題のリクエスト',
     enterUrl: 'URL を入力するかテキストを貼り付け',
     headers: 'ヘッダー',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +124,8 @@ const ja = {
     title: 'レスポンス',
     sending: '送信中...',
     networkError: 'ネットワークエラー',
+    requestHint: 'API の URL を入力して、リクエストを送信してください。',
+    responseHint: 'レスポンスのボディ、ヘッダー、タイミングがここに表示されます。',
   },
 
   // cURL
@@ -141,12 +141,14 @@ const ja = {
 
   // Tests
   tests: {
+    testsTitle: 'テスト',
+    testsHint: 'リクエストを送信すると、そのレスポンスからテストを生成します。',
+    testsUnavailable: 'テストを生成するには、成功したレスポンス (HTTP 2xx または 3xx) が必要です。',
     generateAndRun: 'テストを生成して実行',
     runningTests: 'テストを実行中... ({{current}}/{{total}})',
     noTestsGenerated: 'テストが生成されませんでした',
     selectForCompare: '比較対象として選択',
     compareWithSelected: '選択したものと比較',
-    exportFormat: 'フォーマット',
     generateCertificate: '証明書を生成',
     notEligible: '対象外です (少なくとも 70 件のテストが必要です)',
     failedToExport: 'レポートのエクスポートに失敗しました',
@@ -168,7 +170,7 @@ const ja = {
     bodyParameters: 'ボディ',
     queryParameters: 'クエリ',
     formatPlaceholder: 'フォーマット',
-    aiTesting: 'より深いAIテスト',
+    aiTesting: 'AIテスト',
     aiTestingTitle: '決定論的スキャンでは推測できなかったテストを発見',
     aiTestingDescription: 'AIが実行結果を分析して追加の実験を提案し、Rentgenがそれらを実行します。',
     runAiTesting: 'AIテストを実行',
@@ -180,7 +182,7 @@ const ja = {
     noTestResults: '比較するテスト結果がありません',
     potentialBugs: '潜在的なバグ',
     fullBehaviorChanges: '完全な動作変更',
-    noPotentialBugs: '潜在的なバグは検出されませんでした ✅',
+    noPotentialBugs: '潜在的なバグは検出されませんでした',
     showFullBehaviorChanges: '完全な動作変更を表示',
     behaviorChange: '動作変更:',
     showNoise: 'ノイズを表示',
@@ -364,7 +366,6 @@ const ja = {
           '下の <e>Install</e> をクリックして <c>rentgen</c> をシェルの PATH に追加してください。',
       },
       action: {
-        working: '処理中...',
         uninstall: 'CLI をアンインストール',
         reinstall: '再インストール',
         installRentgenInPath: 'rentgen コマンドを PATH にインストール',
@@ -446,7 +447,6 @@ const ja = {
       description: '個々のパフォーマンスインサイトを有効または無効にして、テスト体験をカスタマイズできます。',
     },
     languageSection: {
-      title: '言語',
       description: 'アプリケーションインターフェースで使用する言語を選択してください。',
       feedback:
         '翻訳の問題を見つけた、または別の言語を追加したいですか?詳細を記載してチケットを作成していただければ、できる限り対応します。',
@@ -524,12 +524,6 @@ const ja = {
     verified: '検証済み',
     modified: '変更済み',
     noChecksum: 'checksum なし',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: 'ファイルを選択',
-    noFileChosen: 'ファイルが選択されていません',
   },
 
   // Messages panel

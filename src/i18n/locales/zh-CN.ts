@@ -5,7 +5,6 @@ const zhCN = {
     save: '保存',
     saved: '已保存',
     cancel: '取消',
-    cancelled: '已取消',
     close: '关闭',
     ok: '确定',
     create: '创建',
@@ -26,7 +25,6 @@ const zhCN = {
     connect: '连接',
     disconnect: '断开',
     beautify: '格式化',
-    reload: '重新加载',
     cut: '剪切',
     paste: '粘贴',
     enable: '启用',
@@ -47,6 +45,7 @@ const zhCN = {
     duplicate: '创建副本',
     add: '添加',
     back: '返回',
+    stop: '停止',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const zhCN = {
     newEnvironment: '新建环境',
     editEnvironment: '编辑环境',
     noEnvironmentsCreated: '尚未创建任何环境',
-    environmentName: '环境名称',
+    environmentName: '名称',
     environmentNamePlaceholder: '例如：生产、预发布、本地',
     color: '颜色',
     variables: '变量',
-    variableName: '变量名',
+    variableName: '变量',
     addVariable: '添加变量',
     value: '值',
-    refreshValue: '刷新值',
-    refreshAll: '全部刷新',
     noEnvironment: '无环境',
     selectEnvironment: '选择环境',
     randomEmail: '随机邮箱',
@@ -110,6 +107,7 @@ const zhCN = {
 
   // Request
   request: {
+    untitledRequest: '未命名请求',
     enterUrl: '输入 URL 或粘贴文本',
     headers: '请求头',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +124,8 @@ const zhCN = {
     title: '响应',
     sending: '发送中...',
     networkError: '网络错误',
+    requestHint: '输入 API URL，然后发送请求。',
+    responseHint: '响应正文、响应头和耗时信息将显示在这里。',
   },
 
   // cURL
@@ -141,12 +141,14 @@ const zhCN = {
 
   // Tests
   tests: {
+    testsTitle: '测试',
+    testsHint: '发送请求以根据其响应生成测试。',
+    testsUnavailable: '生成测试需要成功的响应（HTTP 2xx 或 3xx）。',
     generateAndRun: '生成并运行测试',
     runningTests: '正在运行测试... ({{current}}/{{total}})',
     noTestsGenerated: '未生成测试',
     selectForCompare: '选择以进行比较',
     compareWithSelected: '与所选项比较',
-    exportFormat: '格式',
     generateCertificate: '生成证书',
     notEligible: '不符合条件（至少需要 70 个测试）',
     failedToExport: '导出报告失败',
@@ -168,7 +170,7 @@ const zhCN = {
     bodyParameters: '请求体',
     queryParameters: '查询',
     formatPlaceholder: '格式',
-    aiTesting: '更深入的 AI 测试',
+    aiTesting: 'AI 测试',
     aiTestingTitle: '发现确定性扫描无法推断出的测试',
     aiTestingDescription: 'AI 分析本次运行并建议更多实验，由 Rentgen 执行。',
     runAiTesting: '运行 AI 测试',
@@ -180,7 +182,7 @@ const zhCN = {
     noTestResults: '没有可比较的测试结果',
     potentialBugs: '潜在缺陷',
     fullBehaviorChanges: '完整行为变更',
-    noPotentialBugs: '未检测到潜在缺陷 ✅',
+    noPotentialBugs: '未检测到潜在缺陷',
     showFullBehaviorChanges: '显示完整行为变更',
     behaviorChange: '行为变更：',
     showNoise: '显示噪声',
@@ -357,7 +359,6 @@ const zhCN = {
         notInstalledDescription: '点击下方的 <e>安装</e> 将 <c>rentgen</c> 添加到你的 shell PATH。',
       },
       action: {
-        working: '处理中...',
         uninstall: '卸载 CLI',
         reinstall: '重新安装',
         installRentgenInPath: '将 rentgen 命令安装到 PATH',
@@ -438,7 +439,6 @@ const zhCN = {
       description: '逐项开启或关闭性能洞察，以定制你的测试体验。',
     },
     languageSection: {
-      title: '语言',
       description: '为应用界面选择你偏好的语言。',
       feedback: '发现翻译问题或想添加另一种语言？请创建一个工单，附上所有详情，我们将尽力处理。',
       feedbackLink: '提交 GitHub issue',
@@ -515,12 +515,6 @@ const zhCN = {
     verified: '已验证',
     modified: '已修改',
     noChecksum: '无校验和',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: '选择文件',
-    noFileChosen: '未选择文件',
   },
 
   // Messages panel

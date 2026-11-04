@@ -5,7 +5,6 @@ const ptBR = {
     save: 'Salvar',
     saved: 'Salvo',
     cancel: 'Cancelar',
-    cancelled: 'Cancelado',
     close: 'Fechar',
     ok: 'OK',
     create: 'Criar',
@@ -26,7 +25,6 @@ const ptBR = {
     connect: 'Conectar',
     disconnect: 'Desconectar',
     beautify: 'Formatar',
-    reload: 'Recarregar',
     cut: 'Recortar',
     paste: 'Colar',
     enable: 'Ativar',
@@ -47,6 +45,7 @@ const ptBR = {
     duplicate: 'Duplicar',
     add: 'Adicionar',
     back: 'Voltar',
+    stop: 'Parar',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const ptBR = {
     newEnvironment: 'Novo ambiente',
     editEnvironment: 'Editar ambiente',
     noEnvironmentsCreated: 'Nenhum ambiente criado',
-    environmentName: 'Nome do ambiente',
+    environmentName: 'Nome',
     environmentNamePlaceholder: 'ex.: Produção, Staging, Local',
     color: 'Cor',
     variables: 'Variáveis',
-    variableName: 'Nome da variável',
+    variableName: 'Variável',
     addVariable: 'Adicionar variável',
     value: 'Valor',
-    refreshValue: 'Atualizar valor',
-    refreshAll: 'Atualizar tudo',
     noEnvironment: 'Sem ambiente',
     selectEnvironment: 'Selecionar ambiente',
     randomEmail: 'Email aleatório',
@@ -110,6 +107,7 @@ const ptBR = {
 
   // Request
   request: {
+    untitledRequest: 'Requisição sem título',
     enterUrl: 'Digite a URL ou cole o texto',
     headers: 'Cabeçalhos',
     headersPlaceholder: 'Header-Key: valor',
@@ -126,6 +124,8 @@ const ptBR = {
     title: 'Resposta',
     sending: 'Enviando...',
     networkError: 'Erro de rede',
+    requestHint: 'Digite a URL de uma API e envie sua requisição.',
+    responseHint: 'O corpo da resposta, os cabeçalhos e os tempos aparecerão aqui.',
   },
 
   // cURL
@@ -141,12 +141,14 @@ const ptBR = {
 
   // Tests
   tests: {
+    testsTitle: 'Testes',
+    testsHint: 'Envie uma requisição para gerar testes a partir da resposta.',
+    testsUnavailable: 'A geração de testes requer uma resposta bem-sucedida (HTTP 2xx ou 3xx).',
     generateAndRun: 'Gerar e executar testes',
     runningTests: 'Executando testes... ({{current}}/{{total}})',
     noTestsGenerated: 'Nenhum teste gerado',
     selectForCompare: 'Selecionar para comparar',
     compareWithSelected: 'Comparar com selecionado',
-    exportFormat: 'Formato',
     generateCertificate: 'Gerar certificado',
     notEligible: 'Não elegível (necessário pelo menos 70 testes)',
     failedToExport: 'Falha ao exportar o relatório',
@@ -169,7 +171,7 @@ const ptBR = {
     bodyParameters: 'Corpo',
     queryParameters: 'Consulta',
     formatPlaceholder: 'Formato',
-    aiTesting: 'Testes de IA mais profundos',
+    aiTesting: 'Testes de IA',
     aiTestingTitle: 'Encontre testes que a varredura determinística não conseguiu inferir',
     aiTestingDescription: 'A IA analisa a execução, sugere experimentos adicionais e o Rentgen os executa.',
     runAiTesting: 'Executar testes de IA',
@@ -181,7 +183,7 @@ const ptBR = {
     noTestResults: 'Nenhum resultado de teste para comparar',
     potentialBugs: 'Possíveis bugs',
     fullBehaviorChanges: 'Mudanças completas de comportamento',
-    noPotentialBugs: 'Nenhum bug potencial detectado ✅',
+    noPotentialBugs: 'Nenhum bug potencial detectado',
     showFullBehaviorChanges: 'Mostrar mudanças completas de comportamento',
     behaviorChange: 'Mudança de comportamento:',
     showNoise: 'Mostrar ruído',
@@ -366,7 +368,6 @@ const ptBR = {
         notInstalledDescription: 'Clique em <e>Instalar</e> abaixo para adicionar <c>rentgen</c> ao PATH do seu shell.',
       },
       action: {
-        working: 'Trabalhando...',
         uninstall: 'Desinstalar CLI',
         reinstall: 'Reinstalar',
         installRentgenInPath: 'Instalar o comando rentgen no PATH',
@@ -448,7 +449,6 @@ const ptBR = {
       description: 'Ative ou desative insights de desempenho individuais para personalizar sua experiência de testes.',
     },
     languageSection: {
-      title: 'Idioma',
       description: 'Selecione seu idioma preferido para a interface do aplicativo.',
       feedback:
         'Encontrou um problema de tradução ou deseja adicionar outro idioma? Crie um ticket com todos os detalhes e faremos o nosso melhor.',
@@ -527,12 +527,6 @@ const ptBR = {
     verified: 'Verificado',
     modified: 'Modificado',
     noChecksum: 'Sem checksum',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: 'Escolher arquivo',
-    noFileChosen: 'Nenhum arquivo escolhido',
   },
 
   // Messages panel

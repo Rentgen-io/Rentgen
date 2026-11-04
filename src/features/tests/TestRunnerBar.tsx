@@ -99,7 +99,7 @@ export default function TestRunnerBar() {
             </Button>
           ) : (
             <Button className="@xl:truncate" onClick={() => cancelAllTests(false)}>
-              {t('common.cancel')}
+              {t('common.stop')}
             </Button>
           )}
           {testResults && !isRunningTests && (

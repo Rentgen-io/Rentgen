@@ -5,7 +5,6 @@ const fr = {
     save: 'Enregistrer',
     saved: 'Enregistré',
     cancel: 'Annuler',
-    cancelled: 'Annulé',
     close: 'Fermer',
     ok: 'OK',
     create: 'Créer',
@@ -26,7 +25,6 @@ const fr = {
     connect: 'Connecter',
     disconnect: 'Déconnecter',
     beautify: 'Embellir',
-    reload: 'Recharger',
     cut: 'Couper',
     paste: 'Coller',
     enable: 'Activer',
@@ -47,6 +45,7 @@ const fr = {
     duplicate: 'Dupliquer',
     add: 'Ajouter',
     back: 'Retour',
+    stop: 'Arrêter',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const fr = {
     newEnvironment: 'Nouvel environnement',
     editEnvironment: "Modifier l'environnement",
     noEnvironmentsCreated: 'Aucun environnement créé',
-    environmentName: "Nom de l'environnement",
+    environmentName: 'Nom',
     environmentNamePlaceholder: 'p. ex. Production, Staging, Local',
     color: 'Couleur',
     variables: 'Variables',
-    variableName: 'Nom de la variable',
+    variableName: 'Variable',
     addVariable: 'Ajouter une variable',
     value: 'Valeur',
-    refreshValue: 'Actualiser la valeur',
-    refreshAll: 'Tout actualiser',
     noEnvironment: 'Aucun environnement',
     selectEnvironment: 'Sélectionner un environnement',
     randomEmail: 'E-mail aléatoire',
@@ -110,6 +107,7 @@ const fr = {
 
   // Request
   request: {
+    untitledRequest: 'Requête sans titre',
     enterUrl: "Saisir l'URL ou coller le texte",
     headers: 'En-têtes',
     headersPlaceholder: 'Clé-en-tête : valeur',
@@ -126,6 +124,8 @@ const fr = {
     title: 'Réponse',
     sending: 'Envoi en cours...',
     networkError: 'Erreur réseau',
+    requestHint: "Saisissez une URL d'API, puis envoyez votre requête.",
+    responseHint: 'Le corps de la réponse, les en-têtes et les temps de réponse apparaîtront ici.',
   },
 
   // cURL
@@ -141,12 +141,14 @@ const fr = {
 
   // Tests
   tests: {
+    testsTitle: 'Tests',
+    testsHint: 'Envoyez une requête pour générer des tests à partir de sa réponse.',
+    testsUnavailable: 'La génération de tests nécessite une réponse réussie (HTTP 2xx ou 3xx).',
     generateAndRun: 'Générer et exécuter les tests',
     runningTests: 'Exécution des tests... ({{current}}/{{total}})',
     noTestsGenerated: 'Aucun test généré',
     selectForCompare: 'Sélectionner pour comparer',
     compareWithSelected: 'Comparer avec la sélection',
-    exportFormat: 'Format',
     generateCertificate: 'Générer un certificat',
     notEligible: 'Non éligible (au moins 70 tests requis)',
     failedToExport: "Échec de l'export du rapport",
@@ -169,7 +171,7 @@ const fr = {
     bodyParameters: 'Corps',
     queryParameters: 'Requête',
     formatPlaceholder: 'Format',
-    aiTesting: 'Tests IA approfondis',
+    aiTesting: 'Tests IA',
     aiTestingTitle: "Trouver les tests que l'analyse déterministe n'a pas pu déduire",
     aiTestingDescription: "L'IA analyse l'exécution, suggère des expériences supplémentaires et Rentgen les exécute.",
     runAiTesting: 'Lancer les tests IA',
@@ -181,7 +183,7 @@ const fr = {
     noTestResults: 'Aucun résultat de test à comparer',
     potentialBugs: 'Bugs potentiels',
     fullBehaviorChanges: 'Changements de comportement complets',
-    noPotentialBugs: 'Aucun bug potentiel détecté ✅',
+    noPotentialBugs: 'Aucun bug potentiel détecté',
     showFullBehaviorChanges: 'Afficher les changements de comportement complets',
     behaviorChange: 'Changement de comportement :',
     showNoise: 'Afficher le bruit',
@@ -368,7 +370,6 @@ const fr = {
           'Cliquez sur <e>Installer</e> ci-dessous pour ajouter <c>rentgen</c> au PATH de votre shell.',
       },
       action: {
-        working: 'En cours...',
         uninstall: 'Désinstaller le CLI',
         reinstall: 'Réinstaller',
         installRentgenInPath: 'Installer la commande rentgen dans le PATH',
@@ -454,7 +455,6 @@ const fr = {
         'Activez ou désactivez les analyses de performance individuelles pour personnaliser votre expérience de test.',
     },
     languageSection: {
-      title: 'Langue',
       description: "Sélectionnez votre langue préférée pour l'interface de l'application.",
       feedback:
         'Vous avez trouvé un problème de traduction ou souhaitez ajouter une autre langue ? Créez un ticket avec tous les détails et nous ferons de notre mieux.',
@@ -533,12 +533,6 @@ const fr = {
     verified: 'Vérifié',
     modified: 'Modifié',
     noChecksum: 'Aucune somme de contrôle',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: 'Choisir un fichier',
-    noFileChosen: 'Aucun fichier choisi',
   },
 
   // Messages panel

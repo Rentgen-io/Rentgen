@@ -5,7 +5,6 @@ const vi = {
     save: 'Lưu',
     saved: 'Đã lưu',
     cancel: 'Hủy',
-    cancelled: 'Đã hủy',
     close: 'Đóng',
     ok: 'OK',
     create: 'Tạo',
@@ -26,7 +25,6 @@ const vi = {
     connect: 'Kết nối',
     disconnect: 'Ngắt kết nối',
     beautify: 'Định dạng đẹp',
-    reload: 'Tải lại',
     cut: 'Cắt',
     paste: 'Dán',
     enable: 'Bật',
@@ -47,6 +45,7 @@ const vi = {
     duplicate: 'Nhân bản',
     add: 'Thêm',
     back: 'Quay lại',
+    stop: 'Dừng',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const vi = {
     newEnvironment: 'Môi trường mới',
     editEnvironment: 'Chỉnh sửa môi trường',
     noEnvironmentsCreated: 'Chưa tạo môi trường nào',
-    environmentName: 'Tên môi trường',
+    environmentName: 'Tên',
     environmentNamePlaceholder: 'ví dụ: Production, Staging, Local',
     color: 'Màu sắc',
     variables: 'Biến',
-    variableName: 'Tên biến',
+    variableName: 'Biến',
     addVariable: 'Thêm biến',
     value: 'Giá trị',
-    refreshValue: 'Làm mới giá trị',
-    refreshAll: 'Làm mới tất cả',
     noEnvironment: 'Không có môi trường',
     selectEnvironment: 'Chọn môi trường',
     randomEmail: 'Email ngẫu nhiên',
@@ -110,6 +107,7 @@ const vi = {
 
   // Request
   request: {
+    untitledRequest: 'Yêu cầu không có tiêu đề',
     enterUrl: 'Nhập URL hoặc dán văn bản',
     headers: 'Tiêu đề',
     headersPlaceholder: 'Khóa-tiêu-đề: giá trị',
@@ -126,6 +124,8 @@ const vi = {
     title: 'Phản hồi',
     sending: 'Đang gửi...',
     networkError: 'Lỗi mạng',
+    requestHint: 'Nhập URL API, sau đó gửi yêu cầu của bạn.',
+    responseHint: 'Nội dung phản hồi, tiêu đề và thời gian sẽ hiển thị ở đây.',
   },
 
   // cURL
@@ -141,12 +141,14 @@ const vi = {
 
   // Tests
   tests: {
+    testsTitle: 'Kiểm thử',
+    testsHint: 'Gửi yêu cầu để tạo kiểm thử từ phản hồi của nó.',
+    testsUnavailable: 'Việc tạo kiểm thử yêu cầu phản hồi thành công (HTTP 2xx hoặc 3xx).',
     generateAndRun: 'Tạo và chạy kiểm thử',
     runningTests: 'Đang chạy kiểm thử... ({{current}}/{{total}})',
     noTestsGenerated: 'Không có kiểm thử nào được tạo',
     selectForCompare: 'Chọn để so sánh',
     compareWithSelected: 'So sánh với mục đã chọn',
-    exportFormat: 'Định dạng',
     generateCertificate: 'Tạo chứng chỉ',
     notEligible: 'Không đủ điều kiện (cần ít nhất 70 kiểm thử)',
     failedToExport: 'Không thể xuất báo cáo',
@@ -168,7 +170,7 @@ const vi = {
     bodyParameters: 'Nội dung',
     queryParameters: 'Truy vấn',
     formatPlaceholder: 'Định dạng',
-    aiTesting: 'Kiểm thử AI chuyên sâu',
+    aiTesting: 'Kiểm thử AI',
     aiTestingTitle: 'Tìm các kiểm thử mà quét tất định không thể suy ra',
     aiTestingDescription: 'AI phân tích lần chạy, đề xuất thêm thử nghiệm và Rentgen thực thi chúng.',
     runAiTesting: 'Chạy kiểm thử AI',
@@ -180,7 +182,7 @@ const vi = {
     noTestResults: 'Không có kết quả kiểm thử nào để so sánh',
     potentialBugs: 'Lỗi tiềm ẩn',
     fullBehaviorChanges: 'Toàn bộ thay đổi hành vi',
-    noPotentialBugs: 'Không phát hiện lỗi tiềm ẩn ✅',
+    noPotentialBugs: 'Không phát hiện lỗi tiềm ẩn',
     showFullBehaviorChanges: 'Hiển thị toàn bộ thay đổi hành vi',
     behaviorChange: 'Thay đổi hành vi:',
     showNoise: 'Hiển thị nhiễu',
@@ -362,7 +364,6 @@ const vi = {
         notInstalledDescription: 'Nhấp vào <e>Cài đặt</e> bên dưới để thêm <c>rentgen</c> vào PATH của shell.',
       },
       action: {
-        working: 'Đang xử lý...',
         uninstall: 'Gỡ cài đặt CLI',
         reinstall: 'Cài đặt lại',
         installRentgenInPath: 'Cài đặt lệnh rentgen vào PATH',
@@ -443,7 +444,6 @@ const vi = {
       description: 'Bật hoặc tắt từng thông tin chi tiết về hiệu suất để tùy chỉnh trải nghiệm kiểm thử của bạn.',
     },
     languageSection: {
-      title: 'Ngôn ngữ',
       description: 'Chọn ngôn ngữ ưa thích cho giao diện ứng dụng.',
       feedback:
         'Tìm thấy vấn đề về bản dịch hoặc muốn thêm ngôn ngữ khác? Hãy tạo một ticket với tất cả chi tiết và chúng tôi sẽ cố gắng hết sức.',
@@ -521,12 +521,6 @@ const vi = {
     verified: 'Đã xác minh',
     modified: 'Đã sửa đổi',
     noChecksum: 'Không có checksum',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: 'Chọn tệp',
-    noFileChosen: 'Chưa chọn tệp nào',
   },
 
   // Messages panel

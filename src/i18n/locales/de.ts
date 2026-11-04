@@ -5,7 +5,6 @@ const de = {
     save: 'Speichern',
     saved: 'Gespeichert',
     cancel: 'Abbrechen',
-    cancelled: 'Abgebrochen',
     close: 'Schließen',
     ok: 'OK',
     create: 'Erstellen',
@@ -26,7 +25,6 @@ const de = {
     connect: 'Verbinden',
     disconnect: 'Trennen',
     beautify: 'Formatieren',
-    reload: 'Neu laden',
     cut: 'Ausschneiden',
     paste: 'Einfügen',
     enable: 'Aktivieren',
@@ -47,6 +45,7 @@ const de = {
     duplicate: 'Duplizieren',
     add: 'Hinzufügen',
     back: 'Zurück',
+    stop: 'Stopp',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const de = {
     newEnvironment: 'Neue Umgebung',
     editEnvironment: 'Umgebung bearbeiten',
     noEnvironmentsCreated: 'Keine Umgebungen erstellt',
-    environmentName: 'Umgebungsname',
+    environmentName: 'Name',
     environmentNamePlaceholder: 'z. B. Produktion, Staging, Lokal',
     color: 'Farbe',
     variables: 'Variablen',
-    variableName: 'Variablenname',
+    variableName: 'Variable',
     addVariable: 'Variable hinzufügen',
     value: 'Wert',
-    refreshValue: 'Wert aktualisieren',
-    refreshAll: 'Alle aktualisieren',
     noEnvironment: 'Keine Umgebung',
     selectEnvironment: 'Umgebung auswählen',
     randomEmail: 'Zufällige E-Mail',
@@ -110,6 +107,7 @@ const de = {
 
   // Request
   request: {
+    untitledRequest: 'Anfrage ohne Titel',
     enterUrl: 'URL eingeben oder Text einfügen',
     headers: 'Header',
     headersPlaceholder: 'Header-Schlüssel: Wert',
@@ -126,6 +124,8 @@ const de = {
     title: 'Antwort',
     sending: 'Sende...',
     networkError: 'Netzwerkfehler',
+    requestHint: 'Geben Sie eine API-URL ein und senden Sie dann Ihre Anfrage.',
+    responseHint: 'Antworttext, Header und Zeitmessung werden hier angezeigt.',
   },
 
   // cURL
@@ -141,12 +141,14 @@ const de = {
 
   // Tests
   tests: {
+    testsTitle: 'Tests',
+    testsHint: 'Senden Sie eine Anfrage, um aus ihrer Antwort Tests zu generieren.',
+    testsUnavailable: 'Für die Testgenerierung ist eine erfolgreiche Antwort erforderlich (HTTP 2xx oder 3xx).',
     generateAndRun: 'Tests generieren und ausführen',
     runningTests: 'Tests werden ausgeführt... ({{current}}/{{total}})',
     noTestsGenerated: 'Keine Tests generiert',
     selectForCompare: 'Zum Vergleichen auswählen',
     compareWithSelected: 'Mit Auswahl vergleichen',
-    exportFormat: 'Format',
     generateCertificate: 'Zertifikat generieren',
     notEligible: 'Nicht berechtigt (mindestens 70 Tests erforderlich)',
     failedToExport: 'Bericht konnte nicht exportiert werden',
@@ -168,7 +170,7 @@ const de = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Format',
-    aiTesting: 'Tiefere KI-Tests',
+    aiTesting: 'KI-Tests',
     aiTestingTitle: 'Tests finden, die der deterministische Scan nicht ableiten konnte',
     aiTestingDescription: 'Die KI analysiert den Lauf, schlägt zusätzliche Experimente vor, und Rentgen führt sie aus.',
     runAiTesting: 'KI-Tests ausführen',
@@ -180,7 +182,7 @@ const de = {
     noTestResults: 'Keine Testergebnisse zum Vergleichen',
     potentialBugs: 'Potenzielle Fehler',
     fullBehaviorChanges: 'Vollständige Verhaltensänderungen',
-    noPotentialBugs: 'Keine potenziellen Fehler erkannt ✅',
+    noPotentialBugs: 'Keine potenziellen Fehler erkannt',
     showFullBehaviorChanges: 'Vollständige Verhaltensänderungen anzeigen',
     behaviorChange: 'Verhaltensänderung:',
     showNoise: 'Rauschen anzeigen',
@@ -365,7 +367,6 @@ const de = {
           'Klicken Sie unten auf <e>Installieren</e>, um <c>rentgen</c> zu Ihrem Shell-PATH hinzuzufügen.',
       },
       action: {
-        working: 'Arbeite...',
         uninstall: 'CLI deinstallieren',
         reinstall: 'Neu installieren',
         installRentgenInPath: 'rentgen-Befehl im PATH installieren',
@@ -448,7 +449,6 @@ const de = {
       description: 'Schalten Sie einzelne Performance-Analysen ein oder aus, um Ihre Testerfahrung anzupassen.',
     },
     languageSection: {
-      title: 'Sprache',
       description: 'Wählen Sie Ihre bevorzugte Sprache für die Anwendungsoberfläche.',
       feedback:
         'Haben Sie ein Übersetzungsproblem gefunden oder möchten Sie eine weitere Sprache hinzufügen? Erstellen Sie ein Ticket mit allen Details und wir werden unser Bestes geben.',
@@ -527,12 +527,6 @@ const de = {
     verified: 'Verifiziert',
     modified: 'Geändert',
     noChecksum: 'Keine Prüfsumme',
-  },
-
-  // File input
-  fileInput: {
-    chooseFile: 'Datei auswählen',
-    noFileChosen: 'Keine Datei ausgewählt',
   },
 
   // Messages panel
