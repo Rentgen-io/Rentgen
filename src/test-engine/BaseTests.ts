@@ -82,7 +82,11 @@ export function determineTestStatus(
 
 export function getTestsStatistics(tests: TestResult[], disabledTests?: string[]) {
   return tests.reduce(
-    (acc, { name, status }) => {
+    (acc, test) => {
+      if (!test) return acc;
+
+      const { name, status } = test;
+
       switch (status) {
         case TestStatus.Bug:
           if (!disabledTests?.includes(name)) acc.bugs += 1;

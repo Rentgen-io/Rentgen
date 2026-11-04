@@ -106,8 +106,12 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
       { name: UPPERCASE_PATH_TEST_NAME, run: () => this.testUppercasePath() },
     ];
 
-    for (const test of responseIndependentTests.filter((test) => !this.disabledTests.includes(test.name)))
-      securityTests.push(await test.run());
+    for (const test of responseIndependentTests.filter((test) => !this.disabledTests.includes(test.name))) {
+      const result = await test.run();
+      if (!result) continue;
+
+      securityTests.push(result);
+    }
 
     securityTests.push(getManualLargePayloadTest(method === 'POST'), ...getManualTests());
 

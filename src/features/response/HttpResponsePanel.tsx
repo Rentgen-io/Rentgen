@@ -57,15 +57,6 @@ export default function HttpResponsePanel() {
     [requestWithFolder, selectedRequestId, dispatch],
   );
 
-  if (!httpResponse && !isSending)
-    return (
-      <div className="flex flex-col items-center justify-center gap-2 p-3 min-h-40 text-xs text-muted-foreground">
-        <span className="text-3xl leading-none opacity-50">↗</span>
-        <strong className="text-foreground">{t('response.requestHint')}</strong>
-        <span>{t('response.responseHint')}</span>
-      </div>
-    );
-
   const isAborted = httpResponse?.status === RESPONSE_STATUS_LABEL.ABORTED;
   const isNetworkError = httpResponse?.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
   const hasBodyParameters = Object.keys(bodyParameters).length > 0;
@@ -85,25 +76,27 @@ export default function HttpResponsePanel() {
               text={t('response.sending')}
             />
           ) : (
-            <>
-              {isNetworkError ? (
-                t('response.networkError')
-              ) : (
-                <span
-                  className={cn('py-px px-2 text-xs rounded', {
-                    'text-green-500 bg-green-500/10': httpResponse?.status.startsWith('2') && !runResult?.warning,
-                    'text-yellow-500 bg-yellow-500/10': httpResponse?.status.startsWith('2') && runResult?.warning,
-                    'text-blue-500 bg-blue-500/10': httpResponse?.status.startsWith('3'),
-                    'text-orange-500 bg-orange-500/10': httpResponse?.status.startsWith('4') || isAborted,
-                    'text-red-500 bg-red-500/10':
-                      httpResponse?.status.startsWith('5') || isNetworkError || httpResponse?.status === 'Error',
-                  })}
-                >
-                  {httpResponse?.status}
-                </span>
-              )}{' '}
-              <span className="text-xs font-normal">{httpResponse?.time.toFixed(2)} ms</span>
-            </>
+            httpResponse && (
+              <>
+                {isNetworkError ? (
+                  t('response.networkError')
+                ) : (
+                  <span
+                    className={cn('py-px px-2 text-xs rounded', {
+                      'text-green-500 bg-green-500/10': httpResponse?.status.startsWith('2') && !runResult?.warning,
+                      'text-yellow-500 bg-yellow-500/10': httpResponse?.status.startsWith('2') && runResult?.warning,
+                      'text-blue-500 bg-blue-500/10': httpResponse?.status.startsWith('3'),
+                      'text-orange-500 bg-orange-500/10': httpResponse?.status.startsWith('4') || isAborted,
+                      'text-red-500 bg-red-500/10':
+                        httpResponse?.status.startsWith('5') || isNetworkError || httpResponse?.status === 'Error',
+                    })}
+                  >
+                    {httpResponse?.status}
+                  </span>
+                )}{' '}
+                <span className="text-xs font-normal">{httpResponse?.time.toFixed(2)} ms</span>
+              </>
+            )
           )}
         </div>
       }
@@ -113,7 +106,7 @@ export default function HttpResponsePanel() {
           <span className="font-medium">{t('common.warning')}:</span> {runResult.warning}
         </div>
       )}
-      {httpResponse && (
+      {httpResponse ? (
         <div
           className={cn('@2xl:grid divide-y @2xl:divide-y-0 @2xl:divide-x divide-border', {
             '@2xl:grid-cols-2': !isNetworkError && hasParameters,
@@ -205,6 +198,12 @@ export default function HttpResponsePanel() {
               </Tabs>
             </div>
           )}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center gap-2 p-3 min-h-40 text-xs text-muted-foreground border-t border-border">
+          <span className="text-3xl leading-none opacity-50">↗</span>
+          <strong className="text-foreground">{t('response.requestHint')}</strong>
+          <span>{t('response.responseHint')}</span>
         </div>
       )}
     </Panel>

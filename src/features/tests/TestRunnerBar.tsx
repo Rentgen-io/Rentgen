@@ -98,7 +98,7 @@ export default function TestRunnerBar() {
               {t('tests.generateAndRun')}
             </Button>
           ) : (
-            <Button className="@xl:truncate" onClick={cancelAllTests}>
+            <Button className="@xl:truncate" onClick={() => cancelAllTests(false)}>
               {t('common.cancel')}
             </Button>
           )}
