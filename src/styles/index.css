@@ -22,6 +22,7 @@
   --color-surface: #f3f3f3;
   --color-muted: #e6e6e6;
   --color-muted-foreground: #707070;
+  --color-accent-soft: #fff3ed;
   --color-border: #ededed;
   --color-scrollbar: #cccccc;
   --color-method-delete: #8e1a10;
@@ -53,6 +54,7 @@
   --color-surface: #262626;
   --color-muted: #3b3b3b;
   --color-muted-foreground: #a0a0a0;
+  --color-accent-soft: #362820;
   --color-border: #303030;
   --color-scrollbar: #3b3b3b;
   --color-method-delete: #ef968a;
@@ -96,6 +98,14 @@
 }
 
 @layer components {
+  input[type='radio']:checked {
+    @apply bg-primary border-2 border-white outline outline-primary;
+  }
+
+  input[type='radio'] {
+    @apply appearance-none h-2.75 w-2.75 bg-white border-2 border-white rounded-full outline outline-muted-foreground cursor-pointer;
+  }
+
   .json-plus-button {
     @apply inline-flex items-center justify-center align-middle h-3.75 w-3.75 mt-px ml-1 p-0 text-xs leading-1 border-transparent bg-transparent text-foreground rounded-xs opacity-0 pointer-events-none cursor-pointer outline-none!;
   }

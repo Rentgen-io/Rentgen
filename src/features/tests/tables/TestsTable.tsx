@@ -88,7 +88,7 @@ export function TestsTableHeader({
   onOpenSettings?(): void;
 }) {
   const { t } = useTranslation();
-  const { bugs, failed, info, manual, passed, warnings } = useMemo(
+  const { bugs, failed, ignored, info, manual, passed, warnings } = useMemo(
     () => getTestsStatistics(tests, disabledTests),
     [tests, disabledTests],
   );
@@ -126,9 +126,9 @@ export function TestsTableHeader({
             {manual} {t('common.manual')}
           </span>
         )}
-        {!!disabledTests?.length && (
+        {ignored > 0 && (
           <span className="py-1 px-2 text-xs text-muted-foreground bg-muted-foreground/10 rounded">
-            {disabledTests.length} {t('common.ignored')}
+            {ignored} {t('common.ignored')}
           </span>
         )}
       </div>

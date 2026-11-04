@@ -118,6 +118,6 @@ export function getTestsStatistics(tests: TestResult[], disabledTests?: string[]
       }
       return acc;
     },
-    { bugs: 0, failed: 0, info: 0, manual: 0, passed: 0, warnings: 0 },
+    { bugs: 0, failed: 0, ignored: disabledTests?.length ?? 0, info: 0, manual: 0, passed: 0, warnings: 0 },
   );
 }

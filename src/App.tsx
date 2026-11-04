@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { twMerge } from 'tailwind-merge';
@@ -19,6 +19,7 @@ import DataDrivenTestsPanel from './features/tests/panels/DataDrivenTestsPanel';
 import PerformanceInsightsPanel from './features/tests/panels/PerformanceInsightsPanel';
 import SecurityTestsPanel from './features/tests/panels/SecurityTestsPanel';
 import TestResultsComparisonPanel from './features/tests/panels/TestResultsComparisonPanel';
+import TestResultsSummary from './features/tests/TestResultsSummary';
 import TestRunnerBar from './features/tests/TestRunnerBar';
 import { useCtrlS } from './hooks/useCtrlS';
 import { useInitialDataLoad } from './hooks/useInitialDataLoad';
@@ -73,6 +74,8 @@ export default function App() {
   const testResultsToCompare = useAppSelector(selectTestResultsToCompare);
   const testsActiveTab = useAppSelector(selectTestsActiveTab);
 
+  const testsTabsRef = useRef<HTMLUListElement | null>(null);
+
   const testsTabs = useMemo(
     () => [
       {
@@ -123,6 +126,11 @@ export default function App() {
     ],
   );
 
+  const statistics = useMemo(
+    () => testsTabs.map(({ disabledTests, tests }) => getTestsStatistics(tests ?? [], disabledTests)),
+    [testsTabs],
+  );
+
   const { saveRequest } = useSaveRequest();
   useInitialDataLoad();
   useWssEventBridge();
@@ -160,52 +168,69 @@ export default function App() {
           </div>
         )}
         {!isEditingEnvironment && !isComparingTestResults && testResults && (
-          <Tabs
-            className="flex flex-col flex-auto"
-            forceRenderTabPanel
-            selectedIndex={testsActiveTab}
-            selectedTabClassName="text-foreground border-primary! cursor-default!"
-            selectedTabPanelClassName="flex! flex-col flex-auto gap-4"
-            onSelect={(index) => {
-              dispatch(uiActions.setTestsActiveTab(index));
-            }}
-          >
-            <TabList className="flex gap-6 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
-              {testsTabs.map(({ disabledTests, isRunning, label, tests }) => {
-                const { bugs, failed, passed, warnings } = getTestsStatistics(tests ?? [], disabledTests);
+          <>
+            <TestResultsSummary
+              statistics={statistics}
+              onClick={(index) => {
+                dispatch(uiActions.setTestsActiveTab(index));
+                testsTabsRef.current?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            />
+            <Tabs
+              className="flex flex-col flex-auto"
+              forceRenderTabPanel
+              selectedIndex={testsActiveTab}
+              selectedTabClassName="text-foreground border-primary! cursor-default!"
+              selectedTabPanelClassName="flex! flex-col flex-auto gap-4"
+              onSelect={(index) => {
+                dispatch(uiActions.setTestsActiveTab(index));
+              }}
+            >
+              <TabList
+                ref={testsTabsRef}
+                className="flex gap-6 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border"
+              >
+                {testsTabs.map(({ isRunning, label }, index) => {
+                  const { bugs, failed, passed, warnings } = statistics[index];
 
-                return (
-                  <Tab
-                    key={label}
-                    className="relative flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer"
-                    title={label}
-                  >
-                    {isRunning ? (
-                      <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
-                    ) : (
-                      <span
-                        className={twMerge(
-                          cn('w-2 h-2 rounded-full shrink-0 bg-gray-400', {
-                            'bg-green-500': passed > 0 && failed === 0 && warnings === 0 && bugs === 0,
-                            'bg-yellow-500': warnings > 0 && failed === 0 && bugs === 0,
-                            'bg-red-500': failed > 0 && bugs === 0,
-                            'bg-purple-500': bugs > 0,
-                          }),
-                        )}
-                      />
-                    )}
+                  return (
+                    <Tab
+                      key={label}
+                      className="relative flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer"
+                      title={label}
+                    >
+                      {isRunning ? (
+                        <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
+                      ) : (
+                        <span
+                          className={twMerge(
+                            cn('w-2 h-2 rounded-full shrink-0 bg-gray-400', {
+                              'bg-green-500': passed > 0 && failed === 0 && warnings === 0 && bugs === 0,
+                              'bg-yellow-500': warnings > 0 && failed === 0 && bugs === 0,
+                              'bg-red-500': failed > 0 && bugs === 0,
+                              'bg-purple-500': bugs > 0,
+                            }),
+                          )}
+                        />
+                      )}
 
-                    <span className="truncate">{label}</span>
-                  </Tab>
-                );
-              })}
-            </TabList>
-            {testsTabs.map(({ component, label }) => (
-              <TabPanel key={label} className="hidden min-h-51.5 py-3 px-4">
-                {component}
-              </TabPanel>
-            ))}
-          </Tabs>
+                      <span className="truncate">{label}</span>
+                      {bugs + failed + warnings > 0 && (
+                        <span className="inline-flex items-center justify-center min-w-4 py-px px-1 text-[10px] bg-accent-soft rounded">
+                          {bugs + failed + warnings}
+                        </span>
+                      )}
+                    </Tab>
+                  );
+                })}
+              </TabList>
+              {testsTabs.map(({ component, label }) => (
+                <TabPanel key={label} className="hidden min-h-51.5 py-3 px-4">
+                  {component}
+                </TabPanel>
+              ))}
+            </Tabs>
+          </>
         )}
       </div>
       <AppModals />
