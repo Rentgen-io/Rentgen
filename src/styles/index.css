@@ -43,16 +43,6 @@
   --color-test-warning: #fff9eb;
   --color-test-info: #f0f5fc;
   --color-test-bug: #f8f2fc;
-
-  /* Colors */
-  --color-body: #fafafa;
-  --color-button-danger: #eb2013;
-  --color-text: black;
-  --color-text-secondary: #99a1b3;
-
-  --color-dark-body: #23272f;
-  --color-dark-border: #343a46;
-  --color-dark-text: white;
 }
 
 .dark {
@@ -101,13 +91,13 @@
   }
 
   h5 {
-    @apply text-sm font-medium;
+    @apply text-sm font-semibold;
   }
 }
 
 @layer components {
   .json-plus-button {
-    @apply inline-flex items-center justify-center align-middle h-3.75 w-3.75 mt-px ml-1 p-0 text-xs leading-1 border-transparent bg-transparent text-foreground rounded-xs opacity-0 pointer-events-none cursor-pointer;
+    @apply inline-flex items-center justify-center align-middle h-3.75 w-3.75 mt-px ml-1 p-0 text-xs leading-1 border-transparent bg-transparent text-foreground rounded-xs opacity-0 pointer-events-none cursor-pointer outline-none!;
   }
 
   .json-plus-button.line-hovered {

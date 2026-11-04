@@ -1,4 +1,4 @@
-import { HTMLAttributes, useEffect } from 'react';
+import { HTMLAttributes } from 'react';
 import useClickOutside from 'src/hooks/useClickOutside';
 import { twMerge } from 'tailwind-merge';
 
@@ -9,22 +9,6 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
 
 export default function Modal({ className, children, isOpen, onClose }: Props) {
   const refModal = useClickOutside<HTMLDivElement>(onClose);
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const html = document.documentElement;
-    const { style } = html;
-    const previousOverflow = style.overflow;
-
-    style.overflow = 'hidden';
-
-    return () => {
-      style.overflow = previousOverflow;
-
-      if (!style.length) html.removeAttribute('style');
-    };
-  }, [isOpen]);
 
   if (!isOpen) return null;
 

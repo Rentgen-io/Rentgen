@@ -186,7 +186,7 @@ const en = {
     noTestResults: 'No test results to compare',
     potentialBugs: 'Potential Bugs',
     fullBehaviorChanges: 'Full Behavior Changes',
-    noPotentialBugs: 'No potential bugs detected ✅',
+    noPotentialBugs: 'No potential bugs detected',
     showFullBehaviorChanges: 'Show Full Behavior Changes',
     behaviorChange: 'Behavior Change:',
     showNoise: 'Show noise',
@@ -367,7 +367,6 @@ const en = {
         notInstalledDescription: 'Click <e>Install</e> below to add <c>rentgen</c> to your shell PATH.',
       },
       action: {
-        working: 'Working...',
         uninstall: 'Uninstall CLI',
         reinstall: 'Reinstall',
         installRentgenInPath: 'Install rentgen command in PATH',

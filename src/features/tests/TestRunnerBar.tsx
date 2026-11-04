@@ -104,7 +104,7 @@ export default function TestRunnerBar() {
           )}
           {testResults && !isRunningTests && (
             <Button
-              buttonType={ButtonType.SECONDARY_UNDERLINE}
+              buttonType={ButtonType.SECONDARY_OUTLINE}
               className="@xl:truncate"
               disabled={isRunning}
               onClick={() => {
@@ -126,12 +126,12 @@ export default function TestRunnerBar() {
                 value={exportFormatOptions.find((option) => option.value === exportFormat)}
                 onChange={(option) => option && dispatch(uiActions.setExportFormat(option.value))}
               />
-              <Button buttonType={ButtonType.SECONDARY_UNDERLINE} disabled={isRunning} onClick={exportReport}>
+              <Button buttonType={ButtonType.SECONDARY_OUTLINE} disabled={isRunning} onClick={exportReport}>
                 {t('common.export')}
               </Button>
             </div>
             <Button
-              buttonType={ButtonType.SECONDARY_UNDERLINE}
+              buttonType={ButtonType.SECONDARY_OUTLINE}
               className="@xl:truncate"
               disabled={isRunning}
               onClick={generateCertificate}

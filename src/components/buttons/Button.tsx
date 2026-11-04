@@ -11,7 +11,7 @@ export enum ButtonSize {
 export enum ButtonType {
   PRIMARY = 'primary',
   SECONDARY = 'secondary',
-  SECONDARY_UNDERLINE = 'secondary-underline',
+  SECONDARY_OUTLINE = 'secondary-outline',
   DANGER = 'danger',
 }
 
@@ -41,8 +41,8 @@ export default function Button({
             'hover:bg-primary-hover hover:border-primary-hover': buttonType === ButtonType.PRIMARY && !disabled,
             'bg-secondary border-secondary text-foreground dark:text-white': buttonType === ButtonType.SECONDARY,
             'hover:bg-secondary-hover hover:border-secondary-hover': buttonType === ButtonType.SECONDARY && !disabled,
-            'bg-transparent border-foreground/20 text-foreground': buttonType === ButtonType.SECONDARY_UNDERLINE,
-            'hover:border-foreground/40': buttonType === ButtonType.SECONDARY_UNDERLINE && !disabled,
+            'bg-transparent border-foreground/20 text-foreground': buttonType === ButtonType.SECONDARY_OUTLINE,
+            'hover:border-foreground/40': buttonType === ButtonType.SECONDARY_OUTLINE && !disabled,
             'bg-destructive border-destructive text-white': buttonType === ButtonType.DANGER,
             'hover:bg-destructive-hover hover:border-destructive-hover': buttonType === ButtonType.DANGER && !disabled,
             'opacity-50 cursor-not-allowed': disabled,

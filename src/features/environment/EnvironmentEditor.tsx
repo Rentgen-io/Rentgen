@@ -152,17 +152,17 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
   return (
     <div className="relative flex flex-col flex-auto">
-      <h5 className="m-0 py-3 px-4 bg-surface">
+      <h5 className="m-0 py-3 px-4 bg-surface border-b border-border">
         {isNew ? t('environment.newEnvironment') : t('environment.editEnvironment')}
       </h5>
       <IconButton
-        buttonType={ButtonType.SECONDARY_UNDERLINE}
+        buttonType={ButtonType.SECONDARY_OUTLINE}
         className="absolute top-1.5 right-1.5"
         onClick={() => dispatch(environmentActions.stopEditing())}
       >
         <ClearCrossIcon className="h-5 w-5" />
       </IconButton>
-      <div className="flex flex-col flex-auto gap-4 p-4 border-t border-border">
+      <div className="flex flex-col flex-auto gap-4 p-4">
         <div className="flex flex-col gap-2">
           <FieldLabel label={t('environment.environmentName')} required />
           <Input

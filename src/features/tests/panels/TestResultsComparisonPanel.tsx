@@ -1,22 +1,27 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import Button from 'src/components/buttons/Button';
+import Button, { ButtonType } from 'src/components/buttons/Button';
+import { IconButton } from 'src/components/buttons/IconButton';
 import Toggle from 'src/components/inputs/Toggle';
-import Panel, { Props as PanelProps } from 'src/components/panels/Panel';
 import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
+import { useAppDispatch } from 'src/store/hooks';
+import { testsActions } from 'src/store/slices/testsSlice';
 import { ORIGINAL_REQUEST_TEST_PARAMETER_NAME } from 'src/test-engine';
 import { HttpBody, HttpRequest, HttpResponse, TestResult, TestResults } from 'src/types';
 import { detectObjectType, truncateValue } from 'src/utils';
 import { twMerge } from 'tailwind-merge';
 import PotentialBugsTable, { PotentialBug } from '../tables/PotentialBugsTable';
 
-interface Props extends PanelProps {
+import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
+
+interface Props {
   items: TestResults[];
   response: HttpResponse;
 }
 
-export default function TestResultsComparisonPanel({ items, title, response, ...otherProps }: Props) {
+export default function TestResultsComparisonPanel({ items, response }: Props) {
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const [diffReady, setDiffReady] = useState<boolean>(false);
@@ -105,11 +110,13 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
         component: (
           <div className="flex flex-col flex-auto h-0 gap-4 table-layout">
             {!potentialBugs || potentialBugs.length === 0 ? (
-              <p className="m-0 p-2.5 text-sm text-white text-center bg-green-600">{t('comparison.noPotentialBugs')}</p>
+              <p className="m-0 p-3 text-xs text-green-700 dark:text-green-300 bg-green-500/10 border-green-500/30 text-center rounded">
+                {t('comparison.noPotentialBugs')}
+              </p>
             ) : (
               <PotentialBugsTable data={potentialBugs} />
             )}
-            <Button className="w-fit" onClick={() => setTabIndex(1)}>
+            <Button className="w-fit self-end" onClick={() => setTabIndex(1)}>
               {t('comparison.showFullBehaviorChanges')}
             </Button>
           </div>
@@ -120,17 +127,19 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
       {
         component: (
           <div className="flex flex-col flex-auto h-0">
-            <div className="flex flex-col p-4 gap-4 text-sm">
+            <div className="flex flex-col gap-4 p-4 text-xs">
               <div className="flex items-center gap-2">
-                <span>
-                  {t('comparison.behaviorChange')} <b>{statistics.percent}%</b>
+                <span className="font-medium">
+                  {t('comparison.behaviorChange')} <strong>{statistics.percent}%</strong>
                 </span>
-                <span className="text-green-500">+{statistics.added}</span>
-                <span className="text-red-500">-{statistics.removed}</span>
-                <span>={statistics.unchanged}</span>
+                <span className="py-1 px-2 text-green-500 bg-green-500/10 rounded">+{statistics.added}</span>
+                <span className="py-1 px-2 text-red-500 bg-red-500/10 rounded">-{statistics.removed}</span>
+                <span className="py-1 px-2 text-muted-foreground bg-muted-foreground/10 rounded">
+                  ={statistics.unchanged}
+                </span>
               </div>
               <Toggle
-                className="w-fit"
+                className="w-fit font-medium"
                 label={t('comparison.showNoise')}
                 disabled={!diffReady}
                 onChange={(e) => {
@@ -140,7 +149,7 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
               />
             </div>
             <JsonDiffViewer
-              className="flex-1 p-4 border-t border-border dark:border-dark-body"
+              className="flex-1 p-4 border-t border-border"
               data={filteredItems}
               calculateStatistics={setStatistics}
               isDiffReady={setDiffReady}
@@ -154,7 +163,15 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
   );
 
   return (
-    <Panel className="flex flex-col flex-auto border-none" collapsible={false} title={title} {...otherProps}>
+    <div className="relative flex flex-col flex-auto">
+      <h5 className="m-0 py-3 px-4 bg-surface border-b border-border">{t('comparison.title')}</h5>
+      <IconButton
+        buttonType={ButtonType.SECONDARY_OUTLINE}
+        className="absolute top-1.5 right-1.5"
+        onClick={() => dispatch(testsActions.clearResultsToCompare())}
+      >
+        <ClearCrossIcon className="h-5 w-5" />
+      </IconButton>
       {items.length < 2 ? (
         <p className="p-4 m-0">{t('comparison.noTestResults')}</p>
       ) : (
@@ -162,15 +179,15 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
           className="flex flex-col flex-auto overflow-hidden"
           forceRenderTabPanel
           selectedIndex={tabIndex}
-          selectedTabClassName="bg-body border-border! text-text dark:bg-dark-body dark:border-dark-body! dark:text-dark-text cursor-default!"
+          selectedTabClassName="text-foreground border-primary! cursor-default!"
           selectedTabPanelClassName="flex! flex-col flex-auto"
           onSelect={(index) => setTabIndex(index)}
         >
-          <TabList className="flex m-0 px-4 text-sm font-medium border-b border-border dark:border-dark-body">
+          <TabList className="flex gap-6 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
             {tabs.map(({ label }) => (
               <Tab
                 key={label}
-                className="relative -bottom-px py-1.5 px-3 border border-transparent border-b-0 list-none truncate outline-none cursor-pointer"
+                className="relative flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer"
                 title={label}
               >
                 {label}
@@ -179,16 +196,13 @@ export default function TestResultsComparisonPanel({ items, title, response, ...
           </TabList>
 
           {tabs.map(({ component, label, panelClassName }) => (
-            <TabPanel
-              key={label}
-              className={twMerge('hidden bg-body dark:bg-dark-body overflow-hidden', panelClassName)}
-            >
+            <TabPanel key={label} className={twMerge('hidden overflow-hidden', panelClassName)}>
               {component}
             </TabPanel>
           ))}
         </Tabs>
       )}
-    </Panel>
+    </div>
   );
 }
 

@@ -3,7 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { exportProject } from 'src/api/files';
 import { getCliStatus, installCli, openExternal, uninstallCli } from 'src/api/system';
-import Button, { ButtonType } from 'src/components/buttons/Button';
+import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
+import Loader from 'src/components/loaders/Loader';
 import type { CliActionResult, CliStatus } from 'src/types';
 import { notify } from 'src/utils/toast';
 import SettingsHeader from '../SettingsHeader';
@@ -39,7 +40,7 @@ const exitCodes: ExitCode[] = [
 const transComponents = { c: <code />, e: <em /> };
 
 const CodeBlock = ({ children }: { children: string }) => (
-  <pre className="m-0 px-3 py-2 text-xs font-mono bg-surface overflow-x-auto whitespace-pre-wrap break-all">
+  <pre className="m-0 px-3 py-2 text-xs font-mono bg-surface rounded overflow-x-auto whitespace-pre-wrap break-all">
     <code>{children}</code>
   </pre>
 );
@@ -145,19 +146,35 @@ function ActionRow({
   if (status.pathEntry.pointsToBundled) {
     return (
       <div className="flex gap-2">
-        <Button buttonType={ButtonType.DANGER} onClick={onUninstall} disabled={busy}>
-          {busy ? t('settings.cli.action.working') : t('settings.cli.action.uninstall')}
+        <Button
+          buttonSize={ButtonSize.SMALL}
+          buttonType={ButtonType.DANGER}
+          className="min-w-12"
+          onClick={onUninstall}
+          disabled={busy}
+        >
+          {busy ? <Loader className="h-3 w-3 [&>span]:border-2!" mode="dark" /> : t('settings.cli.action.uninstall')}
         </Button>
-        <Button buttonType={ButtonType.SECONDARY} onClick={onInstall} disabled={busy}>
-          {busy ? t('settings.cli.action.working') : t('settings.cli.action.reinstall')}
+        <Button
+          buttonSize={ButtonSize.SMALL}
+          buttonType={ButtonType.SECONDARY}
+          className="min-w-12"
+          onClick={onInstall}
+          disabled={busy}
+        >
+          {busy ? <Loader className="h-3 w-3 [&>span]:border-2!" mode="dark" /> : t('settings.cli.action.reinstall')}
         </Button>
       </div>
     );
   }
 
   return (
-    <Button buttonType={ButtonType.PRIMARY} className="self-start" onClick={onInstall} disabled={busy}>
-      {busy ? t('settings.cli.action.working') : t('settings.cli.action.installRentgenInPath')}
+    <Button buttonSize={ButtonSize.SMALL} className="min-w-12 self-start" onClick={onInstall} disabled={busy}>
+      {busy ? (
+        <Loader className="h-3 w-3 [&>span]:border-2!" mode="dark" />
+      ) : (
+        t('settings.cli.action.installRentgenInPath')
+      )}
     </Button>
   );
 }
@@ -191,10 +208,10 @@ function ResultBanner({ result }: { result: CliActionResult }) {
   return (
     <div
       className={cn(
-        'flex flex-col gap-1 p-3 border text-xs',
+        'flex flex-col gap-1 p-3 border rounded text-xs',
         result.success
-          ? 'bg-green-500/10 border-green-500/30 text-green-700 dark:text-green-300'
-          : 'bg-red-500/10 border-red-500/30 text-red-700 dark:text-red-300',
+          ? 'text-green-700 dark:text-green-300 bg-green-500/10 border-green-500/30'
+          : 'text-red-700 dark:text-red-300 bg-red-500/10 border-red-500/30',
       )}
     >
       <span>{result.message}</span>
@@ -279,7 +296,7 @@ export function CliSettings() {
           <p className="m-0 text-xs text-muted-foreground">{t('settings.cli.checkingStatus')}</p>
         ) : (
           <>
-            <div className="flex flex-col gap-4 p-3 border border-border">
+            <div className="flex flex-col gap-4 p-3 border border-border rounded">
               <StatusBadge status={status} />
               <ActionRow status={status} busy={busy} onInstall={handleInstall} onUninstall={handleUninstall} />
             </div>
@@ -305,7 +322,7 @@ export function CliSettings() {
         </p>
         <CodeBlock>rentgen xray &lt;project-file&gt; [options]</CodeBlock>
         <div className="flex items-center gap-4">
-          <Button className="shrink-0" buttonType={ButtonType.PRIMARY} onClick={handleExportProject}>
+          <Button className="shrink-0" buttonSize={ButtonSize.SMALL} onClick={handleExportProject}>
             {t('settings.cli.exportProject')}
           </Button>
           <span className="text-xs text-muted-foreground">

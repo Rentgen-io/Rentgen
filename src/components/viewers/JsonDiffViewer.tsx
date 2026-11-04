@@ -160,7 +160,10 @@ export function JsonDiffViewer({
       />
       {!diffReady && (
         <div className="absolute inset-0 flex z-90">
-          <LoaderWithText className="justify-center bg-background" text={t('tests.computingDifferences')} />
+          <LoaderWithText
+            className="justify-center text-foreground bg-background"
+            text={t('tests.computingDifferences')}
+          />
         </div>
       )}
     </div>

@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { twMerge } from 'tailwind-merge';
-import { IconButton } from './components/buttons/IconButton';
 import Loader from './components/loaders/Loader';
 import EnvironmentEditor from './features/environment/EnvironmentEditor';
 import AppModals from './features/modals/AppModals';
@@ -43,11 +42,8 @@ import {
   selectTestsActiveTab,
 } from './store/selectors';
 import { environmentActions } from './store/slices/environmentSlice';
-import { testsActions } from './store/slices/testsSlice';
 import { uiActions } from './store/slices/uiSlice';
 import { getTestsStatistics } from './test-engine';
-
-import ClearCrossIcon from './assets/icons/clear-cross-icon.svg';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -145,19 +141,7 @@ export default function App() {
           />
         )}
         {!isEditingEnvironment && isComparingTestResults && compareResponse && (
-          <div className="relative flex flex-col flex-auto">
-            <TestResultsComparisonPanel
-              items={testResultsToCompare}
-              response={compareResponse}
-              title={t('comparison.title')}
-            />
-            <IconButton
-              className="absolute top-1.5 right-1.5"
-              onClick={() => dispatch(testsActions.clearResultsToCompare())}
-            >
-              <ClearCrossIcon className="h-5 w-5" />
-            </IconButton>
-          </div>
+          <TestResultsComparisonPanel items={testResultsToCompare} response={compareResponse} />
         )}
         {!isEditingEnvironment && !isComparingTestResults && (
           <div className={cn('flex flex-col divide-y divide-border', { 'flex-auto': mode === 'WSS' })}>

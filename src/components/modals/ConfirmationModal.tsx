@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
@@ -29,7 +28,7 @@ export default function ConfirmationModal({
   const { t } = useTranslation();
 
   return (
-    <Modal className={twMerge(cn('[&>div]:w-100!', className))} isOpen={isOpen} onClose={onClose}>
+    <Modal className={twMerge('[&>div]:w-100!', className)} isOpen={isOpen} onClose={onClose}>
       <div className="flex flex-col gap-4">
         {title && <h5 className="m-0">{title}</h5>}
         {description && <p className="m-0 text-xs text-muted-foreground">{description}</p>}
