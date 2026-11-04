@@ -62,7 +62,15 @@ export function createErrorTestResult(
   request: HttpRequest | null = null,
   value: any = undefined,
 ): TestResult {
-  return createTestResult(name, expected, `Unexpected Error: ${actual}`, TestStatus.Bug, request, null, value);
+  let message = `Unexpected Error: ${actual}`;
+  let status = TestStatus.Bug;
+
+  if (actual.toLowerCase().includes('aborterror')) {
+    message = 'Aborted by User';
+    status = TestStatus.Warning;
+  }
+
+  return createTestResult(name, expected, message, status, request, null, value);
 }
 
 export function determineTestStatus(

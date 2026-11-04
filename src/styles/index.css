@@ -155,7 +155,7 @@
   }
 
   .environment-data-table {
-    @apply border border-border;
+    @apply border border-border rounded!;
   }
 
   .environment-data-table .rdt_wrapper,

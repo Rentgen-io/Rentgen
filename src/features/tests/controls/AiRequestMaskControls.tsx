@@ -75,7 +75,7 @@ export function AiRequestMaskControls({ onCancel }: Props) {
           {activeAiProvider?.name} · {activeAiProvider?.model}
         </div>
       </div>
-      <div className="@2xl:grid @2xl:grid-cols-2 border border-border divide-y @2xl:divide-y-0 @2xl:divide-x divide-border">
+      <div className="@2xl:grid @2xl:grid-cols-2 border border-border divide-y @2xl:divide-y-0 @2xl:divide-x divide-border rounded">
         <div>
           <label className="flex items-center justify-between gap-4 m-0 py-2 px-4 bg-surface text-xs font-medium truncate">
             {t('controls.requestFields')}
