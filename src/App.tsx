@@ -143,7 +143,7 @@ export default function App() {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="@container flex-1 min-w-0 flex flex-col">
+      <div className="@container flex-1 min-w-0 flex flex-col overscroll-contain">
         {isEditingEnvironment && (
           <EnvironmentEditor
             environment={environments.find(({ id }) => id === editingEnvironmentId) || null}
@@ -155,20 +155,24 @@ export default function App() {
           <TestResultsComparisonPanel items={testResultsToCompare} response={compareResponse} />
         )}
         {!isEditingEnvironment && !isComparingTestResults && (
-          <div className={cn('flex flex-col divide-y divide-border', { 'flex-auto': mode === 'WSS' })}>
-            <RequestDetails />
-            <RequestModeBar />
-            <RequestUrlBar />
-            <RequestEditors />
+          <>
+            <div className="sticky top-0 bg-background divide-y divide-border border-b border-border z-20">
+              <RequestDetails />
+              <RequestModeBar />
+            </div>
+            <div className={cn('flex flex-col divide-y divide-border', { 'flex-auto': mode === 'WSS' })}>
+              <RequestUrlBar />
+              <RequestEditors />
 
-            {mode === 'WSS' && <WssMessagesPanel />}
-            {mode === 'HTTP' && (
-              <>
-                <HttpResponsePanel />
-                <TestRunnerBar />
-              </>
-            )}
-          </div>
+              {mode === 'WSS' && <WssMessagesPanel />}
+              {mode === 'HTTP' && (
+                <>
+                  <HttpResponsePanel />
+                  <TestRunnerBar />
+                </>
+              )}
+            </div>
+          </>
         )}
         {!isEditingEnvironment && !isComparingTestResults && testResults && (
           <div className="flex flex-col gap-4">
