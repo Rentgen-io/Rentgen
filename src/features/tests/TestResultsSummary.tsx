@@ -15,14 +15,14 @@ export default function TestResultsSummary({
   statistics,
   onClick,
 }: {
-  statistics: ReturnType<typeof getTestsStatistics>[];
-  onClick?: (index: number) => void;
+  statistics: { [label: string]: ReturnType<typeof getTestsStatistics> };
+  onClick: (index: number) => void;
 }) {
   const { t } = useTranslation();
 
   const totals = useMemo(
     () =>
-      statistics.reduce(
+      Object.values(statistics).reduce(
         (acc, { bugs, failed, ignored, info, manual, passed, warnings }) => ({
           bugs: acc.bugs + bugs,
           failed: acc.failed + failed,
@@ -38,8 +38,8 @@ export default function TestResultsSummary({
   );
   const findings = useMemo(
     () =>
-      statistics
-        .map((stats, index) => ({ ...stats, index }))
+      Object.entries(statistics)
+        .map(([label, stats], index) => ({ ...stats, label, index }))
         .filter(({ bugs, failed, warnings }) => bugs + failed + warnings > 0)
         .sort((a, b) => b.bugs - a.bugs || b.failed - a.failed || b.warnings - a.warnings),
     [statistics],
@@ -56,7 +56,7 @@ export default function TestResultsSummary({
             </p>
           </div>
           {findings.length > 0 && (
-            <Button buttonType={ButtonType.SECONDARY} className="shrink-0" onClick={() => onClick?.(findings[0].index)}>
+            <Button buttonType={ButtonType.SECONDARY} className="shrink-0" onClick={() => onClick(findings[0].index)}>
               Review Findings
             </Button>
           )}
@@ -87,6 +87,37 @@ export default function TestResultsSummary({
               {t('common.ignored')}: <strong>{totals.ignored}</strong>
             </span>
           )}
+        </div>
+      )}
+      {findings.length > 0 && (
+        <div className="border border-border divide-y divide-border rounded overflow-hidden">
+          {findings.map(({ bugs, failed, label, index, warnings }) => (
+            <div
+              className="flex items-center justify-between gap-2 py-3 px-4 text-xs cursor-pointer hover:bg-accent-soft"
+              key={index}
+              onClick={() => onClick(index)}
+            >
+              <span>{label}</span>
+              <span className="flex items-center gap-2 text-[11px] text-muted-foreground">
+                {bugs > 0 && (
+                  <span>
+                    {t('common.bugs')}: <strong className="text-metric-bug">{bugs}</strong>
+                  </span>
+                )}
+                {failed > 0 && (
+                  <span>
+                    {t('common.failed')}: <strong className="text-metric-fail">{failed}</strong>
+                  </span>
+                )}
+                {warnings > 0 && (
+                  <span className="leading-none">
+                    {t('common.warnings')}: <strong className="text-metric-warning">{warnings}</strong>
+                  </span>
+                )}
+                <span>↗</span>
+              </span>
+            </div>
+          ))}
         </div>
       )}
     </div>

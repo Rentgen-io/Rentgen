@@ -20,7 +20,7 @@ export function HttpPanel({ className, children, source, title, ...otherProps }:
           {t('common.copy')}
         </CopyButton>
       )}
-      <div className={cn('flex-auto m-0 p-2.5 bg-background border border-border')}>
+      <div className={cn('flex-auto m-0 p-2.5 bg-background border border-border rounded')}>
         <JsonViewer source={source} />
       </div>
       {children}

@@ -127,7 +127,10 @@ export default function App() {
   );
 
   const statistics = useMemo(
-    () => testsTabs.map(({ disabledTests, tests }) => getTestsStatistics(tests ?? [], disabledTests)),
+    () =>
+      Object.fromEntries(
+        testsTabs.map(({ label, disabledTests, tests }) => [label, getTestsStatistics(tests ?? [], disabledTests)]),
+      ),
     [testsTabs],
   );
 
@@ -168,7 +171,7 @@ export default function App() {
           </div>
         )}
         {!isEditingEnvironment && !isComparingTestResults && testResults && (
-          <>
+          <div className="flex flex-col gap-4">
             <TestResultsSummary
               statistics={statistics}
               onClick={(index) => {
@@ -190,8 +193,8 @@ export default function App() {
                 ref={testsTabsRef}
                 className="flex gap-6 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border"
               >
-                {testsTabs.map(({ isRunning, label }, index) => {
-                  const { bugs, failed, passed, warnings } = statistics[index];
+                {testsTabs.map(({ isRunning, label }) => {
+                  const { bugs, failed, passed, warnings } = statistics[label];
 
                   return (
                     <Tab
@@ -230,7 +233,7 @@ export default function App() {
                 </TabPanel>
               ))}
             </Tabs>
-          </>
+          </div>
         )}
       </div>
       <AppModals />

@@ -28,6 +28,9 @@ import { uiActions } from 'src/store/slices/uiSlice';
 import { ReportFormat } from 'src/types';
 import { substituteRequestVariables } from 'src/utils';
 
+import PlayIcon from 'src/assets/icons/play-icon.svg';
+import StopIcon from 'src/assets/icons/stop-icon.svg';
+
 export default function TestRunnerBar() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -83,7 +86,7 @@ export default function TestRunnerBar() {
         <div className="flex flex-col @xl:flex-row @xl:items-center gap-2 @xl:min-w-0">
           {!isRunningTests ? (
             <Button
-              className="@xl:truncate"
+              className="inline-flex items-center gap-2 @xl:truncate"
               disabled={isRunning || isSending || !isResponseSuccessful}
               onClick={() => {
                 dispatch(uiActions.setTestsActiveTab(1));
@@ -95,11 +98,13 @@ export default function TestRunnerBar() {
                 });
               }}
             >
-              {t('tests.generateAndRun')}
+              <PlayIcon className="h-4 w-4 shrink-0" />
+              <span className="@xl:truncate">{t('tests.generateAndRun')}</span>
             </Button>
           ) : (
-            <Button className="@xl:truncate" onClick={() => cancelAllTests(false)}>
-              {t('common.stop')}
+            <Button className="inline-flex items-center gap-2 @xl:truncate" onClick={() => cancelAllTests(false)}>
+              <StopIcon className="h-4 w-4 shrink-0" />
+              <span className="@xl:truncate">{t('common.stop')}</span>
             </Button>
           )}
           {testResults && !isRunningTests && (
