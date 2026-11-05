@@ -97,37 +97,37 @@ export function TestsTableHeader({
     <div className="min-h-8.5 flex items-center gap-2">
       <div className="flex-auto flex items-center gap-2 lowercase">
         {passed > 0 && (
-          <span className="py-1 px-2 text-xs text-metric-pass bg-metric-pass/10 rounded">
+          <span className="py-1 px-2 text-xs text-metric-pass bg-metric-pass/10 rounded truncate">
             {passed} {t('common.passed')}
           </span>
         )}
         {warnings > 0 && (
-          <span className="py-1 px-2 text-xs text-metric-warning bg-metric-warning/10 rounded">
+          <span className="py-1 px-2 text-xs text-metric-warning bg-metric-warning/10 rounded truncate">
             {warnings} {warnings === 1 ? t('common.warning') : t('common.warnings')}
           </span>
         )}
         {failed > 0 && (
-          <span className="py-1 px-2 text-xs text-metric-fail bg-metric-fail/10 rounded">
+          <span className="py-1 px-2 text-xs text-metric-fail bg-metric-fail/10 rounded truncate">
             {failed} {t('common.failed')}
           </span>
         )}
         {bugs > 0 && (
-          <span className="py-1 px-2 text-xs text-metric-bug bg-metric-bug/10 rounded">
+          <span className="py-1 px-2 text-xs text-metric-bug bg-metric-bug/10 rounded truncate">
             {bugs} {bugs === 1 ? t('common.bug') : t('common.bugs')}
           </span>
         )}
         {info > 0 && (
-          <span className="py-1 px-2 text-xs text-blue-500 bg-blue-500/10 rounded">
+          <span className="py-1 px-2 text-xs text-blue-500 bg-blue-500/10 rounded truncate">
             {info} {t('common.info')}
           </span>
         )}
         {manual > 0 && (
-          <span className="py-1 px-2 text-xs text-gray-500 bg-gray-500/10 dark:text-gray-400 dark:bg-gray-500/20 rounded">
+          <span className="py-1 px-2 text-xs text-gray-500 bg-gray-500/10 dark:text-gray-400 dark:bg-gray-500/20 rounded truncate">
             {manual} {t('common.manual')}
           </span>
         )}
         {ignored > 0 && (
-          <span className="py-1 px-2 text-xs text-muted-foreground bg-muted-foreground/10 rounded">
+          <span className="py-1 px-2 text-xs text-muted-foreground bg-muted-foreground/10 rounded truncate">
             {ignored} {t('common.ignored')}
           </span>
         )}

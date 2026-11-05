@@ -175,6 +175,19 @@ const ptBR = {
     aiTestingTitle: 'Encontre testes que a varredura determinística não conseguiu inferir',
     aiTestingDescription: 'A IA analisa a execução, sugere experimentos adicionais e o Rentgen os executa.',
     runAiTesting: 'Executar testes de IA',
+    resultsTitle: 'Resultados dos testes',
+    resultsDescription:
+      'Revise primeiro os bugs e as verificações com falha. Expanda um teste para ver os detalhes da requisição e da resposta.',
+    reviewFindings: 'Revisar descobertas',
+    metric: {
+      bugs: 'Ocorreu um erro inesperado do servidor (HTTP 5xx) ou um erro de execução. A API pode ter travado ou ficado indisponível. Revise a requisição e a resposta para encontrar a causa.',
+      failed:
+        'O resultado real não correspondeu ao resultado esperado, ou nenhuma resposta foi recebida. Verifique a expectativa, o mapeamento de dados e o comportamento da API para determinar a causa.',
+      warnings:
+        'Um risco potencial ou recomendação, geralmente de uma verificação de segurança. Sua importância depende da sua API e do seu caso de uso. Revise para decidir se alguma ação é necessária.',
+      passed:
+        'O resultado real correspondeu ao resultado esperado para esta verificação. Este teste passou; isso não garante que toda a API esteja livre de problemas.',
+    },
   },
 
   // Comparison Panel

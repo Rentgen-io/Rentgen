@@ -174,6 +174,19 @@ const id = {
     aiTestingTitle: 'Temukan pengujian yang tidak dapat disimpulkan oleh pemindaian deterministik',
     aiTestingDescription: 'AI menganalisis proses, menyarankan eksperimen tambahan, dan Rentgen menjalankannya.',
     runAiTesting: 'Jalankan Pengujian AI',
+    resultsTitle: 'Hasil Tes',
+    resultsDescription:
+      'Tinjau bug dan pemeriksaan yang gagal terlebih dahulu. Bentangkan tes untuk melihat detail permintaan dan respons.',
+    reviewFindings: 'Tinjau Temuan',
+    metric: {
+      bugs: 'Terjadi kesalahan server tak terduga (HTTP 5xx) atau kesalahan eksekusi. API mungkin mengalami crash atau tidak tersedia. Tinjau permintaan dan respons untuk menemukan penyebabnya.',
+      failed:
+        'Hasil aktual tidak sesuai dengan hasil yang diharapkan, atau tidak ada respons yang diterima. Periksa ekspektasi, pemetaan data, dan perilaku API untuk menentukan penyebabnya.',
+      warnings:
+        'Potensi risiko atau rekomendasi, sering kali dari pemeriksaan keamanan. Tingkat kepentingannya bergantung pada API dan kasus penggunaan Anda. Tinjau untuk memutuskan apakah perlu tindakan.',
+      passed:
+        'Hasil aktual sesuai dengan hasil yang diharapkan untuk pemeriksaan ini. Tes ini lulus; ini tidak menjamin seluruh API bebas dari masalah.',
+    },
   },
 
   // Comparison Panel

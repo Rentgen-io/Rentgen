@@ -174,6 +174,19 @@ const vi = {
     aiTestingTitle: 'Tìm các kiểm thử mà quét tất định không thể suy ra',
     aiTestingDescription: 'AI phân tích lần chạy, đề xuất thêm thử nghiệm và Rentgen thực thi chúng.',
     runAiTesting: 'Chạy kiểm thử AI',
+    resultsTitle: 'Kết quả kiểm thử',
+    resultsDescription:
+      'Hãy xem lại lỗi và các kiểm tra thất bại trước. Mở rộng một kiểm thử để xem chi tiết yêu cầu và phản hồi.',
+    reviewFindings: 'Xem lại phát hiện',
+    metric: {
+      bugs: 'Đã xảy ra lỗi máy chủ không mong muốn (HTTP 5xx) hoặc lỗi thực thi. API có thể đã gặp sự cố hoặc không khả dụng. Xem lại yêu cầu và phản hồi để tìm nguyên nhân.',
+      failed:
+        'Kết quả thực tế không khớp với kết quả mong đợi, hoặc không nhận được phản hồi. Kiểm tra kỳ vọng, ánh xạ dữ liệu và hành vi của API để xác định nguyên nhân.',
+      warnings:
+        'Một rủi ro tiềm ẩn hoặc khuyến nghị, thường đến từ một kiểm tra bảo mật. Mức độ quan trọng phụ thuộc vào API và trường hợp sử dụng của bạn. Xem lại để quyết định có cần hành động hay không.',
+      passed:
+        'Kết quả thực tế khớp với kết quả mong đợi cho kiểm tra này. Kiểm thử này đã đạt; điều đó không đảm bảo toàn bộ API không có vấn đề.',
+    },
   },
 
   // Comparison Panel

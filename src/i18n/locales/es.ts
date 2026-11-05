@@ -175,6 +175,19 @@ const es = {
     aiTestingTitle: 'Encuentra pruebas que el análisis determinista no pudo inferir',
     aiTestingDescription: 'La IA analiza la ejecución, sugiere experimentos adicionales y Rentgen los ejecuta.',
     runAiTesting: 'Ejecutar pruebas de IA',
+    resultsTitle: 'Resultados de las pruebas',
+    resultsDescription:
+      'Revisa primero los bugs y las comprobaciones fallidas. Expande una prueba para ver los detalles de la solicitud y la respuesta.',
+    reviewFindings: 'Revisar hallazgos',
+    metric: {
+      bugs: 'Se produjo un error inesperado del servidor (HTTP 5xx) o un error de ejecución. Es posible que la API haya fallado o no esté disponible. Revisa la solicitud y la respuesta para encontrar la causa.',
+      failed:
+        'El resultado real no coincidió con el esperado o no se recibió ninguna respuesta. Revisa la expectativa, el mapeo de datos y el comportamiento de la API para determinar la causa.',
+      warnings:
+        'Un posible riesgo o recomendación, a menudo de una comprobación de seguridad. Su importancia depende de tu API y caso de uso. Revísalo para decidir si es necesario actuar.',
+      passed:
+        'El resultado real coincidió con el esperado para esta comprobación. Esta prueba se superó; no garantiza que toda la API esté libre de problemas.',
+    },
   },
 
   // Comparison Panel

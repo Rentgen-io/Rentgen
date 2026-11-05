@@ -1,8 +1,11 @@
 import cn from 'classnames';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Tooltip } from 'react-tooltip';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import { getTestsStatistics } from 'src/test-engine';
+
+import InfoIcon from 'src/assets/icons/info-icon.svg';
 
 const testResultMetrics: string[][] = [
   ['bugs', 'common.bugs', 'text-metric-bug'],
@@ -50,14 +53,12 @@ export default function TestResultsSummary({
       <div className="results-heading-row">
         <div className="flex items-center justify-between gap-2">
           <div className="flex flex-col gap-2">
-            <h5 className="m-0">Test Results</h5>
-            <p className="m-0 text-xs text-muted-foreground">
-              Review bugs and failed checks first. Expand a test for request and response details.
-            </p>
+            <h5 className="m-0">{t('tests.resultsTitle')}</h5>
+            <p className="m-0 text-xs text-muted-foreground">{t('tests.resultsDescription')}</p>
           </div>
           {findings.length > 0 && (
             <Button buttonType={ButtonType.SECONDARY} className="shrink-0" onClick={() => onClick(findings[0].index)}>
-              Review Findings
+              {t('tests.reviewFindings')}
             </Button>
           )}
         </div>
@@ -66,7 +67,19 @@ export default function TestResultsSummary({
         {testResultMetrics.map(([key, label, color]) => (
           <div key={key} className="flex flex-col gap-2 py-3 px-4 border border-border rounded">
             <span className={cn('text-2xl font-semibold', color)}>{totals[key as keyof typeof totals]}</span>
-            <span className="text-xs text-muted-foreground">{t(label)}</span>
+            <span className="flex items-center gap-2 text-xs text-muted-foreground">
+              {t(label)}{' '}
+              <InfoIcon
+                className="w-4 h-4 shrink-0 opacity-65 rounded-full cursor-help outline-2 outline-transparent hover:opacity-100 hover:bg-surface hover:outline-surface"
+                data-tooltip-id={`tooltip-${key}`}
+              />
+            </span>
+            <Tooltip id={`tooltip-${key}`} place="bottom-start">
+              <div className="flex flex-col gap-2 max-w-60 text-xs">
+                <strong>{t(label)}</strong>
+                <p className="m-0">{t(`tests.metric.${key}`)}</p>
+              </div>
+            </Tooltip>
           </div>
         ))}
       </div>

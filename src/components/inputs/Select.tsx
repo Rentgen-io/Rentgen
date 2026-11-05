@@ -44,7 +44,7 @@ export default function Select<T, IsMulti extends boolean = false, L extends Rea
         return cn('m-0! p-0!', className ?? 'text-foreground!');
       },
       menu: () => 'm-0! rounded! transition-none! shadow-lg! z-50!',
-      menuList: () => 'py-1! px-0!',
+      menuList: () => 'py-1! px-0! bg-background!',
       option: ({ data, isSelected, isDisabled }) =>
         cn(
           'rounded-none transition-none',

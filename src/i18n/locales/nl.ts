@@ -175,6 +175,19 @@ const nl = {
     aiTestingTitle: 'Vind tests die de deterministische scan niet kon afleiden',
     aiTestingDescription: 'AI analyseert de run, stelt extra experimenten voor en Rentgen voert ze uit.',
     runAiTesting: 'AI-testen uitvoeren',
+    resultsTitle: 'Testresultaten',
+    resultsDescription:
+      'Bekijk eerst bugs en mislukte controles. Klap een test uit voor details over het verzoek en de reactie.',
+    reviewFindings: 'Bevindingen bekijken',
+    metric: {
+      bugs: 'Er is een onverwachte serverfout (HTTP 5xx) of uitvoeringsfout opgetreden. De API is mogelijk gecrasht of onbereikbaar geworden. Bekijk het verzoek en de reactie om de oorzaak te vinden.',
+      failed:
+        'Het werkelijke resultaat kwam niet overeen met het verwachte resultaat, of er is geen reactie ontvangen. Controleer de verwachting, de datamapping en het API-gedrag om de oorzaak te bepalen.',
+      warnings:
+        'Een mogelijk risico of aanbeveling, vaak afkomstig van een beveiligingscontrole. Het belang hangt af van je API en use case. Bekijk het om te beslissen of actie nodig is.',
+      passed:
+        'Het werkelijke resultaat kwam overeen met het verwachte resultaat voor deze controle. Deze test is geslaagd; dit garandeert niet dat de hele API probleemloos is.',
+    },
   },
 
   // Comparison Panel

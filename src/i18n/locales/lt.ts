@@ -174,6 +174,19 @@ const lt = {
     aiTestingTitle: 'Rasti testus, kurių deterministinis skenavimas negalėjo nustatyti',
     aiTestingDescription: 'DI analizuoja vykdymą, siūlo papildomus eksperimentus, o Rentgen juos įvykdo.',
     runAiTesting: 'Vykdyti DI testavimą',
+    resultsTitle: 'Testų rezultatai',
+    resultsDescription:
+      'Pirmiausia peržiūrėkite klaidas ir nepavykusius patikrinimus. Išskleiskite testą, kad pamatytumėte užklausos ir atsakymo detales.',
+    reviewFindings: 'Peržiūrėti radinius',
+    metric: {
+      bugs: 'Įvyko netikėta serverio klaida (HTTP 5xx) arba vykdymo klaida. API galėjo sutrikti arba tapti nepasiekiama. Peržiūrėkite užklausą ir atsakymą, kad rastumėte priežastį.',
+      failed:
+        'Faktinis rezultatas nesutapo su laukiamu rezultatu arba atsakymas nebuvo gautas. Patikrinkite lūkestį, duomenų susiejimą ir API elgseną, kad nustatytumėte priežastį.',
+      warnings:
+        'Galima rizika arba rekomendacija, dažnai iš saugumo patikrinimo. Jos svarba priklauso nuo jūsų API ir naudojimo atvejo. Peržiūrėkite ir nuspręskite, ar reikia imtis veiksmų.',
+      passed:
+        'Šiame patikrinime faktinis rezultatas sutapo su laukiamu rezultatu. Šis testas sėkmingas; tai negarantuoja, kad visa API neturi problemų.',
+    },
   },
 
   // Comparison Panel

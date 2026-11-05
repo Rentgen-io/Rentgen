@@ -57,7 +57,7 @@ export default function ContextMenu({ children, isOpen, position, onClose }: Pro
   return createPortal(
     <div
       ref={menuRef}
-      className={cn('fixed py-1 min-w-40 bg-background rounded shadow-lg', {
+      className={cn('fixed py-1 min-w-40 bg-background rounded shadow-default', {
         'invisible opacity-0 -z-100': !isVisible,
         'visible opacity-100 z-100': isVisible,
       })}

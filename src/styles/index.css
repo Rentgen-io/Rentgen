@@ -126,6 +126,14 @@
     @apply opacity-100 bg-primary-hover text-white;
   }
 
+  .react-tooltip {
+    @apply text-foreground! bg-background! rounded! shadow-default z-10;
+  }
+
+  .react-tooltip-content-wrapper {
+    @apply py-3! px-4!;
+  }
+
   .Toastify__toast {
     @apply gap-2! min-h-12! font-segoe-ui! text-sm rounded! overflow-hidden;
   }
@@ -210,4 +218,8 @@
   & > .rdt_headSeparator {
     @apply flex flex-col flex-auto h-0;
   }
+}
+
+@utility shadow-default {
+  @apply shadow-[0_2px_8px_0_rgba(0,0,0,0.2)] dark:shadow-[0_2px_8px_0_rgba(0,0,0,0.65)];
 }

@@ -175,6 +175,19 @@ const fr = {
     aiTestingTitle: "Trouver les tests que l'analyse déterministe n'a pas pu déduire",
     aiTestingDescription: "L'IA analyse l'exécution, suggère des expériences supplémentaires et Rentgen les exécute.",
     runAiTesting: 'Lancer les tests IA',
+    resultsTitle: 'Résultats des tests',
+    resultsDescription:
+      "Examinez d'abord les bugs et les vérifications échouées. Développez un test pour voir les détails de la requête et de la réponse.",
+    reviewFindings: 'Examiner les constats',
+    metric: {
+      bugs: "Une erreur serveur inattendue (HTTP 5xx) ou une erreur d'exécution s'est produite. L'API a peut-être planté ou est devenue indisponible. Examinez la requête et la réponse pour en trouver la cause.",
+      failed:
+        "Le résultat réel ne correspond pas au résultat attendu, ou aucune réponse n'a été reçue. Vérifiez l'attente, le mappage des données et le comportement de l'API pour en déterminer la cause.",
+      warnings:
+        "Un risque potentiel ou une recommandation, souvent issu d'une vérification de sécurité. Son importance dépend de votre API et de votre cas d'usage. Examinez-le pour décider si une action est nécessaire.",
+      passed:
+        "Le résultat réel correspond au résultat attendu pour cette vérification. Ce test a réussi ; cela ne garantit pas que l'ensemble de l'API est exempt de problèmes.",
+    },
   },
 
   // Comparison Panel

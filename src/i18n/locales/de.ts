@@ -174,6 +174,19 @@ const de = {
     aiTestingTitle: 'Tests finden, die der deterministische Scan nicht ableiten konnte',
     aiTestingDescription: 'Die KI analysiert den Lauf, schlägt zusätzliche Experimente vor, und Rentgen führt sie aus.',
     runAiTesting: 'KI-Tests ausführen',
+    resultsTitle: 'Testergebnisse',
+    resultsDescription:
+      'Prüfen Sie zuerst Bugs und fehlgeschlagene Checks. Klappen Sie einen Test auf, um Details zu Anfrage und Antwort zu sehen.',
+    reviewFindings: 'Befunde prüfen',
+    metric: {
+      bugs: 'Ein unerwarteter Serverfehler (HTTP 5xx) oder Ausführungsfehler ist aufgetreten. Die API ist möglicherweise abgestürzt oder nicht verfügbar. Prüfen Sie Anfrage und Antwort, um die Ursache zu finden.',
+      failed:
+        'Das tatsächliche Ergebnis stimmte nicht mit dem erwarteten Ergebnis überein, oder es wurde keine Antwort empfangen. Prüfen Sie Erwartung, Daten-Mapping und API-Verhalten, um die Ursache zu ermitteln.',
+      warnings:
+        'Ein potenzielles Risiko oder eine Empfehlung, oft aus einer Sicherheitsprüfung. Die Relevanz hängt von Ihrer API und Ihrem Anwendungsfall ab. Prüfen Sie, ob Handlungsbedarf besteht.',
+      passed:
+        'Das tatsächliche Ergebnis stimmte für diese Prüfung mit dem erwarteten Ergebnis überein. Dieser Test ist bestanden; das garantiert nicht, dass die gesamte API fehlerfrei ist.',
+    },
   },
 
   // Comparison Panel

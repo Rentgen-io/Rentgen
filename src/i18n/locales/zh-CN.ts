@@ -174,6 +174,15 @@ const zhCN = {
     aiTestingTitle: '发现确定性扫描无法推断出的测试',
     aiTestingDescription: 'AI 分析本次运行并建议更多实验，由 Rentgen 执行。',
     runAiTesting: '运行 AI 测试',
+    resultsTitle: '测试结果',
+    resultsDescription: '请先查看缺陷和失败的检查。展开测试可查看请求和响应详情。',
+    reviewFindings: '查看发现',
+    metric: {
+      bugs: '发生了意外的服务器错误（HTTP 5xx）或执行错误。API 可能已崩溃或不可用。请检查请求和响应以找出原因。',
+      failed: '实际结果与预期结果不符，或未收到响应。请检查预期、数据映射和 API 行为以确定原因。',
+      warnings: '潜在风险或建议，通常来自安全检查。其重要性取决于您的 API 和使用场景。请查看以决定是否需要采取措施。',
+      passed: '此检查的实际结果与预期结果一致。该测试已通过；但这并不保证整个 API 没有问题。',
+    },
   },
 
   // Comparison Panel

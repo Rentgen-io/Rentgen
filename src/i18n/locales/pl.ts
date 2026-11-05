@@ -175,6 +175,19 @@ const pl = {
     aiTestingTitle: 'Znajdź testy, których deterministyczne skanowanie nie potrafiło wywnioskować',
     aiTestingDescription: 'AI analizuje przebieg, proponuje dodatkowe eksperymenty, a Rentgen je wykonuje.',
     runAiTesting: 'Uruchom testy AI',
+    resultsTitle: 'Wyniki testów',
+    resultsDescription:
+      'Najpierw przejrzyj błędy i nieudane sprawdzenia. Rozwiń test, aby zobaczyć szczegóły zapytania i odpowiedzi.',
+    reviewFindings: 'Przejrzyj ustalenia',
+    metric: {
+      bugs: 'Wystąpił nieoczekiwany błąd serwera (HTTP 5xx) lub błąd wykonania. API mogło ulec awarii lub stać się niedostępne. Przejrzyj zapytanie i odpowiedź, aby znaleźć przyczynę.',
+      failed:
+        'Rzeczywisty wynik nie był zgodny z oczekiwanym lub nie otrzymano odpowiedzi. Sprawdź oczekiwanie, mapowanie danych i zachowanie API, aby ustalić przyczynę.',
+      warnings:
+        'Potencjalne ryzyko lub zalecenie, często pochodzące z kontroli bezpieczeństwa. Jego znaczenie zależy od Twojego API i przypadku użycia. Przejrzyj je, aby zdecydować, czy potrzebne są działania.',
+      passed:
+        'Rzeczywisty wynik był zgodny z oczekiwanym dla tego sprawdzenia. Ten test zakończył się powodzeniem; nie gwarantuje to, że całe API jest wolne od problemów.',
+    },
   },
 
   // Comparison Panel

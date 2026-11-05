@@ -174,6 +174,19 @@ const tr = {
     aiTestingTitle: 'Deterministik taramanın çıkaramadığı testleri bulun',
     aiTestingDescription: 'YZ çalışmayı analiz eder, ek denemeler önerir ve Rentgen bunları çalıştırır.',
     runAiTesting: 'YZ Testlerini Çalıştır',
+    resultsTitle: 'Test Sonuçları',
+    resultsDescription:
+      'Önce hataları ve başarısız kontrolleri inceleyin. İstek ve yanıt ayrıntıları için bir testi genişletin.',
+    reviewFindings: 'Bulguları İncele',
+    metric: {
+      bugs: 'Beklenmeyen bir sunucu hatası (HTTP 5xx) veya yürütme hatası oluştu. API çökmüş veya kullanılamaz hale gelmiş olabilir. Nedeni bulmak için isteği ve yanıtı inceleyin.',
+      failed:
+        'Gerçek sonuç beklenen sonuçla eşleşmedi veya yanıt alınamadı. Nedeni belirlemek için beklentiyi, veri eşlemesini ve API davranışını kontrol edin.',
+      warnings:
+        'Genellikle bir güvenlik kontrolünden gelen olası bir risk veya öneri. Önemi API’nize ve kullanım senaryonuza bağlıdır. İşlem gerekip gerekmediğine karar vermek için inceleyin.',
+      passed:
+        'Bu kontrol için gerçek sonuç beklenen sonuçla eşleşti. Bu test başarılı oldu; bu, API’nin tamamının sorunsuz olduğunu garanti etmez.',
+    },
   },
 
   // Comparison Panel

@@ -175,6 +175,19 @@ const it = {
     aiTestingTitle: 'Trova i test che la scansione deterministica non è riuscita a dedurre',
     aiTestingDescription: "L'IA analizza l'esecuzione, suggerisce ulteriori esperimenti e Rentgen li esegue.",
     runAiTesting: 'Esegui test IA',
+    resultsTitle: 'Risultati dei test',
+    resultsDescription:
+      'Esamina prima i bug e i controlli non riusciti. Espandi un test per visualizzare i dettagli di richiesta e risposta.',
+    reviewFindings: 'Esamina i risultati',
+    metric: {
+      bugs: "Si è verificato un errore del server imprevisto (HTTP 5xx) o un errore di esecuzione. L'API potrebbe essere andata in crash o non essere disponibile. Esamina la richiesta e la risposta per trovarne la causa.",
+      failed:
+        "Il risultato effettivo non corrisponde a quello atteso, oppure non è stata ricevuta alcuna risposta. Verifica l'aspettativa, la mappatura dei dati e il comportamento dell'API per determinarne la causa.",
+      warnings:
+        "Un potenziale rischio o una raccomandazione, spesso derivante da un controllo di sicurezza. La sua importanza dipende dalla tua API e dal tuo caso d'uso. Esaminalo per decidere se è necessario intervenire.",
+      passed:
+        "Il risultato effettivo corrisponde a quello atteso per questo controllo. Il test è superato; ciò non garantisce che l'intera API sia priva di problemi.",
+    },
   },
 
   // Comparison Panel

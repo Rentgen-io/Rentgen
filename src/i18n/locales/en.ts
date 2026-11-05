@@ -174,6 +174,18 @@ const en = {
     aiTestingTitle: 'Find tests the deterministic scan could not infer',
     aiTestingDescription: 'AI analyzes the run, suggests additional experiments, and Rentgen executes them.',
     runAiTesting: 'Run AI Testing',
+    resultsTitle: 'Test Results',
+    resultsDescription: 'Review bugs and failed checks first. Expand a test for request and response details.',
+    reviewFindings: 'Review Findings',
+    metric: {
+      bugs: 'An unexpected server error (HTTP 5xx) or execution error occurred. The API may have crashed or become unavailable. Review the request and response to find the cause.',
+      failed:
+        'The actual result did not match the expected result, or no response was received. Check the expectation, data mapping and API behavior to determine the cause.',
+      warnings:
+        'A potential risk or recommendation, often from a security check. Its importance depends on your API and use case. Review it to decide whether action is needed.',
+      passed:
+        'The actual result matched the expected result for this check. This test passed; it does not guarantee the entire API is free of issues.',
+    },
   },
 
   // Comparison Panel
