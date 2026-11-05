@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import { getTestsStatistics } from 'src/test-engine';
 
-const testResultLabels: string[][] = [
-  ['bugs', 'common.bugs', 'text-purple-500'],
-  ['failed', 'common.failed', 'text-red-500'],
-  ['warnings', 'common.warnings', 'text-yellow-500'],
-  ['passed', 'common.passed', 'text-green-500'],
+const testResultMetrics: string[][] = [
+  ['bugs', 'common.bugs', 'text-metric-bug'],
+  ['failed', 'common.failed', 'text-metric-fail'],
+  ['warnings', 'common.warnings', 'text-metric-warning'],
+  ['passed', 'common.passed', 'text-metric-pass'],
 ];
 
 export default function TestResultsSummary({
@@ -63,7 +63,7 @@ export default function TestResultsSummary({
         </div>
       </div>
       <div className="grid grid-cols-2 @xl:grid-cols-4 gap-2">
-        {testResultLabels.map(([key, label, color]) => (
+        {testResultMetrics.map(([key, label, color]) => (
           <div key={key} className="flex flex-col gap-2 py-3 px-4 border border-border rounded">
             <span className={cn('text-2xl font-semibold', color)}>{totals[key as keyof typeof totals]}</span>
             <span className="text-xs text-muted-foreground">{t(label)}</span>

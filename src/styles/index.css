@@ -44,6 +44,10 @@
   --color-test-warning: #fff9eb;
   --color-test-info: #f0f5fc;
   --color-test-bug: #f8f2fc;
+  --color-metric-pass: #17804b;
+  --color-metric-fail: #d74843;
+  --color-metric-warning: #a46c08;
+  --color-metric-bug: #9655c9;
 }
 
 .dark {
@@ -76,6 +80,10 @@
   --color-test-warning: #342d1c;
   --color-test-info: #202c3a;
   --color-test-bug: #2d2338;
+  --color-metric-pass: #6bdc99;
+  --color-metric-fail: #f28b82;
+  --color-metric-warning: #e9bc65;
+  --color-metric-bug: #c99bec;
 }
 
 @layer base {

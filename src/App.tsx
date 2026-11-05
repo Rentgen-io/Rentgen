@@ -205,10 +205,10 @@ export default function App() {
                         <span
                           className={twMerge(
                             cn('w-2 h-2 rounded-full shrink-0 bg-gray-400', {
-                              'bg-green-500': passed > 0 && failed === 0 && warnings === 0 && bugs === 0,
-                              'bg-yellow-500': warnings > 0 && failed === 0 && bugs === 0,
-                              'bg-red-500': failed > 0 && bugs === 0,
-                              'bg-purple-500': bugs > 0,
+                              'bg-metric-pass': passed > 0 && failed === 0 && warnings === 0 && bugs === 0,
+                              'bg-metric-warning': warnings > 0 && failed === 0 && bugs === 0,
+                              'bg-metric-fail': failed > 0 && bugs === 0,
+                              'bg-metric-bug': bugs > 0,
                             }),
                           )}
                         />
