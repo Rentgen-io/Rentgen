@@ -67,7 +67,7 @@ export default function TestRunnerBar() {
   return (
     <div className="relative flex flex-col gap-4 bg-surface py-3 px-4 border-b border-border">
       <div className="flex items-center justify-between gap-2">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4">
           <h5 className="m-0">{t('tests.testsTitle')}</h5>
           {!isResponseSuccessful && (
             <p className="m-0 text-xs text-muted-foreground">

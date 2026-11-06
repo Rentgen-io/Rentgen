@@ -8,8 +8,7 @@ import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import useTests from 'src/hooks/useTests';
 import { useAppSelector } from 'src/store/hooks';
 import { selectActiveAiProvider, selectTestOptions } from 'src/store/selectors';
-import { getMaskableFields, getSuggestedMaskedFields, RequestRedactor } from 'src/test-engine/AiReportCompactor';
-import { AI_RESPONSE_TIMEOUT_MS } from 'src/test-engine/AiTests';
+import { AI_RESPONSE_TIMEOUT_MS, getMaskableFields, getSuggestedMaskedFields, RequestRedactor } from 'src/test-engine';
 import { createHttpRequest } from 'src/utils';
 
 const PREVIEW_EDITOR_OPTIONS = { folding: false, lineNumbers: 'off' } as const;

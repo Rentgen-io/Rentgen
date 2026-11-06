@@ -23,7 +23,11 @@ import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import ParametersPanel from '../parameters/ParametersPanel';
 
-export default function HttpResponsePanel() {
+interface Props {
+  showParameters?: boolean;
+}
+
+export default function HttpResponsePanel({ showParameters = true }: Props) {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -61,14 +65,15 @@ export default function HttpResponsePanel() {
   const isNetworkError = httpResponse?.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
   const hasBodyParameters = Object.keys(bodyParameters).length > 0;
   const hasQueryParameters = Object.keys(queryParameters).length > 0;
-  const hasParameters = hasBodyParameters || hasQueryParameters;
+  const hasParameters = showParameters && (hasBodyParameters || hasQueryParameters);
 
   return (
     <Panel
       title={
         <div className="flex items-center justify-between gap-4 py-3 pr-4 text-sm font-medium text-muted-foreground">
           <span className="flex-auto text-foreground">
-            {t('response.title')} {hasParameters && '/ ' + t('tests.parameters')}
+            {t('response.title')}
+            {hasParameters && ' / ' + t('tests.parameters')}
           </span>
           {isSending ? (
             <LoaderWithText

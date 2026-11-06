@@ -66,7 +66,7 @@ export default function Sidebar() {
     <div
       className={cn('h-screen sticky top-0 flex bg-surface border-r border-border', {
         'w-20': !activeTab,
-        'w-100': activeTab,
+        'w-95': activeTab,
       })}
     >
       <div className="w-20 shrink-0 flex flex-col justify-between">
@@ -110,7 +110,7 @@ export default function Sidebar() {
         </div>
       </div>
       <div className="border-l border-border overflow-hidden">
-        <div className="max-h-screen h-full w-80 flex flex-col overflow-hidden">
+        <div className="max-h-screen h-full w-75 flex flex-col overflow-hidden">
           {sidebarPanels.map(({ tab, Component }) => (
             <div
               key={tab}

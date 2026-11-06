@@ -10,6 +10,10 @@ export const selectMethod = (state: RootState) => state.request.method;
 export const selectMode = (state: RootState) => state.request.mode;
 export const selectQueryParameters = (state: RootState) => state.request.queryParameters;
 export const selectUrl = (state: RootState) => state.request.url;
+export const selectPreEvaluationDisabled = createSelector(
+  [selectUrl, selectIsSending, selectMethod],
+  (url, isSending, method) => !url || isSending || ['GET', 'HEAD'].includes(method),
+);
 export const selectIsRequestDisabled = createSelector(
   [selectUrl, selectIsRunningTests],
   (url, isRunningTests) => !url || isRunningTests,
