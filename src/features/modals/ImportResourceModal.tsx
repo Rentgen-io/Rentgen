@@ -94,11 +94,11 @@ export default function ImportResourceModal() {
 
   return (
     <Modal isOpen={openImportResourceModal} onClose={handleClose}>
-      <IconButton className="absolute top-2.5 right-3" onClick={handleClose}>
+      <IconButton className="absolute top-2.25 right-3" onClick={handleClose}>
         <ClearCrossIcon className="h-5 w-5" />
       </IconButton>
       <div className="flex flex-col gap-4">
-        <h4 className="m-0">{t('common.import')}</h4>
+        <h5 className="m-0">{t('common.import')}</h5>
         <div className="relative flex flex-col gap-2 min-h-60 leading-0">
           {isImporting && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-500/10 dark:bg-gray-500/20 z-10">
@@ -122,7 +122,7 @@ export default function ImportResourceModal() {
             <div
               className={cn(
                 'flex flex-auto flex-col items-center justify-center gap-1 border border-dashed text-xs leading-normal select-none',
-                isDragging ? 'bg-gray-500/10 dark:bg-gray-500/20' : 'border-border dark:border-dark-input',
+                isDragging ? 'bg-gray-500/10 dark:bg-gray-500/20' : 'border-border',
               )}
               onDragEnter={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -130,13 +130,13 @@ export default function ImportResourceModal() {
               onDrop={handleDrop}
             >
               <span className="font-medium">{t('curl.dropAnywhereToImport')}</span>
-              <span className="text-text-secondary">
+              <span className="text-muted-foreground">
                 <Trans
                   i18nKey="curl.orSelectFile"
                   components={{
                     file: (
                       <span
-                        className="text-button-primary hover:underline cursor-pointer"
+                        className="text-blue-500 hover:underline cursor-pointer"
                         onClick={() => fileInputRef.current?.click()}
                       />
                     ),
@@ -147,7 +147,7 @@ export default function ImportResourceModal() {
             </div>
           )}
         </div>
-        <div className="text-xs text-text-secondary">
+        <div className="text-xs text-muted-foreground">
           {value ? (
             <Trans
               i18nKey="curl.pressEnterToImport"

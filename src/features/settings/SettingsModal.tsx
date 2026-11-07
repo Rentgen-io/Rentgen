@@ -55,7 +55,7 @@ export default function SettingsModal() {
       icon: <ThemeIcon className="h-4 w-4" />,
       component: (
         <>
-          <p className="m-0 text-xs text-text-secondary">{t('settings.themesDescription')}</p>
+          <p className="m-0 text-xs text-muted-foreground">{t('settings.themesDescription')}</p>
           <ThemeSettings />
         </>
       ),
@@ -79,20 +79,20 @@ export default function SettingsModal() {
       className="[&>div]:h-[84vh] [&>div]:max-h-210 [&>div]:w-full! [&>div]:max-w-211.5! [&>div]:p-0! [&>div]:overflow-hidden"
       isOpen={isOpen}
     >
-      <IconButton className="absolute top-2.5 right-3" onClick={onClose}>
+      <IconButton className="absolute top-2.25 right-3" onClick={onClose}>
         <ClearCrossIcon className="h-5 w-5" />
       </IconButton>
       <Tabs
         className="h-full flex"
         defaultIndex={activeTab}
-        selectedTabClassName="bg-white dark:bg-dark-body cursor-default!"
+        selectedTabClassName="bg-background cursor-default!"
         selectedTabPanelClassName="block!"
       >
-        <TabList className="min-w-40 flex flex-col m-0 p-0 bg-button-secondary dark:bg-dark-input">
+        <TabList className="min-w-40 flex flex-col m-0 p-0 bg-surface">
           {settingsTabs.map(({ name, icon }) => (
             <Tab
               key={name}
-              className="flex items-center gap-2 py-3 px-4 text-sm list-none outline-none cursor-pointer hover:bg-white dark:hover:bg-dark-body"
+              className="flex items-center gap-2 py-3 px-4 text-sm list-none outline-none cursor-pointer hover:bg-background"
             >
               {icon}
               {name}

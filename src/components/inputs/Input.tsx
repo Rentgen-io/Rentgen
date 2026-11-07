@@ -13,8 +13,7 @@ export default function Input({
       className={twMerge(
         cn(
           { 'opacity-50': disabled },
-          'm-0 py-2 px-3 text-xs font-monospace text-text border border-border box-border outline-none',
-          'dark:text-dark-text dark:bg-dark-input dark:border-dark-border dark:placeholder:text-text-secondary',
+          'm-0 py-2 px-3 text-xs font-monospace text-foreground placeholder:text-muted-foreground bg-background border border-border rounded box-border outline-none',
           className,
         ),
       )}

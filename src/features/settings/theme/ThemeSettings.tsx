@@ -25,18 +25,12 @@ export function ThemeSettings() {
   };
 
   return (
-    <div className="flex border border-border dark:border-dark-border divide-x divide-border dark:divide-dark-border overflow-hidden">
+    <div className="flex gap-2">
       {themes.map(({ Image, label, value }) => (
-        <label
-          key={value}
-          className={cn(
-            'flex-1 flex flex-col gap-2 p-3 hover:bg-button-secondary dark:hover:bg-dark-input cursor-pointer',
-            { 'bg-button-secondary': value === theme, 'dark:bg-dark-input': value === theme },
-          )}
-        >
+        <label key={value} className="flex-1 flex flex-col gap-2 cursor-pointer">
           <Image
-            className={cn('p-0.5 border-2', {
-              'border-amber-600': value === theme,
+            className={cn('p-0.5 border-2 rounded', {
+              'border-primary': value === theme,
               'border-transparent': value !== theme,
             })}
           />

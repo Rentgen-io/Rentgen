@@ -6,6 +6,7 @@ interface UIState {
   exportFormat: ReportFormat;
   showLicenseSettings: boolean;
   sidebarActiveTab: SidebarTab;
+  testingModeActiveTab: number;
   testsActiveTab: number;
 }
 
@@ -14,7 +15,8 @@ const initialState: UIState = {
   exportFormat: 'json',
   showLicenseSettings: false,
   sidebarActiveTab: 'collections',
-  testsActiveTab: 0,
+  testingModeActiveTab: 0,
+  testsActiveTab: 1,
 };
 
 export const uiSlice = createSlice({
@@ -33,10 +35,13 @@ export const uiSlice = createSlice({
     setSidebarActiveTab: (state, action: PayloadAction<SidebarTab>) => {
       state.sidebarActiveTab = action.payload;
     },
+    setTestingModeActiveTab: (state, action: PayloadAction<number>) => {
+      state.testingModeActiveTab = action.payload;
+    },
     setTestsActiveTab: (state, action: PayloadAction<number>) => {
       state.testsActiveTab = action.payload;
     },
-    toggleSidebarTab: (state, action: PayloadAction<'collections' | 'environments' | 'history'>) => {
+    toggleSidebarTab: (state, action: PayloadAction<SidebarTab>) => {
       state.sidebarActiveTab = state.sidebarActiveTab === action.payload ? null : action.payload;
     },
   },

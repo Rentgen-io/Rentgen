@@ -33,7 +33,7 @@ export function CopyButton({
   function copyToClipboard() {
     navigator.clipboard
       .writeText(textToCopy)
-      .then(() => notify.info(t('common.copied'), { toastId: 'info-copy' }))
+      .then(() => notify.success(t('common.copied'), { toastId: 'info-copy' }))
       .catch(() => {
         notify.error(t('common.failedCopy'), { toastId: 'error-copy' });
       });

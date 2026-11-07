@@ -5,7 +5,6 @@ const id = {
     save: 'Simpan',
     saved: 'Tersimpan',
     cancel: 'Batal',
-    cancelled: 'Dibatalkan',
     close: 'Tutup',
     ok: 'OK',
     create: 'Buat',
@@ -26,7 +25,6 @@ const id = {
     connect: 'Hubungkan',
     disconnect: 'Putuskan',
     beautify: 'Rapikan',
-    reload: 'Muat ulang',
     cut: 'Potong',
     paste: 'Tempel',
     enable: 'Aktifkan',
@@ -47,6 +45,7 @@ const id = {
     duplicate: 'Duplikat',
     add: 'Tambah',
     back: 'Kembali',
+    stop: 'Hentikan',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const id = {
     newEnvironment: 'Lingkungan Baru',
     editEnvironment: 'Edit Lingkungan',
     noEnvironmentsCreated: 'Belum ada lingkungan dibuat',
-    environmentName: 'Nama Lingkungan',
+    environmentName: 'Nama',
     environmentNamePlaceholder: 'mis. Production, Staging, Local',
     color: 'Warna',
     variables: 'Variabel',
-    variableName: 'Nama Variabel',
+    variableName: 'Variabel',
     addVariable: 'Tambah variabel',
     value: 'Nilai',
-    refreshValue: 'Segarkan nilai',
-    refreshAll: 'Segarkan Semua',
     noEnvironment: 'Tanpa Lingkungan',
     selectEnvironment: 'Pilih Lingkungan',
     randomEmail: 'Email acak',
@@ -110,6 +107,7 @@ const id = {
 
   // Request
   request: {
+    untitledRequest: 'Permintaan Tanpa Judul',
     enterUrl: 'Masukkan URL atau tempel teks',
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +124,8 @@ const id = {
     title: 'Respons',
     sending: 'Mengirim...',
     networkError: 'Galat Jaringan',
+    requestHint: 'Masukkan URL API, lalu kirim permintaan Anda.',
+    responseHint: 'Body respons, headers, dan waktu akan muncul di sini.',
   },
 
   // cURL
@@ -141,12 +141,15 @@ const id = {
 
   // Tests
   tests: {
+    apiTesting: 'Pengujian API',
+    testsTitle: 'Tes',
+    testsHint: 'Kirim permintaan untuk menghasilkan tes dari responsnya.',
+    testsUnavailable: 'Pembuatan tes memerlukan respons yang berhasil (HTTP 2xx atau 3xx).',
     generateAndRun: 'Hasilkan & Jalankan Tes',
     runningTests: 'Menjalankan tes... ({{current}}/{{total}})',
     noTestsGenerated: 'Tidak ada tes yang dihasilkan',
     selectForCompare: 'Pilih untuk Bandingkan',
     compareWithSelected: 'Bandingkan dengan Pilihan',
-    exportFormat: 'Format',
     generateCertificate: 'Hasilkan Sertifikat',
     notEligible: 'Tidak memenuhi syarat (minimal 70 tes diperlukan)',
     failedToExport: 'Gagal mengekspor laporan',
@@ -168,10 +171,23 @@ const id = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Format',
-    aiTesting: 'Pengujian AI Lebih Dalam',
+    aiTesting: 'Pengujian AI',
     aiTestingTitle: 'Temukan pengujian yang tidak dapat disimpulkan oleh pemindaian deterministik',
     aiTestingDescription: 'AI menganalisis proses, menyarankan eksperimen tambahan, dan Rentgen menjalankannya.',
     runAiTesting: 'Jalankan Pengujian AI',
+    resultsTitle: 'Hasil Tes',
+    resultsDescription:
+      'Tinjau bug dan pemeriksaan yang gagal terlebih dahulu. Bentangkan tes untuk melihat detail permintaan dan respons.',
+    reviewFindings: 'Tinjau Temuan',
+    metric: {
+      bugs: 'Terjadi kesalahan server tak terduga (HTTP 5xx) atau kesalahan eksekusi. API mungkin mengalami crash atau tidak tersedia. Tinjau permintaan dan respons untuk menemukan penyebabnya.',
+      failed:
+        'Hasil aktual tidak sesuai dengan hasil yang diharapkan, atau tidak ada respons yang diterima. Periksa ekspektasi, pemetaan data, dan perilaku API untuk menentukan penyebabnya.',
+      warnings:
+        'Potensi risiko atau rekomendasi, sering kali dari pemeriksaan keamanan. Tingkat kepentingannya bergantung pada API dan kasus penggunaan Anda. Tinjau untuk memutuskan apakah perlu tindakan.',
+      passed:
+        'Hasil aktual sesuai dengan hasil yang diharapkan untuk pemeriksaan ini. Tes ini lulus; ini tidak menjamin seluruh API bebas dari masalah.',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +196,7 @@ const id = {
     noTestResults: 'Tidak ada hasil tes untuk dibandingkan',
     potentialBugs: 'Potensi Bug',
     fullBehaviorChanges: 'Perubahan Perilaku Penuh',
-    noPotentialBugs: 'Tidak ada potensi bug terdeteksi ✅',
+    noPotentialBugs: 'Tidak ada potensi bug terdeteksi',
     showFullBehaviorChanges: 'Tampilkan Perubahan Perilaku Penuh',
     behaviorChange: 'Perubahan Perilaku:',
     showNoise: 'Tampilkan noise',
@@ -360,7 +376,6 @@ const id = {
         notInstalledDescription: 'Klik <e>Pasang</e> di bawah untuk menambahkan <c>rentgen</c> ke PATH shell Anda.',
       },
       action: {
-        working: 'Memproses...',
         uninstall: 'Hapus CLI',
         reinstall: 'Pasang Ulang',
         installRentgenInPath: 'Pasang perintah rentgen di PATH',
@@ -442,7 +457,6 @@ const id = {
       description: 'Aktifkan atau nonaktifkan wawasan performa individual untuk mengustomisasi pengalaman tes Anda.',
     },
     languageSection: {
-      title: 'Bahasa',
       description: 'Pilih bahasa pilihan Anda untuk antarmuka aplikasi.',
       feedback:
         'Menemukan masalah terjemahan atau ingin menambahkan bahasa lain? Buat tiket dengan semua detailnya dan kami akan melakukan yang terbaik.',
@@ -522,12 +536,6 @@ const id = {
     noChecksum: 'Tanpa checksum',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Pilih File',
-    noFileChosen: 'Tidak ada file dipilih',
-  },
-
   // Messages panel
   messages: {
     title: 'Pesan',
@@ -555,6 +563,26 @@ const id = {
     evidence: 'Bukti',
     impact: 'Dampak',
     needsInvestigation: 'Perlu diselidiki',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'Pra-Evaluasi LLM',
+    description:
+      'Assertion demo adalah contoh yang dapat diedit. Sesuaikan dengan bahasa dan kata-kata penolakan model Anda. Pencocokan mengabaikan huruf besar/kecil dan menganggap apostrof lurus dan tipografis setara. OR melarang salah satu frasa yang terdaftar; AND melarang semua frasa jika muncul bersamaan.',
+    runEachQuestion: 'Setiap pertanyaan dijalankan terhadap permintaan saat ini dan environment yang dipilih.',
+    saveRequestMessage: 'Simpan permintaan ini ke koleksi untuk menyimpan evaluasi dan laporannya.',
+    run: 'Jalankan Pra-Evaluasi',
+    userPromptField: 'Bidang prompt pengguna',
+    userPromptPlaceholder: 'Pilih bidang JSON',
+    responseTextField: 'Bidang teks respons',
+    responseTextPlaceholder: 'Seluruh body, atau /choices/0/message/content',
+    iterationsPerQuestion: 'Iterasi per pertanyaan',
+    addQuestion: 'Tambah Pertanyaan',
+    importCSV: 'Impor CSV',
+    downloadCSVExample: 'Unduh Contoh CSV',
+    jsonBodyRequirement:
+      'Body JSON dengan string prompt pengguna diperlukan. Pesan sistem dan developer tidak dapat dipilih.',
   },
 };
 

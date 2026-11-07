@@ -1,5 +1,5 @@
-import cn from 'classnames';
 import { HTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 import Loader from './Loader';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -8,7 +8,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 export default function LoaderWithText({ className, text, ...otherProps }: Props) {
   return (
-    <div className={cn('w-full flex items-center gap-2 text-sm box-border', className)} {...otherProps}>
+    <div className={twMerge('w-full flex items-center gap-2 text-sm box-border', className)} {...otherProps}>
       <Loader />
       {text}
     </div>

@@ -1,6 +1,8 @@
-import cn from 'classnames';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
+import { MAX_JSON_HIGHLIGHT_LENGTH, shouldHighlightJson } from 'src/components/highlighters/VariableHighlighter';
 import HighlightedTextarea from 'src/components/inputs/HighlightedTextarea';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -12,48 +14,69 @@ import {
   selectVariableNames,
 } from 'src/store/selectors';
 import { requestActions } from 'src/store/slices/requestSlice';
-import { formatBody, parseHeaders } from 'src/utils';
+import { formatBody, getHeaderValue, parseHeaders } from 'src/utils';
 
 export default function RequestEditors() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const { autoSaveRequest } = useSaveRequest();
 
-  const mode = useAppSelector(selectMode);
-  const headers = useAppSelector(selectHeaders);
   const body = useAppSelector(selectBody);
+  const headers = useAppSelector(selectHeaders);
+  const mode = useAppSelector(selectMode);
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
   const variables = useAppSelector(selectVariableNames);
 
-  const { autoSaveRequest } = useSaveRequest();
+  const isWssMode = mode === 'WSS';
+
+  const [activeTab, setActiveTab] = useState<number>(isWssMode ? 1 : 0);
+
+  useEffect(() => {
+    setActiveTab(isWssMode ? 1 : 0);
+  }, [isWssMode]);
 
   return (
-    <div
-      className={cn(
-        'flex flex-col gap-4',
-        '@2xl:divide-x @2xl:divide-border @2xl:bg-white @2xl:grid @2xl:grid-cols-2 @2xl:items-stretch @2xl:gap-0 @2xl:border @2xl:border-border',
-        '@2xl:dark:divide-dark-body @2xl:dark:bg-dark-input @2xl:dark:border-dark-border',
-      )}
+    <Tabs
+      className="border-b border-border"
+      forceRenderTabPanel
+      selectedIndex={activeTab}
+      selectedTabClassName="text-foreground border-primary! cursor-default!"
+      selectedTabPanelClassName="block!"
+      onSelect={(index) => {
+        setActiveTab(index);
+      }}
     >
-      <div className="flex flex-col gap-2">
-        <label className="@2xl:p-3 @2xl:pb-0 font-bold text-sm">{t('request.headers')}</label>
-        <HighlightedTextarea
-          className="@2xl:border-none"
-          highlightColor={selectedEnvironment?.color}
-          maxRows={15}
-          placeholder={t('request.headersPlaceholder')}
-          value={headers}
-          variables={variables}
-          onBlur={autoSaveRequest}
-          onChange={(event) => dispatch(requestActions.setHeaders(event.target.value))}
-        />
-      </div>
-
-      <div className="@2xl:relative flex flex-col gap-2">
-        <label className="@2xl:p-3 @2xl:pb-0 font-bold text-sm">{t('request.body')}</label>
-        <div className="relative @2xl:static">
+      <TabList className="flex gap-4 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
+        <Tab className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer">
+          {t('request.headers')} {headers.trim() && <span className="h-1.5 w-1.5 bg-primary rounded-full" />}
+        </Tab>
+        <Tab className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer">
+          {t('request.body')} {body.trim() && <span className="h-1.5 w-1.5 bg-primary rounded-full" />}
+        </Tab>
+      </TabList>
+      <TabPanel className="hidden">
+        <div className="flex flex-col gap-2 px-1">
           <HighlightedTextarea
-            className="@2xl:border-none"
+            className="border-none"
             highlightColor={selectedEnvironment?.color}
+            maxRows={15}
+            placeholder={t('request.headersPlaceholder')}
+            value={headers}
+            variables={variables}
+            onBlur={autoSaveRequest}
+            onChange={(event) => dispatch(requestActions.setHeaders(event.target.value))}
+          />
+        </div>
+      </TabPanel>
+      <TabPanel className="hidden">
+        <div className="relative flex flex-col gap-2 px-1">
+          <HighlightedTextarea
+            className="border-none"
+            highlightColor={selectedEnvironment?.color}
+            highlightJson={
+              body.length <= MAX_JSON_HIGHLIGHT_LENGTH &&
+              shouldHighlightJson(body, getHeaderValue(parseHeaders(headers), 'content-type'))
+            }
             maxRows={15}
             placeholder={mode === 'HTTP' ? t('request.bodyPlaceholderHttp') : t('request.bodyPlaceholderWss')}
             value={body}
@@ -71,7 +94,7 @@ export default function RequestEditors() {
             {t('common.beautify')}
           </Button>
         </div>
-      </div>
-    </div>
+      </TabPanel>
+    </Tabs>
   );
 }

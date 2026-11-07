@@ -5,7 +5,6 @@ const es = {
     save: 'Guardar',
     saved: 'Guardado',
     cancel: 'Cancelar',
-    cancelled: 'Cancelado',
     close: 'Cerrar',
     ok: 'OK',
     create: 'Crear',
@@ -26,7 +25,6 @@ const es = {
     connect: 'Conectar',
     disconnect: 'Desconectar',
     beautify: 'Formatear',
-    reload: 'Recargar',
     cut: 'Cortar',
     paste: 'Pegar',
     enable: 'Activar',
@@ -47,6 +45,7 @@ const es = {
     duplicate: 'Duplicar',
     add: 'Añadir',
     back: 'Atrás',
+    stop: 'Detener',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const es = {
     newEnvironment: 'Nuevo entorno',
     editEnvironment: 'Editar entorno',
     noEnvironmentsCreated: 'No se han creado entornos',
-    environmentName: 'Nombre del entorno',
+    environmentName: 'Nombre',
     environmentNamePlaceholder: 'ej., Producción, Staging, Local',
     color: 'Color',
     variables: 'Variables',
-    variableName: 'Nombre de variable',
+    variableName: 'Variable',
     addVariable: 'Añadir variable',
     value: 'Valor',
-    refreshValue: 'Actualizar valor',
-    refreshAll: 'Actualizar todo',
     noEnvironment: 'Sin entorno',
     selectEnvironment: 'Seleccionar entorno',
     randomEmail: 'Email aleatorio',
@@ -110,6 +107,7 @@ const es = {
 
   // Request
   request: {
+    untitledRequest: 'Solicitud sin título',
     enterUrl: 'Introduce una URL o pega texto',
     headers: 'Cabeceras',
     headersPlaceholder: 'Clave-Cabecera: valor',
@@ -126,6 +124,8 @@ const es = {
     title: 'Respuesta',
     sending: 'Enviando...',
     networkError: 'Error de red',
+    requestHint: 'Introduce una URL de API y luego envía tu solicitud.',
+    responseHint: 'El cuerpo de la respuesta, las cabeceras y los tiempos aparecerán aquí.',
   },
 
   // cURL
@@ -141,12 +141,15 @@ const es = {
 
   // Tests
   tests: {
+    apiTesting: 'Pruebas de API',
+    testsTitle: 'Pruebas',
+    testsHint: 'Envía una solicitud para generar pruebas a partir de su respuesta.',
+    testsUnavailable: 'La generación de pruebas requiere una respuesta correcta (HTTP 2xx o 3xx).',
     generateAndRun: 'Generar y ejecutar pruebas',
     runningTests: 'Ejecutando pruebas... ({{current}}/{{total}})',
     noTestsGenerated: 'No se generaron pruebas',
     selectForCompare: 'Seleccionar para comparar',
     compareWithSelected: 'Comparar con seleccionado',
-    exportFormat: 'Formato',
     generateCertificate: 'Generar certificado',
     notEligible: 'No elegible (se necesitan al menos 70 pruebas)',
     failedToExport: 'No se pudo exportar el informe',
@@ -169,10 +172,23 @@ const es = {
     bodyParameters: 'Cuerpo',
     queryParameters: 'Consulta',
     formatPlaceholder: 'Formato',
-    aiTesting: 'Pruebas de IA más profundas',
+    aiTesting: 'Pruebas de IA',
     aiTestingTitle: 'Encuentra pruebas que el análisis determinista no pudo inferir',
     aiTestingDescription: 'La IA analiza la ejecución, sugiere experimentos adicionales y Rentgen los ejecuta.',
     runAiTesting: 'Ejecutar pruebas de IA',
+    resultsTitle: 'Resultados de las pruebas',
+    resultsDescription:
+      'Revisa primero los bugs y las comprobaciones fallidas. Expande una prueba para ver los detalles de la solicitud y la respuesta.',
+    reviewFindings: 'Revisar hallazgos',
+    metric: {
+      bugs: 'Se produjo un error inesperado del servidor (HTTP 5xx) o un error de ejecución. Es posible que la API haya fallado o no esté disponible. Revisa la solicitud y la respuesta para encontrar la causa.',
+      failed:
+        'El resultado real no coincidió con el esperado o no se recibió ninguna respuesta. Revisa la expectativa, el mapeo de datos y el comportamiento de la API para determinar la causa.',
+      warnings:
+        'Un posible riesgo o recomendación, a menudo de una comprobación de seguridad. Su importancia depende de tu API y caso de uso. Revísalo para decidir si es necesario actuar.',
+      passed:
+        'El resultado real coincidió con el esperado para esta comprobación. Esta prueba se superó; no garantiza que toda la API esté libre de problemas.',
+    },
   },
 
   // Comparison Panel
@@ -181,7 +197,7 @@ const es = {
     noTestResults: 'No hay resultados de pruebas para comparar',
     potentialBugs: 'Errores potenciales',
     fullBehaviorChanges: 'Cambios completos de comportamiento',
-    noPotentialBugs: 'No se detectaron errores potenciales ✅',
+    noPotentialBugs: 'No se detectaron errores potenciales',
     showFullBehaviorChanges: 'Mostrar cambios completos de comportamiento',
     behaviorChange: 'Cambio de comportamiento:',
     showNoise: 'Mostrar ruido',
@@ -365,7 +381,6 @@ const es = {
         notInstalledDescription: 'Haz clic en <e>Instalar</e> abajo para añadir <c>rentgen</c> a tu shell PATH.',
       },
       action: {
-        working: 'Trabajando...',
         uninstall: 'Desinstalar CLI',
         reinstall: 'Reinstalar',
         installRentgenInPath: 'Instalar comando rentgen en PATH',
@@ -448,7 +463,6 @@ const es = {
         'Activa o desactiva análisis de rendimiento individuales para personalizar tu experiencia de pruebas.',
     },
     languageSection: {
-      title: 'Idioma',
       description: 'Selecciona tu idioma preferido para la interfaz de la aplicación.',
       feedback:
         '¿Encontraste un problema de traducción o quieres añadir otro idioma? Crea un ticket con todos los detalles y haremos lo posible.',
@@ -529,12 +543,6 @@ const es = {
     noChecksum: 'Sin checksum',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Elegir archivo',
-    noFileChosen: 'Ningún archivo elegido',
-  },
-
   // Messages panel
   messages: {
     title: 'Mensajes',
@@ -562,6 +570,26 @@ const es = {
     evidence: 'Evidencia',
     impact: 'Impacto',
     needsInvestigation: 'Requiere investigación',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'Preevaluación de LLM',
+    description:
+      'Las aserciones de demostración son ejemplos editables. Adáptalas al idioma y a la redacción de rechazo de tu modelo. La coincidencia ignora mayúsculas y minúsculas y trata los apóstrofos rectos y tipográficos como equivalentes. OR prohíbe cualquiera de las frases indicadas; AND prohíbe todas las frases cuando aparecen juntas.',
+    runEachQuestion: 'Cada pregunta se ejecuta con la solicitud actual y el entorno seleccionado.',
+    saveRequestMessage: 'Guarda esta solicitud en una colección para conservar su evaluación e informe.',
+    run: 'Ejecutar preevaluación',
+    userPromptField: 'Campo del prompt del usuario',
+    userPromptPlaceholder: 'Seleccionar campo JSON',
+    responseTextField: 'Campo del texto de respuesta',
+    responseTextPlaceholder: 'Cuerpo completo o /choices/0/message/content',
+    iterationsPerQuestion: 'Iteraciones por pregunta',
+    addQuestion: 'Añadir pregunta',
+    importCSV: 'Importar CSV',
+    downloadCSVExample: 'Descargar ejemplo de CSV',
+    jsonBodyRequirement:
+      'Se requiere un cuerpo JSON con una cadena de prompt de usuario. No se pueden seleccionar mensajes de sistema ni de desarrollador.',
   },
 };
 

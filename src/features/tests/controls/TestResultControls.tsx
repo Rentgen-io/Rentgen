@@ -107,7 +107,7 @@ function renderControl(
 
       return (
         <CopyButton
-          className="text-[13px] leading-normal font-normal text-button-primary! hover:text-button-primary/80! bg-transparent! border-0"
+          className="text-[13px] leading-normal font-normal text-blue-500! hover:underline bg-transparent! border-0"
           textToCopy={filledTemplate}
         >
           {t('tests.copyBugReport')}

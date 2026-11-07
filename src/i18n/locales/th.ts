@@ -5,7 +5,6 @@ const th = {
     save: 'บันทึก',
     saved: 'บันทึกแล้ว',
     cancel: 'ยกเลิก',
-    cancelled: 'ยกเลิกแล้ว',
     close: 'ปิด',
     ok: 'ตกลง',
     create: 'สร้าง',
@@ -26,7 +25,6 @@ const th = {
     connect: 'เชื่อมต่อ',
     disconnect: 'ตัดการเชื่อมต่อ',
     beautify: 'จัดรูปแบบ',
-    reload: 'โหลดใหม่',
     cut: 'ตัด',
     paste: 'วาง',
     enable: 'เปิดใช้งาน',
@@ -47,6 +45,7 @@ const th = {
     duplicate: 'ทำสำเนา',
     add: 'เพิ่ม',
     back: 'ย้อนกลับ',
+    stop: 'หยุด',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const th = {
     newEnvironment: 'เอนไวรอนเมนต์ใหม่',
     editEnvironment: 'แก้ไขเอนไวรอนเมนต์',
     noEnvironmentsCreated: 'ยังไม่มีการสร้างเอนไวรอนเมนต์',
-    environmentName: 'ชื่อเอนไวรอนเมนต์',
+    environmentName: 'ชื่อ',
     environmentNamePlaceholder: 'เช่น Production, Staging, Local',
     color: 'สี',
     variables: 'ตัวแปร',
-    variableName: 'ชื่อตัวแปร',
+    variableName: 'ตัวแปร',
     addVariable: 'เพิ่มตัวแปร',
     value: 'ค่า',
-    refreshValue: 'รีเฟรชค่า',
-    refreshAll: 'รีเฟรชทั้งหมด',
     noEnvironment: 'ไม่มีเอนไวรอนเมนต์',
     selectEnvironment: 'เลือกเอนไวรอนเมนต์',
     randomEmail: 'อีเมลสุ่ม',
@@ -110,6 +107,7 @@ const th = {
 
   // Request
   request: {
+    untitledRequest: 'คำขอที่ไม่มีชื่อ',
     enterUrl: 'ป้อน URL หรือวางข้อความ',
     headers: 'เฮดเดอร์',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +124,8 @@ const th = {
     title: 'การตอบกลับ',
     sending: 'กำลังส่ง...',
     networkError: 'ข้อผิดพลาดเครือข่าย',
+    requestHint: 'ป้อน URL ของ API แล้วส่งคำขอของคุณ',
+    responseHint: 'บอดี้ของการตอบกลับ เฮดเดอร์ และเวลาจะแสดงที่นี่',
   },
 
   // cURL
@@ -141,12 +141,15 @@ const th = {
 
   // Tests
   tests: {
+    apiTesting: 'การทดสอบ API',
+    testsTitle: 'การทดสอบ',
+    testsHint: 'ส่งคำขอเพื่อสร้างเทสต์จากการตอบกลับ',
+    testsUnavailable: 'การสร้างเทสต์ต้องใช้การตอบกลับที่สำเร็จ (HTTP 2xx หรือ 3xx)',
     generateAndRun: 'สร้างและรันเทสต์',
     runningTests: 'กำลังรันเทสต์... ({{current}}/{{total}})',
     noTestsGenerated: 'ไม่มีการสร้างเทสต์',
     selectForCompare: 'เลือกเพื่อเปรียบเทียบ',
     compareWithSelected: 'เปรียบเทียบกับที่เลือก',
-    exportFormat: 'รูปแบบ',
     generateCertificate: 'สร้างใบรับรอง',
     notEligible: 'ไม่ผ่านเกณฑ์ (ต้องมีอย่างน้อย 70 เทสต์)',
     failedToExport: 'ส่งออกรายงานไม่สำเร็จ',
@@ -168,10 +171,22 @@ const th = {
     bodyParameters: 'บอดี้',
     queryParameters: 'Query',
     formatPlaceholder: 'รูปแบบ',
-    aiTesting: 'การทดสอบด้วย AI เชิงลึก',
+    aiTesting: 'การทดสอบด้วย AI',
     aiTestingTitle: 'ค้นหาการทดสอบที่การสแกนแบบกำหนดได้ไม่สามารถอนุมานได้',
     aiTestingDescription: 'AI วิเคราะห์การรัน แนะนำการทดลองเพิ่มเติม และ Rentgen จะดำเนินการให้',
     runAiTesting: 'เรียกใช้การทดสอบด้วย AI',
+    resultsTitle: 'ผลการทดสอบ',
+    resultsDescription: 'ตรวจสอบบั๊กและการตรวจสอบที่ล้มเหลวก่อน ขยายเทสต์เพื่อดูรายละเอียดคำขอและการตอบกลับ',
+    reviewFindings: 'ตรวจสอบสิ่งที่พบ',
+    metric: {
+      bugs: 'เกิดข้อผิดพลาดของเซิร์ฟเวอร์ที่ไม่คาดคิด (HTTP 5xx) หรือข้อผิดพลาดในการดำเนินการ API อาจล่มหรือไม่พร้อมใช้งาน ตรวจสอบคำขอและการตอบกลับเพื่อหาสาเหตุ',
+      failed:
+        'ผลลัพธ์จริงไม่ตรงกับผลลัพธ์ที่คาดไว้ หรือไม่ได้รับการตอบกลับ ตรวจสอบค่าที่คาดหวัง การแมปข้อมูล และพฤติกรรมของ API เพื่อหาสาเหตุ',
+      warnings:
+        'ความเสี่ยงที่อาจเกิดขึ้นหรือคำแนะนำ ซึ่งมักมาจากการตรวจสอบความปลอดภัย ความสำคัญขึ้นอยู่กับ API และกรณีการใช้งานของคุณ ตรวจสอบเพื่อตัดสินใจว่าต้องดำเนินการหรือไม่',
+      passed:
+        'ผลลัพธ์จริงตรงกับผลลัพธ์ที่คาดไว้สำหรับการตรวจสอบนี้ เทสต์นี้ผ่าน แต่ไม่ได้รับประกันว่า API ทั้งหมดจะไม่มีปัญหา',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +195,7 @@ const th = {
     noTestResults: 'ไม่มีผลลัพธ์เทสต์ให้เปรียบเทียบ',
     potentialBugs: 'บั๊กที่อาจเกิดขึ้น',
     fullBehaviorChanges: 'การเปลี่ยนแปลงพฤติกรรมทั้งหมด',
-    noPotentialBugs: 'ไม่พบบั๊กที่อาจเกิดขึ้น ✅',
+    noPotentialBugs: 'ไม่พบบั๊กที่อาจเกิดขึ้น',
     showFullBehaviorChanges: 'แสดงการเปลี่ยนแปลงพฤติกรรมทั้งหมด',
     behaviorChange: 'การเปลี่ยนแปลงพฤติกรรม:',
     showNoise: 'แสดง noise',
@@ -360,7 +375,6 @@ const th = {
         notInstalledDescription: 'คลิก <e>ติดตั้ง</e> ด้านล่างเพื่อเพิ่ม <c>rentgen</c> ลงใน shell PATH ของคุณ',
       },
       action: {
-        working: 'กำลังดำเนินการ...',
         uninstall: 'ถอนการติดตั้ง CLI',
         reinstall: 'ติดตั้งใหม่',
         installRentgenInPath: 'ติดตั้งคำสั่ง rentgen ลงใน PATH',
@@ -442,7 +456,6 @@ const th = {
       description: 'เปิดหรือปิดข้อมูลเชิงลึกประสิทธิภาพแต่ละรายการเพื่อปรับแต่งประสบการณ์การทดสอบของคุณ',
     },
     languageSection: {
-      title: 'ภาษา',
       description: 'เลือกภาษาที่คุณต้องการสำหรับอินเทอร์เฟซแอปพลิเคชัน',
       feedback:
         'พบปัญหาการแปลหรือต้องการเพิ่มภาษาอื่น? สร้าง ticket พร้อมรายละเอียดทั้งหมด แล้วเราจะพยายามอย่างเต็มที่',
@@ -522,12 +535,6 @@ const th = {
     noChecksum: 'ไม่มี checksum',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'เลือกไฟล์',
-    noFileChosen: 'ยังไม่ได้เลือกไฟล์',
-  },
-
   // Messages panel
   messages: {
     title: 'ข้อความ',
@@ -555,6 +562,25 @@ const th = {
     evidence: 'หลักฐาน',
     impact: 'ผลกระทบ',
     needsInvestigation: 'ต้องตรวจสอบเพิ่มเติม',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'การประเมินล่วงหน้าของ LLM',
+    description:
+      'Assertion ตัวอย่างเป็นตัวอย่างที่แก้ไขได้ ปรับให้เหมาะกับภาษาและถ้อยคำปฏิเสธของโมเดลของคุณ การจับคู่จะไม่สนใจตัวพิมพ์ใหญ่-เล็ก และถือว่าอัญประกาศเดี่ยวแบบตรงและแบบตัวพิมพ์เทียบเท่ากัน OR ห้ามวลีใดวลีหนึ่งที่ระบุไว้ ส่วน AND ห้ามเมื่อทุกวลีปรากฏร่วมกัน',
+    runEachQuestion: 'แต่ละคำถามจะทำงานกับคำขอปัจจุบันและสภาพแวดล้อมที่เลือก',
+    saveRequestMessage: 'บันทึกคำขอนี้ลงในคอลเลกชันเพื่อเก็บการประเมินและรายงาน',
+    run: 'เรียกใช้การประเมินล่วงหน้า',
+    userPromptField: 'ฟิลด์พรอมต์ของผู้ใช้',
+    userPromptPlaceholder: 'เลือกฟิลด์ JSON',
+    responseTextField: 'ฟิลด์ข้อความตอบกลับ',
+    responseTextPlaceholder: 'ทั้งเนื้อหา หรือ /choices/0/message/content',
+    iterationsPerQuestion: 'จำนวนรอบต่อคำถาม',
+    addQuestion: 'เพิ่มคำถาม',
+    importCSV: 'นำเข้า CSV',
+    downloadCSVExample: 'ดาวน์โหลดตัวอย่าง CSV',
+    jsonBodyRequirement: 'ต้องมี JSON body ที่มีสตริงพรอมต์ของผู้ใช้ ไม่สามารถเลือกข้อความระบบและข้อความนักพัฒนาได้',
   },
 };
 

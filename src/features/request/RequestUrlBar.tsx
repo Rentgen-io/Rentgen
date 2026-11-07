@@ -22,15 +22,15 @@ import {
 } from 'src/store/selectors';
 import { requestActions } from 'src/store/slices/requestSlice';
 
-const methodOptions: SelectOption<Method>[] = [
-  { value: 'GET', label: 'GET', className: 'text-method-get! dark:text-dark-method-get!' },
-  { value: 'POST', label: 'POST', className: 'text-method-post! dark:text-dark-method-post!' },
-  { value: 'PUT', label: 'PUT', className: 'text-method-put! dark:text-dark-method-put!' },
-  { value: 'PATCH', label: 'PATCH', className: 'text-method-patch! dark:text-dark-method-patch!' },
-  { value: 'DELETE', label: 'DELETE', className: 'text-method-delete! dark:text-dark-method-delete!' },
-  { value: 'HEAD', label: 'HEAD', className: 'text-method-head! dark:text-dark-method-head!' },
-  { value: 'QUERY', label: 'QUERY', className: 'text-method-query! dark:text-dark-method-query!' },
-  { value: 'OPTIONS', label: 'OPTIONS', className: 'text-method-options! dark:text-dark-method-options!' },
+const methodOptions: SelectOption<Method, string>[] = [
+  { value: 'GET', label: 'GET', className: 'text-method-get!' },
+  { value: 'POST', label: 'POST', className: 'text-method-post!' },
+  { value: 'PUT', label: 'PUT', className: 'text-method-put!' },
+  { value: 'PATCH', label: 'PATCH', className: 'text-method-patch!' },
+  { value: 'DELETE', label: 'DELETE', className: 'text-method-delete!' },
+  { value: 'HEAD', label: 'HEAD', className: 'text-method-head!' },
+  { value: 'QUERY', label: 'QUERY', className: 'text-method-query!' },
+  { value: 'OPTIONS', label: 'OPTIONS', className: 'text-method-options!' },
 ];
 
 export default function RequestUrlBar() {
@@ -51,13 +51,21 @@ export default function RequestUrlBar() {
   const { connect, disconnect, send } = useWssActions();
 
   return (
-    <div className="flex flex-col @lg:flex-row @lg:items-center gap-2">
-      <div className="flex-auto flex items-center">
+    <div className="flex flex-col @lg:flex-row @lg:items-center gap-2 py-3 px-4 border-0">
+      <div
+        className="flex-auto flex items-center"
+        onKeyDown={(event) => {
+          if (mode === 'HTTP' && event.key === 'Enter' && (event.metaKey || event.ctrlKey) && !disabled && !isSending) {
+            event.preventDefault();
+            sendHttpRequest();
+          }
+        }}
+      >
         {mode === 'HTTP' && (
           <CreatableSelect
             className="max-w-27.5 font-bold uppercase"
             classNames={{
-              control: () => 'dark:border-r-dark-body!',
+              control: () => 'border-r-0! rounded-r-none!',
               input: () => '[&>:first-child]:uppercase',
             }}
             menuPosition="absolute"
@@ -69,7 +77,7 @@ export default function RequestUrlBar() {
           />
         )}
         <HighlightedInput
-          className={cn('flex-auto', { 'border-l-0': mode === 'HTTP' })}
+          className={cn('flex-auto', { 'rounded-l-none': mode === 'HTTP' })}
           highlightColor={selectedEnvironment?.color}
           placeholder={t('request.enterUrl')}
           value={url}
@@ -85,7 +93,7 @@ export default function RequestUrlBar() {
               {t('common.cancel')}
             </Button>
           ) : (
-            <Button disabled={disabled} onClick={sendHttpRequest}>
+            <Button disabled={disabled} title={`${t('common.send')} (⌘ / Ctrl + Enter)`} onClick={sendHttpRequest}>
               {t('common.send')}
             </Button>
           )}
@@ -108,7 +116,11 @@ export default function RequestUrlBar() {
           >
             {wssConnected ? t('common.disconnect') : t('common.connect')}
           </Button>
-          <Button disabled={!wssConnected} onClick={send}>
+          <Button
+            buttonType={wssConnected ? ButtonType.PRIMARY : ButtonType.SECONDARY}
+            disabled={!wssConnected}
+            onClick={send}
+          >
             {t('common.send')}
           </Button>
         </>

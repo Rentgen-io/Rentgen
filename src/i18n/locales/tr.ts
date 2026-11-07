@@ -5,7 +5,6 @@ const tr = {
     save: 'Kaydet',
     saved: 'Kaydedildi',
     cancel: 'İptal',
-    cancelled: 'İptal edildi',
     close: 'Kapat',
     ok: 'Tamam',
     create: 'Oluştur',
@@ -26,7 +25,6 @@ const tr = {
     connect: 'Bağlan',
     disconnect: 'Bağlantıyı Kes',
     beautify: 'Güzelleştir',
-    reload: 'Yeniden Yükle',
     cut: 'Kes',
     paste: 'Yapıştır',
     enable: 'Etkinleştir',
@@ -47,6 +45,7 @@ const tr = {
     duplicate: 'Çoğalt',
     add: 'Ekle',
     back: 'Geri',
+    stop: 'Durdur',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const tr = {
     newEnvironment: 'Yeni Ortam',
     editEnvironment: 'Ortamı Düzenle',
     noEnvironmentsCreated: 'Oluşturulmuş ortam yok',
-    environmentName: 'Ortam Adı',
+    environmentName: 'Ad',
     environmentNamePlaceholder: 'örn. Production, Staging, Local',
     color: 'Renk',
     variables: 'Değişkenler',
-    variableName: 'Değişken Adı',
+    variableName: 'Değişken',
     addVariable: 'Değişken ekle',
     value: 'Değer',
-    refreshValue: 'Değeri yenile',
-    refreshAll: 'Tümünü Yenile',
     noEnvironment: 'Ortam Yok',
     selectEnvironment: 'Ortam Seçin',
     randomEmail: 'Rastgele e-posta',
@@ -110,6 +107,7 @@ const tr = {
 
   // Request
   request: {
+    untitledRequest: 'Adsız İstek',
     enterUrl: 'URL girin veya metin yapıştırın',
     headers: 'Başlıklar',
     headersPlaceholder: 'Başlık-Anahtar: değer',
@@ -126,6 +124,8 @@ const tr = {
     title: 'Yanıt',
     sending: 'Gönderiliyor...',
     networkError: 'Ağ Hatası',
+    requestHint: "Bir API URL'si girin, ardından isteğinizi gönderin.",
+    responseHint: 'Yanıt gövdesi, başlıklar ve süre bilgileri burada görünecek.',
   },
 
   // cURL
@@ -141,12 +141,15 @@ const tr = {
 
   // Tests
   tests: {
+    apiTesting: 'API Testi',
+    testsTitle: 'Testler',
+    testsHint: 'Yanıtından test oluşturmak için bir istek gönderin.',
+    testsUnavailable: 'Test oluşturmak için başarılı bir yanıt gerekir (HTTP 2xx veya 3xx).',
     generateAndRun: 'Testleri Oluştur ve Çalıştır',
     runningTests: 'Testler çalıştırılıyor... ({{current}}/{{total}})',
     noTestsGenerated: 'Test oluşturulmadı',
     selectForCompare: 'Karşılaştırmak için seç',
     compareWithSelected: 'Seçilenle Karşılaştır',
-    exportFormat: 'Format',
     generateCertificate: 'Sertifika Oluştur',
     notEligible: 'Uygun değil (en az 70 test gerekli)',
     failedToExport: 'Rapor dışa aktarılamadı',
@@ -168,10 +171,23 @@ const tr = {
     bodyParameters: 'Gövde',
     queryParameters: 'Sorgu',
     formatPlaceholder: 'Format',
-    aiTesting: 'Daha Derin YZ Testleri',
+    aiTesting: 'YZ Testleri',
     aiTestingTitle: 'Deterministik taramanın çıkaramadığı testleri bulun',
     aiTestingDescription: 'YZ çalışmayı analiz eder, ek denemeler önerir ve Rentgen bunları çalıştırır.',
     runAiTesting: 'YZ Testlerini Çalıştır',
+    resultsTitle: 'Test Sonuçları',
+    resultsDescription:
+      'Önce hataları ve başarısız kontrolleri inceleyin. İstek ve yanıt ayrıntıları için bir testi genişletin.',
+    reviewFindings: 'Bulguları İncele',
+    metric: {
+      bugs: 'Beklenmeyen bir sunucu hatası (HTTP 5xx) veya yürütme hatası oluştu. API çökmüş veya kullanılamaz hale gelmiş olabilir. Nedeni bulmak için isteği ve yanıtı inceleyin.',
+      failed:
+        'Gerçek sonuç beklenen sonuçla eşleşmedi veya yanıt alınamadı. Nedeni belirlemek için beklentiyi, veri eşlemesini ve API davranışını kontrol edin.',
+      warnings:
+        'Genellikle bir güvenlik kontrolünden gelen olası bir risk veya öneri. Önemi API’nize ve kullanım senaryonuza bağlıdır. İşlem gerekip gerekmediğine karar vermek için inceleyin.',
+      passed:
+        'Bu kontrol için gerçek sonuç beklenen sonuçla eşleşti. Bu test başarılı oldu; bu, API’nin tamamının sorunsuz olduğunu garanti etmez.',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +196,7 @@ const tr = {
     noTestResults: 'Karşılaştırılacak test sonucu yok',
     potentialBugs: 'Olası Hatalar',
     fullBehaviorChanges: 'Tam Davranış Değişiklikleri',
-    noPotentialBugs: 'Olası hata tespit edilmedi ✅',
+    noPotentialBugs: 'Olası hata tespit edilmedi',
     showFullBehaviorChanges: 'Tam Davranış Değişikliklerini Göster',
     behaviorChange: 'Davranış Değişikliği:',
     showNoise: 'Gürültüyü göster',
@@ -363,7 +379,6 @@ const tr = {
         notInstalledDescription: "Shell PATH'inize <c>rentgen</c> eklemek için aşağıdaki <e>Yükle</e>'ye tıklayın.",
       },
       action: {
-        working: 'İşleniyor...',
         uninstall: "CLI'yi Kaldır",
         reinstall: 'Yeniden Yükle',
         installRentgenInPath: "rentgen komutunu PATH'e yükle",
@@ -447,7 +462,6 @@ const tr = {
       description: 'Test deneyiminizi kişiselleştirmek için bireysel performans analizlerini açıp kapatın.',
     },
     languageSection: {
-      title: 'Dil',
       description: 'Uygulama arayüzü için tercih ettiğiniz dili seçin.',
       feedback:
         'Bir çeviri sorunu mu buldunuz veya başka bir dil mi eklemek istiyorsunuz? Tüm ayrıntılarla bir bilet oluşturun, elimizden geleni yapacağız.',
@@ -527,12 +541,6 @@ const tr = {
     noChecksum: 'Sağlama toplamı yok',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Dosya Seç',
-    noFileChosen: 'Dosya seçilmedi',
-  },
-
   // Messages panel
   messages: {
     title: 'Mesajlar',
@@ -560,6 +568,26 @@ const tr = {
     evidence: 'Kanıtlar',
     impact: 'Etki',
     needsInvestigation: 'İnceleme gerekiyor',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM Ön Değerlendirmesi',
+    description:
+      'Demo doğrulamaları düzenlenebilir örneklerdir. Bunları modelinizin diline ve ret ifadelerine göre uyarlayın. Eşleştirme büyük/küçük harfi yok sayar ve düz ile tipografik kesme işaretlerini eşdeğer kabul eder. OR listelenen ifadelerden herhangi birini yasaklar; AND tüm ifadeler birlikte göründüğünde yasaklar.',
+    runEachQuestion: 'Her soru, geçerli istek ve seçili ortam üzerinde çalıştırılır.',
+    saveRequestMessage: 'Değerlendirmeyi ve raporu saklamak için bu isteği bir koleksiyona kaydedin.',
+    run: 'Ön Değerlendirmeyi Çalıştır',
+    userPromptField: 'Kullanıcı istemi alanı',
+    userPromptPlaceholder: 'JSON alanı seçin',
+    responseTextField: 'Yanıt metni alanı',
+    responseTextPlaceholder: 'Tüm gövde veya /choices/0/message/content',
+    iterationsPerQuestion: 'Soru başına yineleme',
+    addQuestion: 'Soru Ekle',
+    importCSV: "CSV'yi İçe Aktar",
+    downloadCSVExample: 'CSV Örneğini İndir',
+    jsonBodyRequirement:
+      'Kullanıcı istemi dizesi içeren bir JSON gövdesi gereklidir. Sistem ve geliştirici mesajları seçilemez.',
   },
 };
 

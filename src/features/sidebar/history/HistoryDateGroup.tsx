@@ -26,21 +26,17 @@ export default function HistoryDateGroup({ label, entries, searchTerm }: Props) 
   return (
     <>
       <div
-        className={cn(
-          'h-9 flex items-center gap-2 px-3 py-1.5',
-          'hover:bg-button-secondary dark:hover:bg-dark-input box-border cursor-pointer',
-        )}
+        className="h-9 flex items-center gap-2 px-3 py-1.5 hover:bg-muted box-border cursor-pointer outline-none"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <ChevronIcon
-          className={cn('h-4 w-4 text-text-secondary', {
+          className={cn('h-4 w-4 text-muted-foreground', {
             'rotate-90': isExpanded,
           })}
         />
-        <span className="text-xs font-bold truncate">{displayLabel}</span>
-        <span className="text-xs text-text-secondary dark:text-dark-text-secondary">{entries.length}</span>
+        <span className="flex-auto text-xs font-medium truncate">{displayLabel}</span>
+        <span className="text-xs text-muted-foreground">{entries.length}</span>
       </div>
-
       {isExpanded && entries.map((entry) => <HistoryItem key={entry.id} entry={entry} searchTerm={searchTerm} />)}
     </>
   );

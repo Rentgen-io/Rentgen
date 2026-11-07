@@ -1,8 +1,8 @@
 import { HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
+import Button, { ButtonSize } from 'src/components/buttons/Button';
+import Loader from 'src/components/loaders/Loader';
 import { twMerge } from 'tailwind-merge';
-import Button, { ButtonSize } from '../../../components/buttons/Button';
-import Loader from '../../../components/loaders/Loader';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   label?: string;

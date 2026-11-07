@@ -5,7 +5,6 @@ const en = {
     save: 'Save',
     saved: 'Saved',
     cancel: 'Cancel',
-    cancelled: 'Cancelled',
     close: 'Close',
     ok: 'OK',
     create: 'Create',
@@ -26,7 +25,6 @@ const en = {
     connect: 'Connect',
     disconnect: 'Disconnect',
     beautify: 'Beautify',
-    reload: 'Reload',
     cut: 'Cut',
     paste: 'Paste',
     enable: 'Enable',
@@ -47,6 +45,7 @@ const en = {
     duplicate: 'Duplicate',
     add: 'Add',
     back: 'Back',
+    stop: 'Stop',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const en = {
     newEnvironment: 'New Environment',
     editEnvironment: 'Edit Environment',
     noEnvironmentsCreated: 'No environments created',
-    environmentName: 'Environment Name',
+    environmentName: 'Name',
     environmentNamePlaceholder: 'e.g., Production, Staging, Local',
     color: 'Color',
     variables: 'Variables',
-    variableName: 'Variable Name',
+    variableName: 'Variable',
     addVariable: 'Add variable',
     value: 'Value',
-    refreshValue: 'Refresh value',
-    refreshAll: 'Refresh All',
     noEnvironment: 'No Environment',
     selectEnvironment: 'Select Environment',
     randomEmail: 'Random email',
@@ -110,6 +107,7 @@ const en = {
 
   // Request
   request: {
+    untitledRequest: 'Untitled Request',
     enterUrl: 'Enter URL or paste text',
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +124,8 @@ const en = {
     title: 'Response',
     sending: 'Sending...',
     networkError: 'Network Error',
+    requestHint: 'Enter an API URL, then send your request.',
+    responseHint: 'The response body, headers and timing will appear here.',
   },
 
   // cURL
@@ -141,12 +141,15 @@ const en = {
 
   // Tests
   tests: {
+    apiTesting: 'API Testing',
+    testsTitle: 'Tests',
+    testsHint: 'Send a request to generate tests from its response.',
+    testsUnavailable: 'Test generation requires a successful response (HTTP 2xx or 3xx).',
     generateAndRun: 'Generate & Run Tests',
     runningTests: 'Running tests... ({{current}}/{{total}})',
     noTestsGenerated: 'No tests generated',
     selectForCompare: 'Select for Compare',
     compareWithSelected: 'Compare with Selected',
-    exportFormat: 'Format',
     generateCertificate: 'Generate Certificate',
     notEligible: 'Not eligible (need at least 70 tests)',
     failedToExport: 'Failed to export report',
@@ -168,10 +171,22 @@ const en = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Format',
-    aiTesting: 'Deeper AI Testing',
+    aiTesting: 'AI Testing',
     aiTestingTitle: 'Find tests the deterministic scan could not infer',
     aiTestingDescription: 'AI analyzes the run, suggests additional experiments, and Rentgen executes them.',
     runAiTesting: 'Run AI Testing',
+    resultsTitle: 'Test Results',
+    resultsDescription: 'Review bugs and failed checks first. Expand a test for request and response details.',
+    reviewFindings: 'Review Findings',
+    metric: {
+      bugs: 'An unexpected server error (HTTP 5xx) or execution error occurred. The API may have crashed or become unavailable. Review the request and response to find the cause.',
+      failed:
+        'The actual result did not match the expected result, or no response was received. Check the expectation, data mapping and API behavior to determine the cause.',
+      warnings:
+        'A potential risk or recommendation, often from a security check. Its importance depends on your API and use case. Review it to decide whether action is needed.',
+      passed:
+        'The actual result matched the expected result for this check. This test passed; it does not guarantee the entire API is free of issues.',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +195,7 @@ const en = {
     noTestResults: 'No test results to compare',
     potentialBugs: 'Potential Bugs',
     fullBehaviorChanges: 'Full Behavior Changes',
-    noPotentialBugs: 'No potential bugs detected ✅',
+    noPotentialBugs: 'No potential bugs detected',
     showFullBehaviorChanges: 'Show Full Behavior Changes',
     behaviorChange: 'Behavior Change:',
     showNoise: 'Show noise',
@@ -361,7 +376,6 @@ const en = {
         notInstalledDescription: 'Click <e>Install</e> below to add <c>rentgen</c> to your shell PATH.',
       },
       action: {
-        working: 'Working...',
         uninstall: 'Uninstall CLI',
         reinstall: 'Reinstall',
         installRentgenInPath: 'Install rentgen command in PATH',
@@ -443,7 +457,6 @@ const en = {
       description: 'Toggle individual performance insights on or off to customize your testing experience.',
     },
     languageSection: {
-      title: 'Language',
       description: 'Select your preferred language for the application interface.',
       feedback:
         'Found a translation issue or want to add another language? Create a ticket with all the details and we will do our best.',
@@ -523,12 +536,6 @@ const en = {
     noChecksum: 'No checksum',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Choose File',
-    noFileChosen: 'No file chosen',
-  },
-
   // Messages panel
   messages: {
     title: 'Messages',
@@ -556,6 +563,26 @@ const en = {
     evidence: 'Evidence',
     impact: 'Impact',
     needsInvestigation: 'Needs investigation',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM Pre-Evaluation',
+    description:
+      "Demo assertions are editable examples. Adapt them to your model's language and refusal wording. Matching ignores case and treats straight and typographic apostrophes as equivalent. OR forbids any listed phrase; AND forbids all phrases appearing together.",
+    runEachQuestion: 'Each question runs against the current request and selected environment.',
+    saveRequestMessage: 'Save this request to a collection to retain its evaluation and report.',
+    run: 'Run Pre-Evaluation',
+    userPromptField: 'User prompt field',
+    userPromptPlaceholder: 'Select JSON field',
+    responseTextField: 'Response text field',
+    responseTextPlaceholder: 'Whole body, or /choices/0/message/content',
+    iterationsPerQuestion: 'Iterations per question',
+    addQuestion: 'Add Question',
+    importCSV: 'Import CSV',
+    downloadCSVExample: 'Download CSV Example',
+    jsonBodyRequirement:
+      'A JSON body with a user prompt string is required. System and developer messages cannot be selected.',
   },
 };
 

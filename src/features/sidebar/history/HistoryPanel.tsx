@@ -84,11 +84,11 @@ export default function HistoryPanel() {
 
   return (
     <>
-      <div className="h-9 shrink-0 flex items-center justify-between gap-2 px-3 py-2 border-b border-border dark:border-dark-border box-border">
-        <span className="text-xs text-text-secondary dark:text-dark-text-secondary">{t('history.title')}</span>
+      <div className="h-9 shrink-0 flex items-center justify-between gap-2 px-3 py-2 border-b border-border box-border">
+        <span className="text-xs text-muted-foreground">{t('history.title')}</span>
         {entries.length > 0 && (
           <TrashIcon
-            className="h-3 w-3 text-text-secondary dark:text-dark-text-secondary hover:text-button-danger cursor-pointer"
+            className="h-3 w-3 text-muted-foreground hover:text-red-600 cursor-pointer"
             onClick={() => dispatch(historyActions.clearHistory())}
             title={t('history.clearAll')}
           />
@@ -106,7 +106,7 @@ export default function HistoryPanel() {
           ))}
         </div>
       ) : (
-        <div className="flex items-center justify-center h-full w-full p-5 text-xs text-text-secondary dark:text-dark-text-secondary">
+        <div className="flex items-center justify-center h-full w-full p-4 text-xs text-muted-foreground">
           {searchTerm.trim().length > 0 ? t('history.noMatchingHistory') : t('history.noHistoryYet')}
         </div>
       )}

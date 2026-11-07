@@ -5,7 +5,6 @@ const nl = {
     save: 'Opslaan',
     saved: 'Opgeslagen',
     cancel: 'Annuleren',
-    cancelled: 'Geannuleerd',
     close: 'Sluiten',
     ok: 'OK',
     create: 'Aanmaken',
@@ -26,7 +25,6 @@ const nl = {
     connect: 'Verbinden',
     disconnect: 'Verbinding verbreken',
     beautify: 'Opmaken',
-    reload: 'Opnieuw laden',
     cut: 'Knippen',
     paste: 'Plakken',
     enable: 'Inschakelen',
@@ -47,6 +45,7 @@ const nl = {
     duplicate: 'Dupliceren',
     add: 'Toevoegen',
     back: 'Terug',
+    stop: 'Stoppen',
   },
 
   // Sidebar
@@ -77,15 +76,13 @@ const nl = {
     newEnvironment: 'Nieuwe omgeving',
     editEnvironment: 'Omgeving bewerken',
     noEnvironmentsCreated: 'Geen omgevingen aangemaakt',
-    environmentName: 'Naam van omgeving',
+    environmentName: 'Naam',
     environmentNamePlaceholder: 'bijv. Productie, Staging, Lokaal',
     color: 'Kleur',
     variables: 'Variabelen',
-    variableName: 'Naam variabele',
+    variableName: 'Variabele',
     addVariable: 'Variabele toevoegen',
     value: 'Waarde',
-    refreshValue: 'Waarde vernieuwen',
-    refreshAll: 'Alles vernieuwen',
     noEnvironment: 'Geen omgeving',
     selectEnvironment: 'Selecteer omgeving',
     randomEmail: 'Willekeurig e-mailadres',
@@ -110,6 +107,7 @@ const nl = {
 
   // Request
   request: {
+    untitledRequest: 'Naamloos verzoek',
     enterUrl: 'Voer URL in of plak tekst',
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: waarde',
@@ -126,6 +124,8 @@ const nl = {
     title: 'Reactie',
     sending: 'Bezig met verzenden...',
     networkError: 'Netwerkfout',
+    requestHint: 'Voer een API-URL in en verstuur daarna je verzoek.',
+    responseHint: 'De body, headers en timing van de reactie verschijnen hier.',
   },
 
   // cURL
@@ -141,12 +141,15 @@ const nl = {
 
   // Tests
   tests: {
+    apiTesting: 'API-testen',
+    testsTitle: 'Tests',
+    testsHint: 'Verstuur een verzoek om tests te genereren op basis van de reactie.',
+    testsUnavailable: 'Voor het genereren van tests is een geslaagde reactie nodig (HTTP 2xx of 3xx).',
     generateAndRun: 'Tests genereren en uitvoeren',
     runningTests: 'Tests worden uitgevoerd... ({{current}}/{{total}})',
     noTestsGenerated: 'Geen tests gegenereerd',
     selectForCompare: 'Selecteren om te vergelijken',
     compareWithSelected: 'Vergelijken met geselecteerde',
-    exportFormat: 'Formaat',
     generateCertificate: 'Certificaat genereren',
     notEligible: 'Niet geschikt (minimaal 70 tests nodig)',
     failedToExport: 'Exporteren van rapport mislukt',
@@ -169,10 +172,23 @@ const nl = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Formaat',
-    aiTesting: 'Diepgaander AI-testen',
+    aiTesting: 'AI-testen',
     aiTestingTitle: 'Vind tests die de deterministische scan niet kon afleiden',
     aiTestingDescription: 'AI analyseert de run, stelt extra experimenten voor en Rentgen voert ze uit.',
     runAiTesting: 'AI-testen uitvoeren',
+    resultsTitle: 'Testresultaten',
+    resultsDescription:
+      'Bekijk eerst bugs en mislukte controles. Klap een test uit voor details over het verzoek en de reactie.',
+    reviewFindings: 'Bevindingen bekijken',
+    metric: {
+      bugs: 'Er is een onverwachte serverfout (HTTP 5xx) of uitvoeringsfout opgetreden. De API is mogelijk gecrasht of onbereikbaar geworden. Bekijk het verzoek en de reactie om de oorzaak te vinden.',
+      failed:
+        'Het werkelijke resultaat kwam niet overeen met het verwachte resultaat, of er is geen reactie ontvangen. Controleer de verwachting, de datamapping en het API-gedrag om de oorzaak te bepalen.',
+      warnings:
+        'Een mogelijk risico of aanbeveling, vaak afkomstig van een beveiligingscontrole. Het belang hangt af van je API en use case. Bekijk het om te beslissen of actie nodig is.',
+      passed:
+        'Het werkelijke resultaat kwam overeen met het verwachte resultaat voor deze controle. Deze test is geslaagd; dit garandeert niet dat de hele API probleemloos is.',
+    },
   },
 
   // Comparison Panel
@@ -181,7 +197,7 @@ const nl = {
     noTestResults: 'Geen testresultaten om te vergelijken',
     potentialBugs: 'Mogelijke bugs',
     fullBehaviorChanges: 'Volledige gedragswijzigingen',
-    noPotentialBugs: 'Geen mogelijke bugs gedetecteerd ✅',
+    noPotentialBugs: 'Geen mogelijke bugs gedetecteerd',
     showFullBehaviorChanges: 'Toon volledige gedragswijzigingen',
     behaviorChange: 'Gedragswijziging:',
     showNoise: 'Toon ruis',
@@ -365,7 +381,6 @@ const nl = {
           'Klik hieronder op <e>Installeren</e> om <c>rentgen</c> aan je shell-PATH toe te voegen.',
       },
       action: {
-        working: 'Bezig...',
         uninstall: 'CLI verwijderen',
         reinstall: 'Opnieuw installeren',
         installRentgenInPath: 'Rentgen-commando installeren in PATH',
@@ -448,7 +463,6 @@ const nl = {
       description: 'Schakel afzonderlijke prestatie-inzichten in of uit om je testervaring aan te passen.',
     },
     languageSection: {
-      title: 'Taal',
       description: 'Selecteer je voorkeurstaal voor de interface van de applicatie.',
       feedback:
         'Een vertaalfout gevonden of wil je een andere taal toevoegen? Maak een ticket aan met alle details en we doen ons best.',
@@ -529,12 +543,6 @@ const nl = {
     noChecksum: 'Geen checksum',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Bestand kiezen',
-    noFileChosen: 'Geen bestand gekozen',
-  },
-
   // Messages panel
   messages: {
     title: 'Berichten',
@@ -562,6 +570,26 @@ const nl = {
     evidence: 'Bewijs',
     impact: 'Impact',
     needsInvestigation: 'Onderzoek nodig',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM-voorevaluatie',
+    description:
+      'Demo-assertions zijn bewerkbare voorbeelden. Pas ze aan op de taal en de weigeringsformuleringen van je model. Bij het vergelijken wordt hoofdlettergebruik genegeerd en worden rechte en typografische apostroffen als gelijkwaardig beschouwd. OR verbiedt elke vermelde zin; AND verbiedt alle zinnen wanneer ze samen voorkomen.',
+    runEachQuestion: 'Elke vraag wordt uitgevoerd met het huidige verzoek en de geselecteerde omgeving.',
+    saveRequestMessage: 'Sla dit verzoek op in een collectie om de evaluatie en het rapport te bewaren.',
+    run: 'Voorevaluatie uitvoeren',
+    userPromptField: 'Veld voor gebruikersprompt',
+    userPromptPlaceholder: 'Selecteer JSON-veld',
+    responseTextField: 'Veld voor antwoordtekst',
+    responseTextPlaceholder: 'Hele body, of /choices/0/message/content',
+    iterationsPerQuestion: 'Iteraties per vraag',
+    addQuestion: 'Vraag toevoegen',
+    importCSV: 'CSV importeren',
+    downloadCSVExample: 'CSV-voorbeeld downloaden',
+    jsonBodyRequirement:
+      'Een JSON-body met een gebruikersprompt-string is vereist. Systeem- en developerberichten kunnen niet worden geselecteerd.',
   },
 };
 

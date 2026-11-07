@@ -87,9 +87,7 @@ export default function PerformanceInsightsPanel() {
         }
         expandOnRowClicked
         data={performanceTests}
-        progressComponent={
-          <LoaderWithText className="flex-auto justify-center" text={t('tests.runningPerformanceInsights')} />
-        }
+        progressComponent={<LoaderWithText className="justify-center" text={t('tests.runningPerformanceInsights')} />}
         progressPending={isPerformanceRunning}
         progressSkeleton={false}
       />
