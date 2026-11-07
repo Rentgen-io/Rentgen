@@ -141,6 +141,7 @@ const ja = {
 
   // Tests
   tests: {
+    apiTesting: 'APIテスト',
     testsTitle: 'テスト',
     testsHint: 'リクエストを送信すると、そのレスポンスからテストを生成します。',
     testsUnavailable: 'テストを生成するには、成功したレスポンス (HTTP 2xx または 3xx) が必要です。',
@@ -566,6 +567,16 @@ const ja = {
     evidence: '根拠',
     impact: '影響',
     needsInvestigation: '要調査',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM事前評価',
+    description:
+      'デモのアサーションは編集可能なサンプルです。モデルの言語や拒否の言い回しに合わせて調整してください。照合では大文字と小文字を区別せず、直線のアポストロフィと文字装飾用のアポストロフィは同一として扱います。OR は列挙されたいずれかのフレーズを禁止し、AND はすべてのフレーズが同時に出現する場合を禁止します。',
+    runEachQuestion: '各質問は、現在のリクエストと選択した環境に対して実行されます。',
+    saveRequestMessage: '評価とレポートを保持するには、このリクエストをコレクションに保存してください。',
+    run: '事前評価を実行',
   },
 };
 

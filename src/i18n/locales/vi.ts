@@ -141,6 +141,7 @@ const vi = {
 
   // Tests
   tests: {
+    apiTesting: 'Kiểm thử API',
     testsTitle: 'Kiểm thử',
     testsHint: 'Gửi yêu cầu để tạo kiểm thử từ phản hồi của nó.',
     testsUnavailable: 'Việc tạo kiểm thử yêu cầu phản hồi thành công (HTTP 2xx hoặc 3xx).',
@@ -563,6 +564,16 @@ const vi = {
     evidence: 'Bằng chứng',
     impact: 'Tác động',
     needsInvestigation: 'Cần điều tra',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'Tiền đánh giá LLM',
+    description:
+      'Các assertion demo là ví dụ có thể chỉnh sửa. Hãy điều chỉnh chúng theo ngôn ngữ và cách diễn đạt từ chối của mô hình của bạn. Việc so khớp bỏ qua chữ hoa/chữ thường và coi dấu nháy đơn thẳng và dấu nháy đơn kiểu chữ in là tương đương. OR cấm bất kỳ cụm từ nào được liệt kê; AND cấm khi tất cả các cụm từ xuất hiện cùng nhau.',
+    runEachQuestion: 'Mỗi câu hỏi được chạy với yêu cầu hiện tại và môi trường đã chọn.',
+    saveRequestMessage: 'Lưu yêu cầu này vào một bộ sưu tập để giữ lại đánh giá và báo cáo.',
+    run: 'Chạy tiền đánh giá',
   },
 };
 

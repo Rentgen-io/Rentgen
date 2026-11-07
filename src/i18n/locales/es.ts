@@ -141,6 +141,7 @@ const es = {
 
   // Tests
   tests: {
+    apiTesting: 'Pruebas de API',
     testsTitle: 'Pruebas',
     testsHint: 'Envía una solicitud para generar pruebas a partir de su respuesta.',
     testsUnavailable: 'La generación de pruebas requiere una respuesta correcta (HTTP 2xx o 3xx).',
@@ -569,6 +570,16 @@ const es = {
     evidence: 'Evidencia',
     impact: 'Impacto',
     needsInvestigation: 'Requiere investigación',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'Preevaluación de LLM',
+    description:
+      'Las aserciones de demostración son ejemplos editables. Adáptalas al idioma y a la redacción de rechazo de tu modelo. La coincidencia ignora mayúsculas y minúsculas y trata los apóstrofos rectos y tipográficos como equivalentes. OR prohíbe cualquiera de las frases indicadas; AND prohíbe todas las frases cuando aparecen juntas.',
+    runEachQuestion: 'Cada pregunta se ejecuta con la solicitud actual y el entorno seleccionado.',
+    saveRequestMessage: 'Guarda esta solicitud en una colección para conservar su evaluación e informe.',
+    run: 'Ejecutar preevaluación',
   },
 };
 

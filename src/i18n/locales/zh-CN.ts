@@ -141,6 +141,7 @@ const zhCN = {
 
   // Tests
   tests: {
+    apiTesting: 'API 测试',
     testsTitle: '测试',
     testsHint: '发送请求以根据其响应生成测试。',
     testsUnavailable: '生成测试需要成功的响应（HTTP 2xx 或 3xx）。',
@@ -553,6 +554,16 @@ const zhCN = {
     evidence: '证据',
     impact: '影响',
     needsInvestigation: '需要调查',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM 预评估',
+    description:
+      '演示断言是可编辑的示例。请根据模型的语言和拒绝措辞进行调整。匹配时忽略大小写，并将直撇号和排版撇号视为等同。OR 禁止出现任一列出的短语；AND 禁止所有短语同时出现。',
+    runEachQuestion: '每个问题都会针对当前请求和所选环境运行。',
+    saveRequestMessage: '将此请求保存到集合中，以保留其评估和报告。',
+    run: '运行预评估',
   },
 };
 

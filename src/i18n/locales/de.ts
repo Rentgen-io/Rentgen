@@ -141,6 +141,7 @@ const de = {
 
   // Tests
   tests: {
+    apiTesting: 'API-Tests',
     testsTitle: 'Tests',
     testsHint: 'Senden Sie eine Anfrage, um aus ihrer Antwort Tests zu generieren.',
     testsUnavailable: 'Für die Testgenerierung ist eine erfolgreiche Antwort erforderlich (HTTP 2xx oder 3xx).',
@@ -569,6 +570,16 @@ const de = {
     evidence: 'Belege',
     impact: 'Auswirkung',
     needsInvestigation: 'Untersuchung erforderlich',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM-Vorabbewertung',
+    description:
+      'Demo-Assertions sind bearbeitbare Beispiele. Passen Sie sie an die Sprache und die Ablehnungsformulierungen Ihres Modells an. Beim Abgleich wird die Groß- und Kleinschreibung ignoriert, und gerade und typografische Apostrophe gelten als gleichwertig. OR verbietet jede aufgeführte Phrase; AND verbietet alle Phrasen, wenn sie zusammen auftreten.',
+    runEachQuestion: 'Jede Frage wird mit der aktuellen Anfrage und der ausgewählten Umgebung ausgeführt.',
+    saveRequestMessage: 'Speichern Sie diese Anfrage in einer Sammlung, um die Bewertung und den Bericht zu behalten.',
+    run: 'Vorabbewertung ausführen',
   },
 };
 

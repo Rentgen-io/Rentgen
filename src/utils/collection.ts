@@ -7,6 +7,7 @@ import {
   PostmanHeader,
   PostmanItem,
   PostmanRequest,
+  PreEvaluation,
 } from 'src/types';
 
 export { createEmptyCollection, generateFolderId, generateHistoryId, generateRequestId } from 'shared/utils/collection';
@@ -48,6 +49,7 @@ export function requestToPostmanItem(
   url: string,
   headers: Record<string, string>,
   body: string | null,
+  preEvaluation: PreEvaluation | null,
 ): PostmanItem {
   const request: PostmanRequest = {
     method: method.toUpperCase(),
@@ -66,6 +68,7 @@ export function requestToPostmanItem(
     id: generateRequestId(),
     name: url,
     request,
+    preEvaluation,
   };
 }
 
@@ -75,6 +78,7 @@ export function addRequestToCollection(
   url: string,
   headers: Record<string, string>,
   body: string | null,
+  preEvaluation: PreEvaluation | null,
   folderId: string = DEFAULT_FOLDER_ID,
 ): PostmanCollection {
   // Find or create folder
@@ -88,9 +92,7 @@ export function addRequestToCollection(
     collection.item.push(folder);
   }
 
-  const newItem = requestToPostmanItem(method, url, headers, body);
-  folder.item.unshift(newItem);
-
+  folder.item.unshift(requestToPostmanItem(method, url, headers, body, preEvaluation));
   return { ...collection };
 }
 
@@ -101,6 +103,7 @@ export function updateRequestInCollection(
   url: string,
   headers: Record<string, string>,
   body: string | null,
+  preEvaluation: PreEvaluation | null,
 ): PostmanCollection {
   const updatedCollection = { ...collection, item: [...collection.item] };
 
@@ -130,6 +133,7 @@ export function updateRequestInCollection(
       updatedCollection.item[i].item[itemIndex] = {
         ...folder.item[itemIndex],
         request,
+        preEvaluation,
       };
       return updatedCollection;
     }

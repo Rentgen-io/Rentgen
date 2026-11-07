@@ -141,6 +141,7 @@ const pl = {
 
   // Tests
   tests: {
+    apiTesting: 'Testowanie API',
     testsTitle: 'Testy',
     testsHint: 'Wyślij zapytanie, aby wygenerować testy na podstawie odpowiedzi.',
     testsUnavailable: 'Generowanie testów wymaga poprawnej odpowiedzi (HTTP 2xx lub 3xx).',
@@ -566,6 +567,16 @@ const pl = {
     evidence: 'Dowody',
     impact: 'Wpływ',
     needsInvestigation: 'Wymaga zbadania',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'Wstępna ocena LLM',
+    description:
+      'Demonstracyjne asercje to edytowalne przykłady. Dostosuj je do języka i sposobu formułowania odmów w Twoim modelu. Dopasowanie ignoruje wielkość liter i traktuje proste oraz typograficzne apostrofy jako równoważne. OR zabrania dowolnej z wymienionych fraz; AND zabrania wszystkich fraz występujących razem.',
+    runEachQuestion: 'Każde pytanie jest uruchamiane dla bieżącego żądania i wybranego środowiska.',
+    saveRequestMessage: 'Zapisz to żądanie w kolekcji, aby zachować jego ocenę i raport.',
+    run: 'Uruchom wstępną ocenę',
   },
 };
 

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_FOLDER_ID } from 'shared/utils/collection';
 import { loadCollection as loadCollectionFile } from 'src/api/storage';
-import { PostmanCollection, PostmanFolder } from 'src/types';
+import { PostmanCollection, PostmanFolder, PreEvaluation } from 'src/types';
 import {
   addFolderToCollection,
   addRequestToCollection,
@@ -45,16 +45,18 @@ export const collectionSlice = createSlice({
     addRequest: (
       state,
       action: PayloadAction<{
-        method: string;
-        url: string;
-        headers: Record<string, string>;
         body: string | null;
         folderId?: string;
+        headers: Record<string, string>;
+        method: string;
+        preEvaluation: PreEvaluation | null;
+        url: string;
       }>,
     ) => {
-      const { method, url, headers, body, folderId } = action.payload;
+      const { body, folderId, headers, method, preEvaluation, url } = action.payload;
       const targetFolderId = folderId || state.selectedFolderId;
-      state.data = addRequestToCollection(state.data, method, url, headers, body, targetFolderId);
+
+      state.data = addRequestToCollection(state.data, method, url, headers, body, preEvaluation, targetFolderId);
 
       // Auto-select the newly added request (it's at index 0 due to unshift in addRequestToCollection)
       const folder = state.data.item.find((f) => f.id === targetFolderId);
@@ -189,15 +191,16 @@ export const collectionSlice = createSlice({
     updateRequest: (
       state,
       action: PayloadAction<{
-        requestId: string;
-        method: string;
-        url: string;
-        headers: Record<string, string>;
         body: string | null;
+        headers: Record<string, string>;
+        method: string;
+        preEvaluation: PreEvaluation | null;
+        requestId: string;
+        url: string;
       }>,
     ) => {
-      const { requestId, method, url, headers, body } = action.payload;
-      state.data = updateRequestInCollection(state.data, requestId, method, url, headers, body);
+      const { body, headers, method, preEvaluation, requestId, url } = action.payload;
+      state.data = updateRequestInCollection(state.data, requestId, method, url, headers, body, preEvaluation);
     },
   },
   extraReducers: (builder) => {

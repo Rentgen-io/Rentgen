@@ -5,6 +5,7 @@ import { Accordion } from 'src/components/accordion/Accordion';
 import { AccordionItem } from 'src/components/accordion/AccordionItem';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
+import Loader from 'src/components/loaders/Loader';
 import { useLicense } from 'src/hooks/useLicense';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -26,7 +27,8 @@ import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHead
 export default function AiTestingPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { aiOverview, aiTests, aiUsage, isAiTestsRunning, cancelAiTestsGeneration, executeAllAiTests } = useTests();
+  const { aiOverview, aiTests, aiUsage, isAiTestsRunning, runningAiTests, cancelAiTestsGeneration, executeAllAiTests } =
+    useTests();
 
   const aiActiveTab = useAppSelector(selectAiActiveTab);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
@@ -69,8 +71,11 @@ export default function AiTestingPanel() {
               <Tab className="pb-1 border-b-2 border-transparent list-none outline-none cursor-pointer">
                 {t('ai.overview')}
               </Tab>
-              <Tab className="flex items-center gap-2 pb-1 border-b-2 border-transparent list-none outline-none cursor-pointer">
-                {t('ai.tests')}
+              <Tab className="flex items-center gap-2 pb-1 border-b-2 border-transparent list-none outline-none truncate cursor-pointer">
+                {(isAiTestsRunning || Object.keys(runningAiTests).length > 0) && (
+                  <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
+                )}
+                <span className="truncate">{t('ai.tests')}</span>
                 <span className="min-w-5 py-0.5 px-1.5 font-normal text-xs text-muted-foreground bg-muted-foreground/10 rounded box-border">
                   {aiTests?.length ?? 0}
                 </span>

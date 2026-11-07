@@ -141,6 +141,7 @@ const id = {
 
   // Tests
   tests: {
+    apiTesting: 'Pengujian API',
     testsTitle: 'Tes',
     testsHint: 'Kirim permintaan untuk menghasilkan tes dari responsnya.',
     testsUnavailable: 'Pembuatan tes memerlukan respons yang berhasil (HTTP 2xx atau 3xx).',
@@ -562,6 +563,16 @@ const id = {
     evidence: 'Bukti',
     impact: 'Dampak',
     needsInvestigation: 'Perlu diselidiki',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'Pra-Evaluasi LLM',
+    description:
+      'Assertion demo adalah contoh yang dapat diedit. Sesuaikan dengan bahasa dan kata-kata penolakan model Anda. Pencocokan mengabaikan huruf besar/kecil dan menganggap apostrof lurus dan tipografis setara. OR melarang salah satu frasa yang terdaftar; AND melarang semua frasa jika muncul bersamaan.',
+    runEachQuestion: 'Setiap pertanyaan dijalankan terhadap permintaan saat ini dan environment yang dipilih.',
+    saveRequestMessage: 'Simpan permintaan ini ke koleksi untuk menyimpan evaluasi dan laporannya.',
+    run: 'Jalankan Pra-Evaluasi',
   },
 };
 

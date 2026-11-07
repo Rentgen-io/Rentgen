@@ -4,6 +4,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import { IconButton } from 'src/components/buttons/IconButton';
 import Toggle from 'src/components/inputs/Toggle';
+import Loader from 'src/components/loaders/Loader';
 import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
 import { useAppDispatch } from 'src/store/hooks';
 import { testsActions } from 'src/store/slices/testsSlice';
@@ -157,6 +158,7 @@ export default function TestResultsComparisonPanel({ items, response }: Props) {
           </div>
         ),
         label: t('comparison.fullBehaviorChanges'),
+        isComputing: !diffReady,
       },
     ],
     [diffReady, filteredItems, potentialBugs, statistics, t],
@@ -184,13 +186,14 @@ export default function TestResultsComparisonPanel({ items, response }: Props) {
           onSelect={(index) => setTabIndex(index)}
         >
           <TabList className="flex gap-6 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
-            {tabs.map(({ label }) => (
+            {tabs.map(({ isComputing, label }) => (
               <Tab
                 key={label}
-                className="relative flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer"
+                className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer"
                 title={label}
               >
-                {label}
+                {isComputing && <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />}
+                <span className="truncate">{label}</span>
               </Tab>
             ))}
           </TabList>

@@ -141,6 +141,7 @@ const lt = {
 
   // Tests
   tests: {
+    apiTesting: 'API testavimas',
     testsTitle: 'Testai',
     testsHint: 'Išsiųskite užklausą, kad pagal jos atsakymą būtų sugeneruoti testai.',
     testsUnavailable: 'Testams generuoti reikalingas sėkmingas atsakymas (HTTP 2xx arba 3xx).',
@@ -567,6 +568,16 @@ const lt = {
     evidence: 'Įrodymai',
     impact: 'Poveikis',
     needsInvestigation: 'Reikia ištirti',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM išankstinis vertinimas',
+    description:
+      'Demonstraciniai tvirtinimai yra redaguojami pavyzdžiai. Pritaikykite juos savo modelio kalbai ir atsisakymo formuluotėms. Lyginant neatsižvelgiama į raidžių dydį, o tiesūs ir tipografiniai apostrofai laikomi lygiaverčiais. OR draudžia bet kurią išvardytą frazę; AND draudžia visas frazes, kai jos pasirodo kartu.',
+    runEachQuestion: 'Kiekvienas klausimas vykdomas su dabartine užklausa ir pasirinkta aplinka.',
+    saveRequestMessage: 'Išsaugokite šią užklausą kolekcijoje, kad išliktų jos vertinimas ir ataskaita.',
+    run: 'Vykdyti išankstinį vertinimą',
   },
 };
 

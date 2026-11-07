@@ -141,6 +141,7 @@ const tr = {
 
   // Tests
   tests: {
+    apiTesting: 'API Testi',
     testsTitle: 'Testler',
     testsHint: 'Yanıtından test oluşturmak için bir istek gönderin.',
     testsUnavailable: 'Test oluşturmak için başarılı bir yanıt gerekir (HTTP 2xx veya 3xx).',
@@ -567,6 +568,16 @@ const tr = {
     evidence: 'Kanıtlar',
     impact: 'Etki',
     needsInvestigation: 'İnceleme gerekiyor',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM Ön Değerlendirmesi',
+    description:
+      'Demo doğrulamaları düzenlenebilir örneklerdir. Bunları modelinizin diline ve ret ifadelerine göre uyarlayın. Eşleştirme büyük/küçük harfi yok sayar ve düz ile tipografik kesme işaretlerini eşdeğer kabul eder. OR listelenen ifadelerden herhangi birini yasaklar; AND tüm ifadeler birlikte göründüğünde yasaklar.',
+    runEachQuestion: 'Her soru, geçerli istek ve seçili ortam üzerinde çalıştırılır.',
+    saveRequestMessage: 'Değerlendirmeyi ve raporu saklamak için bu isteği bir koleksiyona kaydedin.',
+    run: 'Ön Değerlendirmeyi Çalıştır',
   },
 };
 

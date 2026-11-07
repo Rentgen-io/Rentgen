@@ -141,6 +141,7 @@ const en = {
 
   // Tests
   tests: {
+    apiTesting: 'API Testing',
     testsTitle: 'Tests',
     testsHint: 'Send a request to generate tests from its response.',
     testsUnavailable: 'Test generation requires a successful response (HTTP 2xx or 3xx).',
@@ -562,6 +563,16 @@ const en = {
     evidence: 'Evidence',
     impact: 'Impact',
     needsInvestigation: 'Needs investigation',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM Pre-Evaluation',
+    description:
+      "Demo assertions are editable examples. Adapt them to your model's language and refusal wording. Matching ignores case and treats straight and typographic apostrophes as equivalent. OR forbids any listed phrase; AND forbids all phrases appearing together.",
+    runEachQuestion: 'Each question runs against the current request and selected environment.',
+    saveRequestMessage: 'Save this request to a collection to retain its evaluation and report.',
+    run: 'Run Pre-Evaluation',
   },
 };
 

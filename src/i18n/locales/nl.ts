@@ -141,6 +141,7 @@ const nl = {
 
   // Tests
   tests: {
+    apiTesting: 'API-testen',
     testsTitle: 'Tests',
     testsHint: 'Verstuur een verzoek om tests te genereren op basis van de reactie.',
     testsUnavailable: 'Voor het genereren van tests is een geslaagde reactie nodig (HTTP 2xx of 3xx).',
@@ -569,6 +570,16 @@ const nl = {
     evidence: 'Bewijs',
     impact: 'Impact',
     needsInvestigation: 'Onderzoek nodig',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM-voorevaluatie',
+    description:
+      'Demo-assertions zijn bewerkbare voorbeelden. Pas ze aan op de taal en de weigeringsformuleringen van je model. Bij het vergelijken wordt hoofdlettergebruik genegeerd en worden rechte en typografische apostroffen als gelijkwaardig beschouwd. OR verbiedt elke vermelde zin; AND verbiedt alle zinnen wanneer ze samen voorkomen.',
+    runEachQuestion: 'Elke vraag wordt uitgevoerd met het huidige verzoek en de geselecteerde omgeving.',
+    saveRequestMessage: 'Sla dit verzoek op in een collectie om de evaluatie en het rapport te bewaren.',
+    run: 'Voorevaluatie uitvoeren',
   },
 };
 

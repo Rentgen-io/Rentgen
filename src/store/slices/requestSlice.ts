@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Method } from 'axios';
-import { RequestParameters } from 'src/types';
+import { PreEvaluation, RequestParameters } from 'src/types';
 
 export type Mode = 'HTTP' | 'WSS';
 
@@ -11,6 +11,7 @@ interface RequestState {
   isSending: boolean;
   method: Method;
   mode: Mode;
+  preEvaluation: PreEvaluation | null;
   queryParameters: RequestParameters;
   url: string;
 }
@@ -23,6 +24,7 @@ const initialState: RequestState = {
   method: 'GET',
   mode: 'HTTP',
   queryParameters: {},
+  preEvaluation: null,
   url: '',
 };
 
@@ -40,6 +42,7 @@ export const requestSlice = createSlice({
       }>,
     ) => {
       const { url, method, headers, body } = action.payload;
+
       state.url = url;
       state.method = method as Method;
       state.headers = headers;
@@ -68,6 +71,7 @@ export const requestSlice = createSlice({
       state.headers = '';
       state.body = '{}';
       state.bodyParameters = {};
+      state.preEvaluation = null;
       state.queryParameters = {};
     },
     setBody: (state, action: PayloadAction<string>) => {
@@ -87,6 +91,9 @@ export const requestSlice = createSlice({
     },
     setMode: (state, action: PayloadAction<Mode>) => {
       state.mode = action.payload;
+    },
+    setPreEvaluation: (state, action: PayloadAction<PreEvaluation>) => {
+      state.preEvaluation = action.payload;
     },
     setQueryParameters: (state, action: PayloadAction<RequestParameters>) => {
       state.queryParameters = action.payload;

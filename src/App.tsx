@@ -1,4 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import Loader from './components/loaders/Loader';
 import EnvironmentEditor from './features/environment/EnvironmentEditor';
 import AppModals from './features/modals/AppModals';
 import PreEvaluationPanel from './features/pre-evaluation/PreEvaluationPanel';
@@ -16,6 +18,7 @@ import { useCtrlS } from './hooks/useCtrlS';
 import { useInitialDataLoad } from './hooks/useInitialDataLoad';
 import { useRunResultSync } from './hooks/useRunResultSync';
 import { useSaveRequest } from './hooks/useSaveRequest';
+import useTests from './hooks/useTests';
 import { useWssEventBridge } from './hooks/useWebSocket';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import {
@@ -35,6 +38,9 @@ import { uiActions } from './store/slices/uiSlice';
 
 export default function App() {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
+  const { aiRunStartedAt, isAiTestsRunning, isRunningTests, runningAiTests } = useTests();
 
   const compareResponse = useAppSelector(selectCompareResponse);
   const disabled = useAppSelector(selectIsRequestDisabled);
@@ -52,6 +58,9 @@ export default function App() {
   useWssEventBridge();
   useRunResultSync();
   useCtrlS(!disabled ? saveRequest : undefined);
+
+  const isRunning =
+    isRunningTests || isAiTestsRunning || Boolean(aiRunStartedAt) || Object.keys(runningAiTests).length > 0;
 
   return (
     <div className="flex">
@@ -91,11 +100,12 @@ export default function App() {
                     }}
                   >
                     <TabList className="flex gap-6 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
-                      <Tab className="pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer">
-                        API Testing
+                      <Tab className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer">
+                        {isRunning && <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />}
+                        <span className="truncate">{t('tests.apiTesting')}</span>
                       </Tab>
-                      <Tab className="pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer">
-                        LLM Pre-Evaluation
+                      <Tab className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer">
+                        <span className="truncate">{t('preEvaluation.title')}</span>
                       </Tab>
                     </TabList>
                     <TabPanel className="hidden">

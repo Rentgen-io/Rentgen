@@ -11,6 +11,7 @@ import {
   selectHttpResponse,
   selectIsRequestDisabled,
   selectMethod,
+  selectPreEvaluation,
   selectQueryParameters,
   selectSelectedFolderId,
   selectSelectedRequestId,
@@ -26,18 +27,19 @@ export function useSaveRequest() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const collection = useAppSelector(selectCollectionData);
-  const method = useAppSelector(selectMethod);
-  const url = useAppSelector(selectUrl);
-  const headers = useAppSelector(selectHeaders);
   const body = useAppSelector(selectBody);
   const bodyParameters = useAppSelector(selectBodyParameters);
-  const queryParameters = useAppSelector(selectQueryParameters);
+  const collection = useAppSelector(selectCollectionData);
+  const disabled = useAppSelector(selectIsRequestDisabled);
+  const headers = useAppSelector(selectHeaders);
   const httpResponse = useAppSelector(selectHttpResponse);
+  const method = useAppSelector(selectMethod);
+  const preEvaluation = useAppSelector(selectPreEvaluation);
+  const queryParameters = useAppSelector(selectQueryParameters);
   const selectedFolderId = useAppSelector(selectSelectedFolderId);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const testResults = useAppSelector(selectCurrentTestResults);
-  const disabled = useAppSelector(selectIsRequestDisabled);
+  const url = useAppSelector(selectUrl);
 
   const saveRequest = useCallback(
     (duplicate = false) => {
@@ -45,10 +47,19 @@ export function useSaveRequest() {
       const parsedHeaders = parseHeaders(headers);
 
       if (!duplicate && requestId && findRequestById(collection, requestId))
-        dispatch(collectionActions.updateRequest({ requestId, method, url, headers: parsedHeaders, body }));
+        dispatch(
+          collectionActions.updateRequest({ body, headers: parsedHeaders, method, preEvaluation, requestId, url }),
+        );
       else {
         dispatch(
-          collectionActions.addRequest({ method, url, headers: parsedHeaders, body, folderId: selectedFolderId }),
+          collectionActions.addRequest({
+            body,
+            folderId: selectedFolderId,
+            headers: parsedHeaders,
+            method,
+            preEvaluation,
+            url,
+          }),
         );
 
         requestId = store.getState().collection.selectedRequestId;
@@ -76,6 +87,7 @@ export function useSaveRequest() {
       headers,
       httpResponse,
       method,
+      preEvaluation,
       queryParameters,
       selectedFolderId,
       selectedRequestId,
