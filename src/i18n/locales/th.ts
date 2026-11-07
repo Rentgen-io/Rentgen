@@ -572,6 +572,15 @@ const th = {
     runEachQuestion: 'แต่ละคำถามจะทำงานกับคำขอปัจจุบันและสภาพแวดล้อมที่เลือก',
     saveRequestMessage: 'บันทึกคำขอนี้ลงในคอลเลกชันเพื่อเก็บการประเมินและรายงาน',
     run: 'เรียกใช้การประเมินล่วงหน้า',
+    userPromptField: 'ฟิลด์พรอมต์ของผู้ใช้',
+    userPromptPlaceholder: 'เลือกฟิลด์ JSON',
+    responseTextField: 'ฟิลด์ข้อความตอบกลับ',
+    responseTextPlaceholder: 'ทั้งเนื้อหา หรือ /choices/0/message/content',
+    iterationsPerQuestion: 'จำนวนรอบต่อคำถาม',
+    addQuestion: 'เพิ่มคำถาม',
+    importCSV: 'นำเข้า CSV',
+    downloadCSVExample: 'ดาวน์โหลดตัวอย่าง CSV',
+    jsonBodyRequirement: 'ต้องมี JSON body ที่มีสตริงพรอมต์ของผู้ใช้ ไม่สามารถเลือกข้อความระบบและข้อความนักพัฒนาได้',
   },
 };
 

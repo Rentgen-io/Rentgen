@@ -564,6 +564,15 @@ const zhCN = {
     runEachQuestion: '每个问题都会针对当前请求和所选环境运行。',
     saveRequestMessage: '将此请求保存到集合中，以保留其评估和报告。',
     run: '运行预评估',
+    userPromptField: '用户提示词字段',
+    userPromptPlaceholder: '选择 JSON 字段',
+    responseTextField: '响应文本字段',
+    responseTextPlaceholder: '整个响应体，或 /choices/0/message/content',
+    iterationsPerQuestion: '每个问题的迭代次数',
+    addQuestion: '添加问题',
+    importCSV: '导入 CSV',
+    downloadCSVExample: '下载 CSV 示例',
+    jsonBodyRequirement: '需要包含用户提示词字符串的 JSON 请求体。无法选择系统消息和开发者消息。',
   },
 };
 

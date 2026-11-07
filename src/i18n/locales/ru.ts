@@ -578,6 +578,16 @@ const ru = {
     runEachQuestion: 'Каждый вопрос выполняется для текущего запроса и выбранного окружения.',
     saveRequestMessage: 'Сохраните этот запрос в коллекции, чтобы сохранить его оценку и отчёт.',
     run: 'Запустить предварительную оценку',
+    userPromptField: 'Поле пользовательского промпта',
+    userPromptPlaceholder: 'Выберите поле JSON',
+    responseTextField: 'Поле текста ответа',
+    responseTextPlaceholder: 'Всё тело или /choices/0/message/content',
+    iterationsPerQuestion: 'Итераций на вопрос',
+    addQuestion: 'Добавить вопрос',
+    importCSV: 'Импорт CSV',
+    downloadCSVExample: 'Скачать пример CSV',
+    jsonBodyRequirement:
+      'Требуется JSON-тело со строкой пользовательского промпта. Системные сообщения и сообщения разработчика выбрать нельзя.',
   },
 };
 

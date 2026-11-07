@@ -586,6 +586,16 @@ const fr = {
     runEachQuestion: "Chaque question est exécutée avec la requête actuelle et l'environnement sélectionné.",
     saveRequestMessage: 'Enregistrez cette requête dans une collection pour conserver son évaluation et son rapport.',
     run: 'Lancer la pré-évaluation',
+    userPromptField: 'Champ du prompt utilisateur',
+    userPromptPlaceholder: 'Sélectionner un champ JSON',
+    responseTextField: 'Champ du texte de réponse',
+    responseTextPlaceholder: 'Corps entier ou /choices/0/message/content',
+    iterationsPerQuestion: 'Itérations par question',
+    addQuestion: 'Ajouter une question',
+    importCSV: 'Importer un CSV',
+    downloadCSVExample: 'Télécharger un exemple de CSV',
+    jsonBodyRequirement:
+      'Un corps JSON contenant une chaîne de prompt utilisateur est requis. Les messages système et développeur ne peuvent pas être sélectionnés.',
   },
 };
 

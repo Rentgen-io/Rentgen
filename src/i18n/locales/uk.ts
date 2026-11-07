@@ -577,6 +577,16 @@ const uk = {
     runEachQuestion: 'Кожне запитання виконується для поточного запиту та вибраного середовища.',
     saveRequestMessage: 'Збережіть цей запит у колекції, щоб зберегти його оцінку та звіт.',
     run: 'Запустити попереднє оцінювання',
+    userPromptField: 'Поле запиту користувача',
+    userPromptPlaceholder: 'Виберіть поле JSON',
+    responseTextField: 'Поле тексту відповіді',
+    responseTextPlaceholder: 'Усе тіло або /choices/0/message/content',
+    iterationsPerQuestion: 'Ітерацій на запитання',
+    addQuestion: 'Додати запитання',
+    importCSV: 'Імпортувати CSV',
+    downloadCSVExample: 'Завантажити приклад CSV',
+    jsonBodyRequirement:
+      'Потрібне JSON-тіло з рядком запиту користувача. Системні повідомлення та повідомлення розробника вибрати не можна.',
   },
 };
 

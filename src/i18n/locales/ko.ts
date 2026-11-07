@@ -573,6 +573,16 @@ const ko = {
     runEachQuestion: '각 질문은 현재 요청과 선택한 환경을 대상으로 실행됩니다.',
     saveRequestMessage: '평가와 보고서를 보존하려면 이 요청을 컬렉션에 저장하세요.',
     run: '사전 평가 실행',
+    userPromptField: '사용자 프롬프트 필드',
+    userPromptPlaceholder: 'JSON 필드 선택',
+    responseTextField: '응답 텍스트 필드',
+    responseTextPlaceholder: '전체 본문 또는 /choices/0/message/content',
+    iterationsPerQuestion: '질문당 반복 횟수',
+    addQuestion: '질문 추가',
+    importCSV: 'CSV 가져오기',
+    downloadCSVExample: 'CSV 예시 다운로드',
+    jsonBodyRequirement:
+      '사용자 프롬프트 문자열이 포함된 JSON 본문이 필요합니다. 시스템 및 개발자 메시지는 선택할 수 없습니다.',
   },
 };
 

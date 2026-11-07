@@ -578,6 +578,16 @@ const tr = {
     runEachQuestion: 'Her soru, geçerli istek ve seçili ortam üzerinde çalıştırılır.',
     saveRequestMessage: 'Değerlendirmeyi ve raporu saklamak için bu isteği bir koleksiyona kaydedin.',
     run: 'Ön Değerlendirmeyi Çalıştır',
+    userPromptField: 'Kullanıcı istemi alanı',
+    userPromptPlaceholder: 'JSON alanı seçin',
+    responseTextField: 'Yanıt metni alanı',
+    responseTextPlaceholder: 'Tüm gövde veya /choices/0/message/content',
+    iterationsPerQuestion: 'Soru başına yineleme',
+    addQuestion: 'Soru Ekle',
+    importCSV: "CSV'yi İçe Aktar",
+    downloadCSVExample: 'CSV Örneğini İndir',
+    jsonBodyRequirement:
+      'Kullanıcı istemi dizesi içeren bir JSON gövdesi gereklidir. Sistem ve geliştirici mesajları seçilemez.',
   },
 };
 

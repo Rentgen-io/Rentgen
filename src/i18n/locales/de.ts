@@ -580,6 +580,16 @@ const de = {
     runEachQuestion: 'Jede Frage wird mit der aktuellen Anfrage und der ausgewählten Umgebung ausgeführt.',
     saveRequestMessage: 'Speichern Sie diese Anfrage in einer Sammlung, um die Bewertung und den Bericht zu behalten.',
     run: 'Vorabbewertung ausführen',
+    userPromptField: 'Feld für Benutzer-Prompt',
+    userPromptPlaceholder: 'JSON-Feld auswählen',
+    responseTextField: 'Feld für Antworttext',
+    responseTextPlaceholder: 'Gesamter Body oder /choices/0/message/content',
+    iterationsPerQuestion: 'Iterationen pro Frage',
+    addQuestion: 'Frage hinzufügen',
+    importCSV: 'CSV importieren',
+    downloadCSVExample: 'CSV-Beispiel herunterladen',
+    jsonBodyRequirement:
+      'Ein JSON-Body mit einem Benutzer-Prompt-String ist erforderlich. System- und Developer-Nachrichten können nicht ausgewählt werden.',
   },
 };
 

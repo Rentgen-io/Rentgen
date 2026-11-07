@@ -580,6 +580,16 @@ const it = {
     runEachQuestion: "Ogni domanda viene eseguita con la richiesta corrente e l'ambiente selezionato.",
     saveRequestMessage: 'Salva questa richiesta in una raccolta per conservarne la valutazione e il report.',
     run: 'Esegui pre-valutazione',
+    userPromptField: 'Campo del prompt utente',
+    userPromptPlaceholder: 'Seleziona campo JSON',
+    responseTextField: 'Campo del testo di risposta',
+    responseTextPlaceholder: 'Intero corpo, oppure /choices/0/message/content',
+    iterationsPerQuestion: 'Iterazioni per domanda',
+    addQuestion: 'Aggiungi domanda',
+    importCSV: 'Importa CSV',
+    downloadCSVExample: 'Scarica esempio CSV',
+    jsonBodyRequirement:
+      'È richiesto un corpo JSON con una stringa di prompt utente. I messaggi di sistema e sviluppatore non possono essere selezionati.',
   },
 };
 

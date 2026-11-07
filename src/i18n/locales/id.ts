@@ -573,6 +573,16 @@ const id = {
     runEachQuestion: 'Setiap pertanyaan dijalankan terhadap permintaan saat ini dan environment yang dipilih.',
     saveRequestMessage: 'Simpan permintaan ini ke koleksi untuk menyimpan evaluasi dan laporannya.',
     run: 'Jalankan Pra-Evaluasi',
+    userPromptField: 'Bidang prompt pengguna',
+    userPromptPlaceholder: 'Pilih bidang JSON',
+    responseTextField: 'Bidang teks respons',
+    responseTextPlaceholder: 'Seluruh body, atau /choices/0/message/content',
+    iterationsPerQuestion: 'Iterasi per pertanyaan',
+    addQuestion: 'Tambah Pertanyaan',
+    importCSV: 'Impor CSV',
+    downloadCSVExample: 'Unduh Contoh CSV',
+    jsonBodyRequirement:
+      'Body JSON dengan string prompt pengguna diperlukan. Pesan sistem dan developer tidak dapat dipilih.',
   },
 };
 

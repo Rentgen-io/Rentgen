@@ -580,6 +580,16 @@ const nl = {
     runEachQuestion: 'Elke vraag wordt uitgevoerd met het huidige verzoek en de geselecteerde omgeving.',
     saveRequestMessage: 'Sla dit verzoek op in een collectie om de evaluatie en het rapport te bewaren.',
     run: 'Voorevaluatie uitvoeren',
+    userPromptField: 'Veld voor gebruikersprompt',
+    userPromptPlaceholder: 'Selecteer JSON-veld',
+    responseTextField: 'Veld voor antwoordtekst',
+    responseTextPlaceholder: 'Hele body, of /choices/0/message/content',
+    iterationsPerQuestion: 'Iteraties per vraag',
+    addQuestion: 'Vraag toevoegen',
+    importCSV: 'CSV importeren',
+    downloadCSVExample: 'CSV-voorbeeld downloaden',
+    jsonBodyRequirement:
+      'Een JSON-body met een gebruikersprompt-string is vereist. Systeem- en developerberichten kunnen niet worden geselecteerd.',
   },
 };
 

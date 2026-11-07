@@ -123,27 +123,26 @@ export function AiRequestMaskControls({ onCancel }: Props) {
             });
           }}
         >
-          {isAiRunning ? (
-            <Loader className="h-4 w-4 [&>span]:border-2!" mode="dark" />
-          ) : (
-            t('controls.analyzeAndGenerateTests')
-          )}
+          {t('controls.analyzeAndGenerateTests')}
         </Button>
       </div>
       {isAiRunning && (
-        <div className="@xl:text-right text-xs text-muted-foreground">
-          <Trans
-            i18nKey="ai.waitingForResponse"
-            components={{
-              timer: (
-                <Timer
-                  className="font-bold text-foreground"
-                  startedAt={aiRunStartedAt}
-                  timeoutMs={AI_RESPONSE_TIMEOUT_MS}
-                />
-              ),
-            }}
-          />
+        <div className="flex items-center @xl:justify-end gap-2 @xl:text-right text-xs text-muted-foreground">
+          <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
+          <div>
+            <Trans
+              i18nKey="ai.waitingForResponse"
+              components={{
+                timer: (
+                  <Timer
+                    className="font-bold text-foreground"
+                    startedAt={aiRunStartedAt}
+                    timeoutMs={AI_RESPONSE_TIMEOUT_MS}
+                  />
+                ),
+              }}
+            />
+          </div>
         </div>
       )}
     </div>

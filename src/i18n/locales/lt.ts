@@ -578,6 +578,16 @@ const lt = {
     runEachQuestion: 'Kiekvienas klausimas vykdomas su dabartine užklausa ir pasirinkta aplinka.',
     saveRequestMessage: 'Išsaugokite šią užklausą kolekcijoje, kad išliktų jos vertinimas ir ataskaita.',
     run: 'Vykdyti išankstinį vertinimą',
+    userPromptField: 'Naudotojo užklausos laukas',
+    userPromptPlaceholder: 'Pasirinkite JSON lauką',
+    responseTextField: 'Atsakymo teksto laukas',
+    responseTextPlaceholder: 'Visas turinys arba /choices/0/message/content',
+    iterationsPerQuestion: 'Iteracijų skaičius vienam klausimui',
+    addQuestion: 'Pridėti klausimą',
+    importCSV: 'Importuoti CSV',
+    downloadCSVExample: 'Atsisiųsti CSV pavyzdį',
+    jsonBodyRequirement:
+      'Reikalingas JSON turinys su naudotojo užklausos eilute. Sistemos ir kūrėjo pranešimų pasirinkti negalima.',
   },
 };
 

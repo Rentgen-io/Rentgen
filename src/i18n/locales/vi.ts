@@ -574,6 +574,16 @@ const vi = {
     runEachQuestion: 'Mỗi câu hỏi được chạy với yêu cầu hiện tại và môi trường đã chọn.',
     saveRequestMessage: 'Lưu yêu cầu này vào một bộ sưu tập để giữ lại đánh giá và báo cáo.',
     run: 'Chạy tiền đánh giá',
+    userPromptField: 'Trường prompt của người dùng',
+    userPromptPlaceholder: 'Chọn trường JSON',
+    responseTextField: 'Trường văn bản phản hồi',
+    responseTextPlaceholder: 'Toàn bộ body, hoặc /choices/0/message/content',
+    iterationsPerQuestion: 'Số lần lặp mỗi câu hỏi',
+    addQuestion: 'Thêm câu hỏi',
+    importCSV: 'Nhập CSV',
+    downloadCSVExample: 'Tải xuống CSV mẫu',
+    jsonBodyRequirement:
+      'Cần có body JSON chứa chuỗi prompt của người dùng. Không thể chọn tin nhắn hệ thống và tin nhắn nhà phát triển.',
   },
 };
 

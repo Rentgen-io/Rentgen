@@ -580,6 +580,16 @@ const ptBR = {
     runEachQuestion: 'Cada pergunta é executada com a requisição atual e o ambiente selecionado.',
     saveRequestMessage: 'Salve esta requisição em uma coleção para manter sua avaliação e relatório.',
     run: 'Executar pré-avaliação',
+    userPromptField: 'Campo do prompt do usuário',
+    userPromptPlaceholder: 'Selecionar campo JSON',
+    responseTextField: 'Campo do texto da resposta',
+    responseTextPlaceholder: 'Corpo inteiro ou /choices/0/message/content',
+    iterationsPerQuestion: 'Iterações por pergunta',
+    addQuestion: 'Adicionar pergunta',
+    importCSV: 'Importar CSV',
+    downloadCSVExample: 'Baixar exemplo de CSV',
+    jsonBodyRequirement:
+      'É necessário um corpo JSON com uma string de prompt do usuário. Mensagens de sistema e de desenvolvedor não podem ser selecionadas.',
   },
 };
 

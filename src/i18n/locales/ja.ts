@@ -577,6 +577,16 @@ const ja = {
     runEachQuestion: '各質問は、現在のリクエストと選択した環境に対して実行されます。',
     saveRequestMessage: '評価とレポートを保持するには、このリクエストをコレクションに保存してください。',
     run: '事前評価を実行',
+    userPromptField: 'ユーザープロンプトのフィールド',
+    userPromptPlaceholder: 'JSONフィールドを選択',
+    responseTextField: 'レスポンステキストのフィールド',
+    responseTextPlaceholder: 'ボディ全体、または /choices/0/message/content',
+    iterationsPerQuestion: '質問ごとの反復回数',
+    addQuestion: '質問を追加',
+    importCSV: 'CSVをインポート',
+    downloadCSVExample: 'CSVの例をダウンロード',
+    jsonBodyRequirement:
+      'ユーザープロンプト文字列を含むJSONボディが必要です。システムメッセージと開発者メッセージは選択できません。',
   },
 };
 

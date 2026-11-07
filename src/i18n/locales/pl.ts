@@ -577,6 +577,16 @@ const pl = {
     runEachQuestion: 'Każde pytanie jest uruchamiane dla bieżącego żądania i wybranego środowiska.',
     saveRequestMessage: 'Zapisz to żądanie w kolekcji, aby zachować jego ocenę i raport.',
     run: 'Uruchom wstępną ocenę',
+    userPromptField: 'Pole promptu użytkownika',
+    userPromptPlaceholder: 'Wybierz pole JSON',
+    responseTextField: 'Pole tekstu odpowiedzi',
+    responseTextPlaceholder: 'Cała treść lub /choices/0/message/content',
+    iterationsPerQuestion: 'Iteracje na pytanie',
+    addQuestion: 'Dodaj pytanie',
+    importCSV: 'Importuj CSV',
+    downloadCSVExample: 'Pobierz przykład CSV',
+    jsonBodyRequirement:
+      'Wymagana jest treść JSON z ciągiem promptu użytkownika. Wiadomości systemowych i deweloperskich nie można wybrać.',
   },
 };
 

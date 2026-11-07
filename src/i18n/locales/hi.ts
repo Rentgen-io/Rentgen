@@ -573,6 +573,16 @@ const hi = {
     runEachQuestion: 'प्रत्येक प्रश्न वर्तमान रिक्वेस्ट और चुने गए एनवायरनमेंट के विरुद्ध चलता है।',
     saveRequestMessage: 'इसका मूल्यांकन और रिपोर्ट सुरक्षित रखने के लिए इस रिक्वेस्ट को किसी कलेक्शन में सेव करें।',
     run: 'प्री-इवैल्यूएशन चलाएँ',
+    userPromptField: 'उपयोगकर्ता प्रॉम्प्ट फ़ील्ड',
+    userPromptPlaceholder: 'JSON फ़ील्ड चुनें',
+    responseTextField: 'प्रतिक्रिया टेक्स्ट फ़ील्ड',
+    responseTextPlaceholder: 'पूरा बॉडी, या /choices/0/message/content',
+    iterationsPerQuestion: 'प्रति प्रश्न पुनरावृत्तियाँ',
+    addQuestion: 'प्रश्न जोड़ें',
+    importCSV: 'CSV आयात करें',
+    downloadCSVExample: 'CSV उदाहरण डाउनलोड करें',
+    jsonBodyRequirement:
+      'उपयोगकर्ता प्रॉम्प्ट स्ट्रिंग वाला JSON बॉडी आवश्यक है। सिस्टम और डेवलपर संदेश चुने नहीं जा सकते।',
   },
 };
 

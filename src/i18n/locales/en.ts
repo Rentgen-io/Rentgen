@@ -573,6 +573,16 @@ const en = {
     runEachQuestion: 'Each question runs against the current request and selected environment.',
     saveRequestMessage: 'Save this request to a collection to retain its evaluation and report.',
     run: 'Run Pre-Evaluation',
+    userPromptField: 'User prompt field',
+    userPromptPlaceholder: 'Select JSON field',
+    responseTextField: 'Response text field',
+    responseTextPlaceholder: 'Whole body, or /choices/0/message/content',
+    iterationsPerQuestion: 'Iterations per question',
+    addQuestion: 'Add Question',
+    importCSV: 'Import CSV',
+    downloadCSVExample: 'Download CSV Example',
+    jsonBodyRequirement:
+      'A JSON body with a user prompt string is required. System and developer messages cannot be selected.',
   },
 };
 
