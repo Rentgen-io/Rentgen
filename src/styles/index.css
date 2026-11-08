@@ -180,6 +180,10 @@
     }
   }
 
+  .rdt_noData {
+    @apply bg-transparent!;
+  }
+
   :is(.environment-data-table, .pre-evaluation-data-table) {
     @apply border border-border rounded!;
 
