@@ -591,6 +591,7 @@ const de = {
     downloadCSVExample: 'CSV-Beispiel herunterladen',
     jsonBodyRequirement:
       'Ein JSON-Body mit einem Benutzer-Prompt-String ist erforderlich. System- und Developer-Nachrichten können nicht ausgewählt werden.',
+    addTextPlaceholder: 'Text hinzufügen und Enter drücken',
   },
 };
 

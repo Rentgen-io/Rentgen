@@ -582,6 +582,7 @@ const th = {
     importCSV: 'นำเข้า CSV',
     downloadCSVExample: 'ดาวน์โหลดตัวอย่าง CSV',
     jsonBodyRequirement: 'ต้องมี JSON body ที่มีสตริงพรอมต์ของผู้ใช้ ไม่สามารถเลือกข้อความระบบและข้อความนักพัฒนาได้',
+    addTextPlaceholder: 'เพิ่มข้อความแล้วกด Enter',
   },
 };
 

@@ -589,6 +589,7 @@ const tr = {
     downloadCSVExample: 'CSV Örneğini İndir',
     jsonBodyRequirement:
       'Kullanıcı istemi dizesi içeren bir JSON gövdesi gereklidir. Sistem ve geliştirici mesajları seçilemez.',
+    addTextPlaceholder: 'Metin ekleyin ve Enter tuşuna basın',
   },
 };
 

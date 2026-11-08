@@ -591,6 +591,7 @@ const nl = {
     downloadCSVExample: 'CSV-voorbeeld downloaden',
     jsonBodyRequirement:
       'Een JSON-body met een gebruikersprompt-string is vereist. Systeem- en developerberichten kunnen niet worden geselecteerd.',
+    addTextPlaceholder: 'Voeg tekst toe en druk op Enter',
   },
 };
 

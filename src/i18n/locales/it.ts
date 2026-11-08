@@ -591,6 +591,7 @@ const it = {
     downloadCSVExample: 'Scarica esempio CSV',
     jsonBodyRequirement:
       'È richiesto un corpo JSON con una stringa di prompt utente. I messaggi di sistema e sviluppatore non possono essere selezionati.',
+    addTextPlaceholder: 'Aggiungi testo e premi Invio',
   },
 };
 

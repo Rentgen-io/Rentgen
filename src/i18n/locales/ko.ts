@@ -584,6 +584,7 @@ const ko = {
     downloadCSVExample: 'CSV 예시 다운로드',
     jsonBodyRequirement:
       '사용자 프롬프트 문자열이 포함된 JSON 본문이 필요합니다. 시스템 및 개발자 메시지는 선택할 수 없습니다.',
+    addTextPlaceholder: '텍스트를 추가하고 Enter를 누르세요',
   },
 };
 

@@ -584,6 +584,7 @@ const hi = {
     downloadCSVExample: 'CSV उदाहरण डाउनलोड करें',
     jsonBodyRequirement:
       'उपयोगकर्ता प्रॉम्प्ट स्ट्रिंग वाला JSON बॉडी आवश्यक है। सिस्टम और डेवलपर संदेश चुने नहीं जा सकते।',
+    addTextPlaceholder: 'टेक्स्ट जोड़ें और Enter दबाएँ',
   },
 };
 

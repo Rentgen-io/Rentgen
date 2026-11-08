@@ -584,6 +584,7 @@ const en = {
     downloadCSVExample: 'Download CSV Example',
     jsonBodyRequirement:
       'A JSON body with a user prompt string is required. System and developer messages cannot be selected.',
+    addTextPlaceholder: 'Add text and press Enter',
   },
 };
 

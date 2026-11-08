@@ -584,6 +584,7 @@ const id = {
     downloadCSVExample: 'Unduh Contoh CSV',
     jsonBodyRequirement:
       'Body JSON dengan string prompt pengguna diperlukan. Pesan sistem dan developer tidak dapat dipilih.',
+    addTextPlaceholder: 'Tambahkan teks lalu tekan Enter',
   },
 };
 

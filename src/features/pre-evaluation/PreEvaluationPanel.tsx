@@ -99,6 +99,13 @@ export default function PreEvaluationPanel() {
   const updatePreEvaluation = (changes: Partial<PreEvaluation>) =>
     dispatch(requestActions.setPreEvaluation({ ...preEvaluation, ...changes }));
 
+  const updateQuestion = (id: string, changes: Partial<EvaluationQuestion>) =>
+    updatePreEvaluation({
+      questions: preEvaluation.questions.map((question) =>
+        question.id === id ? { ...question, ...changes } : question,
+      ),
+    });
+
   const renderAddButton = (buttonType?: ButtonType) => (
     <Button
       buttonType={buttonType}
@@ -138,7 +145,7 @@ export default function PreEvaluationPanel() {
         <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-4">
           <div className="flex-auto flex flex-col @2xl:flex-row @2xl:items-center gap-2">
             <label className="flex items-center gap-2">
-              <FieldLabel label={t('preEvaluation.userPromptField')} />
+              <FieldLabel label={t('preEvaluation.userPromptField')} required />
               <Select
                 className="flex-1 @2xl:flex-none @2xl:min-w-40"
                 isSearchable={false}
@@ -203,24 +210,36 @@ export default function PreEvaluationPanel() {
             },
             {
               name: 'Question / Prompt',
-              cell: ({ prompt }) => (
-                <TextareaAutosize className="min-h-auto w-full my-1.5 mx-2.5" maxRows={3} value={prompt} />
+              cell: ({ id, prompt }) => (
+                <TextareaAutosize
+                  className="min-h-auto w-full my-1.5 mx-2.5"
+                  maxRows={3}
+                  value={prompt}
+                  onChange={(event) => updateQuestion(id, { prompt: event.target.value })}
+                />
               ),
             },
             {
               name: 'Contains (required)',
-              cell: ({ contains, containsMode }) => (
-                <ModeControls name="containsMode" mode={containsMode} terms={contains} addLabel={t('common.add')} />
+              cell: ({ contains, containsMode, id }) => (
+                <AssertionControls
+                  assertions={contains}
+                  name={`containsMode-${id}`}
+                  mode={containsMode}
+                  onAssertionsChange={(assertions) => updateQuestion(id, { contains: assertions })}
+                  onModeChange={(mode) => updateQuestion(id, { containsMode: mode })}
+                />
               ),
             },
             {
               name: 'Not Contains (forbidden)',
-              cell: ({ notContains, notContainsMode }) => (
-                <ModeControls
-                  name="notContainsMode"
+              cell: ({ notContains, notContainsMode, id }) => (
+                <AssertionControls
+                  assertions={notContains}
+                  name={`notContainsMode-${id}`}
                   mode={notContainsMode}
-                  terms={notContains}
-                  addLabel={t('common.add')}
+                  onAssertionsChange={(assertions) => updateQuestion(id, { notContains: assertions })}
+                  onModeChange={(mode) => updateQuestion(id, { notContainsMode: mode })}
                 />
               ),
             },
@@ -255,37 +274,69 @@ export default function PreEvaluationPanel() {
   );
 }
 
-function ModeControls({
+function AssertionControls({
+  assertions,
   name,
   mode,
-  terms,
-  addLabel,
+  onAssertionsChange,
+  onModeChange,
 }: {
+  assertions: string[];
   name: string;
-  mode: EvaluationQuestion['containsMode'];
-  terms: string[];
-  addLabel: string;
+  mode: MatchMode;
+  onAssertionsChange: (assertions: string[]) => void;
+  onModeChange: (mode: MatchMode) => void;
 }) {
+  const { t } = useTranslation();
+
+  const [isAdding, setIsAdding] = useState<boolean>(false);
+
   return (
-    <div className="flex h-full divide-x divide-border">
+    <div className="flex h-full min-w-0 divide-x divide-border">
       <div className="flex items-center py-1.5 px-2.5">
-        <RadioButtons name={name} options={modeOptions} value={mode} onChange={() => {}} />
+        <RadioButtons name={name} options={modeOptions} value={mode} onChange={(newMode) => onModeChange(newMode)} />
       </div>
-      <div className="flex items-center flex-wrap gap-2 py-1.5 px-2.5 text-foreground">
-        {terms.map((term, index) => (
-          <div className="flex items-center gap-1 py-0.5 pl-1 text-[11px] bg-secondary rounded" key={index}>
-            {term}
-            <ClearCrossIcon className="h-3.5 w-3.5 shrink-0 hover:text-red-600 cursor-pointer" />
+      <div className="flex items-center flex-wrap gap-2 min-w-0 py-1.5 px-2.5 text-foreground">
+        {assertions.map((assertion, index) => (
+          <div
+            className="flex items-center gap-1 py-0.5 pl-1 text-[11px] bg-secondary rounded truncate"
+            key={index}
+            title={assertion}
+          >
+            <span className="truncate">{assertion}</span>
+            <ClearCrossIcon
+              className="h-3.5 w-3.5 shrink-0 hover:text-red-600 cursor-pointer"
+              onClick={() => onAssertionsChange(assertions.filter((_, i) => i !== index))}
+            />
           </div>
         ))}
-        <Button
-          buttonSize={ButtonSize.SMALL}
-          buttonType={ButtonType.SECONDARY_OUTLINE}
-          className="inline-flex items-center gap-1 pl-1 text-[11px]! leading-[1.2] truncate"
-        >
-          <AddIcon className="h-2.5 w-2.5 shrink-0" />
-          {addLabel}
-        </Button>
+        {!isAdding && (
+          <Button
+            buttonSize={ButtonSize.SMALL}
+            buttonType={ButtonType.SECONDARY_OUTLINE}
+            className="inline-flex items-center gap-1 pl-1 text-[11px]! leading-[1.2] truncate"
+            onClick={() => setIsAdding(true)}
+          >
+            <AddIcon className="h-2.5 w-2.5 shrink-0" />
+            {t('common.add')}
+          </Button>
+        )}
+        {isAdding && (
+          <input
+            autoFocus
+            type="text"
+            className="flex-auto py-0.5 px-1 text-[11px] leading-[1.2] font-monospace text-foreground placeholder:text-muted-foreground bg-background border border-blue-300 rounded outline-none"
+            placeholder={t('preEvaluation.addTextPlaceholder')}
+            onBlur={() => setIsAdding(false)}
+            onKeyDown={(e) => {
+              const newAssertion = e.currentTarget.value.trim();
+              if (e.key === 'Enter' && newAssertion) {
+                onAssertionsChange([...assertions, newAssertion]);
+                setIsAdding(false);
+              } else if (e.key === 'Escape') setIsAdding(false);
+            }}
+          />
+        )}
       </div>
     </div>
   );

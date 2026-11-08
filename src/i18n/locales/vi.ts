@@ -585,6 +585,7 @@ const vi = {
     downloadCSVExample: 'Tải xuống CSV mẫu',
     jsonBodyRequirement:
       'Cần có body JSON chứa chuỗi prompt của người dùng. Không thể chọn tin nhắn hệ thống và tin nhắn nhà phát triển.',
+    addTextPlaceholder: 'Thêm văn bản và nhấn Enter',
   },
 };
 

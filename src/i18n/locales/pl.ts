@@ -588,6 +588,7 @@ const pl = {
     downloadCSVExample: 'Pobierz przykład CSV',
     jsonBodyRequirement:
       'Wymagana jest treść JSON z ciągiem promptu użytkownika. Wiadomości systemowych i deweloperskich nie można wybrać.',
+    addTextPlaceholder: 'Dodaj tekst i naciśnij Enter',
   },
 };
 

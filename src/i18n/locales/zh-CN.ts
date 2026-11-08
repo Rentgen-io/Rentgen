@@ -574,6 +574,7 @@ const zhCN = {
     importCSV: '导入 CSV',
     downloadCSVExample: '下载 CSV 示例',
     jsonBodyRequirement: '需要包含用户提示词字符串的 JSON 请求体。无法选择系统消息和开发者消息。',
+    addTextPlaceholder: '添加文本并按 Enter',
   },
 };
 

@@ -589,6 +589,7 @@ const lt = {
     downloadCSVExample: 'Atsisiųsti CSV pavyzdį',
     jsonBodyRequirement:
       'Reikalingas JSON turinys su naudotojo užklausos eilute. Sistemos ir kūrėjo pranešimų pasirinkti negalima.',
+    addTextPlaceholder: 'Pridėkite tekstą ir paspauskite Enter',
   },
 };
 

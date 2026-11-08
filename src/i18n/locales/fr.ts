@@ -597,6 +597,7 @@ const fr = {
     downloadCSVExample: 'Télécharger un exemple de CSV',
     jsonBodyRequirement:
       'Un corps JSON contenant une chaîne de prompt utilisateur est requis. Les messages système et développeur ne peuvent pas être sélectionnés.',
+    addTextPlaceholder: 'Ajoutez du texte et appuyez sur Entrée',
   },
 };
 

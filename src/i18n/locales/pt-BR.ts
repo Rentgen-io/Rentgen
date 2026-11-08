@@ -591,6 +591,7 @@ const ptBR = {
     downloadCSVExample: 'Baixar exemplo de CSV',
     jsonBodyRequirement:
       'É necessário um corpo JSON com uma string de prompt do usuário. Mensagens de sistema e de desenvolvedor não podem ser selecionadas.',
+    addTextPlaceholder: 'Adicione texto e pressione Enter',
   },
 };
 

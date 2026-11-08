@@ -588,6 +588,7 @@ const ja = {
     downloadCSVExample: 'CSVの例をダウンロード',
     jsonBodyRequirement:
       'ユーザープロンプト文字列を含むJSONボディが必要です。システムメッセージと開発者メッセージは選択できません。',
+    addTextPlaceholder: 'テキストを追加して Enter を押してください',
   },
 };
 

@@ -589,6 +589,7 @@ const ru = {
     downloadCSVExample: 'Скачать пример CSV',
     jsonBodyRequirement:
       'Требуется JSON-тело со строкой пользовательского промпта. Системные сообщения и сообщения разработчика выбрать нельзя.',
+    addTextPlaceholder: 'Добавьте текст и нажмите Enter',
   },
 };
 
