@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import ReactSelect, { ClassNamesConfig, GroupBase, Props as ReactSelectProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { twMerge } from 'tailwind-merge';
@@ -30,6 +31,8 @@ export default function Select<T, IsMulti extends boolean = false, L extends Rea
   styles,
   ...otherProps
 }: Props<T, IsMulti, L>) {
+  const { t } = useTranslation();
+
   const selectClassNames = mergeClassNames<T, IsMulti, L>(
     {
       container: () => 'min-w-27.5 text-xs',
@@ -76,12 +79,20 @@ export default function Select<T, IsMulti extends boolean = false, L extends Rea
       <CreatableSelect
         {...otherProps}
         classNames={selectClassNames}
-        styles={styles}
         formatCreateLabel={(value) => value}
+        noOptionsMessage={() => t('common.noOptions')}
+        styles={styles}
       />
     );
 
-  return <ReactSelect classNames={selectClassNames} styles={styles} {...otherProps} />;
+  return (
+    <ReactSelect
+      {...otherProps}
+      classNames={selectClassNames}
+      noOptionsMessage={() => t('common.noOptions')}
+      styles={styles}
+    />
+  );
 }
 
 export function mergeClassNames<T, IsMulti extends boolean, L extends ReactNode = ReactNode>(

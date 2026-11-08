@@ -46,6 +46,7 @@ const vi = {
     add: 'Thêm',
     back: 'Quay lại',
     stop: 'Dừng',
+    noOptions: 'Không có tùy chọn',
   },
 
   // Sidebar

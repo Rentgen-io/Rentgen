@@ -46,6 +46,7 @@ const zhCN = {
     add: '添加',
     back: '返回',
     stop: '停止',
+    noOptions: '无选项',
   },
 
   // Sidebar

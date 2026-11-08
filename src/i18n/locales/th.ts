@@ -46,6 +46,7 @@ const th = {
     add: 'เพิ่ม',
     back: 'ย้อนกลับ',
     stop: 'หยุด',
+    noOptions: 'ไม่มีตัวเลือก',
   },
 
   // Sidebar

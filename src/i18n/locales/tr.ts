@@ -46,6 +46,7 @@ const tr = {
     add: 'Ekle',
     back: 'Geri',
     stop: 'Durdur',
+    noOptions: 'Seçenek yok',
   },
 
   // Sidebar

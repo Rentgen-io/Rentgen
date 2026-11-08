@@ -113,6 +113,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       dispatch(requestActions.setHeaders(headersRecordToString(postmanHeadersToRecord(request.header))));
       dispatch(requestActions.setBody(request.body?.raw || ''));
 
+      if (item.preEvaluation) dispatch(requestActions.setPreEvaluation(item.preEvaluation));
       if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
     },
     [collection, isComparingTestResults, isDragging, isSelected, requestTestResults, runResult, dispatch, reset],

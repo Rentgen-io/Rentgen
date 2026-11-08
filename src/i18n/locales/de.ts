@@ -46,6 +46,7 @@ const de = {
     add: 'Hinzufügen',
     back: 'Zurück',
     stop: 'Stopp',
+    noOptions: 'Keine Optionen',
   },
 
   // Sidebar

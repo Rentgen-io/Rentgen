@@ -46,6 +46,7 @@ const nl = {
     add: 'Toevoegen',
     back: 'Terug',
     stop: 'Stoppen',
+    noOptions: 'Geen opties',
   },
 
   // Sidebar

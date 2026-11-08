@@ -46,6 +46,7 @@ const ptBR = {
     add: 'Adicionar',
     back: 'Voltar',
     stop: 'Parar',
+    noOptions: 'Sem opções',
   },
 
   // Sidebar

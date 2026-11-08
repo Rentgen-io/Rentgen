@@ -46,6 +46,7 @@ const ru = {
     add: 'Добавить',
     back: 'Назад',
     stop: 'Остановить',
+    noOptions: 'Нет вариантов',
   },
 
   // Sidebar

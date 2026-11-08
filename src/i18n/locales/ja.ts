@@ -46,6 +46,7 @@ const ja = {
     add: '追加',
     back: '戻る',
     stop: '停止',
+    noOptions: 'オプションなし',
   },
 
   // Sidebar

@@ -46,6 +46,7 @@ const ko = {
     add: '추가',
     back: '뒤로',
     stop: '중지',
+    noOptions: '옵션 없음',
   },
 
   // Sidebar

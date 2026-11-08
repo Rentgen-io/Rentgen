@@ -46,6 +46,7 @@ const id = {
     add: 'Tambah',
     back: 'Kembali',
     stop: 'Hentikan',
+    noOptions: 'Tidak ada opsi',
   },
 
   // Sidebar

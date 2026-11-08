@@ -46,6 +46,7 @@ const it = {
     add: 'Aggiungi',
     back: 'Indietro',
     stop: 'Interrompi',
+    noOptions: 'Nessuna opzione',
   },
 
   // Sidebar

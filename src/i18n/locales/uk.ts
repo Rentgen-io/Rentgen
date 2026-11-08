@@ -46,6 +46,7 @@ const uk = {
     add: 'Додати',
     back: 'Назад',
     stop: 'Зупинити',
+    noOptions: 'Немає варіантів',
   },
 
   // Sidebar

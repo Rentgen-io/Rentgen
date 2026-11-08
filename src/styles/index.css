@@ -116,14 +116,14 @@
 
   .json-plus-button {
     @apply inline-flex items-center justify-center align-middle h-3.75 w-3.75 mt-px ml-1 p-0 text-xs leading-1 border-transparent bg-transparent text-foreground rounded-xs opacity-0 pointer-events-none cursor-pointer outline-none!;
-  }
 
-  .json-plus-button.line-hovered {
-    @apply opacity-60 pointer-events-auto;
-  }
+    &.line-hovered {
+      @apply opacity-60 pointer-events-auto;
 
-  .json-plus-button.line-hovered:hover {
-    @apply opacity-100 bg-primary-hover text-white;
+      &:hover {
+        @apply opacity-100 bg-primary-hover text-white;
+      }
+    }
   }
 
   .react-tooltip {
@@ -165,52 +165,51 @@
 
   .rdt_expanderButton {
     @apply text-foreground!;
+
+    &:hover:not(:disabled),
+    &:focus {
+      @apply bg-transparent!;
+    }
+
+    &:disabled {
+      @apply hidden!;
+    }
+
+    > * {
+      @apply h-4! w-4!;
+    }
   }
 
-  .rdt_expanderButton:hover:not(:disabled),
-  .rdt_expanderButton:focus {
-    @apply bg-transparent!;
-  }
-
-  .rdt_expanderButton:disabled {
-    @apply hidden!;
-  }
-
-  .rdt_expanderButton > * {
-    @apply h-4! w-4!;
-  }
-
-  .environment-data-table {
+  :is(.environment-data-table, .pre-evaluation-data-table) {
     @apply border border-border rounded!;
-  }
 
-  .environment-data-table .rdt_wrapper,
-  .environment-data-table .rdt_Table {
-    @apply min-w-0!;
-  }
+    :is(.rdt_wrapper, .rdt_Table) {
+      @apply min-w-0!;
+    }
 
-  .environment-data-table .rdt_Table {
-    @apply bg-transparent!;
-  }
+    .rdt_Table {
+      @apply bg-transparent!;
+    }
 
-  .environment-data-table .rdt_headRow {
-    @apply min-h-auto! text-muted-foreground! bg-surface! border-border!;
-  }
+    .rdt_headRow {
+      @apply min-h-auto! text-muted-foreground! bg-surface! border-border!;
+    }
 
-  .environment-data-table .rdt_cellBaseHead {
-    @apply py-2! px-3! border-border!;
-  }
+    .rdt_cellBaseHead {
+      @apply py-2! px-3! border-border!;
+    }
 
-  .environment-data-table .rdt_TableRow {
-    @apply min-h-auto! bg-background! [content-visibility:visible]!;
-  }
+    .rdt_TableRow {
+      @apply min-h-auto! bg-background! [content-visibility:visible]!;
+    }
 
-  .environment-data-table .rdt_TableCell {
-    @apply p-0! border-border! overflow-hidden!;
-  }
+    .rdt_TableCell {
+      @apply p-0! border-border! overflow-hidden!;
+    }
 
-  .environment-data-table .rdt_cellBase:not(:last-of-type) {
-    @apply border-r!;
+    .rdt_cellBase:not(:last-of-type) {
+      @apply border-r!;
+    }
   }
 }
 

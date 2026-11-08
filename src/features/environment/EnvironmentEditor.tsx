@@ -145,9 +145,9 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           }),
         );
 
-      notify.success(t('common.saved'), { toastId: 'success-save-environment' });
+      if (!isNew) notify.success(t('common.saved'), { toastId: 'success-save-environment' });
     },
-    [dispatch, t],
+    [isNew, dispatch, t],
   );
 
   return (

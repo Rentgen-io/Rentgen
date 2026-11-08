@@ -46,6 +46,7 @@ const fr = {
     add: 'Ajouter',
     back: 'Retour',
     stop: 'Arrêter',
+    noOptions: 'Aucune option',
   },
 
   // Sidebar

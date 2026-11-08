@@ -69,12 +69,12 @@ export function useSaveRequest() {
       if (requestId && httpResponse)
         dispatch(
           collectionRunActions.addResult({
-            requestId,
-            status: extractStatusCode(httpResponse),
-            response: httpResponse,
             bodyParameters,
-            queryParameters,
             error: null,
+            queryParameters,
+            requestId,
+            response: httpResponse,
+            status: extractStatusCode(httpResponse),
           }),
         );
 

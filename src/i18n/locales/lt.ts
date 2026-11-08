@@ -46,6 +46,7 @@ const lt = {
     add: 'Pridėti',
     back: 'Atgal',
     stop: 'Sustabdyti',
+    noOptions: 'Nėra parinkčių',
   },
 
   // Sidebar

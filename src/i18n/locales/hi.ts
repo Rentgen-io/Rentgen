@@ -46,6 +46,7 @@ const hi = {
     add: 'जोड़ें',
     back: 'वापस',
     stop: 'रोकें',
+    noOptions: 'कोई विकल्प नहीं',
   },
 
   // Sidebar

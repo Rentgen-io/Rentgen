@@ -46,6 +46,7 @@ const es = {
     add: 'Añadir',
     back: 'Atrás',
     stop: 'Detener',
+    noOptions: 'Sin opciones',
   },
 
   // Sidebar
