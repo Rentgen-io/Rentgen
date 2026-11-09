@@ -28,6 +28,7 @@ import { uiActions } from 'src/store/slices/uiSlice';
 import { ReportFormat } from 'src/types';
 import { substituteRequestVariables } from 'src/utils';
 
+import ExportIcon from 'src/assets/icons/export-icon.svg';
 import PlayIcon from 'src/assets/icons/play-icon.svg';
 import StopIcon from 'src/assets/icons/stop-icon.svg';
 
@@ -131,8 +132,14 @@ export default function TestRunnerBar() {
                 value={exportFormatOptions.find((option) => option.value === exportFormat)}
                 onChange={(option) => option && dispatch(uiActions.setExportFormat(option.value))}
               />
-              <Button buttonType={ButtonType.SECONDARY_OUTLINE} disabled={isRunning} onClick={exportReport}>
-                {t('common.export')}
+              <Button
+                buttonType={ButtonType.SECONDARY_OUTLINE}
+                className="inline-flex items-center gap-2 truncate"
+                disabled={isRunning}
+                onClick={exportReport}
+              >
+                <ExportIcon className="w-4 h-4 shrink-0" />
+                <span className="truncate">{t('common.export')}</span>
               </Button>
             </div>
             <Button

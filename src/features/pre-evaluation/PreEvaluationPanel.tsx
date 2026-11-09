@@ -18,6 +18,7 @@ import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { EvaluationQuestion, MatchMode } from 'src/types';
 import { findPromptPointers, parseCsv, parseJsonObject, toCsv } from 'src/utils';
 import { notify } from 'src/utils/toast';
+import PreEvaluationReport from './PreEvaluationReport';
 
 import AddIcon from 'src/assets/icons/add-icon.svg';
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
@@ -116,16 +117,20 @@ export default function PreEvaluationPanel() {
 
   useEffect(() => setIterations(String(preEvaluation.iterations)), [preEvaluation.iterations]);
 
-  const saveFile = async (defaultPath: string, content: string) => {
+  const saveFile = async (content: string) => {
     try {
-      const result = await exportFile({ defaultPath, content, filters: [{ name: 'CSV', extensions: ['csv'] }] });
+      const result = await exportFile({
+        defaultPath: `pre-evaluation-${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.csv`,
+        content,
+        filters: [{ name: 'CSV', extensions: ['csv'] }],
+      });
 
       if (result?.error) throw new Error(result.error);
       if (result?.canceled) return;
 
-      notify.success(t('common.exported'), { toastId: 'pre-evaluation-export-success' });
+      notify.success(t('common.exported'), { toastId: 'success-pre-evaluation-export' });
     } catch {
-      notify.error(t('common.failed'), { toastId: 'pre-evaluation-export-error' });
+      notify.error(t('common.failed'), { toastId: 'error-pre-evaluation-export' });
     }
   };
 
@@ -237,10 +242,7 @@ export default function PreEvaluationPanel() {
                 const questions = preEvaluation.questions.length
                   ? preEvaluation.questions
                   : DEFAULT_EVALUATION_QUESTIONS;
-                saveFile(
-                  `pre-evaluation-${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.csv`,
-                  toCsv(questions),
-                );
+                saveFile(toCsv(questions));
               }}
             >
               <ExportIcon className="w-4 h-4 shrink-0" />
@@ -293,6 +295,7 @@ export default function PreEvaluationPanel() {
           <ProgressBar className="absolute bottom-0 left-0" max={totalRuns} value={currentRun} />
         )}
       </div>
+      {preEvaluation?.report && <PreEvaluationReport report={preEvaluation.report} />}
     </div>
   );
 }

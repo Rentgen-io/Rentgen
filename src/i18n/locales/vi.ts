@@ -601,6 +601,15 @@ const vi = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'Trường văn bản phản hồi bị thiếu hoặc không phải là chuỗi.',
     running: 'Đang chạy... ({{current}}/{{total}})',
+    preEvaluationReport: 'Báo cáo đánh giá sơ bộ',
+    lastRun: 'Lần chạy gần nhất: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Đã hoàn thành {{completed}} / {{planned}}',
+    questions: 'Câu hỏi',
+    totalRuns: 'Tổng số lần chạy',
+    passed: 'Đạt',
+    failed: 'Không đạt',
+    complianceRate: 'Tỷ lệ tuân thủ',
+    resultsPerQuestion: 'Kết quả theo từng câu hỏi',
   },
 };
 

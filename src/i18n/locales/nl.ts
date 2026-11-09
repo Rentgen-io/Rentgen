@@ -607,6 +607,15 @@ const nl = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'Het antwoordtekstveld ontbreekt of is geen string.',
     running: 'Bezig... ({{current}}/{{total}})',
+    preEvaluationReport: 'Voorevaluatierapport',
+    lastRun: 'Laatst uitgevoerd: {{date, datetime(dateStyle: medium)}}',
+    completed: '{{completed}} / {{planned}} voltooid',
+    questions: 'Vragen',
+    totalRuns: 'Totaal aantal runs',
+    passed: 'Geslaagd',
+    failed: 'Mislukt',
+    complianceRate: 'Nalevingspercentage',
+    resultsPerQuestion: 'Resultaten per vraag',
   },
 };
 

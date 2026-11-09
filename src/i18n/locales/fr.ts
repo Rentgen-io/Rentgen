@@ -613,6 +613,15 @@ const fr = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: "Le champ de texte de la réponse est manquant ou n'est pas une chaîne.",
     running: 'Exécution... ({{current}}/{{total}})',
+    preEvaluationReport: 'Rapport de préévaluation',
+    lastRun: 'Dernière exécution : {{date, datetime(dateStyle: medium)}}',
+    completed: '{{completed}} / {{planned}} terminées',
+    questions: 'Questions',
+    totalRuns: 'Total des exécutions',
+    passed: 'Réussies',
+    failed: 'Échouées',
+    complianceRate: 'Taux de conformité',
+    resultsPerQuestion: 'Résultats par question',
   },
 };
 

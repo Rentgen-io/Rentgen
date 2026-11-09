@@ -607,6 +607,15 @@ const de = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'Das Antworttextfeld fehlt oder ist kein String.',
     running: 'Wird ausgeführt... ({{current}}/{{total}})',
+    preEvaluationReport: 'Vorabbewertungsbericht',
+    lastRun: 'Letzter Lauf: {{date, datetime(dateStyle: medium)}}',
+    completed: '{{completed}} / {{planned}} abgeschlossen',
+    questions: 'Fragen',
+    totalRuns: 'Gesamtläufe',
+    passed: 'Bestanden',
+    failed: 'Fehlgeschlagen',
+    complianceRate: 'Konformitätsrate',
+    resultsPerQuestion: 'Ergebnisse pro Frage',
   },
 };
 

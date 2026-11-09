@@ -600,6 +600,15 @@ const hi = {
     httpError: 'HTTP {{statusCode}}।',
     responseTextFieldMissing: 'रिस्पॉन्स टेक्स्ट फ़ील्ड मौजूद नहीं है या स्ट्रिंग नहीं है।',
     running: 'चल रहा है... ({{current}}/{{total}})',
+    preEvaluationReport: 'प्री-मूल्यांकन रिपोर्ट',
+    lastRun: 'अंतिम रन: {{date, datetime(dateStyle: medium)}}',
+    completed: '{{completed}} / {{planned}} पूर्ण',
+    questions: 'प्रश्न',
+    totalRuns: 'कुल रन',
+    passed: 'उत्तीर्ण',
+    failed: 'विफल',
+    complianceRate: 'अनुपालन दर',
+    resultsPerQuestion: 'प्रति प्रश्न परिणाम',
   },
 };
 

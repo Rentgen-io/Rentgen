@@ -605,6 +605,15 @@ const ru = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'Поле текста ответа отсутствует или не является строкой.',
     running: 'Выполняется... ({{current}}/{{total}})',
+    preEvaluationReport: 'Отчёт предварительной оценки',
+    lastRun: 'Последний запуск: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Завершено {{completed}} / {{planned}}',
+    questions: 'Вопросы',
+    totalRuns: 'Всего запусков',
+    passed: 'Пройдено',
+    failed: 'Не пройдено',
+    complianceRate: 'Уровень соответствия',
+    resultsPerQuestion: 'Результаты по вопросам',
   },
 };
 

@@ -607,6 +607,15 @@ const it = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'Il campo di testo della risposta è mancante o non è una stringa.',
     running: 'In esecuzione... ({{current}}/{{total}})',
+    preEvaluationReport: 'Report di pre-valutazione',
+    lastRun: 'Ultima esecuzione: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Completate {{completed}} / {{planned}}',
+    questions: 'Domande',
+    totalRuns: 'Esecuzioni totali',
+    passed: 'Superate',
+    failed: 'Non superate',
+    complianceRate: 'Tasso di conformità',
+    resultsPerQuestion: 'Risultati per domanda',
   },
 };
 

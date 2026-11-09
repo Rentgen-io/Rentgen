@@ -607,6 +607,15 @@ const es = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'El campo de texto de la respuesta falta o no es una cadena.',
     running: 'Ejecutando... ({{current}}/{{total}})',
+    preEvaluationReport: 'Informe de preevaluación',
+    lastRun: 'Última ejecución: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Completadas {{completed}} / {{planned}}',
+    questions: 'Preguntas',
+    totalRuns: 'Ejecuciones totales',
+    passed: 'Aprobadas',
+    failed: 'Fallidas',
+    complianceRate: 'Tasa de cumplimiento',
+    resultsPerQuestion: 'Resultados por pregunta',
   },
 };
 

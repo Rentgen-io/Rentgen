@@ -598,6 +598,15 @@ const th = {
     httpError: 'HTTP {{statusCode}}',
     responseTextFieldMissing: 'ไม่มีฟิลด์ข้อความตอบกลับ หรือไม่ใช่สตริง',
     running: 'กำลังทำงาน... ({{current}}/{{total}})',
+    preEvaluationReport: 'รายงานการประเมินเบื้องต้น',
+    lastRun: 'รันล่าสุด: {{date, datetime(dateStyle: medium)}}',
+    completed: 'เสร็จสมบูรณ์ {{completed}} / {{planned}}',
+    questions: 'คำถาม',
+    totalRuns: 'จำนวนการรันทั้งหมด',
+    passed: 'ผ่าน',
+    failed: 'ไม่ผ่าน',
+    complianceRate: 'อัตราการปฏิบัติตามข้อกำหนด',
+    resultsPerQuestion: 'ผลลัพธ์ต่อคำถาม',
   },
 };
 

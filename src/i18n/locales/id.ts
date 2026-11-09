@@ -600,6 +600,15 @@ const id = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'Bidang teks respons tidak ada atau bukan string.',
     running: 'Berjalan... ({{current}}/{{total}})',
+    preEvaluationReport: 'Laporan Pra-Evaluasi',
+    lastRun: 'Terakhir dijalankan: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Selesai {{completed}} / {{planned}}',
+    questions: 'Pertanyaan',
+    totalRuns: 'Total Eksekusi',
+    passed: 'Lulus',
+    failed: 'Gagal',
+    complianceRate: 'Tingkat Kepatuhan',
+    resultsPerQuestion: 'Hasil per Pertanyaan',
   },
 };
 

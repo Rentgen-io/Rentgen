@@ -605,6 +605,15 @@ const tr = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'Yanıt metni alanı eksik veya bir dize değil.',
     running: 'Çalışıyor... ({{current}}/{{total}})',
+    preEvaluationReport: 'Ön Değerlendirme Raporu',
+    lastRun: 'Son çalıştırma: {{date, datetime(dateStyle: medium)}}',
+    completed: '{{completed}} / {{planned}} tamamlandı',
+    questions: 'Sorular',
+    totalRuns: 'Toplam Çalıştırma',
+    passed: 'Geçti',
+    failed: 'Başarısız',
+    complianceRate: 'Uyumluluk Oranı',
+    resultsPerQuestion: 'Soru Başına Sonuçlar',
   },
 };
 

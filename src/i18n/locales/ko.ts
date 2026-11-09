@@ -600,6 +600,15 @@ const ko = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: '응답 텍스트 필드가 없거나 문자열이 아닙니다.',
     running: '실행 중... ({{current}}/{{total}})',
+    preEvaluationReport: '사전 평가 보고서',
+    lastRun: '마지막 실행: {{date, datetime(dateStyle: medium)}}',
+    completed: '{{completed}} / {{planned}} 완료',
+    questions: '질문',
+    totalRuns: '총 실행 횟수',
+    passed: '통과',
+    failed: '실패',
+    complianceRate: '준수율',
+    resultsPerQuestion: '질문별 결과',
   },
 };
 

@@ -605,6 +605,15 @@ const lt = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'Atsakymo teksto lauko nėra arba jis nėra eilutė.',
     running: 'Vykdoma... ({{current}}/{{total}})',
+    preEvaluationReport: 'Išankstinio vertinimo ataskaita',
+    lastRun: 'Paskutinis paleidimas: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Baigta {{completed}} / {{planned}}',
+    questions: 'Klausimai',
+    totalRuns: 'Iš viso paleidimų',
+    passed: 'Išlaikyta',
+    failed: 'Neišlaikyta',
+    complianceRate: 'Atitikties rodiklis',
+    resultsPerQuestion: 'Rezultatai pagal klausimą',
   },
 };
 

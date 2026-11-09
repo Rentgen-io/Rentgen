@@ -160,12 +160,12 @@ const usePreEvaluation = () => {
 
       report.finishedAt = new Date().toISOString();
 
-      if (activeController === controller) dispatch(preEvaluationActions.setPreEvaluationReport(report));
+      dispatch(preEvaluationActions.setPreEvaluationReport(report));
     } finally {
       dispatch(preEvaluationActions.setIsRunning(false));
       activeController = null;
     }
-  }, [body, dispatch, dynamicVariables, headers, method, preEvaluation, selectedEnvironment, totalRuns, url, t]);
+  }, [body, dynamicVariables, headers, method, preEvaluation, selectedEnvironment, totalRuns, url, dispatch, t]);
 
   return {
     currentRun,

@@ -604,6 +604,15 @@ const pl = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'Pole tekstu odpowiedzi nie istnieje lub nie jest ciągiem znaków.',
     running: 'Uruchamianie... ({{current}}/{{total}})',
+    preEvaluationReport: 'Raport wstępnej oceny',
+    lastRun: 'Ostatnie uruchomienie: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Ukończono {{completed}} / {{planned}}',
+    questions: 'Pytania',
+    totalRuns: 'Łączna liczba uruchomień',
+    passed: 'Zaliczone',
+    failed: 'Niezaliczone',
+    complianceRate: 'Wskaźnik zgodności',
+    resultsPerQuestion: 'Wyniki dla każdego pytania',
   },
 };
 

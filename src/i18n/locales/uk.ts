@@ -604,6 +604,15 @@ const uk = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'Поле тексту відповіді відсутнє або не є рядком.',
     running: 'Виконується... ({{current}}/{{total}})',
+    preEvaluationReport: 'Звіт попередньої оцінки',
+    lastRun: 'Останній запуск: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Завершено {{completed}} / {{planned}}',
+    questions: 'Запитання',
+    totalRuns: 'Усього запусків',
+    passed: 'Пройдено',
+    failed: 'Не пройдено',
+    complianceRate: 'Рівень відповідності',
+    resultsPerQuestion: 'Результати за запитаннями',
   },
 };
 

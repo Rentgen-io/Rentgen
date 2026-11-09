@@ -607,6 +607,15 @@ const ptBR = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'O campo de texto da resposta está ausente ou não é uma string.',
     running: 'Executando... ({{current}}/{{total}})',
+    preEvaluationReport: 'Relatório de pré-avaliação',
+    lastRun: 'Última execução: {{date, datetime(dateStyle: medium)}}',
+    completed: '{{completed}} / {{planned}} concluídas',
+    questions: 'Perguntas',
+    totalRuns: 'Total de execuções',
+    passed: 'Aprovadas',
+    failed: 'Reprovadas',
+    complianceRate: 'Taxa de conformidade',
+    resultsPerQuestion: 'Resultados por pergunta',
   },
 };
 

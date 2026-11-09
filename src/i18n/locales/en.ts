@@ -600,6 +600,15 @@ const en = {
     httpError: 'HTTP {{statusCode}}.',
     responseTextFieldMissing: 'Response text field is missing or is not a string.',
     running: 'Running... ({{current}}/{{total}})',
+    preEvaluationReport: 'Pre-Evaluation Report',
+    lastRun: 'Last run: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Completed {{completed}} / {{planned}}',
+    questions: 'Questions',
+    totalRuns: 'Total Runs',
+    passed: 'Passed',
+    failed: 'Failed',
+    complianceRate: 'Compliance Rate',
+    resultsPerQuestion: 'Results per Question',
   },
 };
 

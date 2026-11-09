@@ -42,7 +42,7 @@ export function useSaveRequest() {
   const url = useAppSelector(selectUrl);
 
   const saveRequest = useCallback(
-    (duplicate = false) => {
+    ({ duplicate = false, silent = false }: { duplicate?: boolean; silent?: boolean } = {}) => {
       let requestId: string | null = selectedRequestId;
       const parsedHeaders = parseHeaders(headers);
 
@@ -78,7 +78,7 @@ export function useSaveRequest() {
           }),
         );
 
-      notify.success(t('common.saved'), { toastId: 'success-save-request' });
+      if (!silent) notify.success(t('common.saved'), { toastId: 'success-save-request' });
     },
     [
       body,
@@ -100,7 +100,7 @@ export function useSaveRequest() {
   const autoSaveRequest = useCallback(() => {
     if (disabled || !selectedRequestId) return;
 
-    saveRequest();
+    saveRequest({ silent: true });
   }, [disabled, selectedRequestId, saveRequest]);
 
   return { saveRequest, autoSaveRequest };

@@ -604,6 +604,15 @@ const ja = {
     httpError: 'HTTP {{statusCode}}。',
     responseTextFieldMissing: 'レスポンステキストフィールドが存在しないか、文字列ではありません。',
     running: '実行中... ({{current}}/{{total}})',
+    preEvaluationReport: '事前評価レポート',
+    lastRun: '最終実行: {{date, datetime(dateStyle: medium)}}',
+    completed: '{{completed}} / {{planned}} 完了',
+    questions: '質問',
+    totalRuns: '総実行回数',
+    passed: '合格',
+    failed: '不合格',
+    complianceRate: '準拠率',
+    resultsPerQuestion: '質問ごとの結果',
   },
 };
 

@@ -98,7 +98,11 @@ export default function RequestUrlBar() {
             </Button>
           )}
           <ActionsButton
-            actions={selectedRequestId ? [{ label: t('common.duplicate'), onClick: () => saveRequest(true) }] : []}
+            actions={
+              selectedRequestId
+                ? [{ label: t('common.duplicate'), onClick: () => saveRequest({ duplicate: true }) }]
+                : []
+            }
             buttonType={ButtonType.SECONDARY}
             disabled={disabled}
             onClick={() => saveRequest()}

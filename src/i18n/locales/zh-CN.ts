@@ -590,6 +590,15 @@ const zhCN = {
     httpError: 'HTTP {{statusCode}}。',
     responseTextFieldMissing: '响应文本字段缺失或不是字符串。',
     running: '运行中... ({{current}}/{{total}})',
+    preEvaluationReport: '预评估报告',
+    lastRun: '上次运行：{{date, datetime(dateStyle: medium)}}',
+    completed: '已完成 {{completed}} / {{planned}}',
+    questions: '问题',
+    totalRuns: '总运行次数',
+    passed: '通过',
+    failed: '未通过',
+    complianceRate: '合规率',
+    resultsPerQuestion: '各问题结果',
   },
 };
 
