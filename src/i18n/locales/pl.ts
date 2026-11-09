@@ -585,10 +585,15 @@ const pl = {
     iterationsPerQuestion: 'Iteracje na pytanie',
     addQuestion: 'Dodaj pytanie',
     importCSV: 'Importuj CSV',
-    downloadCSVExample: 'Pobierz przykład CSV',
+    exportCSVExample: 'Eksportuj przykład CSV',
     jsonBodyRequirement:
       'Wymagana jest treść JSON z ciągiem promptu użytkownika. Wiadomości systemowych i deweloperskich nie można wybrać.',
     addTextPlaceholder: 'Dodaj tekst i naciśnij Enter',
+    unclosedQuotedField: 'Plik CSV zawiera niezamknięte pole w cudzysłowie.',
+    invalidTerms: 'Wiersz {{rowNumber}}: Terminy muszą być tablicą JSON niepustych ciągów.',
+    expectedCsvColumns: 'Nieprawidłowy nagłówek. Oczekiwane kolumny: {{columns}}.',
+    invalidCsvRow: 'Wiersz {{rowNumber}}: Oczekiwano 5 kolumn i niepustego promptu.',
+    invalidOperator: 'Wiersz {{rowNumber}}: Operator musi mieć wartość AND lub OR.',
   },
 };
 

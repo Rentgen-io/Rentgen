@@ -582,10 +582,15 @@ const vi = {
     iterationsPerQuestion: 'Số lần lặp mỗi câu hỏi',
     addQuestion: 'Thêm câu hỏi',
     importCSV: 'Nhập CSV',
-    downloadCSVExample: 'Tải xuống CSV mẫu',
+    exportCSVExample: 'Xuất CSV mẫu',
     jsonBodyRequirement:
       'Cần có body JSON chứa chuỗi prompt của người dùng. Không thể chọn tin nhắn hệ thống và tin nhắn nhà phát triển.',
     addTextPlaceholder: 'Thêm văn bản và nhấn Enter',
+    unclosedQuotedField: 'CSV chứa một trường có dấu ngoặc kép chưa được đóng.',
+    invalidTerms: 'Hàng {{rowNumber}}: Các thuật ngữ phải là mảng JSON gồm các chuỗi không rỗng.',
+    expectedCsvColumns: 'Tiêu đề không hợp lệ. Các cột mong đợi: {{columns}}.',
+    invalidCsvRow: 'Hàng {{rowNumber}}: Cần 5 cột và một prompt không rỗng.',
+    invalidOperator: 'Hàng {{rowNumber}}: Toán tử phải là AND hoặc OR.',
   },
 };
 

@@ -586,10 +586,15 @@ const lt = {
     iterationsPerQuestion: 'Iteracijų skaičius vienam klausimui',
     addQuestion: 'Pridėti klausimą',
     importCSV: 'Importuoti CSV',
-    downloadCSVExample: 'Atsisiųsti CSV pavyzdį',
+    exportCSVExample: 'Eksportuoti CSV pavyzdį',
     jsonBodyRequirement:
       'Reikalingas JSON turinys su naudotojo užklausos eilute. Sistemos ir kūrėjo pranešimų pasirinkti negalima.',
     addTextPlaceholder: 'Pridėkite tekstą ir paspauskite Enter',
+    unclosedQuotedField: 'CSV faile yra neuždarytas laukas kabutėse.',
+    invalidTerms: '{{rowNumber}} eilutė: terminai turi būti JSON masyvas iš netuščių eilučių.',
+    expectedCsvColumns: 'Netinkama antraštė. Tikėtini stulpeliai: {{columns}}.',
+    invalidCsvRow: '{{rowNumber}} eilutė: tikėtasi 5 stulpelių ir netuščios užklausos.',
+    invalidOperator: '{{rowNumber}} eilutė: operatorius turi būti AND arba OR.',
   },
 };
 

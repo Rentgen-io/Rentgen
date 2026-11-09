@@ -149,19 +149,19 @@ registerMappingsHandlers();
 ipcMain.handle('get-app-version', () => app.getVersion());
 ipcMain.on('open-external', (_, url: string) => shell.openExternal(url));
 
-// Save report
+// Export file
 ipcMain.handle(
-  'save-report',
+  'export-file',
   async (_, payload: { defaultPath?: string; content: string; filters?: Electron.FileFilter[] }) => {
     const {
-      defaultPath = `rentgen-report-${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.json`,
+      defaultPath = `rentgen-file-${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.json`,
       content,
       filters,
     } = payload || {};
 
     const result = await dialog.showSaveDialog({
       defaultPath,
-      filters: filters ?? [{ name: 'Rentgen Report', extensions: ['json'] }],
+      filters: filters ?? [{ name: 'Rentgen File', extensions: ['json'] }],
     });
 
     if (result.canceled || !result.filePath) return { canceled: true };

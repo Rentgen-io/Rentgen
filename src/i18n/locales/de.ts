@@ -588,10 +588,15 @@ const de = {
     iterationsPerQuestion: 'Iterationen pro Frage',
     addQuestion: 'Frage hinzufügen',
     importCSV: 'CSV importieren',
-    downloadCSVExample: 'CSV-Beispiel herunterladen',
+    exportCSVExample: 'CSV-Beispiel exportieren',
     jsonBodyRequirement:
       'Ein JSON-Body mit einem Benutzer-Prompt-String ist erforderlich. System- und Developer-Nachrichten können nicht ausgewählt werden.',
     addTextPlaceholder: 'Text hinzufügen und Enter drücken',
+    unclosedQuotedField: 'Die CSV-Datei enthält ein nicht geschlossenes Feld in Anführungszeichen.',
+    invalidTerms: 'Zeile {{rowNumber}}: Begriffe müssen ein JSON-Array nicht leerer Strings sein.',
+    expectedCsvColumns: 'Ungültige Kopfzeile. Erwartete Spalten: {{columns}}.',
+    invalidCsvRow: 'Zeile {{rowNumber}}: 5 Spalten und ein nicht leerer Prompt erwartet.',
+    invalidOperator: 'Zeile {{rowNumber}}: Der Operator muss AND oder OR sein.',
   },
 };
 

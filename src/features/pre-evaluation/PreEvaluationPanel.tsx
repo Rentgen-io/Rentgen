@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
+import { exportFile } from 'src/api/files';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import { RadioButtons, RadioOption } from 'src/components/buttons/RadioButtons';
 import { FieldLabel } from 'src/components/inputs/FieldLabel';
@@ -16,7 +17,8 @@ import {
 } from 'src/store/selectors';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { EvaluationQuestion, MatchMode, PreEvaluation } from 'src/types';
-import { parseJsonObject } from 'src/utils';
+import { CSV_HEADERS, parseCsv, parseJsonObject, tryGetPromptPaths } from 'src/utils';
+import { notify } from 'src/utils/toast';
 import { v4 as uuidv4 } from 'uuid';
 
 import AddIcon from 'src/assets/icons/add-icon.svg';
@@ -90,11 +92,25 @@ export default function PreEvaluationPanel() {
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const preEvaluation = useAppSelector(selectPreEvaluation) ?? DEFAULT_PRE_EVALUATION;
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [iterations, setIterations] = useState<string>(String(preEvaluation.iterations));
 
   const promptPaths = tryGetPromptPaths(parseJsonObject(body));
 
   useEffect(() => setIterations(String(preEvaluation.iterations)), [preEvaluation.iterations]);
+
+  const saveFile = async (defaultPath: string, content: string) => {
+    try {
+      const result = await exportFile({ defaultPath, content, filters: [{ name: 'CSV', extensions: ['csv'] }] });
+
+      if (result?.error) throw new Error(result.error);
+      if (result?.canceled) return;
+
+      notify.success(t('common.exported'), { toastId: 'pre-evaluation-export-success' });
+    } catch {
+      notify.error(t('common.failed'), { toastId: 'pre-evaluation-export-error' });
+    }
+  };
 
   const updatePreEvaluation = (changes: Partial<PreEvaluation>) =>
     dispatch(requestActions.setPreEvaluation({ ...preEvaluation, ...changes }));
@@ -184,13 +200,66 @@ export default function PreEvaluationPanel() {
           </div>
           <div className="flex flex-col @xl:flex-row @xl:items-center gap-2">
             {renderAddButton()}
-            <Button buttonType={ButtonType.SECONDARY} className="inline-flex items-center gap-2 truncate">
+            <Button
+              buttonType={ButtonType.SECONDARY}
+              className="inline-flex items-center gap-2 truncate"
+              onClick={() => fileInputRef.current?.click()}
+            >
               <ImportIcon className="w-4 h-4 shrink-0" />
               <span className="truncate">{t('preEvaluation.importCSV')}</span>
             </Button>
-            <Button buttonType={ButtonType.SECONDARY} className="inline-flex items-center gap-2 truncate">
+            <input
+              accept=".csv,text/csv"
+              className="sr-only"
+              ref={fileInputRef}
+              tabIndex={-1}
+              type="file"
+              onChange={async (event) => {
+                const file = event.target.files?.[0];
+                event.target.value = '';
+
+                if (!file) return;
+
+                try {
+                  const questions = parseCsv(await file.text());
+                  updatePreEvaluation({ ...preEvaluation, questions });
+
+                  notify.success(t('common.imported'), { toastId: 'success-pre-evaluation-import' });
+                } catch (error) {
+                  notify.error(error instanceof Error ? error.message : String(error), {
+                    toastId: 'error-pre-evaluation-import',
+                  });
+                }
+              }}
+            />
+            <Button
+              buttonType={ButtonType.SECONDARY}
+              className="inline-flex items-center gap-2 truncate"
+              onClick={() => {
+                const questions = preEvaluation.questions.length
+                  ? preEvaluation.questions
+                  : DEFAULT_EVALUATION_QUESTIONS;
+                const content = [
+                  CSV_HEADERS,
+                  ...questions.map((question) => [
+                    question.prompt,
+                    JSON.stringify(question.contains),
+                    question.containsMode,
+                    JSON.stringify(question.notContains),
+                    question.notContainsMode,
+                  ]),
+                ]
+                  .map((row) => row.map((value) => `"${value.replace(/"/g, '""')}"`).join(','))
+                  .join('\r\n');
+
+                saveFile(
+                  `pre-evaluation-${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.csv`,
+                  '\uFEFF' + content,
+                );
+              }}
+            >
               <ExportIcon className="w-4 h-4 shrink-0" />
-              <span className="truncate">{t('preEvaluation.downloadCSVExample')}</span>
+              <span className="truncate">{t('preEvaluation.exportCSVExample')}</span>
             </Button>
           </div>
         </div>
@@ -340,22 +409,4 @@ function AssertionControls({
       </div>
     </div>
   );
-}
-
-function tryGetPromptPaths(value: unknown, path = ''): string[] {
-  try {
-    if (typeof value === 'string') return [path];
-    if (!value || typeof value !== 'object') return [];
-
-    const obj = value as Record<string, unknown>;
-    if (typeof obj.role === 'string' && ['system', 'developer'].includes(obj.role.toLowerCase())) return [];
-
-    return Object.entries(obj).flatMap(([key, child]) =>
-      ['role', 'system', 'system_prompt', 'systemprompt', 'developer', 'developer_prompt'].includes(key.toLowerCase())
-        ? []
-        : tryGetPromptPaths(child, `${path}/${key.replace(/~/g, '~0').replace(/\//g, '~1')}`),
-    );
-  } catch {
-    return [];
-  }
 }

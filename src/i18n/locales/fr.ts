@@ -594,10 +594,15 @@ const fr = {
     iterationsPerQuestion: 'Itérations par question',
     addQuestion: 'Ajouter une question',
     importCSV: 'Importer un CSV',
-    downloadCSVExample: 'Télécharger un exemple de CSV',
+    exportCSVExample: 'Exporter un exemple de CSV',
     jsonBodyRequirement:
       'Un corps JSON contenant une chaîne de prompt utilisateur est requis. Les messages système et développeur ne peuvent pas être sélectionnés.',
     addTextPlaceholder: 'Ajoutez du texte et appuyez sur Entrée',
+    unclosedQuotedField: 'Le CSV contient un champ entre guillemets non fermé.',
+    invalidTerms: 'Ligne {{rowNumber}} : les termes doivent être un tableau JSON de chaînes non vides.',
+    expectedCsvColumns: 'En-tête non valide. Colonnes attendues : {{columns}}.',
+    invalidCsvRow: 'Ligne {{rowNumber}} : 5 colonnes et un prompt non vide sont attendus.',
+    invalidOperator: "Ligne {{rowNumber}} : l'opérateur doit être AND ou OR.",
   },
 };
 

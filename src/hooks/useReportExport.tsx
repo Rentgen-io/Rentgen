@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appConfig } from 'shared/constants';
-import { generateCertificate as generateCertificateFile, saveReport } from 'src/api/files';
+import { exportFile, generateCertificate as generateCertificateFile } from 'src/api/files';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCurrentTestResults, selectExportFormat, selectHttpResponse } from 'src/store/selectors';
 import { ExportReport } from 'src/types';
@@ -42,7 +42,7 @@ export function useReportExport() {
     };
 
     try {
-      const result = await saveReport(formatReport(report, exportFormat));
+      const result = await exportFile(formatReport(report, exportFormat));
 
       if (result?.error) throw new Error(result.error);
       if (result?.canceled) return;

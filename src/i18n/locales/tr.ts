@@ -586,10 +586,15 @@ const tr = {
     iterationsPerQuestion: 'Soru başına yineleme',
     addQuestion: 'Soru Ekle',
     importCSV: "CSV'yi İçe Aktar",
-    downloadCSVExample: 'CSV Örneğini İndir',
+    exportCSVExample: 'CSV Örneğini Dışa Aktar',
     jsonBodyRequirement:
       'Kullanıcı istemi dizesi içeren bir JSON gövdesi gereklidir. Sistem ve geliştirici mesajları seçilemez.',
     addTextPlaceholder: 'Metin ekleyin ve Enter tuşuna basın',
+    unclosedQuotedField: 'CSV, kapatılmamış tırnaklı bir alan içeriyor.',
+    invalidTerms: 'Satır {{rowNumber}}: Terimler boş olmayan dizelerden oluşan bir JSON dizisi olmalıdır.',
+    expectedCsvColumns: 'Geçersiz başlık. Beklenen sütunlar: {{columns}}.',
+    invalidCsvRow: 'Satır {{rowNumber}}: 5 sütun ve boş olmayan bir istem bekleniyor.',
+    invalidOperator: 'Satır {{rowNumber}}: İşleç AND veya OR olmalıdır.',
   },
 };
 

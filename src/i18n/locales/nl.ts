@@ -588,10 +588,15 @@ const nl = {
     iterationsPerQuestion: 'Iteraties per vraag',
     addQuestion: 'Vraag toevoegen',
     importCSV: 'CSV importeren',
-    downloadCSVExample: 'CSV-voorbeeld downloaden',
+    exportCSVExample: 'CSV-voorbeeld exporteren',
     jsonBodyRequirement:
       'Een JSON-body met een gebruikersprompt-string is vereist. Systeem- en developerberichten kunnen niet worden geselecteerd.',
     addTextPlaceholder: 'Voeg tekst toe en druk op Enter',
+    unclosedQuotedField: 'De CSV bevat een niet-afgesloten veld tussen aanhalingstekens.',
+    invalidTerms: 'Rij {{rowNumber}}: Termen moeten een JSON-array van niet-lege strings zijn.',
+    expectedCsvColumns: 'Ongeldige header. Verwachte kolommen: {{columns}}.',
+    invalidCsvRow: 'Rij {{rowNumber}}: 5 kolommen en een niet-lege prompt verwacht.',
+    invalidOperator: 'Rij {{rowNumber}}: Operator moet AND of OR zijn.',
   },
 };
 

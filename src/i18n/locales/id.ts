@@ -581,10 +581,15 @@ const id = {
     iterationsPerQuestion: 'Iterasi per pertanyaan',
     addQuestion: 'Tambah Pertanyaan',
     importCSV: 'Impor CSV',
-    downloadCSVExample: 'Unduh Contoh CSV',
+    exportCSVExample: 'Ekspor Contoh CSV',
     jsonBodyRequirement:
       'Body JSON dengan string prompt pengguna diperlukan. Pesan sistem dan developer tidak dapat dipilih.',
     addTextPlaceholder: 'Tambahkan teks lalu tekan Enter',
+    unclosedQuotedField: 'CSV berisi kolom bertanda kutip yang tidak ditutup.',
+    invalidTerms: 'Baris {{rowNumber}}: Istilah harus berupa array JSON berisi string yang tidak kosong.',
+    expectedCsvColumns: 'Header tidak valid. Kolom yang diharapkan: {{columns}}.',
+    invalidCsvRow: 'Baris {{rowNumber}}: Diharapkan 5 kolom dan prompt yang tidak kosong.',
+    invalidOperator: 'Baris {{rowNumber}}: Operator harus AND atau OR.',
   },
 };
 

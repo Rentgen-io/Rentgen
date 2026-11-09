@@ -585,10 +585,15 @@ const ja = {
     iterationsPerQuestion: '質問ごとの反復回数',
     addQuestion: '質問を追加',
     importCSV: 'CSVをインポート',
-    downloadCSVExample: 'CSVの例をダウンロード',
+    exportCSVExample: 'CSVの例をエクスポート',
     jsonBodyRequirement:
       'ユーザープロンプト文字列を含むJSONボディが必要です。システムメッセージと開発者メッセージは選択できません。',
     addTextPlaceholder: 'テキストを追加して Enter を押してください',
+    unclosedQuotedField: 'CSVに閉じられていない引用符付きフィールドがあります。',
+    invalidTerms: '{{rowNumber}}行目: 用語は空でない文字列のJSON配列である必要があります。',
+    expectedCsvColumns: 'ヘッダーが無効です。必要な列: {{columns}}。',
+    invalidCsvRow: '{{rowNumber}}行目: 5列と空でないプロンプトが必要です。',
+    invalidOperator: '{{rowNumber}}行目: 演算子は AND または OR である必要があります。',
   },
 };
 

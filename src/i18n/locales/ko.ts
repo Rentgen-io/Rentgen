@@ -581,10 +581,15 @@ const ko = {
     iterationsPerQuestion: '질문당 반복 횟수',
     addQuestion: '질문 추가',
     importCSV: 'CSV 가져오기',
-    downloadCSVExample: 'CSV 예시 다운로드',
+    exportCSVExample: 'CSV 예시 내보내기',
     jsonBodyRequirement:
       '사용자 프롬프트 문자열이 포함된 JSON 본문이 필요합니다. 시스템 및 개발자 메시지는 선택할 수 없습니다.',
     addTextPlaceholder: '텍스트를 추가하고 Enter를 누르세요',
+    unclosedQuotedField: 'CSV에 닫히지 않은 따옴표 필드가 있습니다.',
+    invalidTerms: '{{rowNumber}}행: 용어는 비어 있지 않은 문자열의 JSON 배열이어야 합니다.',
+    expectedCsvColumns: '헤더가 올바르지 않습니다. 필요한 열: {{columns}}.',
+    invalidCsvRow: '{{rowNumber}}행: 5개의 열과 비어 있지 않은 프롬프트가 필요합니다.',
+    invalidOperator: '{{rowNumber}}행: 연산자는 AND 또는 OR이어야 합니다.',
   },
 };
 

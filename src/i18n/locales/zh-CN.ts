@@ -572,9 +572,14 @@ const zhCN = {
     iterationsPerQuestion: '每个问题的迭代次数',
     addQuestion: '添加问题',
     importCSV: '导入 CSV',
-    downloadCSVExample: '下载 CSV 示例',
+    exportCSVExample: '导出 CSV 示例',
     jsonBodyRequirement: '需要包含用户提示词字符串的 JSON 请求体。无法选择系统消息和开发者消息。',
     addTextPlaceholder: '添加文本并按 Enter',
+    unclosedQuotedField: 'CSV 包含未闭合的引号字段。',
+    invalidTerms: '第 {{rowNumber}} 行：术语必须是由非空字符串组成的 JSON 数组。',
+    expectedCsvColumns: '标题行无效。预期列：{{columns}}。',
+    invalidCsvRow: '第 {{rowNumber}} 行：应有 5 列且提示词不能为空。',
+    invalidOperator: '第 {{rowNumber}} 行：运算符必须是 AND 或 OR。',
   },
 };
 

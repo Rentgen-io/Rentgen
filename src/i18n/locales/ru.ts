@@ -586,10 +586,15 @@ const ru = {
     iterationsPerQuestion: 'Итераций на вопрос',
     addQuestion: 'Добавить вопрос',
     importCSV: 'Импорт CSV',
-    downloadCSVExample: 'Скачать пример CSV',
+    exportCSVExample: 'Экспортировать пример CSV',
     jsonBodyRequirement:
       'Требуется JSON-тело со строкой пользовательского промпта. Системные сообщения и сообщения разработчика выбрать нельзя.',
     addTextPlaceholder: 'Добавьте текст и нажмите Enter',
+    unclosedQuotedField: 'CSV содержит незакрытое поле в кавычках.',
+    invalidTerms: 'Строка {{rowNumber}}: термины должны быть JSON-массивом непустых строк.',
+    expectedCsvColumns: 'Недопустимый заголовок. Ожидаемые столбцы: {{columns}}.',
+    invalidCsvRow: 'Строка {{rowNumber}}: ожидается 5 столбцов и непустой промпт.',
+    invalidOperator: 'Строка {{rowNumber}}: оператор должен быть AND или OR.',
   },
 };
 

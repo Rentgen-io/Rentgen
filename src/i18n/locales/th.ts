@@ -580,9 +580,14 @@ const th = {
     iterationsPerQuestion: 'จำนวนรอบต่อคำถาม',
     addQuestion: 'เพิ่มคำถาม',
     importCSV: 'นำเข้า CSV',
-    downloadCSVExample: 'ดาวน์โหลดตัวอย่าง CSV',
+    exportCSVExample: 'ส่งออกตัวอย่าง CSV',
     jsonBodyRequirement: 'ต้องมี JSON body ที่มีสตริงพรอมต์ของผู้ใช้ ไม่สามารถเลือกข้อความระบบและข้อความนักพัฒนาได้',
     addTextPlaceholder: 'เพิ่มข้อความแล้วกด Enter',
+    unclosedQuotedField: 'CSV มีฟิลด์ที่อยู่ในเครื่องหมายคำพูดซึ่งไม่ได้ปิด',
+    invalidTerms: 'แถว {{rowNumber}}: เงื่อนไขต้องเป็นอาร์เรย์ JSON ของสตริงที่ไม่ว่างเปล่า',
+    expectedCsvColumns: 'ส่วนหัวไม่ถูกต้อง คอลัมน์ที่คาดหวัง: {{columns}}',
+    invalidCsvRow: 'แถว {{rowNumber}}: ต้องมี 5 คอลัมน์และพรอมต์ที่ไม่ว่างเปล่า',
+    invalidOperator: 'แถว {{rowNumber}}: ตัวดำเนินการต้องเป็น AND หรือ OR',
   },
 };
 

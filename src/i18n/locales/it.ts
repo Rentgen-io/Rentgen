@@ -588,10 +588,15 @@ const it = {
     iterationsPerQuestion: 'Iterazioni per domanda',
     addQuestion: 'Aggiungi domanda',
     importCSV: 'Importa CSV',
-    downloadCSVExample: 'Scarica esempio CSV',
+    exportCSVExample: 'Esporta esempio CSV',
     jsonBodyRequirement:
       'È richiesto un corpo JSON con una stringa di prompt utente. I messaggi di sistema e sviluppatore non possono essere selezionati.',
     addTextPlaceholder: 'Aggiungi testo e premi Invio',
+    unclosedQuotedField: 'Il CSV contiene un campo tra virgolette non chiuso.',
+    invalidTerms: 'Riga {{rowNumber}}: i termini devono essere un array JSON di stringhe non vuote.',
+    expectedCsvColumns: 'Intestazione non valida. Colonne previste: {{columns}}.',
+    invalidCsvRow: 'Riga {{rowNumber}}: sono previste 5 colonne e un prompt non vuoto.',
+    invalidOperator: "Riga {{rowNumber}}: l'operatore deve essere AND o OR.",
   },
 };
 

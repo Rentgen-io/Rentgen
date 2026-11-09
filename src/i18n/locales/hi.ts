@@ -581,10 +581,15 @@ const hi = {
     iterationsPerQuestion: 'प्रति प्रश्न पुनरावृत्तियाँ',
     addQuestion: 'प्रश्न जोड़ें',
     importCSV: 'CSV आयात करें',
-    downloadCSVExample: 'CSV उदाहरण डाउनलोड करें',
+    exportCSVExample: 'CSV उदाहरण निर्यात करें',
     jsonBodyRequirement:
       'उपयोगकर्ता प्रॉम्प्ट स्ट्रिंग वाला JSON बॉडी आवश्यक है। सिस्टम और डेवलपर संदेश चुने नहीं जा सकते।',
     addTextPlaceholder: 'टेक्स्ट जोड़ें और Enter दबाएँ',
+    unclosedQuotedField: 'CSV में एक उद्धरण चिह्नों वाला फ़ील्ड बंद नहीं किया गया है।',
+    invalidTerms: 'पंक्ति {{rowNumber}}: शब्द गैर-रिक्त स्ट्रिंग्स का JSON ऐरे होने चाहिए।',
+    expectedCsvColumns: 'अमान्य हेडर। अपेक्षित कॉलम: {{columns}}।',
+    invalidCsvRow: 'पंक्ति {{rowNumber}}: 5 कॉलम और एक गैर-रिक्त प्रॉम्प्ट अपेक्षित है।',
+    invalidOperator: 'पंक्ति {{rowNumber}}: ऑपरेटर AND या OR होना चाहिए।',
   },
 };
 
