@@ -78,7 +78,7 @@ export default function TestRunnerBar() {
         </div>
         {isRunningTests && (
           <LoaderWithText
-            className="w-auto text-xs font-normal [&_.loader]:h-4 [&_.loader]:w-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
+            className="w-auto text-xs font-normal [&_.loader]:size-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
             text={t('tests.runningTests', { current: currentTest, total: testsCount })}
           />
         )}
@@ -99,12 +99,12 @@ export default function TestRunnerBar() {
                 });
               }}
             >
-              <PlayIcon className="h-4 w-4 shrink-0" />
+              <PlayIcon className="size-4 shrink-0" />
               <span className="@xl:truncate">{t('tests.generateAndRun')}</span>
             </Button>
           ) : (
             <Button className="inline-flex items-center gap-2 @xl:truncate" onClick={() => cancelAllTests(false)}>
-              <StopIcon className="h-4 w-4 shrink-0" />
+              <StopIcon className="size-4 shrink-0" />
               <span className="@xl:truncate">{t('common.stop')}</span>
             </Button>
           )}
@@ -138,7 +138,7 @@ export default function TestRunnerBar() {
                 disabled={isRunning}
                 onClick={exportReport}
               >
-                <ExportIcon className="w-4 h-4 shrink-0" />
+                <ExportIcon className="size-4 shrink-0" />
                 <span className="truncate">{t('common.export')}</span>
               </Button>
             </div>

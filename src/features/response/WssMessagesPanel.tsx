@@ -18,7 +18,7 @@ export default function WssMessagesPanel() {
             <div className="flex items-center gap-4">
               {direction !== 'system' && (
                 <span
-                  className={cn('h-5 w-5 font-medium text-center leading-normal rotate-90', {
+                  className={cn('size-5 font-medium text-center leading-normal rotate-90', {
                     'text-method-post bg-method-post/10': direction === 'sent',
                     'text-method-put bg-method-put/10': direction === 'received',
                   })}

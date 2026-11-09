@@ -63,11 +63,11 @@ export default function RequestModeBar() {
           onSelect={(id) => dispatch(environmentActions.selectEnvironment(id))}
         />
         <IconButton onClick={() => dispatch(settingsActions.toggleTheme())}>
-          <DarkModeIcon className="h-4 w-4 dark:hidden" />
-          <LightModeIcon className="hidden dark:block h-4 w-4" />
+          <DarkModeIcon className="size-4 dark:hidden" />
+          <LightModeIcon className="hidden dark:block size-4" />
         </IconButton>
         <IconButton onClick={() => dispatch(modalsActions.openReloadModal())}>
-          <ReloadIcon className="h-4 w-4" />
+          <ReloadIcon className="size-4" />
         </IconButton>
       </div>
     </div>

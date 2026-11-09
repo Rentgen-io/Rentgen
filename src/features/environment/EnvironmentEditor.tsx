@@ -160,7 +160,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
         className="absolute top-1.5 right-1.5"
         onClick={() => dispatch(environmentActions.stopEditing())}
       >
-        <ClearCrossIcon className="h-5 w-5" />
+        <ClearCrossIcon className="size-5" />
       </IconButton>
       <div className="flex flex-col flex-auto gap-4 p-4">
         <div className="flex flex-col gap-2">
@@ -224,7 +224,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                           )}
                         >
                           <TrashIcon
-                            className="h-3 w-3 text-muted-foreground hover:text-red-600 cursor-pointer"
+                            className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
                             onClick={() =>
                               row.type === 'static'
                                 ? handleVariableChange(row.index, 'key', '')

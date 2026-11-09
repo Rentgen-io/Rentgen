@@ -132,7 +132,7 @@ export default function TestsPanel() {
                 title={label}
               >
                 {isRunning ? (
-                  <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
+                  <Loader className="size-4 shrink-0 [&>span]:border-2!" />
                 ) : (
                   <span
                     className={twMerge(

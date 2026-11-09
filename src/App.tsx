@@ -129,7 +129,7 @@ export default function App() {
                           key={label}
                           className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer"
                         >
-                          {isRunning && <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />}
+                          {isRunning && <Loader className="size-4 shrink-0 [&>span]:border-2!" />}
                           <span className="truncate">{label}</span>
                         </Tab>
                       ))}

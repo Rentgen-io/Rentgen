@@ -172,7 +172,7 @@ export default function TestResultsComparisonPanel({ items, response }: Props) {
         className="absolute top-1.5 right-1.5"
         onClick={() => dispatch(testsActions.clearResultsToCompare())}
       >
-        <ClearCrossIcon className="h-5 w-5" />
+        <ClearCrossIcon className="size-5" />
       </IconButton>
       {items.length < 2 ? (
         <p className="p-4 m-0">{t('comparison.noTestResults')}</p>
@@ -192,7 +192,7 @@ export default function TestResultsComparisonPanel({ items, response }: Props) {
                 className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer"
                 title={label}
               >
-                {isComputing && <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />}
+                {isComputing && <Loader className="size-4 shrink-0 [&>span]:border-2!" />}
                 <span className="truncate">{label}</span>
               </Tab>
             ))}

@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { exportFile } from 'src/api/files';
 import Button, { ButtonType } from 'src/components/buttons/Button';
@@ -20,6 +21,25 @@ export default function PreEvaluationReport({ report }: Props) {
   const passed = results.length - failed.length;
   const durationMs = finishedAt ? Date.parse(finishedAt) - Date.parse(startedAt) : NaN;
   const duration = durationMs >= 0 ? ` (${formatDuration(durationMs)})` : '';
+
+  const questionStatistics = useMemo(() => {
+    const statistics = new Map<string, { id: string; prompt: string; passed: number; total: number }>();
+
+    for (const { prompt, questionId, reasons } of results) {
+      const stat = statistics.get(questionId) ?? {
+        id: questionId,
+        prompt,
+        passed: 0,
+        total: 0,
+      };
+      stat.total++;
+
+      if (!reasons.length) stat.passed++;
+      statistics.set(questionId, stat);
+    }
+
+    return [...statistics.values()];
+  }, [results]);
 
   const exportReport = async (content: string) => {
     try {
@@ -54,14 +74,14 @@ export default function PreEvaluationReport({ report }: Props) {
             className="inline-flex items-center gap-2 truncate"
             onClick={() => exportReport(JSON.stringify(report, null, 2))}
           >
-            <ExportIcon className="w-4 h-4 shrink-0" />
+            <ExportIcon className="size-4 shrink-0" />
             <span className="truncate">{t('common.export')}</span>
           </Button>
         </div>
       </div>
       <div className="grid grid-cols-2 @xl:grid-cols-5 gap-2">
         {[
-          [t('preEvaluation.questions'), new Set(results.map((result) => result.questionId)).size, 'text-metric-bug'],
+          [t('preEvaluation.questions'), questionStatistics.length, 'text-metric-bug'],
           [t('preEvaluation.totalRuns'), results.length, 'text-foreground'],
           [t('preEvaluation.passed'), passed, 'text-metric-pass'],
           [t('preEvaluation.failed'), failed.length, 'text-metric-fail'],
@@ -77,8 +97,52 @@ export default function PreEvaluationReport({ report }: Props) {
           </div>
         ))}
       </div>
-      <div>
-        <h6 className="m-0 text-xs font-semibold">{t('preEvaluation.resultsPerQuestion')}</h6>
+      <div className="flex flex-col gap-3 py-3 px-4 border border-border rounded">
+        <div className="flex items-center justify-between gap-2">
+          <h6 className="m-0 text-xs font-semibold">{t('preEvaluation.resultsPerQuestion')}</h6>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-1">
+              <span className="size-2 bg-metric-pass rounded-full" />
+              {t('preEvaluation.passed')}
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <span className="size-2 bg-metric-fail rounded-full" />
+              {t('preEvaluation.failed')}
+            </span>
+          </div>
+        </div>
+        {questionStatistics.map(({ id, passed, prompt, total }, index) => {
+          const failed = total - passed;
+
+          return (
+            <div key={id} className="flex items-center gap-3 text-xs">
+              <span className="w-2/5 truncate" title={prompt}>
+                {index + 1}. {prompt}
+              </span>
+              <div
+                className="flex flex-1 h-5 gap-0.5 font-semibold text-white"
+                title={`${t('preEvaluation.passed')}: ${passed} · ${t('preEvaluation.failed')}: ${failed}`}
+              >
+                {passed > 0 && (
+                  <span
+                    className="flex items-center justify-center min-w-max px-1.5 bg-metric-pass rounded"
+                    style={{ flex: `${passed} 1 0` }}
+                  >
+                    {passed} / {total}
+                  </span>
+                )}
+                {failed > 0 && (
+                  <span
+                    className="flex items-center justify-center min-w-max px-1.5 bg-metric-fail rounded"
+                    style={{ flex: `${failed} 1 0` }}
+                  >
+                    {passed ? failed : `${failed} / ${total}`}
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

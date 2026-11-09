@@ -111,7 +111,7 @@
   }
 
   input[type='radio'] {
-    @apply appearance-none h-2.75 w-2.75 bg-white border-2 border-white rounded-full outline outline-muted-foreground cursor-pointer;
+    @apply appearance-none size-2.75 bg-white border-2 border-white rounded-full outline outline-muted-foreground cursor-pointer;
   }
 
   .json-plus-button {
@@ -139,7 +139,7 @@
   }
 
   .Toastify__toast-icon {
-    @apply h-4! w-4! m-0! shrink-0!;
+    @apply size-4! m-0! shrink-0!;
   }
 
   .Toastify__close-button {
@@ -176,7 +176,7 @@
     }
 
     > * {
-      @apply h-4! w-4!;
+      @apply size-4!;
     }
   }
 

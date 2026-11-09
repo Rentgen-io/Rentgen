@@ -153,7 +153,7 @@ function ActionRow({
           onClick={onUninstall}
           disabled={busy}
         >
-          {busy ? <Loader className="h-3 w-3 [&>span]:border-2!" mode="dark" /> : t('settings.cli.action.uninstall')}
+          {busy ? <Loader className="size-3 [&>span]:border-2!" mode="dark" /> : t('settings.cli.action.uninstall')}
         </Button>
         <Button
           buttonSize={ButtonSize.SMALL}
@@ -162,7 +162,7 @@ function ActionRow({
           onClick={onInstall}
           disabled={busy}
         >
-          {busy ? <Loader className="h-3 w-3 [&>span]:border-2!" mode="dark" /> : t('settings.cli.action.reinstall')}
+          {busy ? <Loader className="size-3 [&>span]:border-2!" mode="dark" /> : t('settings.cli.action.reinstall')}
         </Button>
       </div>
     );
@@ -171,7 +171,7 @@ function ActionRow({
   return (
     <Button buttonSize={ButtonSize.SMALL} className="min-w-12 self-start" onClick={onInstall} disabled={busy}>
       {busy ? (
-        <Loader className="h-3 w-3 [&>span]:border-2!" mode="dark" />
+        <Loader className="size-3 [&>span]:border-2!" mode="dark" />
       ) : (
         t('settings.cli.action.installRentgenInPath')
       )}

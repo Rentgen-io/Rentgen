@@ -190,22 +190,19 @@ export default function CollectionItem({ item, searchTerm }: Props) {
           <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-muted opacity-0 group-hover:opacity-100">
             {!runningFolderId &&
               (isRequestRunning ? (
-                <StopIcon
-                  className="h-4 w-4 text-red-500 hover:text-red-600 cursor-pointer"
-                  onClick={handlePlayClick}
-                />
+                <StopIcon className="size-4 text-red-500 hover:text-red-600 cursor-pointer" onClick={handlePlayClick} />
               ) : (
                 <PlayIcon
-                  className="h-4 w-4 text-green-500 hover:text-green-600 cursor-pointer"
+                  className="size-4 text-green-500 hover:text-green-600 cursor-pointer"
                   onClick={handlePlayClick}
                 />
               ))}
             <EditIcon
-              className="h-4 w-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
+              className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
               onClick={() => setIsEditing(true)}
             />
             <TrashIcon
-              className="h-3 w-3 text-muted-foreground hover:text-red-600 cursor-pointer"
+              className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
               onClick={(event: MouseEvent) => {
                 event.stopPropagation();
                 dispatch(collectionActions.removeRequest(item.id));

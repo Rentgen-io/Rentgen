@@ -70,7 +70,7 @@ export default function TestResultsSummary({
             <span className="flex items-center gap-2 text-xs text-muted-foreground">
               {t(label)}{' '}
               <InfoIcon
-                className="w-4 h-4 shrink-0 opacity-65 rounded-full cursor-help outline-2 outline-transparent hover:opacity-100 hover:bg-surface hover:outline-surface"
+                className="size-4 shrink-0 opacity-65 rounded-full cursor-help outline-2 outline-transparent hover:opacity-100 hover:bg-surface hover:outline-surface"
                 data-tooltip-id={`tooltip-${key}`}
               />
             </span>

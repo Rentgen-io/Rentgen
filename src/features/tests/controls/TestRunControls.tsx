@@ -23,7 +23,7 @@ export default function TestRunControls({ className, children, label, isRunning,
         onClick={executeTest}
       >
         {isRunning ? (
-          <Loader className="h-3 w-3 my-0.5 [&>span]:border-2!" mode="dark" />
+          <Loader className="size-3 my-0.5 [&>span]:border-2!" mode="dark" />
         ) : label ? (
           label
         ) : (

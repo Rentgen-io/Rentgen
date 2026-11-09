@@ -88,7 +88,7 @@ export default function HistoryPanel() {
         <span className="text-xs text-muted-foreground">{t('history.title')}</span>
         {entries.length > 0 && (
           <TrashIcon
-            className="h-3 w-3 text-muted-foreground hover:text-red-600 cursor-pointer"
+            className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
             onClick={() => dispatch(historyActions.clearHistory())}
             title={t('history.clearAll')}
           />

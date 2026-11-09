@@ -77,7 +77,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
           </span>
           {isSending ? (
             <LoaderWithText
-              className="w-auto text-xs font-normal [&_.loader]:h-4 [&_.loader]:w-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
+              className="w-auto text-xs font-normal [&_.loader]:size-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
               text={t('response.sending')}
             />
           ) : (

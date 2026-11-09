@@ -49,8 +49,8 @@ export default function ActionsButton({
           >
             <ChevronIcon
               className={cn('rotate-90', {
-                'h-4 w-4': buttonSize === ButtonSize.SMALL,
-                'h-5 w-5': buttonSize === ButtonSize.MEDIUM,
+                'size-4': buttonSize === ButtonSize.SMALL,
+                'size-5': buttonSize === ButtonSize.MEDIUM,
               })}
             />
           </Button>

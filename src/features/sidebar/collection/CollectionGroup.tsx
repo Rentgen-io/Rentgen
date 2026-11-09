@@ -129,12 +129,12 @@ export default function CollectionGroup({
           {...listeners}
         >
           <ChevronIcon
-            className={cn('h-4 w-4 text-muted-foreground', {
+            className={cn('size-4 text-muted-foreground', {
               'rotate-90': isExpanded,
             })}
           />
           {statusClassName && <span className={cn('w-2 h-2 rounded-full shrink-0', statusClassName)} />}
-          <FolderIcon className="h-4 w-4" />
+          <FolderIcon className="size-4" />
 
           {isEditing ? (
             <input
@@ -169,23 +169,21 @@ export default function CollectionGroup({
                 !isOtherFolderRunning &&
                 (isThisFolderRunning ? (
                   <StopIcon
-                    className="h-4 w-4 text-red-500 hover:text-red-600 cursor-pointer"
+                    className="size-4 text-red-500 hover:text-red-600 cursor-pointer"
                     onClick={handlePlayClick}
                   />
                 ) : (
                   <PlayIcon
-                    className="h-4 w-4 text-green-500 hover:text-green-600 cursor-pointer"
+                    className="size-4 text-green-500 hover:text-green-600 cursor-pointer"
                     onClick={handlePlayClick}
                   />
                 ))}
-
               <EditIcon
-                className="h-4 w-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
+                className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
                 onClick={handleEditClick}
               />
-
               <TrashIcon
-                className="h-3 w-3 text-muted-foreground hover:text-red-600 cursor-pointer"
+                className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
                 onClick={handleDeleteClick}
               />
             </div>

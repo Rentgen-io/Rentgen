@@ -48,10 +48,10 @@ export default function RequestEditors() {
     >
       <TabList className="flex gap-4 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
         <Tab className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer">
-          {t('request.headers')} {headers.trim() && <span className="h-1.5 w-1.5 bg-primary rounded-full" />}
+          {t('request.headers')} {headers.trim() && <span className="size-1.5 bg-primary rounded-full" />}
         </Tab>
         <Tab className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer">
-          {t('request.body')} {body.trim() && <span className="h-1.5 w-1.5 bg-primary rounded-full" />}
+          {t('request.body')} {body.trim() && <span className="size-1.5 bg-primary rounded-full" />}
         </Tab>
       </TabList>
       <TabPanel className="hidden">

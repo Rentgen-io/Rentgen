@@ -178,17 +178,17 @@ export default function CollectionsPanel() {
           onClick={() => dispatch(collectionActions.addFolder('New Folder'))}
           title={t('collections.newFolder')}
         >
-          <AddIcon className="w-4 h-4 text-muted-foreground" />
+          <AddIcon className="size-4 text-muted-foreground" />
           <span className="text-xs text-muted-foreground">{t('collections.newFolder')}</span>
         </div>
         <div className="flex items-center gap-2 pr-2">
           <ImportIcon
-            className="w-4 h-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
+            className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
             onClick={handleImport}
             title={t('collections.importCollection')}
           />
           <ExportIcon
-            className="w-4 h-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
+            className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
             onClick={handleExport}
             title={t('collections.exportCollection')}
           />

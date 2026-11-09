@@ -175,14 +175,14 @@ function AiProviderBlock({
         </label>
         <div className="absolute top-0 bottom-0 right-0 flex items-center gap-2 pl-2 bg-background opacity-0 group-hover:opacity-100">
           <EditIcon
-            className="h-4 w-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
+            className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
             onClick={(event: MouseEvent) => {
               event.stopPropagation();
               handleEdit(aiProvider.id);
             }}
           />
           <TrashIcon
-            className="h-3 w-3 text-muted-foreground hover:text-red-600 cursor-pointer"
+            className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
             onClick={(event: MouseEvent) => {
               event.stopPropagation();
               dispatch(settingsActions.deleteAiProvider(aiProvider.id));
@@ -335,7 +335,7 @@ function AiProviderForm({
           disabled={disabled || isSaving}
           onClick={handleSave}
         >
-          {isSaving ? <Loader className="h-4 w-4 [&>span]:border-2!" mode="dark" /> : t('common.save')}
+          {isSaving ? <Loader className="size-4 [&>span]:border-2!" mode="dark" /> : t('common.save')}
         </Button>
       </div>
     </div>

@@ -31,7 +31,7 @@ export default function SettingsModal() {
   const settingsTabs = [
     {
       name: t('settings.testEngine'),
-      icon: <EngineIcon className="h-4 w-4" />,
+      icon: <EngineIcon className="size-4" />,
       component: (
         <div className="flex flex-col gap-8">
           <MappingSettings />
@@ -42,17 +42,17 @@ export default function SettingsModal() {
     },
     {
       name: t('settings.general'),
-      icon: <GearIcon className="h-4 w-4" />,
+      icon: <GearIcon className="size-4" />,
       component: <GeneralSettings />,
     },
     {
       name: t('settings.ai.name'),
-      icon: <AiIcon className="h-4 w-4" />,
+      icon: <AiIcon className="size-4" />,
       component: <AiSettings />,
     },
     {
       name: t('settings.themes'),
-      icon: <ThemeIcon className="h-4 w-4" />,
+      icon: <ThemeIcon className="size-4" />,
       component: (
         <>
           <p className="m-0 text-xs text-muted-foreground">{t('settings.themesDescription')}</p>
@@ -62,12 +62,12 @@ export default function SettingsModal() {
     },
     {
       name: t('settings.language'),
-      icon: <LanguageIcon className="h-4 w-4" />,
+      icon: <LanguageIcon className="size-4" />,
       component: <LanguageSettings />,
     },
     {
       name: t('settings.cli.name'),
-      icon: <CliIcon className="h-4 w-4" />,
+      icon: <CliIcon className="size-4" />,
       component: <CliSettings />,
     },
   ];
@@ -80,7 +80,7 @@ export default function SettingsModal() {
       isOpen={isOpen}
     >
       <IconButton className="absolute top-2.25 right-3" onClick={onClose}>
-        <ClearCrossIcon className="h-5 w-5" />
+        <ClearCrossIcon className="size-5" />
       </IconButton>
       <Tabs
         className="h-full flex"

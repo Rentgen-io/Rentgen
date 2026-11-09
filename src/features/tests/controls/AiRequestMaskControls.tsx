@@ -128,7 +128,7 @@ export function AiRequestMaskControls({ onCancel }: Props) {
       </div>
       {isAiRunning && (
         <div className="flex items-center @xl:justify-end gap-2 @xl:text-right text-xs text-muted-foreground">
-          <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
+          <Loader className="size-4 shrink-0 [&>span]:border-2!" />
           <div>
             <Trans
               i18nKey="ai.waitingForResponse"

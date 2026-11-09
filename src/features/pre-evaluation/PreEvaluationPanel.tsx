@@ -105,7 +105,7 @@ export default function PreEvaluationPanel() {
       {
         cell: ({ id }) => (
           <TrashIcon
-            className="h-3 w-3 text-muted-foreground hover:text-red-600 cursor-pointer"
+            className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
             onClick={() => dispatch(preEvaluationActions.removePreEvaluationQuestion(id))}
           />
         ),
@@ -140,7 +140,7 @@ export default function PreEvaluationPanel() {
       className="inline-flex items-center gap-2 truncate"
       onClick={() => dispatch(preEvaluationActions.addPreEvaluationQuestion())}
     >
-      <AddIcon className="w-4 h-4 shrink-0" />
+      <AddIcon className="size-4 shrink-0" />
       <span className="truncate">{t('preEvaluation.addQuestion')}</span>
     </Button>
   );
@@ -208,7 +208,7 @@ export default function PreEvaluationPanel() {
               className="inline-flex items-center gap-2 truncate"
               onClick={() => fileInputRef.current?.click()}
             >
-              <ImportIcon className="w-4 h-4 shrink-0" />
+              <ImportIcon className="size-4 shrink-0" />
               <span className="truncate">{t('preEvaluation.importCSV')}</span>
             </Button>
             <input
@@ -245,7 +245,7 @@ export default function PreEvaluationPanel() {
                 saveFile(toCsv(questions));
               }}
             >
-              <ExportIcon className="w-4 h-4 shrink-0" />
+              <ExportIcon className="size-4 shrink-0" />
               <span className="truncate">{t('preEvaluation.exportCSVExample')}</span>
             </Button>
           </div>
@@ -273,7 +273,7 @@ export default function PreEvaluationPanel() {
               }
             }}
           >
-            <PlayIcon className="h-4 w-4 shrink-0" />
+            <PlayIcon className="size-4 shrink-0" />
             <span className="truncate">{t('preEvaluation.run')}</span>
           </Button>
         ) : (
@@ -282,11 +282,11 @@ export default function PreEvaluationPanel() {
               className="inline-flex items-center gap-2 @lg:w-fit truncate"
               onClick={() => cancelPreEvaluation(false)}
             >
-              <StopIcon className="h-4 w-4 shrink-0" />
+              <StopIcon className="size-4 shrink-0" />
               <span className="truncate">{t('common.stop')}</span>
             </Button>
             <LoaderWithText
-              className="w-auto text-xs font-normal [&_.loader]:h-4 [&_.loader]:w-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
+              className="w-auto text-xs font-normal [&_.loader]:size-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
               text={t('preEvaluation.running', { current: currentRun, total: totalRuns })}
             />
           </div>
@@ -338,7 +338,7 @@ function AssertionControls({
           >
             <span className="truncate">{assertion}</span>
             <ClearCrossIcon
-              className="h-3.5 w-3.5 shrink-0 hover:text-red-600 cursor-pointer"
+              className="size-3.5 shrink-0 hover:text-red-600 cursor-pointer"
               onClick={() => onAssertionsChange(assertions.filter((_, i) => i !== index))}
             />
           </div>
@@ -350,7 +350,7 @@ function AssertionControls({
             className="inline-flex items-center gap-1 pl-1 text-[11px]! leading-[1.2] truncate"
             onClick={() => setIsAdding(true)}
           >
-            <AddIcon className="h-2.5 w-2.5 shrink-0" />
+            <AddIcon className="size-2.5 shrink-0" />
             {t('common.add')}
           </Button>
         )}

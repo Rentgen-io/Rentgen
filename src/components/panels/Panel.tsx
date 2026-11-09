@@ -19,7 +19,7 @@ export default function Panel({ children, className, title, collapsible = true, 
       >
         {collapsible && (
           <ChevronIcon
-            className={cn('h-5 w-5 absolute left-2.5 top-1/2 transform -translate-y-1/2', {
+            className={cn('size-5 absolute left-2.5 top-1/2 transform -translate-y-1/2', {
               'rotate-90': isOpen,
             })}
           />

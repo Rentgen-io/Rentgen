@@ -73,7 +73,7 @@ export default function AiTestingPanel() {
               </Tab>
               <Tab className="flex items-center gap-2 pb-1 border-b-2 border-transparent list-none outline-none truncate cursor-pointer">
                 {(isAiTestsRunning || Object.keys(runningAiTests).length > 0) && (
-                  <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />
+                  <Loader className="size-4 shrink-0 [&>span]:border-2!" />
                 )}
                 <span className="truncate">{t('ai.tests')}</span>
                 <span className="min-w-5 py-0.5 px-1.5 font-normal text-xs text-muted-foreground bg-muted-foreground/10 rounded box-border">

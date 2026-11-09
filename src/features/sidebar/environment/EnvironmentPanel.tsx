@@ -45,7 +45,7 @@ export default function EnvironmentPanel() {
         className="h-9 shrink-0 flex items-center gap-2 px-3 py-2 border-b border-border hover:bg-muted box-border cursor-pointer outline-none"
         onClick={() => dispatch(environmentActions.startAddEnvironment())}
       >
-        <AddIcon className="w-4 h-4 text-muted-foreground" />
+        <AddIcon className="size-4 text-muted-foreground" />
         <span className="text-xs text-muted-foreground">{t('environment.newEnvironment')}</span>
       </div>
       {environments.length > 0 ? (

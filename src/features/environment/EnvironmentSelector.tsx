@@ -35,7 +35,7 @@ export default function EnvironmentSelector({ className, environments, selectedE
       value: CREATE_ENVIRONMENT_OPTION,
       label: (
         <span className="flex items-center gap-2">
-          <AddIcon className="w-4 h-4" />
+          <AddIcon className="size-4" />
           {t('environment.newEnvironment')}
         </span>
       ),

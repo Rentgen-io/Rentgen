@@ -134,7 +134,7 @@ export function TestsTableHeader({
       </div>
       {onOpenSettings && (
         <IconButton onClick={onOpenSettings}>
-          <GearIcon className="h-4 w-4" />
+          <GearIcon className="size-4" />
         </IconButton>
       )}
     </div>

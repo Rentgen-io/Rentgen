@@ -22,7 +22,7 @@ export default function Toggle({
           className="w-7.5 h-3.5 border border-muted-foreground rounded-full
             peer-checked:bg-primary peer-checked:border-primary
             after:absolute after:top-0.5 after:left-0.5
-            after:bg-muted-foreground after:h-3 after:w-3
+            after:bg-muted-foreground after:size-3
             after:rounded-full
             after:transition-all after:duration-300
             peer-checked:after:translate-x-4

@@ -30,7 +30,7 @@ export default function HistoryDateGroup({ label, entries, searchTerm }: Props) 
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <ChevronIcon
-          className={cn('h-4 w-4 text-muted-foreground', {
+          className={cn('size-4 text-muted-foreground', {
             'rotate-90': isExpanded,
           })}
         />

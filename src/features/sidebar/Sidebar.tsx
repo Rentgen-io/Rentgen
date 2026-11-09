@@ -76,36 +76,36 @@ export default function Sidebar() {
             label={t('sidebar.collections')}
             onClick={handleCollectionClick}
           >
-            <CollectionIcon className="h-4 w-4" />
+            <CollectionIcon className="size-4" />
           </SidebarButton>
           <SidebarButton
             active={activeTab === 'environments'}
             label={t('sidebar.environments')}
             onClick={handleEnvironmentClick}
           >
-            <EnvironmentIcon className="h-4 w-4" />
+            <EnvironmentIcon className="size-4" />
           </SidebarButton>
           {historyEnabled && (
             <SidebarButton active={activeTab === 'history'} label={t('sidebar.history')} onClick={handleHistoryClick}>
-              <HistoryIcon className="h-4 w-4" />
+              <HistoryIcon className="size-4" />
             </SidebarButton>
           )}
         </div>
         <div>
           <SidebarButton label={t('sidebar.settings')} onClick={() => dispatch(modalsActions.openSettingsModal())}>
-            <GearIcon className="h-4 w-4" />
+            <GearIcon className="size-4" />
           </SidebarButton>
           <SidebarButton
             label={t('sidebar.checkForUpdates')}
             onClick={() => openExternal(`${appConfig.origin}/check-for-update.html?current_version=${appVersion}`)}
           >
-            <UpgradeStarIcon className="h-4 w-4" />
+            <UpgradeStarIcon className="size-4" />
           </SidebarButton>
           <SidebarButton
             label={t('sidebar.reportFeedback')}
             onClick={() => openExternal('https://github.com/Rentgen-io/Rentgen/issues/new')}
           >
-            <BugIcon className="h-4 w-4" />
+            <BugIcon className="size-4" />
           </SidebarButton>
         </div>
       </div>

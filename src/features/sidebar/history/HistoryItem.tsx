@@ -57,7 +57,7 @@ export default function HistoryItem({ entry, searchTerm }: Props) {
       <span className="text-xs text-muted-foreground shrink-0">{time}</span>
       <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center bg-muted opacity-0 group-hover:opacity-100">
         <TrashIcon
-          className="h-3 w-3 text-muted-foreground hover:text-red-600 cursor-pointer"
+          className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
           onClick={(event: MouseEvent) => {
             event.stopPropagation();
             dispatch(historyActions.removeEntry(entry.id));
