@@ -276,7 +276,10 @@ export default function PreEvaluationPanel() {
           </Button>
         ) : (
           <div className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between gap-2">
-            <Button className="inline-flex items-center gap-2 @lg:w-fit truncate" onClick={cancelPreEvaluation}>
+            <Button
+              className="inline-flex items-center gap-2 @lg:w-fit truncate"
+              onClick={() => cancelPreEvaluation(false)}
+            >
               <StopIcon className="h-4 w-4 shrink-0" />
               <span className="truncate">{t('common.stop')}</span>
             </Button>

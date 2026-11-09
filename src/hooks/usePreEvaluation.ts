@@ -48,10 +48,15 @@ const usePreEvaluation = () => {
 
   const totalRuns = preEvaluation.questions.length * preEvaluation.iterations;
 
-  const cancelPreEvaluation = useCallback(() => {
-    activeController?.abort();
-    activeController = null;
-  }, []);
+  const cancelPreEvaluation = useCallback(
+    (reset = true) => {
+      activeController?.abort();
+      activeController = null;
+
+      if (reset) dispatch(preEvaluationActions.resetPreEvaluation());
+    },
+    [dispatch],
+  );
 
   const executePreEvaluation = useCallback(async () => {
     activeController?.abort();

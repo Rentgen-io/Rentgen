@@ -42,6 +42,8 @@ export const preEvaluationSlice = createSlice({
       preEvaluation.questions = preEvaluation.questions.filter((question) => question.id !== action.payload);
     },
     resetPreEvaluation: (state) => {
+      state.currentRun = 0;
+      state.isRunning = false;
       state.preEvaluation = null;
     },
     setCurrentRun: (state, action: PayloadAction<number>) => {
