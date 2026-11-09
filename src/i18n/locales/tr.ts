@@ -590,11 +590,21 @@ const tr = {
     jsonBodyRequirement:
       'Kullanıcı istemi dizesi içeren bir JSON gövdesi gereklidir. Sistem ve geliştirici mesajları seçilemez.',
     addTextPlaceholder: 'Metin ekleyin ve Enter tuşuna basın',
+    questionColumn: 'Soru / İstem',
+    containsColumn: 'İçerir (zorunlu)',
+    notContainsColumn: 'İçermez (yasak)',
     unclosedQuotedField: 'CSV, kapatılmamış tırnaklı bir alan içeriyor.',
     invalidTerms: 'Satır {{rowNumber}}: Terimler boş olmayan dizelerden oluşan bir JSON dizisi olmalıdır.',
     expectedCsvColumns: 'Geçersiz başlık. Beklenen sütunlar: {{columns}}.',
     invalidCsvRow: 'Satır {{rowNumber}}: 5 sütun ve boş olmayan bir istem bekleniyor.',
     invalidOperator: 'Satır {{rowNumber}}: İşleç AND veya OR olmalıdır.',
+    selectUserPromptField: 'JSON istek gövdesinde kullanıcı istemi alanını seçin.',
+    useRequestMethodWithJsonBody: 'İstek yöntemi bir JSON gövdesini desteklemelidir.',
+    iterationsMustBeBetween: 'Yineleme sayısı {{min}} ile {{max}} arasında olmalıdır.',
+    everyQuestionNeedsPromptAndAssertion: 'Her soru için bir istem ve en az bir doğrulama gerekir.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: 'Yanıt metni alanı eksik veya bir dize değil.',
+    running: 'Çalışıyor... ({{current}}/{{total}})',
   },
 };
 

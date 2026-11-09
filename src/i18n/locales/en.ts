@@ -585,11 +585,21 @@ const en = {
     jsonBodyRequirement:
       'A JSON body with a user prompt string is required. System and developer messages cannot be selected.',
     addTextPlaceholder: 'Add text and press "Enter"',
+    questionColumn: 'Question / Prompt',
+    containsColumn: 'Contains (required)',
+    notContainsColumn: 'Not Contains (forbidden)',
     unclosedQuotedField: 'The CSV contains an unclosed quoted field.',
     invalidTerms: 'Row {{rowNumber}}: Terms must be a JSON array of non-empty strings.',
     expectedCsvColumns: 'Invalid header. Expected columns: {{columns}}.',
     invalidCsvRow: 'Row {{rowNumber}}: Expected 5 columns and a non-empty prompt.',
     invalidOperator: 'Row {{rowNumber}}: Operator must be AND or OR.',
+    selectUserPromptField: 'Select the user prompt field in the JSON request body.',
+    useRequestMethodWithJsonBody: 'The request method must support a JSON body.',
+    iterationsMustBeBetween: 'Iterations must be between {{min}} and {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Each question requires a prompt and at least one assertion.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: 'Response text field is missing or is not a string.',
+    running: 'Running... ({{current}}/{{total}})',
   },
 };
 

@@ -589,11 +589,21 @@ const ja = {
     jsonBodyRequirement:
       'ユーザープロンプト文字列を含むJSONボディが必要です。システムメッセージと開発者メッセージは選択できません。',
     addTextPlaceholder: 'テキストを追加して Enter を押してください',
+    questionColumn: '質問 / プロンプト',
+    containsColumn: '含む（必須）',
+    notContainsColumn: '含まない（禁止）',
     unclosedQuotedField: 'CSVに閉じられていない引用符付きフィールドがあります。',
     invalidTerms: '{{rowNumber}}行目: 用語は空でない文字列のJSON配列である必要があります。',
     expectedCsvColumns: 'ヘッダーが無効です。必要な列: {{columns}}。',
     invalidCsvRow: '{{rowNumber}}行目: 5列と空でないプロンプトが必要です。',
     invalidOperator: '{{rowNumber}}行目: 演算子は AND または OR である必要があります。',
+    selectUserPromptField: 'JSON リクエストボディ内のユーザープロンプトフィールドを選択してください。',
+    useRequestMethodWithJsonBody: 'リクエストメソッドは JSON ボディをサポートしている必要があります。',
+    iterationsMustBeBetween: '反復回数は {{min}} から {{max}} の間で指定してください。',
+    everyQuestionNeedsPromptAndAssertion: '各質問にはプロンプトと少なくとも 1 つのアサーションが必要です。',
+    httpError: 'HTTP {{statusCode}}。',
+    responseTextFieldMissing: 'レスポンステキストフィールドが存在しないか、文字列ではありません。',
+    running: '実行中... ({{current}}/{{total}})',
   },
 };
 

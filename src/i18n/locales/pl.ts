@@ -589,11 +589,21 @@ const pl = {
     jsonBodyRequirement:
       'Wymagana jest treść JSON z ciągiem promptu użytkownika. Wiadomości systemowych i deweloperskich nie można wybrać.',
     addTextPlaceholder: 'Dodaj tekst i naciśnij Enter',
+    questionColumn: 'Pytanie / prompt',
+    containsColumn: 'Zawiera (wymagane)',
+    notContainsColumn: 'Nie zawiera (zabronione)',
     unclosedQuotedField: 'Plik CSV zawiera niezamknięte pole w cudzysłowie.',
     invalidTerms: 'Wiersz {{rowNumber}}: Terminy muszą być tablicą JSON niepustych ciągów.',
     expectedCsvColumns: 'Nieprawidłowy nagłówek. Oczekiwane kolumny: {{columns}}.',
     invalidCsvRow: 'Wiersz {{rowNumber}}: Oczekiwano 5 kolumn i niepustego promptu.',
     invalidOperator: 'Wiersz {{rowNumber}}: Operator musi mieć wartość AND lub OR.',
+    selectUserPromptField: 'Wybierz pole promptu użytkownika w treści żądania JSON.',
+    useRequestMethodWithJsonBody: 'Metoda żądania musi obsługiwać treść JSON.',
+    iterationsMustBeBetween: 'Liczba iteracji musi mieścić się w zakresie od {{min}} do {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Każde pytanie wymaga promptu i co najmniej jednej asercji.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: 'Pole tekstu odpowiedzi nie istnieje lub nie jest ciągiem znaków.',
+    running: 'Uruchamianie... ({{current}}/{{total}})',
   },
 };
 

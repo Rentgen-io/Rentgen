@@ -592,11 +592,21 @@ const de = {
     jsonBodyRequirement:
       'Ein JSON-Body mit einem Benutzer-Prompt-String ist erforderlich. System- und Developer-Nachrichten können nicht ausgewählt werden.',
     addTextPlaceholder: 'Text hinzufügen und Enter drücken',
+    questionColumn: 'Frage / Prompt',
+    containsColumn: 'Enthält (erforderlich)',
+    notContainsColumn: 'Enthält nicht (verboten)',
     unclosedQuotedField: 'Die CSV-Datei enthält ein nicht geschlossenes Feld in Anführungszeichen.',
     invalidTerms: 'Zeile {{rowNumber}}: Begriffe müssen ein JSON-Array nicht leerer Strings sein.',
     expectedCsvColumns: 'Ungültige Kopfzeile. Erwartete Spalten: {{columns}}.',
     invalidCsvRow: 'Zeile {{rowNumber}}: 5 Spalten und ein nicht leerer Prompt erwartet.',
     invalidOperator: 'Zeile {{rowNumber}}: Der Operator muss AND oder OR sein.',
+    selectUserPromptField: 'Wählen Sie das Benutzer-Prompt-Feld im JSON-Anfragetext aus.',
+    useRequestMethodWithJsonBody: 'Die Anfragemethode muss einen JSON-Body unterstützen.',
+    iterationsMustBeBetween: 'Die Anzahl der Iterationen muss zwischen {{min}} und {{max}} liegen.',
+    everyQuestionNeedsPromptAndAssertion: 'Jede Frage erfordert einen Prompt und mindestens eine Assertion.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: 'Das Antworttextfeld fehlt oder ist kein String.',
+    running: 'Wird ausgeführt... ({{current}}/{{total}})',
   },
 };
 

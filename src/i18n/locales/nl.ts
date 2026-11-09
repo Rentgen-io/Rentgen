@@ -592,11 +592,21 @@ const nl = {
     jsonBodyRequirement:
       'Een JSON-body met een gebruikersprompt-string is vereist. Systeem- en developerberichten kunnen niet worden geselecteerd.',
     addTextPlaceholder: 'Voeg tekst toe en druk op Enter',
+    questionColumn: 'Vraag / prompt',
+    containsColumn: 'Bevat (verplicht)',
+    notContainsColumn: 'Bevat niet (verboden)',
     unclosedQuotedField: 'De CSV bevat een niet-afgesloten veld tussen aanhalingstekens.',
     invalidTerms: 'Rij {{rowNumber}}: Termen moeten een JSON-array van niet-lege strings zijn.',
     expectedCsvColumns: 'Ongeldige header. Verwachte kolommen: {{columns}}.',
     invalidCsvRow: 'Rij {{rowNumber}}: 5 kolommen en een niet-lege prompt verwacht.',
     invalidOperator: 'Rij {{rowNumber}}: Operator moet AND of OR zijn.',
+    selectUserPromptField: 'Selecteer het gebruikersprompt-veld in de JSON-aanvraagbody.',
+    useRequestMethodWithJsonBody: 'De aanvraagmethode moet een JSON-body ondersteunen.',
+    iterationsMustBeBetween: 'Iteraties moeten tussen {{min}} en {{max}} liggen.',
+    everyQuestionNeedsPromptAndAssertion: 'Elke vraag vereist een prompt en minstens één assertie.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: 'Het antwoordtekstveld ontbreekt of is geen string.',
+    running: 'Bezig... ({{current}}/{{total}})',
   },
 };
 

@@ -1,8 +1,13 @@
 import i18n from 'src/i18n';
 import { EvaluationQuestion, MatchMode } from 'src/types';
 import { v4 as uuidv4 } from 'uuid';
+import { isObject, toJsonPointer } from './object';
 
 export const CSV_HEADERS = ['prompt', 'contains', 'containsMode', 'notContains', 'notContainsMode'];
+
+const APOSTROPHE_VARIANTS = /[\u2018\u2019\u201B\u02BC\uFF07]/g;
+const EXCLUDED_PROMPT_ROLES = ['system', 'developer'];
+const EXCLUDED_PROMPT_KEYS = ['role', 'system', 'system_prompt', 'systemprompt', 'developer', 'developer_prompt'];
 
 const isMatchMode = (value: string): value is MatchMode => value === 'AND' || value === 'OR';
 
@@ -86,20 +91,53 @@ export function parseCsv(input: string): EvaluationQuestion[] {
   });
 }
 
-export function tryGetPromptPaths(value: unknown, path = ''): string[] {
-  try {
-    if (typeof value === 'string') return [path];
-    if (!value || typeof value !== 'object') return [];
+export function toCsv(questions: EvaluationQuestion[]): string {
+  const rows = [
+    CSV_HEADERS,
+    ...questions.map(({ prompt, contains, containsMode, notContains, notContainsMode }) => [
+      prompt,
+      JSON.stringify(contains),
+      containsMode,
+      JSON.stringify(notContains),
+      notContainsMode,
+    ]),
+  ];
 
-    const obj = value as Record<string, unknown>;
-    if (typeof obj.role === 'string' && ['system', 'developer'].includes(obj.role.toLowerCase())) return [];
+  // BOM so Excel detects UTF-8; parseCsv strips it again.
+  return '\uFEFF' + rows.map((row) => row.map((value) => `"${value.replace(/"/g, '""')}"`).join(',')).join('\r\n');
+}
 
-    return Object.entries(obj).flatMap(([key, child]) =>
-      ['role', 'system', 'system_prompt', 'systemprompt', 'developer', 'developer_prompt'].includes(key.toLowerCase())
-        ? []
-        : tryGetPromptPaths(child, `${path}/${key.replace(/~/g, '~0').replace(/\//g, '~1')}`),
-    );
-  } catch {
-    return [];
-  }
+export function findPromptPointers(value: unknown, tokens: string[] = []): string[] {
+  if (typeof value === 'string') return tokens.length ? [toJsonPointer(tokens)] : [];
+  if (!isObject(value)) return [];
+  if (typeof value.role === 'string' && EXCLUDED_PROMPT_ROLES.includes(value.role.toLowerCase())) return [];
+
+  return Object.entries(value).flatMap(([key, child]) =>
+    EXCLUDED_PROMPT_KEYS.includes(key.toLowerCase()) ? [] : findPromptPointers(child, [...tokens, key]),
+  );
+}
+
+function normalizeMatchText(text: string): string {
+  return text.normalize('NFC').replace(APOSTROPHE_VARIANTS, "'").toLowerCase();
+}
+
+export function evaluate(text: string, question: EvaluationQuestion): string[] {
+  const { contains, containsMode, notContains, notContainsMode } = question;
+  if (!contains.length && !notContains.length) return [];
+
+  const reasons: string[] = [];
+  const normalized = normalizeMatchText(text);
+
+  const matches = (terms: string[], mode: MatchMode) => {
+    const test = (term: string) => normalized.includes(normalizeMatchText(term));
+    return mode === 'AND' ? terms.every(test) : terms.some(test);
+  };
+
+  if (contains.length && !matches(contains, containsMode))
+    reasons.push(`Missing required text (${containsMode}): ${contains.join(', ')}`);
+
+  if (notContains.length && matches(notContains, notContainsMode))
+    reasons.push(`Contains forbidden text (${notContainsMode}): ${notContains.join(', ')}`);
+
+  return reasons;
 }

@@ -13,11 +13,11 @@ export interface EvaluationQuestion {
 
 export interface EvaluationResult {
   iteration: number;
-  questionId: string;
   prompt: string;
-  request: HttpRequest;
-  response?: HttpResponse;
+  questionId: string;
   reasons: string[];
+  request: HttpRequest;
+  response: HttpResponse | null;
 }
 
 export interface EvaluationReport {

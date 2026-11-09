@@ -592,11 +592,21 @@ const ptBR = {
     jsonBodyRequirement:
       'É necessário um corpo JSON com uma string de prompt do usuário. Mensagens de sistema e de desenvolvedor não podem ser selecionadas.',
     addTextPlaceholder: 'Adicione texto e pressione Enter',
+    questionColumn: 'Pergunta / Prompt',
+    containsColumn: 'Contém (obrigatório)',
+    notContainsColumn: 'Não contém (proibido)',
     unclosedQuotedField: 'O CSV contém um campo entre aspas não fechado.',
     invalidTerms: 'Linha {{rowNumber}}: Os termos devem ser um array JSON de strings não vazias.',
     expectedCsvColumns: 'Cabeçalho inválido. Colunas esperadas: {{columns}}.',
     invalidCsvRow: 'Linha {{rowNumber}}: Esperadas 5 colunas e um prompt não vazio.',
     invalidOperator: 'Linha {{rowNumber}}: O operador deve ser AND ou OR.',
+    selectUserPromptField: 'Selecione o campo de prompt do usuário no corpo JSON da requisição.',
+    useRequestMethodWithJsonBody: 'O método da requisição deve oferecer suporte a um corpo JSON.',
+    iterationsMustBeBetween: 'As iterações devem estar entre {{min}} e {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Cada pergunta requer um prompt e pelo menos uma asserção.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: 'O campo de texto da resposta está ausente ou não é uma string.',
+    running: 'Executando... ({{current}}/{{total}})',
   },
 };
 

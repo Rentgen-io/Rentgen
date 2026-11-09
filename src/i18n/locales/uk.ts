@@ -589,11 +589,21 @@ const uk = {
     jsonBodyRequirement:
       'Потрібне JSON-тіло з рядком запиту користувача. Системні повідомлення та повідомлення розробника вибрати не можна.',
     addTextPlaceholder: 'Додайте текст і натисніть Enter',
+    questionColumn: 'Питання / запит',
+    containsColumn: 'Містить (обов’язково)',
+    notContainsColumn: 'Не містить (заборонено)',
     unclosedQuotedField: 'CSV містить незакрите поле в лапках.',
     invalidTerms: 'Рядок {{rowNumber}}: терміни мають бути JSON-масивом непорожніх рядків.',
     expectedCsvColumns: 'Недійсний заголовок. Очікувані стовпці: {{columns}}.',
     invalidCsvRow: 'Рядок {{rowNumber}}: очікується 5 стовпців і непорожній промпт.',
     invalidOperator: 'Рядок {{rowNumber}}: оператор має бути AND або OR.',
+    selectUserPromptField: 'Виберіть поле користувацького промпту в JSON-тілі запиту.',
+    useRequestMethodWithJsonBody: 'Метод запиту має підтримувати JSON-тіло.',
+    iterationsMustBeBetween: 'Кількість ітерацій має бути від {{min}} до {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Для кожного запитання потрібен промпт і принаймні одне твердження.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: 'Поле тексту відповіді відсутнє або не є рядком.',
+    running: 'Виконується... ({{current}}/{{total}})',
   },
 };
 

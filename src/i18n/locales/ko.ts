@@ -585,11 +585,21 @@ const ko = {
     jsonBodyRequirement:
       '사용자 프롬프트 문자열이 포함된 JSON 본문이 필요합니다. 시스템 및 개발자 메시지는 선택할 수 없습니다.',
     addTextPlaceholder: '텍스트를 추가하고 Enter를 누르세요',
+    questionColumn: '질문 / 프롬프트',
+    containsColumn: '포함 (필수)',
+    notContainsColumn: '미포함 (금지)',
     unclosedQuotedField: 'CSV에 닫히지 않은 따옴표 필드가 있습니다.',
     invalidTerms: '{{rowNumber}}행: 용어는 비어 있지 않은 문자열의 JSON 배열이어야 합니다.',
     expectedCsvColumns: '헤더가 올바르지 않습니다. 필요한 열: {{columns}}.',
     invalidCsvRow: '{{rowNumber}}행: 5개의 열과 비어 있지 않은 프롬프트가 필요합니다.',
     invalidOperator: '{{rowNumber}}행: 연산자는 AND 또는 OR이어야 합니다.',
+    selectUserPromptField: 'JSON 요청 본문에서 사용자 프롬프트 필드를 선택하세요.',
+    useRequestMethodWithJsonBody: '요청 메서드는 JSON 본문을 지원해야 합니다.',
+    iterationsMustBeBetween: '반복 횟수는 {{min}}에서 {{max}} 사이여야 합니다.',
+    everyQuestionNeedsPromptAndAssertion: '각 질문에는 프롬프트와 하나 이상의 어설션이 필요합니다.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: '응답 텍스트 필드가 없거나 문자열이 아닙니다.',
+    running: '실행 중... ({{current}}/{{total}})',
   },
 };
 

@@ -585,11 +585,21 @@ const id = {
     jsonBodyRequirement:
       'Body JSON dengan string prompt pengguna diperlukan. Pesan sistem dan developer tidak dapat dipilih.',
     addTextPlaceholder: 'Tambahkan teks lalu tekan Enter',
+    questionColumn: 'Pertanyaan / Prompt',
+    containsColumn: 'Mengandung (wajib)',
+    notContainsColumn: 'Tidak mengandung (dilarang)',
     unclosedQuotedField: 'CSV berisi kolom bertanda kutip yang tidak ditutup.',
     invalidTerms: 'Baris {{rowNumber}}: Istilah harus berupa array JSON berisi string yang tidak kosong.',
     expectedCsvColumns: 'Header tidak valid. Kolom yang diharapkan: {{columns}}.',
     invalidCsvRow: 'Baris {{rowNumber}}: Diharapkan 5 kolom dan prompt yang tidak kosong.',
     invalidOperator: 'Baris {{rowNumber}}: Operator harus AND atau OR.',
+    selectUserPromptField: 'Pilih bidang prompt pengguna di isi permintaan JSON.',
+    useRequestMethodWithJsonBody: 'Metode permintaan harus mendukung isi JSON.',
+    iterationsMustBeBetween: 'Iterasi harus antara {{min}} dan {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Setiap pertanyaan memerlukan prompt dan setidaknya satu asersi.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: 'Bidang teks respons tidak ada atau bukan string.',
+    running: 'Berjalan... ({{current}}/{{total}})',
   },
 };
 

@@ -598,11 +598,21 @@ const fr = {
     jsonBodyRequirement:
       'Un corps JSON contenant une chaîne de prompt utilisateur est requis. Les messages système et développeur ne peuvent pas être sélectionnés.',
     addTextPlaceholder: 'Ajoutez du texte et appuyez sur Entrée',
+    questionColumn: 'Question / Prompt',
+    containsColumn: 'Contient (obligatoire)',
+    notContainsColumn: 'Ne contient pas (interdit)',
     unclosedQuotedField: 'Le CSV contient un champ entre guillemets non fermé.',
     invalidTerms: 'Ligne {{rowNumber}} : les termes doivent être un tableau JSON de chaînes non vides.',
     expectedCsvColumns: 'En-tête non valide. Colonnes attendues : {{columns}}.',
     invalidCsvRow: 'Ligne {{rowNumber}} : 5 colonnes et un prompt non vide sont attendus.',
     invalidOperator: "Ligne {{rowNumber}} : l'opérateur doit être AND ou OR.",
+    selectUserPromptField: 'Sélectionnez le champ du prompt utilisateur dans le corps JSON de la requête.',
+    useRequestMethodWithJsonBody: 'La méthode de la requête doit prendre en charge un corps JSON.',
+    iterationsMustBeBetween: 'Les itérations doivent être comprises entre {{min}} et {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Chaque question nécessite un prompt et au moins une assertion.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: "Le champ de texte de la réponse est manquant ou n'est pas une chaîne.",
+    running: 'Exécution... ({{current}}/{{total}})',
   },
 };
 

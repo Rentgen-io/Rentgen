@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Loader from './components/loaders/Loader';
@@ -16,6 +17,7 @@ import TestsPanel from './features/tests/panels/TestsPanel';
 import TestRunnerBar from './features/tests/TestRunnerBar';
 import { useCtrlS } from './hooks/useCtrlS';
 import { useInitialDataLoad } from './hooks/useInitialDataLoad';
+import usePreEvaluation from './hooks/usePreEvaluation';
 import { useRunResultSync } from './hooks/useRunResultSync';
 import { useSaveRequest } from './hooks/useSaveRequest';
 import useTests from './hooks/useTests';
@@ -41,6 +43,7 @@ export default function App() {
   const { t } = useTranslation();
 
   const { aiRunStartedAt, isAiTestsRunning, isRunningTests, runningAiTests } = useTests();
+  const { isRunningPreEvaluation } = usePreEvaluation();
 
   const compareResponse = useAppSelector(selectCompareResponse);
   const disabled = useAppSelector(selectIsRequestDisabled);
@@ -59,8 +62,29 @@ export default function App() {
   useRunResultSync();
   useCtrlS(!disabled ? saveRequest : undefined);
 
-  const isRunning =
+  const isRunningAnyTests =
     isRunningTests || isAiTestsRunning || Boolean(aiRunStartedAt) || Object.keys(runningAiTests).length > 0;
+
+  const testingTabs = useMemo(
+    () => [
+      {
+        component: (
+          <>
+            <TestRunnerBar />
+            {testResults && <TestsPanel />}
+          </>
+        ),
+        isRunning: isRunningAnyTests,
+        label: t('tests.apiTesting'),
+      },
+      {
+        component: <PreEvaluationPanel />,
+        isRunning: isRunningPreEvaluation,
+        label: t('preEvaluation.title'),
+      },
+    ],
+    [isRunningAnyTests, isRunningPreEvaluation, testResults, t],
+  );
 
   return (
     <div className="flex">
@@ -100,21 +124,21 @@ export default function App() {
                     }}
                   >
                     <TabList className="flex gap-6 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
-                      <Tab className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer">
-                        {isRunning && <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />}
-                        <span className="truncate">{t('tests.apiTesting')}</span>
-                      </Tab>
-                      <Tab className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer">
-                        <span className="truncate">{t('preEvaluation.title')}</span>
-                      </Tab>
+                      {testingTabs.map(({ isRunning, label }) => (
+                        <Tab
+                          key={label}
+                          className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer"
+                        >
+                          {isRunning && <Loader className="h-4 w-4 shrink-0 [&>span]:border-2!" />}
+                          <span className="truncate">{label}</span>
+                        </Tab>
+                      ))}
                     </TabList>
-                    <TabPanel className="hidden">
-                      <TestRunnerBar />
-                      {testResults && <TestsPanel />}
-                    </TabPanel>
-                    <TabPanel className="hidden">
-                      <PreEvaluationPanel />
-                    </TabPanel>
+                    {testingTabs.map(({ component, label }) => (
+                      <TabPanel key={label} className="hidden">
+                        {component}
+                      </TabPanel>
+                    ))}
                   </Tabs>
                 </>
               )}

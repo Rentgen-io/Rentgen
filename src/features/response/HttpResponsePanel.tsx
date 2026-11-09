@@ -113,8 +113,9 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
       )}
       {httpResponse ? (
         <div
-          className={cn('@2xl:grid divide-y @2xl:divide-y-0 @2xl:divide-x divide-border', {
-            '@2xl:grid-cols-2': !isNetworkError && hasParameters,
+          className={cn({
+            '@2xl:grid @2xl:grid-cols-2 divide-y @2xl:divide-y-0 @2xl:divide-x divide-border':
+              !isNetworkError && hasParameters,
             'not-empty:border-t border-border': !runResult?.warning,
           })}
         >

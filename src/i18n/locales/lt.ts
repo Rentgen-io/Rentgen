@@ -590,11 +590,21 @@ const lt = {
     jsonBodyRequirement:
       'Reikalingas JSON turinys su naudotojo užklausos eilute. Sistemos ir kūrėjo pranešimų pasirinkti negalima.',
     addTextPlaceholder: 'Pridėkite tekstą ir paspauskite Enter',
+    questionColumn: 'Klausimas / užklausa',
+    containsColumn: 'Turi būti (privaloma)',
+    notContainsColumn: 'Neturi būti (draudžiama)',
     unclosedQuotedField: 'CSV faile yra neuždarytas laukas kabutėse.',
     invalidTerms: '{{rowNumber}} eilutė: terminai turi būti JSON masyvas iš netuščių eilučių.',
     expectedCsvColumns: 'Netinkama antraštė. Tikėtini stulpeliai: {{columns}}.',
     invalidCsvRow: '{{rowNumber}} eilutė: tikėtasi 5 stulpelių ir netuščios užklausos.',
     invalidOperator: '{{rowNumber}} eilutė: operatorius turi būti AND arba OR.',
+    selectUserPromptField: 'Pasirinkite vartotojo užklausos lauką JSON užklausos turinyje.',
+    useRequestMethodWithJsonBody: 'Užklausos metodas turi palaikyti JSON turinį.',
+    iterationsMustBeBetween: 'Iteracijų skaičius turi būti nuo {{min}} iki {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Kiekvienam klausimui reikia užklausos ir bent vieno tvirtinimo.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: 'Atsakymo teksto lauko nėra arba jis nėra eilutė.',
+    running: 'Vykdoma... ({{current}}/{{total}})',
   },
 };
 

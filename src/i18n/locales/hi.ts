@@ -585,11 +585,21 @@ const hi = {
     jsonBodyRequirement:
       'उपयोगकर्ता प्रॉम्प्ट स्ट्रिंग वाला JSON बॉडी आवश्यक है। सिस्टम और डेवलपर संदेश चुने नहीं जा सकते।',
     addTextPlaceholder: 'टेक्स्ट जोड़ें और Enter दबाएँ',
+    questionColumn: 'प्रश्न / प्रॉम्प्ट',
+    containsColumn: 'शामिल है (आवश्यक)',
+    notContainsColumn: 'शामिल नहीं है (निषिद्ध)',
     unclosedQuotedField: 'CSV में एक उद्धरण चिह्नों वाला फ़ील्ड बंद नहीं किया गया है।',
     invalidTerms: 'पंक्ति {{rowNumber}}: शब्द गैर-रिक्त स्ट्रिंग्स का JSON ऐरे होने चाहिए।',
     expectedCsvColumns: 'अमान्य हेडर। अपेक्षित कॉलम: {{columns}}।',
     invalidCsvRow: 'पंक्ति {{rowNumber}}: 5 कॉलम और एक गैर-रिक्त प्रॉम्प्ट अपेक्षित है।',
     invalidOperator: 'पंक्ति {{rowNumber}}: ऑपरेटर AND या OR होना चाहिए।',
+    selectUserPromptField: 'JSON अनुरोध बॉडी में उपयोगकर्ता प्रॉम्प्ट फ़ील्ड चुनें।',
+    useRequestMethodWithJsonBody: 'अनुरोध मेथड को JSON बॉडी का समर्थन करना चाहिए।',
+    iterationsMustBeBetween: 'इटरेशन {{min}} और {{max}} के बीच होने चाहिए।',
+    everyQuestionNeedsPromptAndAssertion: 'प्रत्येक प्रश्न के लिए एक प्रॉम्प्ट और कम से कम एक अभिकथन आवश्यक है।',
+    httpError: 'HTTP {{statusCode}}।',
+    responseTextFieldMissing: 'रिस्पॉन्स टेक्स्ट फ़ील्ड मौजूद नहीं है या स्ट्रिंग नहीं है।',
+    running: 'चल रहा है... ({{current}}/{{total}})',
   },
 };
 

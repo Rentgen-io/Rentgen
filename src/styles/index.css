@@ -215,6 +215,10 @@
       @apply border-r!;
     }
   }
+
+  .pre-evaluation-data-table .rdt_wrapper {
+    @apply min-w-220!;
+  }
 }
 
 @utility table-layout {

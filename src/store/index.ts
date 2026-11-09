@@ -6,6 +6,7 @@ import environmentReducer from './slices/environmentSlice';
 import historyReducer from './slices/historySlice';
 import mappingsReducer from './slices/mappingsSlice';
 import modalsReducer from './slices/modalsSlice';
+import preEvaluationReducer from './slices/preEvaluationSlice';
 import requestReducer from './slices/requestSlice';
 import responseReducer from './slices/responseSlice';
 import settingsReducer from './slices/settingsSlice';
@@ -21,6 +22,7 @@ export const store = configureStore({
     history: historyReducer,
     mappings: mappingsReducer,
     modals: modalsReducer,
+    preEvaluation: preEvaluationReducer,
     request: requestReducer,
     response: responseReducer,
     settings: settingsReducer,

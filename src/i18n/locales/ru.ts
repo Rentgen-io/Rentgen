@@ -590,11 +590,21 @@ const ru = {
     jsonBodyRequirement:
       'Требуется JSON-тело со строкой пользовательского промпта. Системные сообщения и сообщения разработчика выбрать нельзя.',
     addTextPlaceholder: 'Добавьте текст и нажмите Enter',
+    questionColumn: 'Вопрос / промпт',
+    containsColumn: 'Содержит (обязательно)',
+    notContainsColumn: 'Не содержит (запрещено)',
     unclosedQuotedField: 'CSV содержит незакрытое поле в кавычках.',
     invalidTerms: 'Строка {{rowNumber}}: термины должны быть JSON-массивом непустых строк.',
     expectedCsvColumns: 'Недопустимый заголовок. Ожидаемые столбцы: {{columns}}.',
     invalidCsvRow: 'Строка {{rowNumber}}: ожидается 5 столбцов и непустой промпт.',
     invalidOperator: 'Строка {{rowNumber}}: оператор должен быть AND или OR.',
+    selectUserPromptField: 'Выберите поле пользовательского промпта в JSON-теле запроса.',
+    useRequestMethodWithJsonBody: 'Метод запроса должен поддерживать JSON-тело.',
+    iterationsMustBeBetween: 'Количество итераций должно быть от {{min}} до {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Для каждого вопроса требуется промпт и хотя бы одно утверждение.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: 'Поле текста ответа отсутствует или не является строкой.',
+    running: 'Выполняется... ({{current}}/{{total}})',
   },
 };
 

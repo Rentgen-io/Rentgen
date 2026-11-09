@@ -19,6 +19,7 @@ import {
   selectSelectedRequestId,
 } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
+import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
@@ -113,7 +114,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       dispatch(requestActions.setHeaders(headersRecordToString(postmanHeadersToRecord(request.header))));
       dispatch(requestActions.setBody(request.body?.raw || ''));
 
-      if (item.preEvaluation) dispatch(requestActions.setPreEvaluation(item.preEvaluation));
+      if (item.preEvaluation) dispatch(preEvaluationActions.setPreEvaluation(item.preEvaluation));
       if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
     },
     [collection, isComparingTestResults, isDragging, isSelected, requestTestResults, runResult, dispatch, reset],

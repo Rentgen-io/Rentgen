@@ -586,11 +586,21 @@ const vi = {
     jsonBodyRequirement:
       'Cần có body JSON chứa chuỗi prompt của người dùng. Không thể chọn tin nhắn hệ thống và tin nhắn nhà phát triển.',
     addTextPlaceholder: 'Thêm văn bản và nhấn Enter',
+    questionColumn: 'Câu hỏi / Prompt',
+    containsColumn: 'Chứa (bắt buộc)',
+    notContainsColumn: 'Không chứa (bị cấm)',
     unclosedQuotedField: 'CSV chứa một trường có dấu ngoặc kép chưa được đóng.',
     invalidTerms: 'Hàng {{rowNumber}}: Các thuật ngữ phải là mảng JSON gồm các chuỗi không rỗng.',
     expectedCsvColumns: 'Tiêu đề không hợp lệ. Các cột mong đợi: {{columns}}.',
     invalidCsvRow: 'Hàng {{rowNumber}}: Cần 5 cột và một prompt không rỗng.',
     invalidOperator: 'Hàng {{rowNumber}}: Toán tử phải là AND hoặc OR.',
+    selectUserPromptField: 'Chọn trường prompt của người dùng trong nội dung yêu cầu JSON.',
+    useRequestMethodWithJsonBody: 'Phương thức yêu cầu phải hỗ trợ nội dung JSON.',
+    iterationsMustBeBetween: 'Số lần lặp phải nằm trong khoảng từ {{min}} đến {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Mỗi câu hỏi cần có một prompt và ít nhất một khẳng định.',
+    httpError: 'HTTP {{statusCode}}.',
+    responseTextFieldMissing: 'Trường văn bản phản hồi bị thiếu hoặc không phải là chuỗi.',
+    running: 'Đang chạy... ({{current}}/{{total}})',
   },
 };
 
