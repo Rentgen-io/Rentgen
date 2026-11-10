@@ -64,12 +64,13 @@ const nl = {
     newFolder: 'Nieuwe map',
     importCollection: 'Collectie importeren',
     exportCollection: 'Collectie exporteren',
-    searchCollections: 'Zoek in collecties...',
+    searchRequests: 'Verzoeken zoeken...',
     noMatchingRequests: 'Geen overeenkomende verzoeken',
     noSavedRequests: 'Geen opgeslagen verzoeken',
     importFailed: 'Importeren mislukt: {{error}}',
     exportFailed: 'Exporteren mislukt: {{error}}',
     importedWithWarnings: 'Geïmporteerd met {{count}} waarschuwing(en)',
+    failedToLoadCollection: 'Collectie laden mislukt',
   },
 
   // Environment

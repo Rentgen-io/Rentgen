@@ -64,12 +64,13 @@ const ko = {
     newFolder: '새 폴더',
     importCollection: '컬렉션 가져오기',
     exportCollection: '컬렉션 내보내기',
-    searchCollections: '컬렉션 검색...',
+    searchRequests: '요청 검색...',
     noMatchingRequests: '일치하는 요청이 없습니다',
     noSavedRequests: '저장된 요청이 없습니다',
     importFailed: '가져오기 실패: {{error}}',
     exportFailed: '내보내기 실패: {{error}}',
     importedWithWarnings: '경고 {{count}}건과 함께 가져왔습니다',
+    failedToLoadCollection: '컬렉션을 불러오지 못했습니다',
   },
 
   // Environment

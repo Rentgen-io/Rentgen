@@ -64,12 +64,13 @@ const it = {
     newFolder: 'Nuova cartella',
     importCollection: 'Importa raccolta',
     exportCollection: 'Esporta raccolta',
-    searchCollections: 'Cerca raccolte...',
+    searchRequests: 'Cerca richieste...',
     noMatchingRequests: 'Nessuna richiesta corrispondente',
     noSavedRequests: 'Nessuna richiesta salvata',
     importFailed: 'Importazione non riuscita: {{error}}',
     exportFailed: 'Esportazione non riuscita: {{error}}',
     importedWithWarnings: 'Importato con {{count}} avviso/i',
+    failedToLoadCollection: 'Impossibile caricare la raccolta',
   },
 
   // Environment

@@ -64,12 +64,13 @@ const tr = {
     newFolder: 'Yeni Klasör',
     importCollection: 'Koleksiyonu İçe Aktar',
     exportCollection: 'Koleksiyonu Dışa Aktar',
-    searchCollections: 'Koleksiyonlarda ara...',
+    searchRequests: 'İstekleri ara...',
     noMatchingRequests: 'Eşleşen istek yok',
     noSavedRequests: 'Kaydedilmiş istek yok',
     importFailed: 'İçe aktarma başarısız: {{error}}',
     exportFailed: 'Dışa aktarma başarısız: {{error}}',
     importedWithWarnings: '{{count}} uyarı ile içe aktarıldı',
+    failedToLoadCollection: 'Koleksiyon yüklenemedi',
   },
 
   // Environment

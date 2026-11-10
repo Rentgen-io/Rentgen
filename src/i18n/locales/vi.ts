@@ -64,12 +64,13 @@ const vi = {
     newFolder: 'Thư mục mới',
     importCollection: 'Nhập bộ sưu tập',
     exportCollection: 'Xuất bộ sưu tập',
-    searchCollections: 'Tìm kiếm bộ sưu tập...',
+    searchRequests: 'Tìm kiếm yêu cầu...',
     noMatchingRequests: 'Không có yêu cầu phù hợp',
     noSavedRequests: 'Không có yêu cầu nào được lưu',
     importFailed: 'Nhập thất bại: {{error}}',
     exportFailed: 'Xuất thất bại: {{error}}',
     importedWithWarnings: 'Đã nhập với {{count}} cảnh báo',
+    failedToLoadCollection: 'Không thể tải bộ sưu tập',
   },
 
   // Environment

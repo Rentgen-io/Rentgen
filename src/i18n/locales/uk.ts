@@ -64,12 +64,13 @@ const uk = {
     newFolder: 'Нова тека',
     importCollection: 'Імпортувати колекцію',
     exportCollection: 'Експортувати колекцію',
-    searchCollections: 'Пошук у колекціях...',
+    searchRequests: 'Пошук запитів...',
     noMatchingRequests: 'Немає відповідних запитів',
     noSavedRequests: 'Немає збережених запитів',
     importFailed: 'Імпорт не вдався: {{error}}',
     exportFailed: 'Експорт не вдався: {{error}}',
     importedWithWarnings: 'Імпортовано з {{count}} попередженням(-ями)',
+    failedToLoadCollection: 'Не вдалося завантажити колекцію',
   },
 
   // Environment

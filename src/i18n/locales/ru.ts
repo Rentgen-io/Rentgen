@@ -64,12 +64,13 @@ const ru = {
     newFolder: 'Новая папка',
     importCollection: 'Импортировать коллекцию',
     exportCollection: 'Экспортировать коллекцию',
-    searchCollections: 'Поиск по коллекциям...',
+    searchRequests: 'Поиск запросов...',
     noMatchingRequests: 'Нет подходящих запросов',
     noSavedRequests: 'Нет сохраненных запросов',
     importFailed: 'Ошибка импорта: {{error}}',
     exportFailed: 'Ошибка экспорта: {{error}}',
     importedWithWarnings: 'Импортировано с предупреждениями: {{count}}',
+    failedToLoadCollection: 'Не удалось загрузить коллекцию',
   },
 
   // Environment

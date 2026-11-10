@@ -6,6 +6,7 @@ import {
   selectBody,
   selectDynamicVariables,
   selectHeaders,
+  selectHistoryEnabled,
   selectIsSending,
   selectMappings,
   selectMethod,
@@ -41,6 +42,7 @@ export function useSendHttpRequest() {
   const body = useAppSelector(selectBody);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
   const headers = useAppSelector(selectHeaders);
+  const historyEnabled = useAppSelector(selectHistoryEnabled);
   const isSending = useAppSelector(selectIsSending);
   const mappings = useAppSelector(selectMappings);
   const method = useAppSelector(selectMethod);
@@ -128,10 +130,21 @@ export function useSendHttpRequest() {
       );
     } finally {
       dispatch(requestActions.setIsSending(false));
-      dispatch(historyActions.addEntry(historyEntry));
+      if (historyEnabled) dispatch(historyActions.addEntry(historyEntry));
       activeController = null;
     }
-  }, [url, headers, body, selectedEnvironment, dynamicVariables, selectedRequestId, method, mappings, dispatch]);
+  }, [
+    body,
+    dynamicVariables,
+    headers,
+    historyEnabled,
+    mappings,
+    method,
+    selectedEnvironment,
+    selectedRequestId,
+    url,
+    dispatch,
+  ]);
 
   return { isSending, abortRequest, sendHttpRequest };
 }

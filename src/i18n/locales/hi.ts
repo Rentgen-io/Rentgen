@@ -64,12 +64,13 @@ const hi = {
     newFolder: 'नया फ़ोल्डर',
     importCollection: 'संग्रह आयात करें',
     exportCollection: 'संग्रह निर्यात करें',
-    searchCollections: 'संग्रह खोजें...',
+    searchRequests: 'अनुरोध खोजें...',
     noMatchingRequests: 'कोई मेल खाने वाला अनुरोध नहीं',
     noSavedRequests: 'कोई सहेजा गया अनुरोध नहीं',
     importFailed: 'आयात विफल: {{error}}',
     exportFailed: 'निर्यात विफल: {{error}}',
     importedWithWarnings: '{{count}} चेतावनी(यों) के साथ आयात किया गया',
+    failedToLoadCollection: 'संग्रह लोड करने में विफल',
   },
 
   // Environment

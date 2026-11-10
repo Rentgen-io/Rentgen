@@ -64,12 +64,13 @@ const lt = {
     newFolder: 'Naujas aplankas',
     importCollection: 'Importuoti kolekciją',
     exportCollection: 'Eksportuoti kolekciją',
-    searchCollections: 'Ieškoti kolekcijose...',
+    searchRequests: 'Ieškoti užklausų...',
     noMatchingRequests: 'Nerasta atitinkančių užklausų',
     noSavedRequests: 'Nėra išsaugotų užklausų',
     importFailed: 'Importavimas nepavyko: {{error}}',
     exportFailed: 'Eksportavimas nepavyko: {{error}}',
     importedWithWarnings: 'Importuota su {{count}} įspėjimu(-ais)',
+    failedToLoadCollection: 'Nepavyko įkelti kolekcijos',
   },
 
   // Environment

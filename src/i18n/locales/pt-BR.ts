@@ -64,12 +64,13 @@ const ptBR = {
     newFolder: 'Nova pasta',
     importCollection: 'Importar coleção',
     exportCollection: 'Exportar coleção',
-    searchCollections: 'Buscar coleções...',
+    searchRequests: 'Buscar requisições...',
     noMatchingRequests: 'Nenhuma requisição correspondente',
     noSavedRequests: 'Nenhuma requisição salva',
     importFailed: 'Falha na importação: {{error}}',
     exportFailed: 'Falha na exportação: {{error}}',
     importedWithWarnings: 'Importado com {{count}} aviso(s)',
+    failedToLoadCollection: 'Falha ao carregar a coleção',
   },
 
   // Environment

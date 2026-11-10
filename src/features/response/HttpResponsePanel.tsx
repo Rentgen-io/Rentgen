@@ -8,7 +8,6 @@ import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import Panel from 'src/components/panels/Panel';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import { useElementHeight } from 'src/hooks/useElementHeight';
-import { useSaveRequest } from 'src/hooks/useSaveRequest';
 import { useSendHttpRequest } from 'src/hooks/useSendHttpRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -39,7 +38,6 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
   const runResult = useAppSelector(selectSelectedRequestRunResult);
 
   const [ref, height] = useElementHeight<HTMLDivElement>();
-  const { autoSaveRequest } = useSaveRequest();
   const { isSending } = useSendHttpRequest();
 
   const setVariable = useCallback(
@@ -187,8 +185,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                   <TabPanel>
                     <ParametersPanel
                       parameters={bodyParameters}
-                      onBlur={autoSaveRequest}
-                      onChange={(parameters) => dispatch(requestActions.setBodyParameters(parameters))}
+                      onChange={(parameters) => dispatch(requestActions.updateBodyParameters(parameters))}
                     />
                   </TabPanel>
                 )}
@@ -196,8 +193,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                   <TabPanel>
                     <ParametersPanel
                       parameters={queryParameters}
-                      onBlur={autoSaveRequest}
-                      onChange={(parameters) => dispatch(requestActions.setQueryParameters(parameters))}
+                      onChange={(parameters) => dispatch(requestActions.updateQueryParameters(parameters))}
                     />
                   </TabPanel>
                 )}

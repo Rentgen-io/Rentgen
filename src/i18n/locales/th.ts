@@ -64,12 +64,13 @@ const th = {
     newFolder: 'โฟลเดอร์ใหม่',
     importCollection: 'นำเข้าคอลเลกชัน',
     exportCollection: 'ส่งออกคอลเลกชัน',
-    searchCollections: 'ค้นหาคอลเลกชัน...',
+    searchRequests: 'ค้นหาคำขอ...',
     noMatchingRequests: 'ไม่มีคำขอที่ตรงกัน',
     noSavedRequests: 'ยังไม่มีคำขอที่บันทึกไว้',
     importFailed: 'นำเข้าไม่สำเร็จ: {{error}}',
     exportFailed: 'ส่งออกไม่สำเร็จ: {{error}}',
     importedWithWarnings: 'นำเข้าแล้วพร้อมคำเตือน {{count}} รายการ',
+    failedToLoadCollection: 'โหลดคอลเลกชันไม่สำเร็จ',
   },
 
   // Environment

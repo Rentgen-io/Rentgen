@@ -12,13 +12,14 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { exportPostmanCollection, importPostmanCollection } from 'src/api/files';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectCollectionData, selectSidebarFolders } from 'src/store/selectors';
+import { selectCollectionData, selectCollectionLoading, selectSidebarFolders } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { detectImportConflicts, filterCollectionsBySearch } from 'src/utils';
 import { notify } from 'src/utils/toast';
 import SideBarSearch from '../SidebarSearch';
 import CollectionGroup from './CollectionGroup';
+import Loader from 'src/components/loaders/Loader';
 
 import AddIcon from 'src/assets/icons/add-icon.svg';
 import ExportIcon from 'src/assets/icons/export-icon.svg';
@@ -30,6 +31,7 @@ export default function CollectionsPanel() {
 
   const folders = useAppSelector(selectSidebarFolders);
   const collection = useAppSelector(selectCollectionData);
+  const loading = useAppSelector(selectCollectionLoading);
 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [editingFolderId, setEditingFolderId] = useState<string | null>(null);
@@ -184,18 +186,22 @@ export default function CollectionsPanel() {
         <div className="flex items-center gap-2 pr-2">
           <ImportIcon
             className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
-            onClick={handleImport}
             title={t('collections.importCollection')}
+            onClick={handleImport}
           />
           <ExportIcon
             className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
-            onClick={handleExport}
             title={t('collections.exportCollection')}
+            onClick={handleExport}
           />
         </div>
       </div>
       <SideBarSearch value={searchTerm} onChange={setSearchTerm} />
-      {filteredFolders.length > 0 ? (
+      {loading ? (
+        <div className="flex items-center justify-center h-full w-full p-4 text-xs text-muted-foreground">
+          <Loader />
+        </div>
+      ) : filteredFolders.length > 0 ? (
         <div className="h-full overflow-x-hidden overflow-y-auto">
           {isSearching ? (
             filteredFolders.map((folder) => (

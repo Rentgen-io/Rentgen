@@ -64,12 +64,13 @@ const fr = {
     newFolder: 'Nouveau dossier',
     importCollection: 'Importer une collection',
     exportCollection: 'Exporter la collection',
-    searchCollections: 'Rechercher des collections...',
+    searchRequests: 'Rechercher des requêtes...',
     noMatchingRequests: 'Aucune requête correspondante',
     noSavedRequests: 'Aucune requête enregistrée',
     importFailed: "Échec de l'import : {{error}}",
     exportFailed: "Échec de l'export : {{error}}",
     importedWithWarnings: 'Importé avec {{count}} avertissement(s)',
+    failedToLoadCollection: 'Échec du chargement de la collection',
   },
 
   // Environment

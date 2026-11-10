@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { electronMiddleware } from './middleware/electronMiddleware';
+import { listenerMiddleware } from './middleware/listenerMiddleware';
 import collectionRunReducer from './slices/collectionRunSlice';
 import collectionReducer from './slices/collectionSlice';
 import environmentReducer from './slices/environmentSlice';
@@ -30,7 +30,7 @@ export const store = configureStore({
     websocket: websocketReducer,
     ui: uiReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(electronMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(listenerMiddleware.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

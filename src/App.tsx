@@ -18,7 +18,6 @@ import TestRunnerBar from './features/tests/TestRunnerBar';
 import { useCtrlS } from './hooks/useCtrlS';
 import { useInitialDataLoad } from './hooks/useInitialDataLoad';
 import usePreEvaluation from './hooks/usePreEvaluation';
-import { useRunResultSync } from './hooks/useRunResultSync';
 import { useSaveRequest } from './hooks/useSaveRequest';
 import useTests from './hooks/useTests';
 import { useWssEventBridge } from './hooks/useWebSocket';
@@ -59,7 +58,6 @@ export default function App() {
   const { saveRequest } = useSaveRequest();
   useInitialDataLoad();
   useWssEventBridge();
-  useRunResultSync();
   useCtrlS(!disabled ? saveRequest : undefined);
 
   const isRunningAnyTests =

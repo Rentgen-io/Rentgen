@@ -64,12 +64,13 @@ const pl = {
     newFolder: 'Nowy folder',
     importCollection: 'Importuj kolekcję',
     exportCollection: 'Eksportuj kolekcję',
-    searchCollections: 'Szukaj w kolekcjach...',
+    searchRequests: 'Szukaj zapytań...',
     noMatchingRequests: 'Brak pasujących zapytań',
     noSavedRequests: 'Brak zapisanych zapytań',
     importFailed: 'Import nie powiódł się: {{error}}',
     exportFailed: 'Eksport nie powiódł się: {{error}}',
     importedWithWarnings: 'Zaimportowano z {{count}} ostrzeżeniem(-ami)',
+    failedToLoadCollection: 'Nie udało się załadować kolekcji',
   },
 
   // Environment

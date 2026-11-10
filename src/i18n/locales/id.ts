@@ -64,12 +64,13 @@ const id = {
     newFolder: 'Folder Baru',
     importCollection: 'Impor Koleksi',
     exportCollection: 'Ekspor Koleksi',
-    searchCollections: 'Cari koleksi...',
+    searchRequests: 'Cari permintaan...',
     noMatchingRequests: 'Tidak ada permintaan yang cocok',
     noSavedRequests: 'Tidak ada permintaan tersimpan',
     importFailed: 'Impor gagal: {{error}}',
     exportFailed: 'Ekspor gagal: {{error}}',
     importedWithWarnings: 'Diimpor dengan {{count}} peringatan',
+    failedToLoadCollection: 'Gagal memuat koleksi',
   },
 
   // Environment

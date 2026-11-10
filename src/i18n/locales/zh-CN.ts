@@ -64,12 +64,13 @@ const zhCN = {
     newFolder: '新建文件夹',
     importCollection: '导入集合',
     exportCollection: '导出集合',
-    searchCollections: '搜索集合...',
+    searchRequests: '搜索请求...',
     noMatchingRequests: '没有匹配的请求',
     noSavedRequests: '没有已保存的请求',
     importFailed: '导入失败：{{error}}',
     exportFailed: '导出失败：{{error}}',
     importedWithWarnings: '已导入，包含 {{count}} 个警告',
+    failedToLoadCollection: '加载集合失败',
   },
 
   // Environment

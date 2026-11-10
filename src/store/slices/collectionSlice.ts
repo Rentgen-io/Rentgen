@@ -18,17 +18,22 @@ import {
   uniqueFolderName,
   updateRequestInCollection,
 } from 'src/utils';
+import i18n from 'src/i18n';
 
 export type ImportMode = 'replace' | 'merge' | 'copy';
 
 interface CollectionState {
   data: PostmanCollection;
+  error: string | null;
+  loading: boolean;
   selectedRequestId: string | null;
   selectedFolderId: string;
 }
 
 const initialState: CollectionState = {
   data: createEmptyCollection(),
+  error: null,
+  loading: true,
   selectedRequestId: null,
   selectedFolderId: DEFAULT_FOLDER_ID,
 };
@@ -210,12 +215,23 @@ export const collectionSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loadCollection.fulfilled, (state, action) => {
-      state.data = action.payload;
+    builder
+      .addCase(loadCollection.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loadCollection.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.data = action.payload;
 
-      const folder = state.data.item?.find((f) => f.id === DEFAULT_FOLDER_ID) ?? state.data.item?.[0];
-      if (folder) state.selectedFolderId = folder.id;
-    });
+        const folder = state.data.item?.find((f) => f.id === DEFAULT_FOLDER_ID) ?? state.data.item?.[0];
+        if (folder) state.selectedFolderId = folder.id;
+      })
+      .addCase(loadCollection.rejected, (state, action) => {
+        state.error = action.error.message || i18n.t('collections.failedToLoadCollection');
+        state.loading = false;
+      });
   },
 });
 

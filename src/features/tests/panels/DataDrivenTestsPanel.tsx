@@ -98,14 +98,14 @@ export default function DataDrivenTestsPanel() {
 
                       if (isBodyParameter)
                         dispatch(
-                          requestActions.setBodyParameters({
+                          requestActions.updateBodyParameters({
                             ...bodyParameters,
                             [name]: { ...parameter, overrides },
                           }),
                         );
                       else
                         dispatch(
-                          requestActions.setQueryParameters({
+                          requestActions.updateQueryParameters({
                             ...queryParameters,
                             [name]: { ...parameter, overrides },
                           }),

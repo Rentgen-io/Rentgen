@@ -64,12 +64,13 @@ const en = {
     newFolder: 'New Folder',
     importCollection: 'Import Collection',
     exportCollection: 'Export Collection',
-    searchCollections: 'Search collections...',
+    searchRequests: 'Search requests...',
     noMatchingRequests: 'No matching requests',
     noSavedRequests: 'No saved requests',
     importFailed: 'Import failed: {{error}}',
     exportFailed: 'Export failed: {{error}}',
     importedWithWarnings: 'Imported with {{count}} warning(s)',
+    failedToLoadCollection: 'Failed to load collection',
   },
 
   // Environment

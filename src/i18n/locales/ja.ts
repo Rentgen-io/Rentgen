@@ -64,12 +64,13 @@ const ja = {
     newFolder: '新規フォルダ',
     importCollection: 'コレクションをインポート',
     exportCollection: 'コレクションをエクスポート',
-    searchCollections: 'コレクションを検索...',
+    searchRequests: 'リクエストを検索...',
     noMatchingRequests: '一致するリクエストはありません',
     noSavedRequests: '保存されたリクエストはありません',
     importFailed: 'インポートに失敗しました: {{error}}',
     exportFailed: 'エクスポートに失敗しました: {{error}}',
     importedWithWarnings: '{{count}} 件の警告とともにインポートしました',
+    failedToLoadCollection: 'コレクションの読み込みに失敗しました',
   },
 
   // Environment

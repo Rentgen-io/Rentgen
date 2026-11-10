@@ -49,7 +49,7 @@ export default function SideBarSearch({ placeholder, value, onChange }: Props) {
         className="h-9 w-full py-2 px-9 text-xs bg-transparent border-none text-foreground outline-none placeholder:text-muted-foreground box-border"
         type="text"
         value={localValue}
-        placeholder={placeholder || t('collections.searchCollections')}
+        placeholder={placeholder || t('collections.searchRequests')}
         onChange={(e) => handleChange(e.target.value)}
         onKeyDown={handleKeyDown}
       />

@@ -64,12 +64,13 @@ const de = {
     newFolder: 'Neuer Ordner',
     importCollection: 'Sammlung importieren',
     exportCollection: 'Sammlung exportieren',
-    searchCollections: 'Sammlungen durchsuchen...',
+    searchRequests: 'Anfragen durchsuchen...',
     noMatchingRequests: 'Keine passenden Anfragen',
     noSavedRequests: 'Keine gespeicherten Anfragen',
     importFailed: 'Import fehlgeschlagen: {{error}}',
     exportFailed: 'Export fehlgeschlagen: {{error}}',
     importedWithWarnings: 'Importiert mit {{count}} Warnung(en)',
+    failedToLoadCollection: 'Sammlung konnte nicht geladen werden',
   },
 
   // Environment
