@@ -7,12 +7,16 @@ interface PreEvaluationState {
   data: PreEvaluation | null;
   currentRun: number;
   isRunning: boolean;
+  report: EvaluationReport | null;
+  reports: Record<string, EvaluationReport>;
 }
 
 const initialState: PreEvaluationState = {
   data: null,
   currentRun: 0,
   isRunning: false,
+  report: null,
+  reports: {},
 };
 
 const ensurePreEvaluation = (state: PreEvaluationState): PreEvaluation =>
@@ -45,6 +49,7 @@ export const preEvaluationSlice = createSlice({
       state.data = null;
       state.currentRun = 0;
       state.isRunning = false;
+      state.report = null;
     },
     setCurrentRun: (state, action: PayloadAction<number>) => {
       state.currentRun = action.payload;
@@ -52,16 +57,22 @@ export const preEvaluationSlice = createSlice({
     setIsRunning: (state, action: PayloadAction<boolean>) => {
       state.isRunning = action.payload;
     },
+    setEvaluationReport: (state, action: PayloadAction<EvaluationReport>) => {
+      state.report = action.payload;
+    },
     setPreEvaluation: (state, action: PayloadAction<PreEvaluation>) => {
       state.data = action.payload;
     },
     setPreEvaluationQuestions: (state, action: PayloadAction<EvaluationQuestion[]>) => {
       ensurePreEvaluation(state).questions = action.payload;
     },
-    setPreEvaluationReport: (state, action: PayloadAction<EvaluationReport>) => {
-      if (!state.data) return;
-
-      state.data.report = action.payload;
+    setRequestEvaluationReport: (state, action: PayloadAction<{ report: EvaluationReport; requestId: string }>) => {
+      state.reports[action.payload.requestId] = action.payload.report;
+    },
+    startPreEvaluation: (state) => {
+      state.currentRun = 0;
+      state.isRunning = true;
+      state.report = null;
     },
     updatePreEvaluation: (state, action: PayloadAction<Partial<Omit<PreEvaluation, 'questions'>>>) => {
       Object.assign(ensurePreEvaluation(state), action.payload);

@@ -31,6 +31,5 @@ export interface PreEvaluation {
   iterations: number;
   promptPath: string;
   questions: EvaluationQuestion[];
-  report?: EvaluationReport;
   responsePath: string;
 }

@@ -8,6 +8,7 @@ import {
   selectBody,
   selectCurrentRun,
   selectDynamicVariables,
+  selectEvaluationReport,
   selectHeaders,
   selectIsRunning,
   selectMethod,
@@ -16,9 +17,8 @@ import {
   selectSelectedRequestId,
   selectUrl,
 } from 'src/store/selectors';
-import { collectionActions } from 'src/store/slices/collectionSlice';
 import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
-import { EvaluationResult, HttpRequest, PreEvaluation } from 'src/types';
+import { EvaluationReport, EvaluationResult, HttpRequest } from 'src/types';
 import {
   evaluate,
   extractStatusCode,
@@ -41,6 +41,7 @@ const usePreEvaluation = () => {
   const body = useAppSelector(selectBody);
   const currentRun = useAppSelector(selectCurrentRun);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
+  const evaluationReport = useAppSelector(selectEvaluationReport);
   const headers = useAppSelector(selectHeaders);
   const isRunningPreEvaluation = useAppSelector(selectIsRunning);
   const method = useAppSelector(selectMethod);
@@ -53,9 +54,11 @@ const usePreEvaluation = () => {
   const cancelPreEvaluation = useCallback(
     (reset = true) => {
       activeController?.abort();
-      activeController = null;
 
-      if (reset) dispatch(preEvaluationActions.resetPreEvaluation());
+      if (reset) {
+        dispatch(preEvaluationActions.resetPreEvaluation());
+        activeController = null;
+      }
     },
     [dispatch],
   );
@@ -70,7 +73,7 @@ const usePreEvaluation = () => {
       headers: substitutedHeaders,
       body: substitutedBody,
     } = substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables);
-    const report: NonNullable<PreEvaluation['report']> = {
+    const report: EvaluationReport = {
       startedAt: new Date().toISOString(),
       planned: totalRuns,
       results: [],
@@ -102,8 +105,7 @@ const usePreEvaluation = () => {
       )
         throw new Error(t('preEvaluation.everyQuestionNeedsPromptAndAssertion'));
 
-      dispatch(preEvaluationActions.setIsRunning(true));
-      dispatch(preEvaluationActions.setCurrentRun(0));
+      dispatch(preEvaluationActions.startPreEvaluation());
 
       for (const question of preEvaluation.questions) {
         for (let iteration = 1; iteration <= preEvaluation.iterations; iteration++) {
@@ -162,13 +164,12 @@ const usePreEvaluation = () => {
 
       report.finishedAt = new Date().toISOString();
 
-      dispatch(preEvaluationActions.setPreEvaluationReport(report));
-
+      if (controller === activeController) dispatch(preEvaluationActions.setEvaluationReport(report));
       if (selectedRequestId)
         dispatch(
-          collectionActions.updatePreEvaluation({
+          preEvaluationActions.setRequestEvaluationReport({
+            report,
             requestId: selectedRequestId,
-            preEvaluation: { ...structuredClone(preEvaluation), report },
           }),
         );
     } finally {
@@ -191,6 +192,7 @@ const usePreEvaluation = () => {
 
   return {
     currentRun,
+    evaluationReport,
     isRunningPreEvaluation,
     preEvaluation,
     totalRuns,

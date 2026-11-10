@@ -36,8 +36,15 @@ const modeOptions: RadioOption<MatchMode>[] = [
 export default function PreEvaluationPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { currentRun, isRunningPreEvaluation, preEvaluation, totalRuns, cancelPreEvaluation, executePreEvaluation } =
-    usePreEvaluation();
+  const {
+    currentRun,
+    evaluationReport,
+    isRunningPreEvaluation,
+    preEvaluation,
+    totalRuns,
+    cancelPreEvaluation,
+    executePreEvaluation,
+  } = usePreEvaluation();
 
   const body = useAppSelector(selectBody);
   const disabled = useAppSelector(selectPreEvaluationDisabled);
@@ -295,7 +302,7 @@ export default function PreEvaluationPanel() {
           <ProgressBar className="absolute bottom-0 left-0" max={totalRuns} value={currentRun} />
         )}
       </div>
-      {preEvaluation?.report && <PreEvaluationReport report={preEvaluation.report} />}
+      {evaluationReport && <PreEvaluationReport report={evaluationReport} />}
     </div>
   );
 }

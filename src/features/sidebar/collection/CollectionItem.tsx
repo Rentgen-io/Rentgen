@@ -14,6 +14,7 @@ import {
   selectCollectionRunResults,
   selectIsComparingTestResults,
   selectIsRequestRunning,
+  selectRequestEvaluationReport,
   selectRequestTestResults,
   selectRunningFolderId,
   selectSelectedRequestId,
@@ -48,6 +49,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
   const reset = useReset();
 
   const collection = useAppSelector(selectCollectionData);
+  const evaluationReport = useAppSelector(selectRequestEvaluationReport(item.id));
   const isComparingTestResults = useAppSelector(selectIsComparingTestResults);
   const isRequestRunning = useAppSelector(selectIsRequestRunning(item.id));
   const requestTestResults = useAppSelector(selectRequestTestResults(item.id));
@@ -115,9 +117,20 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       dispatch(requestActions.setBody(request.body?.raw || ''));
 
       if (item.preEvaluation) dispatch(preEvaluationActions.setPreEvaluation(item.preEvaluation));
+      if (evaluationReport) dispatch(preEvaluationActions.setEvaluationReport(evaluationReport));
       if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
     },
-    [collection, isComparingTestResults, isDragging, isSelected, requestTestResults, runResult, dispatch, reset],
+    [
+      collection,
+      evaluationReport,
+      isComparingTestResults,
+      isDragging,
+      isSelected,
+      requestTestResults,
+      runResult,
+      dispatch,
+      reset,
+    ],
   );
 
   const handlePlayClick = (event: React.MouseEvent) => {
