@@ -17,6 +17,7 @@ import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { loadSettings, settingsActions } from 'src/store/slices/settingsSlice';
+import { PostmanFolder } from 'src/types';
 import { collectExtractionFailures } from 'src/utils';
 
 const isParametersUpdate = isAnyOf(requestActions.updateBodyParameters, requestActions.updateQueryParameters);
@@ -71,21 +72,27 @@ persist((state) => state.settings, saveSettings);
 // Side effects
 // ---------------------------------------------------------------------------
 
-// Removing a request removes its mappings
+// Clean up data linked to requests that disappeared from the collection, whatever removed them
+// (removeRequest, removeFolder, import in replace mode, …): their mappings and dynamic variables
 startAppListening({
-  actionCreator: collectionActions.removeRequest,
-  effect: ({ payload: requestId }, { dispatch }) => {
-    dispatch(mappingsActions.removeMappings(requestId));
-  },
-});
+  predicate: (action, currentState, originalState) =>
+    !isHydration(action) && currentState.collection.data !== originalState.collection.data,
+  effect: (_, { dispatch, getOriginalState, getState }) => {
+    const { collection, environment } = getState();
+    const requestIds = (folders: PostmanFolder[]) => folders.flatMap((folder) => folder.item.map(({ id }) => id));
 
-// Removing a folder removes the mappings of every request it contained
-startAppListening({
-  actionCreator: collectionActions.removeFolder,
-  effect: ({ payload: folderId }, { dispatch, getOriginalState }) => {
-    getOriginalState()
-      .collection.data.item.find((folder) => folder.id === folderId)
-      ?.item.forEach((request) => dispatch(mappingsActions.removeMappings(request.id)));
+    const remainingIds = new Set(requestIds(collection.data.item));
+    const removedIds = new Set(
+      requestIds(getOriginalState().collection.data.item).filter((id) => !remainingIds.has(id)),
+    );
+
+    if (removedIds.size === 0) return;
+
+    removedIds.forEach((id) => dispatch(mappingsActions.removeMappings(id)));
+
+    const keptVariables = environment.dynamicVariables.filter(({ requestId }) => !removedIds.has(requestId));
+    if (keptVariables.length !== environment.dynamicVariables.length)
+      dispatch(environmentActions.setDynamicVariables(keptVariables));
   },
 });
 

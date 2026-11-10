@@ -52,6 +52,7 @@ export default function PreEvaluationPanel() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [iterations, setIterations] = useState<string>(String(preEvaluation.iterations));
+  const [responsePath, setResponsePath] = useState<string>(preEvaluation.responsePath);
 
   const promptPathOptions = useMemo(
     () => findPromptPointers(parseJsonObject(body)).map((path) => ({ label: path, value: path })),
@@ -77,12 +78,7 @@ export default function PreEvaluationPanel() {
       {
         name: t('preEvaluation.questionColumn'),
         cell: ({ id, prompt }) => (
-          <TextareaAutosize
-            className="min-h-auto w-full my-1.5 mx-2.5"
-            maxRows={3}
-            value={prompt}
-            onChange={(event) => updateQuestion(id, { prompt: event.target.value })}
-          />
+          <QuestionPromptInput prompt={prompt} onBlur={(value) => updateQuestion(id, { prompt: value })} />
         ),
       },
       {
@@ -123,6 +119,7 @@ export default function PreEvaluationPanel() {
   }, [dispatch, t]);
 
   useEffect(() => setIterations(String(preEvaluation.iterations)), [preEvaluation.iterations]);
+  useEffect(() => setResponsePath(preEvaluation.responsePath), [preEvaluation.responsePath]);
 
   const saveFile = async (content: string) => {
     try {
@@ -183,10 +180,12 @@ export default function PreEvaluationPanel() {
               <Input
                 className="flex-1"
                 placeholder={t('preEvaluation.responseTextPlaceholder')}
-                value={preEvaluation.responsePath}
-                onChange={(event) =>
-                  dispatch(preEvaluationActions.updatePreEvaluation({ responsePath: event.target.value }))
-                }
+                value={responsePath}
+                onBlur={() => {
+                  if (responsePath !== preEvaluation.responsePath)
+                    dispatch(preEvaluationActions.updatePreEvaluation({ responsePath }));
+                }}
+                onChange={(event) => setResponsePath(event.target.value)}
               />
             </label>
             <label className="flex items-center gap-2">
@@ -304,6 +303,24 @@ export default function PreEvaluationPanel() {
       </div>
       {evaluationReport && <PreEvaluationReport report={evaluationReport} />}
     </div>
+  );
+}
+
+function QuestionPromptInput({ prompt, onBlur }: { prompt: string; onBlur: (prompt: string) => void }) {
+  const [value, setValue] = useState<string>(prompt);
+
+  useEffect(() => setValue(prompt), [prompt]);
+
+  return (
+    <TextareaAutosize
+      className="min-h-auto w-full my-1.5 mx-2.5"
+      maxRows={3}
+      value={value}
+      onBlur={() => {
+        if (value !== prompt) onBlur(value);
+      }}
+      onChange={(event) => setValue(event.target.value)}
+    />
   );
 }
 

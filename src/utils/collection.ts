@@ -254,10 +254,13 @@ export function addFolderToCollection(collection: PostmanCollection, name: strin
 }
 
 /**
- * Builds a folder name that does not collide with existing folders by appending a counter
+ * Builds a folder name that does not collide with existing folders by appending a counter.
+ * `ignoreFolderId` excludes a folder from the check, e.g. the one being renamed.
  */
-export function uniqueFolderName(collection: PostmanCollection, name: string): string {
-  const existingNames = new Set(collection.item.map((folder) => folder.name));
+export function uniqueFolderName(collection: PostmanCollection, name: string, ignoreFolderId?: string): string {
+  const existingNames = new Set(
+    collection.item.filter((folder) => folder.id !== ignoreFolderId).map((folder) => folder.name),
+  );
   if (!existingNames.has(name)) return name;
 
   let counter = 2;
@@ -332,7 +335,13 @@ export function moveRequestToFolder(
     }
   }
 
-  if (!movedItem || !sourceFolderId || sourceFolderId === targetFolderId) {
+  // Without an existing target folder the request would be removed and never re-inserted
+  if (
+    !movedItem ||
+    !sourceFolderId ||
+    sourceFolderId === targetFolderId ||
+    !collection.item.some((folder) => folder.id === targetFolderId)
+  ) {
     return collection;
   }
 

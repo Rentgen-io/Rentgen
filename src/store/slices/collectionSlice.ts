@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_FOLDER_ID } from 'shared/utils/collection';
 import { loadCollection as loadCollectionFile } from 'src/api/storage';
-import { PostmanCollection, PostmanFolder, PreEvaluation } from 'src/types';
+import i18n from 'src/i18n';
+import { PostmanCollection, PostmanFolder, PostmanItem, PreEvaluation } from 'src/types';
 import {
   addFolderToCollection,
   addRequestToCollection,
@@ -18,7 +19,6 @@ import {
   uniqueFolderName,
   updateRequestInCollection,
 } from 'src/utils';
-import i18n from 'src/i18n';
 
 export type ImportMode = 'replace' | 'merge' | 'copy';
 
@@ -45,7 +45,7 @@ export const collectionSlice = createSlice({
   initialState,
   reducers: {
     addFolder: (state, action: PayloadAction<string>) => {
-      state.data = addFolderToCollection(state.data, action.payload);
+      state.data = addFolderToCollection(state.data, uniqueFolderName(state.data, action.payload));
     },
     addRequest: (
       state,
@@ -70,31 +70,50 @@ export const collectionSlice = createSlice({
     importCollection: (state, action: PayloadAction<{ collection: PostmanCollection; mode: ImportMode }>) => {
       const { collection, mode } = action.payload;
 
+      // Folders already replaced or added by this import, so duplicate names inside the imported file
+      // don't overwrite each other
+      const importedFolderIds = new Set<string>();
+
       if (mode === 'replace')
         // Replace only matching folders, keep non-matching ones
         for (const importedFolder of collection.item) {
-          const existingFolderIndex = state.data.item.findIndex((f) => f.name === importedFolder.name);
+          const existingFolderIndex = state.data.item.findIndex(
+            (f) => f.name === importedFolder.name && !importedFolderIds.has(f.id),
+          );
 
-          if (existingFolderIndex !== -1)
-            // Replace existing folder with imported one (new IDs)
+          if (existingFolderIndex !== -1) {
+            // Replace existing folder with imported one, but keep the folder ID and the IDs of matching
+            // requests, so selection, mappings and dynamic variables stay linked to them
+            const existingFolder = state.data.item[existingFolderIndex];
+            const unmatchedRequests = [...existingFolder.item];
+
             state.data.item[existingFolderIndex] = {
               ...importedFolder,
-              id: generateFolderId(),
-              item: importedFolder.item.map((request) => ({
-                ...request,
-                id: generateRequestId(),
-              })),
+              id: existingFolder.id,
+              item: importedFolder.item.map((request) => {
+                // Each existing request can be matched only once, so IDs stay unique
+                const matchIndex = unmatchedRequests.findIndex((existing) => isSameRequest(existing, request));
+                const id = matchIndex === -1 ? generateRequestId() : unmatchedRequests.splice(matchIndex, 1)[0].id;
+
+                return { ...request, id };
+              }),
             };
-          else
+            importedFolderIds.add(existingFolder.id);
+          } else {
             // Add new folder
+            const id = generateFolderId();
+
             state.data.item.push({
               ...importedFolder,
-              id: generateFolderId(),
+              id,
+              name: uniqueFolderName(state.data, importedFolder.name),
               item: importedFolder.item.map((request) => ({
                 ...request,
                 id: generateRequestId(),
               })),
             });
+            importedFolderIds.add(id);
+          }
         }
       else if (mode === 'copy')
         // Import as Copy: Generate new IDs and append "(copy)" to folder names
@@ -102,7 +121,7 @@ export const collectionSlice = createSlice({
           const newFolder = {
             ...folder,
             id: generateFolderId(),
-            name: `${folder.name} (copy)`,
+            name: uniqueFolderName(state.data, `${folder.name} (copy)`),
             item: folder.item.map((request) => ({
               ...request,
               id: generateRequestId(),
@@ -117,15 +136,7 @@ export const collectionSlice = createSlice({
           if (existingFolder)
             // Add only non-duplicate requests
             for (const request of folder.item) {
-              const isDuplicate = existingFolder.item.some(
-                (existing) =>
-                  // Duplicate by URL+Method
-                  (existing.request.url === request.request.url &&
-                    existing.request.method === request.request.method) ||
-                  // Duplicate by name
-                  existing.name === request.name,
-              );
-              if (!isDuplicate)
+              if (!existingFolder.item.some((existing) => isSameRequest(existing, request)))
                 existingFolder.item.push({
                   ...request,
                   id: generateRequestId(), // Generate new ID to avoid collisions
@@ -142,6 +153,9 @@ export const collectionSlice = createSlice({
               })),
             });
         }
+
+      // In replace mode the selected request may have been dropped
+      dropMissingSelection(state);
     },
     importFolder: (state, action: PayloadAction<PostmanFolder>) => {
       state.data.item.unshift({
@@ -163,14 +177,15 @@ export const collectionSlice = createSlice({
     },
     removeFolder: (state, action: PayloadAction<string>) => {
       state.data = removeFolderFromCollection(state.data, action.payload);
+      dropMissingSelection(state);
     },
     removeRequest: (state, action: PayloadAction<string>) => {
       state.data = removeRequestFromCollection(state.data, action.payload);
-      if (state.selectedRequestId === action.payload) state.selectedRequestId = null;
+      dropMissingSelection(state);
     },
     renameFolder: (state, action: PayloadAction<{ folderId: string; newName: string }>) => {
       const { folderId, newName } = action.payload;
-      state.data = renameFolderInCollection(state.data, folderId, newName);
+      state.data = renameFolderInCollection(state.data, folderId, uniqueFolderName(state.data, newName, folderId));
     },
     renameRequest: (state, action: PayloadAction<{ requestId: string; newName: string }>) => {
       const { requestId, newName } = action.payload;
@@ -192,6 +207,7 @@ export const collectionSlice = createSlice({
     },
     setCollection: (state, action: PayloadAction<PostmanCollection>) => {
       state.data = action.payload;
+      dropMissingSelection(state);
     },
     updatePreEvaluation: (state, action: PayloadAction<{ preEvaluation: PreEvaluation; requestId: string }>) => {
       const item = state.data.item
@@ -225,8 +241,8 @@ export const collectionSlice = createSlice({
         state.error = null;
         state.data = action.payload;
 
-        const folder = state.data.item?.find((f) => f.id === DEFAULT_FOLDER_ID) ?? state.data.item?.[0];
-        if (folder) state.selectedFolderId = folder.id;
+        const folderId = getDefaultFolderId(state.data);
+        if (folderId) state.selectedFolderId = folderId;
       })
       .addCase(loadCollection.rejected, (state, action) => {
         state.error = action.error.message || i18n.t('collections.failedToLoadCollection');
@@ -234,6 +250,28 @@ export const collectionSlice = createSlice({
       });
   },
 });
+
+// Two requests are considered the same when they share URL + method, or name
+function isSameRequest(a: PostmanItem, b: PostmanItem) {
+  return (a.request.url === b.request.url && a.request.method === b.request.method) || a.name === b.name;
+}
+
+// Folder selected by default: the default folder, or the first one when it does not exist
+function getDefaultFolderId(collection: PostmanCollection) {
+  return (collection.item?.find(({ id }) => id === DEFAULT_FOLDER_ID) ?? collection.item?.[0])?.id;
+}
+
+// Reset selection pointing to a folder / request that is no longer in the collection
+function dropMissingSelection(state: CollectionState) {
+  const { data, selectedFolderId, selectedRequestId } = state;
+  const folders = data.item;
+
+  if (!folders.some(({ id }) => id === selectedFolderId))
+    state.selectedFolderId = getDefaultFolderId(data) ?? DEFAULT_FOLDER_ID;
+
+  if (selectedRequestId && !folders.some((folder) => folder.item.some(({ id }) => id === selectedRequestId)))
+    state.selectedRequestId = null;
+}
 
 export const collectionActions = collectionSlice.actions;
 export default collectionSlice.reducer;

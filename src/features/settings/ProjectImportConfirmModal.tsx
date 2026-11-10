@@ -46,7 +46,7 @@ export default function ProjectImportConfirmModal() {
       onConfirm={() => {
         dispatch(collectionActions.setCollection(data.collection));
         dispatch(environmentActions.setEnvironments(data.environments));
-        dispatch(environmentActions.replaceDynamicVariables(data.dynamicVariables));
+        dispatch(environmentActions.setDynamicVariables(data.dynamicVariables));
         dispatch(historyActions.setEntries(data.history as HistoryEntry[]));
         dispatch(settingsActions.replaceSettings(data.settings as unknown as SettingsState));
         dispatch(mappingsActions.replaceMappings(data.mappings ? (data.mappings as MappingsState) : {}));
