@@ -134,10 +134,12 @@ export function evaluate(text: string, question: EvaluationQuestion): string[] {
   };
 
   if (contains.length && !matches(contains, containsMode))
-    reasons.push(`Missing required text (${containsMode}): ${contains.join(', ')}`);
+    reasons.push(i18n.t('preEvaluation.missingRequiredText', { containsMode, contains: contains.join(', ') }));
 
   if (notContains.length && matches(notContains, notContainsMode))
-    reasons.push(`Contains forbidden text (${notContainsMode}): ${notContains.join(', ')}`);
+    reasons.push(
+      i18n.t('preEvaluation.containsForbiddenText', { notContainsMode, notContains: notContains.join(', ') }),
+    );
 
   return reasons;
 }

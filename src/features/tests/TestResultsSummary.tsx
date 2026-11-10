@@ -106,7 +106,7 @@ export default function TestResultsSummary({
         <div className="border border-border divide-y divide-border rounded overflow-hidden">
           {findings.map(({ bugs, failed, label, index, warnings }) => (
             <div
-              className="flex items-center justify-between gap-2 py-3 px-4 text-xs cursor-pointer hover:bg-accent-soft"
+              className="flex items-center justify-between gap-2 py-3 px-4 text-xs hover:bg-accent-soft cursor-pointer"
               key={index}
               onClick={() => onClick(index)}
             >

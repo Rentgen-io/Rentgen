@@ -274,7 +274,7 @@ export default function PreEvaluationPanel() {
             }}
           >
             <PlayIcon className="size-4 shrink-0" />
-            <span className="truncate">{t('preEvaluation.run')}</span>
+            <span className="truncate">{t('preEvaluation.runPreEvaluation')}</span>
           </Button>
         ) : (
           <div className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between gap-2">

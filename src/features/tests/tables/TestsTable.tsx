@@ -146,7 +146,7 @@ export const ExpandedTestComponent = memo(({ data }: ExpanderComponentProps<Test
   const { request, response } = data;
 
   return (
-    <div className="p-4 bg-background">
+    <div className="py-3 px-4 bg-background">
       {request && (
         <CopyButton className="mb-4" textToCopy={generateCurl(request)}>
           {t('curl.copyCurl')}

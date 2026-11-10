@@ -123,12 +123,12 @@ export default function TestResultsComparisonPanel({ items, response }: Props) {
           </div>
         ),
         label: t('comparison.potentialBugs'),
-        panelClassName: 'p-4 overflow-hidden',
+        panelClassName: 'py-3 px-4 overflow-hidden',
       },
       {
         component: (
           <div className="flex flex-col flex-auto h-0">
-            <div className="flex flex-col gap-4 p-4 text-xs">
+            <div className="flex flex-col gap-4 py-3 px-4 text-xs">
               <div className="flex items-center gap-2">
                 <span className="font-medium">
                   {t('comparison.behaviorChange')} <strong>{statistics.percent}%</strong>
@@ -150,7 +150,7 @@ export default function TestResultsComparisonPanel({ items, response }: Props) {
               />
             </div>
             <JsonDiffViewer
-              className="flex-1 p-4 border-t border-border"
+              className="flex-1 py-3 px-4 border-t border-border"
               data={filteredItems}
               calculateStatistics={setStatistics}
               isDiffReady={setDiffReady}

@@ -162,7 +162,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
       >
         <ClearCrossIcon className="size-5" />
       </IconButton>
-      <div className="flex flex-col flex-auto gap-4 p-4">
+      <div className="flex flex-col flex-auto gap-4 py-3 px-4">
         <div className="flex flex-col gap-2">
           <FieldLabel label={t('environment.environmentName')} required />
           <Input

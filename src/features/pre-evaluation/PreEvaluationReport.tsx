@@ -2,9 +2,12 @@ import cn from 'classnames';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { exportFile } from 'src/api/files';
+import { AccordionItem } from 'src/components/accordion/AccordionItem';
 import Button, { ButtonType } from 'src/components/buttons/Button';
-import { EvaluationReport } from 'src/types';
-import { formatDuration } from 'src/utils';
+import { CopyButton } from 'src/components/buttons/CopyButton';
+import { HttpPanel } from 'src/components/panels/HttpPanel';
+import { EvaluationReport, HttpResponse } from 'src/types';
+import { formatDuration, generateCurl } from 'src/utils';
 import { notify } from 'src/utils/toast';
 
 import ExportIcon from 'src/assets/icons/export-icon.svg';
@@ -97,53 +100,106 @@ export default function PreEvaluationReport({ report }: Props) {
           </div>
         ))}
       </div>
-      <div className="flex flex-col gap-3 py-3 px-4 border border-border rounded">
-        <div className="flex items-center justify-between gap-2">
-          <h6 className="m-0 text-xs font-semibold">{t('preEvaluation.resultsPerQuestion')}</h6>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1">
-              <span className="size-2 bg-metric-pass rounded-full" />
-              {t('preEvaluation.passed')}
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <span className="size-2 bg-metric-fail rounded-full" />
-              {t('preEvaluation.failed')}
-            </span>
-          </div>
-        </div>
-        {questionStatistics.map(({ id, passed, prompt, total }, index) => {
-          const failed = total - passed;
-
-          return (
-            <div key={id} className="flex items-center gap-3 text-xs">
-              <span className="w-2/5 truncate" title={prompt}>
-                {index + 1}. {prompt}
+      {questionStatistics.length > 0 && (
+        <div className="flex flex-col gap-4 py-3 px-4 border border-border rounded">
+          <div className="flex items-center justify-between gap-2">
+            <h6 className="m-0 text-xs font-semibold">{t('preEvaluation.resultsPerQuestion')}</h6>
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-1">
+                <span className="size-2 bg-metric-pass rounded-full" />
+                {t('preEvaluation.passed')}
               </span>
-              <div
-                className="flex flex-1 h-5 gap-0.5 font-semibold text-white"
-                title={`${t('preEvaluation.passed')}: ${passed} · ${t('preEvaluation.failed')}: ${failed}`}
-              >
-                {passed > 0 && (
-                  <span
-                    className="flex items-center justify-center min-w-max px-1.5 bg-metric-pass rounded"
-                    style={{ flex: `${passed} 1 0` }}
-                  >
-                    {passed} / {total}
-                  </span>
-                )}
-                {failed > 0 && (
-                  <span
-                    className="flex items-center justify-center min-w-max px-1.5 bg-metric-fail rounded"
-                    style={{ flex: `${failed} 1 0` }}
-                  >
-                    {passed ? failed : `${failed} / ${total}`}
-                  </span>
-                )}
-              </div>
+              <span className="inline-flex items-center gap-1">
+                <span className="size-2 bg-metric-fail rounded-full" />
+                {t('preEvaluation.failed')}
+              </span>
             </div>
-          );
-        })}
-      </div>
+          </div>
+          {questionStatistics.map(({ id, passed, prompt, total }, index) => {
+            const failed = total - passed;
+
+            return (
+              <div key={id} className="flex items-center gap-3 text-xs">
+                <span className="w-2/5 truncate" title={prompt}>
+                  {index + 1}. {prompt}
+                </span>
+                <div
+                  className="flex flex-1 h-5 gap-0.5 font-semibold text-white"
+                  title={`${t('preEvaluation.passed')}: ${passed} · ${t('preEvaluation.failed')}: ${failed}`}
+                >
+                  {passed > 0 && (
+                    <span
+                      className="flex items-center justify-center min-w-max px-1.5 bg-metric-pass rounded"
+                      style={{ flex: `${passed} 1 0` }}
+                    >
+                      {passed} / {total}
+                    </span>
+                  )}
+                  {failed > 0 && (
+                    <span
+                      className="flex items-center justify-center min-w-max px-1.5 bg-metric-fail rounded"
+                      style={{ flex: `${failed} 1 0` }}
+                    >
+                      {passed ? failed : `${failed} / ${total}`}
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {failed.length > 0 && (
+        <div className="border border-border divide-y divide-border rounded">
+          <h6 className="m-0 py-3 px-4 text-xs font-semibold bg-surface">
+            {t('preEvaluation.failedResponses', { count: failed.length })}
+          </h6>
+          {failed.map(({ iteration, prompt, reasons, request, response }) => (
+            <AccordionItem
+              key={`${iteration}-${prompt}`}
+              content={
+                <div className="py-3 px-4 border-t border-border">
+                  {request && (
+                    <CopyButton className="mb-4" textToCopy={generateCurl(request)}>
+                      {t('curl.copyCurl')}
+                    </CopyButton>
+                  )}
+                  <div className="grid grid-cols-2 gap-4 items-stretch">
+                    <HttpPanel title={t('tables.request')} source={request} />
+                    <HttpPanel
+                      title={t('response.title')}
+                      source={response ?? ({ error: reasons } as unknown as HttpResponse)}
+                    />
+                  </div>
+                </div>
+              }
+              title={
+                <h6 className="flex items-center gap-1 m-0 -mr-10 py-3 pl-4 pr-10 text-xs font-normal hover:bg-accent-soft truncate">
+                  <span className="truncate" title={prompt}>
+                    {prompt}
+                  </span>
+                  ·
+                  <span className="text-muted-foreground whitespace-nowrap">
+                    {t('preEvaluation.run', { iteration })}
+                  </span>
+                  ·
+                  <span className="flex items-center gap-1 truncate">
+                    {reasons.map((reason, index) => (
+                      <span
+                        className="py-0.5 px-2 text-metric-fail bg-metric-fail/10 rounded truncate"
+                        key={index}
+                        title={reason}
+                      >
+                        {reason}
+                      </span>
+                    ))}
+                  </span>
+                </h6>
+              }
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
