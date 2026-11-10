@@ -32,9 +32,8 @@ export function headersToPostmanFormat(headers: Record<string, string>): Postman
 
 export function postmanHeadersToRecord(headers: PostmanHeader[]): Record<string, string> {
   const result: Record<string, string> = {};
-  for (const h of headers) {
-    result[h.key] = h.value;
-  }
+  for (const header of headers) result[header.key] = header.value;
+
   return result;
 }
 
@@ -68,7 +67,7 @@ export function requestToPostmanItem(
     id: generateRequestId(),
     name: url,
     request,
-    preEvaluation,
+    ...(preEvaluation !== null && { preEvaluation }),
   };
 }
 
@@ -133,8 +132,9 @@ export function updateRequestInCollection(
       updatedCollection.item[i].item[itemIndex] = {
         ...folder.item[itemIndex],
         request,
-        preEvaluation,
+        ...(preEvaluation !== null && { preEvaluation }),
       };
+
       return updatedCollection;
     }
   }

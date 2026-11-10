@@ -14,7 +14,7 @@ export function HttpPanel({ className, children, source, title, ...otherProps }:
 
   return (
     <div className={cn('relative flex flex-col gap-2.5', className)} {...otherProps}>
-      <h5 className="m-0 text-foreground">{title}</h5>
+      <h5 className="m-0 text-xs text-foreground">{title}</h5>
       {source && (
         <CopyButton className="absolute top-0 right-0" textToCopy={JSON.stringify(source, null, 2)}>
           {t('common.copy')}

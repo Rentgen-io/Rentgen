@@ -12,6 +12,7 @@ import { historyActions } from 'src/store/slices/historySlice';
 import { mappingsActions } from 'src/store/slices/mappingsSlice';
 import { DynamicVariable, HttpResponse, PostmanFolder, PostmanItem, RequestParameters } from 'src/types';
 import { collectExtractionFailures } from 'src/utils';
+import { collectionActions } from '../slices/collectionSlice';
 
 // History actions that should NOT trigger auto-save (read-only or loading actions)
 const historyReadOnlyActions = [
@@ -27,7 +28,7 @@ const mappingsReadOnlyActions = ['mappings/load/pending', 'mappings/load/fulfill
 // Settings actions that should NOT trigger auto-save (read-only or loading actions)
 const settingsReadOnlyActions = ['settings/load/pending', 'settings/load/fulfilled', 'settings/load/rejected'];
 
-// Actions that should NOT trigger auto-save (read-only or loading actions)
+// Collection actions that should NOT trigger auto-save (read-only or loading actions)
 const collectionReadOnlyActions = [
   'collection/load/pending',
   'collection/load/fulfilled',
@@ -36,6 +37,7 @@ const collectionReadOnlyActions = [
   'collection/selectFolder',
 ];
 
+// Environment actions that should NOT trigger auto-save (read-only or loading actions)
 const environmentReadOnlyActions = [
   'environment/load/pending',
   'environment/load/fulfilled',
@@ -58,6 +60,14 @@ const dynamicVariableActions = [
   'environment/removeDynamicVariable',
   'environment/updateDynamicVariableValue',
   'environment/replaceDynamicVariables',
+];
+
+// Pre-evaluation actions that should trigger auto-save of collection
+const preEvaluationActions = [
+  'preEvaluation/removePreEvaluationQuestion',
+  'preEvaluation/setPreEvaluationQuestions',
+  'preEvaluation/updatePreEvaluation',
+  'preEvaluation/updatePreEvaluationQuestion',
 ];
 
 export const electronMiddleware: Middleware = (store) => (next) => (action) => {
@@ -126,6 +136,7 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
     if (actionType === 'settings/setHistorySize' || actionType === 'settings/setHistoryRetention') {
       const { size, retention } = state.settings.general.history;
       store.dispatch(historyActions.enforceRetention({ maxSize: size, retention }));
+
       const updatedState = store.getState();
       saveHistory(updatedState.history.entries);
     }
@@ -162,6 +173,14 @@ export const electronMiddleware: Middleware = (store) => (next) => (action) => {
       if (actionType === 'request/setBodyParameters')
         store.dispatch(mappingsActions.setBodyMappings({ requestId: selectedRequestId, mappings: parameters }));
       else store.dispatch(mappingsActions.setQueryMappings({ requestId: selectedRequestId, mappings: parameters }));
+  }
+
+  // Auto-save collection after pre-evaluation actions
+  if (actionType && preEvaluationActions.includes(actionType)) {
+    const preEvaluation = store.getState().preEvaluation.data;
+    const requestId = store.getState().collection.selectedRequestId;
+
+    if (preEvaluation && requestId) store.dispatch(collectionActions.updatePreEvaluation({ preEvaluation, requestId }));
   }
 
   return result;

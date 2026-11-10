@@ -134,7 +134,6 @@ function buildItem(
     id: generateRequestId(),
     name: operationName(operation, path),
     request,
-    preEvaluation: null,
   };
 }
 

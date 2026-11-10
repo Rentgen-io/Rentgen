@@ -252,7 +252,6 @@ function convertPostmanItemToRentgen(item: PostmanItemFull, warnings: string[]):
     id: item._postman_id || generateRequestId(),
     name: item.name,
     request: convertPostmanRequestToRentgen(item.request),
-    preEvaluation: null,
   };
 }
 

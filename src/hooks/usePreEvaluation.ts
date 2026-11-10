@@ -13,8 +13,10 @@ import {
   selectMethod,
   selectPreEvaluation,
   selectSelectedEnvironment,
+  selectSelectedRequestId,
   selectUrl,
 } from 'src/store/selectors';
+import { collectionActions } from 'src/store/slices/collectionSlice';
 import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { EvaluationResult, HttpRequest, PreEvaluation } from 'src/types';
 import {
@@ -44,8 +46,8 @@ const usePreEvaluation = () => {
   const method = useAppSelector(selectMethod);
   const preEvaluation = useAppSelector(selectPreEvaluation) ?? DEFAULT_PRE_EVALUATION;
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
+  const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const url = useAppSelector(selectUrl);
-
   const totalRuns = preEvaluation.questions.length * preEvaluation.iterations;
 
   const cancelPreEvaluation = useCallback(
@@ -161,11 +163,31 @@ const usePreEvaluation = () => {
       report.finishedAt = new Date().toISOString();
 
       dispatch(preEvaluationActions.setPreEvaluationReport(report));
+
+      if (selectedRequestId)
+        dispatch(
+          collectionActions.updatePreEvaluation({
+            requestId: selectedRequestId,
+            preEvaluation: { ...structuredClone(preEvaluation), report },
+          }),
+        );
     } finally {
       dispatch(preEvaluationActions.setIsRunning(false));
       activeController = null;
     }
-  }, [body, dynamicVariables, headers, method, preEvaluation, selectedEnvironment, totalRuns, url, dispatch, t]);
+  }, [
+    body,
+    dynamicVariables,
+    headers,
+    method,
+    preEvaluation,
+    selectedEnvironment,
+    selectedRequestId,
+    totalRuns,
+    url,
+    dispatch,
+    t,
+  ]);
 
   return {
     currentRun,

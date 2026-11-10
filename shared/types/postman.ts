@@ -21,7 +21,7 @@ export interface PostmanRequest {
 export interface PostmanItem {
   id: string;
   name: string;
-  preEvaluation: PreEvaluation | null;
+  preEvaluation?: PreEvaluation;
   request: PostmanRequest;
 }
 

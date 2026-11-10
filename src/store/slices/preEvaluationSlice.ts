@@ -4,19 +4,19 @@ import { EvaluationQuestion, EvaluationReport, PreEvaluation } from 'src/types';
 import { v4 as uuidv4 } from 'uuid';
 
 interface PreEvaluationState {
+  data: PreEvaluation | null;
   currentRun: number;
   isRunning: boolean;
-  preEvaluation: PreEvaluation | null;
 }
 
 const initialState: PreEvaluationState = {
+  data: null,
   currentRun: 0,
   isRunning: false,
-  preEvaluation: null,
 };
 
 const ensurePreEvaluation = (state: PreEvaluationState): PreEvaluation =>
-  (state.preEvaluation ??= structuredClone(DEFAULT_PRE_EVALUATION));
+  (state.data ??= structuredClone(DEFAULT_PRE_EVALUATION));
 
 export const preEvaluationSlice = createSlice({
   name: 'preEvaluation',
@@ -42,9 +42,9 @@ export const preEvaluationSlice = createSlice({
       preEvaluation.questions = preEvaluation.questions.filter((question) => question.id !== action.payload);
     },
     resetPreEvaluation: (state) => {
+      state.data = null;
       state.currentRun = 0;
       state.isRunning = false;
-      state.preEvaluation = null;
     },
     setCurrentRun: (state, action: PayloadAction<number>) => {
       state.currentRun = action.payload;
@@ -53,13 +53,15 @@ export const preEvaluationSlice = createSlice({
       state.isRunning = action.payload;
     },
     setPreEvaluation: (state, action: PayloadAction<PreEvaluation>) => {
-      state.preEvaluation = action.payload;
+      state.data = action.payload;
     },
     setPreEvaluationQuestions: (state, action: PayloadAction<EvaluationQuestion[]>) => {
       ensurePreEvaluation(state).questions = action.payload;
     },
     setPreEvaluationReport: (state, action: PayloadAction<EvaluationReport>) => {
-      ensurePreEvaluation(state).report = action.payload;
+      if (!state.data) return;
+
+      state.data.report = action.payload;
     },
     updatePreEvaluation: (state, action: PayloadAction<Partial<Omit<PreEvaluation, 'questions'>>>) => {
       Object.assign(ensurePreEvaluation(state), action.payload);

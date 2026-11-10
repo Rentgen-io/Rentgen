@@ -188,6 +188,12 @@ export const collectionSlice = createSlice({
     setCollection: (state, action: PayloadAction<PostmanCollection>) => {
       state.data = action.payload;
     },
+    updatePreEvaluation: (state, action: PayloadAction<{ preEvaluation: PreEvaluation; requestId: string }>) => {
+      const item = state.data.item
+        .flatMap((folder) => folder.item ?? [])
+        .find((item) => item.id === action.payload.requestId);
+      if (item) item.preEvaluation = action.payload.preEvaluation;
+    },
     updateRequest: (
       state,
       action: PayloadAction<{
