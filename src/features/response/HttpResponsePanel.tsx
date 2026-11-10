@@ -82,7 +82,9 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
             httpResponse && (
               <>
                 {isNetworkError ? (
-                  t('response.networkError')
+                  <span className="py-px px-2 text-xs text-red-500 bg-red-500/10 rounded">
+                    {t('response.networkError')}
+                  </span>
                 ) : (
                   <span
                     className={cn('py-px px-2 text-xs rounded', {
