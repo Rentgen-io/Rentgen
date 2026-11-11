@@ -109,42 +109,39 @@ export function AiRequestMaskControls({ onCancel }: Props) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col @xl:flex-row @xl:justify-end gap-4 @xl:gap-2">
-        <Button buttonType={ButtonType.SECONDARY} onClick={isAiRunning ? cancelAiTestsGeneration : onCancel}>
-          {t('common.cancel')}
-        </Button>
-        <Button
-          className="min-w-43 flex justify-center items-center"
-          disabled={isAiRunning || !activeAiProvider || !testOptions}
-          onClick={() => {
-            executeAiTestsGeneration(testOptions, [...masked]);
-            setTimeout(() => {
-              window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            });
-          }}
-        >
-          {t('controls.analyzeAndGenerateTests')}
-        </Button>
-      </div>
-      {isAiRunning && (
-        <div className="flex items-center @xl:justify-end gap-2 @xl:text-right text-xs text-muted-foreground">
-          <Loader className="size-4 shrink-0 [&>span]:border-2!" />
-          <div>
-            <Trans
-              i18nKey="ai.waitingForResponse"
-              components={{
-                timer: (
-                  <Timer
-                    className="font-bold text-foreground"
-                    startedAt={aiRunStartedAt}
-                    timeoutMs={AI_RESPONSE_TIMEOUT_MS}
-                  />
-                ),
-              }}
-            />
-          </div>
+      <div className="flex flex-col @xl:flex-row @xl:justify-between gap-4 @xl:gap-2">
+        <div className="flex flex-col @xl:flex-row gap-2">
+          <Button
+            className="min-w-43 flex justify-center items-center"
+            disabled={isAiRunning || !activeAiProvider || !testOptions}
+            onClick={() => executeAiTestsGeneration(testOptions, [...masked])}
+          >
+            {t('controls.analyzeAndGenerateTests')}
+          </Button>
+          <Button buttonType={ButtonType.SECONDARY} onClick={isAiRunning ? cancelAiTestsGeneration : onCancel}>
+            {t('common.cancel')}
+          </Button>
         </div>
-      )}
+        {isAiRunning && (
+          <div className="flex items-center @xl:justify-end gap-2 text-xs text-muted-foreground">
+            <Loader className="size-4 shrink-0 [&>span]:border-2!" />
+            <div>
+              <Trans
+                i18nKey="ai.waitingForResponse"
+                components={{
+                  timer: (
+                    <Timer
+                      className="font-bold text-foreground"
+                      startedAt={aiRunStartedAt}
+                      timeoutMs={AI_RESPONSE_TIMEOUT_MS}
+                    />
+                  ),
+                }}
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

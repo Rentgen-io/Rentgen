@@ -27,13 +27,9 @@ export default function RequestEditors() {
   const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
   const variables = useAppSelector(selectVariableNames);
 
-  const isWssMode = mode === 'WSS';
+  const [activeTab, setActiveTab] = useState<number>(1);
 
-  const [activeTab, setActiveTab] = useState<number>(isWssMode ? 1 : 0);
-
-  useEffect(() => {
-    setActiveTab(isWssMode ? 1 : 0);
-  }, [isWssMode]);
+  useEffect(() => setActiveTab(1), [mode]);
 
   return (
     <Tabs

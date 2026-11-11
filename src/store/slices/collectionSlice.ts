@@ -92,10 +92,14 @@ export const collectionSlice = createSlice({
               id: existingFolder.id,
               item: importedFolder.item.map((request) => {
                 // Each existing request can be matched only once, so IDs stay unique
-                const matchIndex = unmatchedRequests.findIndex((existing) => isSameRequest(existing, request));
-                const id = matchIndex === -1 ? generateRequestId() : unmatchedRequests.splice(matchIndex, 1)[0].id;
+                const existingRequestId = unmatchedRequests.findIndex((existing) => isSameRequest(existing, request));
+                if (existingRequestId === -1) {
+                  const id = generateRequestId();
+                  return { ...request, id };
+                }
 
-                return { ...request, id };
+                const existingRequest = unmatchedRequests.splice(existingRequestId, 1)[0];
+                return { ...request, id: existingRequest.id, preEvaluation: existingRequest.preEvaluation };
               }),
             };
             importedFolderIds.add(existingFolder.id);
