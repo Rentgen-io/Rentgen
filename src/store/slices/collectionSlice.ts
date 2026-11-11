@@ -186,6 +186,9 @@ export const collectionSlice = createSlice({
     ) => {
       const { itemId, targetFolderId, targetIndex } = action.payload;
       state.data = moveRequestToFolder(state.data, itemId, targetFolderId, targetIndex);
+
+      // Keep the selected request's folder selected when it is moved elsewhere
+      if (itemId === state.selectedRequestId) state.selectedFolderId = targetFolderId;
     },
     removeFolder: (state, action: PayloadAction<string>) => {
       state.data = removeFolderFromCollection(state.data, action.payload);
@@ -268,16 +271,19 @@ function getDefaultFolderId(collection: PostmanCollection) {
   return (collection.item?.find(({ id }) => id === DEFAULT_FOLDER_ID) ?? collection.item?.[0])?.id;
 }
 
-// Reset selection pointing to a folder / request that is no longer in the collection
+// Reset selection pointing to a folder / request that is no longer in the collection. A missing folder
+// falls back to the folder holding the selected request, then to the default folder
 function dropMissingSelection(state: CollectionState) {
   const { data, selectedFolderId, selectedRequestId } = state;
   const folders = data.item;
+  const requestFolder = selectedRequestId
+    ? folders.find((folder) => folder.item.some(({ id }) => id === selectedRequestId))
+    : undefined;
+
+  if (!requestFolder) state.selectedRequestId = null;
 
   if (!folders.some(({ id }) => id === selectedFolderId))
-    state.selectedFolderId = getDefaultFolderId(data) ?? DEFAULT_FOLDER_ID;
-
-  if (selectedRequestId && !folders.some((folder) => folder.item.some(({ id }) => id === selectedRequestId)))
-    state.selectedRequestId = null;
+    state.selectedFolderId = requestFolder?.id ?? getDefaultFolderId(data) ?? DEFAULT_FOLDER_ID;
 }
 
 export const collectionActions = collectionSlice.actions;

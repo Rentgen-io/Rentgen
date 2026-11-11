@@ -72,8 +72,13 @@ export default function CollectionItem({ item, searchTerm }: Props) {
   const handleClick = useCallback(
     (id: string) => {
       if (isDragging) return;
-      if (isSelected && isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
-      if (isSelected) return;
+      if (isSelected) {
+        const folderId = findFolderIdByRequestId(collection, id);
+        if (folderId) dispatch(collectionActions.selectFolder(folderId));
+        if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
+
+        return;
+      }
 
       const item = findRequestById(collection, id);
       if (!item) return;
