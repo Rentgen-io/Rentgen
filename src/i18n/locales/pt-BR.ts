@@ -47,6 +47,7 @@ const ptBR = {
     back: 'Voltar',
     stop: 'Parar',
     noOptions: 'Sem opções',
+    resizeHint: 'Arraste para redimensionar, clique duas vezes para redefinir',
   },
 
   // Sidebar

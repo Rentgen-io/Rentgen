@@ -47,6 +47,7 @@ const id = {
     back: 'Kembali',
     stop: 'Hentikan',
     noOptions: 'Tidak ada opsi',
+    resizeHint: 'Seret untuk mengubah ukuran, klik dua kali untuk mengatur ulang',
   },
 
   // Sidebar

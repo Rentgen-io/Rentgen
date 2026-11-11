@@ -126,6 +126,17 @@
     }
   }
 
+  /* Cursors must match the ones of the handle itself (ResizeHandler.tsx) or they switch when the drag starts */
+  .is-resizing-row,
+  .is-resizing-row * {
+    @apply cursor-ns-resize! select-none!;
+  }
+
+  .is-resizing-col,
+  .is-resizing-col * {
+    @apply cursor-ew-resize! select-none!;
+  }
+
   .react-tooltip {
     @apply text-foreground! bg-background! rounded! shadow-default z-10;
   }

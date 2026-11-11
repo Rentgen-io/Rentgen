@@ -47,6 +47,7 @@ const vi = {
     back: 'Quay lại',
     stop: 'Dừng',
     noOptions: 'Không có tùy chọn',
+    resizeHint: 'Kéo để thay đổi kích thước, nhấp đúp để đặt lại',
   },
 
   // Sidebar

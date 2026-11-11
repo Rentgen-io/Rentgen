@@ -1,22 +1,25 @@
-import { useEffect, useRef, useState } from 'react';
-import AutosizeTextarea, { TextareaAutosizeProps } from 'react-textarea-autosize';
+import { TextareaHTMLAttributes, UIEvent, useEffect, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import VariableHighlighter from '../highlighters/VariableHighlighter';
 
 const DEFAULT_HIGHLIGHT_COLOR = '#6B7280';
 
-interface Props extends TextareaAutosizeProps {
+interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  height?: number | null;
   highlightColor?: string;
   highlightJson?: boolean;
+  value?: string | readonly string[] | number | undefined;
   variables?: string[];
 }
 
 export default function HighlightedTextarea({
   className,
+  height,
   highlightColor,
   highlightJson,
-  variables,
+  style,
   value,
+  variables,
   onScroll,
   ...otherProps
 }: Props) {
@@ -25,7 +28,11 @@ export default function HighlightedTextarea({
     scrollTop: 0,
     scrollLeft: 0,
   });
+
   const textValue = typeof value === 'string' ? value : '';
+  const isFixedHeight = height != null;
+
+  useEffect(() => setScrollValue({ scrollLeft: 0, scrollTop: 0 }), [isFixedHeight]);
 
   useEffect(() => {
     if (highlighterRef.current) {
@@ -38,10 +45,11 @@ export default function HighlightedTextarea({
     <div
       className={twMerge('relative leading-0 text-foreground bg-background border border-border rounded', className)}
     >
-      <AutosizeTextarea
-        className="relative w-full min-h-28 m-0 py-2 px-3 font-monospace text-xs text-transparent placeholder:text-muted-foreground bg-transparent border-none caret-foreground box-border resize-y scrollbar-gutter-stable outline-none z-1"
+      <textarea
+        className="relative w-full min-h-28 m-0 py-2 px-3 font-monospace text-xs text-transparent placeholder:text-muted-foreground bg-transparent border-none caret-foreground box-border resize-none scrollbar-gutter-stable outline-none z-1"
+        style={{ ...style, ...(height != null ? { height } : {}) }}
         value={value}
-        onScroll={(event) => {
+        onScroll={(event: UIEvent<HTMLTextAreaElement>) => {
           setScrollValue({ scrollLeft: event.currentTarget.scrollLeft, scrollTop: event.currentTarget.scrollTop });
           onScroll?.(event);
         }}
@@ -54,7 +62,7 @@ export default function HighlightedTextarea({
         <VariableHighlighter
           highlightColor={highlightColor || DEFAULT_HIGHLIGHT_COLOR}
           highlightJson={highlightJson}
-          text={textValue + '\u200B'} // ensure trailing newlines are rendered
+          text={textValue + '​'} // ensure trailing newlines are rendered
           variables={variables}
         />
       </div>

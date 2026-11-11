@@ -47,6 +47,7 @@ const lt = {
     back: 'Atgal',
     stop: 'Sustabdyti',
     noOptions: 'Nėra parinkčių',
+    resizeHint: 'Vilkite, kad pakeistumėte dydį, dukart spustelėkite, kad atkurtumėte',
   },
 
   // Sidebar

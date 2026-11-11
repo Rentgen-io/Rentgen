@@ -47,6 +47,7 @@ const ko = {
     back: '뒤로',
     stop: '중지',
     noOptions: '옵션 없음',
+    resizeHint: '드래그하여 크기 조정, 두 번 클릭하여 초기화',
   },
 
   // Sidebar

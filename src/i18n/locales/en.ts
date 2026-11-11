@@ -47,6 +47,7 @@ const en = {
     back: 'Back',
     stop: 'Stop',
     noOptions: 'No options',
+    resizeHint: 'Drag to resize, double-click to reset',
   },
 
   // Sidebar

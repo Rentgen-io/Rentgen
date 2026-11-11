@@ -51,7 +51,7 @@ export default function EnvironmentItem({ environment }: Props) {
       <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: environment.color }} />
       <span className="flex-1 text-xs truncate">{environment.title}</span>
       <TrashIcon
-        className="size-3 text-muted-foreground hover:text-red-600 opacity-0 group-hover:opacity-100 cursor-pointer"
+        className="size-3 shrink-0 text-muted-foreground hover:text-red-600 opacity-0 group-hover:opacity-100 cursor-pointer"
         onClick={(e: React.MouseEvent) => {
           e.stopPropagation();
           dispatch(environmentActions.setEnvironmentToDelete(environment.id));

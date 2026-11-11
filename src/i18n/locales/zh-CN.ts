@@ -47,6 +47,7 @@ const zhCN = {
     back: '返回',
     stop: '停止',
     noOptions: '无选项',
+    resizeHint: '拖动以调整大小，双击以重置',
   },
 
   // Sidebar

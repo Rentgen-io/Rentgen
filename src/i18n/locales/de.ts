@@ -47,6 +47,7 @@ const de = {
     back: 'Zurück',
     stop: 'Stopp',
     noOptions: 'Keine Optionen',
+    resizeHint: 'Ziehen, um die Größe zu ändern, Doppelklick zum Zurücksetzen',
   },
 
   // Sidebar

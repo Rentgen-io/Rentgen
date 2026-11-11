@@ -47,6 +47,7 @@ const es = {
     back: 'Atrás',
     stop: 'Detener',
     noOptions: 'Sin opciones',
+    resizeHint: 'Arrastra para cambiar el tamaño, haz doble clic para restablecer',
   },
 
   // Sidebar

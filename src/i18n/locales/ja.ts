@@ -47,6 +47,7 @@ const ja = {
     back: '戻る',
     stop: '停止',
     noOptions: 'オプションなし',
+    resizeHint: 'ドラッグでサイズ変更、ダブルクリックでリセット',
   },
 
   // Sidebar

@@ -129,12 +129,12 @@ export default function CollectionGroup({
           {...listeners}
         >
           <ChevronIcon
-            className={cn('size-4 text-muted-foreground', {
+            className={cn('size-4 shrink-0 text-muted-foreground', {
               'rotate-90': isExpanded,
             })}
           />
           {statusClassName && <span className={cn('w-2 h-2 rounded-full shrink-0', statusClassName)} />}
-          <FolderIcon className="size-4" />
+          <FolderIcon className="size-4 shrink-0" />
 
           {isEditing ? (
             <input

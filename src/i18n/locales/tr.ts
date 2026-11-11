@@ -47,6 +47,7 @@ const tr = {
     back: 'Geri',
     stop: 'Durdur',
     noOptions: 'Seçenek yok',
+    resizeHint: 'Yeniden boyutlandırmak için sürükleyin, sıfırlamak için çift tıklayın',
   },
 
   // Sidebar

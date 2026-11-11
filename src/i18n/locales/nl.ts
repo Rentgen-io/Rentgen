@@ -47,6 +47,7 @@ const nl = {
     back: 'Terug',
     stop: 'Stoppen',
     noOptions: 'Geen opties',
+    resizeHint: 'Sleep om het formaat te wijzigen, dubbelklik om te herstellen',
   },
 
   // Sidebar

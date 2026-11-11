@@ -6,8 +6,10 @@ import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import { CopyButton } from 'src/components/buttons/CopyButton';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import Panel from 'src/components/panels/Panel';
+import ResizeHandler from 'src/components/panels/ResizeHandler';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import { useElementHeight } from 'src/hooks/useElementHeight';
+import { useResizableSize } from 'src/hooks/useResizableSize';
 import { useSendHttpRequest } from 'src/hooks/useSendHttpRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -21,6 +23,10 @@ import {
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import ParametersPanel from '../parameters/ParametersPanel';
+
+const MIN_RESPONSE_HEIGHT = 160;
+const MAX_RESPONSE_HEIGHT = '50vh';
+const AUTO_VIEWER_MAX_HEIGHT = 280;
 
 interface Props {
   showParameters?: boolean;
@@ -37,7 +43,13 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
   const requestWithFolder = useAppSelector(selectSelectedRequestWithFolder);
   const runResult = useAppSelector(selectSelectedRequestRunResult);
 
-  const [ref, height] = useElementHeight<HTMLDivElement>();
+  const [viewerRef, viewerHeight] = useElementHeight<HTMLDivElement>();
+  const { handleProps, size, targetRef } = useResizableSize<HTMLDivElement>({
+    dimension: 'height',
+    maxSize: MAX_RESPONSE_HEIGHT,
+    minSize: MIN_RESPONSE_HEIGHT,
+    storageKey: 'responsePanelHeight',
+  });
   const { isSending } = useSendHttpRequest();
 
   const setVariable = useCallback(
@@ -63,15 +75,19 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
   const isNetworkError = httpResponse?.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
   const hasBodyParameters = Object.keys(bodyParameters).length > 0;
   const hasQueryParameters = Object.keys(queryParameters).length > 0;
-  const hasParameters = showParameters && (hasBodyParameters || hasQueryParameters);
+  const hideParameters = isNetworkError || !showParameters || (!hasBodyParameters && !hasQueryParameters);
+  const isFixedHeight = size !== null;
+  const panelStyle = isFixedHeight ? { height: size } : undefined;
+  const viewerMaxHeight = isFixedHeight ? viewerHeight : Math.max(AUTO_VIEWER_MAX_HEIGHT, viewerHeight);
 
   return (
     <Panel
+      className="relative"
       title={
         <div className="flex items-center justify-between gap-4 py-3 pr-4 text-sm font-medium text-muted-foreground">
           <span className="flex-auto text-foreground">
             {t('response.title')}
-            {hasParameters && ' / ' + t('tests.parameters')}
+            {!hideParameters && ' / ' + t('tests.parameters')}
           </span>
           {isSending ? (
             <LoaderWithText
@@ -114,14 +130,13 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
       {httpResponse ? (
         <div
           className={cn({
-            '@2xl:grid @2xl:grid-cols-2 divide-y @2xl:divide-y-0 @2xl:divide-x divide-border':
-              !isNetworkError && hasParameters,
+            '@2xl:grid @2xl:grid-cols-2 divide-y @2xl:divide-y-0 @2xl:divide-x divide-border': !hideParameters,
             'not-empty:border-t border-border': !runResult?.warning,
           })}
         >
-          <div className="flex flex-col gap-4 py-3 px-4">
+          <div ref={targetRef} className="box-border flex flex-col gap-4 py-3 px-4" style={panelStyle}>
             <Tabs
-              className="relative flex flex-col flex-auto"
+              className="relative flex flex-col flex-auto min-h-0"
               forceRenderTabPanel
               selectedTabClassName="text-foreground underline underline-offset-6 decoration-2 decoration-primary cursor-default!"
               selectedTabPanelClassName="block!"
@@ -130,7 +145,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                 <Tab className="list-none outline-none cursor-pointer">{t('request.body')}</Tab>
                 <Tab className="list-none outline-none cursor-pointer">{t('request.headers')}</Tab>
               </TabList>
-              <div ref={ref} className="flex flex-col flex-auto">
+              <div ref={viewerRef} className="flex flex-col flex-auto min-h-0 overflow-hidden">
                 <TabPanel className="hidden">
                   {httpResponse.body && (
                     <CopyButton
@@ -145,7 +160,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                     </CopyButton>
                   )}
                   <JsonViewer
-                    maxHeight={Math.max(280, height)}
+                    maxHeight={viewerMaxHeight}
                     responsePanelContext={{ isResponsePanel: true, source: 'body' }}
                     showVariableButtons={!!requestWithFolder}
                     source={httpResponse.body}
@@ -162,7 +177,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                     </CopyButton>
                   )}
                   <JsonViewer
-                    maxHeight={Math.max(280, height)}
+                    maxHeight={viewerMaxHeight}
                     responsePanelContext={{ isResponsePanel: true, source: 'header' }}
                     showVariableButtons={!!requestWithFolder}
                     source={httpResponse.headers}
@@ -172,44 +187,59 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
               </div>
             </Tabs>
           </div>
-          {!isNetworkError && hasParameters && (
-            <div className="flex flex-col gap-4 py-3 px-4">
-              <Tabs selectedTabClassName="text-foreground underline underline-offset-6 decoration-2 decoration-primary cursor-default!">
-                <TabList className="flex gap-4 m-0 mb-6 p-0 text-xs font-medium text-muted-foreground">
+          {!hideParameters && (
+            // Side by side with a fixed height, the parameters are taken out of the flow so they scroll instead of
+            // stretching the row (the column still matches the row height); stacked, they simply follow the response
+            <div className="relative">
+              <div
+                className={cn('flex flex-col gap-4 py-3 px-4', {
+                  '@2xl:absolute @2xl:inset-0 @2xl:overflow-y-auto @2xl:scrollbar-gutter-stable': isFixedHeight,
+                })}
+              >
+                <Tabs selectedTabClassName="text-foreground underline underline-offset-6 decoration-2 decoration-primary cursor-default!">
+                  <TabList className="flex gap-4 m-0 mb-6 p-0 text-xs font-medium text-muted-foreground">
+                    {hasBodyParameters && (
+                      <Tab className="list-none outline-none cursor-pointer">{t('tests.bodyParameters')}</Tab>
+                    )}
+                    {hasQueryParameters && (
+                      <Tab className="list-none outline-none cursor-pointer">{t('tests.queryParameters')}</Tab>
+                    )}
+                  </TabList>
                   {hasBodyParameters && (
-                    <Tab className="list-none outline-none cursor-pointer">{t('tests.bodyParameters')}</Tab>
+                    <TabPanel>
+                      <ParametersPanel
+                        parameters={bodyParameters}
+                        onChange={(parameters) => dispatch(requestActions.updateBodyParameters(parameters))}
+                      />
+                    </TabPanel>
                   )}
                   {hasQueryParameters && (
-                    <Tab className="list-none outline-none cursor-pointer">{t('tests.queryParameters')}</Tab>
+                    <TabPanel>
+                      <ParametersPanel
+                        parameters={queryParameters}
+                        onChange={(parameters) => dispatch(requestActions.updateQueryParameters(parameters))}
+                      />
+                    </TabPanel>
                   )}
-                </TabList>
-                {hasBodyParameters && (
-                  <TabPanel>
-                    <ParametersPanel
-                      parameters={bodyParameters}
-                      onChange={(parameters) => dispatch(requestActions.updateBodyParameters(parameters))}
-                    />
-                  </TabPanel>
-                )}
-                {hasQueryParameters && (
-                  <TabPanel>
-                    <ParametersPanel
-                      parameters={queryParameters}
-                      onChange={(parameters) => dispatch(requestActions.updateQueryParameters(parameters))}
-                    />
-                  </TabPanel>
-                )}
-              </Tabs>
+                </Tabs>
+              </div>
             </div>
           )}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center gap-2 p-3 min-h-40 text-xs text-muted-foreground border-t border-border">
-          <span className="text-3xl leading-none opacity-50">↗</span>
-          <strong className="text-foreground">{t('response.requestHint')}</strong>
-          <span>{t('response.responseHint')}</span>
+        <div className="border-t border-border">
+          <div
+            ref={targetRef}
+            className="flex flex-col items-center justify-center gap-2 p-3 min-h-40 text-xs text-muted-foreground box-border"
+            style={panelStyle}
+          >
+            <span className="text-3xl leading-none opacity-50">↗</span>
+            <strong className="text-foreground">{t('response.requestHint')}</strong>
+            <span>{t('response.responseHint')}</span>
+          </div>
         </div>
       )}
+      <ResizeHandler title={t('common.resizeHint')} {...handleProps} />
     </Panel>
   );
 }
