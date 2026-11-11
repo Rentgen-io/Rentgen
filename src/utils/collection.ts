@@ -507,9 +507,7 @@ export function countMergeAdditions(
             (existing.request.url === request.request.url && existing.request.method === request.request.method) ||
             existing.name === request.name,
         );
-        if (!isDuplicate) {
-          newRequests++;
-        }
+        if (!isDuplicate) newRequests++;
       }
     }
   }
