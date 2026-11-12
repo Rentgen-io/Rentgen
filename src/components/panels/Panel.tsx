@@ -24,7 +24,11 @@ export default function Panel({ children, className, title, collapsible = true, 
             })}
           />
         )}
-        {typeof title === 'string' ? <h5 className={cn('m-0 py-3 px-4', collapsible && 'pl-0')}>{title}</h5> : title}
+        {typeof title === 'string' ? (
+          <h5 className={cn('m-0 py-3 px-4 text-xs', collapsible && 'pl-0')}>{title}</h5>
+        ) : (
+          title
+        )}
       </div>
       {isOpen && children}
     </div>
