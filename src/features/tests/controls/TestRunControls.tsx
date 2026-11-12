@@ -1,8 +1,8 @@
 import { HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
+import Button, { ButtonSize } from 'src/components/buttons/Button';
+import Loader from 'src/components/loaders/Loader';
 import { twMerge } from 'tailwind-merge';
-import Button, { ButtonSize } from '../../../components/buttons/Button';
-import Loader from '../../../components/loaders/Loader';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   label?: string;
@@ -23,7 +23,7 @@ export default function TestRunControls({ className, children, label, isRunning,
         onClick={executeTest}
       >
         {isRunning ? (
-          <Loader className="h-3 w-3 my-0.5 [&>span]:border-2!" mode="dark" />
+          <Loader className="size-3 my-0.5 [&>span]:border-2!" mode="dark" />
         ) : label ? (
           label
         ) : (

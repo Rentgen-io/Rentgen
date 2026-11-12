@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
@@ -36,7 +37,7 @@ export default function DataDrivenTestsPanel() {
   return (
     <>
       <TestsTableHeader tests={dataDrivenTests} />
-      <div className="flex flex-col flex-auto min-h-146.75! gap-4 [&>div]:flex [&>div]:flex-col [&>div]:flex-auto [&>div]:h-0">
+      <div className={cn('flex flex-col flex-auto table-layout', { 'min-h-132.75!': !isDataDrivenRunning })}>
         <TestsTable
           columns={[
             ...getTestsTableColumns(['Parameter', 'Value'], t),
@@ -77,7 +78,7 @@ export default function DataDrivenTestsPanel() {
 
                 return (
                   <SimpleSelect
-                    className="pl-0 text-[13px] text-inherit bg-transparent border-none dark:text-inherit dark:bg-transparent dark:border-none"
+                    className="pl-0 text-[13px] text-inherit bg-transparent border-none dark:[&>option]:text-black"
                     options={[
                       { value: SUCCESS_RESPONSE_EXPECTED, label: SUCCESS_RESPONSE_EXPECTED },
                       { value: ERROR_RESPONSE_EXPECTED, label: ERROR_RESPONSE_EXPECTED },
@@ -97,14 +98,14 @@ export default function DataDrivenTestsPanel() {
 
                       if (isBodyParameter)
                         dispatch(
-                          requestActions.setBodyParameters({
+                          requestActions.updateBodyParameters({
                             ...bodyParameters,
                             [name]: { ...parameter, overrides },
                           }),
                         );
                       else
                         dispatch(
-                          requestActions.setQueryParameters({
+                          requestActions.updateQueryParameters({
                             ...queryParameters,
                             [name]: { ...parameter, overrides },
                           }),
@@ -138,9 +139,7 @@ export default function DataDrivenTestsPanel() {
           expandOnRowClicked
           data={dataDrivenTests}
           fixedHeader={true}
-          progressComponent={
-            <LoaderWithText className="flex-auto justify-center" text={t('tests.runningDataDrivenTests')} />
-          }
+          progressComponent={<LoaderWithText className="justify-center" text={t('tests.runningDataDrivenTests')} />}
           progressPending={isDataDrivenRunning}
           progressSkeleton={false}
         />

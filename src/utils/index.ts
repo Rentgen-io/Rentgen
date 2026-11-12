@@ -10,6 +10,7 @@ export * from './license';
 export * from './number';
 export * from './object';
 export * from './openapi';
+export * from './pre-evaluation';
 export * from './random';
 export * from './report';
 export * from './statistics';

@@ -1,11 +1,14 @@
+import { twMerge } from 'tailwind-merge';
+
 interface Props {
+  className?: string;
   label: string;
   required?: boolean;
 }
 
-export function FieldLabel({ label, required }: Props) {
+export function FieldLabel({ className, label, required }: Props) {
   return (
-    <span className="text-xs">
+    <span className={twMerge('text-xs', className)}>
       {label}
       {required && <span className="text-red-500 ml-1">*</span>}
     </span>

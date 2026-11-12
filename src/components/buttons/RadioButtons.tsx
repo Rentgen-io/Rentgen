@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { twMerge } from 'tailwind-merge';
 
 export type RadioOption<T extends string> = { label: string; value: T; disabled?: boolean };
 
@@ -13,7 +14,7 @@ interface Props<T extends string> {
 
 export function RadioButtons<T extends string>({ className, disabled, name, options, value, onChange }: Props<T>) {
   return (
-    <div className={cn('flex flex-col sm:flex-row gap-px', className)}>
+    <div className={twMerge('flex flex-col sm:flex-row p-px rounded bg-background border border-border', className)}>
       {options.map((option) => {
         const optionChecked = value === option.value;
         const optionDisabled = disabled || option.disabled;
@@ -22,15 +23,10 @@ export function RadioButtons<T extends string>({ className, disabled, name, opti
           <label
             key={option.value}
             className={cn(
-              'flex-1 flex items-center justify-center py-2 px-3 font-segoe-ui text-xs font-bold text-center border',
+              'flex-1 flex items-center justify-center py-1 px-2 font-segoe-ui text-xs font-medium text-center rounded truncate',
               {
-                'bg-button-primary border-button-primary text-white': optionChecked,
-                'bg-button-secondary border-button-secondary text-button-text-secondary': !optionChecked,
-                'dark:bg-dark-button-secondary dark:border-dark-button-secondary dark:text-dark-text': !optionChecked,
-                'hover:bg-button-secondary-hover hover:border-button-secondary-hover hover:text-button-text-secondary-hover':
-                  !optionChecked && !optionDisabled,
-                'dark:hover:bg-dark-button-secondary-hover dark:hover:border-dark-button-secondary-hover dark:hover:text-dark-text':
-                  !optionChecked && !optionDisabled,
+                'bg-primary text-white': optionChecked,
+                'text-foreground': !optionChecked,
                 'opacity-50 cursor-not-allowed': optionDisabled,
                 'cursor-pointer': !optionChecked && !optionDisabled,
               },

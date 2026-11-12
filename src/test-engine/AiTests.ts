@@ -6,15 +6,15 @@ import i18n from 'src/i18n';
 import { AiProvider, AiTestsOverview, HttpBody, TestOptions, TestResult, TestStatus } from 'src/types';
 import { createHttpRequest, tryParseJsonObject } from 'src/utils';
 import { notify } from 'src/utils/toast';
+import { AI_REPORT_FORMAT_PROMPT, AiReportCompactor } from './AiReportCompactor';
 import {
   BaseTests,
   createErrorTestResult,
   createTestResult,
-  determineRequestParameterTestStatus,
   determineTestStatus,
   SUCCESS_RESPONSE_EXPECTED,
-} from '.';
-import { AI_REPORT_FORMAT_PROMPT, AiReportCompactor } from './AiReportCompactor';
+} from './BaseTests';
+import { determineRequestParameterTestStatus } from './DataDrivenTests';
 
 let aiResponseTimeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
 

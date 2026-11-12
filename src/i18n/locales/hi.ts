@@ -5,7 +5,6 @@ const hi = {
     save: 'सहेजें',
     saved: 'सहेजा गया',
     cancel: 'रद्द करें',
-    cancelled: 'रद्द किया गया',
     close: 'बंद करें',
     ok: 'ठीक है',
     create: 'बनाएँ',
@@ -26,7 +25,6 @@ const hi = {
     connect: 'कनेक्ट करें',
     disconnect: 'डिस्कनेक्ट करें',
     beautify: 'सुंदर बनाएँ',
-    reload: 'पुनः लोड करें',
     cut: 'काटें',
     paste: 'पेस्ट करें',
     enable: 'सक्षम करें',
@@ -47,6 +45,9 @@ const hi = {
     duplicate: 'डुप्लिकेट करें',
     add: 'जोड़ें',
     back: 'वापस',
+    stop: 'रोकें',
+    noOptions: 'कोई विकल्प नहीं',
+    resizeHint: 'आकार बदलने के लिए खींचें, रीसेट करने के लिए डबल-क्लिक करें',
   },
 
   // Sidebar
@@ -64,12 +65,13 @@ const hi = {
     newFolder: 'नया फ़ोल्डर',
     importCollection: 'संग्रह आयात करें',
     exportCollection: 'संग्रह निर्यात करें',
-    searchCollections: 'संग्रह खोजें...',
+    searchRequests: 'अनुरोध खोजें...',
     noMatchingRequests: 'कोई मेल खाने वाला अनुरोध नहीं',
     noSavedRequests: 'कोई सहेजा गया अनुरोध नहीं',
     importFailed: 'आयात विफल: {{error}}',
     exportFailed: 'निर्यात विफल: {{error}}',
     importedWithWarnings: '{{count}} चेतावनी(यों) के साथ आयात किया गया',
+    failedToLoadCollection: 'संग्रह लोड करने में विफल',
   },
 
   // Environment
@@ -77,15 +79,13 @@ const hi = {
     newEnvironment: 'नया एनवायरनमेंट',
     editEnvironment: 'एनवायरनमेंट संपादित करें',
     noEnvironmentsCreated: 'कोई एनवायरनमेंट नहीं बनाया गया',
-    environmentName: 'एनवायरनमेंट का नाम',
+    environmentName: 'नाम',
     environmentNamePlaceholder: 'उदा. Production, Staging, Local',
     color: 'रंग',
     variables: 'वैरिएबल',
-    variableName: 'वैरिएबल का नाम',
+    variableName: 'वैरिएबल',
     addVariable: 'वैरिएबल जोड़ें',
     value: 'मान',
-    refreshValue: 'मान रिफ्रेश करें',
-    refreshAll: 'सभी रिफ्रेश करें',
     noEnvironment: 'कोई एनवायरनमेंट नहीं',
     selectEnvironment: 'एनवायरनमेंट चुनें',
     randomEmail: 'रैंडम ईमेल',
@@ -110,6 +110,7 @@ const hi = {
 
   // Request
   request: {
+    untitledRequest: 'बिना शीर्षक अनुरोध',
     enterUrl: 'URL दर्ज करें या टेक्स्ट पेस्ट करें',
     headers: 'हैडर',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +127,8 @@ const hi = {
     title: 'प्रतिक्रिया',
     sending: 'भेजा जा रहा है...',
     networkError: 'नेटवर्क त्रुटि',
+    requestHint: 'API URL दर्ज करें, फिर अपना अनुरोध भेजें।',
+    responseHint: 'प्रतिक्रिया का बॉडी, हैडर और समय यहाँ दिखाई देंगे।',
   },
 
   // cURL
@@ -141,12 +144,15 @@ const hi = {
 
   // Tests
   tests: {
+    apiTesting: 'API टेस्टिंग',
+    testsTitle: 'टेस्ट',
+    testsHint: 'प्रतिक्रिया से टेस्ट जनरेट करने के लिए एक अनुरोध भेजें।',
+    testsUnavailable: 'टेस्ट जनरेट करने के लिए सफल प्रतिक्रिया (HTTP 2xx या 3xx) आवश्यक है।',
     generateAndRun: 'टेस्ट जनरेट करें और चलाएँ',
     runningTests: 'टेस्ट चल रहे हैं... ({{current}}/{{total}})',
     noTestsGenerated: 'कोई टेस्ट जनरेट नहीं हुआ',
     selectForCompare: 'तुलना के लिए चुनें',
     compareWithSelected: 'चयनित के साथ तुलना करें',
-    exportFormat: 'फ़ॉर्मेट',
     generateCertificate: 'सर्टिफिकेट जनरेट करें',
     notEligible: 'पात्र नहीं (कम से कम 70 टेस्ट चाहिए)',
     failedToExport: 'रिपोर्ट निर्यात करने में विफल',
@@ -168,10 +174,23 @@ const hi = {
     bodyParameters: 'बॉडी',
     queryParameters: 'क्वेरी',
     formatPlaceholder: 'फ़ॉर्मेट',
-    aiTesting: 'गहन AI परीक्षण',
+    aiTesting: 'AI परीक्षण',
     aiTestingTitle: 'ऐसे परीक्षण खोजें जिनका निर्धारक स्कैन अनुमान नहीं लगा सका',
     aiTestingDescription: 'AI रन का विश्लेषण करता है, अतिरिक्त प्रयोग सुझाता है, और Rentgen उन्हें चलाता है।',
     runAiTesting: 'AI परीक्षण चलाएँ',
+    resultsTitle: 'टेस्ट परिणाम',
+    resultsDescription:
+      'पहले बग और विफल जाँचों की समीक्षा करें। अनुरोध और प्रतिक्रिया का विवरण देखने के लिए किसी टेस्ट को विस्तृत करें।',
+    reviewFindings: 'निष्कर्षों की समीक्षा करें',
+    metric: {
+      bugs: 'एक अप्रत्याशित सर्वर त्रुटि (HTTP 5xx) या निष्पादन त्रुटि हुई। API क्रैश हो सकता है या अनुपलब्ध हो सकता है। कारण जानने के लिए अनुरोध और प्रतिक्रिया की समीक्षा करें।',
+      failed:
+        'वास्तविक परिणाम अपेक्षित परिणाम से मेल नहीं खाया, या कोई प्रतिक्रिया प्राप्त नहीं हुई। कारण निर्धारित करने के लिए अपेक्षा, डेटा मैपिंग और API व्यवहार की जाँच करें।',
+      warnings:
+        'एक संभावित जोखिम या सुझाव, अक्सर किसी सुरक्षा जाँच से। इसका महत्व आपके API और उपयोग के मामले पर निर्भर करता है। कार्रवाई आवश्यक है या नहीं, यह तय करने के लिए इसकी समीक्षा करें।',
+      passed:
+        'इस जाँच के लिए वास्तविक परिणाम अपेक्षित परिणाम से मेल खाया। यह टेस्ट पास हुआ; यह गारंटी नहीं देता कि पूरा API समस्याओं से मुक्त है।',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +199,7 @@ const hi = {
     noTestResults: 'तुलना करने के लिए कोई टेस्ट परिणाम नहीं',
     potentialBugs: 'संभावित बग',
     fullBehaviorChanges: 'पूर्ण व्यवहार परिवर्तन',
-    noPotentialBugs: 'कोई संभावित बग नहीं मिला ✅',
+    noPotentialBugs: 'कोई संभावित बग नहीं मिला',
     showFullBehaviorChanges: 'पूर्ण व्यवहार परिवर्तन दिखाएँ',
     behaviorChange: 'व्यवहार परिवर्तन:',
     showNoise: 'नॉइज़ दिखाएँ',
@@ -209,10 +228,10 @@ const hi = {
       conflictDescription: 'आयातित संग्रह "{{name}}" का आपके मौजूदा संग्रह के साथ विरोध है:',
       collectionNamesMatch: 'संग्रह के नाम मेल खाते हैं',
       folderConflicts: 'मेल खाने वाले नामों के साथ {{count}} फ़ोल्डर',
-      requestConflicts: 'मेल खाने वाले URL+Method या नाम के साथ {{count}} अनुरोध',
+      requestConflicts: 'मेल खाने वाले URL + Method या नाम के साथ {{count}} अनुरोध',
       importWarnings: 'आयात चेतावनियाँ: {{count}}',
       replaceDescription: 'पूरे मौजूदा संग्रह को बदलें ({{folders}} फ़ोल्डर, {{requests}} अनुरोध)',
-      mergeDescription: 'केवल अनूठे आइटम जोड़ें (URL+Method या नाम के आधार पर डुप्लिकेट छोड़ता है)',
+      mergeDescription: 'केवल अनूठे आइटम जोड़ें (URL + Method या नाम के आधार पर डुप्लिकेट छोड़ता है)',
       newFolders: '{{count}} नया फ़ोल्डर',
       newRequests: '{{count}} नया अनुरोध',
       noNewItems: 'जोड़ने के लिए कोई नया आइटम नहीं',
@@ -361,7 +380,6 @@ const hi = {
         notInstalledDescription: 'अपने शेल PATH में <c>rentgen</c> जोड़ने के लिए नीचे <e>इंस्टॉल</e> पर क्लिक करें।',
       },
       action: {
-        working: 'काम कर रहा है...',
         uninstall: 'CLI अनइंस्टॉल करें',
         reinstall: 'पुनः इंस्टॉल करें',
         installRentgenInPath: 'PATH में rentgen कमांड इंस्टॉल करें',
@@ -442,7 +460,6 @@ const hi = {
       description: 'अपने टेस्टिंग अनुभव को अनुकूलित करने के लिए व्यक्तिगत परफ़ॉर्मेंस इनसाइट्स चालू या बंद करें।',
     },
     languageSection: {
-      title: 'भाषा',
       description: 'एप्लिकेशन इंटरफ़ेस के लिए अपनी पसंदीदा भाषा चुनें।',
       feedback:
         'अनुवाद में कोई समस्या मिली या कोई और भाषा जोड़ना चाहते हैं? सभी विवरणों के साथ एक टिकट बनाएँ और हम अपनी पूरी कोशिश करेंगे।',
@@ -522,12 +539,6 @@ const hi = {
     noChecksum: 'कोई चेकसम नहीं',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'फ़ाइल चुनें',
-    noFileChosen: 'कोई फ़ाइल नहीं चुनी गई',
-  },
-
   // Messages panel
   messages: {
     title: 'संदेश',
@@ -555,6 +566,55 @@ const hi = {
     evidence: 'साक्ष्य',
     impact: 'प्रभाव',
     needsInvestigation: 'जांच आवश्यक',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM प्री-इवैल्यूएशन',
+    description:
+      'डेमो असर्शन संपादन योग्य उदाहरण हैं। इन्हें अपने मॉडल की भाषा और अस्वीकृति शब्दावली के अनुसार बदलें। मिलान में अक्षरों के बड़े-छोटे रूप की अनदेखी की जाती है और सीधे तथा टाइपोग्राफ़िक एपॉस्ट्रॉफ़ी को समान माना जाता है। OR सूचीबद्ध किसी भी वाक्यांश को प्रतिबंधित करता है; AND तब प्रतिबंधित करता है जब सभी वाक्यांश एक साथ दिखाई दें।',
+    runEachQuestion: 'प्रत्येक प्रश्न वर्तमान रिक्वेस्ट और चुने गए एनवायरनमेंट के विरुद्ध चलता है।',
+    saveRequestMessage: 'इसका मूल्यांकन और रिपोर्ट सुरक्षित रखने के लिए इस रिक्वेस्ट को किसी कलेक्शन में सेव करें।',
+    runPreEvaluation: 'प्री-इवैल्यूएशन चलाएँ',
+    userPromptField: 'उपयोगकर्ता प्रॉम्प्ट फ़ील्ड',
+    userPromptPlaceholder: 'JSON फ़ील्ड चुनें',
+    responseTextField: 'प्रतिक्रिया टेक्स्ट फ़ील्ड',
+    responseTextPlaceholder: 'पूरा बॉडी, या /choices/0/message/content',
+    iterationsPerQuestion: 'प्रति प्रश्न पुनरावृत्तियाँ',
+    addQuestion: 'प्रश्न जोड़ें',
+    importCSV: 'CSV आयात करें',
+    exportCSVExample: 'CSV उदाहरण निर्यात करें',
+    jsonBodyRequirement:
+      'उपयोगकर्ता प्रॉम्प्ट स्ट्रिंग वाला JSON बॉडी आवश्यक है। सिस्टम और डेवलपर संदेश चुने नहीं जा सकते।',
+    addTextPlaceholder: 'टेक्स्ट जोड़ें और Enter दबाएँ',
+    questionColumn: 'प्रश्न / प्रॉम्प्ट',
+    containsColumn: 'शामिल है (आवश्यक)',
+    notContainsColumn: 'शामिल नहीं है (निषिद्ध)',
+    unclosedQuotedField: 'CSV में एक उद्धरण चिह्नों वाला फ़ील्ड बंद नहीं किया गया है।',
+    invalidTerms: 'पंक्ति {{rowNumber}}: शब्द गैर-रिक्त स्ट्रिंग्स का JSON ऐरे होने चाहिए।',
+    expectedCsvColumns: 'अमान्य हेडर। अपेक्षित कॉलम: {{columns}}।',
+    invalidCsvRow: 'पंक्ति {{rowNumber}}: 5 कॉलम और एक गैर-रिक्त प्रॉम्प्ट अपेक्षित है।',
+    invalidOperator: 'पंक्ति {{rowNumber}}: ऑपरेटर AND या OR होना चाहिए।',
+    selectUserPromptField: 'JSON अनुरोध बॉडी में उपयोगकर्ता प्रॉम्प्ट फ़ील्ड चुनें।',
+    useRequestMethodWithJsonBody: 'अनुरोध मेथड को JSON बॉडी का समर्थन करना चाहिए।',
+    iterationsMustBeBetween: 'इटरेशन {{min}} और {{max}} के बीच होने चाहिए।',
+    everyQuestionNeedsPromptAndAssertion: 'प्रत्येक प्रश्न के लिए एक प्रॉम्प्ट और कम से कम एक अभिकथन आवश्यक है।',
+    httpError: 'HTTP {{statusCode}}',
+    responseTextFieldMissing: 'रिस्पॉन्स टेक्स्ट फ़ील्ड मौजूद नहीं है या स्ट्रिंग नहीं है',
+    running: 'चल रहा है... ({{current}}/{{total}})',
+    preEvaluationReport: 'प्री-मूल्यांकन रिपोर्ट',
+    lastRun: 'अंतिम रन: {{date, datetime(dateStyle: medium)}}',
+    completed: '{{completed}} / {{planned}} पूर्ण',
+    questions: 'प्रश्न',
+    totalRuns: 'कुल रन',
+    passed: 'उत्तीर्ण',
+    failed: 'विफल',
+    complianceRate: 'अनुपालन दर',
+    resultsPerQuestion: 'प्रति प्रश्न परिणाम',
+    missingRequiredText: 'आवश्यक टेक्स्ट अनुपस्थित ({{containsMode}}): {{contains}}',
+    containsForbiddenText: 'निषिद्ध टेक्स्ट मौजूद ({{notContainsMode}}): {{notContains}}',
+    failedResponses: 'विफल रिस्पॉन्स ({{count}})',
+    run: 'रन #{{iteration}}',
   },
 };
 

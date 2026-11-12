@@ -5,7 +5,6 @@ const pl = {
     save: 'Zapisz',
     saved: 'Zapisano',
     cancel: 'Anuluj',
-    cancelled: 'Anulowano',
     close: 'Zamknij',
     ok: 'OK',
     create: 'Utwórz',
@@ -26,7 +25,6 @@ const pl = {
     connect: 'Połącz',
     disconnect: 'Rozłącz',
     beautify: 'Formatuj',
-    reload: 'Odśwież',
     cut: 'Wytnij',
     paste: 'Wklej',
     enable: 'Włącz',
@@ -47,6 +45,9 @@ const pl = {
     duplicate: 'Duplikuj',
     add: 'Dodaj',
     back: 'Wstecz',
+    stop: 'Zatrzymaj',
+    noOptions: 'Brak opcji',
+    resizeHint: 'Przeciągnij, aby zmienić rozmiar, kliknij dwukrotnie, aby przywrócić',
   },
 
   // Sidebar
@@ -64,12 +65,13 @@ const pl = {
     newFolder: 'Nowy folder',
     importCollection: 'Importuj kolekcję',
     exportCollection: 'Eksportuj kolekcję',
-    searchCollections: 'Szukaj w kolekcjach...',
+    searchRequests: 'Szukaj zapytań...',
     noMatchingRequests: 'Brak pasujących zapytań',
     noSavedRequests: 'Brak zapisanych zapytań',
     importFailed: 'Import nie powiódł się: {{error}}',
     exportFailed: 'Eksport nie powiódł się: {{error}}',
     importedWithWarnings: 'Zaimportowano z {{count}} ostrzeżeniem(-ami)',
+    failedToLoadCollection: 'Nie udało się załadować kolekcji',
   },
 
   // Environment
@@ -77,15 +79,13 @@ const pl = {
     newEnvironment: 'Nowe środowisko',
     editEnvironment: 'Edytuj środowisko',
     noEnvironmentsCreated: 'Nie utworzono żadnych środowisk',
-    environmentName: 'Nazwa środowiska',
+    environmentName: 'Nazwa',
     environmentNamePlaceholder: 'np. Produkcja, Staging, Lokalne',
     color: 'Kolor',
     variables: 'Zmienne',
-    variableName: 'Nazwa zmiennej',
+    variableName: 'Zmienna',
     addVariable: 'Dodaj zmienną',
     value: 'Wartość',
-    refreshValue: 'Odśwież wartość',
-    refreshAll: 'Odśwież wszystko',
     noEnvironment: 'Brak środowiska',
     selectEnvironment: 'Wybierz środowisko',
     randomEmail: 'Losowy e-mail',
@@ -110,6 +110,7 @@ const pl = {
 
   // Request
   request: {
+    untitledRequest: 'Zapytanie bez nazwy',
     enterUrl: 'Wpisz URL lub wklej tekst',
     headers: 'Nagłówki',
     headersPlaceholder: 'Klucz-Nagłówka: wartość',
@@ -126,6 +127,8 @@ const pl = {
     title: 'Odpowiedź',
     sending: 'Wysyłanie...',
     networkError: 'Błąd sieci',
+    requestHint: 'Wpisz URL API, a następnie wyślij zapytanie.',
+    responseHint: 'Treść odpowiedzi, nagłówki i czasy pojawią się tutaj.',
   },
 
   // cURL
@@ -141,12 +144,15 @@ const pl = {
 
   // Tests
   tests: {
+    apiTesting: 'Testowanie API',
+    testsTitle: 'Testy',
+    testsHint: 'Wyślij zapytanie, aby wygenerować testy na podstawie odpowiedzi.',
+    testsUnavailable: 'Generowanie testów wymaga poprawnej odpowiedzi (HTTP 2xx lub 3xx).',
     generateAndRun: 'Generuj i uruchom testy',
     runningTests: 'Uruchamianie testów... ({{current}}/{{total}})',
     noTestsGenerated: 'Nie wygenerowano testów',
     selectForCompare: 'Wybierz do porównania',
     compareWithSelected: 'Porównaj z wybranym',
-    exportFormat: 'Format',
     generateCertificate: 'Generuj certyfikat',
     notEligible: 'Nie kwalifikuje się (wymagane min. 70 testów)',
     failedToExport: 'Nie udało się wyeksportować raportu',
@@ -169,10 +175,23 @@ const pl = {
     bodyParameters: 'Treść',
     queryParameters: 'Zapytanie',
     formatPlaceholder: 'Format',
-    aiTesting: 'Głębsze testy AI',
+    aiTesting: 'Testy AI',
     aiTestingTitle: 'Znajdź testy, których deterministyczne skanowanie nie potrafiło wywnioskować',
     aiTestingDescription: 'AI analizuje przebieg, proponuje dodatkowe eksperymenty, a Rentgen je wykonuje.',
     runAiTesting: 'Uruchom testy AI',
+    resultsTitle: 'Wyniki testów',
+    resultsDescription:
+      'Najpierw przejrzyj błędy i nieudane sprawdzenia. Rozwiń test, aby zobaczyć szczegóły zapytania i odpowiedzi.',
+    reviewFindings: 'Przejrzyj ustalenia',
+    metric: {
+      bugs: 'Wystąpił nieoczekiwany błąd serwera (HTTP 5xx) lub błąd wykonania. API mogło ulec awarii lub stać się niedostępne. Przejrzyj zapytanie i odpowiedź, aby znaleźć przyczynę.',
+      failed:
+        'Rzeczywisty wynik nie był zgodny z oczekiwanym lub nie otrzymano odpowiedzi. Sprawdź oczekiwanie, mapowanie danych i zachowanie API, aby ustalić przyczynę.',
+      warnings:
+        'Potencjalne ryzyko lub zalecenie, często pochodzące z kontroli bezpieczeństwa. Jego znaczenie zależy od Twojego API i przypadku użycia. Przejrzyj je, aby zdecydować, czy potrzebne są działania.',
+      passed:
+        'Rzeczywisty wynik był zgodny z oczekiwanym dla tego sprawdzenia. Ten test zakończył się powodzeniem; nie gwarantuje to, że całe API jest wolne od problemów.',
+    },
   },
 
   // Comparison Panel
@@ -181,7 +200,7 @@ const pl = {
     noTestResults: 'Brak wyników testów do porównania',
     potentialBugs: 'Potencjalne błędy',
     fullBehaviorChanges: 'Pełne zmiany zachowania',
-    noPotentialBugs: 'Nie wykryto potencjalnych błędów ✅',
+    noPotentialBugs: 'Nie wykryto potencjalnych błędów',
     showFullBehaviorChanges: 'Pokaż pełne zmiany zachowania',
     behaviorChange: 'Zmiana zachowania:',
     showNoise: 'Pokaż szum',
@@ -210,10 +229,10 @@ const pl = {
       conflictDescription: 'Importowana kolekcja "{{name}}" ma konflikty z istniejącą kolekcją:',
       collectionNamesMatch: 'Nazwy kolekcji się pokrywają',
       folderConflicts: '{{count}} folder(-ów) o pasujących nazwach',
-      requestConflicts: '{{count}} zapytanie(-ań) o pasującym URL+Metodzie lub nazwie',
+      requestConflicts: '{{count}} zapytanie(-ań) o pasującym URL + Metodzie lub nazwie',
       importWarnings: 'Ostrzeżenia importu: {{count}}',
       replaceDescription: 'Zamień całą istniejącą kolekcję ({{folders}} folderów, {{requests}} zapytań)',
-      mergeDescription: 'Dodaj tylko unikalne elementy (pomija duplikaty po URL+Metodzie lub nazwie)',
+      mergeDescription: 'Dodaj tylko unikalne elementy (pomija duplikaty po URL + Metodzie lub nazwie)',
       newFolders: '{{count}} nowy(-ch) folder(-ów)',
       newRequests: '{{count}} nowe(-ych) zapytanie(-ań)',
       noNewItems: 'Brak nowych elementów do dodania',
@@ -365,7 +384,6 @@ const pl = {
         notInstalledDescription: 'Kliknij <e>Zainstaluj</e> poniżej, aby dodać <c>rentgen</c> do shell PATH.',
       },
       action: {
-        working: 'Trwa...',
         uninstall: 'Odinstaluj CLI',
         reinstall: 'Zainstaluj ponownie',
         installRentgenInPath: 'Zainstaluj polecenie rentgen w PATH',
@@ -446,7 +464,6 @@ const pl = {
       description: 'Włączaj lub wyłączaj poszczególne analizy wydajności, aby dostosować testowanie.',
     },
     languageSection: {
-      title: 'Język',
       description: 'Wybierz preferowany język interfejsu aplikacji.',
       feedback:
         'Znalazłeś problem z tłumaczeniem lub chcesz dodać inny język? Utwórz zgłoszenie ze wszystkimi szczegółami, a zrobimy co w naszej mocy.',
@@ -526,12 +543,6 @@ const pl = {
     noChecksum: 'Brak sumy kontrolnej',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Wybierz plik',
-    noFileChosen: 'Nie wybrano pliku',
-  },
-
   // Messages panel
   messages: {
     title: 'Wiadomości',
@@ -559,6 +570,55 @@ const pl = {
     evidence: 'Dowody',
     impact: 'Wpływ',
     needsInvestigation: 'Wymaga zbadania',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'Wstępna ocena LLM',
+    description:
+      'Demonstracyjne asercje to edytowalne przykłady. Dostosuj je do języka i sposobu formułowania odmów w Twoim modelu. Dopasowanie ignoruje wielkość liter i traktuje proste oraz typograficzne apostrofy jako równoważne. OR zabrania dowolnej z wymienionych fraz; AND zabrania wszystkich fraz występujących razem.',
+    runEachQuestion: 'Każde pytanie jest uruchamiane dla bieżącego żądania i wybranego środowiska.',
+    saveRequestMessage: 'Zapisz to żądanie w kolekcji, aby zachować jego ocenę i raport.',
+    runPreEvaluation: 'Uruchom wstępną ocenę',
+    userPromptField: 'Pole promptu użytkownika',
+    userPromptPlaceholder: 'Wybierz pole JSON',
+    responseTextField: 'Pole tekstu odpowiedzi',
+    responseTextPlaceholder: 'Cała treść lub /choices/0/message/content',
+    iterationsPerQuestion: 'Iteracje na pytanie',
+    addQuestion: 'Dodaj pytanie',
+    importCSV: 'Importuj CSV',
+    exportCSVExample: 'Eksportuj przykład CSV',
+    jsonBodyRequirement:
+      'Wymagana jest treść JSON z ciągiem promptu użytkownika. Wiadomości systemowych i deweloperskich nie można wybrać.',
+    addTextPlaceholder: 'Dodaj tekst i naciśnij Enter',
+    questionColumn: 'Pytanie / prompt',
+    containsColumn: 'Zawiera (wymagane)',
+    notContainsColumn: 'Nie zawiera (zabronione)',
+    unclosedQuotedField: 'Plik CSV zawiera niezamknięte pole w cudzysłowie.',
+    invalidTerms: 'Wiersz {{rowNumber}}: Terminy muszą być tablicą JSON niepustych ciągów.',
+    expectedCsvColumns: 'Nieprawidłowy nagłówek. Oczekiwane kolumny: {{columns}}.',
+    invalidCsvRow: 'Wiersz {{rowNumber}}: Oczekiwano 5 kolumn i niepustego promptu.',
+    invalidOperator: 'Wiersz {{rowNumber}}: Operator musi mieć wartość AND lub OR.',
+    selectUserPromptField: 'Wybierz pole promptu użytkownika w treści żądania JSON.',
+    useRequestMethodWithJsonBody: 'Metoda żądania musi obsługiwać treść JSON.',
+    iterationsMustBeBetween: 'Liczba iteracji musi mieścić się w zakresie od {{min}} do {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Każde pytanie wymaga promptu i co najmniej jednej asercji.',
+    httpError: 'HTTP {{statusCode}}',
+    responseTextFieldMissing: 'Pole tekstu odpowiedzi nie istnieje lub nie jest ciągiem znaków',
+    running: 'Uruchamianie... ({{current}}/{{total}})',
+    preEvaluationReport: 'Raport wstępnej oceny',
+    lastRun: 'Ostatnie uruchomienie: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Ukończono {{completed}} / {{planned}}',
+    questions: 'Pytania',
+    totalRuns: 'Łączna liczba uruchomień',
+    passed: 'Zaliczone',
+    failed: 'Niezaliczone',
+    complianceRate: 'Wskaźnik zgodności',
+    resultsPerQuestion: 'Wyniki dla każdego pytania',
+    missingRequiredText: 'Brak wymaganego tekstu ({{containsMode}}): {{contains}}',
+    containsForbiddenText: 'Zawiera zabroniony tekst ({{notContainsMode}}): {{notContains}}',
+    failedResponses: 'Nieudane odpowiedzi ({{count}})',
+    run: 'Uruchomienie #{{iteration}}',
   },
 };
 

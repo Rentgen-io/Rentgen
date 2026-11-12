@@ -5,7 +5,6 @@ const ru = {
     save: 'Сохранить',
     saved: 'Сохранено',
     cancel: 'Отмена',
-    cancelled: 'Отменено',
     close: 'Закрыть',
     ok: 'OK',
     create: 'Создать',
@@ -26,7 +25,6 @@ const ru = {
     connect: 'Подключиться',
     disconnect: 'Отключиться',
     beautify: 'Форматировать',
-    reload: 'Перезагрузить',
     cut: 'Вырезать',
     paste: 'Вставить',
     enable: 'Включить',
@@ -47,6 +45,9 @@ const ru = {
     duplicate: 'Дублировать',
     add: 'Добавить',
     back: 'Назад',
+    stop: 'Остановить',
+    noOptions: 'Нет вариантов',
+    resizeHint: 'Перетащите, чтобы изменить размер, дважды щёлкните для сброса',
   },
 
   // Sidebar
@@ -64,12 +65,13 @@ const ru = {
     newFolder: 'Новая папка',
     importCollection: 'Импортировать коллекцию',
     exportCollection: 'Экспортировать коллекцию',
-    searchCollections: 'Поиск по коллекциям...',
+    searchRequests: 'Поиск запросов...',
     noMatchingRequests: 'Нет подходящих запросов',
     noSavedRequests: 'Нет сохраненных запросов',
     importFailed: 'Ошибка импорта: {{error}}',
     exportFailed: 'Ошибка экспорта: {{error}}',
     importedWithWarnings: 'Импортировано с предупреждениями: {{count}}',
+    failedToLoadCollection: 'Не удалось загрузить коллекцию',
   },
 
   // Environment
@@ -77,15 +79,13 @@ const ru = {
     newEnvironment: 'Новое окружение',
     editEnvironment: 'Редактировать окружение',
     noEnvironmentsCreated: 'Окружения не созданы',
-    environmentName: 'Название окружения',
+    environmentName: 'Название',
     environmentNamePlaceholder: 'например, Production, Staging, Local',
     color: 'Цвет',
     variables: 'Переменные',
-    variableName: 'Имя переменной',
+    variableName: 'Переменная',
     addVariable: 'Добавить переменную',
     value: 'Значение',
-    refreshValue: 'Обновить значение',
-    refreshAll: 'Обновить все',
     noEnvironment: 'Без окружения',
     selectEnvironment: 'Выбрать окружение',
     randomEmail: 'Случайный email',
@@ -110,6 +110,7 @@ const ru = {
 
   // Request
   request: {
+    untitledRequest: 'Запрос без названия',
     enterUrl: 'Введите URL или вставьте текст',
     headers: 'Заголовки',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +127,8 @@ const ru = {
     title: 'Ответ',
     sending: 'Отправка...',
     networkError: 'Ошибка сети',
+    requestHint: 'Введите URL API, затем отправьте запрос.',
+    responseHint: 'Тело ответа, заголовки и время выполнения появятся здесь.',
   },
 
   // cURL
@@ -141,12 +144,15 @@ const ru = {
 
   // Tests
   tests: {
+    apiTesting: 'Тестирование API',
+    testsTitle: 'Тесты',
+    testsHint: 'Отправьте запрос, чтобы сгенерировать тесты на основе ответа.',
+    testsUnavailable: 'Для генерации тестов требуется успешный ответ (HTTP 2xx или 3xx).',
     generateAndRun: 'Сгенерировать и запустить тесты',
     runningTests: 'Выполняются тесты... ({{current}}/{{total}})',
     noTestsGenerated: 'Тесты не сгенерированы',
     selectForCompare: 'Выбрать для сравнения',
     compareWithSelected: 'Сравнить с выбранным',
-    exportFormat: 'Формат',
     generateCertificate: 'Создать сертификат',
     notEligible: 'Недоступно (нужно не менее 70 тестов)',
     failedToExport: 'Не удалось экспортировать отчёт',
@@ -168,10 +174,23 @@ const ru = {
     bodyParameters: 'Тело',
     queryParameters: 'Запрос',
     formatPlaceholder: 'Формат',
-    aiTesting: 'Углублённое ИИ-тестирование',
+    aiTesting: 'ИИ-тестирование',
     aiTestingTitle: 'Найти тесты, которые детерминированное сканирование не смогло вывести',
     aiTestingDescription: 'ИИ анализирует запуск, предлагает дополнительные эксперименты, а Rentgen выполняет их.',
     runAiTesting: 'Запустить ИИ-тестирование',
+    resultsTitle: 'Результаты тестов',
+    resultsDescription:
+      'Сначала просмотрите баги и проваленные проверки. Разверните тест, чтобы увидеть подробности запроса и ответа.',
+    reviewFindings: 'Просмотреть находки',
+    metric: {
+      bugs: 'Произошла непредвиденная ошибка сервера (HTTP 5xx) или ошибка выполнения. Возможно, API аварийно завершился или стал недоступен. Изучите запрос и ответ, чтобы найти причину.',
+      failed:
+        'Фактический результат не совпал с ожидаемым, или ответ не был получен. Проверьте ожидание, сопоставление данных и поведение API, чтобы определить причину.',
+      warnings:
+        'Потенциальный риск или рекомендация, часто по результатам проверки безопасности. Её важность зависит от вашего API и сценария использования. Изучите её, чтобы решить, нужны ли действия.',
+      passed:
+        'Фактический результат совпал с ожидаемым для этой проверки. Тест пройден; это не гарантирует, что во всём API нет проблем.',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +199,7 @@ const ru = {
     noTestResults: 'Нет результатов тестов для сравнения',
     potentialBugs: 'Возможные ошибки',
     fullBehaviorChanges: 'Полные изменения поведения',
-    noPotentialBugs: 'Потенциальные ошибки не обнаружены ✅',
+    noPotentialBugs: 'Потенциальные ошибки не обнаружены',
     showFullBehaviorChanges: 'Показать полные изменения поведения',
     behaviorChange: 'Изменение поведения:',
     showNoise: 'Показать шум',
@@ -209,10 +228,10 @@ const ru = {
       conflictDescription: 'Импортируемая коллекция "{{name}}" конфликтует с вашей существующей коллекцией:',
       collectionNamesMatch: 'Названия коллекций совпадают',
       folderConflicts: '{{count}} папок с совпадающими именами',
-      requestConflicts: '{{count}} запросов с совпадающими URL+Method или именем',
+      requestConflicts: '{{count}} запросов с совпадающими URL + Method или именем',
       importWarnings: 'Предупреждения импорта: {{count}}',
       replaceDescription: 'Полностью заменить существующую коллекцию ({{folders}} папок, {{requests}} запросов)',
-      mergeDescription: 'Добавить только уникальные элементы (дубликаты по URL+Method или имени будут пропущены)',
+      mergeDescription: 'Добавить только уникальные элементы (дубликаты по URL + Method или имени будут пропущены)',
       newFolders: '{{count}} новых папок',
       newRequests: '{{count}} новых запросов',
       noNewItems: 'Нет новых элементов для добавления',
@@ -364,7 +383,6 @@ const ru = {
         notInstalledDescription: 'Нажмите <e>Установить</e> ниже, чтобы добавить <c>rentgen</c> в PATH вашей оболочки.',
       },
       action: {
-        working: 'Выполнение...',
         uninstall: 'Удалить CLI',
         reinstall: 'Переустановить',
         installRentgenInPath: 'Установить команду rentgen в PATH',
@@ -447,7 +465,6 @@ const ru = {
         'Включайте и отключайте отдельные элементы анализа производительности, чтобы настроить работу под себя.',
     },
     languageSection: {
-      title: 'Язык',
       description: 'Выберите предпочитаемый язык интерфейса приложения.',
       feedback:
         'Нашли проблему в переводе или хотите добавить другой язык? Создайте тикет со всеми деталями, и мы постараемся помочь.',
@@ -527,12 +544,6 @@ const ru = {
     noChecksum: 'Нет контрольной суммы',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Выбрать файл',
-    noFileChosen: 'Файл не выбран',
-  },
-
   // Messages panel
   messages: {
     title: 'Сообщения',
@@ -560,6 +571,55 @@ const ru = {
     evidence: 'Доказательства',
     impact: 'Влияние',
     needsInvestigation: 'Требует изучения',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'Предварительная оценка LLM',
+    description:
+      'Демонстрационные проверки — это редактируемые примеры. Адаптируйте их к языку и формулировкам отказов вашей модели. При сопоставлении регистр игнорируется, а прямые и типографские апострофы считаются равнозначными. OR запрещает любую из перечисленных фраз; AND запрещает все фразы, встречающиеся вместе.',
+    runEachQuestion: 'Каждый вопрос выполняется для текущего запроса и выбранного окружения.',
+    saveRequestMessage: 'Сохраните этот запрос в коллекции, чтобы сохранить его оценку и отчёт.',
+    runPreEvaluation: 'Запустить предварительную оценку',
+    userPromptField: 'Поле пользовательского промпта',
+    userPromptPlaceholder: 'Выберите поле JSON',
+    responseTextField: 'Поле текста ответа',
+    responseTextPlaceholder: 'Всё тело или /choices/0/message/content',
+    iterationsPerQuestion: 'Итераций на вопрос',
+    addQuestion: 'Добавить вопрос',
+    importCSV: 'Импорт CSV',
+    exportCSVExample: 'Экспортировать пример CSV',
+    jsonBodyRequirement:
+      'Требуется JSON-тело со строкой пользовательского промпта. Системные сообщения и сообщения разработчика выбрать нельзя.',
+    addTextPlaceholder: 'Добавьте текст и нажмите Enter',
+    questionColumn: 'Вопрос / промпт',
+    containsColumn: 'Содержит (обязательно)',
+    notContainsColumn: 'Не содержит (запрещено)',
+    unclosedQuotedField: 'CSV содержит незакрытое поле в кавычках.',
+    invalidTerms: 'Строка {{rowNumber}}: термины должны быть JSON-массивом непустых строк.',
+    expectedCsvColumns: 'Недопустимый заголовок. Ожидаемые столбцы: {{columns}}.',
+    invalidCsvRow: 'Строка {{rowNumber}}: ожидается 5 столбцов и непустой промпт.',
+    invalidOperator: 'Строка {{rowNumber}}: оператор должен быть AND или OR.',
+    selectUserPromptField: 'Выберите поле пользовательского промпта в JSON-теле запроса.',
+    useRequestMethodWithJsonBody: 'Метод запроса должен поддерживать JSON-тело.',
+    iterationsMustBeBetween: 'Количество итераций должно быть от {{min}} до {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Для каждого вопроса требуется промпт и хотя бы одно утверждение.',
+    httpError: 'HTTP {{statusCode}}',
+    responseTextFieldMissing: 'Поле текста ответа отсутствует или не является строкой',
+    running: 'Выполняется... ({{current}}/{{total}})',
+    preEvaluationReport: 'Отчёт предварительной оценки',
+    lastRun: 'Последний запуск: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Завершено {{completed}} / {{planned}}',
+    questions: 'Вопросы',
+    totalRuns: 'Всего запусков',
+    passed: 'Пройдено',
+    failed: 'Не пройдено',
+    complianceRate: 'Уровень соответствия',
+    resultsPerQuestion: 'Результаты по вопросам',
+    missingRequiredText: 'Отсутствует обязательный текст ({{containsMode}}): {{contains}}',
+    containsForbiddenText: 'Содержит запрещённый текст ({{notContainsMode}}): {{notContains}}',
+    failedResponses: 'Неудачные ответы ({{count}})',
+    run: 'Запуск №{{iteration}}',
   },
 };
 

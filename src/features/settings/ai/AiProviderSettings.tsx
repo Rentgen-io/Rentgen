@@ -34,7 +34,7 @@ const providerNames: Record<AiProviderType, string> = {
   ollama: 'Ollama',
 };
 
-const anthropicModelOptions: SelectOption<string>[] = [
+const anthropicModelOptions: SelectOption<string, string>[] = [
   { label: 'Claude Fable 5', value: 'claude-fable-5' },
   { label: 'Claude Fable 5.1', value: 'claude-fable-5-1' },
   { label: 'Claude Haiku 4.5', value: 'claude-haiku-4-5-20251001' },
@@ -51,14 +51,14 @@ const anthropicModelOptions: SelectOption<string>[] = [
   { label: 'Claude Sonnet 5.5', value: 'claude-sonnet-5-5' },
 ];
 
-const ollamaModelOptions: SelectOption<string>[] = [
+const ollamaModelOptions: SelectOption<string, string>[] = [
   { label: 'qwen3.5:4b (~3-4 GB)', value: 'qwen3.5:4b' },
   { label: 'qwen3.5:9b (~7 GB)', value: 'qwen3.5:9b' },
   { label: 'gpt-oss:20b (~14 GB)', value: 'gpt-oss:20b' },
   { label: 'qwen3.5:27b (~17-20 GB)', value: 'qwen3.5:27b' },
 ];
 
-const openAiModelOptions: SelectOption<string>[] = [
+const openAiModelOptions: SelectOption<string, string>[] = [
   { label: 'gpt-6-luna', value: 'gpt-6-luna' },
   { label: 'gpt-5.6-luna', value: 'gpt-5.6-luna' },
   { label: 'gpt-5.4-mini', value: 'gpt-5.4-mini' },
@@ -102,19 +102,14 @@ export function AiProviderSettings() {
       <SettingsHeader>
         <span>{t('settings.ai.connectTitle')}</span>
         {activeAiProvider && (
-          <span className="font-normal text-xs text-text-secondary">
+          <span className="font-normal text-xs text-muted-foreground">
             {activeAiProvider.name} · {activeAiProvider.model}
           </span>
         )}
       </SettingsHeader>
-      <p className="m-0 text-xs text-text-secondary">{t('settings.ai.connectDescription')}</p>
+      <p className="m-0 text-xs text-muted-foreground">{t('settings.ai.connectDescription')}</p>
       {hasAiProviders && (
-        <div
-          className={cn(
-            'border border-border dark:border-dark-border',
-            'divide-y divide-border dark:divide-dark-border',
-          )}
-        >
+        <div className="divide-y divide-border">
           {aiProviders.map((aiProvider) => (
             <AiProviderBlock
               key={aiProvider.id}
@@ -131,7 +126,11 @@ export function AiProviderSettings() {
         <AiProviderForm onCancel={hasAiProviders ? handleStopAdding : undefined} onSave={handleStopAdding} />
       )}
       {!isAdding && hasAiProviders && (
-        <Button className="flex-1 flex justify-center items-center" onClick={handleStartAdding}>
+        <Button
+          buttonType={ButtonType.SECONDARY}
+          className="flex-1 flex justify-center items-center"
+          onClick={handleStartAdding}
+        >
           {t('common.add')}
         </Button>
       )}
@@ -155,14 +154,10 @@ function AiProviderBlock({
   const dispatch = useAppDispatch();
 
   return (
-    <div>
-      <div
-        className={cn('relative text-xs hover:bg-button-secondary dark:hover:bg-dark-input group', {
-          'bg-button-secondary dark:bg-dark-input': isActive,
-        })}
-      >
+    <div className={cn({ 'border-b border-border': isEditing })}>
+      <div className="relative text-xs group">
         <label
-          className={cn('flex items-center gap-2 p-3', {
+          className={cn('flex items-center gap-2 py-3', {
             'cursor-pointer': !isActive,
           })}
         >
@@ -178,21 +173,16 @@ function AiProviderBlock({
             {aiProvider.name} · {aiProvider.model}
           </span>
         </label>
-        <div
-          className={cn(
-            'absolute top-0 bottom-0 right-0',
-            'flex items-center gap-2 px-3 bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100',
-          )}
-        >
+        <div className="absolute top-0 bottom-0 right-0 flex items-center gap-2 pl-2 bg-background opacity-0 group-hover:opacity-100">
           <EditIcon
-            className="h-5 w-5 text-button-text-secondary dark:text-text-secondary hover:text-button-primary cursor-pointer"
+            className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
             onClick={(event: MouseEvent) => {
               event.stopPropagation();
               handleEdit(aiProvider.id);
             }}
           />
           <TrashIcon
-            className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+            className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
             onClick={(event: MouseEvent) => {
               event.stopPropagation();
               dispatch(settingsActions.deleteAiProvider(aiProvider.id));
@@ -203,7 +193,7 @@ function AiProviderBlock({
       {isEditing && (
         <AiProviderForm
           aiProvider={aiProvider}
-          className="p-4 border-t border-border dark:border-dark-border"
+          className="py-4"
           onCancel={handleCloseEditor}
           onSave={handleCloseEditor}
         />
@@ -302,7 +292,7 @@ function AiProviderForm({
         />
         {isOllama && (
           <span
-            className="w-fit text-xs text-button-primary hover:underline cursor-pointer"
+            className="w-fit text-xs text-blue-500 hover:underline cursor-pointer"
             onClick={() => openExternal('https://docs.ollama.com/quickstart#local')}
           >
             {t('settings.ai.howToRunOllamaLocally')}
@@ -331,7 +321,7 @@ function AiProviderForm({
         <div className="flex-1 flex flex-col gap-2">
           <FieldLabel label={t('settings.ai.apiKey')} required={isAnthropic || isOpenAi} />
           <Input type="password" value={apiKey} onChange={(event) => setApiKey(event.target.value)} />
-          <span className="text-xs text-text-secondary">{t('settings.ai.apiKeyStorageNotice')}</span>
+          <span className="text-xs text-muted-foreground">{t('settings.ai.apiKeyStorageNotice')}</span>
         </div>
       </div>
       <div className="flex flex-col sm:flex-row gap-2">
@@ -345,7 +335,7 @@ function AiProviderForm({
           disabled={disabled || isSaving}
           onClick={handleSave}
         >
-          {isSaving ? <Loader className="h-4 w-4 [&>span]:border-2!" mode="dark" /> : t('common.save')}
+          {isSaving ? <Loader className="size-4 [&>span]:border-2!" mode="dark" /> : t('common.save')}
         </Button>
       </div>
     </div>

@@ -5,7 +5,6 @@ const uk = {
     save: 'Зберегти',
     saved: 'Збережено',
     cancel: 'Скасувати',
-    cancelled: 'Скасовано',
     close: 'Закрити',
     ok: 'OK',
     create: 'Створити',
@@ -26,7 +25,6 @@ const uk = {
     connect: "З'єднати",
     disconnect: "Від'єднати",
     beautify: 'Форматувати',
-    reload: 'Перезавантажити',
     cut: 'Вирізати',
     paste: 'Вставити',
     enable: 'Увімкнути',
@@ -47,6 +45,9 @@ const uk = {
     duplicate: 'Дублювати',
     add: 'Додати',
     back: 'Назад',
+    stop: 'Зупинити',
+    noOptions: 'Немає варіантів',
+    resizeHint: 'Перетягніть, щоб змінити розмір, двічі клацніть для скидання',
   },
 
   // Sidebar
@@ -64,12 +65,13 @@ const uk = {
     newFolder: 'Нова тека',
     importCollection: 'Імпортувати колекцію',
     exportCollection: 'Експортувати колекцію',
-    searchCollections: 'Пошук у колекціях...',
+    searchRequests: 'Пошук запитів...',
     noMatchingRequests: 'Немає відповідних запитів',
     noSavedRequests: 'Немає збережених запитів',
     importFailed: 'Імпорт не вдався: {{error}}',
     exportFailed: 'Експорт не вдався: {{error}}',
     importedWithWarnings: 'Імпортовано з {{count}} попередженням(-ями)',
+    failedToLoadCollection: 'Не вдалося завантажити колекцію',
   },
 
   // Environment
@@ -77,15 +79,13 @@ const uk = {
     newEnvironment: 'Нове середовище',
     editEnvironment: 'Редагувати середовище',
     noEnvironmentsCreated: 'Середовища не створено',
-    environmentName: 'Назва середовища',
+    environmentName: 'Назва',
     environmentNamePlaceholder: 'напр., Продакшн, Стейджинг, Локальне',
     color: 'Колір',
     variables: 'Змінні',
-    variableName: 'Назва змінної',
+    variableName: 'Змінна',
     addVariable: 'Додати змінну',
     value: 'Значення',
-    refreshValue: 'Оновити значення',
-    refreshAll: 'Оновити все',
     noEnvironment: 'Без середовища',
     selectEnvironment: 'Обрати середовище',
     randomEmail: 'Випадковий email',
@@ -110,6 +110,7 @@ const uk = {
 
   // Request
   request: {
+    untitledRequest: 'Запит без назви',
     enterUrl: 'Введіть URL або вставте текст',
     headers: 'Заголовки',
     headersPlaceholder: 'Ключ-Заголовка: значення',
@@ -126,6 +127,8 @@ const uk = {
     title: 'Відповідь',
     sending: 'Надсилання...',
     networkError: 'Помилка мережі',
+    requestHint: 'Введіть URL API, а потім надішліть запит.',
+    responseHint: "Тіло відповіді, заголовки та час виконання з'являться тут.",
   },
 
   // cURL
@@ -141,12 +144,15 @@ const uk = {
 
   // Tests
   tests: {
+    apiTesting: 'Тестування API',
+    testsTitle: 'Тести',
+    testsHint: 'Надішліть запит, щоб згенерувати тести на основі відповіді.',
+    testsUnavailable: 'Для генерації тестів потрібна успішна відповідь (HTTP 2xx або 3xx).',
     generateAndRun: 'Згенерувати та запустити тести',
     runningTests: 'Виконання тестів... ({{current}}/{{total}})',
     noTestsGenerated: 'Тести не згенеровано',
     selectForCompare: 'Обрати для порівняння',
     compareWithSelected: 'Порівняти з обраним',
-    exportFormat: 'Формат',
     generateCertificate: 'Згенерувати сертифікат',
     notEligible: 'Не підходить (потрібно щонайменше 70 тестів)',
     failedToExport: 'Не вдалося експортувати звіт',
@@ -168,10 +174,23 @@ const uk = {
     bodyParameters: 'Тіло',
     queryParameters: 'Запит',
     formatPlaceholder: 'Формат',
-    aiTesting: 'Поглиблене ШІ-тестування',
+    aiTesting: 'ШІ-тестування',
     aiTestingTitle: 'Знайти тести, які детерміноване сканування не змогло вивести',
     aiTestingDescription: 'ШІ аналізує запуск, пропонує додаткові експерименти, а Rentgen виконує їх.',
     runAiTesting: 'Запустити ШІ-тестування',
+    resultsTitle: 'Результати тестів',
+    resultsDescription:
+      'Спершу перегляньте баги та невдалі перевірки. Розгорніть тест, щоб побачити деталі запиту та відповіді.',
+    reviewFindings: 'Переглянути знахідки',
+    metric: {
+      bugs: 'Сталася неочікувана помилка сервера (HTTP 5xx) або помилка виконання. Можливо, API аварійно завершився або став недоступним. Перегляньте запит і відповідь, щоб знайти причину.',
+      failed:
+        'Фактичний результат не збігся з очікуваним, або відповідь не отримано. Перевірте очікування, зіставлення даних і поведінку API, щоб визначити причину.',
+      warnings:
+        'Потенційний ризик або рекомендація, часто за результатами перевірки безпеки. Її важливість залежить від вашого API та сценарію використання. Перегляньте її, щоб вирішити, чи потрібні дії.',
+      passed:
+        'Фактичний результат збігся з очікуваним для цієї перевірки. Тест пройдено; це не гарантує, що весь API не має проблем.',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +199,7 @@ const uk = {
     noTestResults: 'Немає результатів тестів для порівняння',
     potentialBugs: 'Потенційні помилки',
     fullBehaviorChanges: 'Повні зміни поведінки',
-    noPotentialBugs: 'Потенційних помилок не виявлено ✅',
+    noPotentialBugs: 'Потенційних помилок не виявлено',
     showFullBehaviorChanges: 'Показати повні зміни поведінки',
     behaviorChange: 'Зміна поведінки:',
     showNoise: 'Показати шум',
@@ -209,10 +228,10 @@ const uk = {
       conflictDescription: 'Імпортована колекція "{{name}}" має конфлікти з наявною колекцією:',
       collectionNamesMatch: 'Назви колекцій збігаються',
       folderConflicts: '{{count}} тека(-ок) з однаковими назвами',
-      requestConflicts: '{{count}} запит(-ів) з однаковим URL+Методом або назвою',
+      requestConflicts: '{{count}} запит(-ів) з однаковим URL + Методом або назвою',
       importWarnings: 'Попередження імпорту: {{count}}',
       replaceDescription: 'Замінити всю наявну колекцію ({{folders}} тек, {{requests}} запитів)',
-      mergeDescription: 'Додати лише унікальні елементи (пропускає дублікати за URL+Методом або назвою)',
+      mergeDescription: 'Додати лише унікальні елементи (пропускає дублікати за URL + Методом або назвою)',
       newFolders: '{{count}} нова(-их) тека(-ок)',
       newRequests: '{{count}} новий(-их) запит(-ів)',
       noNewItems: 'Немає нових елементів для додавання',
@@ -364,7 +383,6 @@ const uk = {
         notInstalledDescription: 'Натисніть <e>Встановити</e> нижче, щоб додати <c>rentgen</c> до вашого shell PATH.',
       },
       action: {
-        working: 'Виконується...',
         uninstall: 'Видалити CLI',
         reinstall: 'Перевстановити',
         installRentgenInPath: 'Встановити команду rentgen у PATH',
@@ -446,7 +464,6 @@ const uk = {
       description: 'Вмикайте або вимикайте окремі елементи аналізу продуктивності для налаштування тестування.',
     },
     languageSection: {
-      title: 'Мова',
       description: 'Оберіть бажану мову інтерфейсу застосунку.',
       feedback:
         'Знайшли проблему з перекладом або хочете додати іншу мову? Створіть тікет з усіма деталями, і ми зробимо все можливе.',
@@ -526,12 +543,6 @@ const uk = {
     noChecksum: 'Немає контрольної суми',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Обрати файл',
-    noFileChosen: 'Файл не обрано',
-  },
-
   // Messages panel
   messages: {
     title: 'Повідомлення',
@@ -559,6 +570,55 @@ const uk = {
     evidence: 'Докази',
     impact: 'Вплив',
     needsInvestigation: 'Потребує дослідження',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'Попереднє оцінювання LLM',
+    description:
+      'Демонстраційні перевірки — це приклади, які можна редагувати. Адаптуйте їх до мови та формулювань відмов вашої моделі. Під час зіставлення регістр ігнорується, а прямі й типографські апострофи вважаються рівнозначними. OR забороняє будь-яку з наведених фраз; AND забороняє всі фрази, що трапляються разом.',
+    runEachQuestion: 'Кожне запитання виконується для поточного запиту та вибраного середовища.',
+    saveRequestMessage: 'Збережіть цей запит у колекції, щоб зберегти його оцінку та звіт.',
+    runPreEvaluation: 'Запустити попереднє оцінювання',
+    userPromptField: 'Поле запиту користувача',
+    userPromptPlaceholder: 'Виберіть поле JSON',
+    responseTextField: 'Поле тексту відповіді',
+    responseTextPlaceholder: 'Усе тіло або /choices/0/message/content',
+    iterationsPerQuestion: 'Ітерацій на запитання',
+    addQuestion: 'Додати запитання',
+    importCSV: 'Імпортувати CSV',
+    exportCSVExample: 'Експортувати приклад CSV',
+    jsonBodyRequirement:
+      'Потрібне JSON-тіло з рядком запиту користувача. Системні повідомлення та повідомлення розробника вибрати не можна.',
+    addTextPlaceholder: 'Додайте текст і натисніть Enter',
+    questionColumn: 'Питання / запит',
+    containsColumn: 'Містить (обов’язково)',
+    notContainsColumn: 'Не містить (заборонено)',
+    unclosedQuotedField: 'CSV містить незакрите поле в лапках.',
+    invalidTerms: 'Рядок {{rowNumber}}: терміни мають бути JSON-масивом непорожніх рядків.',
+    expectedCsvColumns: 'Недійсний заголовок. Очікувані стовпці: {{columns}}.',
+    invalidCsvRow: 'Рядок {{rowNumber}}: очікується 5 стовпців і непорожній промпт.',
+    invalidOperator: 'Рядок {{rowNumber}}: оператор має бути AND або OR.',
+    selectUserPromptField: 'Виберіть поле користувацького промпту в JSON-тілі запиту.',
+    useRequestMethodWithJsonBody: 'Метод запиту має підтримувати JSON-тіло.',
+    iterationsMustBeBetween: 'Кількість ітерацій має бути від {{min}} до {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Для кожного запитання потрібен промпт і принаймні одне твердження.',
+    httpError: 'HTTP {{statusCode}}',
+    responseTextFieldMissing: 'Поле тексту відповіді відсутнє або не є рядком',
+    running: 'Виконується... ({{current}}/{{total}})',
+    preEvaluationReport: 'Звіт попередньої оцінки',
+    lastRun: 'Останній запуск: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Завершено {{completed}} / {{planned}}',
+    questions: 'Запитання',
+    totalRuns: 'Усього запусків',
+    passed: 'Пройдено',
+    failed: 'Не пройдено',
+    complianceRate: 'Рівень відповідності',
+    resultsPerQuestion: 'Результати за запитаннями',
+    missingRequiredText: "Відсутній обов'язковий текст ({{containsMode}}): {{contains}}",
+    containsForbiddenText: 'Містить заборонений текст ({{notContainsMode}}): {{notContains}}',
+    failedResponses: 'Невдалі відповіді ({{count}})',
+    run: 'Запуск №{{iteration}}',
   },
 };
 

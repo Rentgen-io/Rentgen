@@ -5,7 +5,6 @@ const zhCN = {
     save: '保存',
     saved: '已保存',
     cancel: '取消',
-    cancelled: '已取消',
     close: '关闭',
     ok: '确定',
     create: '创建',
@@ -26,7 +25,6 @@ const zhCN = {
     connect: '连接',
     disconnect: '断开',
     beautify: '格式化',
-    reload: '重新加载',
     cut: '剪切',
     paste: '粘贴',
     enable: '启用',
@@ -47,6 +45,9 @@ const zhCN = {
     duplicate: '创建副本',
     add: '添加',
     back: '返回',
+    stop: '停止',
+    noOptions: '无选项',
+    resizeHint: '拖动以调整大小，双击以重置',
   },
 
   // Sidebar
@@ -64,12 +65,13 @@ const zhCN = {
     newFolder: '新建文件夹',
     importCollection: '导入集合',
     exportCollection: '导出集合',
-    searchCollections: '搜索集合...',
+    searchRequests: '搜索请求...',
     noMatchingRequests: '没有匹配的请求',
     noSavedRequests: '没有已保存的请求',
     importFailed: '导入失败：{{error}}',
     exportFailed: '导出失败：{{error}}',
     importedWithWarnings: '已导入，包含 {{count}} 个警告',
+    failedToLoadCollection: '加载集合失败',
   },
 
   // Environment
@@ -77,15 +79,13 @@ const zhCN = {
     newEnvironment: '新建环境',
     editEnvironment: '编辑环境',
     noEnvironmentsCreated: '尚未创建任何环境',
-    environmentName: '环境名称',
+    environmentName: '名称',
     environmentNamePlaceholder: '例如：生产、预发布、本地',
     color: '颜色',
     variables: '变量',
-    variableName: '变量名',
+    variableName: '变量',
     addVariable: '添加变量',
     value: '值',
-    refreshValue: '刷新值',
-    refreshAll: '全部刷新',
     noEnvironment: '无环境',
     selectEnvironment: '选择环境',
     randomEmail: '随机邮箱',
@@ -110,6 +110,7 @@ const zhCN = {
 
   // Request
   request: {
+    untitledRequest: '未命名请求',
     enterUrl: '输入 URL 或粘贴文本',
     headers: '请求头',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +127,8 @@ const zhCN = {
     title: '响应',
     sending: '发送中...',
     networkError: '网络错误',
+    requestHint: '输入 API URL，然后发送请求。',
+    responseHint: '响应正文、响应头和耗时信息将显示在这里。',
   },
 
   // cURL
@@ -141,12 +144,15 @@ const zhCN = {
 
   // Tests
   tests: {
+    apiTesting: 'API 测试',
+    testsTitle: '测试',
+    testsHint: '发送请求以根据其响应生成测试。',
+    testsUnavailable: '生成测试需要成功的响应（HTTP 2xx 或 3xx）。',
     generateAndRun: '生成并运行测试',
     runningTests: '正在运行测试... ({{current}}/{{total}})',
     noTestsGenerated: '未生成测试',
     selectForCompare: '选择以进行比较',
     compareWithSelected: '与所选项比较',
-    exportFormat: '格式',
     generateCertificate: '生成证书',
     notEligible: '不符合条件（至少需要 70 个测试）',
     failedToExport: '导出报告失败',
@@ -168,10 +174,19 @@ const zhCN = {
     bodyParameters: '请求体',
     queryParameters: '查询',
     formatPlaceholder: '格式',
-    aiTesting: '更深入的 AI 测试',
+    aiTesting: 'AI 测试',
     aiTestingTitle: '发现确定性扫描无法推断出的测试',
     aiTestingDescription: 'AI 分析本次运行并建议更多实验，由 Rentgen 执行。',
     runAiTesting: '运行 AI 测试',
+    resultsTitle: '测试结果',
+    resultsDescription: '请先查看缺陷和失败的检查。展开测试可查看请求和响应详情。',
+    reviewFindings: '查看发现',
+    metric: {
+      bugs: '发生了意外的服务器错误（HTTP 5xx）或执行错误。API 可能已崩溃或不可用。请检查请求和响应以找出原因。',
+      failed: '实际结果与预期结果不符，或未收到响应。请检查预期、数据映射和 API 行为以确定原因。',
+      warnings: '潜在风险或建议，通常来自安全检查。其重要性取决于您的 API 和使用场景。请查看以决定是否需要采取措施。',
+      passed: '此检查的实际结果与预期结果一致。该测试已通过；但这并不保证整个 API 没有问题。',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +195,7 @@ const zhCN = {
     noTestResults: '没有可比较的测试结果',
     potentialBugs: '潜在缺陷',
     fullBehaviorChanges: '完整行为变更',
-    noPotentialBugs: '未检测到潜在缺陷 ✅',
+    noPotentialBugs: '未检测到潜在缺陷',
     showFullBehaviorChanges: '显示完整行为变更',
     behaviorChange: '行为变更：',
     showNoise: '显示噪声',
@@ -208,10 +223,10 @@ const zhCN = {
       conflictDescription: '导入的集合「{{name}}」与你现有的集合存在冲突：',
       collectionNamesMatch: '集合名称相同',
       folderConflicts: '{{count}} 个名称相同的文件夹',
-      requestConflicts: '{{count}} 个 URL+方法或名称相同的请求',
+      requestConflicts: '{{count}} 个 URL + 方法或名称相同的请求',
       importWarnings: '导入警告：{{count}}',
       replaceDescription: '替换整个现有集合（{{folders}} 个文件夹，{{requests}} 个请求）',
-      mergeDescription: '仅添加唯一项（按 URL+方法或名称跳过重复项）',
+      mergeDescription: '仅添加唯一项（按 URL + 方法或名称跳过重复项）',
       newFolders: '{{count}} 个新文件夹',
       newRequests: '{{count}} 个新请求',
       noNewItems: '没有可添加的新项目',
@@ -357,7 +372,6 @@ const zhCN = {
         notInstalledDescription: '点击下方的 <e>安装</e> 将 <c>rentgen</c> 添加到你的 shell PATH。',
       },
       action: {
-        working: '处理中...',
         uninstall: '卸载 CLI',
         reinstall: '重新安装',
         installRentgenInPath: '将 rentgen 命令安装到 PATH',
@@ -438,7 +452,6 @@ const zhCN = {
       description: '逐项开启或关闭性能洞察，以定制你的测试体验。',
     },
     languageSection: {
-      title: '语言',
       description: '为应用界面选择你偏好的语言。',
       feedback: '发现翻译问题或想添加另一种语言？请创建一个工单，附上所有详情，我们将尽力处理。',
       feedbackLink: '提交 GitHub issue',
@@ -517,12 +530,6 @@ const zhCN = {
     noChecksum: '无校验和',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: '选择文件',
-    noFileChosen: '未选择文件',
-  },
-
   // Messages panel
   messages: {
     title: '消息',
@@ -550,6 +557,54 @@ const zhCN = {
     evidence: '证据',
     impact: '影响',
     needsInvestigation: '需要调查',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM 预评估',
+    description:
+      '演示断言是可编辑的示例。请根据模型的语言和拒绝措辞进行调整。匹配时忽略大小写，并将直撇号和排版撇号视为等同。OR 禁止出现任一列出的短语；AND 禁止所有短语同时出现。',
+    runEachQuestion: '每个问题都会针对当前请求和所选环境运行。',
+    saveRequestMessage: '将此请求保存到集合中，以保留其评估和报告。',
+    runPreEvaluation: '运行预评估',
+    userPromptField: '用户提示词字段',
+    userPromptPlaceholder: '选择 JSON 字段',
+    responseTextField: '响应文本字段',
+    responseTextPlaceholder: '整个响应体，或 /choices/0/message/content',
+    iterationsPerQuestion: '每个问题的迭代次数',
+    addQuestion: '添加问题',
+    importCSV: '导入 CSV',
+    exportCSVExample: '导出 CSV 示例',
+    jsonBodyRequirement: '需要包含用户提示词字符串的 JSON 请求体。无法选择系统消息和开发者消息。',
+    addTextPlaceholder: '添加文本并按 Enter',
+    questionColumn: '问题 / 提示词',
+    containsColumn: '包含（必需）',
+    notContainsColumn: '不包含（禁止）',
+    unclosedQuotedField: 'CSV 包含未闭合的引号字段。',
+    invalidTerms: '第 {{rowNumber}} 行：术语必须是由非空字符串组成的 JSON 数组。',
+    expectedCsvColumns: '标题行无效。预期列：{{columns}}。',
+    invalidCsvRow: '第 {{rowNumber}} 行：应有 5 列且提示词不能为空。',
+    invalidOperator: '第 {{rowNumber}} 行：运算符必须是 AND 或 OR。',
+    selectUserPromptField: '请在 JSON 请求正文中选择用户提示词字段。',
+    useRequestMethodWithJsonBody: '请求方法必须支持 JSON 正文。',
+    iterationsMustBeBetween: '迭代次数必须在 {{min}} 到 {{max}} 之间。',
+    everyQuestionNeedsPromptAndAssertion: '每个问题都需要一个提示词和至少一个断言。',
+    httpError: 'HTTP {{statusCode}}',
+    responseTextFieldMissing: '响应文本字段缺失或不是字符串',
+    running: '运行中... ({{current}}/{{total}})',
+    preEvaluationReport: '预评估报告',
+    lastRun: '上次运行：{{date, datetime(dateStyle: medium)}}',
+    completed: '已完成 {{completed}} / {{planned}}',
+    questions: '问题',
+    totalRuns: '总运行次数',
+    passed: '通过',
+    failed: '未通过',
+    complianceRate: '合规率',
+    resultsPerQuestion: '各问题结果',
+    missingRequiredText: '缺少必需文本（{{containsMode}}）：{{contains}}',
+    containsForbiddenText: '包含禁止文本（{{notContainsMode}}）：{{notContains}}',
+    failedResponses: '失败的响应（{{count}}）',
+    run: '运行 #{{iteration}}',
   },
 };
 

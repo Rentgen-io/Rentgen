@@ -95,3 +95,40 @@ export function parseJsonObject(value: unknown): unknown {
     return undefined;
   }
 }
+
+// JSON Pointer (RFC 6901): '' is the whole document, '/a/b~1c' is value.a['b/c'].
+const escapeJsonPointerToken = (token: string) => token.replace(/~/g, '~0').replace(/\//g, '~1');
+const unescapeJsonPointerToken = (token: string) => token.replace(/~1/g, '/').replace(/~0/g, '~');
+
+export function toJsonPointer(tokens: string[]): string {
+  return tokens.map((token) => `/${escapeJsonPointerToken(token)}`).join('');
+}
+
+export function parseJsonPointer(pointer: string): string[] {
+  if (pointer === '') return [];
+  if (!pointer.startsWith('/')) throw new Error(`Invalid JSON pointer: "${pointer}"`);
+
+  return pointer.slice(1).split('/').map(unescapeJsonPointerToken);
+}
+
+export function getByJsonPointer(value: unknown, pointer: string): unknown {
+  return parseJsonPointer(pointer).reduce<unknown>(
+    (current, token) => (isObject(current) && Object.hasOwn(current, token) ? current[token] : undefined),
+    value,
+  );
+}
+
+/** Returns a copy of `value` with `newValue` at `pointer`. The parent of the target must exist. */
+export function setByJsonPointer<T>(value: T, pointer: string, newValue: unknown): T {
+  const tokens = parseJsonPointer(pointer);
+  if (!tokens.length) return newValue as T;
+
+  const copy = structuredClone(value);
+  const parent = getByJsonPointer(copy, toJsonPointer(tokens.slice(0, -1)));
+
+  if (!isObject(parent)) throw new Error(`JSON pointer target does not exist: "${pointer}"`);
+
+  parent[tokens.at(-1)!] = newValue;
+
+  return copy;
+}

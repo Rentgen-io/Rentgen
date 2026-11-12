@@ -5,7 +5,6 @@ const ptBR = {
     save: 'Salvar',
     saved: 'Salvo',
     cancel: 'Cancelar',
-    cancelled: 'Cancelado',
     close: 'Fechar',
     ok: 'OK',
     create: 'Criar',
@@ -26,7 +25,6 @@ const ptBR = {
     connect: 'Conectar',
     disconnect: 'Desconectar',
     beautify: 'Formatar',
-    reload: 'Recarregar',
     cut: 'Recortar',
     paste: 'Colar',
     enable: 'Ativar',
@@ -47,6 +45,9 @@ const ptBR = {
     duplicate: 'Duplicar',
     add: 'Adicionar',
     back: 'Voltar',
+    stop: 'Parar',
+    noOptions: 'Sem opções',
+    resizeHint: 'Arraste para redimensionar, clique duas vezes para redefinir',
   },
 
   // Sidebar
@@ -64,12 +65,13 @@ const ptBR = {
     newFolder: 'Nova pasta',
     importCollection: 'Importar coleção',
     exportCollection: 'Exportar coleção',
-    searchCollections: 'Buscar coleções...',
+    searchRequests: 'Buscar requisições...',
     noMatchingRequests: 'Nenhuma requisição correspondente',
     noSavedRequests: 'Nenhuma requisição salva',
     importFailed: 'Falha na importação: {{error}}',
     exportFailed: 'Falha na exportação: {{error}}',
     importedWithWarnings: 'Importado com {{count}} aviso(s)',
+    failedToLoadCollection: 'Falha ao carregar a coleção',
   },
 
   // Environment
@@ -77,15 +79,13 @@ const ptBR = {
     newEnvironment: 'Novo ambiente',
     editEnvironment: 'Editar ambiente',
     noEnvironmentsCreated: 'Nenhum ambiente criado',
-    environmentName: 'Nome do ambiente',
+    environmentName: 'Nome',
     environmentNamePlaceholder: 'ex.: Produção, Staging, Local',
     color: 'Cor',
     variables: 'Variáveis',
-    variableName: 'Nome da variável',
+    variableName: 'Variável',
     addVariable: 'Adicionar variável',
     value: 'Valor',
-    refreshValue: 'Atualizar valor',
-    refreshAll: 'Atualizar tudo',
     noEnvironment: 'Sem ambiente',
     selectEnvironment: 'Selecionar ambiente',
     randomEmail: 'Email aleatório',
@@ -110,6 +110,7 @@ const ptBR = {
 
   // Request
   request: {
+    untitledRequest: 'Requisição sem título',
     enterUrl: 'Digite a URL ou cole o texto',
     headers: 'Cabeçalhos',
     headersPlaceholder: 'Header-Key: valor',
@@ -126,6 +127,8 @@ const ptBR = {
     title: 'Resposta',
     sending: 'Enviando...',
     networkError: 'Erro de rede',
+    requestHint: 'Digite a URL de uma API e envie sua requisição.',
+    responseHint: 'O corpo da resposta, os cabeçalhos e os tempos aparecerão aqui.',
   },
 
   // cURL
@@ -141,12 +144,15 @@ const ptBR = {
 
   // Tests
   tests: {
+    apiTesting: 'Testes de API',
+    testsTitle: 'Testes',
+    testsHint: 'Envie uma requisição para gerar testes a partir da resposta.',
+    testsUnavailable: 'A geração de testes requer uma resposta bem-sucedida (HTTP 2xx ou 3xx).',
     generateAndRun: 'Gerar e executar testes',
     runningTests: 'Executando testes... ({{current}}/{{total}})',
     noTestsGenerated: 'Nenhum teste gerado',
     selectForCompare: 'Selecionar para comparar',
     compareWithSelected: 'Comparar com selecionado',
-    exportFormat: 'Formato',
     generateCertificate: 'Gerar certificado',
     notEligible: 'Não elegível (necessário pelo menos 70 testes)',
     failedToExport: 'Falha ao exportar o relatório',
@@ -169,10 +175,23 @@ const ptBR = {
     bodyParameters: 'Corpo',
     queryParameters: 'Consulta',
     formatPlaceholder: 'Formato',
-    aiTesting: 'Testes de IA mais profundos',
+    aiTesting: 'Testes de IA',
     aiTestingTitle: 'Encontre testes que a varredura determinística não conseguiu inferir',
     aiTestingDescription: 'A IA analisa a execução, sugere experimentos adicionais e o Rentgen os executa.',
     runAiTesting: 'Executar testes de IA',
+    resultsTitle: 'Resultados dos testes',
+    resultsDescription:
+      'Revise primeiro os bugs e as verificações com falha. Expanda um teste para ver os detalhes da requisição e da resposta.',
+    reviewFindings: 'Revisar descobertas',
+    metric: {
+      bugs: 'Ocorreu um erro inesperado do servidor (HTTP 5xx) ou um erro de execução. A API pode ter travado ou ficado indisponível. Revise a requisição e a resposta para encontrar a causa.',
+      failed:
+        'O resultado real não correspondeu ao resultado esperado, ou nenhuma resposta foi recebida. Verifique a expectativa, o mapeamento de dados e o comportamento da API para determinar a causa.',
+      warnings:
+        'Um risco potencial ou recomendação, geralmente de uma verificação de segurança. Sua importância depende da sua API e do seu caso de uso. Revise para decidir se alguma ação é necessária.',
+      passed:
+        'O resultado real correspondeu ao resultado esperado para esta verificação. Este teste passou; isso não garante que toda a API esteja livre de problemas.',
+    },
   },
 
   // Comparison Panel
@@ -181,7 +200,7 @@ const ptBR = {
     noTestResults: 'Nenhum resultado de teste para comparar',
     potentialBugs: 'Possíveis bugs',
     fullBehaviorChanges: 'Mudanças completas de comportamento',
-    noPotentialBugs: 'Nenhum bug potencial detectado ✅',
+    noPotentialBugs: 'Nenhum bug potencial detectado',
     showFullBehaviorChanges: 'Mostrar mudanças completas de comportamento',
     behaviorChange: 'Mudança de comportamento:',
     showNoise: 'Mostrar ruído',
@@ -210,10 +229,10 @@ const ptBR = {
       conflictDescription: 'A coleção importada "{{name}}" tem conflitos com sua coleção existente:',
       collectionNamesMatch: 'Os nomes das coleções coincidem',
       folderConflicts: '{{count}} pasta(s) com nomes correspondentes',
-      requestConflicts: '{{count}} requisição(ões) com URL+Método ou nome correspondentes',
+      requestConflicts: '{{count}} requisição(ões) com URL + Método ou nome correspondentes',
       importWarnings: 'Avisos de importação: {{count}}',
       replaceDescription: 'Substituir toda a coleção existente ({{folders}} pastas, {{requests}} requisições)',
-      mergeDescription: 'Adicionar somente itens únicos (ignora duplicatas por URL+Método ou nome)',
+      mergeDescription: 'Adicionar somente itens únicos (ignora duplicatas por URL + Método ou nome)',
       newFolders: '{{count}} pasta(s) nova(s)',
       newRequests: '{{count}} requisição(ões) nova(s)',
       noNewItems: 'Nenhum item novo para adicionar',
@@ -366,7 +385,6 @@ const ptBR = {
         notInstalledDescription: 'Clique em <e>Instalar</e> abaixo para adicionar <c>rentgen</c> ao PATH do seu shell.',
       },
       action: {
-        working: 'Trabalhando...',
         uninstall: 'Desinstalar CLI',
         reinstall: 'Reinstalar',
         installRentgenInPath: 'Instalar o comando rentgen no PATH',
@@ -448,7 +466,6 @@ const ptBR = {
       description: 'Ative ou desative insights de desempenho individuais para personalizar sua experiência de testes.',
     },
     languageSection: {
-      title: 'Idioma',
       description: 'Selecione seu idioma preferido para a interface do aplicativo.',
       feedback:
         'Encontrou um problema de tradução ou deseja adicionar outro idioma? Crie um ticket com todos os detalhes e faremos o nosso melhor.',
@@ -529,12 +546,6 @@ const ptBR = {
     noChecksum: 'Sem checksum',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Escolher arquivo',
-    noFileChosen: 'Nenhum arquivo escolhido',
-  },
-
   // Messages panel
   messages: {
     title: 'Mensagens',
@@ -562,6 +573,55 @@ const ptBR = {
     evidence: 'Evidências',
     impact: 'Impacto',
     needsInvestigation: 'Requer investigação',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'Pré-avaliação de LLM',
+    description:
+      'As asserções de demonstração são exemplos editáveis. Adapte-as ao idioma e à redação de recusa do seu modelo. A correspondência ignora maiúsculas e minúsculas e trata apóstrofos retos e tipográficos como equivalentes. OR proíbe qualquer frase listada; AND proíbe todas as frases quando aparecem juntas.',
+    runEachQuestion: 'Cada pergunta é executada com a requisição atual e o ambiente selecionado.',
+    saveRequestMessage: 'Salve esta requisição em uma coleção para manter sua avaliação e relatório.',
+    runPreEvaluation: 'Executar pré-avaliação',
+    userPromptField: 'Campo do prompt do usuário',
+    userPromptPlaceholder: 'Selecionar campo JSON',
+    responseTextField: 'Campo do texto da resposta',
+    responseTextPlaceholder: 'Corpo inteiro ou /choices/0/message/content',
+    iterationsPerQuestion: 'Iterações por pergunta',
+    addQuestion: 'Adicionar pergunta',
+    importCSV: 'Importar CSV',
+    exportCSVExample: 'Exportar exemplo de CSV',
+    jsonBodyRequirement:
+      'É necessário um corpo JSON com uma string de prompt do usuário. Mensagens de sistema e de desenvolvedor não podem ser selecionadas.',
+    addTextPlaceholder: 'Adicione texto e pressione Enter',
+    questionColumn: 'Pergunta / Prompt',
+    containsColumn: 'Contém (obrigatório)',
+    notContainsColumn: 'Não contém (proibido)',
+    unclosedQuotedField: 'O CSV contém um campo entre aspas não fechado.',
+    invalidTerms: 'Linha {{rowNumber}}: Os termos devem ser um array JSON de strings não vazias.',
+    expectedCsvColumns: 'Cabeçalho inválido. Colunas esperadas: {{columns}}.',
+    invalidCsvRow: 'Linha {{rowNumber}}: Esperadas 5 colunas e um prompt não vazio.',
+    invalidOperator: 'Linha {{rowNumber}}: O operador deve ser AND ou OR.',
+    selectUserPromptField: 'Selecione o campo de prompt do usuário no corpo JSON da requisição.',
+    useRequestMethodWithJsonBody: 'O método da requisição deve oferecer suporte a um corpo JSON.',
+    iterationsMustBeBetween: 'As iterações devem estar entre {{min}} e {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Cada pergunta requer um prompt e pelo menos uma asserção.',
+    httpError: 'HTTP {{statusCode}}',
+    responseTextFieldMissing: 'O campo de texto da resposta está ausente ou não é uma string',
+    running: 'Executando... ({{current}}/{{total}})',
+    preEvaluationReport: 'Relatório de pré-avaliação',
+    lastRun: 'Última execução: {{date, datetime(dateStyle: medium)}}',
+    completed: '{{completed}} / {{planned}} concluídas',
+    questions: 'Perguntas',
+    totalRuns: 'Total de execuções',
+    passed: 'Aprovadas',
+    failed: 'Reprovadas',
+    complianceRate: 'Taxa de conformidade',
+    resultsPerQuestion: 'Resultados por pergunta',
+    missingRequiredText: 'Texto obrigatório ausente ({{containsMode}}): {{contains}}',
+    containsForbiddenText: 'Contém texto proibido ({{notContainsMode}}): {{notContains}}',
+    failedResponses: 'Respostas com falha ({{count}})',
+    run: 'Execução #{{iteration}}',
   },
 };
 

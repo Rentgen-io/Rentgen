@@ -40,6 +40,7 @@ export const requestSlice = createSlice({
       }>,
     ) => {
       const { url, method, headers, body } = action.payload;
+
       state.url = url;
       state.method = method as Method;
       state.headers = headers;
@@ -93,6 +94,12 @@ export const requestSlice = createSlice({
     },
     setUrl: (state, action: PayloadAction<string>) => {
       state.url = action.payload;
+    },
+    updateBodyParameters: (state, action: PayloadAction<RequestParameters>) => {
+      state.bodyParameters = action.payload;
+    },
+    updateQueryParameters: (state, action: PayloadAction<RequestParameters>) => {
+      state.queryParameters = action.payload;
     },
   },
 });

@@ -5,7 +5,6 @@ const lt = {
     save: 'Išsaugoti',
     saved: 'Išsaugota',
     cancel: 'Atšaukti',
-    cancelled: 'Atšaukta',
     close: 'Uždaryti',
     ok: 'Gerai',
     create: 'Sukurti',
@@ -26,7 +25,6 @@ const lt = {
     connect: 'Prisijungti',
     disconnect: 'Atsijungti',
     beautify: 'Formatuoti',
-    reload: 'Perkrauti',
     cut: 'Iškirpti',
     paste: 'Įklijuoti',
     enable: 'Įjungti',
@@ -47,6 +45,9 @@ const lt = {
     duplicate: 'Dubliuoti',
     add: 'Pridėti',
     back: 'Atgal',
+    stop: 'Sustabdyti',
+    noOptions: 'Nėra parinkčių',
+    resizeHint: 'Vilkite, kad pakeistumėte dydį, dukart spustelėkite, kad atkurtumėte',
   },
 
   // Sidebar
@@ -64,12 +65,13 @@ const lt = {
     newFolder: 'Naujas aplankas',
     importCollection: 'Importuoti kolekciją',
     exportCollection: 'Eksportuoti kolekciją',
-    searchCollections: 'Ieškoti kolekcijose...',
+    searchRequests: 'Ieškoti užklausų...',
     noMatchingRequests: 'Nerasta atitinkančių užklausų',
     noSavedRequests: 'Nėra išsaugotų užklausų',
     importFailed: 'Importavimas nepavyko: {{error}}',
     exportFailed: 'Eksportavimas nepavyko: {{error}}',
     importedWithWarnings: 'Importuota su {{count}} įspėjimu(-ais)',
+    failedToLoadCollection: 'Nepavyko įkelti kolekcijos',
   },
 
   // Environment
@@ -77,15 +79,13 @@ const lt = {
     newEnvironment: 'Nauja aplinka',
     editEnvironment: 'Redaguoti aplinką',
     noEnvironmentsCreated: 'Aplinkų nesukurta',
-    environmentName: 'Aplinkos pavadinimas',
+    environmentName: 'Pavadinimas',
     environmentNamePlaceholder: 'pvz., Produkcija, Testavimas, Lokali',
     color: 'Spalva',
     variables: 'Kintamieji',
-    variableName: 'Kintamojo pavadinimas',
+    variableName: 'Kintamasis',
     addVariable: 'Pridėti kintamąjį',
     value: 'Reikšmė',
-    refreshValue: 'Atnaujinti reikšmę',
-    refreshAll: 'Atnaujinti viską',
     noEnvironment: 'Be aplinkos',
     selectEnvironment: 'Pasirinkti aplinką',
     randomEmail: 'Atsitiktinis el. paštas',
@@ -110,6 +110,7 @@ const lt = {
 
   // Request
   request: {
+    untitledRequest: 'Užklausa be pavadinimo',
     enterUrl: 'Įveskite URL arba įklijuokite tekstą',
     headers: 'Antraštės',
     headersPlaceholder: 'Antraštės-Raktas: reikšmė',
@@ -126,6 +127,8 @@ const lt = {
     title: 'Atsakymas',
     sending: 'Siunčiama...',
     networkError: 'Tinklo klaida',
+    requestHint: 'Įveskite API URL, tada išsiųskite užklausą.',
+    responseHint: 'Atsakymo turinys, antraštės ir laikas bus rodomi čia.',
   },
 
   // cURL
@@ -141,12 +144,15 @@ const lt = {
 
   // Tests
   tests: {
+    apiTesting: 'API testavimas',
+    testsTitle: 'Testai',
+    testsHint: 'Išsiųskite užklausą, kad pagal jos atsakymą būtų sugeneruoti testai.',
+    testsUnavailable: 'Testams generuoti reikalingas sėkmingas atsakymas (HTTP 2xx arba 3xx).',
     generateAndRun: 'Generuoti ir vykdyti testus',
     runningTests: 'Vykdomi testai... ({{current}}/{{total}})',
     noTestsGenerated: 'Nesugeneruota jokių testų',
     selectForCompare: 'Pasirinkti palyginimui',
     compareWithSelected: 'Palyginti su pasirinktu',
-    exportFormat: 'Formatas',
     generateCertificate: 'Generuoti sertifikatą',
     notEligible: 'Netinkama (reikia bent 70 testų)',
     failedToExport: 'Nepavyko eksportuoti ataskaitos',
@@ -168,10 +174,23 @@ const lt = {
     bodyParameters: 'Turinys',
     queryParameters: 'Užklausa',
     formatPlaceholder: 'Formatas',
-    aiTesting: 'Gilesnis DI testavimas',
+    aiTesting: 'DI testavimas',
     aiTestingTitle: 'Rasti testus, kurių deterministinis skenavimas negalėjo nustatyti',
     aiTestingDescription: 'DI analizuoja vykdymą, siūlo papildomus eksperimentus, o Rentgen juos įvykdo.',
     runAiTesting: 'Vykdyti DI testavimą',
+    resultsTitle: 'Testų rezultatai',
+    resultsDescription:
+      'Pirmiausia peržiūrėkite klaidas ir nepavykusius patikrinimus. Išskleiskite testą, kad pamatytumėte užklausos ir atsakymo detales.',
+    reviewFindings: 'Peržiūrėti radinius',
+    metric: {
+      bugs: 'Įvyko netikėta serverio klaida (HTTP 5xx) arba vykdymo klaida. API galėjo sutrikti arba tapti nepasiekiama. Peržiūrėkite užklausą ir atsakymą, kad rastumėte priežastį.',
+      failed:
+        'Faktinis rezultatas nesutapo su laukiamu rezultatu arba atsakymas nebuvo gautas. Patikrinkite lūkestį, duomenų susiejimą ir API elgseną, kad nustatytumėte priežastį.',
+      warnings:
+        'Galima rizika arba rekomendacija, dažnai iš saugumo patikrinimo. Jos svarba priklauso nuo jūsų API ir naudojimo atvejo. Peržiūrėkite ir nuspręskite, ar reikia imtis veiksmų.',
+      passed:
+        'Šiame patikrinime faktinis rezultatas sutapo su laukiamu rezultatu. Šis testas sėkmingas; tai negarantuoja, kad visa API neturi problemų.',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +199,7 @@ const lt = {
     noTestResults: 'Nėra testų rezultatų palyginimui',
     potentialBugs: 'Galimos klaidos',
     fullBehaviorChanges: 'Visi elgsenos pokyčiai',
-    noPotentialBugs: 'Galimų klaidų nerasta ✅',
+    noPotentialBugs: 'Galimų klaidų nerasta',
     showFullBehaviorChanges: 'Rodyti visus elgsenos pokyčius',
     behaviorChange: 'Elgsenos pokytis:',
     showNoise: 'Rodyti triukšmą',
@@ -209,10 +228,10 @@ const lt = {
       conflictDescription: 'Importuojama kolekcija „{{name}}" turi konfliktų su jūsų esama kolekcija:',
       collectionNamesMatch: 'Kolekcijų pavadinimai sutampa',
       folderConflicts: '{{count}} aplankas(-ai) su sutampančiais pavadinimais',
-      requestConflicts: '{{count}} užklausa(-os) su sutampančiu URL+Metodu arba pavadinimu',
+      requestConflicts: '{{count}} užklausa(-os) su sutampančiu URL + Metodu arba pavadinimu',
       importWarnings: 'Importavimo įspėjimai: {{count}}',
       replaceDescription: 'Pakeisti visą esamą kolekciją ({{folders}} aplankų, {{requests}} užklausų)',
-      mergeDescription: 'Pridėti tik unikalius elementus (praleidžia dublikatus pagal URL+Metodą arba pavadinimą)',
+      mergeDescription: 'Pridėti tik unikalius elementus (praleidžia dublikatus pagal URL + Metodą arba pavadinimą)',
       newFolders: '{{count}} naujas(-i) aplankas(-ai)',
       newRequests: '{{count}} nauja(-os) užklausa(-os)',
       noNewItems: 'Nėra naujų elementų pridėjimui',
@@ -364,7 +383,6 @@ const lt = {
           'Spustelėkite <e>Įdiegti</e> žemiau, kad pridėtumėte <c>rentgen</c> į savo shell PATH.',
       },
       action: {
-        working: 'Vykdoma...',
         uninstall: 'Pašalinti CLI',
         reinstall: 'Pakartotinai įdiegti',
         installRentgenInPath: 'Įdiegti rentgen komandą į PATH',
@@ -446,7 +464,6 @@ const lt = {
       description: 'Įjunkite arba išjunkite atskiras našumo įžvalgas, kad pritaikytumėte savo testavimo patirtį.',
     },
     languageSection: {
-      title: 'Kalba',
       description: 'Pasirinkite pageidaujamą programos sąsajos kalbą.',
       feedback:
         'Radote vertimo klaidą arba norite pridėti kitą kalbą? Sukurkite užklausą su visa informacija ir mes padarysime viską, ką galime.',
@@ -527,12 +544,6 @@ const lt = {
     noChecksum: 'Nėra kontrolinės sumos',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Pasirinkti failą',
-    noFileChosen: 'Failas nepasirinktas',
-  },
-
   // Messages panel
   messages: {
     title: 'Žinutės',
@@ -560,6 +571,55 @@ const lt = {
     evidence: 'Įrodymai',
     impact: 'Poveikis',
     needsInvestigation: 'Reikia ištirti',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM išankstinis vertinimas',
+    description:
+      'Demonstraciniai tvirtinimai yra redaguojami pavyzdžiai. Pritaikykite juos savo modelio kalbai ir atsisakymo formuluotėms. Lyginant neatsižvelgiama į raidžių dydį, o tiesūs ir tipografiniai apostrofai laikomi lygiaverčiais. OR draudžia bet kurią išvardytą frazę; AND draudžia visas frazes, kai jos pasirodo kartu.',
+    runEachQuestion: 'Kiekvienas klausimas vykdomas su dabartine užklausa ir pasirinkta aplinka.',
+    saveRequestMessage: 'Išsaugokite šią užklausą kolekcijoje, kad išliktų jos vertinimas ir ataskaita.',
+    runPreEvaluation: 'Vykdyti išankstinį vertinimą',
+    userPromptField: 'Naudotojo užklausos laukas',
+    userPromptPlaceholder: 'Pasirinkite JSON lauką',
+    responseTextField: 'Atsakymo teksto laukas',
+    responseTextPlaceholder: 'Visas turinys arba /choices/0/message/content',
+    iterationsPerQuestion: 'Iteracijų skaičius vienam klausimui',
+    addQuestion: 'Pridėti klausimą',
+    importCSV: 'Importuoti CSV',
+    exportCSVExample: 'Eksportuoti CSV pavyzdį',
+    jsonBodyRequirement:
+      'Reikalingas JSON turinys su naudotojo užklausos eilute. Sistemos ir kūrėjo pranešimų pasirinkti negalima.',
+    addTextPlaceholder: 'Pridėkite tekstą ir paspauskite Enter',
+    questionColumn: 'Klausimas / užklausa',
+    containsColumn: 'Turi būti (privaloma)',
+    notContainsColumn: 'Neturi būti (draudžiama)',
+    unclosedQuotedField: 'CSV faile yra neuždarytas laukas kabutėse.',
+    invalidTerms: '{{rowNumber}} eilutė: terminai turi būti JSON masyvas iš netuščių eilučių.',
+    expectedCsvColumns: 'Netinkama antraštė. Tikėtini stulpeliai: {{columns}}.',
+    invalidCsvRow: '{{rowNumber}} eilutė: tikėtasi 5 stulpelių ir netuščios užklausos.',
+    invalidOperator: '{{rowNumber}} eilutė: operatorius turi būti AND arba OR.',
+    selectUserPromptField: 'Pasirinkite vartotojo užklausos lauką JSON užklausos turinyje.',
+    useRequestMethodWithJsonBody: 'Užklausos metodas turi palaikyti JSON turinį.',
+    iterationsMustBeBetween: 'Iteracijų skaičius turi būti nuo {{min}} iki {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Kiekvienam klausimui reikia užklausos ir bent vieno tvirtinimo.',
+    httpError: 'HTTP {{statusCode}}',
+    responseTextFieldMissing: 'Atsakymo teksto lauko nėra arba jis nėra eilutė',
+    running: 'Vykdoma... ({{current}}/{{total}})',
+    preEvaluationReport: 'Išankstinio vertinimo ataskaita',
+    lastRun: 'Paskutinis paleidimas: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Baigta {{completed}} / {{planned}}',
+    questions: 'Klausimai',
+    totalRuns: 'Iš viso paleidimų',
+    passed: 'Išlaikyta',
+    failed: 'Neišlaikyta',
+    complianceRate: 'Atitikties rodiklis',
+    resultsPerQuestion: 'Rezultatai pagal klausimą',
+    missingRequiredText: 'Trūksta privalomo teksto ({{containsMode}}): {{contains}}',
+    containsForbiddenText: 'Yra draudžiamo teksto ({{notContainsMode}}): {{notContains}}',
+    failedResponses: 'Nepavykę atsakymai ({{count}})',
+    run: 'Vykdymas #{{iteration}}',
   },
 };
 

@@ -5,7 +5,6 @@ const th = {
     save: 'บันทึก',
     saved: 'บันทึกแล้ว',
     cancel: 'ยกเลิก',
-    cancelled: 'ยกเลิกแล้ว',
     close: 'ปิด',
     ok: 'ตกลง',
     create: 'สร้าง',
@@ -26,7 +25,6 @@ const th = {
     connect: 'เชื่อมต่อ',
     disconnect: 'ตัดการเชื่อมต่อ',
     beautify: 'จัดรูปแบบ',
-    reload: 'โหลดใหม่',
     cut: 'ตัด',
     paste: 'วาง',
     enable: 'เปิดใช้งาน',
@@ -47,6 +45,9 @@ const th = {
     duplicate: 'ทำสำเนา',
     add: 'เพิ่ม',
     back: 'ย้อนกลับ',
+    stop: 'หยุด',
+    noOptions: 'ไม่มีตัวเลือก',
+    resizeHint: 'ลากเพื่อปรับขนาด ดับเบิลคลิกเพื่อรีเซ็ต',
   },
 
   // Sidebar
@@ -64,12 +65,13 @@ const th = {
     newFolder: 'โฟลเดอร์ใหม่',
     importCollection: 'นำเข้าคอลเลกชัน',
     exportCollection: 'ส่งออกคอลเลกชัน',
-    searchCollections: 'ค้นหาคอลเลกชัน...',
+    searchRequests: 'ค้นหาคำขอ...',
     noMatchingRequests: 'ไม่มีคำขอที่ตรงกัน',
     noSavedRequests: 'ยังไม่มีคำขอที่บันทึกไว้',
     importFailed: 'นำเข้าไม่สำเร็จ: {{error}}',
     exportFailed: 'ส่งออกไม่สำเร็จ: {{error}}',
     importedWithWarnings: 'นำเข้าแล้วพร้อมคำเตือน {{count}} รายการ',
+    failedToLoadCollection: 'โหลดคอลเลกชันไม่สำเร็จ',
   },
 
   // Environment
@@ -77,15 +79,13 @@ const th = {
     newEnvironment: 'เอนไวรอนเมนต์ใหม่',
     editEnvironment: 'แก้ไขเอนไวรอนเมนต์',
     noEnvironmentsCreated: 'ยังไม่มีการสร้างเอนไวรอนเมนต์',
-    environmentName: 'ชื่อเอนไวรอนเมนต์',
+    environmentName: 'ชื่อ',
     environmentNamePlaceholder: 'เช่น Production, Staging, Local',
     color: 'สี',
     variables: 'ตัวแปร',
-    variableName: 'ชื่อตัวแปร',
+    variableName: 'ตัวแปร',
     addVariable: 'เพิ่มตัวแปร',
     value: 'ค่า',
-    refreshValue: 'รีเฟรชค่า',
-    refreshAll: 'รีเฟรชทั้งหมด',
     noEnvironment: 'ไม่มีเอนไวรอนเมนต์',
     selectEnvironment: 'เลือกเอนไวรอนเมนต์',
     randomEmail: 'อีเมลสุ่ม',
@@ -110,6 +110,7 @@ const th = {
 
   // Request
   request: {
+    untitledRequest: 'คำขอที่ไม่มีชื่อ',
     enterUrl: 'ป้อน URL หรือวางข้อความ',
     headers: 'เฮดเดอร์',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +127,8 @@ const th = {
     title: 'การตอบกลับ',
     sending: 'กำลังส่ง...',
     networkError: 'ข้อผิดพลาดเครือข่าย',
+    requestHint: 'ป้อน URL ของ API แล้วส่งคำขอของคุณ',
+    responseHint: 'บอดี้ของการตอบกลับ เฮดเดอร์ และเวลาจะแสดงที่นี่',
   },
 
   // cURL
@@ -141,12 +144,15 @@ const th = {
 
   // Tests
   tests: {
+    apiTesting: 'การทดสอบ API',
+    testsTitle: 'การทดสอบ',
+    testsHint: 'ส่งคำขอเพื่อสร้างเทสต์จากการตอบกลับ',
+    testsUnavailable: 'การสร้างเทสต์ต้องใช้การตอบกลับที่สำเร็จ (HTTP 2xx หรือ 3xx)',
     generateAndRun: 'สร้างและรันเทสต์',
     runningTests: 'กำลังรันเทสต์... ({{current}}/{{total}})',
     noTestsGenerated: 'ไม่มีการสร้างเทสต์',
     selectForCompare: 'เลือกเพื่อเปรียบเทียบ',
     compareWithSelected: 'เปรียบเทียบกับที่เลือก',
-    exportFormat: 'รูปแบบ',
     generateCertificate: 'สร้างใบรับรอง',
     notEligible: 'ไม่ผ่านเกณฑ์ (ต้องมีอย่างน้อย 70 เทสต์)',
     failedToExport: 'ส่งออกรายงานไม่สำเร็จ',
@@ -168,10 +174,22 @@ const th = {
     bodyParameters: 'บอดี้',
     queryParameters: 'Query',
     formatPlaceholder: 'รูปแบบ',
-    aiTesting: 'การทดสอบด้วย AI เชิงลึก',
+    aiTesting: 'การทดสอบด้วย AI',
     aiTestingTitle: 'ค้นหาการทดสอบที่การสแกนแบบกำหนดได้ไม่สามารถอนุมานได้',
     aiTestingDescription: 'AI วิเคราะห์การรัน แนะนำการทดลองเพิ่มเติม และ Rentgen จะดำเนินการให้',
     runAiTesting: 'เรียกใช้การทดสอบด้วย AI',
+    resultsTitle: 'ผลการทดสอบ',
+    resultsDescription: 'ตรวจสอบบั๊กและการตรวจสอบที่ล้มเหลวก่อน ขยายเทสต์เพื่อดูรายละเอียดคำขอและการตอบกลับ',
+    reviewFindings: 'ตรวจสอบสิ่งที่พบ',
+    metric: {
+      bugs: 'เกิดข้อผิดพลาดของเซิร์ฟเวอร์ที่ไม่คาดคิด (HTTP 5xx) หรือข้อผิดพลาดในการดำเนินการ API อาจล่มหรือไม่พร้อมใช้งาน ตรวจสอบคำขอและการตอบกลับเพื่อหาสาเหตุ',
+      failed:
+        'ผลลัพธ์จริงไม่ตรงกับผลลัพธ์ที่คาดไว้ หรือไม่ได้รับการตอบกลับ ตรวจสอบค่าที่คาดหวัง การแมปข้อมูล และพฤติกรรมของ API เพื่อหาสาเหตุ',
+      warnings:
+        'ความเสี่ยงที่อาจเกิดขึ้นหรือคำแนะนำ ซึ่งมักมาจากการตรวจสอบความปลอดภัย ความสำคัญขึ้นอยู่กับ API และกรณีการใช้งานของคุณ ตรวจสอบเพื่อตัดสินใจว่าต้องดำเนินการหรือไม่',
+      passed:
+        'ผลลัพธ์จริงตรงกับผลลัพธ์ที่คาดไว้สำหรับการตรวจสอบนี้ เทสต์นี้ผ่าน แต่ไม่ได้รับประกันว่า API ทั้งหมดจะไม่มีปัญหา',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +198,7 @@ const th = {
     noTestResults: 'ไม่มีผลลัพธ์เทสต์ให้เปรียบเทียบ',
     potentialBugs: 'บั๊กที่อาจเกิดขึ้น',
     fullBehaviorChanges: 'การเปลี่ยนแปลงพฤติกรรมทั้งหมด',
-    noPotentialBugs: 'ไม่พบบั๊กที่อาจเกิดขึ้น ✅',
+    noPotentialBugs: 'ไม่พบบั๊กที่อาจเกิดขึ้น',
     showFullBehaviorChanges: 'แสดงการเปลี่ยนแปลงพฤติกรรมทั้งหมด',
     behaviorChange: 'การเปลี่ยนแปลงพฤติกรรม:',
     showNoise: 'แสดง noise',
@@ -209,10 +227,10 @@ const th = {
       conflictDescription: 'คอลเลกชันที่นำเข้า "{{name}}" มีความขัดแย้งกับคอลเลกชันที่มีอยู่ของคุณ:',
       collectionNamesMatch: 'ชื่อคอลเลกชันตรงกัน',
       folderConflicts: 'โฟลเดอร์ {{count}} รายการมีชื่อตรงกัน',
-      requestConflicts: 'คำขอ {{count}} รายการมี URL+Method หรือชื่อตรงกัน',
+      requestConflicts: 'คำขอ {{count}} รายการมี URL + Method หรือชื่อตรงกัน',
       importWarnings: 'คำเตือนการนำเข้า: {{count}}',
       replaceDescription: 'แทนที่คอลเลกชันที่มีอยู่ทั้งหมด ({{folders}} โฟลเดอร์, {{requests}} คำขอ)',
-      mergeDescription: 'เพิ่มเฉพาะรายการที่ไม่ซ้ำ (ข้ามรายการซ้ำตาม URL+Method หรือชื่อ)',
+      mergeDescription: 'เพิ่มเฉพาะรายการที่ไม่ซ้ำ (ข้ามรายการซ้ำตาม URL + Method หรือชื่อ)',
       newFolders: 'โฟลเดอร์ใหม่ {{count}} รายการ',
       newRequests: 'คำขอใหม่ {{count}} รายการ',
       noNewItems: 'ไม่มีรายการใหม่ให้เพิ่ม',
@@ -360,7 +378,6 @@ const th = {
         notInstalledDescription: 'คลิก <e>ติดตั้ง</e> ด้านล่างเพื่อเพิ่ม <c>rentgen</c> ลงใน shell PATH ของคุณ',
       },
       action: {
-        working: 'กำลังดำเนินการ...',
         uninstall: 'ถอนการติดตั้ง CLI',
         reinstall: 'ติดตั้งใหม่',
         installRentgenInPath: 'ติดตั้งคำสั่ง rentgen ลงใน PATH',
@@ -442,7 +459,6 @@ const th = {
       description: 'เปิดหรือปิดข้อมูลเชิงลึกประสิทธิภาพแต่ละรายการเพื่อปรับแต่งประสบการณ์การทดสอบของคุณ',
     },
     languageSection: {
-      title: 'ภาษา',
       description: 'เลือกภาษาที่คุณต้องการสำหรับอินเทอร์เฟซแอปพลิเคชัน',
       feedback:
         'พบปัญหาการแปลหรือต้องการเพิ่มภาษาอื่น? สร้าง ticket พร้อมรายละเอียดทั้งหมด แล้วเราจะพยายามอย่างเต็มที่',
@@ -522,12 +538,6 @@ const th = {
     noChecksum: 'ไม่มี checksum',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'เลือกไฟล์',
-    noFileChosen: 'ยังไม่ได้เลือกไฟล์',
-  },
-
   // Messages panel
   messages: {
     title: 'ข้อความ',
@@ -555,6 +565,54 @@ const th = {
     evidence: 'หลักฐาน',
     impact: 'ผลกระทบ',
     needsInvestigation: 'ต้องตรวจสอบเพิ่มเติม',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'การประเมินล่วงหน้าของ LLM',
+    description:
+      'Assertion ตัวอย่างเป็นตัวอย่างที่แก้ไขได้ ปรับให้เหมาะกับภาษาและถ้อยคำปฏิเสธของโมเดลของคุณ การจับคู่จะไม่สนใจตัวพิมพ์ใหญ่-เล็ก และถือว่าอัญประกาศเดี่ยวแบบตรงและแบบตัวพิมพ์เทียบเท่ากัน OR ห้ามวลีใดวลีหนึ่งที่ระบุไว้ ส่วน AND ห้ามเมื่อทุกวลีปรากฏร่วมกัน',
+    runEachQuestion: 'แต่ละคำถามจะทำงานกับคำขอปัจจุบันและสภาพแวดล้อมที่เลือก',
+    saveRequestMessage: 'บันทึกคำขอนี้ลงในคอลเลกชันเพื่อเก็บการประเมินและรายงาน',
+    runPreEvaluation: 'เรียกใช้การประเมินล่วงหน้า',
+    userPromptField: 'ฟิลด์พรอมต์ของผู้ใช้',
+    userPromptPlaceholder: 'เลือกฟิลด์ JSON',
+    responseTextField: 'ฟิลด์ข้อความตอบกลับ',
+    responseTextPlaceholder: 'ทั้งเนื้อหา หรือ /choices/0/message/content',
+    iterationsPerQuestion: 'จำนวนรอบต่อคำถาม',
+    addQuestion: 'เพิ่มคำถาม',
+    importCSV: 'นำเข้า CSV',
+    exportCSVExample: 'ส่งออกตัวอย่าง CSV',
+    jsonBodyRequirement: 'ต้องมี JSON body ที่มีสตริงพรอมต์ของผู้ใช้ ไม่สามารถเลือกข้อความระบบและข้อความนักพัฒนาได้',
+    addTextPlaceholder: 'เพิ่มข้อความแล้วกด Enter',
+    questionColumn: 'คำถาม / พรอมต์',
+    containsColumn: 'ต้องมี (บังคับ)',
+    notContainsColumn: 'ต้องไม่มี (ห้าม)',
+    unclosedQuotedField: 'CSV มีฟิลด์ที่อยู่ในเครื่องหมายคำพูดซึ่งไม่ได้ปิด',
+    invalidTerms: 'แถว {{rowNumber}}: เงื่อนไขต้องเป็นอาร์เรย์ JSON ของสตริงที่ไม่ว่างเปล่า',
+    expectedCsvColumns: 'ส่วนหัวไม่ถูกต้อง คอลัมน์ที่คาดหวัง: {{columns}}',
+    invalidCsvRow: 'แถว {{rowNumber}}: ต้องมี 5 คอลัมน์และพรอมต์ที่ไม่ว่างเปล่า',
+    invalidOperator: 'แถว {{rowNumber}}: ตัวดำเนินการต้องเป็น AND หรือ OR',
+    selectUserPromptField: 'เลือกฟิลด์พรอมต์ของผู้ใช้ในเนื้อหาคำขอ JSON',
+    useRequestMethodWithJsonBody: 'เมธอดของคำขอต้องรองรับเนื้อหา JSON',
+    iterationsMustBeBetween: 'จำนวนรอบต้องอยู่ระหว่าง {{min}} ถึง {{max}}',
+    everyQuestionNeedsPromptAndAssertion: 'แต่ละคำถามต้องมีพรอมต์และการยืนยันอย่างน้อยหนึ่งรายการ',
+    httpError: 'HTTP {{statusCode}}',
+    responseTextFieldMissing: 'ไม่มีฟิลด์ข้อความตอบกลับ หรือไม่ใช่สตริง',
+    running: 'กำลังทำงาน... ({{current}}/{{total}})',
+    preEvaluationReport: 'รายงานการประเมินเบื้องต้น',
+    lastRun: 'รันล่าสุด: {{date, datetime(dateStyle: medium)}}',
+    completed: 'เสร็จสมบูรณ์ {{completed}} / {{planned}}',
+    questions: 'คำถาม',
+    totalRuns: 'จำนวนการรันทั้งหมด',
+    passed: 'ผ่าน',
+    failed: 'ไม่ผ่าน',
+    complianceRate: 'อัตราการปฏิบัติตามข้อกำหนด',
+    resultsPerQuestion: 'ผลลัพธ์ต่อคำถาม',
+    missingRequiredText: 'ไม่มีข้อความที่จำเป็น ({{containsMode}}): {{contains}}',
+    containsForbiddenText: 'มีข้อความที่ห้ามใช้ ({{notContainsMode}}): {{notContains}}',
+    failedResponses: 'การตอบกลับที่ล้มเหลว ({{count}})',
+    run: 'การรันครั้งที่ {{iteration}}',
   },
 };
 

@@ -246,9 +246,7 @@ function flattenNestedItems(items: (PostmanItemFull | PostmanFolderFull)[], pare
 }
 
 function convertPostmanItemToRentgen(item: PostmanItemFull, warnings: string[]): PostmanItem {
-  if (item.event?.length) {
-    warnings.push(`Request "${item.name}" scripts were ignored`);
-  }
+  if (item.event?.length) warnings.push(`Request "${item.name}" scripts were ignored`);
 
   return {
     id: item._postman_id || generateRequestId(),

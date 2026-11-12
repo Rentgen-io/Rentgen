@@ -5,7 +5,6 @@ const vi = {
     save: 'Lưu',
     saved: 'Đã lưu',
     cancel: 'Hủy',
-    cancelled: 'Đã hủy',
     close: 'Đóng',
     ok: 'OK',
     create: 'Tạo',
@@ -26,7 +25,6 @@ const vi = {
     connect: 'Kết nối',
     disconnect: 'Ngắt kết nối',
     beautify: 'Định dạng đẹp',
-    reload: 'Tải lại',
     cut: 'Cắt',
     paste: 'Dán',
     enable: 'Bật',
@@ -47,6 +45,9 @@ const vi = {
     duplicate: 'Nhân bản',
     add: 'Thêm',
     back: 'Quay lại',
+    stop: 'Dừng',
+    noOptions: 'Không có tùy chọn',
+    resizeHint: 'Kéo để thay đổi kích thước, nhấp đúp để đặt lại',
   },
 
   // Sidebar
@@ -64,12 +65,13 @@ const vi = {
     newFolder: 'Thư mục mới',
     importCollection: 'Nhập bộ sưu tập',
     exportCollection: 'Xuất bộ sưu tập',
-    searchCollections: 'Tìm kiếm bộ sưu tập...',
+    searchRequests: 'Tìm kiếm yêu cầu...',
     noMatchingRequests: 'Không có yêu cầu phù hợp',
     noSavedRequests: 'Không có yêu cầu nào được lưu',
     importFailed: 'Nhập thất bại: {{error}}',
     exportFailed: 'Xuất thất bại: {{error}}',
     importedWithWarnings: 'Đã nhập với {{count}} cảnh báo',
+    failedToLoadCollection: 'Không thể tải bộ sưu tập',
   },
 
   // Environment
@@ -77,15 +79,13 @@ const vi = {
     newEnvironment: 'Môi trường mới',
     editEnvironment: 'Chỉnh sửa môi trường',
     noEnvironmentsCreated: 'Chưa tạo môi trường nào',
-    environmentName: 'Tên môi trường',
+    environmentName: 'Tên',
     environmentNamePlaceholder: 'ví dụ: Production, Staging, Local',
     color: 'Màu sắc',
     variables: 'Biến',
-    variableName: 'Tên biến',
+    variableName: 'Biến',
     addVariable: 'Thêm biến',
     value: 'Giá trị',
-    refreshValue: 'Làm mới giá trị',
-    refreshAll: 'Làm mới tất cả',
     noEnvironment: 'Không có môi trường',
     selectEnvironment: 'Chọn môi trường',
     randomEmail: 'Email ngẫu nhiên',
@@ -110,6 +110,7 @@ const vi = {
 
   // Request
   request: {
+    untitledRequest: 'Yêu cầu không có tiêu đề',
     enterUrl: 'Nhập URL hoặc dán văn bản',
     headers: 'Tiêu đề',
     headersPlaceholder: 'Khóa-tiêu-đề: giá trị',
@@ -126,6 +127,8 @@ const vi = {
     title: 'Phản hồi',
     sending: 'Đang gửi...',
     networkError: 'Lỗi mạng',
+    requestHint: 'Nhập URL API, sau đó gửi yêu cầu của bạn.',
+    responseHint: 'Nội dung phản hồi, tiêu đề và thời gian sẽ hiển thị ở đây.',
   },
 
   // cURL
@@ -141,12 +144,15 @@ const vi = {
 
   // Tests
   tests: {
+    apiTesting: 'Kiểm thử API',
+    testsTitle: 'Kiểm thử',
+    testsHint: 'Gửi yêu cầu để tạo kiểm thử từ phản hồi của nó.',
+    testsUnavailable: 'Việc tạo kiểm thử yêu cầu phản hồi thành công (HTTP 2xx hoặc 3xx).',
     generateAndRun: 'Tạo và chạy kiểm thử',
     runningTests: 'Đang chạy kiểm thử... ({{current}}/{{total}})',
     noTestsGenerated: 'Không có kiểm thử nào được tạo',
     selectForCompare: 'Chọn để so sánh',
     compareWithSelected: 'So sánh với mục đã chọn',
-    exportFormat: 'Định dạng',
     generateCertificate: 'Tạo chứng chỉ',
     notEligible: 'Không đủ điều kiện (cần ít nhất 70 kiểm thử)',
     failedToExport: 'Không thể xuất báo cáo',
@@ -168,10 +174,23 @@ const vi = {
     bodyParameters: 'Nội dung',
     queryParameters: 'Truy vấn',
     formatPlaceholder: 'Định dạng',
-    aiTesting: 'Kiểm thử AI chuyên sâu',
+    aiTesting: 'Kiểm thử AI',
     aiTestingTitle: 'Tìm các kiểm thử mà quét tất định không thể suy ra',
     aiTestingDescription: 'AI phân tích lần chạy, đề xuất thêm thử nghiệm và Rentgen thực thi chúng.',
     runAiTesting: 'Chạy kiểm thử AI',
+    resultsTitle: 'Kết quả kiểm thử',
+    resultsDescription:
+      'Hãy xem lại lỗi và các kiểm tra thất bại trước. Mở rộng một kiểm thử để xem chi tiết yêu cầu và phản hồi.',
+    reviewFindings: 'Xem lại phát hiện',
+    metric: {
+      bugs: 'Đã xảy ra lỗi máy chủ không mong muốn (HTTP 5xx) hoặc lỗi thực thi. API có thể đã gặp sự cố hoặc không khả dụng. Xem lại yêu cầu và phản hồi để tìm nguyên nhân.',
+      failed:
+        'Kết quả thực tế không khớp với kết quả mong đợi, hoặc không nhận được phản hồi. Kiểm tra kỳ vọng, ánh xạ dữ liệu và hành vi của API để xác định nguyên nhân.',
+      warnings:
+        'Một rủi ro tiềm ẩn hoặc khuyến nghị, thường đến từ một kiểm tra bảo mật. Mức độ quan trọng phụ thuộc vào API và trường hợp sử dụng của bạn. Xem lại để quyết định có cần hành động hay không.',
+      passed:
+        'Kết quả thực tế khớp với kết quả mong đợi cho kiểm tra này. Kiểm thử này đã đạt; điều đó không đảm bảo toàn bộ API không có vấn đề.',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +199,7 @@ const vi = {
     noTestResults: 'Không có kết quả kiểm thử nào để so sánh',
     potentialBugs: 'Lỗi tiềm ẩn',
     fullBehaviorChanges: 'Toàn bộ thay đổi hành vi',
-    noPotentialBugs: 'Không phát hiện lỗi tiềm ẩn ✅',
+    noPotentialBugs: 'Không phát hiện lỗi tiềm ẩn',
     showFullBehaviorChanges: 'Hiển thị toàn bộ thay đổi hành vi',
     behaviorChange: 'Thay đổi hành vi:',
     showNoise: 'Hiển thị nhiễu',
@@ -209,10 +228,10 @@ const vi = {
       conflictDescription: 'Bộ sưu tập đã nhập "{{name}}" có xung đột với bộ sưu tập hiện có của bạn:',
       collectionNamesMatch: 'Tên bộ sưu tập trùng khớp',
       folderConflicts: '{{count}} thư mục có tên trùng khớp',
-      requestConflicts: '{{count}} yêu cầu có URL+Phương thức hoặc tên trùng khớp',
+      requestConflicts: '{{count}} yêu cầu có URL + Phương thức hoặc tên trùng khớp',
       importWarnings: 'Cảnh báo khi nhập: {{count}}',
       replaceDescription: 'Thay thế toàn bộ bộ sưu tập hiện có ({{folders}} thư mục, {{requests}} yêu cầu)',
-      mergeDescription: 'Chỉ thêm các mục duy nhất (bỏ qua các mục trùng lặp theo URL+Phương thức hoặc tên)',
+      mergeDescription: 'Chỉ thêm các mục duy nhất (bỏ qua các mục trùng lặp theo URL + Phương thức hoặc tên)',
       newFolders: '{{count}} thư mục mới',
       newRequests: '{{count}} yêu cầu mới',
       noNewItems: 'Không có mục mới nào để thêm',
@@ -362,7 +381,6 @@ const vi = {
         notInstalledDescription: 'Nhấp vào <e>Cài đặt</e> bên dưới để thêm <c>rentgen</c> vào PATH của shell.',
       },
       action: {
-        working: 'Đang xử lý...',
         uninstall: 'Gỡ cài đặt CLI',
         reinstall: 'Cài đặt lại',
         installRentgenInPath: 'Cài đặt lệnh rentgen vào PATH',
@@ -443,7 +461,6 @@ const vi = {
       description: 'Bật hoặc tắt từng thông tin chi tiết về hiệu suất để tùy chỉnh trải nghiệm kiểm thử của bạn.',
     },
     languageSection: {
-      title: 'Ngôn ngữ',
       description: 'Chọn ngôn ngữ ưa thích cho giao diện ứng dụng.',
       feedback:
         'Tìm thấy vấn đề về bản dịch hoặc muốn thêm ngôn ngữ khác? Hãy tạo một ticket với tất cả chi tiết và chúng tôi sẽ cố gắng hết sức.',
@@ -523,12 +540,6 @@ const vi = {
     noChecksum: 'Không có checksum',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Chọn tệp',
-    noFileChosen: 'Chưa chọn tệp nào',
-  },
-
   // Messages panel
   messages: {
     title: 'Tin nhắn',
@@ -556,6 +567,55 @@ const vi = {
     evidence: 'Bằng chứng',
     impact: 'Tác động',
     needsInvestigation: 'Cần điều tra',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'Tiền đánh giá LLM',
+    description:
+      'Các assertion demo là ví dụ có thể chỉnh sửa. Hãy điều chỉnh chúng theo ngôn ngữ và cách diễn đạt từ chối của mô hình của bạn. Việc so khớp bỏ qua chữ hoa/chữ thường và coi dấu nháy đơn thẳng và dấu nháy đơn kiểu chữ in là tương đương. OR cấm bất kỳ cụm từ nào được liệt kê; AND cấm khi tất cả các cụm từ xuất hiện cùng nhau.',
+    runEachQuestion: 'Mỗi câu hỏi được chạy với yêu cầu hiện tại và môi trường đã chọn.',
+    saveRequestMessage: 'Lưu yêu cầu này vào một bộ sưu tập để giữ lại đánh giá và báo cáo.',
+    runPreEvaluation: 'Chạy tiền đánh giá',
+    userPromptField: 'Trường prompt của người dùng',
+    userPromptPlaceholder: 'Chọn trường JSON',
+    responseTextField: 'Trường văn bản phản hồi',
+    responseTextPlaceholder: 'Toàn bộ body, hoặc /choices/0/message/content',
+    iterationsPerQuestion: 'Số lần lặp mỗi câu hỏi',
+    addQuestion: 'Thêm câu hỏi',
+    importCSV: 'Nhập CSV',
+    exportCSVExample: 'Xuất CSV mẫu',
+    jsonBodyRequirement:
+      'Cần có body JSON chứa chuỗi prompt của người dùng. Không thể chọn tin nhắn hệ thống và tin nhắn nhà phát triển.',
+    addTextPlaceholder: 'Thêm văn bản và nhấn Enter',
+    questionColumn: 'Câu hỏi / Prompt',
+    containsColumn: 'Chứa (bắt buộc)',
+    notContainsColumn: 'Không chứa (bị cấm)',
+    unclosedQuotedField: 'CSV chứa một trường có dấu ngoặc kép chưa được đóng.',
+    invalidTerms: 'Hàng {{rowNumber}}: Các thuật ngữ phải là mảng JSON gồm các chuỗi không rỗng.',
+    expectedCsvColumns: 'Tiêu đề không hợp lệ. Các cột mong đợi: {{columns}}.',
+    invalidCsvRow: 'Hàng {{rowNumber}}: Cần 5 cột và một prompt không rỗng.',
+    invalidOperator: 'Hàng {{rowNumber}}: Toán tử phải là AND hoặc OR.',
+    selectUserPromptField: 'Chọn trường prompt của người dùng trong nội dung yêu cầu JSON.',
+    useRequestMethodWithJsonBody: 'Phương thức yêu cầu phải hỗ trợ nội dung JSON.',
+    iterationsMustBeBetween: 'Số lần lặp phải nằm trong khoảng từ {{min}} đến {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Mỗi câu hỏi cần có một prompt và ít nhất một khẳng định.',
+    httpError: 'HTTP {{statusCode}}',
+    responseTextFieldMissing: 'Trường văn bản phản hồi bị thiếu hoặc không phải là chuỗi',
+    running: 'Đang chạy... ({{current}}/{{total}})',
+    preEvaluationReport: 'Báo cáo đánh giá sơ bộ',
+    lastRun: 'Lần chạy gần nhất: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Đã hoàn thành {{completed}} / {{planned}}',
+    questions: 'Câu hỏi',
+    totalRuns: 'Tổng số lần chạy',
+    passed: 'Đạt',
+    failed: 'Không đạt',
+    complianceRate: 'Tỷ lệ tuân thủ',
+    resultsPerQuestion: 'Kết quả theo từng câu hỏi',
+    missingRequiredText: 'Thiếu văn bản bắt buộc ({{containsMode}}): {{contains}}',
+    containsForbiddenText: 'Chứa văn bản bị cấm ({{notContainsMode}}): {{notContains}}',
+    failedResponses: 'Phản hồi thất bại ({{count}})',
+    run: 'Lần chạy #{{iteration}}',
   },
 };
 

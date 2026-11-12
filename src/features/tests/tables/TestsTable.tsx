@@ -11,9 +11,9 @@ import { selectDisabledPerformanceInsights, selectDisabledSecurityTests } from '
 import { getTestsStatistics } from 'src/test-engine';
 import { TestResult, TestStatus } from 'src/types';
 import { generateCurl, truncateValue } from 'src/utils';
+import { twMerge } from 'tailwind-merge';
 
 import GearIcon from 'src/assets/icons/gear-icon.svg';
-import { twMerge } from 'tailwind-merge';
 
 export default function TestsTable({
   columns,
@@ -28,6 +28,7 @@ export default function TestsTable({
 
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
+
   const definedData = data?.filter((item) => item != null) ?? [];
   const disabledTests = [...disabledSecurityTests, ...disabledPerformanceInsights];
 
@@ -35,31 +36,31 @@ export default function TestsTable({
 
   return (
     <DataTable
-      className={twMerge(
-        cn({ 'bg-white dark:bg-dark-body border border-border dark:border-dark-border': definedData.length > 0 }),
-        className,
-      )}
+      className={twMerge(cn({ 'bg-background border border-border rounded!': definedData.length > 0 }), className)}
       columns={columns}
       conditionalRowStyles={[
         {
           when: () => true,
           style: (row) => {
-            const styles = disabledTests.includes(row.name) ? { opacity: 0.5, cursor: 'not-allowed' } : {};
+            const styles = {
+              color: 'var(--color-foreground)',
+              ...(disabledTests.includes(row.name) ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
+            };
 
             switch (row.status) {
               case TestStatus.Pass:
-                return { ...styles, backgroundColor: '#d4edda' };
+                return { ...styles, backgroundColor: 'var(--color-test-pass)' };
               case TestStatus.Fail:
               case TestStatus.FailNoResponse:
-                return { ...styles, backgroundColor: '#f8d7da' };
+                return { ...styles, backgroundColor: 'var(--color-test-fail)' };
               case TestStatus.Manual:
-                return { ...styles, backgroundColor: '#e2e3e5' };
+                return { ...styles, backgroundColor: 'var(--color-test-manual)' };
               case TestStatus.Warning:
-                return { ...styles, backgroundColor: '#fff3cd' };
+                return { ...styles, backgroundColor: 'var(--color-test-warning)' };
               case TestStatus.Info:
-                return { ...styles, backgroundColor: '#e6f0ff' };
+                return { ...styles, backgroundColor: 'var(--color-test-info)' };
               case TestStatus.Bug:
-                return { ...styles, backgroundColor: '#f3e8ff' };
+                return { ...styles, backgroundColor: 'var(--color-test-bug)' };
               default:
                 return styles;
             }
@@ -87,53 +88,53 @@ export function TestsTableHeader({
   onOpenSettings?(): void;
 }) {
   const { t } = useTranslation();
-  const { bugs, failed, info, manual, passed, warnings } = useMemo(
+  const { bugs, failed, ignored, info, manual, passed, warnings } = useMemo(
     () => getTestsStatistics(tests, disabledTests),
     [tests, disabledTests],
   );
 
   return (
     <div className="min-h-8.5 flex items-center gap-2">
-      <div className="flex-auto flex items-center gap-2 py-1.5 lowercase">
+      <div className="flex-auto flex items-center gap-2 lowercase">
         {passed > 0 && (
-          <span className="py-px px-2 text-sm text-green-500 bg-green-500/10">
+          <span className="py-1 px-2 text-xs text-metric-pass bg-metric-pass/10 rounded truncate">
             {passed} {t('common.passed')}
           </span>
         )}
         {warnings > 0 && (
-          <span className="py-px px-2 text-sm text-yellow-500 bg-yellow-500/10">
+          <span className="py-1 px-2 text-xs text-metric-warning bg-metric-warning/10 rounded truncate">
             {warnings} {warnings === 1 ? t('common.warning') : t('common.warnings')}
           </span>
         )}
         {failed > 0 && (
-          <span className="py-px px-2 text-sm text-red-500 bg-red-500/10">
+          <span className="py-1 px-2 text-xs text-metric-fail bg-metric-fail/10 rounded truncate">
             {failed} {t('common.failed')}
           </span>
         )}
         {bugs > 0 && (
-          <span className="py-px px-2 text-sm text-purple-500 bg-purple-500/10">
+          <span className="py-1 px-2 text-xs text-metric-bug bg-metric-bug/10 rounded truncate">
             {bugs} {bugs === 1 ? t('common.bug') : t('common.bugs')}
           </span>
         )}
         {info > 0 && (
-          <span className="py-px px-2 text-sm text-blue-500 bg-blue-500/10">
+          <span className="py-1 px-2 text-xs text-blue-500 bg-blue-500/10 rounded truncate">
             {info} {t('common.info')}
           </span>
         )}
         {manual > 0 && (
-          <span className="py-px px-2 text-sm text-gray-500 bg-gray-500/10 dark:text-gray-400 dark:bg-gray-500/20">
+          <span className="py-1 px-2 text-xs text-gray-500 bg-gray-500/10 dark:text-gray-400 dark:bg-gray-500/20 rounded truncate">
             {manual} {t('common.manual')}
           </span>
         )}
-        {!!disabledTests?.length && (
-          <span className="py-px px-2 text-sm text-text-secondary bg-text-secondary/10">
-            {disabledTests.length} {t('common.ignored')}
+        {ignored > 0 && (
+          <span className="py-1 px-2 text-xs text-muted-foreground bg-muted-foreground/10 rounded truncate">
+            {ignored} {t('common.ignored')}
           </span>
         )}
       </div>
       {onOpenSettings && (
         <IconButton onClick={onOpenSettings}>
-          <GearIcon className="h-4 w-4" />
+          <GearIcon className="size-4" />
         </IconButton>
       )}
     </div>
@@ -145,7 +146,7 @@ export const ExpandedTestComponent = memo(({ data }: ExpanderComponentProps<Test
   const { request, response } = data;
 
   return (
-    <div className="p-4 bg-body dark:bg-dark-body">
+    <div className="py-3 px-4 bg-background">
       {request && (
         <CopyButton className="mb-4" textToCopy={generateCurl(request)}>
           {t('curl.copyCurl')}

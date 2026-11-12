@@ -12,6 +12,11 @@ interface ElectronApi {
   abortHttp: (requestId: string) => void;
   connectWss: (payload: any) => void;
   disconnectWss: () => void;
+  exportFile: (payload: {
+    defaultPath?: string;
+    content: string;
+    filters?: Electron.FileFilter[];
+  }) => Promise<{ canceled: boolean; filePath?: string; error?: string }>;
   exportPostmanCollection: (collection: PostmanCollection) => Promise<ExportResult>;
   exportProject: () => Promise<ProjectExportResult>;
   generateCertificate: (results: TestResults) => Promise<ExportResult>;
@@ -33,11 +38,6 @@ interface ElectronApi {
   saveEnvironments: (environments: any) => Promise<{ success: boolean; error?: string }>;
   saveDynamicVariables: (variables: any) => Promise<{ success: boolean; error?: string }>;
   saveHistory: (entries: any) => Promise<{ success: boolean; error?: string }>;
-  saveReport: (payload: {
-    defaultPath?: string;
-    content: string;
-    filters?: Electron.FileFilter[];
-  }) => Promise<{ canceled: boolean; filePath?: string; error?: string }>;
   saveMappings: (mappings: MappingsState) => void;
   saveSettings: (settings: SettingsState) => void;
   sendHttp: (request: HttpRequest, requestId?: string) => Promise<HttpResponse>;
@@ -49,6 +49,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   abortHttp: (requestId: string): void => ipcRenderer.send('http-abort', requestId),
   connectWss: (payload: any): void => ipcRenderer.send('wss-connect', payload),
   disconnectWss: (): void => ipcRenderer.send('wss-disconnect'),
+  exportFile: (payload: { defaultPath?: string; content: string; filters?: Electron.FileFilter[] }) =>
+    ipcRenderer.invoke('export-file', payload),
   exportPostmanCollection: (collection: PostmanCollection): Promise<ExportResult> =>
     ipcRenderer.invoke('export-postman-collection', collection),
   exportProject: (): Promise<ProjectExportResult> => ipcRenderer.invoke('export-project'),
@@ -82,8 +84,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('save-dynamic-variables', variables),
   saveHistory: (entries: any): Promise<{ success: boolean; error?: string }> =>
     ipcRenderer.invoke('save-history', entries),
-  saveReport: (payload: { defaultPath?: string; content: string; filters?: Electron.FileFilter[] }) =>
-    ipcRenderer.invoke('save-report', payload),
   saveMappings: (mappings: MappingsState): void => ipcRenderer.send('save-mappings', mappings),
   saveSettings: (settings: SettingsState): void => ipcRenderer.send('save-settings', settings),
   sendHttp: (request: HttpRequest, requestId?: string): Promise<HttpResponse> =>

@@ -24,7 +24,7 @@ export default function LoadTestRunControls() {
       executeTest={() => executeLoadTest(testOptions, threadCount, requestCount)}
     >
       <div>
-        <label className="block mb-0.5 font-bold text-[10px]">{t('controls.threads')}</label>
+        <label className="block mb-0.5 font-medium text-[10px]">{t('controls.threads')}</label>
         <Input
           className="w-12 p-0.5 text-center"
           title={t('controls.threadsMax')}
@@ -35,7 +35,7 @@ export default function LoadTestRunControls() {
       </div>
 
       <div>
-        <label className="block mb-0.5 font-bold text-[10px]">{t('controls.requests')}</label>
+        <label className="block mb-0.5 font-medium text-[10px]">{t('controls.requests')}</label>
         <Input
           className="w-16 p-0.5 text-center"
           type="number"

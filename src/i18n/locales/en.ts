@@ -5,7 +5,6 @@ const en = {
     save: 'Save',
     saved: 'Saved',
     cancel: 'Cancel',
-    cancelled: 'Cancelled',
     close: 'Close',
     ok: 'OK',
     create: 'Create',
@@ -26,7 +25,6 @@ const en = {
     connect: 'Connect',
     disconnect: 'Disconnect',
     beautify: 'Beautify',
-    reload: 'Reload',
     cut: 'Cut',
     paste: 'Paste',
     enable: 'Enable',
@@ -47,6 +45,9 @@ const en = {
     duplicate: 'Duplicate',
     add: 'Add',
     back: 'Back',
+    stop: 'Stop',
+    noOptions: 'No options',
+    resizeHint: 'Drag to resize, double-click to reset',
   },
 
   // Sidebar
@@ -64,12 +65,13 @@ const en = {
     newFolder: 'New Folder',
     importCollection: 'Import Collection',
     exportCollection: 'Export Collection',
-    searchCollections: 'Search collections...',
+    searchRequests: 'Search requests...',
     noMatchingRequests: 'No matching requests',
     noSavedRequests: 'No saved requests',
     importFailed: 'Import failed: {{error}}',
     exportFailed: 'Export failed: {{error}}',
     importedWithWarnings: 'Imported with {{count}} warning(s)',
+    failedToLoadCollection: 'Failed to load collection',
   },
 
   // Environment
@@ -77,15 +79,13 @@ const en = {
     newEnvironment: 'New Environment',
     editEnvironment: 'Edit Environment',
     noEnvironmentsCreated: 'No environments created',
-    environmentName: 'Environment Name',
+    environmentName: 'Name',
     environmentNamePlaceholder: 'e.g., Production, Staging, Local',
     color: 'Color',
     variables: 'Variables',
-    variableName: 'Variable Name',
+    variableName: 'Variable',
     addVariable: 'Add variable',
     value: 'Value',
-    refreshValue: 'Refresh value',
-    refreshAll: 'Refresh All',
     noEnvironment: 'No Environment',
     selectEnvironment: 'Select Environment',
     randomEmail: 'Random email',
@@ -110,6 +110,7 @@ const en = {
 
   // Request
   request: {
+    untitledRequest: 'Untitled Request',
     enterUrl: 'Enter URL or paste text',
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: value',
@@ -126,6 +127,8 @@ const en = {
     title: 'Response',
     sending: 'Sending...',
     networkError: 'Network Error',
+    requestHint: 'Enter an API URL, then send your request.',
+    responseHint: 'The response body, headers and timing will appear here.',
   },
 
   // cURL
@@ -141,12 +144,15 @@ const en = {
 
   // Tests
   tests: {
+    apiTesting: 'API Testing',
+    testsTitle: 'Tests',
+    testsHint: 'Send a request to generate tests from its response.',
+    testsUnavailable: 'Test generation requires a successful response (HTTP 2xx or 3xx).',
     generateAndRun: 'Generate & Run Tests',
     runningTests: 'Running tests... ({{current}}/{{total}})',
     noTestsGenerated: 'No tests generated',
     selectForCompare: 'Select for Compare',
     compareWithSelected: 'Compare with Selected',
-    exportFormat: 'Format',
     generateCertificate: 'Generate Certificate',
     notEligible: 'Not eligible (need at least 70 tests)',
     failedToExport: 'Failed to export report',
@@ -168,10 +174,22 @@ const en = {
     bodyParameters: 'Body',
     queryParameters: 'Query',
     formatPlaceholder: 'Format',
-    aiTesting: 'Deeper AI Testing',
+    aiTesting: 'AI Testing',
     aiTestingTitle: 'Find tests the deterministic scan could not infer',
     aiTestingDescription: 'AI analyzes the run, suggests additional experiments, and Rentgen executes them.',
     runAiTesting: 'Run AI Testing',
+    resultsTitle: 'Test Results',
+    resultsDescription: 'Review bugs and failed checks first. Expand a test for request and response details.',
+    reviewFindings: 'Review Findings',
+    metric: {
+      bugs: 'An unexpected server error (HTTP 5xx) or execution error occurred. The API may have crashed or become unavailable. Review the request and response to find the cause.',
+      failed:
+        'The actual result did not match the expected result, or no response was received. Check the expectation, data mapping and API behavior to determine the cause.',
+      warnings:
+        'A potential risk or recommendation, often from a security check. Its importance depends on your API and use case. Review it to decide whether action is needed.',
+      passed:
+        'The actual result matched the expected result for this check. This test passed; it does not guarantee the entire API is free of issues.',
+    },
   },
 
   // Comparison Panel
@@ -180,7 +198,7 @@ const en = {
     noTestResults: 'No test results to compare',
     potentialBugs: 'Potential Bugs',
     fullBehaviorChanges: 'Full Behavior Changes',
-    noPotentialBugs: 'No potential bugs detected ✅',
+    noPotentialBugs: 'No potential bugs detected',
     showFullBehaviorChanges: 'Show Full Behavior Changes',
     behaviorChange: 'Behavior Change:',
     showNoise: 'Show noise',
@@ -209,10 +227,10 @@ const en = {
       conflictDescription: 'The imported collection "{{name}}" has conflicts with your existing collection:',
       collectionNamesMatch: 'Collection names match',
       folderConflicts: '{{count}} folder(s) with matching names',
-      requestConflicts: '{{count}} request(s) with matching URL+Method or name',
+      requestConflicts: '{{count}} request(s) with matching URL + Method or name',
       importWarnings: 'Import warnings: {{count}}',
       replaceDescription: 'Replace entire existing collection ({{folders}} folders, {{requests}} requests)',
-      mergeDescription: 'Add unique items only (skips duplicates by URL+Method or name)',
+      mergeDescription: 'Add unique items only (skips duplicates by URL + Method or name)',
       newFolders: '{{count}} new folder(s)',
       newRequests: '{{count}} new request(s)',
       noNewItems: 'No new items to add',
@@ -361,7 +379,6 @@ const en = {
         notInstalledDescription: 'Click <e>Install</e> below to add <c>rentgen</c> to your shell PATH.',
       },
       action: {
-        working: 'Working...',
         uninstall: 'Uninstall CLI',
         reinstall: 'Reinstall',
         installRentgenInPath: 'Install rentgen command in PATH',
@@ -443,7 +460,6 @@ const en = {
       description: 'Toggle individual performance insights on or off to customize your testing experience.',
     },
     languageSection: {
-      title: 'Language',
       description: 'Select your preferred language for the application interface.',
       feedback:
         'Found a translation issue or want to add another language? Create a ticket with all the details and we will do our best.',
@@ -523,12 +539,6 @@ const en = {
     noChecksum: 'No checksum',
   },
 
-  // File input
-  fileInput: {
-    chooseFile: 'Choose File',
-    noFileChosen: 'No file chosen',
-  },
-
   // Messages panel
   messages: {
     title: 'Messages',
@@ -556,6 +566,55 @@ const en = {
     evidence: 'Evidence',
     impact: 'Impact',
     needsInvestigation: 'Needs investigation',
+  },
+
+  // Pre-Evaluation
+  preEvaluation: {
+    title: 'LLM Pre-Evaluation',
+    description:
+      "Demo assertions are editable examples. Adapt them to your model's language and refusal wording. Matching ignores case and treats straight and typographic apostrophes as equivalent. OR forbids any listed phrase; AND forbids all phrases appearing together.",
+    runEachQuestion: 'Each question runs against the current request and selected environment.',
+    saveRequestMessage: 'Save this request to a collection to retain its evaluation and report.',
+    runPreEvaluation: 'Run Pre-Evaluation',
+    userPromptField: 'User prompt field',
+    userPromptPlaceholder: 'Select JSON field',
+    responseTextField: 'Response text field',
+    responseTextPlaceholder: 'Whole body, or /choices/0/message/content',
+    iterationsPerQuestion: 'Iterations per question',
+    addQuestion: 'Add Question',
+    importCSV: 'Import CSV',
+    exportCSVExample: 'Export CSV Example',
+    jsonBodyRequirement:
+      'A JSON body with a user prompt string is required. System and developer messages cannot be selected.',
+    addTextPlaceholder: 'Add text and press "Enter"',
+    questionColumn: 'Question / Prompt',
+    containsColumn: 'Contains (required)',
+    notContainsColumn: 'Not Contains (forbidden)',
+    unclosedQuotedField: 'The CSV contains an unclosed quoted field.',
+    invalidTerms: 'Row {{rowNumber}}: Terms must be a JSON array of non-empty strings.',
+    expectedCsvColumns: 'Invalid header. Expected columns: {{columns}}.',
+    invalidCsvRow: 'Row {{rowNumber}}: Expected 5 columns and a non-empty prompt.',
+    invalidOperator: 'Row {{rowNumber}}: Operator must be AND or OR.',
+    selectUserPromptField: 'Select the user prompt field in the JSON request body.',
+    useRequestMethodWithJsonBody: 'The request method must support a JSON body.',
+    iterationsMustBeBetween: 'Iterations must be between {{min}} and {{max}}.',
+    everyQuestionNeedsPromptAndAssertion: 'Each question requires a prompt and at least one assertion.',
+    httpError: 'HTTP {{statusCode}}',
+    responseTextFieldMissing: 'Response text field is missing or is not a string',
+    running: 'Running... ({{current}}/{{total}})',
+    preEvaluationReport: 'Pre-Evaluation Report',
+    lastRun: 'Last run: {{date, datetime(dateStyle: medium)}}',
+    completed: 'Completed {{completed}} / {{planned}}',
+    questions: 'Questions',
+    totalRuns: 'Total Runs',
+    passed: 'Passed',
+    failed: 'Failed',
+    complianceRate: 'Compliance Rate',
+    resultsPerQuestion: 'Results per Question',
+    missingRequiredText: 'Missing required text ({{containsMode}}): {{contains}}',
+    containsForbiddenText: 'Contains forbidden text ({{notContainsMode}}): {{notContains}}',
+    failedResponses: 'Failed Responses ({{count}})',
+    run: 'Run #{{iteration}}',
   },
 };
 

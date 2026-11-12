@@ -117,7 +117,7 @@ export function JsonDiffViewer({
 
   return (
     <div
-      className={twMerge('relative bg-white dark:bg-dark-input', className)}
+      className={twMerge('relative bg-background', className)}
       style={{ height: Math.min(Math.max(editorHeight, minHeight), maxHeight) }}
     >
       <DiffEditor
@@ -161,7 +161,7 @@ export function JsonDiffViewer({
       {!diffReady && (
         <div className="absolute inset-0 flex z-90">
           <LoaderWithText
-            className="justify-center bg-white dark:bg-dark-input"
+            className="justify-center text-foreground bg-background"
             text={t('tests.computingDifferences')}
           />
         </div>
