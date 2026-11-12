@@ -116,7 +116,7 @@ const en = {
     headersPlaceholder: 'Header-Key: value',
     body: 'Body',
     bodyPlaceholderHttp: 'Enter request body (JSON or Form Data)',
-    bodyPlaceholderWss: 'Message body',
+    bodyPlaceholderWss: 'Compose message',
     wssUrlRequired: '🔴 Please use ws:// or wss:// URL',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',

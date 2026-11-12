@@ -120,6 +120,8 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       dispatch(requestActions.setUrl(request.url));
       dispatch(requestActions.setHeaders(headersRecordToString(postmanHeadersToRecord(request.header))));
       dispatch(requestActions.setBody(request.body?.raw || ''));
+      dispatch(requestActions.setBodyMode(request.body?.mode || 'none'));
+      dispatch(requestActions.setFormData(request.body?.formdata || []));
 
       if (item.preEvaluation) dispatch(preEvaluationActions.setPreEvaluation(item.preEvaluation));
       if (evaluationReport) dispatch(preEvaluationActions.setEvaluationReport(evaluationReport));

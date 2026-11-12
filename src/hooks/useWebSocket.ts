@@ -1,10 +1,16 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connectWebSocket, disconnectWebSocket, onWebSocketEvent, sendWebSocketMessage } from 'src/api/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectBody, selectHeaders, selectUrl } from 'src/store/selectors';
+import {
+  selectBody,
+  selectDynamicVariables,
+  selectHeaders,
+  selectSelectedEnvironment,
+  selectUrl,
+} from 'src/store/selectors';
 import { websocketActions } from 'src/store/slices/websocketSlice';
-import { parseHeaders } from 'src/utils';
+import { substituteRequestVariables } from 'src/utils';
 
 export function useWssEventBridge() {
   const dispatch = useAppDispatch();
@@ -25,25 +31,38 @@ export function useWssActions() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const url = useAppSelector(selectUrl);
-  const headers = useAppSelector(selectHeaders);
   const body = useAppSelector(selectBody);
+  const dynamicVariables = useAppSelector(selectDynamicVariables);
+  const headers = useAppSelector(selectHeaders);
+  const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
+  const url = useAppSelector(selectUrl);
+
+  const {
+    url: memoizedUrl,
+    headers: memoizedHeaders,
+    body: memoizedBody,
+  } = useMemo(
+    () => substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables),
+    [url, headers, body, selectedEnvironment, dynamicVariables],
+  );
 
   const connect = useCallback(() => {
-    if (!url.startsWith('ws')) {
+    if (!memoizedUrl.startsWith('ws')) {
       dispatch(websocketActions.addMessage({ direction: 'system', data: t('request.wssUrlRequired') }));
       return;
     }
 
-    connectWebSocket({ url, headers: parseHeaders(headers) });
-  }, [url, headers, t, dispatch]);
+    connectWebSocket({ url: memoizedUrl, headers: memoizedHeaders });
+  }, [memoizedUrl, memoizedHeaders, t, dispatch]);
 
   const disconnect = useCallback(() => disconnectWebSocket(), []);
 
   const send = useCallback(() => {
-    dispatch(websocketActions.handleWssSent({ data: body }));
-    sendWebSocketMessage(body);
-  }, [body, dispatch]);
+    const message = typeof memoizedBody === 'string' ? memoizedBody : JSON.stringify(memoizedBody, null, 2);
+
+    dispatch(websocketActions.handleWssSent({ data: message }));
+    sendWebSocketMessage(message);
+  }, [memoizedBody, dispatch]);
 
   return { connect, disconnect, send };
 }

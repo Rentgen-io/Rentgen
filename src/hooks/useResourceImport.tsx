@@ -52,27 +52,24 @@ export function useResourceImport() {
       try {
         if (curl.length > MAX_CURL_LENGTH) return false;
 
-        const {
-          body: curlBody,
-          decodedLines,
-          headers: curlHeaders,
-          method: curlMethod,
-          url: curlUrl,
-        } = extractCurl(curl);
+        const { body, bodyMode, formData, decodedLines, headers, method, url } = extractCurl(curl);
 
         reset();
-        dispatch(requestActions.setUrl(curlUrl));
-        dispatch(requestActions.setMethod(curlMethod as Method));
+        dispatch(requestActions.setUrl(url));
+        dispatch(requestActions.setMethod(method as Method));
         dispatch(
           requestActions.setHeaders(
-            Object.entries(curlHeaders)
+            Object.entries(headers)
               .map(([key, value]) => `${key}: ${value}`)
               .join('\n'),
           ),
         );
 
-        if (decodedLines.length > 0) dispatch(requestActions.setBody(decodedLines.join('\n')));
-        else dispatch(requestActions.setBody(curlBody ? String(curlBody).trim() : ''));
+        if (formData.length > 0) dispatch(requestActions.setFormData(formData));
+        else if (decodedLines.length > 0) dispatch(requestActions.setBody(decodedLines.join('\n')));
+        else dispatch(requestActions.setBody(body ? String(body).trim() : ''));
+
+        dispatch(requestActions.setBodyMode(bodyMode));
 
         return true;
       } catch {

@@ -1,12 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Method } from 'axios';
-import { RequestParameters } from 'src/types';
+import { PostmanBodyMode, RequestParameters, PostmanFormDataItem } from 'src/types';
 
+export type BodyMode = PostmanBodyMode | 'none';
 export type Mode = 'HTTP' | 'WSS';
 
 interface RequestState {
   body: string;
+  bodyMode: BodyMode;
   bodyParameters: RequestParameters;
+  formData: PostmanFormDataItem[];
   headers: string;
   isSending: boolean;
   method: Method;
@@ -16,8 +19,10 @@ interface RequestState {
 }
 
 const initialState: RequestState = {
-  body: '{}',
+  body: '',
+  bodyMode: 'none',
   bodyParameters: {},
+  formData: [],
   headers: '',
   isSending: false,
   method: 'GET',
@@ -30,52 +35,29 @@ export const requestSlice = createSlice({
   name: 'request',
   initialState,
   reducers: {
-    importFromCurl: (
-      state,
-      action: PayloadAction<{
-        url: string;
-        method: string;
-        headers: string;
-        body: string;
-      }>,
-    ) => {
-      const { url, method, headers, body } = action.payload;
-
-      state.url = url;
-      state.method = method as Method;
-      state.headers = headers;
-      state.body = body;
-    },
-    loadFromCollection: (
-      state,
-      action: PayloadAction<{
-        method: string;
-        url: string;
-        headers: string;
-        body: string;
-      }>,
-    ) => {
-      const { method, url, headers, body } = action.payload;
-      state.method = method as Method;
-      state.url = url;
-      state.headers = headers;
-      state.body = body;
-      state.bodyParameters = {};
-      state.queryParameters = {};
-    },
     resetRequest: (state) => {
-      state.method = 'GET';
-      state.url = '';
-      state.headers = '';
-      state.body = '{}';
+      state.body = '';
+      state.bodyMode = 'none';
       state.bodyParameters = {};
+      state.formData = [];
+      state.headers = '';
+      state.method = 'GET';
       state.queryParameters = {};
+      state.url = '';
     },
     setBody: (state, action: PayloadAction<string>) => {
       state.body = action.payload;
     },
+    setBodyMode: (state, action: PayloadAction<BodyMode>) => {
+      state.bodyMode = action.payload;
+
+      if (!state.body && state.bodyMode === 'raw') state.body = '{}';
+    },
     setBodyParameters: (state, action: PayloadAction<RequestParameters>) => {
       state.bodyParameters = action.payload;
+    },
+    setFormData: (state, action: PayloadAction<PostmanFormDataItem[]>) => {
+      state.formData = action.payload;
     },
     setHeaders: (state, action: PayloadAction<string>) => {
       state.headers = action.payload;

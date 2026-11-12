@@ -1,4 +1,4 @@
-import { IntegrityStatus, PostmanCollection, ProjectData, ProjectMeta } from './index';
+import { IntegrityStatus, PostmanCollection, PostmanFormDataItem, ProjectData, ProjectMeta } from './index';
 
 export type SidebarTab = 'collections' | 'environments' | 'history' | null;
 
@@ -46,6 +46,8 @@ export interface ProjectImportConfirmModalState {
 
 export interface ParsedCurlResult {
   body: string | null;
+  bodyMode: 'formdata' | 'none' | 'raw';
+  formData: PostmanFormDataItem[];
   decodedLines: string[];
   headers: Record<string, string>;
   method: string;
