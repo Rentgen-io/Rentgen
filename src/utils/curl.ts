@@ -1,10 +1,113 @@
 import parseCurl from 'parse-curl';
-import { HttpRequest, ParsedCurlResult } from 'src/types';
-import { convertUrlEncodedToFormEntries, isUrlEncodedContentType, isUrlEncodedContentTypeString } from './http';
+import { HttpRequest, ParsedCurlResult, PostmanFormDataItem } from 'src/types';
+import {
+  convertUrlEncodedToFormEntries,
+  getHeaderKey,
+  isUrlEncodedContentType,
+  isUrlEncodedContentTypeString,
+} from './http';
+
+const FORM_FLAGS = new Set(['-F', '--form', '--form-string']);
+const MULTIPART_CONTENT_TYPE_REGEX = /^\s*multipart\/form-data/i;
+
+/**
+ * Splits a command line into arguments the way a POSIX shell would:
+ * handles 'single quotes', "double quotes" and backslash escapes.
+ */
+function splitShellArgs(input: string): string[] {
+  const args: string[] = [];
+  let current = '';
+  let hasToken = false;
+
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i];
+
+    if (/\s/.test(char)) {
+      if (hasToken) args.push(current);
+      current = '';
+      hasToken = false;
+      continue;
+    }
+
+    hasToken = true;
+
+    if (char === "'") {
+      const end = input.indexOf("'", i + 1);
+      current += input.slice(i + 1, end === -1 ? input.length : end);
+      i = end === -1 ? input.length : end;
+    } else if (char === '"') {
+      for (i++; i < input.length && input[i] !== '"'; i++) {
+        // Inside double quotes a backslash only escapes $ ` " \
+        if (input[i] === '\\' && /[$`"\\]/.test(input[i + 1] ?? '')) i++;
+        current += input[i];
+      }
+    } else if (char === '\\' && i + 1 < input.length) {
+      current += input[++i];
+    } else {
+      current += char;
+    }
+  }
+
+  if (hasToken) args.push(current);
+  return args;
+}
+
+/**
+ * Reads a curl -F value: either a "quoted string" (supports \" and \\) or plain text up to the first ';'
+ * (anything after ';' are curl part options like type= or filename=, which are ignored).
+ */
+function readFormValue(raw: string): string {
+  if (!raw.startsWith('"')) return raw.split(';')[0];
+
+  let value = '';
+  for (let i = 1; i < raw.length && raw[i] !== '"'; i++) {
+    if (raw[i] === '\\' && (raw[i + 1] === '"' || raw[i + 1] === '\\')) i++;
+    value += raw[i];
+  }
+  return value;
+}
+
+/**
+ * Parses a single -F/--form argument into a Postman-compatible form-data item.
+ *   name=value | name="value"         -> text
+ *   name=@path | name=@"path"         -> file
+ *   name=<path                        -> file (content read from file)
+ *   --form-string name=value          -> text, taken literally
+ */
+function parseFormArg(arg: string, isLiteral: boolean): PostmanFormDataItem | null {
+  const separatorIndex = arg.indexOf('=');
+  if (separatorIndex <= 0) return null;
+
+  const key = arg.slice(0, separatorIndex).trim();
+  const rawValue = arg.slice(separatorIndex + 1);
+
+  if (isLiteral) return { key, type: 'text', value: rawValue };
+
+  if (rawValue.startsWith('@') || rawValue.startsWith('<'))
+    return { key, type: 'file', src: readFormValue(rawValue.slice(1)) };
+
+  return { key, type: 'text', value: readFormValue(rawValue) };
+}
+
+function extractFormData(curl: string): PostmanFormDataItem[] {
+  const args = splitShellArgs(curl);
+  const items: PostmanFormDataItem[] = [];
+
+  for (let i = 0; i < args.length - 1; i++) {
+    if (!FORM_FLAGS.has(args[i])) continue;
+
+    const item = parseFormArg(args[i + 1], args[i] === '--form-string');
+    if (item) items.push(item);
+    i++;
+  }
+
+  return items;
+}
 
 export function extractCurl(curl: string): ParsedCurlResult {
-  const trimmedCurl = curl.replace(/\\\n/g, ' ').trim();
+  const trimmedCurl = curl.replace(/\\\r?\n/g, ' ').trim();
   const parsedCurl = parseCurl(trimmedCurl);
+  const formData = extractFormData(trimmedCurl);
   const dataFlagRegex = /(?:^|\s)(?:-d|--data(?:-raw|-binary)?|--data-urlencode)\s+(?:'([^']*)'|"([^"]*)"|([^\s]+))/g;
   const extractedDataLines: string[] = [];
   let dataFlagMatch: RegExpExecArray | null;
@@ -60,12 +163,11 @@ export function extractCurl(curl: string): ParsedCurlResult {
     if (match) parsedCurl.body = match[2];
   }
 
-  // Smart HTTP method detection: if there's a body or --data* flag, default to POST
+  // Smart HTTP method detection: if there's a body, --data* or --form flag, default to POST
   let method = (parsedCurl.method || '').toString().toUpperCase();
   if (
     (!method || method === 'GET') &&
-    /--data(?:-raw|-binary|-urlencode)?|-d/i.test(trimmedCurl) &&
-    parsedCurl.body?.trim()
+    (formData.length > 0 || (/--data(?:-raw|-binary|-urlencode)?|-d/i.test(trimmedCurl) && parsedCurl.body?.trim()))
   )
     method = 'POST';
 
@@ -101,9 +203,21 @@ export function extractCurl(curl: string): ParsedCurlResult {
     if (value) headers['Cookie'] = value;
   }
 
+  // Form-data: any --form flag, or a multipart Content-Type without a raw body
+  // (a raw multipart body, e.g. from browser "Copy as cURL", stays in raw mode so it isn't lost)
+  const contentTypeKey = getHeaderKey(headers, 'content-type');
+  const isMultipart = !!contentTypeKey && MULTIPART_CONTENT_TYPE_REGEX.test(headers[contentTypeKey]);
+  const isFormData = formData.length > 0 || (isMultipart && !parsedCurl.body);
+
+  // The boundary must be generated when the request is sent (Postman exports a
+  // "<calculated when request is sent>" placeholder), so drop it from the header
+  if (isFormData && isMultipart && contentTypeKey) headers[contentTypeKey] = 'multipart/form-data';
+
   return {
-    body: parsedCurl.body || null,
-    decodedLines,
+    body: isFormData ? null : parsedCurl.body || null,
+    bodyMode: isFormData ? 'formdata' : parsedCurl.body ? 'raw' : 'none',
+    decodedLines: isFormData ? [] : decodedLines,
+    formData,
     headers,
     method,
     url: parsedCurl.url || '',

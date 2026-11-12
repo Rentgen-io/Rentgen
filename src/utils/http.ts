@@ -146,8 +146,12 @@ export function formatBody(body: string, headers: Record<string, string>): strin
   }
 }
 
+export function getHeaderKey(headers: Record<string, string>, headerName: string): string | undefined {
+  return Object.keys(headers).find((key) => key.toLowerCase() === headerName.toLowerCase());
+}
+
 export function getHeaderValue(headers: Record<string, string>, headerName: string): string {
-  const matchingKey = Object.keys(headers).find((key) => key.toLowerCase() === headerName.toLowerCase());
+  const matchingKey = getHeaderKey(headers, headerName);
   return matchingKey ? String(headers[matchingKey]) : '';
 }
 

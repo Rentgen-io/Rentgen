@@ -48,6 +48,7 @@
   --color-metric-fail: #d74843;
   --color-metric-warning: #a46c08;
   --color-metric-bug: #9655c9;
+  --color-radio: #ffffff;
 }
 
 .dark {
@@ -84,6 +85,7 @@
   --color-metric-fail: #f28b82;
   --color-metric-warning: #e9bc65;
   --color-metric-bug: #c99bec;
+  --color-radio: #686868;
 }
 
 @layer base {
@@ -107,11 +109,11 @@
 
 @layer components {
   input[type='radio']:checked {
-    @apply bg-primary border-2 border-white outline outline-primary;
+    @apply bg-primary outline-primary;
   }
 
   input[type='radio'] {
-    @apply appearance-none size-2.75 bg-white border-2 border-white rounded-full outline outline-muted-foreground cursor-pointer;
+    @apply appearance-none size-2.75 bg-radio border-2 border-radio rounded-full outline outline-muted-foreground cursor-pointer;
   }
 
   .json-plus-button {

@@ -4,7 +4,9 @@ import { sendHttp } from 'src/api/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBody,
+  selectBodyMode,
   selectDynamicVariables,
+  selectFormData,
   selectHeaders,
   selectHistoryEnabled,
   selectIsSending,
@@ -40,6 +42,8 @@ export function useSendHttpRequest() {
   const dispatch = useAppDispatch();
 
   const body = useAppSelector(selectBody);
+  const bodyMode = useAppSelector(selectBodyMode);
+  const formData = useAppSelector(selectFormData);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
   const headers = useAppSelector(selectHeaders);
   const historyEnabled = useAppSelector(selectHistoryEnabled);
@@ -63,12 +67,14 @@ export function useSendHttpRequest() {
     dispatch(requestActions.setIsSending(true));
 
     const historyEntry = {
-      id: generateHistoryId(),
-      timestamp: Date.now(),
-      method,
-      url,
-      headers,
       body,
+      bodyMode,
+      formData,
+      headers,
+      id: generateHistoryId(),
+      method,
+      timestamp: Date.now(),
+      url,
     };
 
     try {
@@ -135,6 +141,8 @@ export function useSendHttpRequest() {
     }
   }, [
     body,
+    bodyMode,
+    formData,
     dynamicVariables,
     headers,
     historyEnabled,

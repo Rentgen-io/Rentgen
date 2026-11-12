@@ -299,12 +299,11 @@ function convertPostmanHeaders(headers: PostmanHeaderFull[]): PostmanHeader[] {
 }
 
 function convertPostmanBody(body: PostmanBodyFull): PostmanBody | undefined {
-  if (body.mode === 'raw' && body.raw) {
+  if (body.mode === 'raw' && body.raw)
     return {
       mode: 'raw',
       raw: body.raw,
     };
-  }
 
   if (body.mode === 'urlencoded' && body.urlencoded) {
     // Convert urlencoded to raw JSON representation
@@ -324,23 +323,11 @@ function convertPostmanBody(body: PostmanBodyFull): PostmanBody | undefined {
     };
   }
 
-  if (body.mode === 'formdata' && body.formdata) {
-    // Convert formdata to displayable format
-    const data = body.formdata
-      .filter((item) => !item.disabled && item.type !== 'file')
-      .reduce(
-        (acc, item) => {
-          acc[item.key] = item.value || '';
-          return acc;
-        },
-        {} as Record<string, string>,
-      );
-
+  if (body.mode === 'formdata' && body.formdata)
     return {
       mode: 'formdata',
-      raw: JSON.stringify(data, null, 2),
+      formdata: body.formdata,
     };
-  }
 
   return undefined;
 }

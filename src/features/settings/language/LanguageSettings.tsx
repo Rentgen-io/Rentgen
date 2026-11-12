@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { openExternal } from 'src/api/system';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -22,7 +21,7 @@ export function LanguageSettings() {
       <p className="m-0 text-xs text-muted-foreground">{t('settings.languageSection.description')}</p>
       <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3">
         {LANGUAGES.map(({ label, code }) => (
-          <label key={code} className={cn('flex items-center gap-2 py-2 cursor-pointer')}>
+          <label key={code} className="flex items-center gap-2 py-2 cursor-pointer">
             <input
               className="m-0"
               type="radio"

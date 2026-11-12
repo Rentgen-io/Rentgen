@@ -1,14 +1,17 @@
 import { PreEvaluation } from './pre-evaluation';
 
 // Postman Collection Format v2 Types
+export type PostmanBodyMode = 'raw' | 'formdata' | 'urlencoded';
+
 export interface PostmanHeader {
   key: string;
   value: string;
 }
 
 export interface PostmanBody {
-  mode: 'raw' | 'formdata' | 'urlencoded';
+  mode: PostmanBodyMode;
   raw?: string;
+  formdata?: PostmanFormDataItem[];
 }
 
 export interface PostmanRequest {
@@ -76,7 +79,7 @@ export interface PostmanHeaderFull {
 }
 
 export interface PostmanBodyFull {
-  mode: 'raw' | 'formdata' | 'urlencoded' | 'file' | 'graphql';
+  mode: PostmanBodyMode | 'file' | 'graphql';
   raw?: string;
   formdata?: PostmanFormDataItem[];
   urlencoded?: PostmanUrlencodedItem[];
@@ -89,7 +92,7 @@ export interface PostmanFormDataItem {
   key: string;
   value?: string;
   type?: 'text' | 'file';
-  src?: string;
+  src?: string[];
   disabled?: boolean;
 }
 
