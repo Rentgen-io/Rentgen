@@ -13,10 +13,10 @@ import ProgressBar from 'src/components/loaders/ProgressBar';
 import { DEFAULT_EVALUATION_QUESTIONS } from 'src/constants/pre-evaluation';
 import usePreEvaluation, { MAX_ITERATIONS, MIN_ITERATIONS } from 'src/hooks/usePreEvaluation';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectBodyRaw, selectPreEvaluationDisabled, selectSelectedRequestId } from 'src/store/selectors';
+import { selectPreEvaluationDisabled, selectPromptPathOptions, selectSelectedRequestId } from 'src/store/selectors';
 import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { EvaluationQuestion, MatchMode } from 'src/types';
-import { findPromptPointers, parseCsv, parseJsonObject, toCsv } from 'src/utils';
+import { parseCsv, toCsv } from 'src/utils';
 import { notify } from 'src/utils/toast';
 import PreEvaluationReport from './PreEvaluationReport';
 
@@ -46,18 +46,14 @@ export default function PreEvaluationPanel() {
     executePreEvaluation,
   } = usePreEvaluation();
 
-  const body = useAppSelector(selectBodyRaw);
   const disabled = useAppSelector(selectPreEvaluationDisabled);
+  const promptPathOptions = useAppSelector(selectPromptPathOptions);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [iterations, setIterations] = useState<string>(String(preEvaluation.iterations));
   const [responsePath, setResponsePath] = useState<string>(preEvaluation.responsePath);
 
-  const promptPathOptions = useMemo(
-    () => findPromptPointers(parseJsonObject(body)).map((path) => ({ label: path, value: path })),
-    [body],
-  );
   const selectedPromptPath = promptPathOptions.find((option) => option.value === preEvaluation.promptPath) ?? null;
 
   const columns = useMemo<TableColumn<EvaluationQuestion>[]>(() => {
