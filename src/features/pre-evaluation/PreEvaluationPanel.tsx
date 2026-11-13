@@ -10,10 +10,24 @@ import Select from 'src/components/inputs/Select';
 import TextareaAutosize from 'src/components/inputs/TextareaAutosize';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import ProgressBar from 'src/components/loaders/ProgressBar';
-import { DEFAULT_EVALUATION_QUESTIONS } from 'src/constants/pre-evaluation';
-import usePreEvaluation, { MAX_ITERATIONS, MIN_ITERATIONS } from 'src/hooks/usePreEvaluation';
+import {
+  DEFAULT_EVALUATION_QUESTIONS,
+  DEFAULT_PRE_EVALUATION,
+  MAX_ITERATIONS,
+  MIN_ITERATIONS,
+} from 'src/constants/pre-evaluation';
+import usePreEvaluation from 'src/hooks/usePreEvaluation';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectPreEvaluationDisabled, selectPromptPathOptions, selectSelectedRequestId } from 'src/store/selectors';
+import {
+  selectCurrentRun,
+  selectEvaluationReport,
+  selectIsPreEvaluationRunning,
+  selectPreEvaluation,
+  selectPreEvaluationDisabled,
+  selectPreEvaluationTotalRuns,
+  selectPromptPathOptions,
+  selectSelectedRequestId,
+} from 'src/store/selectors';
 import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { EvaluationQuestion, MatchMode } from 'src/types';
 import { parseCsv, toCsv } from 'src/utils';
@@ -36,17 +50,12 @@ const modeOptions: RadioOption<MatchMode>[] = [
 export default function PreEvaluationPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const {
-    currentRun,
-    evaluationReport,
-    isRunningPreEvaluation,
-    preEvaluation,
-    totalRuns,
-    cancelPreEvaluation,
-    executePreEvaluation,
-  } = usePreEvaluation();
+  const { executePreEvaluation, stopPreEvaluation } = usePreEvaluation();
 
   const disabled = useAppSelector(selectPreEvaluationDisabled);
+  const evaluationReport = useAppSelector(selectEvaluationReport);
+  const isRunningPreEvaluation = useAppSelector(selectIsPreEvaluationRunning);
+  const preEvaluation = useAppSelector(selectPreEvaluation) ?? DEFAULT_PRE_EVALUATION;
   const promptPathOptions = useAppSelector(selectPromptPathOptions);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
 
@@ -279,23 +288,34 @@ export default function PreEvaluationPanel() {
             <span className="truncate">{t('preEvaluation.runPreEvaluation')}</span>
           </Button>
         ) : (
-          <div className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between gap-2">
-            <Button className="inline-flex items-center gap-2 @lg:w-fit truncate" onClick={cancelPreEvaluation}>
-              <StopIcon className="size-4 shrink-0" />
-              <span className="truncate">{t('common.stop')}</span>
-            </Button>
-            <LoaderWithText
-              className="w-auto text-xs font-normal [&_.loader]:size-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
-              text={t('preEvaluation.running', { current: currentRun, total: totalRuns })}
-            />
-          </div>
-        )}
-        {isRunningPreEvaluation && (
-          <ProgressBar className="absolute bottom-0 left-0" max={totalRuns} value={currentRun} />
+          <PreEvaluationProgress onStop={stopPreEvaluation} />
         )}
       </div>
       {evaluationReport && <PreEvaluationReport report={evaluationReport} />}
     </div>
+  );
+}
+
+function PreEvaluationProgress({ onStop }: { onStop: () => void }) {
+  const { t } = useTranslation();
+
+  const currentRun = useAppSelector(selectCurrentRun);
+  const totalRuns = useAppSelector(selectPreEvaluationTotalRuns);
+
+  return (
+    <>
+      <div className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between gap-2">
+        <Button className="inline-flex items-center gap-2 @lg:w-fit truncate" onClick={onStop}>
+          <StopIcon className="size-4 shrink-0" />
+          <span className="truncate">{t('common.stop')}</span>
+        </Button>
+        <LoaderWithText
+          className="w-auto text-xs font-normal [&_.loader]:size-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
+          text={t('preEvaluation.running', { current: currentRun, total: totalRuns })}
+        />
+      </div>
+      <ProgressBar className="absolute bottom-0 left-0" max={totalRuns} value={currentRun} />
+    </>
   );
 }
 

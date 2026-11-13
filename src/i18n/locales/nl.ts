@@ -96,6 +96,7 @@ const nl = {
     deleteEnvironmentConfirm: 'Weet je zeker dat je deze omgeving wilt verwijderen?',
     deleteEnvironment: 'Omgeving verwijderen',
     untitled: 'Naamloos',
+    duplicateVariable: 'Er bestaat al een variabele met deze naam',
   },
 
   // History
@@ -254,8 +255,6 @@ const nl = {
       selectEnvironment: 'Selecteer omgeving...',
       linkedRequest: 'Gekoppeld verzoek',
       variableNameRequired: 'Naam van variabele is verplicht',
-      selectorRequired: 'Selector is verplicht',
-      selectEnvironmentError: 'Selecteer een omgeving',
       duplicateWarning: 'Er bestaat al een variabele met deze naam. Deze wordt overschreven.',
     },
     projectImport: {

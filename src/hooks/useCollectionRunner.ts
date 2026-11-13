@@ -14,7 +14,7 @@ import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
-import { PostmanItem, RequestParameters } from 'src/types';
+import { PostmanItem } from 'src/types';
 import {
   createHttpRequest,
   extractDynamicVariables,
@@ -81,7 +81,6 @@ export function useCollectionRunner() {
         const { body, headers, url } = substituteRequestVariables(
           request.body ?? {},
           selectSelectedEnvironment(state),
-          // Current values, so a variable extracted by the previous request of a folder run is already applied
           selectDynamicVariables(state),
           headersRecordToString(postmanHeadersToRecord(request.header)),
           request.url,
@@ -93,8 +92,7 @@ export function useCollectionRunner() {
 
         // The state after the response: mappings, selection or variables may have changed while waiting for it
         const latestState = store.getState();
-
-        const { bodyParameters, queryParameters }: Record<'bodyParameters' | 'queryParameters', RequestParameters> =
+        const { bodyParameters, queryParameters } =
           status >= RESPONSE_STATUS.OK && status < RESPONSE_STATUS.REDIRECT
             ? extractRequestParameters(body, url, selectMappings(latestState)[item.id])
             : { bodyParameters: {}, queryParameters: {} };
@@ -113,7 +111,6 @@ export function useCollectionRunner() {
             bodyParameters,
             queryParameters,
             error: null,
-            // A cancelled request has no response to extract variables from
             warning: isAbortedResponse(response)
               ? null
               : formatExtractionWarning(

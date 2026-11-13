@@ -96,6 +96,7 @@ const de = {
     deleteEnvironmentConfirm: 'Möchten Sie diese Umgebung wirklich löschen?',
     deleteEnvironment: 'Umgebung löschen',
     untitled: 'Ohne Titel',
+    duplicateVariable: 'Eine Variable mit diesem Namen existiert bereits',
   },
 
   // History
@@ -253,8 +254,6 @@ const de = {
       selectEnvironment: 'Umgebung auswählen...',
       linkedRequest: 'Verknüpfte Anfrage',
       variableNameRequired: 'Variablenname ist erforderlich',
-      selectorRequired: 'Selektor ist erforderlich',
-      selectEnvironmentError: 'Bitte wählen Sie eine Umgebung aus',
       duplicateWarning: 'Eine Variable mit diesem Namen existiert bereits. Sie wird überschrieben.',
     },
     projectImport: {

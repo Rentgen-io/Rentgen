@@ -96,6 +96,7 @@ const zhCN = {
     deleteEnvironmentConfirm: '确定要删除此环境吗？',
     deleteEnvironment: '删除环境',
     untitled: '未命名',
+    duplicateVariable: '已存在同名变量',
   },
 
   // History
@@ -248,8 +249,6 @@ const zhCN = {
       selectEnvironment: '选择环境...',
       linkedRequest: '关联的请求',
       variableNameRequired: '变量名为必填项',
-      selectorRequired: '选择器为必填项',
-      selectEnvironmentError: '请选择一个环境',
       duplicateWarning: '已存在同名变量。它将被覆盖。',
     },
     projectImport: {

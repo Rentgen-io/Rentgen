@@ -96,6 +96,7 @@ const it = {
     deleteEnvironmentConfirm: 'Sei sicuro di voler eliminare questo ambiente?',
     deleteEnvironment: 'Elimina ambiente',
     untitled: 'Senza titolo',
+    duplicateVariable: 'Esiste già una variabile con questo nome',
   },
 
   // History
@@ -255,8 +256,6 @@ const it = {
       selectEnvironment: 'Seleziona ambiente...',
       linkedRequest: 'Richiesta collegata',
       variableNameRequired: 'Il nome della variabile è obbligatorio',
-      selectorRequired: 'Il selettore è obbligatorio',
-      selectEnvironmentError: 'Seleziona un ambiente',
       duplicateWarning: 'Esiste già una variabile con questo nome. Verrà sovrascritta.',
     },
     projectImport: {

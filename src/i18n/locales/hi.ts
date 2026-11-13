@@ -96,6 +96,7 @@ const hi = {
     deleteEnvironmentConfirm: 'क्या आप वाकई इस एनवायरनमेंट को हटाना चाहते हैं?',
     deleteEnvironment: 'एनवायरनमेंट हटाएँ',
     untitled: 'बिना शीर्षक',
+    duplicateVariable: 'इस नाम का वेरिएबल पहले से मौजूद है',
   },
 
   // History
@@ -253,8 +254,6 @@ const hi = {
       selectEnvironment: 'एनवायरनमेंट चुनें...',
       linkedRequest: 'लिंक किया गया अनुरोध',
       variableNameRequired: 'वैरिएबल का नाम आवश्यक है',
-      selectorRequired: 'सेलेक्टर आवश्यक है',
-      selectEnvironmentError: 'कृपया एक एनवायरनमेंट चुनें',
       duplicateWarning: 'इस नाम का वैरिएबल पहले से मौजूद है। इसे अधिलेखित किया जाएगा।',
     },
     projectImport: {

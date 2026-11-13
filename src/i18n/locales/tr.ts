@@ -96,6 +96,7 @@ const tr = {
     deleteEnvironmentConfirm: 'Bu ortamı silmek istediğinizden emin misiniz?',
     deleteEnvironment: 'Ortamı Sil',
     untitled: 'Adsız',
+    duplicateVariable: 'Bu ada sahip bir değişken zaten var',
   },
 
   // History
@@ -253,8 +254,6 @@ const tr = {
       selectEnvironment: 'Ortam seçin...',
       linkedRequest: 'Bağlı İstek',
       variableNameRequired: 'Değişken adı gereklidir',
-      selectorRequired: 'Seçici gereklidir',
-      selectEnvironmentError: 'Lütfen bir ortam seçin',
       duplicateWarning: 'Bu ada sahip bir değişken zaten var. Üzerine yazılacak.',
     },
     projectImport: {

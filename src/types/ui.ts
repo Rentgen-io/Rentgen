@@ -26,6 +26,12 @@ export interface ImportConflictModalState {
   warnings: string[];
 }
 
+export interface ResponsePanelContext {
+  source: 'body' | 'header';
+  jsonPath?: string | null;
+  jsonValue?: string | null;
+}
+
 export interface SetAsDynamicVariableModalState {
   isOpen: boolean;
   initialSelector: string;

@@ -96,6 +96,7 @@ const lt = {
     deleteEnvironmentConfirm: 'Ar tikrai norite ištrinti šią aplinką?',
     deleteEnvironment: 'Ištrinti aplinką',
     untitled: 'Be pavadinimo',
+    duplicateVariable: 'Kintamasis tokiu pavadinimu jau yra',
   },
 
   // History
@@ -253,8 +254,6 @@ const lt = {
       selectEnvironment: 'Pasirinkite aplinką...',
       linkedRequest: 'Susieta užklausa',
       variableNameRequired: 'Kintamojo pavadinimas privalomas',
-      selectorRequired: 'Selektorius privalomas',
-      selectEnvironmentError: 'Prašome pasirinkti aplinką',
       duplicateWarning: 'Kintamasis su šiuo pavadinimu jau egzistuoja. Jis bus perrašytas.',
     },
     projectImport: {
