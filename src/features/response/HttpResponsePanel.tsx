@@ -104,11 +104,12 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                 ) : (
                   <span
                     className={cn('py-px px-2 text-xs rounded', {
-                      'text-green-500 bg-green-500/10': httpResponse?.status.startsWith('2') && !runResult?.warning,
-                      'text-yellow-500 bg-yellow-500/10': httpResponse?.status.startsWith('2') && runResult?.warning,
+                      'text-metric-pass bg-metric-pass/10': httpResponse?.status.startsWith('2') && !runResult?.warning,
+                      'text-metric-warning bg-metric-warning/10':
+                        httpResponse?.status.startsWith('2') && runResult?.warning,
                       'text-blue-500 bg-blue-500/10': httpResponse?.status.startsWith('3'),
-                      'text-orange-500 bg-orange-500/10': httpResponse?.status.startsWith('4') || isAborted,
-                      'text-red-500 bg-red-500/10':
+                      'text-primary bg-primary/10': httpResponse?.status.startsWith('4') || isAborted,
+                      'text-metric-fail bg-metric-fail/10':
                         httpResponse?.status.startsWith('5') || isNetworkError || httpResponse?.status === 'Error',
                     })}
                   >
