@@ -18,7 +18,7 @@ import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { loadSettings, settingsActions } from 'src/store/slices/settingsSlice';
 import { PostmanFolder } from 'src/types';
-import { collectExtractionFailures } from 'src/utils';
+import { extractDynamicVariables } from 'src/utils';
 
 const isParametersUpdate = isAnyOf(requestActions.updateBodyParameters, requestActions.updateQueryParameters);
 
@@ -117,14 +117,8 @@ startAppListening({
     const { collection, environment } = getState();
     if (!collection.selectedRequestId) return;
 
-    collectExtractionFailures(
-      environment.dynamicVariables,
-      collection.selectedRequestId,
-      response,
-      (current, extracted) => {
-        if (extracted.success && extracted.value !== null)
-          dispatch(environmentActions.updateDynamicVariableValue({ id: current.id, value: extracted.value }));
-      },
+    extractDynamicVariables(environment.dynamicVariables, collection.selectedRequestId, response, (variable, value) =>
+      dispatch(environmentActions.updateDynamicVariableValue({ id: variable.id, value })),
     );
   },
 });

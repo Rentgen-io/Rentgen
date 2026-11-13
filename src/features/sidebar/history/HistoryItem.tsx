@@ -41,8 +41,6 @@ export default function HistoryItem({ entry, searchTerm }: Props) {
     dispatch(requestActions.setUrl(entry.url));
     dispatch(requestActions.setHeaders(entry.headers));
     dispatch(requestActions.setBody(entry.body));
-    dispatch(requestActions.setBodyMode(entry.bodyMode ?? 'raw'));
-    dispatch(requestActions.setFormData(entry.formData || []));
 
     if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
   }, [entry, isComparingTestResults, dispatch, reset]);

@@ -87,7 +87,7 @@ export class HttpClientError extends Error {
   }
 }
 
-// Mirrors the desktop UI's parseBody → axios flow: when the user did not set a
+// Mirrors the desktop UI's buildRequestBody → axios flow: when the user did not set a
 // Content-Type and the body parses as a JSON object/array, send it as JSON.
 // Without this, axios falls back to `application/x-www-form-urlencoded` for
 // raw string bodies, which makes JSON APIs return 500.

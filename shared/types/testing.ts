@@ -1,5 +1,5 @@
 import { Method } from 'axios';
-import { HttpBody, HttpRequest, HttpResponse } from 'shared/types/http';
+import { HttpRequest, HttpResponse, RequestBody } from 'shared/types/http';
 import type { AiUsage } from 'src/api/ai';
 
 export type DataType =
@@ -48,7 +48,7 @@ export interface RequestParameters {
 }
 
 export interface TestOptions {
-  body: HttpBody;
+  body: RequestBody;
   bodyParameters: RequestParameters;
   headers: Record<string, string>;
   method: Method | string;

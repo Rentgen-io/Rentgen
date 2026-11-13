@@ -1,6 +1,6 @@
 import { RESPONSE_STATUS } from 'shared/responseStatus';
 import i18n from 'src/i18n';
-import type { AiProvider, HttpBody } from 'src/types';
+import type { AiProvider, ResponseBody } from 'src/types';
 import { extractStatusCode, isObject } from 'src/utils';
 import { sendHttp } from './network';
 
@@ -21,8 +21,8 @@ export interface AiUsage {
 }
 
 export type AiChatResult =
-  | { ok: true; content: string; body: HttpBody; usage: AiUsage | null }
-  | { ok: false; error: string; body?: HttpBody };
+  | { ok: true; content: string; body: ResponseBody; usage: AiUsage | null }
+  | { ok: false; error: string; body?: ResponseBody };
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   return isObject(value) && !Array.isArray(value) ? (value as Record<string, unknown>) : null;
@@ -32,7 +32,7 @@ const asNumber = (value: unknown): number | null =>
   typeof value === 'number' && Number.isFinite(value) ? value : null;
 
 // Supports the OpenAI-compatible shape (usage.prompt_tokens/completion_tokens) and Ollama's native shape (prompt_eval_count/eval_count).
-function extractUsage(body: HttpBody): AiUsage | null {
+function extractUsage(body: ResponseBody): AiUsage | null {
   const root = asRecord(body);
   if (!root) return null;
 
@@ -79,7 +79,7 @@ function buildAnthropicBody(
 }
 
 // Supports the OpenAI-compatible shape (choices[].message.content), Ollama's native shape (message.content) and Anthropic's (content[].text).
-function extractContent(body: HttpBody): string | null {
+function extractContent(body: ResponseBody): string | null {
   const root = asRecord(body);
   if (!root) return null;
 
@@ -100,7 +100,7 @@ function extractContent(body: HttpBody): string | null {
   return typeof content === 'string' ? content : null;
 }
 
-function extractError(body: HttpBody, status: string): string {
+function extractError(body: ResponseBody, status: string): string {
   const root = asRecord(body);
   const error = root?.error;
 

@@ -15,6 +15,49 @@ interface DateGroup {
   entries: HistoryEntry[];
 }
 
+export default function HistoryPanel() {
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
+  const entries = useAppSelector(selectHistoryEntries);
+
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const allGroups = useMemo(() => groupHistoryByDate(entries), [entries]);
+  const groups = useMemo(() => filterGroupsBySearch(allGroups, searchTerm), [allGroups, searchTerm]);
+
+  return (
+    <>
+      <div className="h-9 shrink-0 flex items-center justify-between gap-2 px-3 py-2 border-b border-border box-border">
+        <span className="text-xs text-muted-foreground">{t('history.title')}</span>
+        {entries.length > 0 && (
+          <TrashIcon
+            className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
+            onClick={() => dispatch(historyActions.clearHistory())}
+            title={t('history.clearAll')}
+          />
+        )}
+      </div>
+
+      {entries.length > 0 && (
+        <SideBarSearch value={searchTerm} onChange={setSearchTerm} placeholder={t('history.searchHistory')} />
+      )}
+
+      {groups.length > 0 ? (
+        <div className="h-full overflow-x-hidden overflow-y-auto">
+          {groups.map((group) => (
+            <HistoryDateGroup key={group.date} label={group.label} entries={group.entries} searchTerm={searchTerm} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-full w-full p-4 text-xs text-muted-foreground">
+          {searchTerm.trim().length > 0 ? t('history.noMatchingHistory') : t('history.noHistoryYet')}
+        </div>
+      )}
+    </>
+  );
+}
+
 function groupHistoryByDate(entries: HistoryEntry[]): DateGroup[] {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
@@ -62,54 +105,10 @@ function filterGroupsBySearch(groups: DateGroup[], searchTerm: string): DateGrou
         (entry) =>
           entry.url.toLowerCase().includes(term) ||
           entry.method.toLowerCase().includes(term) ||
-          entry.headers.toLowerCase().includes(term) ||
-          entry.body.toLowerCase().includes(term),
+          entry.headers.toLowerCase().includes(term),
       );
       if (filtered.length > 0) acc.push({ ...group, entries: filtered });
     }
     return acc;
   }, []);
-}
-
-export default function HistoryPanel() {
-  const dispatch = useAppDispatch();
-  const { t } = useTranslation();
-
-  const entries = useAppSelector(selectHistoryEntries);
-
-  const [searchTerm, setSearchTerm] = useState<string>('');
-
-  const allGroups = useMemo(() => groupHistoryByDate(entries), [entries]);
-  const groups = useMemo(() => filterGroupsBySearch(allGroups, searchTerm), [allGroups, searchTerm]);
-
-  return (
-    <>
-      <div className="h-9 shrink-0 flex items-center justify-between gap-2 px-3 py-2 border-b border-border box-border">
-        <span className="text-xs text-muted-foreground">{t('history.title')}</span>
-        {entries.length > 0 && (
-          <TrashIcon
-            className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
-            onClick={() => dispatch(historyActions.clearHistory())}
-            title={t('history.clearAll')}
-          />
-        )}
-      </div>
-
-      {entries.length > 0 && (
-        <SideBarSearch value={searchTerm} onChange={setSearchTerm} placeholder={t('history.searchHistory')} />
-      )}
-
-      {groups.length > 0 ? (
-        <div className="h-full overflow-x-hidden overflow-y-auto">
-          {groups.map((group) => (
-            <HistoryDateGroup key={group.date} label={group.label} entries={group.entries} searchTerm={searchTerm} />
-          ))}
-        </div>
-      ) : (
-        <div className="flex items-center justify-center h-full w-full p-4 text-xs text-muted-foreground">
-          {searchTerm.trim().length > 0 ? t('history.noMatchingHistory') : t('history.noHistoryYet')}
-        </div>
-      )}
-    </>
-  );
 }

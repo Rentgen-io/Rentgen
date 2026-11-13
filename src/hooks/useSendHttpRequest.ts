@@ -4,9 +4,7 @@ import { sendHttp } from 'src/api/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBody,
-  selectBodyMode,
   selectDynamicVariables,
-  selectFormData,
   selectHeaders,
   selectHistoryEnabled,
   selectIsSending,
@@ -24,10 +22,10 @@ import { responseActions } from 'src/store/slices/responseSlice';
 import { RequestParameters } from 'src/types';
 import {
   applyMapping,
-  collectExtractionFailures,
   createHttpRequest,
   detectDataType,
   extractBodyParameters,
+  extractDynamicVariables,
   extractQueryParameters,
   extractStatusCode,
   formatExtractionWarning,
@@ -42,8 +40,6 @@ export function useSendHttpRequest() {
   const dispatch = useAppDispatch();
 
   const body = useAppSelector(selectBody);
-  const bodyMode = useAppSelector(selectBodyMode);
-  const formData = useAppSelector(selectFormData);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
   const headers = useAppSelector(selectHeaders);
   const historyEnabled = useAppSelector(selectHistoryEnabled);
@@ -68,8 +64,6 @@ export function useSendHttpRequest() {
 
     const historyEntry = {
       body,
-      bodyMode,
-      formData,
       headers,
       id: generateHistoryId(),
       method,
@@ -82,7 +76,7 @@ export function useSendHttpRequest() {
         url: substitutedUrl,
         headers: substitutedHeaders,
         body: substitutedBody,
-      } = substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables);
+      } = substituteRequestVariables(body, selectedEnvironment, dynamicVariables, headers, url);
       const request = createHttpRequest(substitutedBody, substitutedHeaders, method, substitutedUrl);
       const response = await sendHttp(request, controller.signal);
       const status = extractStatusCode(response);
@@ -94,7 +88,7 @@ export function useSendHttpRequest() {
 
       if (status >= RESPONSE_STATUS.OK && status < RESPONSE_STATUS.REDIRECT) {
         bodyParameters = applyMapping(
-          extractBodyParameters(substitutedBody, substitutedHeaders),
+          extractBodyParameters(substitutedBody),
           (selectedRequestId && mappings[selectedRequestId]?.body) || {},
         );
         queryParameters = applyMapping(
@@ -122,7 +116,7 @@ export function useSendHttpRequest() {
             bodyParameters,
             queryParameters,
             error: null,
-            warning: formatExtractionWarning(collectExtractionFailures(dynamicVariables, selectedRequestId, response)),
+            warning: formatExtractionWarning(extractDynamicVariables(dynamicVariables, selectedRequestId, response)),
           }),
         );
     } catch (error) {
@@ -141,8 +135,6 @@ export function useSendHttpRequest() {
     }
   }, [
     body,
-    bodyMode,
-    formData,
     dynamicVariables,
     headers,
     historyEnabled,

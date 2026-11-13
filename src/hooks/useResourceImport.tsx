@@ -52,7 +52,7 @@ export function useResourceImport() {
       try {
         if (curl.length > MAX_CURL_LENGTH) return false;
 
-        const { body, bodyMode, formData, decodedLines, headers, method, url } = extractCurl(curl);
+        const { body, headers, method, url } = extractCurl(curl);
 
         reset();
         dispatch(requestActions.setUrl(url));
@@ -64,12 +64,7 @@ export function useResourceImport() {
               .join('\n'),
           ),
         );
-
-        if (formData.length > 0) dispatch(requestActions.setFormData(formData));
-        else if (decodedLines.length > 0) dispatch(requestActions.setBody(decodedLines.join('\n')));
-        else dispatch(requestActions.setBody(body ? String(body).trim() : ''));
-
-        dispatch(requestActions.setBodyMode(bodyMode));
+        dispatch(requestActions.setBody(body ?? {}));
 
         return true;
       } catch {

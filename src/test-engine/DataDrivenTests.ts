@@ -52,7 +52,7 @@ export class DataDrivenTests extends BaseTests<TestResult[]> {
       this.options,
       async (parameterName: string, { type, overrides }: ParameterValue) => {
         const testData: TestData = {
-          value: `   ${getBodyParameterValue(body, parameterName, headers)}   `,
+          value: `   ${getBodyParameterValue(body, parameterName)}   `,
           valid: false,
         };
         const updateData = overrides?.find((override) => override.value === testData.value) || testData;
@@ -171,8 +171,8 @@ export async function runDataDrivenTests(
   onBodyParameterTest: (key: string, value: ParameterValue) => Promise<void>,
   onQueryParameterTest: (key: string, value: ParameterValue) => Promise<void>,
 ) {
-  const { body, headers, bodyParameters, queryParameters } = options;
-  const originalBodyParameters = extractBodyParameters(body, headers);
+  const { body, bodyParameters, queryParameters } = options;
+  const originalBodyParameters = extractBodyParameters(body);
 
   // Test string value normalization (trimming)
   for (const [key, value] of Object.entries(bodyParameters)) {

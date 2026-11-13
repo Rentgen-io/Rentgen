@@ -1,7 +1,9 @@
-import { DEFAULT_FOLDER_ID, DEFAULT_FOLDER_NAME, generateFolderId, generateRequestId } from 'shared/utils/collection';
+import { DEFAULT_FOLDER_ID, DEFAULT_FOLDER_NAME } from 'shared/utils/collection';
+import { generateFolderId, generateRequestId } from 'shared/utils/id';
 import {
   ImportConflict,
   ImportConflictSummary,
+  PostmanBody,
   PostmanCollection,
   PostmanFolder,
   PostmanHeader,
@@ -10,8 +12,9 @@ import {
   PreEvaluation,
 } from 'src/types';
 
-export { createEmptyCollection, generateFolderId, generateHistoryId, generateRequestId } from 'shared/utils/collection';
+export { createEmptyCollection } from 'shared/utils/collection';
 
+/** A request as listed in the sidebar. */
 export interface CollectionItemData {
   id: string;
   method: string;
@@ -20,145 +23,11 @@ export interface CollectionItemData {
   folderId: string;
 }
 
+/** A folder as listed in the sidebar. */
 export interface CollectionFolderData {
   id: string;
   name: string;
   items: CollectionItemData[];
-}
-
-export function headersToPostmanFormat(headers: Record<string, string>): PostmanHeader[] {
-  return Object.entries(headers).map(([key, value]) => ({ key, value }));
-}
-
-export function postmanHeadersToRecord(headers: PostmanHeader[]): Record<string, string> {
-  const result: Record<string, string> = {};
-  for (const header of headers) result[header.key] = header.value;
-
-  return result;
-}
-
-export function headersRecordToString(headers: Record<string, string>): string {
-  return Object.entries(headers)
-    .map(([key, value]) => `${key}: ${value}`)
-    .join('\n');
-}
-
-export function requestToPostmanItem(
-  method: string,
-  url: string,
-  headers: Record<string, string>,
-  body: string | null,
-  preEvaluation: PreEvaluation | null,
-): PostmanItem {
-  const request: PostmanRequest = {
-    method: method.toUpperCase(),
-    url,
-    header: headersToPostmanFormat(headers),
-  };
-
-  if (body && !['GET', 'HEAD'].includes(method.toUpperCase())) {
-    request.body = {
-      mode: 'raw',
-      raw: body,
-    };
-  }
-
-  return {
-    id: generateRequestId(),
-    name: url,
-    request,
-    ...(preEvaluation !== null && { preEvaluation }),
-  };
-}
-
-export function addRequestToCollection(
-  collection: PostmanCollection,
-  method: string,
-  url: string,
-  headers: Record<string, string>,
-  body: string | null,
-  preEvaluation: PreEvaluation | null,
-  folderId: string = DEFAULT_FOLDER_ID,
-): PostmanCollection {
-  // Find or create folder
-  let folder = collection.item.find((f) => f.id === folderId);
-  if (!folder) {
-    folder = {
-      id: folderId,
-      name: folderId === DEFAULT_FOLDER_ID ? DEFAULT_FOLDER_NAME : folderId,
-      item: [],
-    };
-    collection.item.push(folder);
-  }
-
-  folder.item.unshift(requestToPostmanItem(method, url, headers, body, preEvaluation));
-  return { ...collection };
-}
-
-export function updateRequestInCollection(
-  collection: PostmanCollection,
-  requestId: string,
-  method: string,
-  url: string,
-  headers: Record<string, string>,
-  body: string | null,
-  preEvaluation: PreEvaluation | null,
-): PostmanCollection {
-  const updatedCollection = { ...collection, item: [...collection.item] };
-
-  for (let i = 0; i < updatedCollection.item.length; i++) {
-    const folder = updatedCollection.item[i];
-    const itemIndex = folder.item.findIndex((item) => item.id === requestId);
-
-    if (itemIndex !== -1) {
-      updatedCollection.item[i] = {
-        ...folder,
-        item: [...folder.item],
-      };
-
-      const request: PostmanRequest = {
-        method: method.toUpperCase(),
-        url,
-        header: headersToPostmanFormat(headers),
-      };
-
-      if (body && !['GET', 'HEAD'].includes(method.toUpperCase())) {
-        request.body = {
-          mode: 'raw',
-          raw: body,
-        };
-      }
-
-      updatedCollection.item[i].item[itemIndex] = {
-        ...folder.item[itemIndex],
-        request,
-        ...(preEvaluation !== null && { preEvaluation }),
-      };
-
-      return updatedCollection;
-    }
-  }
-
-  return collection;
-}
-
-export function removeRequestFromCollection(collection: PostmanCollection, requestId: string): PostmanCollection {
-  for (const folder of collection.item) {
-    const index = folder.item.findIndex((item) => item.id === requestId);
-    if (index !== -1) {
-      folder.item.splice(index, 1);
-      break;
-    }
-  }
-  return { ...collection };
-}
-
-export function findRequestById(collection: PostmanCollection, requestId: string): PostmanItem | null {
-  for (const folder of collection.item) {
-    const item = folder.item.find((i) => i.id === requestId);
-    if (item) return item;
-  }
-  return null;
 }
 
 export interface RequestWithFolder {
@@ -166,18 +35,79 @@ export interface RequestWithFolder {
   request: PostmanItem;
 }
 
+/** Position of a request inside a collection. */
+interface RequestLocation {
+  folderIndex: number;
+  itemIndex: number;
+}
+
+// ---------- Headers ----------
+
+export function headersToPostmanFormat(headers: Record<string, string>): PostmanHeader[] {
+  return Object.entries(headers).map(([key, value]) => ({ key, value }));
+}
+
+/** When a header repeats, the last value wins. */
+export function postmanHeadersToRecord(headers: PostmanHeader[]): Record<string, string> {
+  return Object.fromEntries(headers.map(({ key, value }) => [key, value]));
+}
+
+/** Formats headers as the header editor's text: one `Name: value` per line. */
+export function headersRecordToString(headers: Record<string, string>): string {
+  return Object.entries(headers)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join('\n');
+}
+
+// ---------- Requests ----------
+
+/** Adds a request at the top of the folder, creating the folder at the end of the collection if it doesn't exist. */
+export function addRequestToCollection(
+  collection: PostmanCollection,
+  method: string,
+  url: string,
+  headers: Record<string, string>,
+  body: PostmanBody,
+  preEvaluation: PreEvaluation | null,
+  folderId: string = DEFAULT_FOLDER_ID,
+): PostmanCollection {
+  const item: PostmanItem = {
+    id: generateRequestId(),
+    name: url,
+    request: buildPostmanRequest(method, url, headers, body),
+    ...(preEvaluation !== null && { preEvaluation }),
+  };
+  const folders = collection.item.some((folder) => folder.id === folderId)
+    ? collection.item
+    : [...collection.item, createFolder(folderId)];
+  const folderIndex = folders.findIndex((folder) => folder.id === folderId);
+
+  return {
+    ...collection,
+    item: folders.map((folder, index) =>
+      index === folderIndex ? { ...folder, item: [item, ...folder.item] } : folder,
+    ),
+  };
+}
+
 /**
- * Find a request by ID and also return the containing folder.
- * Useful when you need both the request and folder context (e.g., for dynamic variables).
+ * Replaces the request's method, URL, headers and body.
+ * A `null` preEvaluation keeps the saved one. Returns the same collection when the request isn't found.
  */
-export function findRequestWithFolder(collection: PostmanCollection, requestId: string): RequestWithFolder | null {
-  for (const folder of collection.item) {
-    const item = folder.item.find((i) => i.id === requestId);
-    if (item) {
-      return { folder, request: item };
-    }
-  }
-  return null;
+export function updateRequestInCollection(
+  collection: PostmanCollection,
+  requestId: string,
+  method: string,
+  url: string,
+  headers: Record<string, string>,
+  body: PostmanBody,
+  preEvaluation: PreEvaluation | null,
+): PostmanCollection {
+  return updateRequestItem(collection, requestId, (item) => ({
+    ...item,
+    request: buildPostmanRequest(method, url, headers, body),
+    ...(preEvaluation !== null && { preEvaluation }),
+  }));
 }
 
 export function renameRequestInCollection(
@@ -185,72 +115,129 @@ export function renameRequestInCollection(
   requestId: string,
   newName: string,
 ): PostmanCollection {
-  const updatedCollection = { ...collection, item: [...collection.item] };
-  for (const folder of updatedCollection.item) {
-    const index = folder.item.findIndex((item) => item.id === requestId);
-    if (index !== -1) {
-      folder.item[index] = {
-        ...folder.item[index],
-        name: newName,
-      };
-      break;
-    }
-  }
-
-  return updatedCollection;
+  return updateRequestItem(collection, requestId, (item) => ({ ...item, name: newName }));
 }
 
+/** Moves a request to the position of another request in the same folder. */
 export function reorderRequestInCollection(
   collection: PostmanCollection,
   activeId: string,
   overId: string,
 ): PostmanCollection {
-  const updatedCollection = {
-    ...collection,
-    item: collection.item.map((folder) => ({
-      ...folder,
-      item: [...folder.item],
-    })),
-  };
+  const folderIndex = collection.item.findIndex(
+    (folder) => folder.item.some((item) => item.id === activeId) && folder.item.some((item) => item.id === overId),
+  );
 
-  for (const folder of updatedCollection.item) {
-    const activeIndex = folder.item.findIndex((item) => item.id === activeId);
-    const overIndex = folder.item.findIndex((item) => item.id === overId);
-
-    if (activeIndex !== -1 && overIndex !== -1) {
-      const [movedItem] = folder.item.splice(activeIndex, 1);
-      folder.item.splice(overIndex, 0, movedItem);
-      break;
-    }
-  }
-
-  return updatedCollection;
-}
-
-export function collectionToGroupedSidebarData(collection: PostmanCollection): CollectionFolderData[] {
-  return collection.item.map((folder) => ({
-    id: folder.id,
-    name: folder.id === DEFAULT_FOLDER_ID ? (folder.name ?? DEFAULT_FOLDER_NAME) : folder.name,
-    items: folder.item.map((item) => ({
-      id: item.id,
-      method: item.request.method,
-      url: item.request.url,
-      name: item.name,
-      folderId: folder.id,
-    })),
-  }));
-}
-
-export function addFolderToCollection(collection: PostmanCollection, name: string): PostmanCollection {
-  const newFolder = {
-    id: generateFolderId(),
-    name,
-    item: [] as PostmanItem[],
-  };
   return {
     ...collection,
-    item: [newFolder, ...collection.item],
+    item: collection.item.map((folder, index) => {
+      if (index !== folderIndex) return { ...folder, item: [...folder.item] };
+
+      const activeIndex = folder.item.findIndex((item) => item.id === activeId);
+      const overIndex = folder.item.findIndex((item) => item.id === overId);
+
+      return { ...folder, item: moveArrayItem(folder.item, activeIndex, overIndex) };
+    }),
   };
+}
+
+/** Moves a request to another folder, at `targetIndex` or at the end. */
+export function moveRequestToFolder(
+  collection: PostmanCollection,
+  requestId: string,
+  targetFolderId: string,
+  targetIndex?: number,
+): PostmanCollection {
+  const source = findRequestWithFolder(collection, requestId);
+
+  // Without an existing target folder the request would be removed and never re-inserted
+  if (!source || source.folder.id === targetFolderId || !collection.item.some((folder) => folder.id === targetFolderId))
+    return collection;
+
+  return {
+    ...collection,
+    item: collection.item.map((folder) => {
+      if (folder.id === source.folder.id)
+        return { ...folder, item: folder.item.filter((item) => item.id !== requestId) };
+
+      if (folder.id === targetFolderId) {
+        const items = [...folder.item];
+        items.splice(targetIndex ?? items.length, 0, source.request);
+
+        return { ...folder, item: items };
+      }
+
+      return folder;
+    }),
+  };
+}
+
+export function removeRequestFromCollection(collection: PostmanCollection, requestId: string): PostmanCollection {
+  const location = findRequestLocation(collection, requestId);
+  if (!location) return { ...collection };
+
+  return {
+    ...collection,
+    item: collection.item.map((folder, index) =>
+      index === location.folderIndex
+        ? { ...folder, item: folder.item.filter((_, itemIndex) => itemIndex !== location.itemIndex) }
+        : folder,
+    ),
+  };
+}
+
+export function findRequestById(collection: PostmanCollection, requestId: string): PostmanItem | null {
+  return findRequestWithFolder(collection, requestId)?.request ?? null;
+}
+
+export function findFolderIdByRequestId(collection: PostmanCollection, requestId: string): string | null {
+  return findRequestWithFolder(collection, requestId)?.folder.id ?? null;
+}
+
+/** Finds a request together with its folder, e.g. when the folder's dynamic variables are needed too. */
+export function findRequestWithFolder(collection: PostmanCollection, requestId: string): RequestWithFolder | null {
+  const location = findRequestLocation(collection, requestId);
+  if (!location) return null;
+
+  const folder = collection.item[location.folderIndex];
+
+  return { folder, request: folder.item[location.itemIndex] };
+}
+
+// ---------- Folders ----------
+
+/** Adds an empty folder at the top of the collection. */
+export function addFolderToCollection(collection: PostmanCollection, name: string): PostmanCollection {
+  const folder: PostmanFolder = { id: generateFolderId(), name, item: [] };
+
+  return { ...collection, item: [folder, ...collection.item] };
+}
+
+export function renameFolderInCollection(
+  collection: PostmanCollection,
+  folderId: string,
+  newName: string,
+): PostmanCollection {
+  return {
+    ...collection,
+    item: collection.item.map((folder) => (folder.id === folderId ? { ...folder, name: newName } : folder)),
+  };
+}
+
+/** Moves a folder to the position of another folder. */
+export function reorderFolderInCollection(
+  collection: PostmanCollection,
+  activeId: string,
+  overId: string,
+): PostmanCollection {
+  const activeIndex = collection.item.findIndex((folder) => folder.id === activeId);
+  const overIndex = collection.item.findIndex((folder) => folder.id === overId);
+
+  return { ...collection, item: moveArrayItem(collection.item, activeIndex, overIndex) };
+}
+
+export function removeFolderFromCollection(collection: PostmanCollection, folderId: string): PostmanCollection {
+  return { ...collection, item: collection.item.filter((folder) => folder.id !== folderId) };
 }
 
 /**
@@ -269,182 +256,25 @@ export function uniqueFolderName(collection: PostmanCollection, name: string, ig
   return `${name} (${counter})`;
 }
 
-export function renameFolderInCollection(
-  collection: PostmanCollection,
-  folderId: string,
-  newName: string,
-): PostmanCollection {
-  return {
-    ...collection,
-    item: collection.item.map((folder) => (folder.id === folderId ? { ...folder, name: newName } : folder)),
-  };
-}
+// ---------- Sidebar ----------
 
-export function removeFolderFromCollection(collection: PostmanCollection, folderId: string): PostmanCollection {
-  return {
-    ...collection,
-    item: collection.item.filter((f) => f.id !== folderId),
-  };
-}
-
-export function reorderFolderInCollection(
-  collection: PostmanCollection,
-  activeId: string,
-  overId: string,
-): PostmanCollection {
-  const updatedFolders = [...collection.item];
-  const activeIndex = updatedFolders.findIndex((f) => f.id === activeId);
-  const overIndex = updatedFolders.findIndex((f) => f.id === overId);
-
-  if (activeIndex !== -1 && overIndex !== -1) {
-    const [movedFolder] = updatedFolders.splice(activeIndex, 1);
-    updatedFolders.splice(overIndex, 0, movedFolder);
-  }
-
-  return {
-    ...collection,
-    item: updatedFolders,
-  };
-}
-
-export function findFolderIdByRequestId(collection: PostmanCollection, requestId: string): string | null {
-  for (const folder of collection.item) {
-    const item = folder.item.find((i) => i.id === requestId);
-    if (item) {
-      return folder.id;
-    }
-  }
-  return null;
-}
-
-export function moveRequestToFolder(
-  collection: PostmanCollection,
-  requestId: string,
-  targetFolderId: string,
-  targetIndex?: number,
-): PostmanCollection {
-  let movedItem: PostmanItem | undefined;
-  let sourceFolderId: string | undefined;
-
-  for (const folder of collection.item) {
-    const item = folder.item.find((i) => i.id === requestId);
-    if (item) {
-      movedItem = item;
-      sourceFolderId = folder.id;
-      break;
-    }
-  }
-
-  // Without an existing target folder the request would be removed and never re-inserted
-  if (
-    !movedItem ||
-    !sourceFolderId ||
-    sourceFolderId === targetFolderId ||
-    !collection.item.some((folder) => folder.id === targetFolderId)
-  ) {
-    return collection;
-  }
-
-  const itemToMove = movedItem;
-
-  return {
-    ...collection,
-    item: collection.item.map((folder) => {
-      if (folder.id === sourceFolderId) {
-        return {
-          ...folder,
-          item: folder.item.filter((item) => item.id !== requestId),
-        };
-      }
-      if (folder.id === targetFolderId) {
-        const newItems = [...folder.item];
-        const insertIndex = targetIndex !== undefined ? targetIndex : newItems.length;
-        newItems.splice(insertIndex, 0, itemToMove);
-        return { ...folder, item: newItems };
-      }
-      return folder;
-    }),
-  };
+export function collectionToGroupedSidebarData(collection: PostmanCollection): CollectionFolderData[] {
+  return collection.item.map((folder) => ({
+    id: folder.id,
+    name: folder.id === DEFAULT_FOLDER_ID ? (folder.name ?? DEFAULT_FOLDER_NAME) : folder.name,
+    items: folder.item.map((item) => ({
+      id: item.id,
+      method: item.request.method,
+      url: item.request.url,
+      name: item.name,
+      folderId: folder.id,
+    })),
+  }));
 }
 
 /**
- * Detects conflicts between existing collection and imported collection
- * Empty folders are ignored - they don't count as conflicts
- */
-export function detectImportConflicts(existing: PostmanCollection, imported: PostmanCollection): ImportConflictSummary {
-  const folderConflicts: ImportConflict[] = [];
-  const requestConflicts: ImportConflict[] = [];
-
-  // Check collection name match
-  const collectionNameMatch = existing.info.name === imported.info.name;
-
-  // Check folder conflicts
-  for (const importedFolder of imported.item) {
-    // Skip empty imported folders - nothing to import
-    if (importedFolder.item.length === 0) continue;
-
-    const existingFolder = existing.item.find((f) => f.name === importedFolder.name);
-
-    // Skip if no matching folder OR existing folder is empty (no conflict)
-    if (!existingFolder || existingFolder.item.length === 0) continue;
-
-    // Both folders have items - check for actual request conflicts
-    let hasRequestConflicts = false;
-
-    for (const importedRequest of importedFolder.item) {
-      // Check for URL+Method match
-      const urlMethodMatch = existingFolder.item.find(
-        (r) => r.request.url === importedRequest.request.url && r.request.method === importedRequest.request.method,
-      );
-
-      // Check for name match
-      const nameMatch = existingFolder.item.find((r) => r.name === importedRequest.name);
-
-      if (urlMethodMatch) {
-        hasRequestConflicts = true;
-        requestConflicts.push({
-          type: 'request',
-          existingName: urlMethodMatch.name,
-          importedName: importedRequest.name,
-          folderId: existingFolder.id,
-          folderName: existingFolder.name,
-          requestMethod: importedRequest.request.method,
-          requestUrl: importedRequest.request.url,
-        });
-      } else if (nameMatch) {
-        // Name matches but URL+Method doesn't (different request with same name)
-        hasRequestConflicts = true;
-        requestConflicts.push({
-          type: 'request',
-          existingName: nameMatch.name,
-          importedName: importedRequest.name,
-          folderId: existingFolder.id,
-          folderName: existingFolder.name,
-        });
-      }
-    }
-
-    // Only count folder as conflict if there are actual request conflicts
-    if (hasRequestConflicts) {
-      folderConflicts.push({
-        type: 'folder',
-        existingName: existingFolder.name,
-        importedName: importedFolder.name,
-        folderId: existingFolder.id,
-      });
-    }
-  }
-
-  return {
-    hasConflicts: folderConflicts.length > 0 || requestConflicts.length > 0,
-    collectionNameMatch,
-    folderConflicts,
-    requestConflicts,
-  };
-}
-
-/**
- * Counts the number of unique items that would be added during merge
+ * Keeps whole folders whose name matches, and otherwise only the requests whose name, URL, method,
+ * header or raw body matches (case-insensitive). Folders left without requests are dropped.
  */
 export function filterCollectionsBySearch(
   folders: CollectionFolderData[],
@@ -454,63 +284,191 @@ export function filterCollectionsBySearch(
   const term = searchTerm.toLowerCase().trim();
   if (!term) return folders;
 
-  return folders
-    .map((folder) => {
-      // If folder name matches, include entire folder
-      if (folder.name.toLowerCase().includes(term)) {
-        return folder;
-      }
+  const matches = (text: string | undefined): boolean => !!text?.toLowerCase().includes(term);
+  const isMatchingItem = (item: CollectionItemData): boolean => {
+    if (matches(item.name) || matches(item.url) || matches(item.method)) return true;
 
-      // Filter items within the folder
-      const matchingItems = folder.items.filter((item) => {
-        // Check basic fields from sidebar data
-        if (item.name.toLowerCase().includes(term)) return true;
-        if (item.url.toLowerCase().includes(term)) return true;
-        if (item.method.toLowerCase().includes(term)) return true;
+    // Headers and body are only in the full collection data
+    const request = findRequestById(collection, item.id)?.request;
+    if (!request) return false;
 
-        // Deep search: check headers and body from full collection data
-        const fullItem = findRequestById(collection, item.id);
-        if (!fullItem) return false;
+    return request.header.some((header) => matches(header.key) || matches(header.value)) || matches(request.body?.raw);
+  };
 
-        const { request } = fullItem;
-        if (request.header.some((h) => h.key.toLowerCase().includes(term) || h.value.toLowerCase().includes(term))) {
-          return true;
-        }
+  return folders.flatMap((folder) => {
+    if (matches(folder.name)) return [folder];
 
-        return !!request.body?.raw?.toLowerCase().includes(term);
-      });
+    const items = folder.items.filter(isMatchingItem);
 
-      if (matchingItems.length === 0) return null;
-      return { ...folder, items: matchingItems };
-    })
-    .filter((folder): folder is CollectionFolderData => folder !== null);
+    return items.length > 0 ? [{ ...folder, items }] : [];
+  });
 }
 
+// ---------- Import ----------
+
+/**
+ * Finds the imported requests that clash with existing ones in a folder of the same name:
+ * the same method and URL, or else the same name. Empty folders never conflict.
+ */
+export function detectImportConflicts(existing: PostmanCollection, imported: PostmanCollection): ImportConflictSummary {
+  const folderConflicts: ImportConflict[] = [];
+  const requestConflicts: ImportConflict[] = [];
+
+  for (const importedFolder of imported.item) {
+    if (importedFolder.item.length === 0) continue;
+
+    const existingFolder = existing.item.find((folder) => folder.name === importedFolder.name);
+    if (!existingFolder || existingFolder.item.length === 0) continue;
+
+    let hasRequestConflicts = false;
+
+    for (const importedItem of importedFolder.item) {
+      const sameEndpointItem = existingFolder.item.find((existingItem) => isSameEndpoint(existingItem, importedItem));
+      const sameNameItem = existingFolder.item.find((existingItem) => existingItem.name === importedItem.name);
+      const conflictingItem = sameEndpointItem ?? sameNameItem;
+      if (!conflictingItem) continue;
+
+      hasRequestConflicts = true;
+      requestConflicts.push({
+        type: 'request',
+        existingName: conflictingItem.name,
+        importedName: importedItem.name,
+        folderId: existingFolder.id,
+        folderName: existingFolder.name,
+        // Only an endpoint match identifies the request by method and URL
+        ...(sameEndpointItem && {
+          requestMethod: importedItem.request.method,
+          requestUrl: importedItem.request.url,
+        }),
+      });
+    }
+
+    if (hasRequestConflicts)
+      folderConflicts.push({
+        type: 'folder',
+        existingName: existingFolder.name,
+        importedName: importedFolder.name,
+        folderId: existingFolder.id,
+      });
+  }
+
+  return {
+    hasConflicts: folderConflicts.length > 0 || requestConflicts.length > 0,
+    collectionNameMatch: existing.info.name === imported.info.name,
+    folderConflicts,
+    requestConflicts,
+  };
+}
+
+/**
+ * Counts the folders and requests a merge would add: folders whose name is new, and requests that don't
+ * match an existing one in the same folder by method and URL or by name.
+ */
 export function countMergeAdditions(
   existing: PostmanCollection,
   imported: PostmanCollection,
 ): { folders: number; requests: number } {
-  let newFolders = 0;
-  let newRequests = 0;
+  let folders = 0;
+  let requests = 0;
 
   for (const importedFolder of imported.item) {
-    const existingFolder = existing.item.find((f) => f.name === importedFolder.name);
+    const existingFolder = existing.item.find((folder) => folder.name === importedFolder.name);
 
     if (!existingFolder) {
-      newFolders++;
-      newRequests += importedFolder.item.length;
-    } else {
-      // Count non-duplicate requests
-      for (const request of importedFolder.item) {
-        const isDuplicate = existingFolder.item.some(
-          (existing) =>
-            (existing.request.url === request.request.url && existing.request.method === request.request.method) ||
-            existing.name === request.name,
-        );
-        if (!isDuplicate) newRequests++;
-      }
+      folders++;
+      requests += importedFolder.item.length;
+      continue;
     }
+
+    requests += importedFolder.item.filter(
+      (importedItem) =>
+        !existingFolder.item.some(
+          (existingItem) => isSameEndpoint(existingItem, importedItem) || existingItem.name === importedItem.name,
+        ),
+    ).length;
   }
 
-  return { folders: newFolders, requests: newRequests };
+  return { folders, requests };
+}
+
+// ---------- Helpers ----------
+
+function buildPostmanRequest(
+  method: string,
+  url: string,
+  headers: Record<string, string>,
+  body: PostmanBody,
+): PostmanRequest {
+  const postmanBody = toPostmanBody(body);
+
+  return {
+    method: method.toUpperCase(),
+    header: headersToPostmanFormat(headers),
+    url,
+    ...(postmanBody && { body: postmanBody }),
+  };
+}
+
+/** Keeps only the field of the selected body mode; a body without a mode is not saved. */
+function toPostmanBody(body: PostmanBody): PostmanBody | undefined {
+  switch (body.mode) {
+    case 'formdata':
+      return { mode: 'formdata', formdata: body.formdata };
+    case 'raw':
+      return { mode: 'raw', raw: body.raw };
+    case 'urlencoded':
+      return { mode: 'urlencoded', urlencoded: body.urlencoded };
+    default:
+      return undefined;
+  }
+}
+
+function createFolder(folderId: string): PostmanFolder {
+  return { id: folderId, name: folderId === DEFAULT_FOLDER_ID ? DEFAULT_FOLDER_NAME : folderId, item: [] };
+}
+
+function findRequestLocation(collection: PostmanCollection, requestId: string): RequestLocation | null {
+  for (const [folderIndex, folder] of collection.item.entries()) {
+    const itemIndex = folder.item.findIndex((item) => item.id === requestId);
+    if (itemIndex !== -1) return { folderIndex, itemIndex };
+  }
+
+  return null;
+}
+
+/** Replaces a request with `update(request)`; returns the same collection when the request isn't found. */
+function updateRequestItem(
+  collection: PostmanCollection,
+  requestId: string,
+  update: (item: PostmanItem) => PostmanItem,
+): PostmanCollection {
+  const location = findRequestLocation(collection, requestId);
+  if (!location) return collection;
+
+  return {
+    ...collection,
+    item: collection.item.map((folder, folderIndex) =>
+      folderIndex === location.folderIndex
+        ? {
+            ...folder,
+            item: folder.item.map((item, itemIndex) => (itemIndex === location.itemIndex ? update(item) : item)),
+          }
+        : folder,
+    ),
+  };
+}
+
+function isSameEndpoint(first: PostmanItem, second: PostmanItem): boolean {
+  return first.request.url === second.request.url && first.request.method === second.request.method;
+}
+
+/** Returns a copy with the item at `fromIndex` moved to `toIndex`; unchanged copy when either index is -1. */
+function moveArrayItem<T>(items: T[], fromIndex: number, toIndex: number): T[] {
+  const result = [...items];
+  if (fromIndex === -1 || toIndex === -1) return result;
+
+  const [movedItem] = result.splice(fromIndex, 1);
+  result.splice(toIndex, 0, movedItem);
+
+  return result;
 }

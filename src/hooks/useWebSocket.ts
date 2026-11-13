@@ -42,8 +42,8 @@ export function useWssActions() {
     headers: memoizedHeaders,
     body: memoizedBody,
   } = useMemo(
-    () => substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables),
-    [url, headers, body, selectedEnvironment, dynamicVariables],
+    () => substituteRequestVariables(body, selectedEnvironment, dynamicVariables, headers, url),
+    [body, selectedEnvironment, dynamicVariables, headers, url],
   );
 
   const connect = useCallback(() => {
@@ -58,7 +58,8 @@ export function useWssActions() {
   const disconnect = useCallback(() => disconnectWebSocket(), []);
 
   const send = useCallback(() => {
-    const message = typeof memoizedBody === 'string' ? memoizedBody : JSON.stringify(memoizedBody, null, 2);
+    const message =
+      memoizedBody == null ? '' : typeof memoizedBody === 'string' ? memoizedBody : JSON.stringify(memoizedBody);
 
     dispatch(websocketActions.handleWssSent({ data: message }));
     sendWebSocketMessage(message);

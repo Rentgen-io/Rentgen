@@ -92,7 +92,7 @@ export default function TestRunnerBar() {
               onClick={() => {
                 dispatch(uiActions.setTestsActiveTab(1));
                 executeAllTests({
-                  ...substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables),
+                  ...substituteRequestVariables(body, selectedEnvironment, dynamicVariables, headers, url),
                   bodyParameters,
                   method,
                   queryParameters,

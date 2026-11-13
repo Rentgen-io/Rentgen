@@ -1,12 +1,8 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import Panel from 'src/components/panels/Panel';
-import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import { useAppSelector } from 'src/store/hooks';
 import { selectWssMessages } from 'src/store/selectors';
-import { tryParseJsonObject } from 'src/utils';
-
-const PREVIEW_EDITOR_OPTIONS = { folding: false, lineNumbers: 'off' } as const;
 
 export default function WssMessagesPanel() {
   const { t } = useTranslation();
@@ -30,14 +26,11 @@ export default function WssMessagesPanel() {
                   {direction === 'sent' ? '⬅' : direction === 'received' ? '➡' : ''}
                 </span>
               )}
-              <div className="flex-auto min-w-0 -ml-2.5">
-                <JsonViewer
-                  key={index}
-                  minHeight={0}
-                  options={PREVIEW_EDITOR_OPTIONS}
-                  source={tryParseJsonObject(data) as object}
-                />
-              </div>
+              {data === '' ? (
+                <span className="text-muted-foreground">{t('messages.empty')}</span>
+              ) : (
+                <pre className="my-0 whitespace-pre-wrap break-all">{data}</pre>
+              )}
             </div>
           </div>
         ))}

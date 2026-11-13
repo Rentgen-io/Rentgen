@@ -14,17 +14,32 @@ import {
   PostmanRequestFull,
   PostmanUrlObject,
 } from '../types/postman';
-import { generateFolderId, generateRequestId } from './collection';
+import { COLLECTION_SCHEMA, DEFAULT_FOLDER_ID, DEFAULT_FOLDER_NAME } from './collection';
+import { generateFolderId, generateRequestId } from './id';
 
-const COLLECTION_SCHEMA = 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json';
+export interface PostmanImportResult {
+  collection: PostmanCollection;
+  /** Postman features that Rentgen does not support and dropped on import (auth, scripts, variables). */
+  warnings: string[];
+}
 
-// ============================================
-// EXPORT: Rentgen -> Postman
-// ============================================
+export interface CollectionValidationResult {
+  valid: boolean;
+  error?: string;
+}
 
-/**
- * Convert Rentgen collection to full Postman-compatible format
- */
+/** Folders collected while flattening the nested Postman tree. */
+interface FlattenedFolders {
+  folders: PostmanFolder[];
+  warnings: string[];
+}
+
+const DEFAULT_IMPORTED_COLLECTION_NAME = 'Imported Collection';
+const FOLDER_PATH_SEPARATOR = ' / ';
+
+// ---------- Export: Rentgen -> Postman ----------
+
+/** Converts a Rentgen collection to the full Postman v2.1 format. */
 export function rentgenToPostman(collection: PostmanCollection): PostmanCollectionFull {
   return {
     info: {
@@ -33,351 +48,222 @@ export function rentgenToPostman(collection: PostmanCollection): PostmanCollecti
       description: collection.info.description || '',
       schema: COLLECTION_SCHEMA,
     },
-    item: collection.item.map((folder) => convertFolderToPostman(folder)),
+    item: collection.item.map(toPostmanFolder),
   };
 }
 
-function convertFolderToPostman(folder: PostmanFolder): PostmanFolderFull {
+function toPostmanFolder(folder: PostmanFolder): PostmanFolderFull {
   return {
     name: folder.name,
     _postman_id: folder.id || uuidv4(),
-    item: folder.item.map((item) => convertItemToPostman(item)),
+    item: folder.item.map(toPostmanItem),
   };
 }
 
-function convertItemToPostman(item: PostmanItem): PostmanItemFull {
+function toPostmanItem(item: PostmanItem): PostmanItemFull {
   return {
     name: item.name,
     _postman_id: item.id || uuidv4(),
-    request: convertRequestToPostman(item.request),
+    request: toPostmanRequest(item.request),
     response: [],
   };
 }
 
-function convertRequestToPostman(request: PostmanRequest): PostmanRequestFull {
+function toPostmanRequest(request: PostmanRequest): PostmanRequestFull {
   return {
     method: request.method,
-    url: urlToPostmanObject(request.url),
-    header: request.header.map((h) => ({
-      key: h.key,
-      value: h.value,
-      type: 'text',
-      disabled: false,
-    })),
-    body: request.body ? convertBodyToPostman(request.body) : undefined,
+    url: toPostmanUrl(request.url),
+    header: request.header.map(({ key, value }) => ({ key, value, type: 'text', disabled: false })),
+    body: request.body ? toPostmanBody(request.body) : undefined,
   };
 }
 
-function convertBodyToPostman(body: PostmanBody): PostmanBodyFull {
-  const result: PostmanBodyFull = {
-    mode: body.mode,
-  };
+/** Exports the content of the selected body mode; returns `undefined` if the mode has no content */
+function toPostmanBody(body: PostmanBody): PostmanBodyFull | undefined {
+  if (body.mode === 'raw' && body.raw)
+    return { mode: 'raw', raw: body.raw, options: { raw: { language: detectRawLanguage(body.raw) } } };
 
-  if (body.mode === 'raw' && body.raw) {
-    result.raw = body.raw;
-    result.options = {
-      raw: { language: detectLanguage(body.raw) },
-    };
-  }
+  if (body.mode === 'urlencoded' && body.urlencoded) return { mode: 'urlencoded', urlencoded: body.urlencoded };
 
-  return result;
+  if (body.mode === 'formdata' && body.formdata) return { mode: 'formdata', formdata: body.formdata };
+
+  return undefined;
 }
 
-/**
- * Parse URL string into Postman URL object
- */
-export function urlToPostmanObject(urlString: string): PostmanUrlObject {
+/** Splits a URL into Postman's URL parts; a URL that can't be parsed (e.g. with `{{variables}}`) is kept raw. */
+function toPostmanUrl(rawUrl: string): PostmanUrlObject {
   try {
-    const url = new URL(urlString);
+    const url = new URL(rawUrl);
 
     return {
-      raw: urlString,
+      raw: rawUrl,
       protocol: url.protocol.replace(':', ''),
       host: url.hostname.split('.'),
       path: url.pathname.split('/').filter(Boolean),
-      query: Array.from(url.searchParams.entries()).map(([key, value]) => ({
-        key,
-        value,
-      })),
+      query: Array.from(url.searchParams.entries(), ([key, value]) => ({ key, value })),
     };
   } catch {
-    // Invalid URL, return as-is
-    return { raw: urlString };
+    return { raw: rawUrl };
   }
 }
 
-function detectLanguage(content: string): string {
+/** The language Postman uses to highlight a raw body. */
+function detectRawLanguage(content: string): string {
   const trimmed = content.trim();
+
   if (trimmed.startsWith('{') || trimmed.startsWith('[')) return 'json';
   if (trimmed.startsWith('<')) return 'xml';
+
   return 'text';
 }
 
-// ============================================
-// IMPORT: Postman -> Rentgen
-// ============================================
-
-export interface ImportResult {
-  collection: PostmanCollection;
-  warnings: string[];
-}
+// ---------- Import: Postman -> Rentgen ----------
 
 /**
- * Convert Postman collection to Rentgen format
+ * Converts a Postman collection to the Rentgen format. Nested folders are flattened into "Parent / Child" folders,
+ * and requests outside any folder go to the default folder.
  */
-export function postmanToRentgen(postmanCollection: PostmanCollectionFull): ImportResult {
-  const warnings: string[] = [];
+export function postmanToRentgen(postmanCollection: PostmanCollectionFull): PostmanImportResult {
+  const warnings = getCollectionWarnings(postmanCollection);
+  const flattened: FlattenedFolders = { folders: [], warnings: [] };
+  const rootRequests: PostmanItem[] = [];
 
-  // Check for unsupported features
-  if (postmanCollection.auth) {
-    warnings.push('Collection-level authentication was ignored');
-  }
-  if (postmanCollection.variable?.length) {
-    warnings.push(`${postmanCollection.variable.length} collection variables were ignored`);
-  }
-  if (postmanCollection.event?.length) {
-    warnings.push('Collection-level scripts were ignored');
+  for (const item of postmanCollection.item) {
+    if (isPostmanFolder(item)) flattenFolder(item, '', flattened);
+    else if (isPostmanRequest(item)) rootRequests.push(fromPostmanItem(item, flattened.warnings));
   }
 
-  // Flatten nested folders and convert items
-  const { folders, orphanRequests, nestedWarnings } = flattenNestedItems(postmanCollection.item, '');
-
-  warnings.push(...nestedWarnings);
-
-  // If there are orphan requests (items not in folders), create default folder
-  const allFolders = [...folders];
-  if (orphanRequests.length > 0) {
-    allFolders.unshift({
-      id: 'default',
-      name: 'All Requests',
-      item: orphanRequests,
-    });
-  }
-
-  // Ensure at least one folder exists
-  if (allFolders.length === 0) {
-    allFolders.push({
-      id: 'default',
-      name: 'All Requests',
-      item: [],
-    });
-  }
+  // The default folder holds the root requests, and is kept even when empty so the collection has a folder
+  const folders =
+    rootRequests.length > 0 || flattened.folders.length === 0
+      ? [{ id: DEFAULT_FOLDER_ID, name: DEFAULT_FOLDER_NAME, item: rootRequests }, ...flattened.folders]
+      : flattened.folders;
 
   return {
     collection: {
       info: {
-        name: postmanCollection.info.name || 'Imported Collection',
+        name: postmanCollection.info.name || DEFAULT_IMPORTED_COLLECTION_NAME,
         description: postmanCollection.info.description || '',
         schema: COLLECTION_SCHEMA,
       },
-      item: allFolders,
+      item: folders,
     },
-    warnings,
+    warnings: [...warnings, ...flattened.warnings],
   };
 }
 
-interface FlattenResult {
-  folders: PostmanFolder[];
-  orphanRequests: PostmanItem[];
-  nestedWarnings: string[];
+function getCollectionWarnings({ auth, variable, event }: PostmanCollectionFull): string[] {
+  const warnings: string[] = [];
+
+  if (auth) warnings.push('Collection-level authentication was ignored');
+  if (variable?.length) warnings.push(`${variable.length} collection variables were ignored`);
+  if (event?.length) warnings.push('Collection-level scripts were ignored');
+
+  return warnings;
 }
 
 /**
- * Flatten nested Postman folder structure to single-level folders
- * Nested folders become "Parent / Child" named folders
+ * Adds a folder and its subfolders as single-level folders named by their path, e.g. "Users / Admin".
+ * Subfolders come before their parent, and a folder without direct requests is not added.
  */
-function flattenNestedItems(items: (PostmanItemFull | PostmanFolderFull)[], parentPath: string): FlattenResult {
-  const folders: PostmanFolder[] = [];
-  const orphanRequests: PostmanItem[] = [];
-  const nestedWarnings: string[] = [];
+function flattenFolder(folder: PostmanFolderFull, parentPath: string, flattened: FlattenedFolders): void {
+  const path = parentPath ? `${parentPath}${FOLDER_PATH_SEPARATOR}${folder.name}` : folder.name;
 
-  for (const item of items) {
-    if (isPostmanFolder(item)) {
-      // It's a folder
-      const folderName = parentPath ? `${parentPath} / ${item.name}` : item.name;
+  if (folder.event?.length) flattened.warnings.push(`Folder "${path}" scripts were ignored`);
+  if (folder.auth) flattened.warnings.push(`Folder "${path}" auth was ignored`);
 
-      if (item.event?.length) {
-        nestedWarnings.push(`Folder "${folderName}" scripts were ignored`);
-      }
-      if (item.auth) {
-        nestedWarnings.push(`Folder "${folderName}" auth was ignored`);
-      }
+  for (const child of folder.item) if (isPostmanFolder(child)) flattenFolder(child, path, flattened);
 
-      // Recursively process nested items
-      const nested = flattenNestedItems(item.item, folderName);
-
-      // Add nested folders
-      folders.push(...nested.folders);
-      nestedWarnings.push(...nested.nestedWarnings);
-
-      // Create folder for direct request children
-      const directRequests = item.item.filter(isPostmanRequest);
-      if (directRequests.length > 0) {
-        folders.push({
-          id: item._postman_id || generateFolderId(),
-          name: folderName,
-          item: directRequests.map((req) => convertPostmanItemToRentgen(req, nestedWarnings)),
-        });
-      }
-
-      // Handle orphan requests from nested
-      if (nested.orphanRequests.length > 0 && parentPath === '') {
-        // Add orphans to a folder with this name
-        const existingFolder = folders.find((f) => f.name === folderName);
-        if (existingFolder) {
-          existingFolder.item.push(...nested.orphanRequests);
-        } else {
-          folders.push({
-            id: generateFolderId(),
-            name: folderName,
-            item: nested.orphanRequests,
-          });
-        }
-      }
-    } else if (isPostmanRequest(item)) {
-      // It's a request at root level
-      if (parentPath === '') {
-        orphanRequests.push(convertPostmanItemToRentgen(item, nestedWarnings));
-      }
-    }
-  }
-
-  return { folders, orphanRequests, nestedWarnings };
+  const requests = folder.item.filter(isPostmanRequest);
+  if (requests.length > 0)
+    flattened.folders.push({
+      id: folder._postman_id || generateFolderId(),
+      name: path,
+      item: requests.map((request) => fromPostmanItem(request, flattened.warnings)),
+    });
 }
 
-function convertPostmanItemToRentgen(item: PostmanItemFull, warnings: string[]): PostmanItem {
+function fromPostmanItem(item: PostmanItemFull, warnings: string[]): PostmanItem {
   if (item.event?.length) warnings.push(`Request "${item.name}" scripts were ignored`);
 
   return {
     id: item._postman_id || generateRequestId(),
     name: item.name,
-    request: convertPostmanRequestToRentgen(item.request),
+    request: fromPostmanRequest(item.request),
   };
 }
 
-function convertPostmanRequestToRentgen(request: PostmanRequestFull): PostmanRequest {
+function fromPostmanRequest(request: PostmanRequestFull): PostmanRequest {
   return {
     method: request.method?.toUpperCase() || 'GET',
-    url: postmanUrlToString(request.url),
-    header: convertPostmanHeaders(request.header || []),
-    body: request.body ? convertPostmanBody(request.body) : undefined,
+    url: fromPostmanUrl(request.url),
+    header: fromPostmanHeaders(request.header ?? []),
+    body: request.body ? fromPostmanBody(request.body) : undefined,
   };
 }
 
-/**
- * Convert Postman URL (string or object) to string
- */
-export function postmanUrlToString(url: string | PostmanUrlObject | undefined): string {
+/** Uses the raw URL when present, otherwise rebuilds it from its parts (disabled query parameters are skipped). */
+function fromPostmanUrl(url: string | PostmanUrlObject | undefined): string {
   if (!url) return '';
   if (typeof url === 'string') return url;
-
-  // Use raw if available
   if (url.raw) return url.raw;
 
-  // Reconstruct from parts
   const protocol = url.protocol || 'https';
   const host = url.host?.join('.') || 'localhost';
-  const path = url.path?.length ? '/' + url.path.join('/') : '';
+  const path = url.path?.length ? `/${url.path.join('/')}` : '';
   const query = url.query?.length
-    ? '?' +
-      url.query
-        .filter((q) => !q.disabled)
-        .map((q) => `${encodeURIComponent(q.key)}=${encodeURIComponent(q.value)}`)
-        .join('&')
+    ? `?${url.query
+        .filter((parameter) => !parameter.disabled)
+        .map(({ key, value }) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .join('&')}`
     : '';
 
   return `${protocol}://${host}${path}${query}`;
 }
 
-function convertPostmanHeaders(headers: PostmanHeaderFull[]): PostmanHeader[] {
-  return headers
-    .filter((h) => !h.disabled) // Filter out disabled headers
-    .map((h) => ({
-      key: h.key,
-      value: h.value,
-    }));
+function fromPostmanHeaders(headers: PostmanHeaderFull[]): PostmanHeader[] {
+  return headers.filter((header) => !header.disabled).map(({ key, value }) => ({ key, value }));
 }
 
-function convertPostmanBody(body: PostmanBodyFull): PostmanBody | undefined {
-  if (body.mode === 'raw' && body.raw)
-    return {
-      mode: 'raw',
-      raw: body.raw,
-    };
+/** Keeps raw, urlencoded and formdata bodies without their disabled fields; other modes (file, graphql) are dropped. */
+function fromPostmanBody(body: PostmanBodyFull): PostmanBody | undefined {
+  if (body.mode === 'raw' && body.raw) return { mode: 'raw', raw: body.raw };
 
-  if (body.mode === 'urlencoded' && body.urlencoded) {
-    // Convert urlencoded to raw JSON representation
-    const data = body.urlencoded
-      .filter((item) => !item.disabled)
-      .reduce(
-        (acc, item) => {
-          acc[item.key] = item.value;
-          return acc;
-        },
-        {} as Record<string, string>,
-      );
-
-    return {
-      mode: 'urlencoded',
-      raw: new URLSearchParams(data).toString(),
-    };
-  }
+  if (body.mode === 'urlencoded' && body.urlencoded)
+    return { mode: 'urlencoded', urlencoded: body.urlencoded.filter((item) => !item.disabled) };
 
   if (body.mode === 'formdata' && body.formdata)
-    return {
-      mode: 'formdata',
-      formdata: body.formdata,
-    };
+    return { mode: 'formdata', formdata: body.formdata.filter((item) => !item.disabled) };
 
   return undefined;
 }
 
-// ============================================
-// VALIDATION
-// ============================================
-
-export interface ValidationResult {
-  valid: boolean;
-  error?: string;
-}
-
-/**
- * Validate that a JSON object is a valid Postman collection
- */
-export function validatePostmanCollection(obj: unknown): ValidationResult {
-  if (!obj || typeof obj !== 'object') {
-    return { valid: false, error: 'Invalid JSON object' };
-  }
-
-  const collection = obj as Record<string, unknown>;
-
-  if (!collection.info || typeof collection.info !== 'object') {
-    return { valid: false, error: 'Missing or invalid "info" field' };
-  }
-
-  const info = collection.info as Record<string, unknown>;
-
-  if (typeof info.name !== 'string') {
-    return { valid: false, error: 'Missing collection name in info' };
-  }
-
-  if (typeof info.schema !== 'string' || !info.schema.includes('postman')) {
-    return { valid: false, error: 'Invalid or missing Postman schema URL' };
-  }
-
-  if (!Array.isArray(collection.item)) {
-    return { valid: false, error: 'Missing or invalid "item" array' };
-  }
-
-  return { valid: true };
-}
-
-// Type guard: check if item is a folder (has nested items, no request)
+/** A folder has nested items and no request. */
 function isPostmanFolder(item: PostmanItemFull | PostmanFolderFull): item is PostmanFolderFull {
   return 'item' in item && !('request' in item);
 }
 
-// Type guard: check if item is a request
 function isPostmanRequest(item: PostmanItemFull | PostmanFolderFull): item is PostmanItemFull {
   return 'request' in item;
+}
+
+// ---------- Validation ----------
+
+/** Checks the minimum structure of a Postman collection: an info object with name and schema, and an item array. */
+export function validatePostmanCollection(value: unknown): CollectionValidationResult {
+  if (!isRecord(value)) return { valid: false, error: 'Invalid JSON object' };
+
+  const { info, item } = value;
+
+  if (!isRecord(info)) return { valid: false, error: 'Missing or invalid "info" field' };
+  if (typeof info.name !== 'string') return { valid: false, error: 'Missing collection name in info' };
+  if (typeof info.schema !== 'string' || !info.schema.includes('postman'))
+    return { valid: false, error: 'Invalid or missing Postman schema URL' };
+  if (!Array.isArray(item)) return { valid: false, error: 'Missing or invalid "item" array' };
+
+  return { valid: true };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return !!value && typeof value === 'object';
 }

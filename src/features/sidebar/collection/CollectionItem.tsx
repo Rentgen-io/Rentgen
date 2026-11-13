@@ -113,15 +113,14 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       }
 
       const { request } = item;
-      const isWssUrl = request.url.startsWith('ws://') || request.url.startsWith('wss://');
 
-      dispatch(requestActions.setMode(isWssUrl ? 'WSS' : 'HTTP'));
+      dispatch(
+        requestActions.setMode(request.url.startsWith('ws://') || request.url.startsWith('wss://') ? 'WSS' : 'HTTP'),
+      );
       dispatch(requestActions.setMethod(request.method as Method));
       dispatch(requestActions.setUrl(request.url));
       dispatch(requestActions.setHeaders(headersRecordToString(postmanHeadersToRecord(request.header))));
-      dispatch(requestActions.setBody(request.body?.raw || ''));
-      dispatch(requestActions.setBodyMode(request.body?.mode || 'none'));
-      dispatch(requestActions.setFormData(request.body?.formdata || []));
+      dispatch(requestActions.setBody(request.body ?? {}));
 
       if (item.preEvaluation) dispatch(preEvaluationActions.setPreEvaluation(item.preEvaluation));
       if (evaluationReport) dispatch(preEvaluationActions.setEvaluationReport(evaluationReport));

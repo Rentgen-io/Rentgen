@@ -120,6 +120,7 @@ const en = {
     wssUrlRequired: '🔴 Please use ws:// or wss:// URL',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
+    message: 'Message',
   },
 
   // Response
@@ -541,7 +542,8 @@ const en = {
 
   // Messages panel
   messages: {
-    title: 'Messages',
+    title: 'Response',
+    empty: '(empty)',
   },
 
   // Export format labels
