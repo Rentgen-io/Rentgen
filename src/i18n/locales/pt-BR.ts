@@ -150,7 +150,7 @@ const ptBR = {
     testsHint: 'Envie uma requisição para gerar testes a partir da resposta.',
     testsUnavailable: 'A geração de testes requer uma resposta bem-sucedida (HTTP 2xx ou 3xx).',
     generateAndRun: 'Gerar e executar testes',
-    runningTests: 'Executando testes... ({{current}}/{{total}})',
+    runningTests: 'Executando... ({{current}}/{{total}})',
     noTestsGenerated: 'Nenhum teste gerado',
     selectForCompare: 'Selecionar para comparar',
     compareWithSelected: 'Comparar com selecionado',

@@ -150,7 +150,7 @@ const th = {
     testsHint: 'ส่งคำขอเพื่อสร้างเทสต์จากการตอบกลับ',
     testsUnavailable: 'การสร้างเทสต์ต้องใช้การตอบกลับที่สำเร็จ (HTTP 2xx หรือ 3xx)',
     generateAndRun: 'สร้างและรันเทสต์',
-    runningTests: 'กำลังรันเทสต์... ({{current}}/{{total}})',
+    runningTests: 'กำลังรัน... ({{current}}/{{total}})',
     noTestsGenerated: 'ไม่มีการสร้างเทสต์',
     selectForCompare: 'เลือกเพื่อเปรียบเทียบ',
     compareWithSelected: 'เปรียบเทียบกับที่เลือก',

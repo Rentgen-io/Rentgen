@@ -150,7 +150,7 @@ const lt = {
     testsHint: 'Išsiųskite užklausą, kad pagal jos atsakymą būtų sugeneruoti testai.',
     testsUnavailable: 'Testams generuoti reikalingas sėkmingas atsakymas (HTTP 2xx arba 3xx).',
     generateAndRun: 'Generuoti ir vykdyti testus',
-    runningTests: 'Vykdomi testai... ({{current}}/{{total}})',
+    runningTests: 'Vykdoma... ({{current}}/{{total}})',
     noTestsGenerated: 'Nesugeneruota jokių testų',
     selectForCompare: 'Pasirinkti palyginimui',
     compareWithSelected: 'Palyginti su pasirinktu',

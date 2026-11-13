@@ -150,7 +150,7 @@ const nl = {
     testsHint: 'Verstuur een verzoek om tests te genereren op basis van de reactie.',
     testsUnavailable: 'Voor het genereren van tests is een geslaagde reactie nodig (HTTP 2xx of 3xx).',
     generateAndRun: 'Tests genereren en uitvoeren',
-    runningTests: 'Tests worden uitgevoerd... ({{current}}/{{total}})',
+    runningTests: 'Wordt uitgevoerd... ({{current}}/{{total}})',
     noTestsGenerated: 'Geen tests gegenereerd',
     selectForCompare: 'Selecteren om te vergelijken',
     compareWithSelected: 'Vergelijken met geselecteerde',

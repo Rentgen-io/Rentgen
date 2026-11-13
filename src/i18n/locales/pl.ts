@@ -150,7 +150,7 @@ const pl = {
     testsHint: 'Wyślij zapytanie, aby wygenerować testy na podstawie odpowiedzi.',
     testsUnavailable: 'Generowanie testów wymaga poprawnej odpowiedzi (HTTP 2xx lub 3xx).',
     generateAndRun: 'Generuj i uruchom testy',
-    runningTests: 'Uruchamianie testów... ({{current}}/{{total}})',
+    runningTests: 'Uruchamianie... ({{current}}/{{total}})',
     noTestsGenerated: 'Nie wygenerowano testów',
     selectForCompare: 'Wybierz do porównania',
     compareWithSelected: 'Porównaj z wybranym',

@@ -150,7 +150,7 @@ const ru = {
     testsHint: 'Отправьте запрос, чтобы сгенерировать тесты на основе ответа.',
     testsUnavailable: 'Для генерации тестов требуется успешный ответ (HTTP 2xx или 3xx).',
     generateAndRun: 'Сгенерировать и запустить тесты',
-    runningTests: 'Выполняются тесты... ({{current}}/{{total}})',
+    runningTests: 'Выполняется... ({{current}}/{{total}})',
     noTestsGenerated: 'Тесты не сгенерированы',
     selectForCompare: 'Выбрать для сравнения',
     compareWithSelected: 'Сравнить с выбранным',

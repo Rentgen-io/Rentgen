@@ -150,7 +150,7 @@ const vi = {
     testsHint: 'Gửi yêu cầu để tạo kiểm thử từ phản hồi của nó.',
     testsUnavailable: 'Việc tạo kiểm thử yêu cầu phản hồi thành công (HTTP 2xx hoặc 3xx).',
     generateAndRun: 'Tạo và chạy kiểm thử',
-    runningTests: 'Đang chạy kiểm thử... ({{current}}/{{total}})',
+    runningTests: 'Đang chạy... ({{current}}/{{total}})',
     noTestsGenerated: 'Không có kiểm thử nào được tạo',
     selectForCompare: 'Chọn để so sánh',
     compareWithSelected: 'So sánh với mục đã chọn',

@@ -150,7 +150,7 @@ const hi = {
     testsHint: 'प्रतिक्रिया से टेस्ट जनरेट करने के लिए एक अनुरोध भेजें।',
     testsUnavailable: 'टेस्ट जनरेट करने के लिए सफल प्रतिक्रिया (HTTP 2xx या 3xx) आवश्यक है।',
     generateAndRun: 'टेस्ट जनरेट करें और चलाएँ',
-    runningTests: 'टेस्ट चल रहे हैं... ({{current}}/{{total}})',
+    runningTests: 'चल रहा है... ({{current}}/{{total}})',
     noTestsGenerated: 'कोई टेस्ट जनरेट नहीं हुआ',
     selectForCompare: 'तुलना के लिए चुनें',
     compareWithSelected: 'चयनित के साथ तुलना करें',

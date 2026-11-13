@@ -108,10 +108,10 @@ const usePreEvaluation = () => {
           if (controller.signal.aborted) break;
 
           const request: HttpRequest = {
-            body: setByJsonPointer(substitutedBody, preEvaluation.promptPath, question.prompt),
-            headers: substitutedHeaders,
-            method,
             url: substitutedUrl,
+            method,
+            headers: substitutedHeaders,
+            body: setByJsonPointer(substitutedBody, preEvaluation.promptPath, question.prompt),
           };
           const result: EvaluationResult = {
             iteration,

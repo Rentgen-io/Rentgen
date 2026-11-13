@@ -150,7 +150,7 @@ const ko = {
     testsHint: '요청을 보내면 응답을 기반으로 테스트를 생성합니다.',
     testsUnavailable: '테스트를 생성하려면 성공한 응답(HTTP 2xx 또는 3xx)이 필요합니다.',
     generateAndRun: '테스트 생성 및 실행',
-    runningTests: '테스트 실행 중... ({{current}}/{{total}})',
+    runningTests: '실행 중... ({{current}}/{{total}})',
     noTestsGenerated: '생성된 테스트 없음',
     selectForCompare: '비교 대상으로 선택',
     compareWithSelected: '선택 항목과 비교',

@@ -150,7 +150,7 @@ const fr = {
     testsHint: 'Envoyez une requête pour générer des tests à partir de sa réponse.',
     testsUnavailable: 'La génération de tests nécessite une réponse réussie (HTTP 2xx ou 3xx).',
     generateAndRun: 'Générer et exécuter les tests',
-    runningTests: 'Exécution des tests... ({{current}}/{{total}})',
+    runningTests: 'Exécution... ({{current}}/{{total}})',
     noTestsGenerated: 'Aucun test généré',
     selectForCompare: 'Sélectionner pour comparer',
     compareWithSelected: 'Comparer avec la sélection',
