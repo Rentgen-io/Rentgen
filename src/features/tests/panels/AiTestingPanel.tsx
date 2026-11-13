@@ -9,7 +9,7 @@ import Loader from 'src/components/loaders/Loader';
 import { useLicense } from 'src/hooks/useLicense';
 import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectActiveAiProvider, selectAiActiveTab, selectSelectedRequestId } from 'src/store/selectors';
+import { selectActiveAiProvider, selectAiActiveTab, selectLicense, selectSelectedRequestId } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { uiActions } from 'src/store/slices/uiSlice';
@@ -42,7 +42,7 @@ export default function AiTestingPanel() {
 
   return (
     <>
-      <TestsTableHeader tests={aiTests ?? []} onOpenSettings={() => dispatch(modalsActions.openSettingsModal(2))} />
+      <TestsTableHeader tests={aiTests ?? []} onOpenSettings={() => dispatch(modalsActions.openSettingsModal('ai'))} />
       {!showAiRequestMaskControls && (aiOverview || (aiTests && aiTests.length > 0)) ? (
         <div className="flex flex-col gap-4">
           <div>
@@ -242,9 +242,10 @@ function RunAiTestingButton({ onClick }: { onClick(): void }) {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { isRunningTests } = useTests();
-  const { isValidating, license, validateLicense } = useLicense();
+  const { isValidating, validateLicense } = useLicense();
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
+  const license = useAppSelector(selectLicense);
 
   return (
     <Button
@@ -256,7 +257,7 @@ function RunAiTestingButton({ onClick }: { onClick(): void }) {
 
         const result = await validateLicense(license?.key ?? null);
         if (!result.valid || !activeAiProvider) {
-          dispatch(modalsActions.openSettingsModal(2));
+          dispatch(modalsActions.openSettingsModal('ai'));
           return;
         }
 

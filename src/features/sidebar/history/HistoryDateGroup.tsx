@@ -1,6 +1,5 @@
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { HistoryEntry } from 'src/types';
 import HistoryItem from './HistoryItem';
 
@@ -12,11 +11,9 @@ interface Props {
   searchTerm?: string;
 }
 
+/** A day of history; its label comes translated (HistoryPanel). */
 export default function HistoryDateGroup({ label, entries, searchTerm }: Props) {
-  const { t } = useTranslation();
-
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
-  const displayLabel = label === 'today' ? t('history.today') : label === 'yesterday' ? t('history.yesterday') : label;
 
   useEffect(() => {
     const isSearching = Boolean(searchTerm?.trim());
@@ -34,7 +31,7 @@ export default function HistoryDateGroup({ label, entries, searchTerm }: Props) 
             'rotate-90': isExpanded,
           })}
         />
-        <span className="flex-auto text-xs font-medium truncate">{displayLabel}</span>
+        <span className="flex-auto text-xs font-medium truncate">{label}</span>
         <span className="text-xs text-muted-foreground">{entries.length}</span>
       </div>
       {isExpanded && entries.map((entry) => <HistoryItem key={entry.id} entry={entry} searchTerm={searchTerm} />)}

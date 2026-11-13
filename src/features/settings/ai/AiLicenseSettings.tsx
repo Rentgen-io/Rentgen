@@ -5,7 +5,8 @@ import Button, { ButtonType } from 'src/components/buttons/Button';
 import { FieldLabel } from 'src/components/inputs/FieldLabel';
 import Textarea from 'src/components/inputs/Textarea';
 import { useLicense } from 'src/hooks/useLicense';
-import { useAppDispatch } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectLicense } from 'src/store/selectors';
 import { uiActions } from 'src/store/slices/uiSlice';
 import { showLicenseMessage } from 'src/utils';
 import SettingsHeader from '../SettingsHeader';
@@ -16,7 +17,9 @@ const RENTGEN_LICENSE_MONTHLY_PRICE = 3;
 export function AiLicenseSettings() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { license, validateLicense } = useLicense();
+  const { validateLicense } = useLicense();
+
+  const license = useAppSelector(selectLicense);
 
   const [licenseKey, setLicenseKey] = useState<string>('');
 

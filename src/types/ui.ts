@@ -2,6 +2,8 @@ import { IntegrityStatus, PostmanCollection, ProjectData, ProjectMeta } from './
 
 export type SidebarTab = 'collections' | 'environments' | 'history' | null;
 
+export type SettingsTab = 'testEngine' | 'general' | 'ai' | 'themes' | 'language' | 'cli';
+
 export interface ImportConflict {
   type: 'collection' | 'folder' | 'request';
   existingName: string;

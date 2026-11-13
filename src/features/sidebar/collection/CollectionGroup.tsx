@@ -1,15 +1,16 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import cn from 'classnames';
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
 import { useContextMenu } from 'src/features/context-menu';
 import { useCollectionRunner } from 'src/hooks/useCollectionRunner';
+import { CollectionRunResult } from 'src/store/slices/collectionRunSlice';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionRunResults, selectRunningFolderId, selectSelectedFolderId } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { CollectionFolderData, isAbortedResponse } from 'src/utils';
+import { CollectionFolderData, CollectionItemData, isAbortedResponse } from 'src/utils';
 import CollectionItem from './CollectionItem';
 
 import ChevronIcon from 'src/assets/icons/chevron-icon.svg';
@@ -21,60 +22,30 @@ import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 interface Props {
   folder: CollectionFolderData;
-  isEditing: boolean;
-  editingName: string;
   searchTerm?: string;
-  onStartEdit: (folderId: string) => void;
-  onSaveEdit: (folderId: string, newName: string) => void;
-  onCancelEdit: () => void;
-  onEditingNameChange: (name: string) => void;
 }
 
-export default function CollectionGroup({
-  folder,
-  isEditing,
-  editingName,
-  searchTerm,
-  onStartEdit,
-  onSaveEdit,
-  onCancelEdit,
-  onEditingNameChange,
-}: Props) {
+/**
+ * A folder in the sidebar with its requests. Subscribes only to what this row shows (its selection, status color, run
+ * state) and keeps its rename state itself: other folders don't re-render with it (memo).
+ */
+function CollectionGroup({ folder, searchTerm }: Props) {
   const dispatch = useAppDispatch();
   const { cancelFolderRun, runFolder } = useCollectionRunner();
   const { isOpen } = useContextMenu();
 
-  const runResults = useAppSelector(selectCollectionRunResults);
+  const isSelected = useAppSelector((state) => selectSelectedFolderId(state) === folder.id);
   const runningFolderId = useAppSelector(selectRunningFolderId);
-  const selectedFolderId = useAppSelector(selectSelectedFolderId);
+  const statusClassName = useAppSelector((state) =>
+    getFolderStatusClassName(folder.items, selectCollectionRunResults(state)),
+  );
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editingName, setEditingName] = useState<string>(folder.name);
 
-  const isSelected = folder.id === selectedFolderId;
   const isThisFolderRunning = runningFolderId === folder.id;
   const isOtherFolderRunning = runningFolderId !== null && runningFolderId !== folder.id;
-
-  const statusClassName = useMemo(() => {
-    const results = folder.items.map((item) => runResults[item.id]).filter(Boolean);
-
-    if (results.length === 0) return null;
-
-    // Requests cancelled by the user are neutral: they don't count as errors, but the folder isn't fully green either.
-    // An error from before the cancel still wins (red / orange / yellow first)
-    const itemResults = results.filter((r) => !isAbortedResponse(r.response));
-    const hasAborted = itemResults.length < results.length;
-
-    const hasRed = itemResults.some((r) => !r.status || r.status < 200 || r.status >= 500);
-    const hasOrange = itemResults.some((r) => r.status && r.status >= 400 && r.status < 500);
-    const hasYellow = itemResults.some((r) => r.warning && r.status && r.status >= 200 && r.status < 400);
-
-    if (hasRed) return 'bg-red-500';
-    if (hasOrange) return 'bg-orange-500';
-    if (hasYellow) return 'bg-yellow-500';
-    if (hasAborted) return 'bg-muted-foreground';
-
-    return 'bg-green-500';
-  }, [folder.items, runResults]);
 
   const { attributes, isDragging, listeners, transform, transition, setNodeRef } = useSortable({
     id: folder.id,
@@ -90,7 +61,15 @@ export default function CollectionGroup({
 
   const handleEditClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    onStartEdit(folder.id);
+    setEditingName(folder.name);
+    setIsEditing(true);
+  };
+
+  const handleSaveEdit = () => {
+    const newName = editingName.trim();
+    if (newName && newName !== folder.name) dispatch(collectionActions.renameFolder({ folderId: folder.id, newName }));
+
+    setIsEditing(false);
   };
 
   const handleDeleteClick = (event: React.MouseEvent) => {
@@ -139,7 +118,7 @@ export default function CollectionGroup({
               'rotate-90': isExpanded,
             })}
           />
-          {statusClassName && <span className={cn('w-2 h-2 rounded-full shrink-0', statusClassName)} />}
+          {statusClassName && <span className={cn('size-1.75 rounded-full shrink-0', statusClassName)} />}
           <FolderIcon className="size-4 shrink-0" />
 
           {isEditing ? (
@@ -148,14 +127,14 @@ export default function CollectionGroup({
               className="flex-1 py-px px-1 text-xs leading-none bg-transparent text-foreground border border-blue-300 outline-none"
               value={editingName}
               type="text"
-              onBlur={() => !isOpen && onSaveEdit(folder.id, editingName)}
-              onChange={(event) => onEditingNameChange(event.target.value)}
+              onBlur={() => !isOpen && handleSaveEdit()}
+              onChange={(event) => setEditingName(event.target.value)}
               onClick={(event) => event.stopPropagation()}
               onFocus={(event) => event.target.select()}
               onKeyDown={(event) => {
                 event.stopPropagation();
-                if (event.key === 'Enter') onSaveEdit(folder.id, editingName);
-                else if (event.key === 'Escape') onCancelEdit();
+                if (event.key === 'Enter') handleSaveEdit();
+                else if (event.key === 'Escape') setIsEditing(false);
               }}
               onPointerDown={(event) => event.stopPropagation()}
             />
@@ -206,4 +185,33 @@ export default function CollectionGroup({
       )}
     </>
   );
+}
+
+// Re-renders only when its props change: unchanged folders keep their sidebar object (collectionToGroupedSidebarData)
+export default memo(CollectionGroup);
+
+/** The folder's status dot color from its requests' run results, or null when none of them ran. */
+function getFolderStatusClassName(
+  items: CollectionItemData[],
+  runResults: Record<string, CollectionRunResult>,
+): string | null {
+  const results = items.map((item) => runResults[item.id]).filter(Boolean);
+
+  if (results.length === 0) return null;
+
+  // Requests cancelled by the user are neutral: they don't count as errors, but the folder isn't fully green either.
+  // An error from before the cancel still wins (red / orange / yellow first)
+  const itemResults = results.filter((r) => !isAbortedResponse(r.response));
+  const hasAborted = itemResults.length < results.length;
+
+  const hasRed = itemResults.some((r) => !r.status || r.status < 200 || r.status >= 500);
+  const hasOrange = itemResults.some((r) => r.status && r.status >= 400 && r.status < 500);
+  const hasYellow = itemResults.some((r) => r.warning && r.status && r.status >= 200 && r.status < 400);
+
+  if (hasRed) return 'bg-metric-fail';
+  if (hasOrange) return 'bg-primary';
+  if (hasYellow) return 'bg-metric-warning';
+  if (hasAborted) return 'bg-muted-foreground';
+
+  return 'bg-metric-pass';
 }

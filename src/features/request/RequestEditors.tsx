@@ -55,7 +55,7 @@ export default function RequestEditors() {
   const editorStyle = { height: size ?? undefined };
   const isWssMode = mode === 'WSS';
 
-  const currentTab: EditorTab = isWssMode ? 'body' : activeTab;
+  const currentTab = isWssMode ? 'body' : activeTab;
   const isRawEditor = isWssMode || bodyMode === 'raw';
   const tabs: EditorTab[] = isWssMode ? ['body'] : ['headers', 'body'];
 
