@@ -258,18 +258,53 @@ export function uniqueFolderName(collection: PostmanCollection, name: string, ig
 
 // ---------- Sidebar ----------
 
+// The last built sidebar objects by id, to hand out the same objects while what they show is unchanged
+let previousFolders = new Map<string, CollectionFolderData>();
+let previousItems = new Map<string, CollectionItemData>();
+
+/**
+ * The collection as listed in the sidebar. Folders and requests whose shown values are unchanged keep their previous
+ * object (e.g. after saving a request's body or a run result), so their memoized sidebar rows don't re-render.
+ */
 export function collectionToGroupedSidebarData(collection: PostmanCollection): CollectionFolderData[] {
-  return collection.item.map((folder) => ({
-    id: folder.id,
-    name: folder.id === DEFAULT_FOLDER_ID ? (folder.name ?? DEFAULT_FOLDER_NAME) : folder.name,
-    items: folder.item.map((item) => ({
-      id: item.id,
-      method: item.request.method,
-      url: item.request.url,
-      name: item.name,
-      folderId: folder.id,
-    })),
-  }));
+  const folders = new Map<string, CollectionFolderData>();
+  const items = new Map<string, CollectionItemData>();
+
+  const result = collection.item.map((folder) => {
+    const folderItems = folder.item.map((item) => {
+      const previous = previousItems.get(item.id);
+      const view =
+        previous &&
+        previous.name === item.name &&
+        previous.method === item.request.method &&
+        previous.url === item.request.url &&
+        previous.folderId === folder.id
+          ? previous
+          : { id: item.id, method: item.request.method, url: item.request.url, name: item.name, folderId: folder.id };
+
+      items.set(item.id, view);
+      return view;
+    });
+
+    const name = folder.id === DEFAULT_FOLDER_ID ? (folder.name ?? DEFAULT_FOLDER_NAME) : folder.name;
+    const previous = previousFolders.get(folder.id);
+    const view =
+      previous &&
+      previous.name === name &&
+      previous.items.length === folderItems.length &&
+      previous.items.every((item, index) => item === folderItems[index])
+        ? previous
+        : { id: folder.id, name, items: folderItems };
+
+    folders.set(folder.id, view);
+    return view;
+  });
+
+  // Only the current ones are kept: removed folders / requests don't stay in memory
+  previousFolders = folders;
+  previousItems = items;
+
+  return result;
 }
 
 /**

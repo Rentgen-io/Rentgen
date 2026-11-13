@@ -3,17 +3,18 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLicense } from 'src/hooks/useLicense';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectShowLicenseSettings } from 'src/store/selectors';
+import { selectLicense, selectShowLicenseSettings } from 'src/store/selectors';
 import { uiActions } from 'src/store/slices/uiSlice';
 import { AiLicenseSettings } from './AiLicenseSettings';
 import { AiProviderSettings } from './AiProviderSettings';
 
 export function AiSettings() {
   const dispatch = useAppDispatch();
+  const { validateLicense } = useLicense();
 
+  const license = useAppSelector(selectLicense);
   const showLicenseSettings = useAppSelector(selectShowLicenseSettings);
 
-  const { license, validateLicense } = useLicense();
   const [isLicenseValid, setIsLicenseValid] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -48,7 +49,8 @@ export function AiSettings() {
 
 function LicenseFooter({ manage, onClick }: { manage: boolean; onClick(): void }) {
   const { t } = useTranslation();
-  const { license } = useLicense();
+
+  const license = useAppSelector(selectLicense);
 
   if (!license.valid && license.status !== 'expired') return null;
 

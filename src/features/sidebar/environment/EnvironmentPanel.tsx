@@ -8,6 +8,7 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectEnvironments } from 'src/store/selectors';
@@ -21,6 +22,8 @@ export default function EnvironmentPanel() {
   const { t } = useTranslation();
 
   const environments = useAppSelector(selectEnvironments);
+
+  const environmentIds = useMemo(() => environments.map(({ id }) => id), [environments]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -51,7 +54,7 @@ export default function EnvironmentPanel() {
       {environments.length > 0 ? (
         <div className="h-full overflow-x-hidden overflow-y-auto">
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-            <SortableContext items={environments.map((env) => env.id)} strategy={verticalListSortingStrategy}>
+            <SortableContext items={environmentIds} strategy={verticalListSortingStrategy}>
               {environments.map((env) => (
                 <EnvironmentItem key={env.id} environment={env} />
               ))}

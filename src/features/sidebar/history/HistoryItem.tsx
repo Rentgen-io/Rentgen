@@ -1,9 +1,11 @@
 import { Method } from 'axios';
-import { MouseEvent, useCallback } from 'react';
+import { memo, MouseEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import MethodBadge from 'src/components/badges/MethodBadge';
 import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
 import { useReset } from 'src/hooks/useReset';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { store } from 'src/store';
+import { useAppDispatch } from 'src/store/hooks';
 import { selectIsComparingTestResults } from 'src/store/selectors';
 import { historyActions } from 'src/store/slices/historySlice';
 import { requestActions } from 'src/store/slices/requestSlice';
@@ -17,13 +19,16 @@ interface Props {
   searchTerm?: string;
 }
 
-export default function HistoryItem({ entry, searchTerm }: Props) {
+/**
+ * A history entry. Without store subscriptions and memoized: adding an entry (every sent request) doesn't re-render
+ * the existing ones, which matters with up to thousands of entries.
+ */
+function HistoryItem({ entry, searchTerm }: Props) {
   const dispatch = useAppDispatch();
+  const { i18n } = useTranslation();
   const reset = useReset();
 
-  const isComparingTestResults = useAppSelector(selectIsComparingTestResults);
-
-  const time = new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const time = new Date(entry.timestamp).toLocaleTimeString(i18n.language, { hour: '2-digit', minute: '2-digit' });
 
   const displayUrl = (() => {
     try {
@@ -34,16 +39,19 @@ export default function HistoryItem({ entry, searchTerm }: Props) {
     }
   })();
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
+    const isComparingTestResults = selectIsComparingTestResults(store.getState());
+
     reset();
 
+    dispatch(requestActions.setMode(entry.url.startsWith('ws://') || entry.url.startsWith('wss://') ? 'WSS' : 'HTTP'));
     dispatch(requestActions.setMethod(entry.method as Method));
     dispatch(requestActions.setUrl(entry.url));
     dispatch(requestActions.setHeaders(entry.headers));
     dispatch(requestActions.setBody(entry.body));
 
     if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
-  }, [entry, isComparingTestResults, dispatch, reset]);
+  };
 
   return (
     <div
@@ -67,3 +75,6 @@ export default function HistoryItem({ entry, searchTerm }: Props) {
     </div>
   );
 }
+
+// Entries keep their object when others are added / removed: only new or changed rows render
+export default memo(HistoryItem);

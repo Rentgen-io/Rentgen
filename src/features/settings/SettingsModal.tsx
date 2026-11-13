@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { IconButton } from 'src/components/buttons/IconButton';
@@ -5,6 +6,7 @@ import Modal from 'src/components/modals/Modal';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectSettingsModal } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
+import { SettingsTab } from 'src/types';
 import { AiSettings } from './ai/AiSettings';
 import { CliSettings } from './cli/CliSettings';
 import { GeneralSettings } from './general/GeneralSettings';
@@ -28,10 +30,8 @@ export default function SettingsModal() {
 
   const { activeTab, isOpen } = useAppSelector(selectSettingsModal);
 
-  const settingsTabs = [
+  const settingsTabs: { id: SettingsTab; name: string; icon: ReactNode; component: ReactNode }[] = [
     {
-      name: t('settings.testEngine'),
-      icon: <EngineIcon className="size-4" />,
       component: (
         <div className="flex flex-col gap-8">
           <MappingSettings />
@@ -39,36 +39,44 @@ export default function SettingsModal() {
           <PerformanceInsightsSettings />
         </div>
       ),
+      icon: <EngineIcon className="size-4" />,
+      id: 'testEngine',
+      name: t('settings.testEngine'),
     },
     {
-      name: t('settings.general'),
-      icon: <GearIcon className="size-4" />,
       component: <GeneralSettings />,
+      icon: <GearIcon className="size-4" />,
+      id: 'general',
+      name: t('settings.general'),
     },
     {
-      name: t('settings.ai.name'),
-      icon: <AiIcon className="size-4" />,
       component: <AiSettings />,
+      icon: <AiIcon className="size-4" />,
+      id: 'ai',
+      name: t('settings.ai.name'),
     },
     {
-      name: t('settings.themes'),
-      icon: <ThemeIcon className="size-4" />,
       component: (
         <>
           <p className="m-0 text-xs text-muted-foreground">{t('settings.themesDescription')}</p>
           <ThemeSettings />
         </>
       ),
+      icon: <ThemeIcon className="size-4" />,
+      id: 'themes',
+      name: t('settings.themes'),
     },
     {
-      name: t('settings.language'),
-      icon: <LanguageIcon className="size-4" />,
       component: <LanguageSettings />,
+      icon: <LanguageIcon className="size-4" />,
+      id: 'language',
+      name: t('settings.language'),
     },
     {
-      name: t('settings.cli.name'),
-      icon: <CliIcon className="size-4" />,
       component: <CliSettings />,
+      icon: <CliIcon className="size-4" />,
+      id: 'cli',
+      name: t('settings.cli.name'),
     },
   ];
 
@@ -84,14 +92,17 @@ export default function SettingsModal() {
       </IconButton>
       <Tabs
         className="h-full flex"
-        defaultIndex={activeTab}
+        defaultIndex={Math.max(
+          0,
+          settingsTabs.findIndex(({ id }) => id === activeTab),
+        )}
         selectedTabClassName="bg-background cursor-default!"
         selectedTabPanelClassName="block!"
       >
         <TabList className="min-w-40 flex flex-col m-0 p-0 bg-surface">
-          {settingsTabs.map(({ name, icon }) => (
+          {settingsTabs.map(({ id, name, icon }) => (
             <Tab
-              key={name}
+              key={id}
               className="flex items-center gap-2 py-3 px-4 text-sm list-none outline-none cursor-pointer hover:bg-background"
             >
               {icon}
@@ -99,8 +110,8 @@ export default function SettingsModal() {
             </Tab>
           ))}
         </TabList>
-        {settingsTabs.map(({ name, component }) => (
-          <TabPanel key={name} className="flex-auto hidden">
+        {settingsTabs.map(({ id, name, component }) => (
+          <TabPanel key={id} className="flex-auto hidden">
             <div className="h-full flex flex-col">
               <h4 className="m-0 p-4">{name}</h4>
               <div className="h-full flex flex-col gap-4 p-4 pt-0 overflow-y-auto">{component}</div>

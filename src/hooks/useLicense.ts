@@ -1,12 +1,10 @@
 import { useCallback, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectLicense } from 'src/store/selectors';
+import { useAppDispatch } from 'src/store/hooks';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import { verifyLicense } from 'src/utils';
 
 export function useLicense() {
   const dispatch = useAppDispatch();
-  const license = useAppSelector(selectLicense);
 
   const [isValidating, setIsValidating] = useState(false);
 
@@ -24,5 +22,5 @@ export function useLicense() {
     [dispatch],
   );
 
-  return { isValidating, license, validateLicense };
+  return { isValidating, validateLicense };
 }
