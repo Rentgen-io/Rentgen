@@ -9,7 +9,7 @@ import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
 import { useAppDispatch } from 'src/store/hooks';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { ORIGINAL_REQUEST_TEST_PARAMETER_NAME } from 'src/test-engine';
-import { HttpBody, HttpRequest, HttpResponse, TestResult, TestResults } from 'src/types';
+import { ResponseBody, HttpRequest, HttpResponse, TestResult, TestResults } from 'src/types';
 import { detectObjectType, truncateValue } from 'src/utils';
 import { twMerge } from 'tailwind-merge';
 import PotentialBugsTable, { PotentialBug } from '../tables/PotentialBugsTable';
@@ -272,7 +272,11 @@ function compareHttpResponses(originalResponse: HttpResponse | null, modifiedRes
   return issues;
 }
 
-function compareHttpResponseBodies(originalValue: HttpBody, modifiedValue: HttpBody, path: string = 'body'): string[] {
+function compareHttpResponseBodies(
+  originalValue: ResponseBody,
+  modifiedValue: ResponseBody,
+  path: string = 'body',
+): string[] {
   const issues: string[] = [];
 
   const hasOwnKey = (record: Record<string, unknown>, key: string): boolean =>

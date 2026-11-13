@@ -1,178 +1,214 @@
 import { Method } from 'axios';
+import { createFormDataBody, createUrlEncodedBody, getFormDataFilePaths, isFieldsBody } from 'shared/utils/http';
 import { store } from 'src/store';
 import {
   DataType,
-  HttpBody,
   HttpRequest,
   HttpResponse,
   ParameterValue,
+  PostmanBody,
+  RequestBody,
   RequestParameters,
+  TestData,
   TestOptions,
 } from 'src/types';
 import { isObject, setDeepObjectProperty, stringifyValue, tryParseJsonObject } from './object';
 import { generateRandomValue } from './random';
 import { detectDataType, extractPropertiesFromJson } from './validation';
 
-export function convertFormEntriesToUrlEncoded(formEntries: Array<[string, string]>): string {
-  const urlSearchParams = new URLSearchParams();
-  for (const [key, value] of formEntries) urlSearchParams.append(key, value);
+type FormEntry = [string, string];
 
-  return urlSearchParams.toString();
+/** Writes test values into a body or URL: the tested parameter's test value, and random values for the others. */
+interface ParameterWriter {
+  setTestValue: (name: string, value: unknown) => void;
+  setRandomValue: (name: string, value: string | number) => void;
 }
 
-export function convertUrlEncodedToFormEntries(encoded: string): Array<[string, string]> {
-  const urlSearchParams = new URLSearchParams(encoded);
-  return Array.from(urlSearchParams.entries());
-}
+const ARRAY_INDEX_REGEX = /\[(\d+)]/g;
+const METHODS_WITHOUT_BODY = new Set(['GET', 'HEAD']);
+const URLENCODED_CONTENT_TYPE_REGEX = /application\/x-www-form-urlencoded/i;
 
+// ---------- Requests ----------
+
+/** Builds the request to send; GET and HEAD requests never get a body. */
 export function createHttpRequest(
-  body: HttpBody,
+  body: RequestBody,
   headers: Record<string, string>,
-  method: Method | string,
+  method: Method | (string & {}),
   url: string,
 ): HttpRequest {
   const request: HttpRequest = { url, method, headers };
-  if (body && !['GET', 'HEAD'].includes(method.toUpperCase())) request.body = body;
+  if (body && !METHODS_WITHOUT_BODY.has(method.toUpperCase())) request.body = body;
 
   return request;
 }
 
+/**
+ * Builds a request for one test: the tested body or query parameter gets the test value, and every other
+ * parameter with a random type (e.g. randomInt) gets a new random value. The original body is not modified.
+ */
 export function createTestHttpRequest(options: TestOptions): HttpRequest {
   const { body, bodyParameters, headers, method, parameterName, parameterType, queryParameters, testData, url } =
     options;
+  const testBody = structuredClone(body);
 
-  let parsedBody = structuredClone(body);
+  if (isFieldsBody(testBody)) {
+    const fields = testBody.entries;
+    const writer = createTextParameterWriter((name, value) => updateField(fields, name, value));
 
-  if (isUrlEncodedContentType(headers)) {
-    const formEntries = convertUrlEncodedToFormEntries(body as string);
+    applyParameterValues(bodyParameters, parameterType === 'body' ? parameterName : undefined, testData, writer);
+  } else if (isObject(testBody)) {
+    const target = testBody;
+    const setValue = (name: string, value: unknown) => setDeepObjectProperty(target, name, value);
 
-    // Update the parameter being tested
-    if (parameterType === 'body' && parameterName && testData)
-      updateFormEntry(formEntries, parameterName, stringifyValue(testData.value));
-
-    // Apply random values to random parameter types
-    for (const [key, { type }] of Object.entries(bodyParameters)) {
-      // Skip the parameter being tested
-      if (parameterType === 'body' && parameterName === key) continue;
-
-      const randomValue = generateRandomValue(type);
-      if (randomValue !== null) updateFormEntry(formEntries, key, String(randomValue));
-    }
-
-    parsedBody = convertFormEntriesToUrlEncoded(formEntries);
-  } else if (isObject(parsedBody)) {
-    // Update the parameter being tested
-    if (parameterType === 'body' && parameterName && testData)
-      setDeepObjectProperty(parsedBody, parameterName, testData.value);
-
-    // Apply random values to random parameter types
-    for (const [key, { type }] of Object.entries(bodyParameters)) {
-      // Skip the parameter being tested
-      if (parameterType === 'body' && parameterName === key) continue;
-
-      const randomValue = generateRandomValue(type);
-      if (randomValue !== null) setDeepObjectProperty(parsedBody, key, randomValue);
-    }
+    applyParameterValues(bodyParameters, parameterType === 'body' ? parameterName : undefined, testData, {
+      setTestValue: setValue,
+      setRandomValue: setValue,
+    });
   }
 
-  const modifiedUrl = new URL(url);
+  const testUrl = new URL(url);
+  const queryWriter = createTextParameterWriter((name, value) => testUrl.searchParams.set(name, value));
+  applyParameterValues(queryParameters, parameterType === 'query' ? parameterName : undefined, testData, queryWriter);
 
-  // Update the parameter being tested
-  if (parameterType === 'query' && parameterName && testData)
-    modifiedUrl.searchParams.set(parameterName, stringifyValue(testData.value));
-
-  // Apply random values to random query parameter types
-  for (const [key, { type }] of Object.entries(queryParameters)) {
-    // Skip the parameter being tested
-    if (parameterType === 'query' && parameterName === key) continue;
-
-    const randomValue = generateRandomValue(type);
-    if (randomValue !== null) modifiedUrl.searchParams.set(key, String(randomValue));
-  }
-
-  return createHttpRequest(parsedBody, headers, method, modifiedUrl.toString());
+  return createHttpRequest(testBody, headers, method, testUrl.toString());
 }
 
-export function extractBodyParameters(body: unknown, headers: Record<string, string>): RequestParameters {
+// ---------- Bodies ----------
+
+/**
+ * Builds the body that is sent from the editor body: form-data or urlencoded fields, or the parsed raw text.
+ * Form-data file fields are sent as file paths (a File/Blob cannot cross IPC); a field with several files
+ * becomes one part per file, and a file field without a file is skipped.
+ */
+export function buildRequestBody(body: PostmanBody): RequestBody {
+  if (body.mode === 'formdata') {
+    const fields = (body.formdata ?? []).filter(({ key, disabled }) => key && !disabled);
+
+    return createFormDataBody(
+      fields.filter(({ type }) => type !== 'file').map(({ key, value }) => [key, value ?? '']),
+      fields
+        .filter(({ type }) => type === 'file')
+        .flatMap((field) => getFormDataFilePaths(field).map((filePath): FormEntry => [field.key, filePath])),
+    );
+  }
+  if (body.mode === 'urlencoded')
+    return createUrlEncodedBody(
+      (body.urlencoded ?? [])
+        .filter(({ key, disabled }) => key && !disabled)
+        .map(({ key, value }) => [key, value ?? '']),
+    );
+
+  return tryParseJsonObject(body.raw ?? null) as RequestBody;
+}
+
+/**
+ * The body's testable parameters with their initial test settings: every form field, or every JSON property
+ * (objects and arrays themselves are marked "do not test", only their children are tested).
+ */
+export function extractBodyParameters(body: unknown): RequestParameters {
   const parameters: RequestParameters = {};
 
-  if (isUrlEncodedContentType(headers)) {
-    const formEntries = convertUrlEncodedToFormEntries(body as string);
-    for (const [key, value] of formEntries) parameters[key] = getInitialParameterValue(detectDataType(value), value);
+  if (isFieldsBody(body)) {
+    for (const [key, value] of body.entries) parameters[key] = getInitialParameterValue(detectDataType(value), value);
   } else if (isObject(body)) {
-    const extractedProperties = extractPropertiesFromJson(body);
-    for (const [key, value] of Object.entries(extractedProperties)) {
-      if (value === 'DO_NOT_TEST') parameters[key] = getInitialParameterValue('do-not-test', '', false);
-      else {
-        // Navigate to the actual value in the parsed body
-        const paths = key.replace(/\[(\d+)]/g, '.$1').split('.');
-        let propertyValue: any = body;
-
-        for (const path of paths) {
-          if (propertyValue == null) break;
-          propertyValue = propertyValue[path];
-        }
-
-        parameters[key] = getInitialParameterValue(detectDataType(propertyValue, true), propertyValue);
+    for (const [path, type] of Object.entries(extractPropertiesFromJson(body))) {
+      if (type === 'DO_NOT_TEST') {
+        parameters[path] = getInitialParameterValue('do-not-test', '', false);
+        continue;
       }
+
+      // JSON values (e.g. booleans) are stored as they are; for most types the value is replaced by the settings
+      const value = getValueAtPath(body, path) as ParameterValue['value'];
+      parameters[path] = getInitialParameterValue(detectDataType(value, true), value);
     }
   }
 
   return parameters;
 }
 
-export function extractStatusCode(response: HttpResponse | null): number {
-  const status = (response?.status || '').toString();
-  const parsedStatus = parseInt(status.split(' ')[0] || '0', 10);
-  return Number.isFinite(parsedStatus) ? parsedStatus : 0;
+/** A body parameter's value: a form field by name, or a JSON property by dot/bracket notation path. */
+export function getBodyParameterValue(body: RequestBody, parameterName: string): unknown {
+  if (isFieldsBody(body)) return body.entries.find(([key]) => key === parameterName)?.[1];
+
+  return getValueAtPath(body, parameterName);
 }
 
-export function formatBody(body: string, headers: Record<string, string>): string {
-  // Handle form URL-encoded content
-  if (isUrlEncodedContentType(headers))
-    return body
-      .split(/\r?\n/)
-      .map((line) => line.trim())
-      .filter(Boolean)
-      .sort()
-      .join('\n');
-
-  // Handle JSON content (default case)
+/** Beautifies the raw body editor text: indents JSON, leaves any other text unchanged (it is sent as typed). */
+export function formatBody(body: string): string {
   try {
     return JSON.stringify(JSON.parse(body), null, 2);
   } catch {
-    // Return original content if JSON parsing fails
     return body;
   }
 }
 
+export function convertUrlEncodedToFormEntries(encoded: string): FormEntry[] {
+  return Array.from(new URLSearchParams(encoded).entries());
+}
+
+// ---------- Headers ----------
+
+/**
+ * Parses the header editor text (one `Name: value` per line). A line without a colon is taken as a cookie,
+ * also when pasted with curl's `-b` flag.
+ */
+export function parseHeaders(headers: string): Record<string, string> {
+  if (!headers) return {};
+
+  return Object.fromEntries(
+    headers
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => {
+        const separatorIndex = line.indexOf(':');
+        if (separatorIndex === -1) return ['Cookie', line.startsWith('-b ') ? line.slice(2).trim() : line];
+
+        return [line.slice(0, separatorIndex).trim(), line.slice(separatorIndex + 1).trim()];
+      }),
+  );
+}
+
+/** The header's name as written in `headers`, found case-insensitively. */
 export function getHeaderKey(headers: Record<string, string>, headerName: string): string | undefined {
   return Object.keys(headers).find((key) => key.toLowerCase() === headerName.toLowerCase());
 }
 
+/** The header's value, found case-insensitively; an empty string when missing. */
 export function getHeaderValue(headers: Record<string, string>, headerName: string): string {
-  const matchingKey = getHeaderKey(headers, headerName);
-  return matchingKey ? String(headers[matchingKey]) : '';
+  const headerKey = getHeaderKey(headers, headerName);
+
+  return headerKey ? String(headers[headerKey]) : '';
 }
 
-export function getBodyParameterValue(body: HttpBody, parameterName: string, headers: Record<string, string>): any {
-  if (isUrlEncodedContentType(headers)) {
-    const formEntries = convertUrlEncodedToFormEntries(body as string);
-    return formEntries.find(([key]) => key === parameterName)?.[1];
-  }
-
-  const paths = parameterName.replace(/\[(\d+)]/g, '.$1').split('.');
-  let value: any = body;
-
-  for (const path of paths) {
-    if (value == null) return undefined;
-    value = value[path];
-  }
-
-  return value;
+/** Whether the headers declare a urlencoded body. */
+export function hasUrlEncodedContentType(headers: Record<string, string>): boolean {
+  return isUrlEncodedContentType(getHeaderValue(headers, 'content-type'));
 }
 
-export function getInitialParameterValue(type: DataType, value = '', mandatory = true): ParameterValue {
+/** Whether a Content-Type value is urlencoded, also with parameters such as `; charset=utf-8`. */
+export function isUrlEncodedContentType(contentType: string): boolean {
+  return URLENCODED_CONTENT_TYPE_REGEX.test(contentType);
+}
+
+// ---------- Responses ----------
+
+/** The numeric status code from a status like "200 OK"; 0 when there is none (e.g. a network error). */
+export function extractStatusCode(response: HttpResponse | null): number {
+  const statusCode = parseInt(String(response?.status || '').split(' ')[0] || '0', 10);
+
+  return Number.isFinite(statusCode) ? statusCode : 0;
+}
+
+// ---------- Test parameters ----------
+
+/** Default test settings for a parameter of the given type, taken from the test engine configuration. */
+export function getInitialParameterValue(
+  type: DataType,
+  value: ParameterValue['value'] = '',
+  mandatory = true,
+): ParameterValue {
   const parameterValue: ParameterValue = { mandatory, type, value };
   const settings = store.getState().settings.testEngine.configuration;
 
@@ -183,75 +219,65 @@ export function getInitialParameterValue(type: DataType, value = '', mandatory =
     case 'numeric_string':
       return { ...parameterValue, value: settings.number };
     case 'string':
-      return {
-        ...parameterValue,
-        value: {
-          min: settings.string.minLength,
-          max: settings.string.maxLength,
-        },
-      };
+      return { ...parameterValue, value: { min: settings.string.minLength, max: settings.string.maxLength } };
     default:
       return parameterValue;
   }
 }
 
-export function isUrlEncodedContentType(headers: Record<string, string>): boolean {
-  return isUrlEncodedContentTypeString(getHeaderValue(headers, 'content-type'));
+/** The extracted parameters, each replaced by the user's saved mapping when one exists. */
+export function applyMapping(extracted: RequestParameters, mapped: RequestParameters): RequestParameters {
+  return Object.fromEntries(Object.keys(extracted).map((key) => [key, key in mapped ? mapped[key] : extracted[key]]));
 }
 
-export function isUrlEncodedContentTypeString(value: string): boolean {
-  return /application\/x-www-form-urlencoded/i.test(value);
+// ---------- Helpers ----------
+
+/** Sets the first field with the given name; a missing field is not added. */
+function updateField(fields: FormEntry[], name: string, value: string): void {
+  const field = fields.find(([key]) => key === name);
+  if (field) field[1] = value;
 }
 
-export function parseBody(body: string | null, headers: Record<string, string>): HttpBody {
-  if (isUrlEncodedContentType(headers)) return convertFormEntriesToUrlEncoded(parseFormData(body));
+/** Reads a value by dot/bracket notation path; `undefined` as soon as a step is null or undefined. */
+function getValueAtPath(source: unknown, path: string): unknown {
+  let value: unknown = source;
 
-  return tryParseJsonObject(body) as HttpBody;
+  for (const segment of path.replace(ARRAY_INDEX_REGEX, '.$1').split('.')) {
+    if (value === null || value === undefined) return undefined;
+
+    value = (value as Record<string, unknown>)[segment];
+  }
+
+  return value;
 }
 
-export function parseFormData(rawFormData: string | null): Array<[string, string]> {
-  return (rawFormData || '')
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => {
-      const equalIndex = line.indexOf('=');
-      if (equalIndex === -1) return [line, ''];
-      return [line.slice(0, equalIndex).trim(), line.slice(equalIndex + 1).trim()];
-    });
-}
+/**
+ * Sets the tested parameter to the test value (when there is one), and every other parameter whose type is
+ * a random type to a new random value.
+ */
+function applyParameterValues(
+  parameters: RequestParameters,
+  testedParameterName: string | undefined,
+  testData: TestData | undefined,
+  writer: ParameterWriter,
+): void {
+  if (testedParameterName && testData) writer.setTestValue(testedParameterName, testData.value);
 
-export function parseHeaders(headers: string): Record<string, string> {
-  if (!headers) return {};
+  for (const [name, { type }] of Object.entries(parameters)) {
+    if (name === testedParameterName) continue;
 
-  return Object.fromEntries(
-    headers
-      .split('\n')
-      .filter((headerLine) => headerLine.trim())
-      .map((headerLine) => {
-        // Handle lines without colons (likely cURL cookie flags or standalone cookies)
-        if (!headerLine.includes(':')) {
-          if (headerLine.trim().startsWith('-b ')) return ['Cookie', headerLine.replace('-b', '').trim()];
-
-          // Fallback: treat any headerless line as a Cookie
-          return ['Cookie', headerLine.trim()];
-        }
-
-        const [headerKey, ...valueParts] = headerLine.split(':');
-        return [headerKey.trim(), valueParts.join(':').trim()];
-      }),
-  );
-}
-
-export function updateFormEntry(entries: Array<[string, string]>, key: string, value: string): void {
-  for (const entry of entries) {
-    if (entry[0] === key) {
-      entry[1] = value;
-      break;
-    }
+    const randomValue = generateRandomValue(type);
+    if (randomValue !== null) writer.setRandomValue(name, randomValue);
   }
 }
 
-export function applyMapping(extracted: RequestParameters, mapped: RequestParameters): RequestParameters {
-  return Object.fromEntries(Object.keys(extracted).map((key) => [key, key in mapped ? mapped[key] : extracted[key]]));
+/**
+ * Writer for text values (form fields, query parameters). A test value is stringified so its type survives
+ * (e.g. the string "42" becomes `"42"`, unlike the number 42).
+ */
+function createTextParameterWriter(setValue: (name: string, value: string) => void): ParameterWriter {
+  return {
+    setTestValue: (name, value) => setValue(name, stringifyValue(value)),
+    setRandomValue: (name, value) => setValue(name, String(value)),
+  };
 }

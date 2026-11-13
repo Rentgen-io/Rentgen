@@ -1,7 +1,7 @@
 import { PreEvaluation } from './pre-evaluation';
 
 // Postman Collection Format v2 Types
-export type PostmanBodyMode = 'raw' | 'formdata' | 'urlencoded';
+export type PostmanBodyMode = 'formdata' | 'raw' | 'urlencoded';
 
 export interface PostmanHeader {
   key: string;
@@ -9,16 +9,17 @@ export interface PostmanHeader {
 }
 
 export interface PostmanBody {
-  mode: PostmanBodyMode;
+  mode?: PostmanBodyMode;
   raw?: string;
   formdata?: PostmanFormDataItem[];
+  urlencoded?: PostmanUrlencodedItem[];
 }
 
 export interface PostmanRequest {
   method: string;
-  url: string;
   header: PostmanHeader[];
   body?: PostmanBody;
+  url: string;
 }
 
 export interface PostmanItem {
@@ -79,7 +80,7 @@ export interface PostmanHeaderFull {
 }
 
 export interface PostmanBodyFull {
-  mode: PostmanBodyMode | 'file' | 'graphql';
+  mode?: PostmanBodyMode | 'file' | 'graphql';
   raw?: string;
   formdata?: PostmanFormDataItem[];
   urlencoded?: PostmanUrlencodedItem[];
@@ -92,7 +93,7 @@ export interface PostmanFormDataItem {
   key: string;
   value?: string;
   type?: 'text' | 'file';
-  src?: string[];
+  src?: string | string[] | null;
   disabled?: boolean;
 }
 

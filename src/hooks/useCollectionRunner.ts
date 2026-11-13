@@ -16,10 +16,10 @@ import { responseActions } from 'src/store/slices/responseSlice';
 import { DynamicVariable, PostmanItem } from 'src/types';
 import {
   applyMapping,
-  collectExtractionFailures,
   createHttpRequest,
   detectDataType,
   extractBodyParameters,
+  extractDynamicVariables,
   extractQueryParameters,
   extractStatusCode,
   findRequestById,
@@ -74,11 +74,11 @@ export function useCollectionRunner() {
       try {
         const { request } = item;
         const { body, headers, url } = substituteRequestVariables(
-          request.url,
-          headersRecordToString(postmanHeadersToRecord(request.header)),
-          request.body?.raw || '',
+          request.body ?? {},
           selectedEnvironment,
           dynamicVariablesRef.current,
+          headersRecordToString(postmanHeadersToRecord(request.header)),
+          request.url,
         );
 
         const httpRequest = createHttpRequest(body, headers, request.method, url);
@@ -89,7 +89,7 @@ export function useCollectionRunner() {
         let queryParameters = {};
 
         if (status >= RESPONSE_STATUS.OK && status < RESPONSE_STATUS.REDIRECT) {
-          bodyParameters = applyMapping(extractBodyParameters(body, headers), mappings[item.id]?.body || {});
+          bodyParameters = applyMapping(extractBodyParameters(body), mappings[item.id]?.body || {});
           queryParameters = applyMapping(
             Object.fromEntries(
               Object.entries(extractQueryParameters(url)).map(([key, value]) => [
@@ -116,16 +116,9 @@ export function useCollectionRunner() {
             queryParameters,
             error: null,
             warning: formatExtractionWarning(
-              collectExtractionFailures(dynamicVariablesRef.current, item.id, response, (current, extracted) => {
-                if (extracted.success && extracted.value !== null) {
-                  dispatch(
-                    environmentActions.updateDynamicVariableValue({
-                      id: current.id,
-                      value: extracted.value,
-                    }),
-                  );
-                }
-              }),
+              extractDynamicVariables(dynamicVariablesRef.current, item.id, response, (variable, value) =>
+                dispatch(environmentActions.updateDynamicVariableValue({ id: variable.id, value })),
+              ),
             ),
           }),
         );

@@ -1,8 +1,45 @@
 import axios from 'axios';
 import { exec } from 'child_process';
 import { ipcMain } from 'electron';
+import { openAsBlob } from 'fs';
+import { basename } from 'path';
 import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
-import { HttpBody, HttpRequest, HttpResponse } from 'shared/types/http';
+import { FormDataBody, HttpRequest, HttpResponse, RequestBody, ResponseBody } from 'shared/types/http';
+import { isFormDataBody, isUrlEncodedBody, toLocalFilePath } from 'shared/utils/http';
+
+/**
+ * Builds the real FormData / URLSearchParams here; axios then sets the matching Content-Type
+ * (multipart with the boundary, or application/x-www-form-urlencoded) unless the request sets one.
+ */
+async function toRequestData(body: RequestBody | undefined): Promise<unknown> {
+  if (isUrlEncodedBody(body)) return new URLSearchParams(body.entries);
+  if (isFormDataBody(body)) return buildFormData(body);
+
+  return body;
+}
+
+async function openFileAsBlob(filePath: string): Promise<Blob> {
+  try {
+    return await openAsBlob(filePath);
+  } catch (error) {
+    throw new Error(`Cannot read form-data file "${filePath}": ${(error as Error).message}`, {
+      cause: error,
+    });
+  }
+}
+
+/** Text fields first, then the files, each streamed from disk under its file name. */
+async function buildFormData({ entries, files = [] }: FormDataBody): Promise<FormData> {
+  const formData = new FormData();
+
+  for (const [key, value] of entries) formData.append(key, value);
+  for (const [key, rawPath] of files) {
+    const filePath = toLocalFilePath(rawPath);
+    formData.append(key, await openFileAsBlob(filePath), basename(filePath));
+  }
+
+  return formData;
+}
 
 function decodeToText(data: unknown): string | null {
   if (typeof data === 'string') return data;
@@ -13,7 +50,7 @@ function decodeToText(data: unknown): string | null {
   return null;
 }
 
-function toBody(data: unknown, contentType: string): HttpBody {
+function toBody(data: unknown, contentType: string): ResponseBody {
   if (data === null || data === undefined) return null;
 
   const text = decodeToText(data);
@@ -28,7 +65,7 @@ function toBody(data: unknown, contentType: string): HttpBody {
   if (!/\bapplication\/([\w.-]+\+)?json\b/i.test(contentType)) return text;
 
   try {
-    return JSON.parse(text) as HttpBody;
+    return JSON.parse(text) as ResponseBody;
   } catch {
     return text;
   }
@@ -54,7 +91,7 @@ export function registerHttpHandlers(): void {
           url,
           method,
           headers,
-          data: body,
+          data: await toRequestData(body),
           maxBodyLength: Infinity,
           maxContentLength: Infinity,
           responseType: 'arraybuffer',
@@ -66,7 +103,7 @@ export function registerHttpHandlers(): void {
           response.headers && (response.headers['content-type'] || response.headers['Content-Type']);
         const contentType = typeof contentTypeRaw === 'string' ? contentTypeRaw : '';
 
-        let responseBody: HttpBody;
+        let responseBody: ResponseBody;
 
         try {
           responseBody = toBody(response.data, contentType);

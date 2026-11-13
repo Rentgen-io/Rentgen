@@ -13,7 +13,7 @@ import ProgressBar from 'src/components/loaders/ProgressBar';
 import { DEFAULT_EVALUATION_QUESTIONS } from 'src/constants/pre-evaluation';
 import usePreEvaluation, { MAX_ITERATIONS, MIN_ITERATIONS } from 'src/hooks/usePreEvaluation';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectBody, selectPreEvaluationDisabled, selectSelectedRequestId } from 'src/store/selectors';
+import { selectBodyRaw, selectPreEvaluationDisabled, selectSelectedRequestId } from 'src/store/selectors';
 import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { EvaluationQuestion, MatchMode } from 'src/types';
 import { findPromptPointers, parseCsv, parseJsonObject, toCsv } from 'src/utils';
@@ -46,7 +46,7 @@ export default function PreEvaluationPanel() {
     executePreEvaluation,
   } = usePreEvaluation();
 
-  const body = useAppSelector(selectBody);
+  const body = useAppSelector(selectBodyRaw);
   const disabled = useAppSelector(selectPreEvaluationDisabled);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
 

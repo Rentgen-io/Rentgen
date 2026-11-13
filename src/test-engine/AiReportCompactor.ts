@@ -1,10 +1,10 @@
-import { HttpBody, HttpRequest, HttpResponse, TestResult, TestStatus } from 'src/types';
+import { HttpRequest, HttpResponse, RequestBody, ResponseBody, TestResult, TestStatus } from 'src/types';
 import {
-  convertUrlEncodedToFormEntries,
   extractPropertiesFromJson,
   extractQueryParameters,
+  hasUrlEncodedContentType,
+  isFieldsBody,
   isObject,
-  isUrlEncodedContentType,
   setDeepObjectProperty,
   stringifyValue,
   tryParseJsonObject,
@@ -422,11 +422,10 @@ function getValueAtPath(source: unknown, path: string): unknown {
     .reduce<unknown>((value, key) => (isObject(value) ? value[key] : undefined), source);
 }
 
-function getBodyFields(body: HttpBody | undefined, headers: Record<string, string>): Array<[string, unknown]> {
+function getBodyFields(body: RequestBody | undefined): Array<[string, unknown]> {
   if (body === null || body === undefined || body === '') return [];
 
-  if (isUrlEncodedContentType(headers))
-    return convertUrlEncodedToFormEntries(String(body)).map(([name, value]) => [`${MASK_BODY_PREFIX}${name}`, value]);
+  if (isFieldsBody(body)) return body.entries.map(([name, value]) => [`${MASK_BODY_PREFIX}${name}`, value]);
 
   const parsed = tryParseJsonObject(body);
   if (!isObject(parsed)) return [];
@@ -441,7 +440,7 @@ export function getMaskableFields({ url, headers = {}, body }: MaskableRequest):
   return [
     [MASK_URL_FIELD, url],
     ...Object.entries(headers).map(([name, value]): [string, unknown] => [`${MASK_HEADER_PREFIX}${name}`, value]),
-    ...getBodyFields(body, headers),
+    ...getBodyFields(body),
     ...Object.entries(extractQueryParameters(url)).map(([name, value]): [string, unknown] => [
       `${MASK_QUERY_PREFIX}${name}`,
       value,
@@ -538,7 +537,7 @@ export class RequestRedactor {
       }),
     );
     const redacted = { ...request, url: this.redactUrl(request.url), headers };
-    if ('body' in request) redacted.body = this.redactBody(request.body, request.headers ?? {}) as HttpBody;
+    if ('body' in request) redacted.body = this.redactBody(request.body) as RequestBody;
 
     return redacted;
   }
@@ -553,7 +552,7 @@ export class RequestRedactor {
       ]),
     ) as Record<string, string>;
 
-    return { ...response, headers, body: this.redactJson(response.body) as HttpBody };
+    return { ...response, headers, body: this.redactJson(response.body) as ResponseBody };
   }
 
   /** A value of a request field (e.g. "body.email"): replaced by its token when it equals the original. */
@@ -632,19 +631,19 @@ export class RequestRedactor {
     return `${redactedBase}${parameters.length ? `?${parameters.join('&')}` : ''}${this.url ? '' : this.redactText(hash)}`;
   }
 
-  private redactBody(body: unknown, headers: Record<string, string>): unknown {
+  private redactBody(body: unknown): unknown {
     if (body === null || body === undefined) return body;
 
-    if (typeof body === 'string' && isUrlEncodedContentType(headers))
-      return convertUrlEncodedToFormEntries(body)
-        .map(([name, value]) => {
+    if (isFieldsBody(body))
+      return {
+        ...body,
+        entries: body.entries.map(([name, value]) => {
           const masked = this.body.get(name);
-          const encodedName = new URLSearchParams([[name, '']]).toString().slice(0, -1);
           return masked && value === String(masked.value)
-            ? `${encodedName}=${masked.token}`
-            : this.redactText(new URLSearchParams([[name, value]]).toString());
-        })
-        .join('&');
+            ? [name, masked.token]
+            : [this.redactText(name), this.redactText(value)];
+        }),
+      };
 
     const parsed = tryParseJsonObject(body);
     if (!isObject(parsed)) return this.redactJson(parsed);
@@ -669,11 +668,13 @@ export class RequestRedactor {
         Object.entries(request.headers ?? {}).map(([name, value]) => [name, this.restoreText(value, false)]),
       ),
     };
+    // A body the AI writes as plain `a=1&b=2` text has no type of its own, so only its header tells that restored
+    // values must be URL-encoded
     if ('body' in request)
       restored.body =
         typeof request.body === 'string'
-          ? this.restoreText(request.body, isUrlEncodedContentType(request.headers ?? {}))
-          : (this.restoreJson(request.body) as HttpBody);
+          ? this.restoreText(request.body, hasUrlEncodedContentType(request.headers ?? {}))
+          : (this.restoreJson(request.body) as RequestBody);
 
     return restored;
   }

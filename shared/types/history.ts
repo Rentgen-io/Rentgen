@@ -1,9 +1,7 @@
-import { PostmanBodyMode, PostmanFormDataItem } from './postman';
+import { PostmanBody } from './postman';
 
 export interface HistoryEntry {
-  body: string;
-  bodyMode: PostmanBodyMode | 'none';
-  formData?: PostmanFormDataItem[];
+  body: PostmanBody;
   headers: string;
   id: string;
   method: string;

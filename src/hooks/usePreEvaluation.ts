@@ -24,7 +24,7 @@ import {
   extractStatusCode,
   findPromptPointers,
   getByJsonPointer,
-  isUrlEncodedContentType,
+  isFieldsBody,
   setByJsonPointer,
   substituteRequestVariables,
 } from 'src/utils';
@@ -72,7 +72,7 @@ const usePreEvaluation = () => {
       url: substitutedUrl,
       headers: substitutedHeaders,
       body: substitutedBody,
-    } = substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables);
+    } = substituteRequestVariables(body, selectedEnvironment, dynamicVariables, headers, url);
     const report: EvaluationReport = {
       startedAt: new Date().toISOString(),
       planned: totalRuns,
@@ -80,11 +80,7 @@ const usePreEvaluation = () => {
     };
 
     try {
-      if (
-        !substitutedUrl ||
-        ['GET', 'HEAD'].includes(method.toUpperCase()) ||
-        isUrlEncodedContentType(substitutedHeaders)
-      )
+      if (!substitutedUrl || ['GET', 'HEAD'].includes(method.toUpperCase()) || isFieldsBody(substitutedBody))
         throw new Error(t('preEvaluation.useRequestMethodWithJsonBody'));
 
       if (!findPromptPointers(substitutedBody).includes(preEvaluation.promptPath))
