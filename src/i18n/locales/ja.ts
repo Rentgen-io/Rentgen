@@ -116,10 +116,11 @@ const ja = {
     headersPlaceholder: 'Header-Key: value',
     body: 'ボディ',
     bodyPlaceholderHttp: 'リクエストボディを入力 (JSON または Form Data)',
-    bodyPlaceholderWss: 'メッセージボディ',
+    bodyPlaceholderWss: 'メッセージを作成',
     wssUrlRequired: '🔴 ws:// または wss:// の URL を使用してください',
     modePlaceholder: 'モード',
     methodPlaceholder: 'メソッド',
+    message: 'メッセージ',
   },
 
   // Response
@@ -545,7 +546,8 @@ const ja = {
 
   // Messages panel
   messages: {
-    title: 'メッセージ',
+    title: 'レスポンス',
+    empty: '(空)',
   },
 
   // Export format labels

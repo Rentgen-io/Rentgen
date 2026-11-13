@@ -116,10 +116,11 @@ const id = {
     headersPlaceholder: 'Header-Key: value',
     body: 'Body',
     bodyPlaceholderHttp: 'Masukkan body permintaan (JSON atau Form Data)',
-    bodyPlaceholderWss: 'Body pesan',
+    bodyPlaceholderWss: 'Tulis pesan',
     wssUrlRequired: '🔴 Mohon gunakan URL ws:// atau wss://',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METODE',
+    message: 'Pesan',
   },
 
   // Response
@@ -541,7 +542,8 @@ const id = {
 
   // Messages panel
   messages: {
-    title: 'Pesan',
+    title: 'Respons',
+    empty: '(kosong)',
   },
 
   // Export format labels

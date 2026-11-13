@@ -116,10 +116,11 @@ const pl = {
     headersPlaceholder: 'Klucz-Nagłówka: wartość',
     body: 'Treść',
     bodyPlaceholderHttp: 'Wpisz treść zapytania (JSON lub Form Data)',
-    bodyPlaceholderWss: 'Treść wiadomości',
+    bodyPlaceholderWss: 'Napisz wiadomość',
     wssUrlRequired: '🔴 Proszę użyć adresu URL ws:// lub wss://',
     modePlaceholder: 'TRYB',
     methodPlaceholder: 'METODA',
+    message: 'Wiadomość',
   },
 
   // Response
@@ -545,7 +546,8 @@ const pl = {
 
   // Messages panel
   messages: {
-    title: 'Wiadomości',
+    title: 'Odpowiedź',
+    empty: '(puste)',
   },
 
   // Export format labels

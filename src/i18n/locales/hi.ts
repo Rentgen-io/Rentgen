@@ -116,10 +116,11 @@ const hi = {
     headersPlaceholder: 'Header-Key: value',
     body: 'बॉडी',
     bodyPlaceholderHttp: 'अनुरोध बॉडी दर्ज करें (JSON या Form Data)',
-    bodyPlaceholderWss: 'संदेश बॉडी',
+    bodyPlaceholderWss: 'संदेश लिखें',
     wssUrlRequired: '🔴 कृपया ws:// या wss:// URL का उपयोग करें',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
+    message: 'संदेश',
   },
 
   // Response
@@ -541,7 +542,8 @@ const hi = {
 
   // Messages panel
   messages: {
-    title: 'संदेश',
+    title: 'प्रतिक्रिया',
+    empty: '(खाली)',
   },
 
   // Export format labels

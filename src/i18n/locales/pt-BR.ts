@@ -116,10 +116,11 @@ const ptBR = {
     headersPlaceholder: 'Header-Key: valor',
     body: 'Corpo',
     bodyPlaceholderHttp: 'Digite o corpo da requisição (JSON ou Form Data)',
-    bodyPlaceholderWss: 'Corpo da mensagem',
+    bodyPlaceholderWss: 'Escrever mensagem',
     wssUrlRequired: '🔴 Por favor, use uma URL ws:// ou wss://',
     modePlaceholder: 'MODO',
     methodPlaceholder: 'MÉTODO',
+    message: 'Mensagem',
   },
 
   // Response
@@ -548,7 +549,8 @@ const ptBR = {
 
   // Messages panel
   messages: {
-    title: 'Mensagens',
+    title: 'Resposta',
+    empty: '(vazio)',
   },
 
   // Export format labels

@@ -116,10 +116,11 @@ const fr = {
     headersPlaceholder: 'Clé-en-tête : valeur',
     body: 'Corps',
     bodyPlaceholderHttp: 'Saisir le corps de la requête (JSON ou Form Data)',
-    bodyPlaceholderWss: 'Corps du message',
+    bodyPlaceholderWss: 'Rédiger un message',
     wssUrlRequired: '🔴 Veuillez utiliser une URL ws:// ou wss://',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'MÉTHODE',
+    message: 'Message',
   },
 
   // Response
@@ -554,7 +555,8 @@ const fr = {
 
   // Messages panel
   messages: {
-    title: 'Messages',
+    title: 'Réponse',
+    empty: '(vide)',
   },
 
   // Export format labels

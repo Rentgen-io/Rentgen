@@ -116,10 +116,11 @@ const it = {
     headersPlaceholder: 'Chiave-intestazione: valore',
     body: 'Corpo',
     bodyPlaceholderHttp: 'Inserisci il corpo della richiesta (JSON o Form Data)',
-    bodyPlaceholderWss: 'Corpo del messaggio',
+    bodyPlaceholderWss: 'Scrivi messaggio',
     wssUrlRequired: '🔴 Utilizza un URL ws:// o wss://',
     modePlaceholder: 'MODALITÀ',
     methodPlaceholder: 'METODO',
+    message: 'Messaggio',
   },
 
   // Response
@@ -548,7 +549,8 @@ const it = {
 
   // Messages panel
   messages: {
-    title: 'Messaggi',
+    title: 'Risposta',
+    empty: '(vuoto)',
   },
 
   // Export format labels

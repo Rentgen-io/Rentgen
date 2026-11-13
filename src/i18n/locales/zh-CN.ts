@@ -116,10 +116,11 @@ const zhCN = {
     headersPlaceholder: 'Header-Key: value',
     body: '请求体',
     bodyPlaceholderHttp: '输入请求体 (JSON 或表单数据)',
-    bodyPlaceholderWss: '消息内容',
+    bodyPlaceholderWss: '撰写消息',
     wssUrlRequired: '🔴 请使用 ws:// 或 wss:// URL',
     modePlaceholder: '模式',
     methodPlaceholder: '方法',
+    message: '消息',
   },
 
   // Response
@@ -532,7 +533,8 @@ const zhCN = {
 
   // Messages panel
   messages: {
-    title: '消息',
+    title: '响应',
+    empty: '(空)',
   },
 
   // Export format labels

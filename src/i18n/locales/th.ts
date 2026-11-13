@@ -116,10 +116,11 @@ const th = {
     headersPlaceholder: 'Header-Key: value',
     body: 'บอดี้',
     bodyPlaceholderHttp: 'ป้อนบอดี้ของคำขอ (JSON หรือ Form Data)',
-    bodyPlaceholderWss: 'เนื้อหาข้อความ',
+    bodyPlaceholderWss: 'เขียนข้อความ',
     wssUrlRequired: '🔴 กรุณาใช้ URL แบบ ws:// หรือ wss://',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
+    message: 'ข้อความ',
   },
 
   // Response
@@ -540,7 +541,8 @@ const th = {
 
   // Messages panel
   messages: {
-    title: 'ข้อความ',
+    title: 'การตอบกลับ',
+    empty: '(ว่างเปล่า)',
   },
 
   // Export format labels

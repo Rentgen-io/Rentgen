@@ -116,10 +116,11 @@ const uk = {
     headersPlaceholder: 'Ключ-Заголовка: значення',
     body: 'Тіло',
     bodyPlaceholderHttp: 'Введіть тіло запиту (JSON або Form Data)',
-    bodyPlaceholderWss: 'Тіло повідомлення',
+    bodyPlaceholderWss: 'Напишіть повідомлення',
     wssUrlRequired: '🔴 Використовуйте URL з ws:// або wss://',
     modePlaceholder: 'РЕЖИМ',
     methodPlaceholder: 'МЕТОД',
+    message: 'Повідомлення',
   },
 
   // Response
@@ -545,7 +546,8 @@ const uk = {
 
   // Messages panel
   messages: {
-    title: 'Повідомлення',
+    title: 'Відповідь',
+    empty: '(порожньо)',
   },
 
   // Export format labels

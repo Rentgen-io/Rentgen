@@ -116,10 +116,11 @@ const lt = {
     headersPlaceholder: 'Antraštės-Raktas: reikšmė',
     body: 'Turinys',
     bodyPlaceholderHttp: 'Įveskite užklausos turinį (JSON arba Form Data)',
-    bodyPlaceholderWss: 'Žinutės turinys',
+    bodyPlaceholderWss: 'Parašykite žinutę',
     wssUrlRequired: '🔴 Prašome naudoti ws:// arba wss:// URL',
     modePlaceholder: 'REŽIMAS',
     methodPlaceholder: 'METODAS',
+    message: 'Žinutė',
   },
 
   // Response
@@ -546,7 +547,8 @@ const lt = {
 
   // Messages panel
   messages: {
-    title: 'Žinutės',
+    title: 'Atsakymas',
+    empty: '(tuščia)',
   },
 
   // Export format labels
