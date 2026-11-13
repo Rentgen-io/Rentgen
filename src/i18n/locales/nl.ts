@@ -116,10 +116,11 @@ const nl = {
     headersPlaceholder: 'Header-Key: waarde',
     body: 'Body',
     bodyPlaceholderHttp: 'Voer body van verzoek in (JSON of Form Data)',
-    bodyPlaceholderWss: 'Body van bericht',
+    bodyPlaceholderWss: 'Bericht opstellen',
     wssUrlRequired: '🔴 Gebruik een ws:// of wss:// URL',
     modePlaceholder: 'MODUS',
     methodPlaceholder: 'METHODE',
+    message: 'Bericht',
   },
 
   // Response
@@ -548,7 +549,8 @@ const nl = {
 
   // Messages panel
   messages: {
-    title: 'Berichten',
+    title: 'Reactie',
+    empty: '(leeg)',
   },
 
   // Export format labels

@@ -116,10 +116,11 @@ const ko = {
     headersPlaceholder: 'Header-Key: value',
     body: '바디',
     bodyPlaceholderHttp: '요청 바디를 입력하세요 (JSON 또는 Form Data)',
-    bodyPlaceholderWss: '메시지 바디',
+    bodyPlaceholderWss: '메시지 작성',
     wssUrlRequired: '🔴 ws:// 또는 wss:// URL을 사용해 주세요',
     modePlaceholder: '모드',
     methodPlaceholder: '메서드',
+    message: '메시지',
   },
 
   // Response
@@ -541,7 +542,8 @@ const ko = {
 
   // Messages panel
   messages: {
-    title: '메시지',
+    title: '응답',
+    empty: '(비어 있음)',
   },
 
   // Export format labels

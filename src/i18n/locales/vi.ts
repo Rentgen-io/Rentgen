@@ -116,10 +116,11 @@ const vi = {
     headersPlaceholder: 'Khóa-tiêu-đề: giá trị',
     body: 'Nội dung',
     bodyPlaceholderHttp: 'Nhập nội dung yêu cầu (JSON hoặc Form Data)',
-    bodyPlaceholderWss: 'Nội dung tin nhắn',
+    bodyPlaceholderWss: 'Soạn tin nhắn',
     wssUrlRequired: '🔴 Vui lòng sử dụng URL ws:// hoặc wss://',
     modePlaceholder: 'CHẾ ĐỘ',
     methodPlaceholder: 'PHƯƠNG THỨC',
+    message: 'Tin nhắn',
   },
 
   // Response
@@ -542,7 +543,8 @@ const vi = {
 
   // Messages panel
   messages: {
-    title: 'Tin nhắn',
+    title: 'Phản hồi',
+    empty: '(trống)',
   },
 
   // Export format labels

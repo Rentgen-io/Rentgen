@@ -116,10 +116,11 @@ const ru = {
     headersPlaceholder: 'Header-Key: value',
     body: 'Тело',
     bodyPlaceholderHttp: 'Введите тело запроса (JSON или Form Data)',
-    bodyPlaceholderWss: 'Тело сообщения',
+    bodyPlaceholderWss: 'Составьте сообщение',
     wssUrlRequired: '🔴 Используйте URL с ws:// или wss://',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
+    message: 'Сообщение',
   },
 
   // Response
@@ -546,7 +547,8 @@ const ru = {
 
   // Messages panel
   messages: {
-    title: 'Сообщения',
+    title: 'Ответ',
+    empty: '(пусто)',
   },
 
   // Export format labels

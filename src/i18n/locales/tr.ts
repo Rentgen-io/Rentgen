@@ -116,10 +116,11 @@ const tr = {
     headersPlaceholder: 'Başlık-Anahtar: değer',
     body: 'Gövde',
     bodyPlaceholderHttp: 'İstek gövdesini girin (JSON veya Form Data)',
-    bodyPlaceholderWss: 'Mesaj gövdesi',
+    bodyPlaceholderWss: 'Mesaj oluşturun',
     wssUrlRequired: '🔴 Lütfen ws:// veya wss:// URL kullanın',
     modePlaceholder: 'MOD',
     methodPlaceholder: 'METOT',
+    message: 'Mesaj',
   },
 
   // Response
@@ -546,7 +547,8 @@ const tr = {
 
   // Messages panel
   messages: {
-    title: 'Mesajlar',
+    title: 'Yanıt',
+    empty: '(boş)',
   },
 
   // Export format labels
