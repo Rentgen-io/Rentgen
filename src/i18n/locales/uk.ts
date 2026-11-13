@@ -150,7 +150,7 @@ const uk = {
     testsHint: 'Надішліть запит, щоб згенерувати тести на основі відповіді.',
     testsUnavailable: 'Для генерації тестів потрібна успішна відповідь (HTTP 2xx або 3xx).',
     generateAndRun: 'Згенерувати та запустити тести',
-    runningTests: 'Виконання тестів... ({{current}}/{{total}})',
+    runningTests: 'Виконується... ({{current}}/{{total}})',
     noTestsGenerated: 'Тести не згенеровано',
     selectForCompare: 'Обрати для порівняння',
     compareWithSelected: 'Порівняти з обраним',

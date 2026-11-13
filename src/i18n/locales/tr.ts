@@ -150,7 +150,7 @@ const tr = {
     testsHint: 'Yanıtından test oluşturmak için bir istek gönderin.',
     testsUnavailable: 'Test oluşturmak için başarılı bir yanıt gerekir (HTTP 2xx veya 3xx).',
     generateAndRun: 'Testleri Oluştur ve Çalıştır',
-    runningTests: 'Testler çalıştırılıyor... ({{current}}/{{total}})',
+    runningTests: 'Çalıştırılıyor... ({{current}}/{{total}})',
     noTestsGenerated: 'Test oluşturulmadı',
     selectForCompare: 'Karşılaştırmak için seç',
     compareWithSelected: 'Seçilenle Karşılaştır',

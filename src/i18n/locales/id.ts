@@ -150,7 +150,7 @@ const id = {
     testsHint: 'Kirim permintaan untuk menghasilkan tes dari responsnya.',
     testsUnavailable: 'Pembuatan tes memerlukan respons yang berhasil (HTTP 2xx atau 3xx).',
     generateAndRun: 'Hasilkan & Jalankan Tes',
-    runningTests: 'Menjalankan tes... ({{current}}/{{total}})',
+    runningTests: 'Menjalankan... ({{current}}/{{total}})',
     noTestsGenerated: 'Tidak ada tes yang dihasilkan',
     selectForCompare: 'Pilih untuk Bandingkan',
     compareWithSelected: 'Bandingkan dengan Pilihan',

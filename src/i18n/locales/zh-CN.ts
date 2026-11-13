@@ -150,7 +150,7 @@ const zhCN = {
     testsHint: '发送请求以根据其响应生成测试。',
     testsUnavailable: '生成测试需要成功的响应（HTTP 2xx 或 3xx）。',
     generateAndRun: '生成并运行测试',
-    runningTests: '正在运行测试... ({{current}}/{{total}})',
+    runningTests: '正在运行... ({{current}}/{{total}})',
     noTestsGenerated: '未生成测试',
     selectForCompare: '选择以进行比较',
     compareWithSelected: '与所选项比较',

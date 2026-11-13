@@ -150,7 +150,7 @@ const ja = {
     testsHint: 'リクエストを送信すると、そのレスポンスからテストを生成します。',
     testsUnavailable: 'テストを生成するには、成功したレスポンス (HTTP 2xx または 3xx) が必要です。',
     generateAndRun: 'テストを生成して実行',
-    runningTests: 'テストを実行中... ({{current}}/{{total}})',
+    runningTests: '実行中... ({{current}}/{{total}})',
     noTestsGenerated: 'テストが生成されませんでした',
     selectForCompare: '比較対象として選択',
     compareWithSelected: '選択したものと比較',
