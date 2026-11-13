@@ -1,29 +1,30 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import Select, { SelectOption } from 'src/components/inputs/Select';
-import { useAppDispatch } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectEnvironments, selectSelectedEnvironmentId } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { uiActions } from 'src/store/slices/uiSlice';
-import { Environment } from 'src/types';
 
 import AddIcon from 'src/assets/icons/add-icon.svg';
 
 const CREATE_ENVIRONMENT_OPTION = '__create_environment__';
+const DARK_TEXT = '#212121';
+const LIGHT_TEXT = '#ffffff';
 
 interface Props {
   className?: string;
-  environments: Environment[];
-  selectedEnvironmentId: string | null;
-  onSelect: (id: string | null) => void;
 }
 
-export default function EnvironmentSelector({ className, environments, selectedEnvironmentId, onSelect }: Props) {
+export default function EnvironmentSelector({ className }: Props) {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const selectedEnvironment = environments.find((env) => env.id === selectedEnvironmentId);
-  const hasColor = selectedEnvironment?.color;
-  const needsLightText = hasColor && isColorDark(selectedEnvironment.color);
+  const environments = useAppSelector(selectEnvironments);
+  const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
+
+  const color = environments.find((env) => env.id === selectedEnvironmentId)?.color;
+  const textColor = color ? `${getReadableTextColor(color)} !important` : undefined;
 
   const options: SelectOption<string | null>[] = [
     { value: null, label: t('environment.noEnvironment') },
@@ -50,46 +51,37 @@ export default function EnvironmentSelector({ className, environments, selectedE
       return;
     }
 
-    onSelect(value);
+    dispatch(environmentActions.selectEnvironment(value));
   };
 
   return (
     <Select
+      aria-label={t('environment.selectEnvironment')}
       className={cn('min-w-37.5', className)}
       isSearchable={false}
       options={options}
       placeholder={t('environment.selectEnvironment')}
       styles={
-        hasColor
+        color
           ? {
-              control: (base) => ({
-                ...base,
-                backgroundColor: selectedEnvironment.color,
-                borderColor: `${selectedEnvironment.color} !important`,
-              }),
-              singleValue: (base) => ({
-                ...base,
-                color: needsLightText ? '#ffffff !important' : '#212121 !important',
-              }),
-              dropdownIndicator: (base) => ({
-                ...base,
-                color: needsLightText ? '#ffffff !important' : '#212121 !important',
-              }),
+              control: (base) => ({ ...base, backgroundColor: color, borderColor: `${color} !important` }),
+              singleValue: (base) => ({ ...base, color: textColor }),
+              dropdownIndicator: (base) => ({ ...base, color: textColor }),
             }
           : undefined
       }
       value={options.find((option) => option.value === selectedEnvironmentId)}
-      onChange={(option) => handleChange(option!.value)}
+      onChange={(option) => option && handleChange(option.value)}
     />
   );
 }
 
-function isColorDark(hexColor: string): boolean {
-  const hex = hexColor.replace('#', '');
+function getReadableTextColor(background: string): string {
+  const hex = background.replace('#', '');
   const r = parseInt(hex.substring(0, 2), 16);
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 
-  return luminance < 0.7;
+  return luminance < 0.7 ? LIGHT_TEXT : DARK_TEXT;
 }

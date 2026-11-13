@@ -96,6 +96,7 @@ const uk = {
     deleteEnvironmentConfirm: 'Ви впевнені, що хочете видалити це середовище?',
     deleteEnvironment: 'Видалити середовище',
     untitled: 'Без назви',
+    duplicateVariable: 'Змінна з такою назвою вже існує',
   },
 
   // History
@@ -253,8 +254,6 @@ const uk = {
       selectEnvironment: 'Оберіть середовище...',
       linkedRequest: "Пов'язаний запит",
       variableNameRequired: 'Назва змінної є обовʼязковою',
-      selectorRequired: 'Селектор є обовʼязковим',
-      selectEnvironmentError: 'Будь ласка, оберіть середовище',
       duplicateWarning: 'Змінна з такою назвою вже існує. Її буде перезаписано.',
     },
     projectImport: {

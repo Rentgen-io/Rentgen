@@ -17,7 +17,6 @@ import TestsPanel from './features/tests/panels/TestsPanel';
 import TestRunnerBar from './features/tests/TestRunnerBar';
 import { useCtrlS } from './hooks/useCtrlS';
 import { useInitialDataLoad } from './hooks/useInitialDataLoad';
-import usePreEvaluation from './hooks/usePreEvaluation';
 import { useSaveRequest } from './hooks/useSaveRequest';
 import useTests from './hooks/useTests';
 import { useWssEventBridge } from './hooks/useWebSocket';
@@ -29,6 +28,7 @@ import {
   selectEnvironments,
   selectIsComparingTestResults,
   selectIsEditingEnvironment,
+  selectIsPreEvaluationRunning,
   selectIsRequestDisabled,
   selectMode,
   selectTestingModeActiveTab,
@@ -42,7 +42,6 @@ export default function App() {
   const { t } = useTranslation();
 
   const { aiRunStartedAt, isAiTestsRunning, isRunningTests, runningAiTests } = useTests();
-  const { isRunningPreEvaluation } = usePreEvaluation();
 
   const compareResponse = useAppSelector(selectCompareResponse);
   const disabled = useAppSelector(selectIsRequestDisabled);
@@ -50,6 +49,7 @@ export default function App() {
   const environments = useAppSelector(selectEnvironments);
   const isComparingTestResults = useAppSelector(selectIsComparingTestResults);
   const isEditingEnvironment = useAppSelector(selectIsEditingEnvironment);
+  const isRunningPreEvaluation = useAppSelector(selectIsPreEvaluationRunning);
   const mode = useAppSelector(selectMode);
   const testingModeActiveTab = useAppSelector(selectTestingModeActiveTab);
   const testResults = useAppSelector(selectCurrentTestResults);
@@ -90,6 +90,8 @@ export default function App() {
       <div className="@container flex flex-col flex-1 min-w-0 overscroll-contain">
         {isEditingEnvironment && (
           <EnvironmentEditor
+            // A fresh editor per environment: its form state starts from that environment
+            key={editingEnvironmentId ?? 'new'}
             environment={environments.find(({ id }) => id === editingEnvironmentId) || null}
             isNew={editingEnvironmentId === null}
             onSave={(environment) => dispatch(environmentActions.updateEnvironment(environment))}

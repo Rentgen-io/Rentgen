@@ -6,6 +6,9 @@ import {
 import { DynamicVariable, Environment, EnvironmentVariable } from 'src/types';
 import { generateDynamicVariableId } from 'src/utils';
 
+/** A dynamic variable as defined by the user; the slice manages its id, lastUpdated and previousRequests. */
+type DynamicVariableDefinition = Omit<DynamicVariable, 'id' | 'lastUpdated' | 'previousRequests'>;
+
 interface EnvironmentState {
   dynamicVariables: DynamicVariable[];
   editingEnvironmentId: string | null;
@@ -35,11 +38,11 @@ export const environmentSlice = createSlice({
   name: 'environment',
   initialState,
   reducers: {
-    addDynamicVariable: (state, action: PayloadAction<Omit<DynamicVariable, 'id' | 'lastUpdated'>>) => {
+    addDynamicVariable: (state, action: PayloadAction<DynamicVariableDefinition>) => {
       state.dynamicVariables.push({
         ...action.payload,
         id: generateDynamicVariableId(),
-        lastUpdated: Date.now(),
+        lastUpdated: getLastUpdated(action.payload.currentValue),
         previousRequests: [],
       });
     },
@@ -75,6 +78,33 @@ export const environmentSlice = createSlice({
       }
 
       state.environmentToDelete = null;
+    },
+    overwriteDynamicVariables: (
+      state,
+      action: PayloadAction<{ ids: string[]; variable: DynamicVariableDefinition }>,
+    ) => {
+      const { ids, variable } = action.payload;
+      const replaced = ids.flatMap(
+        (id) => state.dynamicVariables.find((dynamicVariable) => dynamicVariable.id === id) ?? [],
+      );
+      const [kept] = replaced;
+      if (!kept) return;
+
+      const links = new Map<string, NonNullable<DynamicVariable['previousRequests']>[number]>();
+      for (const { previousRequests = [], requestId, selector, source } of replaced)
+        for (const link of [...previousRequests, { requestId, selector, source }]) {
+          // Re-inserted, so a request's latest link wins and moves to the end (the most recent)
+          links.delete(link.requestId);
+          if (link.requestId !== variable.requestId) links.set(link.requestId, link);
+        }
+
+      Object.assign(kept, variable, {
+        lastUpdated: getLastUpdated(variable.currentValue),
+        previousRequests: [...links.values()],
+      });
+
+      const removedIds = new Set(replaced.slice(1).map(({ id }) => id));
+      state.dynamicVariables = state.dynamicVariables.filter(({ id }) => !removedIds.has(id));
     },
     removeDynamicVariable: (state, action: PayloadAction<{ id: string }>) => {
       state.dynamicVariables = state.dynamicVariables.filter((v) => v.id !== action.payload.id);
@@ -152,6 +182,11 @@ export const environmentSlice = createSlice({
       });
   },
 });
+
+// Per the type: the time of the last extracted value, null while there is none
+function getLastUpdated(currentValue: string | null): number | null {
+  return currentValue !== null ? Date.now() : null;
+}
 
 export const environmentActions = environmentSlice.actions;
 export default environmentSlice.reducer;

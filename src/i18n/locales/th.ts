@@ -96,6 +96,7 @@ const th = {
     deleteEnvironmentConfirm: 'คุณแน่ใจหรือไม่ว่าต้องการลบเอนไวรอนเมนต์นี้?',
     deleteEnvironment: 'ลบเอนไวรอนเมนต์',
     untitled: 'ไม่มีชื่อ',
+    duplicateVariable: 'มีตัวแปรชื่อนี้อยู่แล้ว',
   },
 
   // History
@@ -252,8 +253,6 @@ const th = {
       selectEnvironment: 'เลือกเอนไวรอนเมนต์...',
       linkedRequest: 'คำขอที่เชื่อมโยง',
       variableNameRequired: 'จำเป็นต้องระบุชื่อตัวแปร',
-      selectorRequired: 'จำเป็นต้องระบุ Selector',
-      selectEnvironmentError: 'กรุณาเลือกเอนไวรอนเมนต์',
       duplicateWarning: 'มีตัวแปรชื่อนี้อยู่แล้ว ตัวแปรจะถูกเขียนทับ',
     },
     projectImport: {

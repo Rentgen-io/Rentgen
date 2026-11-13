@@ -96,6 +96,7 @@ const ru = {
     deleteEnvironmentConfirm: 'Вы уверены, что хотите удалить это окружение?',
     deleteEnvironment: 'Удалить окружение',
     untitled: 'Без названия',
+    duplicateVariable: 'Переменная с таким именем уже существует',
   },
 
   // History
@@ -253,8 +254,6 @@ const ru = {
       selectEnvironment: 'Выберите окружение...',
       linkedRequest: 'Связанный запрос',
       variableNameRequired: 'Имя переменной обязательно',
-      selectorRequired: 'Селектор обязателен',
-      selectEnvironmentError: 'Пожалуйста, выберите окружение',
       duplicateWarning: 'Переменная с таким именем уже существует. Она будет перезаписана.',
     },
     projectImport: {

@@ -96,6 +96,7 @@ const vi = {
     deleteEnvironmentConfirm: 'Bạn có chắc chắn muốn xóa môi trường này?',
     deleteEnvironment: 'Xóa môi trường',
     untitled: 'Không có tiêu đề',
+    duplicateVariable: 'Đã có biến với tên này',
   },
 
   // History
@@ -253,8 +254,6 @@ const vi = {
       selectEnvironment: 'Chọn môi trường...',
       linkedRequest: 'Yêu cầu liên kết',
       variableNameRequired: 'Bắt buộc phải có tên biến',
-      selectorRequired: 'Bắt buộc phải có bộ chọn',
-      selectEnvironmentError: 'Vui lòng chọn một môi trường',
       duplicateWarning: 'Một biến với tên này đã tồn tại. Nó sẽ bị ghi đè.',
     },
     projectImport: {

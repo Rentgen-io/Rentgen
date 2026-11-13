@@ -96,6 +96,7 @@ const ko = {
     deleteEnvironmentConfirm: '이 환경을 정말 삭제하시겠어요?',
     deleteEnvironment: '환경 삭제',
     untitled: '제목 없음',
+    duplicateVariable: '이 이름의 변수가 이미 있습니다',
   },
 
   // History
@@ -253,8 +254,6 @@ const ko = {
       selectEnvironment: '환경을 선택하세요...',
       linkedRequest: '연결된 요청',
       variableNameRequired: '변수 이름이 필요합니다',
-      selectorRequired: '셀렉터가 필요합니다',
-      selectEnvironmentError: '환경을 선택해 주세요',
       duplicateWarning: '같은 이름의 변수가 이미 있습니다. 덮어쓰여집니다.',
     },
     projectImport: {

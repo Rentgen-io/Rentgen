@@ -3,16 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { RESPONSE_STATUS } from 'shared/responseStatus';
 import { sendHttp } from 'src/api/network';
 import { DEFAULT_PRE_EVALUATION } from 'src/constants/pre-evaluation';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { store } from 'src/store';
+import { useAppDispatch } from 'src/store/hooks';
 import {
   selectBody,
-  selectCurrentRun,
   selectDynamicVariables,
-  selectEvaluationReport,
   selectHeaders,
-  selectIsRunning,
   selectMethod,
   selectPreEvaluation,
+  selectPreEvaluationError,
+  selectPreEvaluationTotalRuns,
   selectSelectedEnvironment,
   selectSelectedRequestId,
   selectUrl,
@@ -24,79 +24,65 @@ import {
   extractStatusCode,
   findPromptPointers,
   getByJsonPointer,
-  isFieldsBody,
+  parseJsonObject,
   setByJsonPointer,
   substituteRequestVariables,
 } from 'src/utils';
 
-export const MAX_ITERATIONS = 1000;
-export const MIN_ITERATIONS = 1;
-
 let activeController: AbortController | null = null;
 
-/** Aborts and forgets the running pre-evaluation. Store-free, so it can be used without subscribing (see useReset) */
+/**
+ * Aborts and forgets the running pre-evaluation: it ends without a report (unlike stopPreEvaluation), for when the
+ * request is being reset. Store-free, so it can be used without subscribing (see useReset).
+ */
 export function abortPreEvaluation() {
   activeController?.abort();
   activeController = null;
 }
 
+/**
+ * The pre-evaluation actions only, without store subscriptions: the request and settings are read from the store when
+ * it starts. Components select the state they show (settings, progress, report) themselves.
+ */
 const usePreEvaluation = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const body = useAppSelector(selectBody);
-  const currentRun = useAppSelector(selectCurrentRun);
-  const dynamicVariables = useAppSelector(selectDynamicVariables);
-  const evaluationReport = useAppSelector(selectEvaluationReport);
-  const headers = useAppSelector(selectHeaders);
-  const isRunningPreEvaluation = useAppSelector(selectIsRunning);
-  const method = useAppSelector(selectMethod);
-  const preEvaluation = useAppSelector(selectPreEvaluation) ?? DEFAULT_PRE_EVALUATION;
-  const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
-  const selectedRequestId = useAppSelector(selectSelectedRequestId);
-  const url = useAppSelector(selectUrl);
-  const totalRuns = preEvaluation.questions.length * preEvaluation.iterations;
-
-  const cancelPreEvaluation = useCallback(() => activeController?.abort(), []);
-
   const executePreEvaluation = useCallback(async () => {
-    activeController?.abort();
-    const controller = new AbortController();
-    activeController = controller;
+    const state = store.getState();
+    const preEvaluation = selectPreEvaluation(state) ?? DEFAULT_PRE_EVALUATION;
+    const method = selectMethod(state);
+    const selectedRequestId = selectSelectedRequestId(state);
+    const validationError = selectPreEvaluationError(state);
+
+    if (validationError) throw new Error(t(validationError.key, validationError.values));
 
     const {
       url: substitutedUrl,
       headers: substitutedHeaders,
       body: substitutedBody,
-    } = substituteRequestVariables(body, selectedEnvironment, dynamicVariables, headers, url);
+    } = substituteRequestVariables(
+      selectBody(state),
+      selectSelectedEnvironment(state),
+      selectDynamicVariables(state),
+      selectHeaders(state),
+      selectUrl(state),
+    );
+
+    if (!findPromptPointers(substitutedBody).includes(preEvaluation.promptPath))
+      throw new Error(t('preEvaluation.selectUserPromptField'));
+
+    activeController?.abort();
+    const controller = new AbortController();
+    activeController = controller;
+
     const report: EvaluationReport = {
       startedAt: new Date().toISOString(),
-      planned: totalRuns,
+      planned: selectPreEvaluationTotalRuns(state),
       results: [],
     };
 
     try {
-      if (!substitutedUrl || ['GET', 'HEAD'].includes(method.toUpperCase()) || isFieldsBody(substitutedBody))
-        throw new Error(t('preEvaluation.useRequestMethodWithJsonBody'));
-
-      if (!findPromptPointers(substitutedBody).includes(preEvaluation.promptPath))
-        throw new Error(t('preEvaluation.selectUserPromptField'));
-
-      if (
-        !Number.isInteger(preEvaluation.iterations) ||
-        preEvaluation.iterations < MIN_ITERATIONS ||
-        preEvaluation.iterations > MAX_ITERATIONS
-      )
-        throw new Error(t('preEvaluation.iterationsMustBeBetween', { min: MIN_ITERATIONS, max: MAX_ITERATIONS }));
-
-      if (
-        !preEvaluation.questions.length ||
-        preEvaluation.questions.some(
-          (question) => !question.prompt.trim() || (!question.contains.length && !question.notContains.length),
-        )
-      )
-        throw new Error(t('preEvaluation.everyQuestionNeedsPromptAndAssertion'));
-
       dispatch(preEvaluationActions.startPreEvaluation());
 
       for (const question of preEvaluation.questions) {
@@ -130,10 +116,7 @@ const usePreEvaluation = () => {
 
             const responseBody = response.body;
             const text = preEvaluation.responsePath
-              ? getByJsonPointer(
-                  typeof responseBody === 'string' ? JSON.parse(responseBody) : responseBody,
-                  preEvaluation.responsePath,
-                )
+              ? getByJsonPointer(parseJsonObject(responseBody), preEvaluation.responsePath)
               : responseBody;
             if (preEvaluation.responsePath && typeof text !== 'string')
               result.reasons.push(t('preEvaluation.responseTextFieldMissing'));
@@ -165,32 +148,16 @@ const usePreEvaluation = () => {
           }),
         );
     } finally {
-      dispatch(preEvaluationActions.setIsRunning(false));
-      activeController = null;
+      if (controller === activeController) {
+        activeController = null;
+        dispatch(preEvaluationActions.setIsRunning(false));
+      }
     }
-  }, [
-    body,
-    dynamicVariables,
-    headers,
-    method,
-    preEvaluation,
-    selectedEnvironment,
-    selectedRequestId,
-    totalRuns,
-    url,
-    dispatch,
-    t,
-  ]);
+  }, [dispatch, t]);
 
-  return {
-    currentRun,
-    evaluationReport,
-    isRunningPreEvaluation,
-    preEvaluation,
-    totalRuns,
-    cancelPreEvaluation,
-    executePreEvaluation,
-  };
+  const stopPreEvaluation = useCallback(() => activeController?.abort(), []);
+
+  return { executePreEvaluation, stopPreEvaluation };
 };
 
 export default usePreEvaluation;

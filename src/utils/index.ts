@@ -12,6 +12,7 @@ export * from './number';
 export * from './object';
 export * from './openapi';
 export * from './pre-evaluation';
+export * from './prompts';
 export * from './random';
 export * from './report';
 export * from './statistics';

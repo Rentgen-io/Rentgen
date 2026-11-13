@@ -96,6 +96,7 @@ const pl = {
     deleteEnvironmentConfirm: 'Czy na pewno chcesz usunąć to środowisko?',
     deleteEnvironment: 'Usuń środowisko',
     untitled: 'Bez nazwy',
+    duplicateVariable: 'Zmienna o tej nazwie już istnieje',
   },
 
   // History
@@ -254,8 +255,6 @@ const pl = {
       selectEnvironment: 'Wybierz środowisko...',
       linkedRequest: 'Powiązane zapytanie',
       variableNameRequired: 'Nazwa zmiennej jest wymagana',
-      selectorRequired: 'Selektor jest wymagany',
-      selectEnvironmentError: 'Proszę wybrać środowisko',
       duplicateWarning: 'Zmienna o tej nazwie już istnieje. Zostanie nadpisana.',
     },
     projectImport: {

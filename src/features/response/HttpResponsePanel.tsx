@@ -163,7 +163,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                   )}
                   <JsonViewer
                     maxHeight={viewerMaxHeight}
-                    responsePanelContext={{ isResponsePanel: true, source: 'body' }}
+                    responsePanelContext={{ source: 'body' }}
                     showVariableButtons={!!requestWithFolder}
                     source={httpResponse.body}
                     onSetVariable={(path, value) => setVariable(path, value, 'body')}
@@ -180,7 +180,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                   )}
                   <JsonViewer
                     maxHeight={viewerMaxHeight}
-                    responsePanelContext={{ isResponsePanel: true, source: 'header' }}
+                    responsePanelContext={{ source: 'header' }}
                     showVariableButtons={!!requestWithFolder}
                     source={httpResponse.headers}
                     onSetVariable={(path, value) => setVariable(path, value, 'header')}

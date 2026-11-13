@@ -6,6 +6,7 @@ import Modal, { Props as ModalProps } from './Modal';
 
 export interface Props extends ModalProps, PropsWithChildren {
   cancelText?: string;
+  confirmDisabled?: boolean;
   confirmText?: string;
   confirmType?: ButtonType;
   description?: string;
@@ -17,6 +18,7 @@ export default function ConfirmationModal({
   className,
   cancelText,
   children,
+  confirmDisabled = false,
   confirmText,
   confirmType = ButtonType.DANGER,
   description,
@@ -37,7 +39,7 @@ export default function ConfirmationModal({
           <Button buttonSize={ButtonSize.SMALL} buttonType={ButtonType.SECONDARY} onClick={onClose}>
             {cancelText || t('common.cancel')}
           </Button>
-          <Button buttonSize={ButtonSize.SMALL} buttonType={confirmType} onClick={onConfirm}>
+          <Button buttonSize={ButtonSize.SMALL} buttonType={confirmType} disabled={confirmDisabled} onClick={onConfirm}>
             {confirmText || t('common.ok')}
           </Button>
         </div>

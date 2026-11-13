@@ -96,6 +96,7 @@ const ja = {
     deleteEnvironmentConfirm: 'この環境を削除してもよろしいですか?',
     deleteEnvironment: '環境を削除',
     untitled: '無題',
+    duplicateVariable: 'この名前の変数は既に存在します',
   },
 
   // History
@@ -254,8 +255,6 @@ const ja = {
       selectEnvironment: '環境を選択...',
       linkedRequest: 'リンクされたリクエスト',
       variableNameRequired: 'バリアブル名は必須です',
-      selectorRequired: 'セレクタは必須です',
-      selectEnvironmentError: '環境を選択してください',
       duplicateWarning: 'この名前のバリアブルはすでに存在します。上書きされます。',
     },
     projectImport: {

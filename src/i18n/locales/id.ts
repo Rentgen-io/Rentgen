@@ -96,6 +96,7 @@ const id = {
     deleteEnvironmentConfirm: 'Yakin ingin menghapus lingkungan ini?',
     deleteEnvironment: 'Hapus Lingkungan',
     untitled: 'Tanpa Judul',
+    duplicateVariable: 'Variabel dengan nama ini sudah ada',
   },
 
   // History
@@ -253,8 +254,6 @@ const id = {
       selectEnvironment: 'Pilih lingkungan...',
       linkedRequest: 'Permintaan Tertaut',
       variableNameRequired: 'Nama variabel wajib diisi',
-      selectorRequired: 'Selektor wajib diisi',
-      selectEnvironmentError: 'Mohon pilih lingkungan',
       duplicateWarning: 'Variabel dengan nama ini sudah ada. Akan ditimpa.',
     },
     projectImport: {

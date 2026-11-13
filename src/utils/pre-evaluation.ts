@@ -1,9 +1,45 @@
+import { MAX_ITERATIONS, MIN_ITERATIONS } from 'src/constants/pre-evaluation';
 import i18n from 'src/i18n';
-import { EvaluationQuestion, MatchMode } from 'src/types';
+import { EvaluationQuestion, MatchMode, PostmanBody, PreEvaluation } from 'src/types';
 import { v4 as uuidv4 } from 'uuid';
 import { isObject, toJsonPointer } from './object';
 
 export const CSV_HEADERS = ['prompt', 'contains', 'containsMode', 'notContains', 'notContainsMode'];
+
+/** Why a pre-evaluation can't run, as a translation key (with its interpolation values). */
+export interface PreEvaluationError {
+  key: string;
+  values?: Record<string, number>;
+}
+
+/**
+ * Why a pre-evaluation can't run with this request and settings, or null when it can. The single source for both
+ * disabling "Run" (with the reason as its tooltip) and the check when running.
+ *
+ * @param promptPointers The body's possible prompt fields (the options the prompt field is picked from)
+ */
+export function getPreEvaluationError(
+  { body, method, url }: { body: PostmanBody; method: string; url: string },
+  preEvaluation: PreEvaluation,
+  promptPointers: string[],
+): PreEvaluationError | null {
+  if (!url || ['GET', 'HEAD'].includes(method.toUpperCase()) || body.mode === 'formdata' || body.mode === 'urlencoded')
+    return { key: 'preEvaluation.useRequestMethodWithJsonBody' };
+
+  if (!preEvaluation.promptPath || !promptPointers.includes(preEvaluation.promptPath))
+    return { key: 'preEvaluation.selectUserPromptField' };
+
+  const { iterations, questions } = preEvaluation;
+  if (!Number.isInteger(iterations) || iterations < MIN_ITERATIONS || iterations > MAX_ITERATIONS)
+    return { key: 'preEvaluation.iterationsMustBeBetween', values: { min: MIN_ITERATIONS, max: MAX_ITERATIONS } };
+
+  const isIncomplete = (question: EvaluationQuestion) =>
+    !question.prompt.trim() || (!question.contains.length && !question.notContains.length);
+  if (!questions.length || questions.some(isIncomplete))
+    return { key: 'preEvaluation.everyQuestionNeedsPromptAndAssertion' };
+
+  return null;
+}
 
 const APOSTROPHE_VARIANTS = /[\u2018\u2019\u201B\u02BC\uFF07]/g;
 const EXCLUDED_PROMPT_ROLES = ['system', 'developer'];

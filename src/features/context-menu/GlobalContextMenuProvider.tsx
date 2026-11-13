@@ -1,11 +1,7 @@
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectCollectionData, selectSelectedRequestId } from 'src/store/selectors';
-import { modalsActions } from 'src/store/slices/modalsSlice';
-import { findRequestWithFolder } from 'src/utils';
+import { ResponsePanelContext } from 'src/types';
 import ContextMenu from './ContextMenu';
-import ContextMenuItem from './ContextMenuItem';
+import GlobalContextMenuItems, { isTextField } from './GlobalContextMenuItems';
 
 interface MenuState {
   isOpen: boolean;
@@ -13,28 +9,25 @@ interface MenuState {
   selectedText: string;
 }
 
-export interface ResponsePanelContext {
-  isResponsePanel: boolean;
-  source: 'body' | 'header';
-  jsonPath?: string | null;
-  jsonValue?: string | null;
-}
-
-interface ContextMenuValue extends MenuState {
+interface ContextMenuValue {
+  isOpen: boolean;
   showContextMenu: (x: number, y: number, text: string, responsePanelContext?: ResponsePanelContext) => void;
 }
 
-const ContextMenuContext = createContext<ContextMenuValue>({} as ContextMenuValue);
+const ContextMenuContext = createContext<ContextMenuValue | null>(null);
 
-export const useContextMenu = () => useContext(ContextMenuContext);
+export function useContextMenu(): ContextMenuValue {
+  const contextMenu = useContext(ContextMenuContext);
+  if (!contextMenu) throw new Error('useContextMenu must be used within GlobalContextMenuProvider');
 
+  return contextMenu;
+}
+
+/**
+ * Only menu state lives here (no store subscriptions), and the context value only changes when the menu opens / closes,
+ * so its many consumers (sidebar rows, useClickOutside users, JSON viewers) don't re-render on unrelated changes.
+ */
 export default function GlobalContextMenuProvider({ children }: PropsWithChildren) {
-  const dispatch = useAppDispatch();
-  const { t } = useTranslation();
-
-  const collection = useAppSelector(selectCollectionData);
-  const selectedRequestId = useAppSelector(selectSelectedRequestId);
-
   const [htmlElement, setHtmlElement] = useState<HTMLElement | null>(null);
   const [menuState, setMenuState] = useState<MenuState>({
     isOpen: false,
@@ -43,15 +36,13 @@ export default function GlobalContextMenuProvider({ children }: PropsWithChildre
   });
   const [responsePanelContext, setResponsePanelContext] = useState<ResponsePanelContext | null>(null);
 
-  const hasSelection = useMemo(() => menuState.selectedText.length > 0, [menuState.selectedText]);
-
-  // Check if current request is saved in collection and get folder info
-  const currentRequestWithFolder = useMemo(() => {
-    if (!selectedRequestId) return null;
-    return findRequestWithFolder(collection, selectedRequestId);
-  }, [collection, selectedRequestId]);
-
-  const closeMenu = useCallback(() => setMenuState((prev) => ({ ...prev, isOpen: false })), []);
+  // Runs on every scroll anywhere (capture listener below): a no-op when already closed, so it doesn't re-render then.
+  // Also drops the element / response context, so no reference to a possibly removed element is kept
+  const closeMenu = useCallback(() => {
+    setMenuState((prev) => (prev.isOpen ? { ...prev, isOpen: false } : prev));
+    setHtmlElement(null);
+    setResponsePanelContext(null);
+  }, []);
 
   const showContextMenu = useCallback((x: number, y: number, text: string, panelContext?: ResponsePanelContext) => {
     setHtmlElement(null);
@@ -63,75 +54,23 @@ export default function GlobalContextMenuProvider({ children }: PropsWithChildre
     });
   }, []);
 
-  const handleCut = useCallback(async () => {
-    const selectedText = getSelectedText();
-    if (!selectedText || !isInputOrTextarea(htmlElement)) {
-      closeMenu();
-      return;
-    }
-
-    await navigator.clipboard.writeText(selectedText);
-
-    const start = htmlElement.selectionStart ?? 0;
-    const end = htmlElement.selectionEnd ?? 0;
-
-    htmlElement.focus();
-    htmlElement.setRangeText('', start, end, 'start');
-    htmlElement.dispatchEvent(new Event('input', { bubbles: true }));
-
-    closeMenu();
-  }, [htmlElement, menuState.selectedText, closeMenu]);
-
-  const handleCopy = useCallback(async () => {
-    if (isInputOrTextarea(htmlElement)) htmlElement.focus();
-
-    await navigator.clipboard.writeText(menuState.selectedText);
-    closeMenu();
-  }, [htmlElement, menuState.selectedText, closeMenu]);
-
-  const handlePaste = useCallback(async () => {
-    if (!isInputOrTextarea(htmlElement)) {
-      closeMenu();
-      return;
-    }
-
-    const clipboardText = await navigator.clipboard.readText();
-    const start = htmlElement.selectionStart ?? 0;
-    const end = htmlElement.selectionEnd ?? 0;
-
-    htmlElement.focus();
-    htmlElement.setRangeText(clipboardText, start, end, 'end');
-    htmlElement.dispatchEvent(new Event('input', { bubbles: true }));
-
-    closeMenu();
-  }, [htmlElement, closeMenu]);
-
-  const handleSetAsVariable = useCallback(() => {
-    if (!currentRequestWithFolder || !selectedRequestId) return;
-
-    const { folder, request } = currentRequestWithFolder;
-    dispatch(
-      modalsActions.openSetAsDynamicVariableModal({
-        initialSelector: responsePanelContext?.jsonPath || menuState.selectedText,
-        initialValue: responsePanelContext?.jsonValue || menuState.selectedText,
-        collectionName: folder.name,
-        requestId: selectedRequestId,
-        requestName: request.name,
-        source: responsePanelContext?.source || 'body',
-      }),
-    );
-    closeMenu();
-  }, [currentRequestWithFolder, selectedRequestId, responsePanelContext, menuState.selectedText, closeMenu, dispatch]);
+  const contextValue = useMemo(
+    () => ({ isOpen: menuState.isOpen, showContextMenu }),
+    [menuState.isOpen, showContextMenu],
+  );
 
   useEffect(() => {
     const handleContextMenu = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       const selectedText = getSelectedText();
 
-      if (!selectedText && !isInputOrTextarea(target)) return;
+      if (!selectedText.trim() && !isTextField(target)) return;
 
       event.preventDefault();
       setHtmlElement(target);
+      // The response viewer opens the menu through showContextMenu instead: a plain right-click must not keep its
+      // context, or "Set as variable" would show up here with the JSON path of an earlier right-click
+      setResponsePanelContext(null);
       setMenuState({
         isOpen: true,
         position: { x: event.clientX, y: event.clientY },
@@ -141,43 +80,35 @@ export default function GlobalContextMenuProvider({ children }: PropsWithChildre
 
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('scroll', closeMenu, { passive: true, capture: true });
+    // Like native menus: close when the app window loses focus or is resized (the position would be stale)
+    window.addEventListener('blur', closeMenu);
+    window.addEventListener('resize', closeMenu);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
-      document.removeEventListener('scroll', closeMenu);
+      // Must match the capture flag it was added with, otherwise the listener is not removed
+      document.removeEventListener('scroll', closeMenu, { capture: true });
+      window.removeEventListener('blur', closeMenu);
+      window.removeEventListener('resize', closeMenu);
     };
   }, [closeMenu]);
 
   return (
-    <ContextMenuContext.Provider value={{ ...menuState, showContextMenu }}>
+    <ContextMenuContext.Provider value={contextValue}>
       {children}
       <ContextMenu isOpen={menuState.isOpen} position={menuState.position} onClose={closeMenu}>
-        {htmlElement && isInputOrTextarea(htmlElement) && (
-          <ContextMenuItem label={t('common.cut')} onClick={handleCut} disabled={!hasSelection} />
-        )}
-        <ContextMenuItem label={t('common.copy')} onClick={handleCopy} disabled={!hasSelection} />
-        {htmlElement && isInputOrTextarea(htmlElement) && (
-          <ContextMenuItem label={t('common.paste')} onClick={handlePaste} />
-        )}
-        {responsePanelContext && (
-          <ContextMenuItem
-            label={t('contextMenu.setAsVariable')}
-            onClick={handleSetAsVariable}
-            disabled={!hasSelection || !currentRequestWithFolder}
-            title={!currentRequestWithFolder ? t('contextMenu.saveRequestFirst') : undefined}
-            divider
-          />
-        )}
+        <GlobalContextMenuItems
+          htmlElement={htmlElement}
+          responsePanelContext={responsePanelContext}
+          selectedText={menuState.selectedText}
+          onClose={closeMenu}
+        />
       </ContextMenu>
     </ContextMenuContext.Provider>
   );
 }
 
-function isInputOrTextarea(element: Element | null): element is HTMLInputElement | HTMLTextAreaElement {
-  return element !== null && (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA');
-}
-
+/** The selected text as it is (not trimmed: copying must keep whitespace like indentation). */
 function getSelectedText() {
-  const selection = window.getSelection();
-  return selection?.toString().trim() || '';
+  return window.getSelection()?.toString() ?? '';
 }

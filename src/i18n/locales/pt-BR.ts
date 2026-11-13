@@ -96,6 +96,7 @@ const ptBR = {
     deleteEnvironmentConfirm: 'Tem certeza de que deseja excluir este ambiente?',
     deleteEnvironment: 'Excluir ambiente',
     untitled: 'Sem título',
+    duplicateVariable: 'Já existe uma variável com este nome',
   },
 
   // History
@@ -255,8 +256,6 @@ const ptBR = {
       selectEnvironment: 'Selecionar ambiente...',
       linkedRequest: 'Requisição vinculada',
       variableNameRequired: 'O nome da variável é obrigatório',
-      selectorRequired: 'O seletor é obrigatório',
-      selectEnvironmentError: 'Por favor, selecione um ambiente',
       duplicateWarning: 'Já existe uma variável com este nome. Ela será sobrescrita.',
     },
     projectImport: {
