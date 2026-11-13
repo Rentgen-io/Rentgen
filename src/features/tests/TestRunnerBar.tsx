@@ -103,7 +103,7 @@ export default function TestRunnerBar() {
               <span className="@xl:truncate">{t('tests.generateAndRun')}</span>
             </Button>
           ) : (
-            <Button className="inline-flex items-center gap-2 @xl:truncate" onClick={() => cancelAllTests(false)}>
+            <Button className="inline-flex items-center gap-2 @xl:truncate" onClick={cancelAllTests}>
               <StopIcon className="size-4 shrink-0" />
               <span className="@xl:truncate">{t('common.stop')}</span>
             </Button>

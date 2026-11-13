@@ -29,6 +29,7 @@ import {
   findFolderIdByRequestId,
   findRequestById,
   headersRecordToString,
+  isAbortedResponse,
   postmanHeadersToRecord,
 } from 'src/utils';
 
@@ -171,17 +172,23 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       {...attributes}
       {...listeners}
     >
-      {runResult && (
-        <span
-          title={runResult.warning || undefined}
-          className={cn('w-2 h-2 rounded-full shrink-0', {
-            'bg-yellow-500': runResult.warning && runResult.status && runResult.status >= 200 && runResult.status < 400,
-            'bg-green-500': !runResult.warning && runResult.status && runResult.status >= 200 && runResult.status < 400,
-            'bg-orange-500': runResult.status && runResult.status >= 400 && runResult.status < 500,
-            'bg-red-500': !runResult.status || runResult.status < 200 || runResult.status >= 500,
-          })}
-        />
-      )}
+      {runResult &&
+        (isAbortedResponse(runResult.response) ? (
+          // Cancelled by the user: neutral, not an error
+          <span className="w-2 h-2 rounded-full shrink-0 bg-muted-foreground" title={runResult.response?.status} />
+        ) : (
+          <span
+            title={runResult.warning || undefined}
+            className={cn('w-2 h-2 rounded-full shrink-0', {
+              'bg-yellow-500':
+                runResult.warning && runResult.status && runResult.status >= 200 && runResult.status < 400,
+              'bg-green-500':
+                !runResult.warning && runResult.status && runResult.status >= 200 && runResult.status < 400,
+              'bg-orange-500': runResult.status && runResult.status >= 400 && runResult.status < 500,
+              'bg-red-500': !runResult.status || runResult.status < 200 || runResult.status >= 500,
+            })}
+          />
+        ))}
       <MethodBadge method={item.method} />
       {isEditing && (
         <input

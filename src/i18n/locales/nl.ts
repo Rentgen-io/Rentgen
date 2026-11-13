@@ -48,6 +48,7 @@ const nl = {
     stop: 'Stoppen',
     noOptions: 'Geen opties',
     resizeHint: 'Sleep om het formaat te wijzigen, dubbelklik om te herstellen',
+    toggleTheme: 'Thema wisselen',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const nl = {
     modePlaceholder: 'MODUS',
     methodPlaceholder: 'METHODE',
     message: 'Bericht',
+    noBody: 'Dit verzoek heeft geen body',
+    bodyType: 'Body-type',
   },
 
   // Response

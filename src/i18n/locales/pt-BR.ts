@@ -48,6 +48,7 @@ const ptBR = {
     stop: 'Parar',
     noOptions: 'Sem opções',
     resizeHint: 'Arraste para redimensionar, clique duas vezes para redefinir',
+    toggleTheme: 'Alternar tema',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const ptBR = {
     modePlaceholder: 'MODO',
     methodPlaceholder: 'MÉTODO',
     message: 'Mensagem',
+    noBody: 'Esta requisição não tem corpo',
+    bodyType: 'Tipo de corpo',
   },
 
   // Response

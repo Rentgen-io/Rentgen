@@ -48,6 +48,7 @@ const vi = {
     stop: 'Dừng',
     noOptions: 'Không có tùy chọn',
     resizeHint: 'Kéo để thay đổi kích thước, nhấp đúp để đặt lại',
+    toggleTheme: 'Chuyển giao diện',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const vi = {
     modePlaceholder: 'CHẾ ĐỘ',
     methodPlaceholder: 'PHƯƠNG THỨC',
     message: 'Tin nhắn',
+    noBody: 'Yêu cầu này không có nội dung',
+    bodyType: 'Loại nội dung',
   },
 
   // Response

@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { RESPONSE_STATUS, RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import { sendHttp } from 'src/api/network';
+import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBody,
@@ -21,34 +22,25 @@ import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { RequestParameters } from 'src/types';
 import {
-  applyMapping,
   createHttpRequest,
-  detectDataType,
-  extractBodyParameters,
   extractDynamicVariables,
-  extractQueryParameters,
+  extractRequestParameters,
   extractStatusCode,
   formatExtractionWarning,
   generateHistoryId,
-  getInitialParameterValue,
   substituteRequestVariables,
 } from 'src/utils';
 
 let activeController: AbortController | null = null;
 
+/**
+ * The request is read from the store when sending (not subscribed to), so sendHttpRequest is stable and only isSending
+ * re-renders the calling component.
+ */
 export function useSendHttpRequest() {
   const dispatch = useAppDispatch();
 
-  const body = useAppSelector(selectBody);
-  const dynamicVariables = useAppSelector(selectDynamicVariables);
-  const headers = useAppSelector(selectHeaders);
-  const historyEnabled = useAppSelector(selectHistoryEnabled);
   const isSending = useAppSelector(selectIsSending);
-  const mappings = useAppSelector(selectMappings);
-  const method = useAppSelector(selectMethod);
-  const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
-  const selectedRequestId = useAppSelector(selectSelectedRequestId);
-  const url = useAppSelector(selectUrl);
 
   const abortRequest = useCallback(() => {
     activeController?.abort();
@@ -59,6 +51,17 @@ export function useSendHttpRequest() {
     activeController?.abort();
     const controller = new AbortController();
     activeController = controller;
+
+    const state = store.getState();
+    const body = selectBody(state);
+    const dynamicVariables = selectDynamicVariables(state);
+    const headers = selectHeaders(state);
+    const historyEnabled = selectHistoryEnabled(state);
+    const mappings = selectMappings(state);
+    const method = selectMethod(state);
+    const selectedEnvironment = selectSelectedEnvironment(state);
+    const selectedRequestId = selectSelectedRequestId(state);
+    const url = selectUrl(state);
 
     dispatch(requestActions.setIsSending(true));
 
@@ -87,19 +90,11 @@ export function useSendHttpRequest() {
       let queryParameters: RequestParameters = {};
 
       if (status >= RESPONSE_STATUS.OK && status < RESPONSE_STATUS.REDIRECT) {
-        bodyParameters = applyMapping(
-          extractBodyParameters(substitutedBody),
-          (selectedRequestId && mappings[selectedRequestId]?.body) || {},
-        );
-        queryParameters = applyMapping(
-          Object.fromEntries(
-            Object.entries(extractQueryParameters(substitutedUrl)).map(([key, value]) => [
-              key,
-              getInitialParameterValue(detectDataType(value), value),
-            ]),
-          ),
-          (selectedRequestId && mappings[selectedRequestId]?.query) || {},
-        );
+        ({ bodyParameters, queryParameters } = extractRequestParameters(
+          substitutedBody,
+          substitutedUrl,
+          selectedRequestId ? mappings[selectedRequestId] : undefined,
+        ));
 
         dispatch(modalsActions.openSendHttpSuccessModal());
       }
@@ -133,18 +128,7 @@ export function useSendHttpRequest() {
       if (historyEnabled) dispatch(historyActions.addEntry(historyEntry));
       activeController = null;
     }
-  }, [
-    body,
-    dynamicVariables,
-    headers,
-    historyEnabled,
-    mappings,
-    method,
-    selectedEnvironment,
-    selectedRequestId,
-    url,
-    dispatch,
-  ]);
+  }, [dispatch]);
 
   return { isSending, abortRequest, sendHttpRequest };
 }

@@ -41,7 +41,10 @@ export default function RequestModeBar() {
           placeholder={t('request.modePlaceholder')}
           value={modeOptions.find((option) => option.value === mode)}
           onChange={(option) => {
-            if (option) dispatch(requestActions.setMode(option.value));
+            // Re-selecting the current mode must not wipe the request
+            if (!option || option.value === mode) return;
+
+            dispatch(requestActions.setMode(option.value));
             reset();
           }}
         />
@@ -62,11 +65,19 @@ export default function RequestModeBar() {
           selectedEnvironmentId={selectedEnvironmentId}
           onSelect={(id) => dispatch(environmentActions.selectEnvironment(id))}
         />
-        <IconButton onClick={() => dispatch(settingsActions.toggleTheme())}>
+        <IconButton
+          aria-label={t('common.toggleTheme')}
+          title={t('common.toggleTheme')}
+          onClick={() => dispatch(settingsActions.toggleTheme())}
+        >
           <DarkModeIcon className="size-4 dark:hidden" />
           <LightModeIcon className="hidden dark:block size-4" />
         </IconButton>
-        <IconButton onClick={() => dispatch(modalsActions.openReloadModal())}>
+        <IconButton
+          aria-label={t('modals.reload.title')}
+          title={t('modals.reload.title')}
+          onClick={() => dispatch(modalsActions.openReloadModal())}
+        >
           <ReloadIcon className="size-4" />
         </IconButton>
       </div>

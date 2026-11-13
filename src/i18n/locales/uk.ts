@@ -48,6 +48,7 @@ const uk = {
     stop: 'Зупинити',
     noOptions: 'Немає варіантів',
     resizeHint: 'Перетягніть, щоб змінити розмір, двічі клацніть для скидання',
+    toggleTheme: 'Змінити тему',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const uk = {
     modePlaceholder: 'РЕЖИМ',
     methodPlaceholder: 'МЕТОД',
     message: 'Повідомлення',
+    noBody: 'Цей запит не має тіла',
+    bodyType: 'Тип тіла',
   },
 
   // Response

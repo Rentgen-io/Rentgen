@@ -48,6 +48,7 @@ const de = {
     stop: 'Stopp',
     noOptions: 'Keine Optionen',
     resizeHint: 'Ziehen, um die Größe zu ändern, Doppelklick zum Zurücksetzen',
+    toggleTheme: 'Design wechseln',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const de = {
     modePlaceholder: 'MODUS',
     methodPlaceholder: 'METHODE',
     message: 'Nachricht',
+    noBody: 'Diese Anfrage hat keinen Body',
+    bodyType: 'Body-Typ',
   },
 
   // Response

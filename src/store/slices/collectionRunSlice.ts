@@ -35,9 +35,9 @@ export const collectionRunSlice = createSlice({
         delete state.results[requestId];
       });
     },
-    finishFolderRun: (state) => {
+    finishFolderRun: (state, action: PayloadAction<string[]>) => {
       state.runningFolderId = null;
-      state.runningRequestIds = [];
+      state.runningRequestIds = state.runningRequestIds.filter((id) => !action.payload.includes(id));
     },
     finishRequestRun: (state, action: PayloadAction<string>) => {
       state.runningRequestIds = state.runningRequestIds.filter((id) => id !== action.payload);

@@ -1,7 +1,8 @@
-import { useCallback, useRef } from 'react';
+import { useCallback } from 'react';
 import { RESPONSE_STATUS } from 'shared/responseStatus';
 import { sendHttp } from 'src/api/network';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { store } from 'src/store';
+import { useAppDispatch } from 'src/store/hooks';
 import {
   selectCollectionData,
   selectDynamicVariables,
@@ -13,44 +14,47 @@ import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
-import { DynamicVariable, PostmanItem } from 'src/types';
+import { PostmanItem, RequestParameters } from 'src/types';
 import {
-  applyMapping,
   createHttpRequest,
-  detectDataType,
-  extractBodyParameters,
   extractDynamicVariables,
-  extractQueryParameters,
+  extractRequestParameters,
   extractStatusCode,
   findRequestById,
   formatExtractionWarning,
-  getInitialParameterValue,
   headersRecordToString,
+  isAbortedResponse,
   postmanHeadersToRecord,
   substituteRequestVariables,
 } from 'src/utils';
 
 const activeControllers = new Map<string, AbortController>();
 
+// Module-level (like activeControllers), not a useRef: the folder row may remount during a run (e.g. when searching),
+// and the cancel must still reach the running loop. A token per run, so a cancelled loop can't affect a newer run.
+// requestIds scope the cancel to the folder's own requests: single runs of requests in other folders keep running
+let activeFolderRun: { cancelled: boolean; requestIds: string[] } | null = null;
+
+/**
+ * The collection, environment, dynamic variables and mappings are read from the store when running (not subscribed
+ * to), so the returned callbacks are stable, always use current values (also between the requests of a folder run),
+ * and the sidebar rows using this hook don't re-render on every store change.
+ */
 export function useCollectionRunner() {
   const dispatch = useAppDispatch();
 
-  const collection = useAppSelector(selectCollectionData);
-  const dynamicVariables = useAppSelector(selectDynamicVariables);
-  const mappings = useAppSelector(selectMappings);
-  const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
-  const selectedRequestId = useAppSelector(selectSelectedRequestId);
-
-  const dynamicVariablesRef = useRef<DynamicVariable[]>(dynamicVariables);
-  dynamicVariablesRef.current = dynamicVariables;
-  const cancelRef = useRef<boolean>(false);
-
   const cancelFolderRun = useCallback(() => {
-    activeControllers.forEach((controller) => controller.abort());
-    activeControllers.clear();
+    const requestIds = activeFolderRun?.requestIds ?? [];
 
-    cancelRef.current = true;
-    dispatch(collectionRunActions.finishFolderRun());
+    if (activeFolderRun) activeFolderRun.cancelled = true;
+    activeFolderRun = null;
+
+    requestIds.forEach((requestId) => {
+      activeControllers.get(requestId)?.abort();
+      activeControllers.delete(requestId);
+    });
+
+    dispatch(collectionRunActions.finishFolderRun(requestIds));
   }, [dispatch]);
 
   const cancelRequestRun = useCallback(
@@ -73,10 +77,12 @@ export function useCollectionRunner() {
 
       try {
         const { request } = item;
+        const state = store.getState();
         const { body, headers, url } = substituteRequestVariables(
           request.body ?? {},
-          selectedEnvironment,
-          dynamicVariablesRef.current,
+          selectSelectedEnvironment(state),
+          // Current values, so a variable extracted by the previous request of a folder run is already applied
+          selectDynamicVariables(state),
           headersRecordToString(postmanHeadersToRecord(request.header)),
           request.url,
         );
@@ -85,23 +91,15 @@ export function useCollectionRunner() {
         const response = await sendHttp(httpRequest, controller.signal);
         const status = extractStatusCode(response);
 
-        let bodyParameters = {};
-        let queryParameters = {};
+        // The state after the response: mappings, selection or variables may have changed while waiting for it
+        const latestState = store.getState();
 
-        if (status >= RESPONSE_STATUS.OK && status < RESPONSE_STATUS.REDIRECT) {
-          bodyParameters = applyMapping(extractBodyParameters(body), mappings[item.id]?.body || {});
-          queryParameters = applyMapping(
-            Object.fromEntries(
-              Object.entries(extractQueryParameters(url)).map(([key, value]) => [
-                key,
-                getInitialParameterValue(detectDataType(value), value),
-              ]),
-            ),
-            mappings[item.id]?.query || {},
-          );
-        }
+        const { bodyParameters, queryParameters }: Record<'bodyParameters' | 'queryParameters', RequestParameters> =
+          status >= RESPONSE_STATUS.OK && status < RESPONSE_STATUS.REDIRECT
+            ? extractRequestParameters(body, url, selectMappings(latestState)[item.id])
+            : { bodyParameters: {}, queryParameters: {} };
 
-        if (selectedRequestId === item.id) {
+        if (selectSelectedRequestId(latestState) === item.id) {
           dispatch(responseActions.setResponse(response));
           dispatch(requestActions.setBodyParameters(bodyParameters));
           dispatch(requestActions.setQueryParameters(queryParameters));
@@ -115,11 +113,14 @@ export function useCollectionRunner() {
             bodyParameters,
             queryParameters,
             error: null,
-            warning: formatExtractionWarning(
-              extractDynamicVariables(dynamicVariablesRef.current, item.id, response, (variable, value) =>
-                dispatch(environmentActions.updateDynamicVariableValue({ id: variable.id, value })),
-              ),
-            ),
+            // A cancelled request has no response to extract variables from
+            warning: isAbortedResponse(response)
+              ? null
+              : formatExtractionWarning(
+                  extractDynamicVariables(selectDynamicVariables(latestState), item.id, response, (variable, value) =>
+                    dispatch(environmentActions.updateDynamicVariableValue({ id: variable.id, value })),
+                  ),
+                ),
           }),
         );
       } catch (error) {
@@ -138,17 +139,18 @@ export function useCollectionRunner() {
         if (activeControllers.get(item.id) === controller) activeControllers.delete(item.id);
       }
     },
-    [mappings, selectedEnvironment, selectedRequestId, dispatch],
+    [dispatch],
   );
 
   const runFolder = useCallback(
     async (folderId: string) => {
-      const folder = collection.item.find((f) => f.id === folderId);
+      const folder = selectCollectionData(store.getState()).item.find((f) => f.id === folderId);
       if (!folder || folder.item.length === 0) return;
 
-      cancelRef.current = false;
-
       const requestIds = folder.item.map((item) => item.id);
+      const run = { cancelled: false, requestIds };
+      activeFolderRun = run;
+
       dispatch(collectionRunActions.clearFolderResults(requestIds));
 
       dispatch(
@@ -159,26 +161,30 @@ export function useCollectionRunner() {
       );
 
       for (let i = 0; i < folder.item.length; i++) {
-        if (cancelRef.current) break;
+        if (run.cancelled) break;
 
         await executeRequest(folder.item[i]);
       }
 
-      dispatch(collectionRunActions.finishFolderRun());
+      // When cancelled, cancelFolderRun already finished the run (and a newer run may be in progress meanwhile)
+      if (activeFolderRun === run) {
+        activeFolderRun = null;
+        dispatch(collectionRunActions.finishFolderRun(requestIds));
+      }
     },
-    [collection, mappings, selectedEnvironment, dispatch],
+    [executeRequest, dispatch],
   );
 
   const runRequest = useCallback(
     async (requestId: string) => {
-      const item = findRequestById(collection, requestId);
+      const item = findRequestById(selectCollectionData(store.getState()), requestId);
       if (!item) return;
 
       dispatch(collectionRunActions.clearFolderResults([item.id]));
       await executeRequest(item);
       dispatch(collectionRunActions.finishRequestRun(item.id));
     },
-    [collection, mappings, selectedEnvironment, selectedRequestId, dispatch],
+    [executeRequest, dispatch],
   );
 
   return { cancelFolderRun, cancelRequestRun, runFolder, runRequest };

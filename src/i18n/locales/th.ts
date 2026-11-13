@@ -48,6 +48,7 @@ const th = {
     stop: 'หยุด',
     noOptions: 'ไม่มีตัวเลือก',
     resizeHint: 'ลากเพื่อปรับขนาด ดับเบิลคลิกเพื่อรีเซ็ต',
+    toggleTheme: 'สลับธีม',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const th = {
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
     message: 'ข้อความ',
+    noBody: 'คำขอนี้ไม่มีเนื้อหา',
+    bodyType: 'ประเภทเนื้อหา',
   },
 
   // Response

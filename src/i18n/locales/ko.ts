@@ -48,6 +48,7 @@ const ko = {
     stop: '중지',
     noOptions: '옵션 없음',
     resizeHint: '드래그하여 크기 조정, 두 번 클릭하여 초기화',
+    toggleTheme: '테마 전환',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const ko = {
     modePlaceholder: '모드',
     methodPlaceholder: '메서드',
     message: '메시지',
+    noBody: '이 요청에는 본문이 없습니다',
+    bodyType: '본문 유형',
   },
 
   // Response

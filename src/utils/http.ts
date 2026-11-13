@@ -1,10 +1,12 @@
 import { Method } from 'axios';
+import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import { createFormDataBody, createUrlEncodedBody, getFormDataFilePaths, isFieldsBody } from 'shared/utils/http';
 import { store } from 'src/store';
 import {
   DataType,
   HttpRequest,
   HttpResponse,
+  MappingsState,
   ParameterValue,
   PostmanBody,
   RequestBody,
@@ -14,6 +16,7 @@ import {
 } from 'src/types';
 import { isObject, setDeepObjectProperty, stringifyValue, tryParseJsonObject } from './object';
 import { generateRandomValue } from './random';
+import { extractQueryParameters } from './url';
 import { detectDataType, extractPropertiesFromJson } from './validation';
 
 type FormEntry = [string, string];
@@ -201,6 +204,11 @@ export function extractStatusCode(response: HttpResponse | null): number {
   return Number.isFinite(statusCode) ? statusCode : 0;
 }
 
+/** Whether the request was cancelled by the user (the HTTP handler resolves it with this status, it doesn't throw). */
+export function isAbortedResponse(response: HttpResponse | null | undefined): boolean {
+  return response?.status === RESPONSE_STATUS_LABEL.ABORTED;
+}
+
 // ---------- Test parameters ----------
 
 /** Default test settings for a parameter of the given type, taken from the test engine configuration. */
@@ -228,6 +236,28 @@ export function getInitialParameterValue(
 /** The extracted parameters, each replaced by the user's saved mapping when one exists. */
 export function applyMapping(extracted: RequestParameters, mapped: RequestParameters): RequestParameters {
   return Object.fromEntries(Object.keys(extracted).map((key) => [key, key in mapped ? mapped[key] : extracted[key]]));
+}
+
+/**
+ * The testable body and query parameters of a sent request (its variable-substituted body and URL), with the user's
+ * saved mapping of that request applied.
+ */
+export function extractRequestParameters(
+  body: unknown,
+  url: string,
+  mapping: MappingsState[string] | undefined,
+): { bodyParameters: RequestParameters; queryParameters: RequestParameters } {
+  const queryParameters = Object.fromEntries(
+    Object.entries(extractQueryParameters(url)).map(([key, value]) => [
+      key,
+      getInitialParameterValue(detectDataType(value), value),
+    ]),
+  );
+
+  return {
+    bodyParameters: applyMapping(extractBodyParameters(body), mapping?.body ?? {}),
+    queryParameters: applyMapping(queryParameters, mapping?.query ?? {}),
+  };
 }
 
 // ---------- Helpers ----------

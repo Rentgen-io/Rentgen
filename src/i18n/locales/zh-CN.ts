@@ -48,6 +48,7 @@ const zhCN = {
     stop: '停止',
     noOptions: '无选项',
     resizeHint: '拖动以调整大小，双击以重置',
+    toggleTheme: '切换主题',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const zhCN = {
     modePlaceholder: '模式',
     methodPlaceholder: '方法',
     message: '消息',
+    noBody: '此请求没有请求体',
+    bodyType: '请求体类型',
   },
 
   // Response
