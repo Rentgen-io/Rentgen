@@ -7,9 +7,14 @@ export const selectEnvironments = (state: RootState) => state.environment.enviro
 export const selectEnvironmentToDelete = (state: RootState) => state.environment.environmentToDelete;
 export const selectIsEditingEnvironment = (state: RootState) => state.environment.isEditing;
 export const selectSelectedEnvironmentId = (state: RootState) => state.environment.selectedEnvironmentId;
+
 export const selectSelectedEnvironment = createSelector(
   [selectEnvironments, selectSelectedEnvironmentId],
   (environments, selectedId) => environments.find((env) => env.id === selectedId) || null,
+);
+export const selectHighlightColor = createSelector(
+  [selectSelectedEnvironment],
+  (selectedEnvironment) => selectedEnvironment?.color,
 );
 export const selectVariableNames = createSelector(
   [selectSelectedEnvironment, selectDynamicVariables],

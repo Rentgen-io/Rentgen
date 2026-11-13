@@ -23,6 +23,7 @@ import {
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import ParametersPanel from '../parameters/ParametersPanel';
+import { isAbortedResponse } from 'src/utils';
 
 const MIN_RESPONSE_HEIGHT = 160;
 const MAX_RESPONSE_HEIGHT = '50vh';
@@ -71,7 +72,6 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
     [requestWithFolder, selectedRequestId, dispatch],
   );
 
-  const isAborted = httpResponse?.status === RESPONSE_STATUS_LABEL.ABORTED;
   const isNetworkError = httpResponse?.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
   const hasBodyParameters = Object.keys(bodyParameters).length > 0;
   const hasQueryParameters = Object.keys(queryParameters).length > 0;
@@ -108,7 +108,8 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                       'text-metric-warning bg-metric-warning/10':
                         httpResponse?.status.startsWith('2') && runResult?.warning,
                       'text-blue-500 bg-blue-500/10': httpResponse?.status.startsWith('3'),
-                      'text-primary bg-primary/10': httpResponse?.status.startsWith('4') || isAborted,
+                      'text-primary bg-primary/10':
+                        httpResponse?.status.startsWith('4') || isAbortedResponse(httpResponse),
                       'text-metric-fail bg-metric-fail/10':
                         httpResponse?.status.startsWith('5') || isNetworkError || httpResponse?.status === 'Error',
                     })}

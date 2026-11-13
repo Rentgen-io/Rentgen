@@ -48,6 +48,7 @@ const hi = {
     stop: 'रोकें',
     noOptions: 'कोई विकल्प नहीं',
     resizeHint: 'आकार बदलने के लिए खींचें, रीसेट करने के लिए डबल-क्लिक करें',
+    toggleTheme: 'थीम बदलें',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const hi = {
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
     message: 'संदेश',
+    noBody: 'इस अनुरोध में कोई बॉडी नहीं है',
+    bodyType: 'बॉडी प्रकार',
   },
 
   // Response

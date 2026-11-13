@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionRunResults, selectRunningFolderId, selectSelectedFolderId } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { CollectionFolderData } from 'src/utils';
+import { CollectionFolderData, isAbortedResponse } from 'src/utils';
 import CollectionItem from './CollectionItem';
 
 import ChevronIcon from 'src/assets/icons/chevron-icon.svg';
@@ -55,9 +55,14 @@ export default function CollectionGroup({
   const isOtherFolderRunning = runningFolderId !== null && runningFolderId !== folder.id;
 
   const statusClassName = useMemo(() => {
-    const itemResults = folder.items.map((item) => runResults[item.id]).filter(Boolean);
+    const results = folder.items.map((item) => runResults[item.id]).filter(Boolean);
 
-    if (itemResults.length === 0) return null;
+    if (results.length === 0) return null;
+
+    // Requests cancelled by the user are neutral: they don't count as errors, but the folder isn't fully green either.
+    // An error from before the cancel still wins (red / orange / yellow first)
+    const itemResults = results.filter((r) => !isAbortedResponse(r.response));
+    const hasAborted = itemResults.length < results.length;
 
     const hasRed = itemResults.some((r) => !r.status || r.status < 200 || r.status >= 500);
     const hasOrange = itemResults.some((r) => r.status && r.status >= 400 && r.status < 500);
@@ -66,6 +71,7 @@ export default function CollectionGroup({
     if (hasRed) return 'bg-red-500';
     if (hasOrange) return 'bg-orange-500';
     if (hasYellow) return 'bg-yellow-500';
+    if (hasAborted) return 'bg-muted-foreground';
 
     return 'bg-green-500';
   }, [folder.items, runResults]);

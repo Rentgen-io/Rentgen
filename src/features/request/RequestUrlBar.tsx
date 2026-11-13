@@ -1,5 +1,6 @@
 import { Method } from 'axios';
 import cn from 'classnames';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionsButton from 'src/components/buttons/ActionsButton';
 import Button, { ButtonType } from 'src/components/buttons/Button';
@@ -11,10 +12,10 @@ import { useSendHttpRequest } from 'src/hooks/useSendHttpRequest';
 import { useWssActions } from 'src/hooks/useWebSocket';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
+  selectHighlightColor,
   selectIsRequestDisabled,
   selectMethod,
   selectMode,
-  selectSelectedEnvironment,
   selectSelectedRequestId,
   selectUrl,
   selectVariableNames,
@@ -41,7 +42,7 @@ export default function RequestUrlBar() {
   const method = useAppSelector(selectMethod);
   const url = useAppSelector(selectUrl);
   const disabled = useAppSelector(selectIsRequestDisabled);
-  const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
+  const highlightColor = useAppSelector(selectHighlightColor);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const variables = useAppSelector(selectVariableNames);
   const wssConnected = useAppSelector(selectWssConnected);
@@ -50,18 +51,25 @@ export default function RequestUrlBar() {
   const { isSending, abortRequest, sendHttpRequest } = useSendHttpRequest();
   const { connect, disconnect, send } = useWssActions();
 
+  const isHttpMode = mode === 'HTTP';
+
+  const methodValue = useMemo(
+    () => methodOptions.find((option) => option.value === method) ?? { value: method, label: method },
+    [method],
+  );
+
   return (
     <div className="flex flex-col @lg:flex-row @lg:items-center gap-2 py-3 px-4 border-0">
       <div
         className="flex-auto flex items-center"
         onKeyDown={(event) => {
-          if (mode === 'HTTP' && event.key === 'Enter' && (event.metaKey || event.ctrlKey) && !disabled && !isSending) {
+          if (isHttpMode && event.key === 'Enter' && (event.metaKey || event.ctrlKey) && !disabled && !isSending) {
             event.preventDefault();
             sendHttpRequest();
           }
         }}
       >
-        {mode === 'HTTP' && (
+        {isHttpMode && (
           <CreatableSelect
             className="max-w-27.5 font-bold uppercase"
             classNames={{
@@ -71,14 +79,16 @@ export default function RequestUrlBar() {
             menuPosition="absolute"
             options={methodOptions}
             placeholder={t('request.methodPlaceholder')}
-            value={methodOptions.find((option) => option.value === method) ?? { value: method, label: method }}
+            value={methodValue}
             onBlur={autoSaveRequest}
-            onChange={(option) => option && dispatch(requestActions.setMethod(option.value))}
+            onChange={(option) => {
+              if (option) dispatch(requestActions.setMethod(option.value.toUpperCase() as Method));
+            }}
           />
         )}
         <HighlightedInput
-          className={cn('flex-auto', { 'rounded-l-none': mode === 'HTTP' })}
-          highlightColor={selectedEnvironment?.color}
+          className={cn('flex-auto', { 'rounded-l-none': isHttpMode })}
+          highlightColor={highlightColor}
           placeholder={t('request.enterUrl')}
           value={url}
           variables={variables}
@@ -86,10 +96,10 @@ export default function RequestUrlBar() {
           onChange={(event) => dispatch(requestActions.setUrl(event.target.value))}
         />
       </div>
-      {mode === 'HTTP' && (
+      {isHttpMode && (
         <>
           {isSending ? (
-            <Button buttonType={ButtonType.SECONDARY} disabled={disabled} onClick={abortRequest}>
+            <Button buttonType={ButtonType.SECONDARY} onClick={abortRequest}>
               {t('common.cancel')}
             </Button>
           ) : (
@@ -111,7 +121,7 @@ export default function RequestUrlBar() {
           </ActionsButton>
         </>
       )}
-      {mode === 'WSS' && (
+      {!isHttpMode && (
         <>
           <Button
             buttonType={wssConnected ? ButtonType.SECONDARY : ButtonType.PRIMARY}

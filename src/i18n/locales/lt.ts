@@ -48,6 +48,7 @@ const lt = {
     stop: 'Sustabdyti',
     noOptions: 'Nėra parinkčių',
     resizeHint: 'Vilkite, kad pakeistumėte dydį, dukart spustelėkite, kad atkurtumėte',
+    toggleTheme: 'Perjungti temą',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const lt = {
     modePlaceholder: 'REŽIMAS',
     methodPlaceholder: 'METODAS',
     message: 'Žinutė',
+    noBody: 'Ši užklausa neturi turinio',
+    bodyType: 'Turinio tipas',
   },
 
   // Response

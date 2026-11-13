@@ -48,6 +48,7 @@ const fr = {
     stop: 'Arrêter',
     noOptions: 'Aucune option',
     resizeHint: 'Faites glisser pour redimensionner, double-cliquez pour réinitialiser',
+    toggleTheme: 'Changer de thème',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const fr = {
     modePlaceholder: 'MODE',
     methodPlaceholder: 'MÉTHODE',
     message: 'Message',
+    noBody: "Cette requête n'a pas de corps",
+    bodyType: 'Type de corps',
   },
 
   // Response

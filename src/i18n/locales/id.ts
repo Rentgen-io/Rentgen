@@ -48,6 +48,7 @@ const id = {
     stop: 'Hentikan',
     noOptions: 'Tidak ada opsi',
     resizeHint: 'Seret untuk mengubah ukuran, klik dua kali untuk mengatur ulang',
+    toggleTheme: 'Ganti tema',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const id = {
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METODE',
     message: 'Pesan',
+    noBody: 'Permintaan ini tidak memiliki body',
+    bodyType: 'Jenis body',
   },
 
   // Response

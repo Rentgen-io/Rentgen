@@ -48,6 +48,7 @@ const tr = {
     stop: 'Durdur',
     noOptions: 'Seçenek yok',
     resizeHint: 'Yeniden boyutlandırmak için sürükleyin, sıfırlamak için çift tıklayın',
+    toggleTheme: 'Temayı değiştir',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const tr = {
     modePlaceholder: 'MOD',
     methodPlaceholder: 'METOT',
     message: 'Mesaj',
+    noBody: 'Bu isteğin gövdesi yok',
+    bodyType: 'Gövde türü',
   },
 
   // Response

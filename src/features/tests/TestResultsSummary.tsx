@@ -14,13 +14,12 @@ const testResultMetrics: string[][] = [
   ['passed', 'common.passed', 'text-metric-pass'],
 ];
 
-export default function TestResultsSummary({
-  statistics,
-  onClick,
-}: {
+interface Props {
   statistics: { [label: string]: ReturnType<typeof getTestsStatistics> };
   onClick: (index: number) => void;
-}) {
+}
+
+export default function TestResultsSummary({ statistics, onClick }: Props) {
   const { t } = useTranslation();
 
   const totals = useMemo(

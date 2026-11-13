@@ -48,6 +48,7 @@ const en = {
     stop: 'Stop',
     noOptions: 'No options',
     resizeHint: 'Drag to resize, double-click to reset',
+    toggleTheme: 'Toggle theme',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const en = {
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
     message: 'Message',
+    noBody: 'This request does not have a body',
+    bodyType: 'Body type',
   },
 
   // Response

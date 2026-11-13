@@ -48,6 +48,7 @@ const it = {
     stop: 'Interrompi',
     noOptions: 'Nessuna opzione',
     resizeHint: 'Trascina per ridimensionare, fai doppio clic per ripristinare',
+    toggleTheme: 'Cambia tema',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const it = {
     modePlaceholder: 'MODALITÀ',
     methodPlaceholder: 'METODO',
     message: 'Messaggio',
+    noBody: 'Questa richiesta non ha un corpo',
+    bodyType: 'Tipo di corpo',
   },
 
   // Response

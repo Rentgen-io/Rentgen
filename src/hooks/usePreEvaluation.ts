@@ -34,6 +34,12 @@ export const MIN_ITERATIONS = 1;
 
 let activeController: AbortController | null = null;
 
+/** Aborts and forgets the running pre-evaluation. Store-free, so it can be used without subscribing (see useReset) */
+export function abortPreEvaluation() {
+  activeController?.abort();
+  activeController = null;
+}
+
 const usePreEvaluation = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -51,17 +57,7 @@ const usePreEvaluation = () => {
   const url = useAppSelector(selectUrl);
   const totalRuns = preEvaluation.questions.length * preEvaluation.iterations;
 
-  const cancelPreEvaluation = useCallback(
-    (reset = true) => {
-      activeController?.abort();
-
-      if (reset) {
-        dispatch(preEvaluationActions.resetPreEvaluation());
-        activeController = null;
-      }
-    },
-    [dispatch],
-  );
+  const cancelPreEvaluation = useCallback(() => activeController?.abort(), []);
 
   const executePreEvaluation = useCallback(async () => {
     activeController?.abort();

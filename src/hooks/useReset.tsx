@@ -1,25 +1,29 @@
 import { useCallback } from 'react';
+import { disconnectWebSocket } from 'src/api/network';
 import { useAppDispatch } from 'src/store/hooks';
 import { collectionActions } from 'src/store/slices/collectionSlice';
+import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
+import { testsActions } from 'src/store/slices/testsSlice';
 import { websocketActions } from 'src/store/slices/websocketSlice';
-import usePreEvaluation from './usePreEvaluation';
-import useTests from './useTests';
+import { abortPreEvaluation } from './usePreEvaluation';
+import { abortAllTestRuns } from './useTests';
 
 export function useReset() {
   const dispatch = useAppDispatch();
 
-  const { cancelAllTests } = useTests();
-  const { cancelPreEvaluation } = usePreEvaluation();
-
-  const reset = useCallback(
+  return useCallback(
     (clearSelection = true) => {
-      cancelAllTests();
-      cancelPreEvaluation();
+      abortAllTestRuns();
+      dispatch(testsActions.resetTests());
+      abortPreEvaluation();
+      dispatch(preEvaluationActions.resetPreEvaluation());
 
       dispatch(requestActions.resetRequest());
       dispatch(responseActions.clearResponse());
+
+      disconnectWebSocket();
       dispatch(websocketActions.clearMessages());
       dispatch(websocketActions.setConnected(false));
 
@@ -27,6 +31,4 @@ export function useReset() {
     },
     [dispatch],
   );
-
-  return reset;
 }

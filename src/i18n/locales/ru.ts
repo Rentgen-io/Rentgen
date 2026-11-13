@@ -48,6 +48,7 @@ const ru = {
     stop: 'Остановить',
     noOptions: 'Нет вариантов',
     resizeHint: 'Перетащите, чтобы изменить размер, дважды щёлкните для сброса',
+    toggleTheme: 'Сменить тему',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const ru = {
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
     message: 'Сообщение',
+    noBody: 'У этого запроса нет тела',
+    bodyType: 'Тип тела',
   },
 
   // Response

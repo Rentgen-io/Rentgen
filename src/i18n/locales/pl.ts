@@ -48,6 +48,7 @@ const pl = {
     stop: 'Zatrzymaj',
     noOptions: 'Brak opcji',
     resizeHint: 'Przeciągnij, aby zmienić rozmiar, kliknij dwukrotnie, aby przywrócić',
+    toggleTheme: 'Przełącz motyw',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const pl = {
     modePlaceholder: 'TRYB',
     methodPlaceholder: 'METODA',
     message: 'Wiadomość',
+    noBody: 'To żądanie nie ma treści',
+    bodyType: 'Typ treści',
   },
 
   // Response

@@ -54,6 +54,20 @@ let dataDrivenTestsInstance: DataDrivenTests | null = null;
 let performanceInsightsInstance: PerformanceInsights | null = null;
 let securityTestsInstance: SecurityTests | null = null;
 
+export function abortAllTestRuns() {
+  abortAiTests = true;
+  abortAllTests = true;
+
+  aiTestsInstance?.abort();
+  dataDrivenTestsInstance?.abort();
+  performanceInsightsInstance?.abort();
+  securityTestsInstance?.abort();
+
+  cancelAllAiTests();
+  cancelLargePayloadTest();
+  cancelLoadTest();
+}
+
 const useTests = () => {
   const dispatch = useAppDispatch();
 
@@ -115,25 +129,11 @@ const useTests = () => {
     aiTestsInstance?.abort();
   }, []);
 
-  const cancelAllTests = useCallback(
-    (reset = true) => {
-      abortAiTests = true;
-      abortAllTests = true;
+  const cancelAllTests = useCallback(() => {
+    abortAllTestRuns();
 
-      aiTestsInstance?.abort();
-      dataDrivenTestsInstance?.abort();
-      performanceInsightsInstance?.abort();
-      securityTestsInstance?.abort();
-
-      cancelAllAiTests();
-      cancelLargePayloadTest();
-      cancelLoadTest();
-
-      if (reset) dispatch(testsActions.resetTests());
-      else dispatch(testsActions.cancelAllTests());
-    },
-    [dispatch],
-  );
+    dispatch(testsActions.cancelAllTests());
+  }, [dispatch]);
 
   const executeAiTest = useCallback(
     async (name: string) => {

@@ -48,6 +48,7 @@ const ja = {
     stop: '停止',
     noOptions: 'オプションなし',
     resizeHint: 'ドラッグでサイズ変更、ダブルクリックでリセット',
+    toggleTheme: 'テーマを切り替え',
   },
 
   // Sidebar
@@ -121,6 +122,8 @@ const ja = {
     modePlaceholder: 'モード',
     methodPlaceholder: 'メソッド',
     message: 'メッセージ',
+    noBody: 'このリクエストにはボディがありません',
+    bodyType: 'ボディの種類',
   },
 
   // Response
