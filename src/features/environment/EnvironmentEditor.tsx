@@ -215,19 +215,17 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           const isDuplicate = duplicateNames.has(name.trim());
 
           return (
-            <div className="relative flex items-center w-full group">
-              <Input
-                className={cn('w-full border-0 bg-transparent', { 'text-red-700 dark:text-red-400': isDuplicate })}
-                placeholder={t('environment.addVariable')}
-                title={isDuplicate ? t('environment.duplicateVariable') : name}
-                value={name}
-                onBlur={() => commitName(row)}
-                onChange={(event) => setNameDrafts((prev) => ({ ...prev, [row.id]: event.target.value }))}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') event.currentTarget.blur();
-                }}
-              />
-            </div>
+            <Input
+              className={cn('w-full border-0 bg-transparent', { 'text-red-700 dark:text-red-400': isDuplicate })}
+              placeholder={t('environment.addVariable')}
+              title={isDuplicate ? t('environment.duplicateVariable') : name}
+              value={name}
+              onBlur={() => commitName(row)}
+              onChange={(event) => setNameDrafts((prev) => ({ ...prev, [row.id]: event.target.value }))}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') event.currentTarget.blur();
+              }}
+            />
           );
         },
       },
