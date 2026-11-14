@@ -581,7 +581,7 @@ const hi = {
     responseTextField: 'प्रतिक्रिया टेक्स्ट फ़ील्ड',
     responseTextPlaceholder: 'पूरा बॉडी, या /choices/0/message/content',
     iterationsPerQuestion: 'प्रति प्रश्न पुनरावृत्तियाँ',
-    addQuestion: 'प्रश्न जोड़ें',
+    addQuestion: 'प्रॉम्प्ट जोड़ें',
     importCSV: 'CSV आयात करें',
     exportCSVExample: 'CSV उदाहरण निर्यात करें',
     jsonBodyRequirement:

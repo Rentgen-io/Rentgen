@@ -585,7 +585,7 @@ const ja = {
     responseTextField: 'レスポンステキストのフィールド',
     responseTextPlaceholder: 'ボディ全体、または /choices/0/message/content',
     iterationsPerQuestion: '質問ごとの反復回数',
-    addQuestion: '質問を追加',
+    addQuestion: 'プロンプトを追加',
     importCSV: 'CSVをインポート',
     exportCSVExample: 'CSVの例をエクスポート',
     jsonBodyRequirement:

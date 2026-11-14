@@ -581,7 +581,7 @@ const ko = {
     responseTextField: '응답 텍스트 필드',
     responseTextPlaceholder: '전체 본문 또는 /choices/0/message/content',
     iterationsPerQuestion: '질문당 반복 횟수',
-    addQuestion: '질문 추가',
+    addQuestion: '프롬프트 추가',
     importCSV: 'CSV 가져오기',
     exportCSVExample: 'CSV 예시 내보내기',
     jsonBodyRequirement:

@@ -572,7 +572,7 @@ const zhCN = {
     responseTextField: '响应文本字段',
     responseTextPlaceholder: '整个响应体，或 /choices/0/message/content',
     iterationsPerQuestion: '每个问题的迭代次数',
-    addQuestion: '添加问题',
+    addQuestion: '添加提示词',
     importCSV: '导入 CSV',
     exportCSVExample: '导出 CSV 示例',
     jsonBodyRequirement: '需要包含用户提示词字符串的 JSON 请求体。无法选择系统消息和开发者消息。',

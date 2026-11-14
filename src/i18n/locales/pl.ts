@@ -585,7 +585,7 @@ const pl = {
     responseTextField: 'Pole tekstu odpowiedzi',
     responseTextPlaceholder: 'Cała treść lub /choices/0/message/content',
     iterationsPerQuestion: 'Iteracje na pytanie',
-    addQuestion: 'Dodaj pytanie',
+    addQuestion: 'Dodaj prompt',
     importCSV: 'Importuj CSV',
     exportCSVExample: 'Eksportuj przykład CSV',
     jsonBodyRequirement:

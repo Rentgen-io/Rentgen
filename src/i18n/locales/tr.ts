@@ -586,7 +586,7 @@ const tr = {
     responseTextField: 'Yanıt metni alanı',
     responseTextPlaceholder: 'Tüm gövde veya /choices/0/message/content',
     iterationsPerQuestion: 'Soru başına yineleme',
-    addQuestion: 'Soru Ekle',
+    addQuestion: 'İstem Ekle',
     importCSV: "CSV'yi İçe Aktar",
     exportCSVExample: 'CSV Örneğini Dışa Aktar',
     jsonBodyRequirement:

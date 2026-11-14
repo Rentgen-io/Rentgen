@@ -586,7 +586,7 @@ const ru = {
     responseTextField: 'Поле текста ответа',
     responseTextPlaceholder: 'Всё тело или /choices/0/message/content',
     iterationsPerQuestion: 'Итераций на вопрос',
-    addQuestion: 'Добавить вопрос',
+    addQuestion: 'Добавить промпт',
     importCSV: 'Импорт CSV',
     exportCSVExample: 'Экспортировать пример CSV',
     jsonBodyRequirement:

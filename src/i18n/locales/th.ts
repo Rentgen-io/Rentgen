@@ -580,7 +580,7 @@ const th = {
     responseTextField: 'ฟิลด์ข้อความตอบกลับ',
     responseTextPlaceholder: 'ทั้งเนื้อหา หรือ /choices/0/message/content',
     iterationsPerQuestion: 'จำนวนรอบต่อคำถาม',
-    addQuestion: 'เพิ่มคำถาม',
+    addQuestion: 'เพิ่มพรอมต์',
     importCSV: 'นำเข้า CSV',
     exportCSVExample: 'ส่งออกตัวอย่าง CSV',
     jsonBodyRequirement: 'ต้องมี JSON body ที่มีสตริงพรอมต์ของผู้ใช้ ไม่สามารถเลือกข้อความระบบและข้อความนักพัฒนาได้',

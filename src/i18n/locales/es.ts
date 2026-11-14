@@ -588,7 +588,7 @@ const es = {
     responseTextField: 'Campo del texto de respuesta',
     responseTextPlaceholder: 'Cuerpo completo o /choices/0/message/content',
     iterationsPerQuestion: 'Iteraciones por pregunta',
-    addQuestion: 'Añadir pregunta',
+    addQuestion: 'Añadir prompt',
     importCSV: 'Importar CSV',
     exportCSVExample: 'Exportar ejemplo de CSV',
     jsonBodyRequirement:

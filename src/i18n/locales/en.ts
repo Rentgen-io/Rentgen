@@ -581,7 +581,7 @@ const en = {
     responseTextField: 'Response text field',
     responseTextPlaceholder: 'Whole body, or /choices/0/message/content',
     iterationsPerQuestion: 'Iterations per question',
-    addQuestion: 'Add Question',
+    addQuestion: 'Add Prompt',
     importCSV: 'Import CSV',
     exportCSVExample: 'Export CSV Example',
     jsonBodyRequirement:

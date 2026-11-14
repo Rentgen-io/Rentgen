@@ -581,7 +581,7 @@ const id = {
     responseTextField: 'Bidang teks respons',
     responseTextPlaceholder: 'Seluruh body, atau /choices/0/message/content',
     iterationsPerQuestion: 'Iterasi per pertanyaan',
-    addQuestion: 'Tambah Pertanyaan',
+    addQuestion: 'Tambah Prompt',
     importCSV: 'Impor CSV',
     exportCSVExample: 'Ekspor Contoh CSV',
     jsonBodyRequirement:

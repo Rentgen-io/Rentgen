@@ -586,7 +586,7 @@ const lt = {
     responseTextField: 'Atsakymo teksto laukas',
     responseTextPlaceholder: 'Visas turinys arba /choices/0/message/content',
     iterationsPerQuestion: 'Iteracijų skaičius vienam klausimui',
-    addQuestion: 'Pridėti klausimą',
+    addQuestion: 'Pridėti užklausą',
     importCSV: 'Importuoti CSV',
     exportCSVExample: 'Eksportuoti CSV pavyzdį',
     jsonBodyRequirement:

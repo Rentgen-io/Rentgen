@@ -588,7 +588,7 @@ const nl = {
     responseTextField: 'Veld voor antwoordtekst',
     responseTextPlaceholder: 'Hele body, of /choices/0/message/content',
     iterationsPerQuestion: 'Iteraties per vraag',
-    addQuestion: 'Vraag toevoegen',
+    addQuestion: 'Prompt toevoegen',
     importCSV: 'CSV importeren',
     exportCSVExample: 'CSV-voorbeeld exporteren',
     jsonBodyRequirement:

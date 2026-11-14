@@ -585,7 +585,7 @@ const uk = {
     responseTextField: 'Поле тексту відповіді',
     responseTextPlaceholder: 'Усе тіло або /choices/0/message/content',
     iterationsPerQuestion: 'Ітерацій на запитання',
-    addQuestion: 'Додати запитання',
+    addQuestion: 'Додати запит',
     importCSV: 'Імпортувати CSV',
     exportCSVExample: 'Експортувати приклад CSV',
     jsonBodyRequirement:

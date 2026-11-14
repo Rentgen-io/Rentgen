@@ -594,7 +594,7 @@ const fr = {
     responseTextField: 'Champ du texte de réponse',
     responseTextPlaceholder: 'Corps entier ou /choices/0/message/content',
     iterationsPerQuestion: 'Itérations par question',
-    addQuestion: 'Ajouter une question',
+    addQuestion: 'Ajouter un prompt',
     importCSV: 'Importer un CSV',
     exportCSVExample: 'Exporter un exemple de CSV',
     jsonBodyRequirement:

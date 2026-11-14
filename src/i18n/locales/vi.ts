@@ -582,7 +582,7 @@ const vi = {
     responseTextField: 'Trường văn bản phản hồi',
     responseTextPlaceholder: 'Toàn bộ body, hoặc /choices/0/message/content',
     iterationsPerQuestion: 'Số lần lặp mỗi câu hỏi',
-    addQuestion: 'Thêm câu hỏi',
+    addQuestion: 'Thêm prompt',
     importCSV: 'Nhập CSV',
     exportCSVExample: 'Xuất CSV mẫu',
     jsonBodyRequirement:

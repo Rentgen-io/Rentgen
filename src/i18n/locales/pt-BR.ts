@@ -588,7 +588,7 @@ const ptBR = {
     responseTextField: 'Campo do texto da resposta',
     responseTextPlaceholder: 'Corpo inteiro ou /choices/0/message/content',
     iterationsPerQuestion: 'Iterações por pergunta',
-    addQuestion: 'Adicionar pergunta',
+    addQuestion: 'Adicionar prompt',
     importCSV: 'Importar CSV',
     exportCSVExample: 'Exportar exemplo de CSV',
     jsonBodyRequirement:
