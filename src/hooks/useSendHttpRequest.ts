@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { RESPONSE_STATUS, RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
+import { RESPONSE_STATUS_LABEL, isSuccessStatus } from 'shared/responseStatus';
 import { sendHttp } from 'src/api/network';
 import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -89,7 +89,7 @@ export function useSendHttpRequest() {
       let bodyParameters: RequestParameters = {};
       let queryParameters: RequestParameters = {};
 
-      if (status >= RESPONSE_STATUS.OK && status < RESPONSE_STATUS.REDIRECT) {
+      if (isSuccessStatus(status)) {
         ({ bodyParameters, queryParameters } = extractRequestParameters(
           substitutedBody,
           substitutedUrl,

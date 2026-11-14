@@ -1,14 +1,16 @@
 import { useTranslation } from 'react-i18next';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
-import useTests from 'src/hooks/useTests';
-import { useAppDispatch } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectCrudTests, selectIsSecurityRunning } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
 export default function CrudTestsPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { crudTests, isSecurityRunning } = useTests();
+
+  const crudTests = useAppSelector(selectCrudTests);
+  const isSecurityRunning = useAppSelector(selectIsSecurityRunning);
 
   return (
     <>

@@ -217,7 +217,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           return (
             <div className="relative flex items-center w-full group">
               <Input
-                className={cn('w-full border-0 bg-transparent', { 'text-red-600! dark:text-red-400!': isDuplicate })}
+                className={cn('w-full border-0 bg-transparent', { 'text-red-700 dark:text-red-400': isDuplicate })}
                 placeholder={t('environment.addVariable')}
                 title={isDuplicate ? t('environment.duplicateVariable') : name}
                 value={name}
@@ -309,7 +309,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                 aria-label={option}
                 aria-pressed={color.toUpperCase() === option}
                 className={cn(
-                  'w-8 h-8 border-2 rounded cursor-pointer',
+                  'size-8 border-2 rounded cursor-pointer',
                   color.toUpperCase() === option ? 'border-foreground' : 'border-transparent',
                 )}
                 style={{ backgroundColor: option }}

@@ -1,4 +1,4 @@
-import { RESPONSE_STATUS } from 'shared/responseStatus';
+import { isSuccessStatus } from 'shared/responseStatus';
 import i18n from 'src/i18n';
 import type { AiProvider, ResponseBody } from 'src/types';
 import { extractStatusCode, isObject } from 'src/utils';
@@ -146,7 +146,7 @@ export async function sendAiChatRequest(
     );
     const statusCode = extractStatusCode(response);
 
-    if (statusCode < RESPONSE_STATUS.OK || statusCode >= RESPONSE_STATUS.REDIRECT)
+    if (!isSuccessStatus(statusCode))
       return { ok: false, error: extractError(response.body, response.status), body: response.body };
 
     const content = extractContent(response.body);

@@ -16,7 +16,6 @@ import {
   MAX_ITERATIONS,
   MIN_ITERATIONS,
 } from 'src/constants/pre-evaluation';
-import usePreEvaluation from 'src/hooks/usePreEvaluation';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectCurrentRun,
@@ -29,6 +28,7 @@ import {
   selectSelectedRequestId,
 } from 'src/store/selectors';
 import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
+import { executePreEvaluation, stopPreEvaluation } from 'src/test-engine';
 import { EvaluationQuestion, MatchMode } from 'src/types';
 import { parseCsv, toCsv } from 'src/utils';
 import { notify } from 'src/utils/toast';
@@ -50,8 +50,6 @@ const modeOptions: RadioOption<MatchMode>[] = [
 export default function PreEvaluationPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { executePreEvaluation, stopPreEvaluation } = usePreEvaluation();
-
   const disabled = useAppSelector(selectPreEvaluationDisabled);
   const evaluationReport = useAppSelector(selectEvaluationReport);
   const isRunningPreEvaluation = useAppSelector(selectIsPreEvaluationRunning);

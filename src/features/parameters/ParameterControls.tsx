@@ -105,7 +105,7 @@ export function ParameterControls({ parameterValue, onChange }: Props) {
         <div className="col-start-2 flex items-center gap-1">
           <SimpleSelect className="w-full p-1" options={parameterOptions} value={type} onChange={onSelectTypeChange} />
           <IconButton
-            className="h-7 w-7 shrink-0"
+            className="size-7 shrink-0"
             onClick={() => onChange({ type: 'do-not-test', value: '', mandatory: false })}
           >
             <ClearCrossIcon className="size-4" />

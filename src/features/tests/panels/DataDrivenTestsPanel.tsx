@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import { getDatasets } from 'src/constants/datasets';
-import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBodyParameters,
+  selectDataDrivenTests,
+  selectIsDataDrivenRunning,
   selectQueryParameters,
   selectSelectedRequestId,
   selectTestEngineConfiguration,
@@ -25,9 +26,10 @@ import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHead
 export default function DataDrivenTestsPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { dataDrivenTests, isDataDrivenRunning } = useTests();
 
   const bodyParameters = useAppSelector(selectBodyParameters);
+  const dataDrivenTests = useAppSelector(selectDataDrivenTests);
+  const isDataDrivenRunning = useAppSelector(selectIsDataDrivenRunning);
   const queryParameters = useAppSelector(selectQueryParameters);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);

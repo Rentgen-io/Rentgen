@@ -8,6 +8,10 @@ export const selectEnvironmentToDelete = (state: RootState) => state.environment
 export const selectIsEditingEnvironment = (state: RootState) => state.environment.isEditing;
 export const selectSelectedEnvironmentId = (state: RootState) => state.environment.selectedEnvironmentId;
 
+export const selectEditingEnvironment = createSelector(
+  [selectEnvironments, selectEditingEnvironmentId],
+  (environments, editingId) => environments.find(({ id }) => id === editingId) || null,
+);
 export const selectSelectedEnvironment = createSelector(
   [selectEnvironments, selectSelectedEnvironmentId],
   (environments, selectedId) => environments.find((env) => env.id === selectedId) || null,

@@ -1,17 +1,12 @@
 import cn from 'classnames';
-import { useMemo, useRef } from 'react';
+import { ComponentType, memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Loader from 'src/components/loaders/Loader';
-import useTests from 'src/hooks/useTests';
+import { TESTS_TAB_INDEX, TESTS_TABS, TestsTabId } from 'src/constants/testsTabs';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import {
-  selectDisabledPerformanceInsights,
-  selectDisabledSecurityTests,
-  selectTestsActiveTab,
-} from 'src/store/selectors';
+import { selectTestsActiveTab, selectTestsStatistics, selectTestsTabsRunning } from 'src/store/selectors';
 import { uiActions } from 'src/store/slices/uiSlice';
-import { getTestsStatistics } from 'src/test-engine';
 import { twMerge } from 'tailwind-merge';
 import TestResultsSummary from '../TestResultsSummary';
 import AiTestingPanel from './AiTestingPanel';
@@ -20,91 +15,33 @@ import DataDrivenTestsPanel from './DataDrivenTestsPanel';
 import PerformanceInsightsPanel from './PerformanceInsightsPanel';
 import SecurityTestsPanel from './SecurityTestsPanel';
 
+/*
+ * All panels stay mounted (forceRenderTabPanel). They take no props and select their own data, so memo keeps this
+ * component's re-renders (statistics / running flags changing) from re-rendering their tables.
+ */
+const PANELS: Record<TestsTabId, ComponentType> = {
+  ai: memo(AiTestingPanel),
+  security: memo(SecurityTestsPanel),
+  performance: memo(PerformanceInsightsPanel),
+  dataDriven: memo(DataDrivenTestsPanel),
+  crud: memo(CrudTestsPanel),
+};
+
 export default function TestsPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const {
-    aiRunStartedAt,
-    aiTests,
-    crudTests,
-    dataDrivenTests,
-    isDataDrivenRunning,
-    isPerformanceRunning,
-    isSecurityRunning,
-    performanceTests,
-    securityTests,
-  } = useTests();
 
-  const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
-  const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
+  const isRunning = useAppSelector(selectTestsTabsRunning);
+  const statistics = useAppSelector(selectTestsStatistics);
   const testsActiveTab = useAppSelector(selectTestsActiveTab);
 
   const testsTabsRef = useRef<HTMLUListElement | null>(null);
 
-  const testsTabs = useMemo(
-    () => [
-      {
-        component: <AiTestingPanel />,
-        isRunning: Boolean(aiRunStartedAt),
-        label: t('tests.aiTesting'),
-        tests: aiTests,
-      },
-      {
-        component: <SecurityTestsPanel />,
-        disabledTests: disabledSecurityTests,
-        isRunning: isSecurityRunning,
-        label: t('tests.securityTests'),
-        tests: securityTests,
-      },
-      {
-        component: <PerformanceInsightsPanel />,
-        disabledTests: disabledPerformanceInsights,
-        isRunning: isPerformanceRunning,
-        label: t('tests.performanceInsights'),
-        tests: performanceTests,
-      },
-      {
-        component: <DataDrivenTestsPanel />,
-        isRunning: isDataDrivenRunning,
-        label: t('tests.dataDrivenTests'),
-        tests: dataDrivenTests,
-      },
-      {
-        component: <CrudTestsPanel />,
-        isRunning: isSecurityRunning,
-        label: t('tests.crud'),
-        tests: crudTests,
-      },
-    ],
-    [
-      aiRunStartedAt,
-      aiTests,
-      crudTests,
-      dataDrivenTests,
-      disabledSecurityTests,
-      isDataDrivenRunning,
-      isPerformanceRunning,
-      isSecurityRunning,
-      performanceTests,
-      securityTests,
-      t,
-    ],
-  );
-
-  const statistics = useMemo(
-    () =>
-      Object.fromEntries(
-        testsTabs.map(({ label, disabledTests, tests }) => [label, getTestsStatistics(tests ?? [], disabledTests)]),
-      ),
-    [testsTabs],
-  );
-
   return (
     <div className="flex flex-col flex-auto gap-4">
       <TestResultsSummary
-        statistics={statistics}
-        onClick={(index) => {
-          dispatch(uiActions.setTestsActiveTab(index));
+        onSelectTab={(id) => {
+          dispatch(uiActions.setTestsActiveTab(TESTS_TAB_INDEX[id]));
           testsTabsRef.current?.scrollIntoView({ behavior: 'smooth' });
         }}
       />
@@ -122,16 +59,18 @@ export default function TestsPanel() {
           ref={testsTabsRef}
           className="flex gap-6 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border"
         >
-          {testsTabs.map(({ isRunning, label }) => {
-            const { bugs, failed, passed, warnings } = statistics[label];
+          {TESTS_TABS.map(({ id, labelKey }) => {
+            const { bugs, failed, passed, warnings } = statistics[id];
+            const issueCount = bugs + failed + warnings;
+            const label = t(labelKey);
 
             return (
               <Tab
-                key={label}
+                key={id}
                 className="relative flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer"
                 title={label}
               >
-                {isRunning ? (
+                {isRunning[id] ? (
                   <Loader className="size-4 shrink-0 [&>span]:border-2!" />
                 ) : (
                   <span
@@ -147,20 +86,24 @@ export default function TestsPanel() {
                 )}
 
                 <span className="truncate">{label}</span>
-                {bugs + failed + warnings > 0 && (
+                {issueCount > 0 && (
                   <span className="inline-flex items-center justify-center min-w-4 py-px px-1 text-[10px] bg-accent-soft rounded">
-                    {bugs + failed + warnings}
+                    {issueCount}
                   </span>
                 )}
               </Tab>
             );
           })}
         </TabList>
-        {testsTabs.map(({ component, label }) => (
-          <TabPanel key={label} className="hidden min-h-51.5 py-3 px-4">
-            {component}
-          </TabPanel>
-        ))}
+        {TESTS_TABS.map(({ id }) => {
+          const Panel = PANELS[id];
+
+          return (
+            <TabPanel key={id} className="hidden min-h-51.5 py-3 px-4">
+              <Panel />
+            </TabPanel>
+          );
+        })}
       </Tabs>
     </div>
   );

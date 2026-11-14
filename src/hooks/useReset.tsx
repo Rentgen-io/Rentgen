@@ -7,8 +7,7 @@ import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { websocketActions } from 'src/store/slices/websocketSlice';
-import { abortPreEvaluation } from './usePreEvaluation';
-import { abortAllTestRuns } from './useTests';
+import { abortAllTestRuns, abortPreEvaluation } from 'src/test-engine';
 
 export function useReset() {
   const dispatch = useAppDispatch();

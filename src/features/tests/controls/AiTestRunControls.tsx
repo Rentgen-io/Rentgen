@@ -1,8 +1,10 @@
-import useTests from 'src/hooks/useTests';
+import { useAppSelector } from 'src/store/hooks';
+import { selectRunningAiTests } from 'src/store/selectors';
+import { executeAiTest } from 'src/test-engine';
 import TestRunControls from './TestRunControls';
 
 export default function AiTestRunControls({ name }: { name: string }) {
-  const { runningAiTests, executeAiTest } = useTests();
+  const isRunning = useAppSelector((state) => Boolean(selectRunningAiTests(state)[name]));
 
-  return <TestRunControls isRunning={Boolean(runningAiTests[name])} executeTest={() => executeAiTest(name)} />;
+  return <TestRunControls isRunning={isRunning} executeTest={() => executeAiTest(name)} />;
 }
