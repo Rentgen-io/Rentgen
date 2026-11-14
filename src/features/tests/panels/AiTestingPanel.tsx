@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { TableColumn } from 'react-data-table-component';
 import { Trans, useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { Accordion } from 'src/components/accordion/Accordion';
@@ -31,6 +32,7 @@ import {
   executeAllAiTests,
   SUCCESS_RESPONSE_EXPECTED,
 } from 'src/test-engine';
+import { TestResult } from 'src/types';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
 import AiTestRunControls from '../controls/AiTestRunControls';
 import TestRunControls from '../controls/TestRunControls';
@@ -50,6 +52,72 @@ export default function AiTestingPanel() {
 
   const [showAiRequestMaskControls, setShowAiRequestMaskControls] = useState<boolean>(false);
 
+  // A stable empty list while there are no AI tests (`aiTests ?? []` would be a new array on every render)
+  const aiTestResults = aiTests ?? [];
+
+  const columns = useMemo<TableColumn<TestResult>[]>(
+    () => [
+      {
+        name: t('tables.check'),
+        selector: (row) => row.name,
+        cell: (row) => (
+          <div className="py-1 px-0 line-clamp-4 whitespace-normal" data-tag="allowRowEvents">
+            {row.name}
+          </div>
+        ),
+      },
+      {
+        name: t('tables.expected'),
+        selector: (row) => row.expected,
+        cell: (row) =>
+          !row.response ? (
+            row.expected
+          ) : (
+            <SimpleSelect
+              className="pl-0 text-[13px] text-inherit bg-transparent border-none dark:[&>option]:text-black"
+              options={[
+                { value: SUCCESS_RESPONSE_EXPECTED, label: SUCCESS_RESPONSE_EXPECTED },
+                { value: ERROR_RESPONSE_EXPECTED, label: ERROR_RESPONSE_EXPECTED },
+              ]}
+              value={row.expected}
+              onChange={(event) => {
+                const expected = event.target.value as string;
+
+                if (!row.response) return;
+
+                const { actual, status } = determineTestStatus(row.response, (response, statusCode) =>
+                  determineRequestParameterTestStatus(response, statusCode, {
+                    valid: expected === SUCCESS_RESPONSE_EXPECTED,
+                    value: row.value,
+                  }),
+                );
+                const testResult = { ...row, actual, expected, status };
+
+                dispatch(testsActions.updateAiTest({ name: row.name, result: testResult }));
+
+                if (selectedRequestId)
+                  dispatch(
+                    testsActions.updateAiTestResults({
+                      name: row.name,
+                      requestId: selectedRequestId,
+                      result: testResult,
+                    }),
+                  );
+              }}
+            />
+          ),
+      },
+      ...getTestsTableColumns(['Actual'], t),
+      {
+        name: t('tables.result'),
+        selector: (row) => row.status,
+        width: '150px',
+        cell: ({ name }) => <AiTestRunControls name={name} />,
+      },
+    ],
+    [selectedRequestId, dispatch, t],
+  );
+
   useEffect(() => cancelAiTestsGeneration, []);
   useEffect(() => {
     if (aiOverview || (aiTests && aiTests.length > 0)) setShowAiRequestMaskControls(false);
@@ -57,7 +125,7 @@ export default function AiTestingPanel() {
 
   return (
     <>
-      <TestsTableHeader tests={aiTests ?? []} onOpenSettings={() => dispatch(modalsActions.openSettingsModal('ai'))} />
+      <TestsTableHeader tests={aiTestResults} onOpenSettings={() => dispatch(modalsActions.openSettingsModal('ai'))} />
       {!showAiRequestMaskControls && (aiOverview || (aiTests && aiTests.length > 0)) ? (
         <div className="flex flex-col gap-4">
           <div>
@@ -148,73 +216,12 @@ export default function AiTestingPanel() {
             </TabPanel>
             <TabPanel className="hidden">
               <TestsTable
-                columns={[
-                  {
-                    name: t('tables.check'),
-                    selector: (row, id) => (
-                      <div
-                        className="py-1 px-0 line-clamp-4 whitespace-normal"
-                        data-column-id={id}
-                        data-tag="allowRowEvents"
-                      >
-                        {row.name}
-                      </div>
-                    ),
-                  },
-                  {
-                    name: t('tables.expected'),
-                    selector: (row) => row.expected,
-                    cell: (row) =>
-                      !row.response ? (
-                        row.expected
-                      ) : (
-                        <SimpleSelect
-                          className="pl-0 text-[13px] text-inherit bg-transparent border-none dark:[&>option]:text-black"
-                          options={[
-                            { value: SUCCESS_RESPONSE_EXPECTED, label: SUCCESS_RESPONSE_EXPECTED },
-                            { value: ERROR_RESPONSE_EXPECTED, label: ERROR_RESPONSE_EXPECTED },
-                          ]}
-                          value={row.expected}
-                          onChange={(event) => {
-                            const expected = event.target.value as string;
-
-                            if (!row.response) return;
-
-                            const { actual, status } = determineTestStatus(row.response, (response, statusCode) =>
-                              determineRequestParameterTestStatus(response, statusCode, {
-                                valid: expected === SUCCESS_RESPONSE_EXPECTED,
-                                value: row.value,
-                              }),
-                            );
-                            const testResult = { ...row, actual, expected, status };
-
-                            dispatch(testsActions.updateAiTest({ name: row.name, result: testResult }));
-
-                            if (selectedRequestId)
-                              dispatch(
-                                testsActions.updateAiTestResults({
-                                  name: row.name,
-                                  requestId: selectedRequestId,
-                                  result: testResult,
-                                }),
-                              );
-                          }}
-                        />
-                      ),
-                  },
-                  ...getTestsTableColumns(['Actual'], t),
-                  {
-                    name: t('tables.result'),
-                    selector: (row) => row.status,
-                    width: '150px',
-                    cell: ({ name }) => <AiTestRunControls name={name} />,
-                  },
-                ]}
+                columns={columns}
                 expandableRows
                 expandableRowsComponent={ExpandedTestComponent}
                 expandableRowDisabled={(row) => !row.request}
                 expandOnRowClicked
-                data={aiTests ?? []}
+                data={aiTestResults}
               />
             </TabPanel>
           </Tabs>

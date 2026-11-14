@@ -21,8 +21,8 @@ import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 const COLOR_OPTIONS = ['#EF4444', '#F97316', '#EAB308', '#22C55E', '#3B82F6', '#8B5CF6', '#EC4899', '#6B7280'];
 const DEFAULT_COLOR = '#3B82F6';
-// Changes of an existing environment are saved after this pause in typing
 const AUTOSAVE_DELAY = 500;
+const REMOVE_COLUMN_WIDTH = '40px';
 
 // A static variable row; `id` only identifies the row while editing (stable table / React key), it isn't saved
 interface StaticRow extends EnvironmentVariable {
@@ -209,7 +209,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
     () => [
       {
         name: t('environment.variableName'),
-        width: 'calc(1/3 * 100%)',
+        width: `calc((100% - ${REMOVE_COLUMN_WIDTH}) / 3)`,
         cell: (row) => {
           const name = nameDrafts[row.id] ?? (row.kind === 'static' ? row.key : row.variable.key);
           const isDuplicate = duplicateNames.has(name.trim());
@@ -227,26 +227,13 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                   if (event.key === 'Enter') event.currentTarget.blur();
                 }}
               />
-              {name && (
-                <div className="absolute top-0 bottom-0 right-0 flex items-center gap-2 px-2 bg-background opacity-0 group-hover:opacity-100 focus-within:opacity-100">
-                  <button
-                    aria-label={t('common.delete')}
-                    className="flex p-0 border-0 bg-transparent text-muted-foreground hover:text-red-600 cursor-pointer"
-                    title={t('common.delete')}
-                    type="button"
-                    onClick={() => removeRow(row)}
-                  >
-                    <TrashIcon className="size-3" />
-                  </button>
-                </div>
-              )}
             </div>
           );
         },
       },
       {
         name: t('environment.value'),
-        width: 'calc(2/3 * 100%)',
+        width: `calc((100% - ${REMOVE_COLUMN_WIDTH}) * 2 / 3)`,
         cell: (row) => {
           if (row.kind === 'static')
             return (
@@ -272,6 +259,21 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
             </span>
           );
         },
+      },
+      {
+        cell: (row) => {
+          const name = nameDrafts[row.id] ?? (row.kind === 'static' ? row.key : row.variable.key);
+          if (!name) return null;
+
+          return (
+            <TrashIcon
+              className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
+              onClick={() => removeRow(row)}
+            />
+          );
+        },
+        width: REMOVE_COLUMN_WIDTH,
+        center: true,
       },
     ],
     [duplicateNames, nameDrafts, valueOptions, changeStaticRow, commitName, removeRow, t],
@@ -329,7 +331,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
         </div>
         <div className="flex flex-col flex-auto gap-2">
           <FieldLabel label={t('environment.variables')} />
-          <div className="flex flex-col flex-auto h-0 min-h-17! table-layout">
+          <div className="flex flex-col flex-auto h-0 min-h-17 table-layout">
             <DataTable
               className="environment-data-table"
               columns={columns}

@@ -1,4 +1,6 @@
 import cn from 'classnames';
+import { useMemo } from 'react';
+import { TableColumn } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import {
   ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
@@ -18,7 +20,7 @@ import {
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import { TestStatus } from 'src/types';
+import { TestResult, TestStatus } from 'src/types';
 import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColumns } from '../tables/TestsTable';
 
 export default function PerformanceInsightsPanel() {
@@ -33,6 +35,54 @@ export default function PerformanceInsightsPanel() {
     [TestStatus.Bug, TestStatus.Fail, TestStatus.Warning].includes(status),
   );
 
+  const columns = useMemo<TableColumn<TestResult>[]>(
+    () => [
+      ...getTestsTableColumns(['Check', 'Expected'], t),
+      {
+        name: t('tables.actual'),
+        selector: (row) => row.actual,
+        cell: (row) => (
+          <div className="py-1" data-tag="allowRowEvents">
+            {row.actual}
+          </div>
+        ),
+      },
+      {
+        name: t('tables.result'),
+        selector: (row) => row.status,
+        width: hasFailures ? '325px' : '220px',
+        cell: (row) => (
+          <TestResultControls
+            className={cn('py-1', { 'items-end': row.name === LOAD_TEST_NAME })}
+            testResult={row}
+            testType="performance"
+          >
+            {row.name === LOAD_TEST_NAME ? (
+              <LoadTestRunControls />
+            ) : (
+              <p className="m-0 mr-2 whitespace-nowrap">{row.status}</p>
+            )}
+          </TestResultControls>
+        ),
+      },
+      {
+        name: t('common.ignore'),
+        width: '80px',
+        cell: (row) => (
+          <div data-tag="allowRowEvents">
+            {PERFORMANCE_INSIGHTS.includes(row.name) && (
+              <Toggle
+                checked={!disabledPerformanceInsights.includes(row.name)}
+                onChange={() => dispatch(settingsActions.togglePerformanceInsight(row.name))}
+              />
+            )}
+          </div>
+        ),
+      },
+    ],
+    [disabledPerformanceInsights, hasFailures, dispatch, t],
+  );
+
   return (
     <>
       <TestsTableHeader
@@ -41,47 +91,7 @@ export default function PerformanceInsightsPanel() {
         onOpenSettings={() => dispatch(modalsActions.openSettingsModal())}
       />
       <TestsTable
-        columns={[
-          ...getTestsTableColumns(['Check', 'Expected'], t),
-          {
-            name: t('tables.actual'),
-            selector: (row) => row.actual,
-            cell: (row) => <div className="py-1">{row.actual}</div>,
-          },
-          {
-            name: t('tables.result'),
-            selector: (row) => row.status,
-            width: hasFailures ? '325px' : '220px',
-            cell: (row) => (
-              <TestResultControls
-                className={cn('py-1', { 'items-end': row.name === LOAD_TEST_NAME })}
-                testResult={row}
-                testType="performance"
-              >
-                {row.name === LOAD_TEST_NAME ? (
-                  <LoadTestRunControls />
-                ) : (
-                  <p className="m-0 mr-2 whitespace-nowrap">{row.status}</p>
-                )}
-              </TestResultControls>
-            ),
-          },
-          {
-            name: t('common.ignore'),
-            width: '80px',
-            cell: (row, id) => (
-              <div data-column-id={id} data-tag="allowRowEvents">
-                {PERFORMANCE_INSIGHTS.includes(row.name) && (
-                  <Toggle
-                    key={id}
-                    checked={!disabledPerformanceInsights.includes(row.name)}
-                    onChange={() => dispatch(settingsActions.togglePerformanceInsight(row.name))}
-                  />
-                )}
-              </div>
-            ),
-          },
-        ]}
+        columns={columns}
         expandableRows
         expandableRowsComponent={ExpandedTestComponent}
         expandableRowDisabled={(row) =>

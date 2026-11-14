@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -12,6 +13,8 @@ export default function CrudTestsPanel() {
   const crudTests = useAppSelector(selectCrudTests);
   const isSecurityRunning = useAppSelector(selectIsSecurityRunning);
 
+  const columns = useMemo(() => getTestsTableColumns(['Method', 'Expected', 'Actual', 'Result'], t), [t]);
+
   return (
     <>
       <TestsTableHeader
@@ -19,7 +22,7 @@ export default function CrudTestsPanel() {
         onOpenSettings={!crudTests?.length ? () => dispatch(modalsActions.openSettingsModal()) : undefined}
       />
       <TestsTable
-        columns={getTestsTableColumns(['Method', 'Expected', 'Actual', 'Result'], t)}
+        columns={columns}
         expandableRows
         expandableRowsComponent={ExpandedTestComponent}
         expandableRowDisabled={(row) => !row.request}

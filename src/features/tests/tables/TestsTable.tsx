@@ -1,7 +1,12 @@
 import cn from 'classnames';
 import { TFunction } from 'i18next';
-import { memo, useMemo } from 'react';
-import DataTable, { ExpanderComponentProps, TableColumn, TableProps } from 'react-data-table-component';
+import { CSSProperties, memo, useMemo } from 'react';
+import DataTable, {
+  ConditionalStyles,
+  ExpanderComponentProps,
+  TableColumn,
+  TableProps,
+} from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from 'src/components/buttons/CopyButton';
 import { IconButton } from 'src/components/buttons/IconButton';
@@ -15,6 +20,21 @@ import { twMerge } from 'tailwind-merge';
 
 import GearIcon from 'src/assets/icons/gear-icon.svg';
 
+// Row background by test status (statuses without one keep the table's background)
+const STATUS_BACKGROUNDS: Partial<Record<TestStatus, string>> = {
+  [TestStatus.Pass]: 'var(--color-test-pass)',
+  [TestStatus.Fail]: 'var(--color-test-fail)',
+  [TestStatus.FailNoResponse]: 'var(--color-test-fail)',
+  [TestStatus.Manual]: 'var(--color-test-manual)',
+  [TestStatus.Warning]: 'var(--color-test-warning)',
+  [TestStatus.Info]: 'var(--color-test-info)',
+  [TestStatus.Bug]: 'var(--color-test-bug)',
+};
+
+/**
+ * The tests table: rows colored by status, disabled (ignored) tests dimmed. Pass memoized `columns` (see the panels):
+ * a new array on every render makes the table recompute all of them.
+ */
 export default function TestsTable({
   columns,
   data,
@@ -29,8 +49,22 @@ export default function TestsTable({
   const disabledSecurityTests = useAppSelector(selectDisabledSecurityTests);
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
 
-  const definedData = data?.filter((item) => item != null) ?? [];
-  const disabledTests = [...disabledSecurityTests, ...disabledPerformanceInsights];
+  const definedData = useMemo(() => data?.filter((item) => item != null) ?? [], [data]);
+
+  const conditionalRowStyles = useMemo<ConditionalStyles<TestResult>[]>(() => {
+    const disabledTests = new Set([...disabledSecurityTests, ...disabledPerformanceInsights]);
+
+    return [
+      {
+        when: () => true,
+        style: (row): CSSProperties => ({
+          color: 'var(--color-foreground)',
+          ...(STATUS_BACKGROUNDS[row.status] && { backgroundColor: STATUS_BACKGROUNDS[row.status] }),
+          ...(disabledTests.has(row.name) && { opacity: 0.5, cursor: 'not-allowed' }),
+        }),
+      },
+    ];
+  }, [disabledSecurityTests, disabledPerformanceInsights]);
 
   if (progressPending) return progressComponent;
 
@@ -38,35 +72,7 @@ export default function TestsTable({
     <DataTable
       className={twMerge(cn({ 'bg-background border border-border rounded!': definedData.length > 0 }), className)}
       columns={columns}
-      conditionalRowStyles={[
-        {
-          when: () => true,
-          style: (row) => {
-            const styles = {
-              color: 'var(--color-foreground)',
-              ...(disabledTests.includes(row.name) ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
-            };
-
-            switch (row.status) {
-              case TestStatus.Pass:
-                return { ...styles, backgroundColor: 'var(--color-test-pass)' };
-              case TestStatus.Fail:
-              case TestStatus.FailNoResponse:
-                return { ...styles, backgroundColor: 'var(--color-test-fail)' };
-              case TestStatus.Manual:
-                return { ...styles, backgroundColor: 'var(--color-test-manual)' };
-              case TestStatus.Warning:
-                return { ...styles, backgroundColor: 'var(--color-test-warning)' };
-              case TestStatus.Info:
-                return { ...styles, backgroundColor: 'var(--color-test-info)' };
-              case TestStatus.Bug:
-                return { ...styles, backgroundColor: 'var(--color-test-bug)' };
-              default:
-                return styles;
-            }
-          },
-        },
-      ]}
+      conditionalRowStyles={conditionalRowStyles}
       data={definedData}
       noDataComponent={
         noDataComponent ? noDataComponent : <p className="p-4 m-0 text-center text-sm">{t('tests.noTestsGenerated')}</p>
@@ -133,7 +139,7 @@ export function TestsTableHeader({
         )}
       </div>
       {onOpenSettings && (
-        <IconButton onClick={onOpenSettings}>
+        <IconButton aria-label={t('sidebar.settings')} title={t('sidebar.settings')} onClick={onOpenSettings}>
           <GearIcon className="size-4" />
         </IconButton>
       )}
@@ -141,7 +147,8 @@ export function TestsTableHeader({
   );
 }
 
-export const ExpandedTestComponent = memo(({ data }: ExpanderComponentProps<TestResult>) => {
+// A test's request / response (with "Copy cURL"); memoized, as the HTTP panels are expensive to render
+export const ExpandedTestComponent = memo(function ExpandedTestComponent({ data }: ExpanderComponentProps<TestResult>) {
   const { t } = useTranslation();
   const { request, response } = data;
 
@@ -172,6 +179,10 @@ const columnTranslationKeys: Record<TestsTableColumn, string> = {
   Result: 'tables.result',
 };
 
+/**
+ * The shared columns, the given ones visible. `selector` is each column's plain value, `cell` its custom content
+ * (`data-tag="allowRowEvents"`: clicking the content still expands the row). Call it in a `useMemo`.
+ */
 export function getTestsTableColumns(
   visibleColumns: TestsTableColumn[] = [],
   t?: TFunction,
@@ -183,56 +194,52 @@ export function getTestsTableColumns(
       key: 'Parameter',
       name: label('Parameter'),
       selector: (row) => row.name,
-      omit: true,
     },
     {
       key: 'Value',
       name: label('Value'),
-      selector: (row, id) => (
-        <span className="whitespace-pre" data-column-id={id} data-tag="allowRowEvents">
+      selector: (row) => truncateValue(row.value),
+      cell: (row) => (
+        <span className="whitespace-pre" data-tag="allowRowEvents">
           {truncateValue(row.value)}
         </span>
       ),
-      omit: true,
     },
     {
       key: 'Check',
       name: label('Check'),
       selector: (row) => row.name,
-      omit: true,
     },
     {
       key: 'Method',
       name: label('Method'),
       selector: (row) => row.name,
-      omit: true,
     },
     {
       key: 'Expected',
       name: label('Expected'),
-      selector: (row, id) => (
-        <div className="py-1 px-0 whitespace-normal" data-column-id={id} data-tag="allowRowEvents">
+      selector: (row) => row.expected,
+      cell: (row) => (
+        <div className="py-1 px-0 whitespace-normal" data-tag="allowRowEvents">
           {row.expected}
         </div>
       ),
-      omit: true,
     },
     {
       key: 'Actual',
       name: label('Actual'),
-      selector: (row, id) => (
-        <div className="py-1 px-0 whitespace-normal" data-column-id={id} data-tag="allowRowEvents">
+      selector: (row) => row.actual,
+      cell: (row) => (
+        <div className="py-1 px-0 whitespace-normal" data-tag="allowRowEvents">
           {row.actual}
         </div>
       ),
-      omit: true,
     },
     {
       key: 'Result',
       name: label('Result'),
       selector: (row) => row.status,
       width: '150px',
-      omit: true,
     },
   ];
 
