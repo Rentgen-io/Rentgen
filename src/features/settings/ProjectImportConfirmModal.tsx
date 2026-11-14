@@ -46,7 +46,7 @@ export default function ProjectImportConfirmModal() {
       onConfirm={() => {
         dispatch(collectionActions.setCollection(data.collection));
         dispatch(environmentActions.setEnvironments(data.environments));
-        dispatch(environmentActions.replaceDynamicVariables(data.dynamicVariables));
+        dispatch(environmentActions.setDynamicVariables(data.dynamicVariables));
         dispatch(historyActions.setEntries(data.history as HistoryEntry[]));
         dispatch(settingsActions.replaceSettings(data.settings as unknown as SettingsState));
         dispatch(mappingsActions.replaceMappings(data.mappings ? (data.mappings as MappingsState) : {}));
@@ -60,18 +60,18 @@ export default function ProjectImportConfirmModal() {
       }}
     >
       <>
-        <div className="flex flex-col gap-2 text-xs text-text-secondary dark:text-dark-text-secondary">
+        <div className="flex flex-col gap-2 text-xs text-muted-foreground">
           <div className="flex justify-between">
             <span>{t('modals.projectImport.file')}</span>
-            <span className="text-text dark:text-dark-text font-medium">{fileName}</span>
+            <span className="text-foreground font-medium">{fileName}</span>
           </div>
           <div className="flex justify-between">
             <span>{t('modals.projectImport.exported')}</span>
-            <span className="text-text dark:text-dark-text">{formatDate(meta.exportedAt)}</span>
+            <span className="text-foreground">{formatDate(meta.exportedAt)}</span>
           </div>
           <div className="flex justify-between">
             <span>{t('modals.projectImport.appVersion')}</span>
-            <span className="text-text dark:text-dark-text">{meta.appVersion}</span>
+            <span className="text-foreground">{meta.appVersion}</span>
           </div>
           <div className="flex justify-between">
             <span>{t('modals.projectImport.integrity')}</span>
@@ -80,14 +80,14 @@ export default function ProjectImportConfirmModal() {
         </div>
 
         {integrityStatus === 'modified' && (
-          <div className="p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
+          <div className="p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded">
             <p className="m-0 text-xs text-yellow-700 dark:text-yellow-400">
               {t('modals.projectImport.integrityWarning')}
             </p>
           </div>
         )}
 
-        <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+        <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded">
           <p className="m-0 text-xs text-red-700 dark:text-red-400 font-medium mb-2">
             {t('modals.projectImport.overwriteWarning')}
           </p>
@@ -105,9 +105,7 @@ export default function ProjectImportConfirmModal() {
         </div>
 
         <div className="flex items-center gap-4">
-          <span className="text-xs text-text-secondary dark:text-dark-text-secondary">
-            {t('modals.projectImport.backupBefore')}
-          </span>
+          <span className="text-xs text-muted-foreground">{t('modals.projectImport.backupBefore')}</span>
           <Button
             buttonType={ButtonType.SECONDARY}
             buttonSize={ButtonSize.SMALL}

@@ -10,6 +10,6 @@ export default function IntegrityBadge({ status }: { status: IntegrityStatus }) 
     case 'modified':
       return <span className="text-yellow-600 dark:text-yellow-400 text-xs font-medium">{t('badges.modified')}</span>;
     case 'missing':
-      return <span className="text-text-secondary text-xs font-medium">{t('badges.noChecksum')}</span>;
+      return <span className="text-muted-foreground text-xs font-medium">{t('badges.noChecksum')}</span>;
   }
 }

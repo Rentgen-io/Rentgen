@@ -4,11 +4,12 @@ import { useState } from 'react';
 
 interface Props {
   className?: string;
+  defaultExpanded?: number;
   items: IAccordionItem[];
 }
 
-export function Accordion({ className, items }: Props) {
-  const [expandedIndex, setExpandedIndex] = useState<number>(0);
+export function Accordion({ className, defaultExpanded, items }: Props) {
+  const [expandedIndex, setExpandedIndex] = useState<number>(defaultExpanded ?? 0);
 
   if (items.length === 0) return null;
 

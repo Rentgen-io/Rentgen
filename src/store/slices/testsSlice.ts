@@ -75,6 +75,11 @@ export const testsSlice = createSlice({
       state.resultsToCompare.push(action.payload);
       state.isComparing = state.resultsToCompare.length >= 2;
     },
+    cancelAllTests: (state) => {
+      state.isDataDrivenRunning = false;
+      state.isPerformanceRunning = false;
+      state.isSecurityRunning = false;
+    },
     clearResultsToCompare: (state) => {
       state.compareResponse = null;
       state.isComparing = false;

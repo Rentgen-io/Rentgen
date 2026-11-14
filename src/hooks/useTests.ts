@@ -30,18 +30,20 @@ import {
 } from 'src/store/selectors';
 import { testsActions } from 'src/store/slices/testsSlice';
 import {
+  AiTests,
+  cancelAllAiTests,
   cancelLargePayloadTest,
   cancelLoadTest,
   DataDrivenTests,
   generateDynamicTestData,
   LOAD_TEST_EXPECTED,
   PerformanceInsights,
+  runAiTest,
   runDataDrivenTests,
   runLargePayloadTest,
   runLoadTest,
   SecurityTests,
 } from 'src/test-engine';
-import { AiTests, cancelAllAiTests, runAiTest } from 'src/test-engine/AiTests';
 import { getTestCount } from 'src/test-engine/decorators';
 import { ParameterValue, TestOptions, TestResult } from 'src/types';
 
@@ -113,21 +115,25 @@ const useTests = () => {
     aiTestsInstance?.abort();
   }, []);
 
-  const cancelAllTests = useCallback(() => {
-    abortAiTests = true;
-    abortAllTests = true;
+  const cancelAllTests = useCallback(
+    (reset = true) => {
+      abortAiTests = true;
+      abortAllTests = true;
 
-    aiTestsInstance?.abort();
-    dataDrivenTestsInstance?.abort();
-    performanceInsightsInstance?.abort();
-    securityTestsInstance?.abort();
+      aiTestsInstance?.abort();
+      dataDrivenTestsInstance?.abort();
+      performanceInsightsInstance?.abort();
+      securityTestsInstance?.abort();
 
-    cancelAllAiTests();
-    cancelLargePayloadTest();
-    cancelLoadTest();
+      cancelAllAiTests();
+      cancelLargePayloadTest();
+      cancelLoadTest();
 
-    dispatch(testsActions.resetTests());
-  }, [dispatch]);
+      if (reset) dispatch(testsActions.resetTests());
+      else dispatch(testsActions.cancelAllTests());
+    },
+    [dispatch],
+  );
 
   const executeAiTest = useCallback(
     async (name: string) => {
@@ -377,7 +383,7 @@ const useTests = () => {
       const dataDrivenTests = await executeDataDrivenTests(options, !abortAllTests);
       const performanceTests = await executePerformanceTests(options, dataDrivenTests, !abortAllTests);
 
-      if (!abortAllTests && selectedRequestId)
+      if (selectedRequestId)
         dispatch(
           testsActions.addResults({
             requestId: selectedRequestId,

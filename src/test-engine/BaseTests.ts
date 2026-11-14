@@ -62,7 +62,15 @@ export function createErrorTestResult(
   request: HttpRequest | null = null,
   value: any = undefined,
 ): TestResult {
-  return createTestResult(name, expected, `Unexpected Error: ${actual}`, TestStatus.Bug, request, null, value);
+  let message = `Unexpected Error: ${actual}`;
+  let status = TestStatus.Bug;
+
+  if (actual.toLowerCase().includes('aborterror')) {
+    message = 'Aborted by User';
+    status = TestStatus.Warning;
+  }
+
+  return createTestResult(name, expected, message, status, request, null, value);
 }
 
 export function determineTestStatus(
@@ -82,7 +90,11 @@ export function determineTestStatus(
 
 export function getTestsStatistics(tests: TestResult[], disabledTests?: string[]) {
   return tests.reduce(
-    (acc, { name, status }) => {
+    (acc, test) => {
+      if (!test) return acc;
+
+      const { name, status } = test;
+
       switch (status) {
         case TestStatus.Bug:
           if (!disabledTests?.includes(name)) acc.bugs += 1;
@@ -106,6 +118,6 @@ export function getTestsStatistics(tests: TestResult[], disabledTests?: string[]
       }
       return acc;
     },
-    { bugs: 0, failed: 0, info: 0, manual: 0, passed: 0, warnings: 0 },
+    { bugs: 0, failed: 0, ignored: disabledTests?.length ?? 0, info: 0, manual: 0, passed: 0, warnings: 0 },
   );
 }

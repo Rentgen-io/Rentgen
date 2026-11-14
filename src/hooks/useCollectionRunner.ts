@@ -7,9 +7,12 @@ import {
   selectDynamicVariables,
   selectMappings,
   selectSelectedEnvironment,
+  selectSelectedRequestId,
 } from 'src/store/selectors';
 import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
 import { environmentActions } from 'src/store/slices/environmentSlice';
+import { requestActions } from 'src/store/slices/requestSlice';
+import { responseActions } from 'src/store/slices/responseSlice';
 import { DynamicVariable, PostmanItem } from 'src/types';
 import {
   applyMapping,
@@ -33,9 +36,10 @@ export function useCollectionRunner() {
   const dispatch = useAppDispatch();
 
   const collection = useAppSelector(selectCollectionData);
-  const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
-  const mappings = useAppSelector(selectMappings);
   const dynamicVariables = useAppSelector(selectDynamicVariables);
+  const mappings = useAppSelector(selectMappings);
+  const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
+  const selectedRequestId = useAppSelector(selectSelectedRequestId);
 
   const dynamicVariablesRef = useRef<DynamicVariable[]>(dynamicVariables);
   dynamicVariablesRef.current = dynamicVariables;
@@ -97,6 +101,12 @@ export function useCollectionRunner() {
           );
         }
 
+        if (selectedRequestId === item.id) {
+          dispatch(responseActions.setResponse(response));
+          dispatch(requestActions.setBodyParameters(bodyParameters));
+          dispatch(requestActions.setQueryParameters(queryParameters));
+        }
+
         dispatch(
           collectionRunActions.addResult({
             requestId: item.id,
@@ -135,7 +145,7 @@ export function useCollectionRunner() {
         if (activeControllers.get(item.id) === controller) activeControllers.delete(item.id);
       }
     },
-    [mappings, selectedEnvironment, dispatch],
+    [mappings, selectedEnvironment, selectedRequestId, dispatch],
   );
 
   const runFolder = useCallback(
@@ -175,7 +185,7 @@ export function useCollectionRunner() {
       await executeRequest(item);
       dispatch(collectionRunActions.finishRequestRun(item.id));
     },
-    [collection, mappings, selectedEnvironment, dispatch],
+    [collection, mappings, selectedEnvironment, selectedRequestId, dispatch],
   );
 
   return { cancelFolderRun, cancelRequestRun, runFolder, runRequest };

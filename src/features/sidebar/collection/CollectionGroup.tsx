@@ -119,9 +119,9 @@ export default function CollectionGroup({
         <div
           className={cn(
             'relative h-9 flex items-center gap-2 px-3 py-1.5',
-            'hover:bg-button-secondary dark:hover:bg-dark-input box-border group cursor-pointer outline-none',
+            'hover:bg-muted box-border group cursor-pointer outline-none',
             {
-              'bg-button-secondary dark:bg-dark-input': isSelected,
+              'bg-muted': isSelected,
             },
           )}
           onClick={handleClick}
@@ -129,17 +129,17 @@ export default function CollectionGroup({
           {...listeners}
         >
           <ChevronIcon
-            className={cn('h-4 w-4 text-text-secondary', {
+            className={cn('size-4 shrink-0 text-muted-foreground', {
               'rotate-90': isExpanded,
             })}
           />
           {statusClassName && <span className={cn('w-2 h-2 rounded-full shrink-0', statusClassName)} />}
-          <FolderIcon className="h-4 w-4 text-text-secondary" />
+          <FolderIcon className="size-4 shrink-0" />
 
           {isEditing ? (
             <input
               autoFocus
-              className="flex-1 py-px px-1 text-xs leading-none bg-transparent border border-border dark:border-dark-input dark:text-dark-text outline-none"
+              className="flex-1 py-px px-1 text-xs leading-none bg-transparent text-foreground border border-blue-300 outline-none"
               value={editingName}
               type="text"
               onBlur={() => !isOpen && onSaveEdit(folder.id, editingName)}
@@ -159,33 +159,31 @@ export default function CollectionGroup({
             </span>
           )}
 
-          <span className={cn('text-xs text-text-secondary', { 'flex-auto text-right': !isEditing })}>
+          <span className={cn('text-xs text-muted-foreground', { 'flex-auto text-right': !isEditing })}>
             {folder.items.length}
           </span>
 
           {!isEditing && (
-            <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100">
+            <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-muted opacity-0 group-hover:opacity-100">
               {folder.items.length > 0 &&
                 !isOtherFolderRunning &&
                 (isThisFolderRunning ? (
                   <StopIcon
-                    className="h-4 w-4 text-red-500 hover:text-red-600 cursor-pointer"
+                    className="size-4 text-red-500 hover:text-red-600 cursor-pointer"
                     onClick={handlePlayClick}
                   />
                 ) : (
                   <PlayIcon
-                    className="h-4 w-4 text-green-500 hover:text-green-600 cursor-pointer"
+                    className="size-4 text-green-500 hover:text-green-600 cursor-pointer"
                     onClick={handlePlayClick}
                   />
                 ))}
-
               <EditIcon
-                className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-primary cursor-pointer"
+                className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
                 onClick={handleEditClick}
               />
-
               <TrashIcon
-                className="h-3 w-3 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+                className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
                 onClick={handleDeleteClick}
               />
             </div>

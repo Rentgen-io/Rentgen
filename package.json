@@ -100,6 +100,7 @@
     "react-tabs": "^6.1.1",
     "react-textarea-autosize": "^8.5.9",
     "react-toastify": "^11.1.0",
+    "react-tooltip": "^6.0.10",
     "reflect-metadata": "^0.2.2",
     "tailwind-merge": "^3.7.0",
     "tailwindcss": "^4.3.3",

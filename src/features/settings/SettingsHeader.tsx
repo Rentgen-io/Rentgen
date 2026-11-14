@@ -8,10 +8,7 @@ export default function SettingsHeader({
 }: HTMLAttributes<HTMLHeadingElement> & PropsWithChildren) {
   return (
     <h5
-      className={cn(
-        'flex items-center justify-between gap-4 m-0 pb-1.5 border-b border-b-border dark:border-b-dark-border',
-        className,
-      )}
+      className={cn('flex items-center justify-between gap-4 m-0 pb-1.5 border-b border-b-border', className)}
       {...otherProps}
     >
       {children}

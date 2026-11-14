@@ -140,60 +140,58 @@ export default function SetAsDynamicVariableModal() {
     <ConfirmationModal
       className="[&>div]:w-150!"
       confirmText={duplicateToOverwrite ? t('common.overwrite') : t('common.save')}
-      title={t('modals.setDynamicVariable.title')}
-      isOpen={modalState.isOpen}
       confirmType={ButtonType.PRIMARY}
+      isOpen={modalState.isOpen}
+      title={t('modals.setDynamicVariable.title')}
       onClose={() => dispatch(modalsActions.closeSetAsDynamicVariableModal())}
       onConfirm={onConfirm}
     >
-      <>
-        <div className="flex flex-col gap-2">
-          <FieldLabel label={t('modals.setDynamicVariable.variableName')} required />
-          <Input
-            placeholder={t('modals.setDynamicVariable.variableNamePlaceholder')}
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              setDuplicateToOverwrite(null);
-            }}
-            autoFocus
-          />
-        </div>
+      <div className="flex flex-col gap-2">
+        <FieldLabel label={t('modals.setDynamicVariable.variableName')} required />
+        <Input
+          placeholder={t('modals.setDynamicVariable.variableNamePlaceholder')}
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+            setDuplicateToOverwrite(null);
+          }}
+          autoFocus
+        />
+      </div>
 
-        <div className="flex flex-col gap-2">
-          <FieldLabel label={t('modals.setDynamicVariable.preview')} />
-          <div className="px-3 py-2 bg-body dark:bg-dark-body text-xs text-text-secondary dark:text-dark-text-secondary truncate">
-            {modalState.initialValue}
-          </div>
+      <div className="flex flex-col gap-2">
+        <FieldLabel label={t('modals.setDynamicVariable.preview')} />
+        <div className="px-3 py-2 bg-surface text-xs text-muted-foreground rounded truncate">
+          {modalState.initialValue}
         </div>
+      </div>
 
-        <div className="flex flex-col gap-2">
-          <FieldLabel label={t('modals.setDynamicVariable.environment')} required />
-          <Select
-            options={environmentOptions}
-            placeholder={t('modals.setDynamicVariable.selectEnvironment')}
-            value={selectedEnvironment}
-            onChange={(option) => {
-              setSelectedEnvironment(option);
-              setDuplicateToOverwrite(null);
-            }}
-          />
+      <div className="flex flex-col gap-2">
+        <FieldLabel label={t('modals.setDynamicVariable.environment')} required />
+        <Select
+          options={environmentOptions}
+          placeholder={t('modals.setDynamicVariable.selectEnvironment')}
+          value={selectedEnvironment}
+          onChange={(option) => {
+            setSelectedEnvironment(option);
+            setDuplicateToOverwrite(null);
+          }}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <FieldLabel label={t('modals.setDynamicVariable.linkedRequest')} />
+        <div className="flex gap-2 px-3 py-2 bg-surface text-xs text-muted-foreground rounded">
+          <span>📁</span>
+          {modalState.collectionName} → {modalState.requestName}
         </div>
+      </div>
 
-        <div className="flex flex-col gap-2">
-          <FieldLabel label={t('modals.setDynamicVariable.linkedRequest')} />
-          <div className="flex gap-2 px-3 py-2 bg-body dark:bg-dark-body text-xs text-text-secondary dark:text-dark-text-secondary">
-            <span>📁</span>
-            {modalState.collectionName} → {modalState.requestName}
-          </div>
-        </div>
-
-        {duplicateToOverwrite && (
-          <p className="text-xs text-yellow-600 dark:text-yellow-400 m-0">
-            {t('modals.setDynamicVariable.duplicateWarning')}
-          </p>
-        )}
-      </>
+      {duplicateToOverwrite && (
+        <p className="text-xs text-yellow-600 dark:text-yellow-400 m-0">
+          {t('modals.setDynamicVariable.duplicateWarning')}
+        </p>
+      )}
     </ConfirmationModal>
   );
 }

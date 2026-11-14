@@ -6,6 +6,7 @@ export * from 'shared/types/ipc';
 export * from 'shared/types/mappings';
 export * from 'shared/types/openapi';
 export * from 'shared/types/postman';
+export * from 'shared/types/pre-evaluation';
 export * from 'shared/types/project';
 export * from 'shared/types/settings';
 export * from 'shared/types/testing';

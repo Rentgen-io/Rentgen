@@ -7,6 +7,7 @@ import {
   PostmanHeader,
   PostmanItem,
   PostmanRequest,
+  PreEvaluation,
 } from 'src/types';
 
 export { createEmptyCollection, generateFolderId, generateHistoryId, generateRequestId } from 'shared/utils/collection';
@@ -31,9 +32,8 @@ export function headersToPostmanFormat(headers: Record<string, string>): Postman
 
 export function postmanHeadersToRecord(headers: PostmanHeader[]): Record<string, string> {
   const result: Record<string, string> = {};
-  for (const h of headers) {
-    result[h.key] = h.value;
-  }
+  for (const header of headers) result[header.key] = header.value;
+
   return result;
 }
 
@@ -48,6 +48,7 @@ export function requestToPostmanItem(
   url: string,
   headers: Record<string, string>,
   body: string | null,
+  preEvaluation: PreEvaluation | null,
 ): PostmanItem {
   const request: PostmanRequest = {
     method: method.toUpperCase(),
@@ -66,6 +67,7 @@ export function requestToPostmanItem(
     id: generateRequestId(),
     name: url,
     request,
+    ...(preEvaluation !== null && { preEvaluation }),
   };
 }
 
@@ -75,6 +77,7 @@ export function addRequestToCollection(
   url: string,
   headers: Record<string, string>,
   body: string | null,
+  preEvaluation: PreEvaluation | null,
   folderId: string = DEFAULT_FOLDER_ID,
 ): PostmanCollection {
   // Find or create folder
@@ -88,9 +91,7 @@ export function addRequestToCollection(
     collection.item.push(folder);
   }
 
-  const newItem = requestToPostmanItem(method, url, headers, body);
-  folder.item.unshift(newItem);
-
+  folder.item.unshift(requestToPostmanItem(method, url, headers, body, preEvaluation));
   return { ...collection };
 }
 
@@ -101,6 +102,7 @@ export function updateRequestInCollection(
   url: string,
   headers: Record<string, string>,
   body: string | null,
+  preEvaluation: PreEvaluation | null,
 ): PostmanCollection {
   const updatedCollection = { ...collection, item: [...collection.item] };
 
@@ -130,7 +132,9 @@ export function updateRequestInCollection(
       updatedCollection.item[i].item[itemIndex] = {
         ...folder.item[itemIndex],
         request,
+        ...(preEvaluation !== null && { preEvaluation }),
       };
+
       return updatedCollection;
     }
   }
@@ -250,10 +254,13 @@ export function addFolderToCollection(collection: PostmanCollection, name: strin
 }
 
 /**
- * Builds a folder name that does not collide with existing folders by appending a counter
+ * Builds a folder name that does not collide with existing folders by appending a counter.
+ * `ignoreFolderId` excludes a folder from the check, e.g. the one being renamed.
  */
-export function uniqueFolderName(collection: PostmanCollection, name: string): string {
-  const existingNames = new Set(collection.item.map((folder) => folder.name));
+export function uniqueFolderName(collection: PostmanCollection, name: string, ignoreFolderId?: string): string {
+  const existingNames = new Set(
+    collection.item.filter((folder) => folder.id !== ignoreFolderId).map((folder) => folder.name),
+  );
   if (!existingNames.has(name)) return name;
 
   let counter = 2;
@@ -328,7 +335,13 @@ export function moveRequestToFolder(
     }
   }
 
-  if (!movedItem || !sourceFolderId || sourceFolderId === targetFolderId) {
+  // Without an existing target folder the request would be removed and never re-inserted
+  if (
+    !movedItem ||
+    !sourceFolderId ||
+    sourceFolderId === targetFolderId ||
+    !collection.item.some((folder) => folder.id === targetFolderId)
+  ) {
     return collection;
   }
 
@@ -494,9 +507,7 @@ export function countMergeAdditions(
             (existing.request.url === request.request.url && existing.request.method === request.request.method) ||
             existing.name === request.name,
         );
-        if (!isDuplicate) {
-          newRequests++;
-        }
+        if (!isDuplicate) newRequests++;
       }
     }
   }

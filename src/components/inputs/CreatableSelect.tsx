@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Select, { SelectOption, Props as SelectProps, mergeClassNames } from './Select';
 
-interface Props<T> extends Omit<SelectProps<T, false>, 'isCreatable' | 'value'> {
-  value?: SelectOption<T>;
+interface Props<T> extends Omit<SelectProps<T, false, string>, 'isCreatable' | 'value'> {
+  value?: SelectOption<T, string>;
 }
 
 export function CreatableSelect<T>({
@@ -19,7 +19,7 @@ export function CreatableSelect<T>({
   const [inputValue, setInputValue] = useState<string>(value?.label ?? '');
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
 
-  const selectOptions = useMemo<SelectOption<T>[]>(() => {
+  const selectOptions = useMemo<SelectOption<T, string>[]>(() => {
     const presetValues = new Set(options?.map((option) => option.value));
     const customValues = [...new Set([...customOptions, value?.value])].filter(
       (customValue): customValue is T => !!customValue && !presetValues.has(customValue),
@@ -53,9 +53,9 @@ export function CreatableSelect<T>({
   }, [value?.value]);
 
   return (
-    <Select
+    <Select<T, false, string>
       {...otherProps}
-      classNames={mergeClassNames<T, false>(
+      classNames={mergeClassNames<T, false, string>(
         {
           input: () => 'grid-cols-[0_minmax(0,1fr)]! [&>*]:opacity-100!',
           valueContainer: () => 'grid-cols-[minmax(0,1fr)]!',

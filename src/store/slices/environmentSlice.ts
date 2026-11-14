@@ -89,11 +89,11 @@ export const environmentSlice = createSlice({
         state.environments.splice(newIndex, 0, moved);
       }
     },
-    replaceDynamicVariables: (state, action: PayloadAction<DynamicVariable[]>) => {
-      state.dynamicVariables = action.payload;
-    },
     selectEnvironment: (state, action: PayloadAction<string | null>) => {
       state.selectedEnvironmentId = action.payload;
+    },
+    setDynamicVariables: (state, action: PayloadAction<DynamicVariable[]>) => {
+      state.dynamicVariables = action.payload;
     },
     setEnvironments: (state, action: PayloadAction<Environment[]>) => {
       state.environments = action.payload;

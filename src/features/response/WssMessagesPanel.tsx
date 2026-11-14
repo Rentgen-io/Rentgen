@@ -11,17 +11,14 @@ export default function WssMessagesPanel() {
   if (messages.length === 0) return null;
 
   return (
-    <Panel title={t('messages.title')}>
-      <div className="max-h-100 p-4 text-xs border-t border-border dark:border-dark-body overflow-y-auto">
+    <Panel className="flex flex-col flex-auto h-0 overflow-hidden" title={t('messages.title')}>
+      <div className="py-3 px-4 text-xs border-t border-border overflow-y-auto">
         {messages.map(({ data, direction }, index) => (
-          <div
-            key={index}
-            className="not-first:pt-2 not-last:pb-2 border-b last:border-none border-border dark:border-dark-body"
-          >
+          <div key={index} className="not-first:pt-2 not-last:pb-2 border-b last:border-none border-border">
             <div className="flex items-center gap-4">
               {direction !== 'system' && (
                 <span
-                  className={cn('h-5 w-5 font-bold text-center leading-normal rotate-90', {
+                  className={cn('size-5 font-medium text-center leading-normal rotate-90', {
                     'text-method-post bg-method-post/10': direction === 'sent',
                     'text-method-put bg-method-put/10': direction === 'received',
                   })}

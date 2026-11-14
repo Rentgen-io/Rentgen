@@ -23,19 +23,19 @@ export function AiLicenseSettings() {
   return (
     <div className="flex flex-col gap-4">
       <SettingsHeader>{t('settings.ai.unlockTitle')}</SettingsHeader>
-      <p className="m-0 text-xs text-text-secondary">
+      <p className="m-0 text-xs text-muted-foreground">
         {t('settings.ai.unlockDescription')}
         {!license.trialUsed ? ` ${t('settings.ai.tryFree')}` : ''}
       </p>
-      <div className="md:flex border border-border dark:border-dark-border divide-y md:divide-y-0 md:divide-x divide-border dark:divide-dark-border overflow-hidden">
-        <div className="flex-1 flex flex-col gap-4 p-4">
+      <div className="md:flex divide-y md:divide-y-0 md:divide-x divide-border">
+        <div className="flex-1 flex flex-col gap-4 pb-4 md:pb-0 md:pr-4">
           <label className="text-lg font-bold">Rentgen Pro</label>
           <div className="flex flex-col gap-2">
             <span className="text-2xl font-bold">
               ${RENTGEN_LICENSE_MONTHLY_PRICE}
-              <span className="font-normal text-text-secondary lowercase">/{t('settings.ai.month')}</span>
+              <span className="font-normal text-muted-foreground lowercase">/{t('settings.ai.month')}</span>
             </span>
-            <span className="text-xs text-text-secondary">
+            <span className="text-xs text-muted-foreground">
               {t('settings.ai.billedAnnually', { price: RENTGEN_LICENSE_ANNUAL_PRICE })}
             </span>
           </div>
@@ -56,12 +56,12 @@ export function AiLicenseSettings() {
           >
             {t('settings.ai.buyPro', { price: RENTGEN_LICENSE_MONTHLY_PRICE })}
           </Button>
-          <span className="text-xs text-text-secondary">
+          <span className="text-xs text-muted-foreground">
             {t('settings.ai.oneAnnualPayment', { price: RENTGEN_LICENSE_ANNUAL_PRICE })}
           </span>
         </div>
-        <div className="flex-1 flex flex-col justify-center gap-4 p-4">
-          <label className="text-sm font-bold">{t('settings.ai.alreadyHaveLicenseKey')}</label>
+        <div className="flex-1 flex flex-col justify-center gap-4 pt-4 md:pt-0 md:pl-4">
+          <label className="text-sm font-medium">{t('settings.ai.alreadyHaveLicenseKey')}</label>
           <div className="flex flex-col flex-auto gap-2">
             <FieldLabel label={t('settings.ai.licenseKey')} required />
             <Textarea className="flex-auto" onChange={(e) => setLicenseKey(e.target.value)} />

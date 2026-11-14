@@ -19,7 +19,7 @@ export default function SearchHighlighter({ text, term }: Props) {
   return (
     <>
       {before}
-      <mark className="bg-yellow-200/50 dark:bg-yellow-500/30 text-inherit">{match}</mark>
+      <span className="font-bold">{match}</span>
       {after}
     </>
   );

@@ -56,65 +56,66 @@ export function GeneralSettings() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <SettingsHeader>
-        <span>{t('settings.history.title')}</span>
-        <span className="font-normal text-xs text-text-secondary">
-          {historyEnabled ? t('common.enabled') : t('common.disabled')}
-        </span>
-      </SettingsHeader>
-      <p className="m-0 text-xs text-text-secondary">{t('settings.history.description')}</p>
-
-      <div className="flex flex-col border border-border dark:border-dark-border divide-y divide-border dark:divide-dark-border overflow-hidden">
-        <Toggle
-          className="p-3 text-xs justify-between hover:bg-button-secondary dark:hover:bg-dark-input"
-          label={<span className={cn({ 'opacity-50': !historyEnabled })}>{t('settings.history.enableHistory')}</span>}
-          checked={historyEnabled}
-          onChange={(e) => dispatch(settingsActions.setHistoryEnabled(e.target.checked))}
-        />
-
-        <div className="flex items-center justify-between py-1.75 px-3">
-          <span className={cn({ 'opacity-50': !historyEnabled }, 'text-xs')}>{t('settings.history.maximumSize')}</span>
-          <Input
-            type="number"
-            className="w-38 py-1.5"
-            min={1}
-            max={10000}
-            value={historySize}
-            disabled={!historyEnabled}
-            onChange={(e) => {
-              const value = parseInt(e.target.value, 10);
-              if (!isNaN(value)) dispatch(settingsActions.setHistorySize(value));
-            }}
-          />
-        </div>
-
-        <div className="flex items-center justify-between py-1.75 px-3">
-          <span className={cn({ 'opacity-50': !historyEnabled }, 'text-xs')}>
-            {t('settings.history.retentionPeriod')}
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-4">
+        <SettingsHeader>
+          <span>{t('settings.history.title')}</span>
+          <span className="font-normal text-xs text-muted-foreground">
+            {historyEnabled ? t('common.enabled') : t('common.disabled')}
           </span>
-          <SimpleSelect
-            className="w-38 py-1.25"
-            options={retentionOptions}
-            value={historyRetention}
-            disabled={!historyEnabled}
-            onChange={(e) => dispatch(settingsActions.setHistoryRetention(e.target.value as HistoryRetention))}
+        </SettingsHeader>
+        <p className="m-0 text-xs text-muted-foreground">{t('settings.history.description')}</p>
+        <div className="flex flex-col divide-y divide-border">
+          <Toggle
+            className="py-3 text-xs justify-between"
+            label={<span className={cn({ 'opacity-50': !historyEnabled })}>{t('settings.history.enableHistory')}</span>}
+            checked={historyEnabled}
+            onChange={(e) => dispatch(settingsActions.setHistoryEnabled(e.target.checked))}
           />
+          <div className="flex items-center justify-between py-1.75">
+            <span className={cn({ 'opacity-50': !historyEnabled }, 'text-xs')}>
+              {t('settings.history.maximumSize')}
+            </span>
+            <Input
+              type="number"
+              className="w-38 py-1.5"
+              min={1}
+              max={10000}
+              value={historySize}
+              disabled={!historyEnabled}
+              onChange={(e) => {
+                const value = parseInt(e.target.value, 10);
+                if (!isNaN(value)) dispatch(settingsActions.setHistorySize(value));
+              }}
+            />
+          </div>
+          <div className="flex items-center justify-between py-1.75">
+            <span className={cn({ 'opacity-50': !historyEnabled }, 'text-xs')}>
+              {t('settings.history.retentionPeriod')}
+            </span>
+            <SimpleSelect
+              className="w-38 py-1.25"
+              options={retentionOptions}
+              value={historyRetention}
+              disabled={!historyEnabled}
+              onChange={(e) => dispatch(settingsActions.setHistoryRetention(e.target.value as HistoryRetention))}
+            />
+          </div>
         </div>
       </div>
-
-      <SettingsHeader className="mt-4">
-        <span>{t('settings.project.title')}</span>
-      </SettingsHeader>
-      <p className="m-0 text-xs text-text-secondary">{t('settings.project.description')}</p>
-
-      <div className="flex flex-col sm:flex-row gap-2">
-        <Button buttonType={ButtonType.PRIMARY} className="flex-1" onClick={handleExportProject}>
-          {t('settings.project.exportProject')}
-        </Button>
-        <Button buttonType={ButtonType.SECONDARY} className="flex-1" onClick={handleImportProject}>
-          {t('settings.project.importProject')}
-        </Button>
+      <div className="flex flex-col gap-4">
+        <SettingsHeader>
+          <span>{t('settings.project.title')}</span>
+        </SettingsHeader>
+        <p className="m-0 text-xs text-muted-foreground">{t('settings.project.description')}</p>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button buttonType={ButtonType.PRIMARY} className="flex-1" onClick={handleExportProject}>
+            {t('settings.project.exportProject')}
+          </Button>
+          <Button buttonType={ButtonType.SECONDARY} className="flex-1" onClick={handleImportProject}>
+            {t('settings.project.importProject')}
+          </Button>
+        </div>
       </div>
     </div>
   );

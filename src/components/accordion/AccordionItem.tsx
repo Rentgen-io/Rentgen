@@ -5,8 +5,8 @@ import { twMerge } from 'tailwind-merge';
 import ChevronIcon from 'src/assets/icons/chevron-icon.svg';
 
 export interface IAccordionItem {
-  title: ReactNode;
   content: ReactNode;
+  title: ReactNode;
 }
 
 interface Props extends IAccordionItem {
@@ -48,7 +48,7 @@ export function AccordionItem({ className, content, defaultExpanded = false, exp
         {title}
         <ChevronIcon
           aria-hidden
-          className={cn('h-5 w-5 absolute right-2.5 top-1/2 -translate-y-1/2 transition-transform', {
+          className={cn('size-5 absolute right-2.5 top-1/2 -translate-y-1/2', {
             'rotate-90': isExpanded,
           })}
         />

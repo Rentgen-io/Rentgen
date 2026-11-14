@@ -12,7 +12,7 @@ export const rentgenDarkTheme: editor.IStandaloneThemeData = {
   inherit: true,
   rules: [],
   colors: {
-    'editor.background': '#343a46',
+    'editor.background': '#212121',
   },
 };
 
@@ -30,7 +30,7 @@ export const rentgenDarkPlaintextTheme: editor.IStandaloneThemeData = {
   inherit: true,
   rules: [],
   colors: {
-    'editor.background': '#343a46',
+    'editor.background': '#212121',
     'editor.foreground': '#ce9178',
   },
 };

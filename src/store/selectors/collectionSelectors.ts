@@ -3,6 +3,7 @@ import { RootState } from 'src/store';
 import { collectionToGroupedSidebarData, findRequestWithFolder } from 'src/utils';
 
 export const selectCollectionData = (state: RootState) => state.collection.data;
+export const selectCollectionLoading = (state: RootState) => state.collection.loading;
 export const selectSelectedFolderId = (state: RootState) => state.collection.selectedFolderId;
 export const selectSelectedRequestId = (state: RootState) => state.collection.selectedRequestId;
 export const selectSelectedRequestWithFolder = createSelector(

@@ -12,15 +12,13 @@ interface Props {
 export default function ContextMenuItem({ label, disabled = false, divider = false, title, onClick }: Props) {
   return (
     <>
-      {divider && <div className="my-1 border-t border-border dark:border-dark-body" />}
+      {divider && <div className="my-1 border-t border-border" />}
       <button
         type="button"
         className={cn(
-          'w-full px-3 py-1.5 text-left text-xs cursor-pointer border-none bg-transparent',
-          'hover:bg-select-hover dark:hover:bg-dark-button-secondary',
-          'text-text dark:text-dark-text',
+          'w-full px-3 py-1.5 text-left text-xs text-foreground hover:bg-secondary-hover border-none bg-transparent cursor-pointer',
           {
-            'opacity-50 cursor-not-allowed hover:bg-transparent dark:hover:bg-transparent': disabled,
+            'opacity-50 hover:bg-transparent cursor-not-allowed': disabled,
           },
         )}
         onClick={(event: MouseEvent) => !disabled && onClick(event)}

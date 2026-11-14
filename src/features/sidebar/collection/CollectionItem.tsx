@@ -14,11 +14,13 @@ import {
   selectCollectionRunResults,
   selectIsComparingTestResults,
   selectIsRequestRunning,
+  selectRequestEvaluationReport,
   selectRequestTestResults,
   selectRunningFolderId,
   selectSelectedRequestId,
 } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
+import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
@@ -47,6 +49,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
   const reset = useReset();
 
   const collection = useAppSelector(selectCollectionData);
+  const evaluationReport = useAppSelector(selectRequestEvaluationReport(item.id));
   const isComparingTestResults = useAppSelector(selectIsComparingTestResults);
   const isRequestRunning = useAppSelector(selectIsRequestRunning(item.id));
   const requestTestResults = useAppSelector(selectRequestTestResults(item.id));
@@ -69,8 +72,13 @@ export default function CollectionItem({ item, searchTerm }: Props) {
   const handleClick = useCallback(
     (id: string) => {
       if (isDragging) return;
-      if (isSelected && isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
-      if (isSelected) return;
+      if (isSelected) {
+        const folderId = findFolderIdByRequestId(collection, id);
+        if (folderId) dispatch(collectionActions.selectFolder(folderId));
+        if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
+
+        return;
+      }
 
       const item = findRequestById(collection, id);
       if (!item) return;
@@ -113,9 +121,21 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       dispatch(requestActions.setHeaders(headersRecordToString(postmanHeadersToRecord(request.header))));
       dispatch(requestActions.setBody(request.body?.raw || ''));
 
+      if (item.preEvaluation) dispatch(preEvaluationActions.setPreEvaluation(item.preEvaluation));
+      if (evaluationReport) dispatch(preEvaluationActions.setEvaluationReport(evaluationReport));
       if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
     },
-    [collection, isComparingTestResults, isDragging, isSelected, requestTestResults, runResult, dispatch, reset],
+    [
+      collection,
+      evaluationReport,
+      isComparingTestResults,
+      isDragging,
+      isSelected,
+      requestTestResults,
+      runResult,
+      dispatch,
+      reset,
+    ],
   );
 
   const handlePlayClick = (event: React.MouseEvent) => {
@@ -140,10 +160,9 @@ export default function CollectionItem({ item, searchTerm }: Props) {
         transition,
       }}
       className={cn(
-        'relative h-9 flex items-center gap-2 px-3 py-1.5',
-        'hover:bg-button-secondary dark:hover:bg-dark-input box-border group cursor-pointer outline-none',
+        'relative h-9 flex items-center gap-2 px-3 py-1.5 hover:bg-muted box-border group cursor-pointer outline-none',
         {
-          'bg-button-secondary dark:bg-dark-input': isSelected,
+          'bg-muted': isSelected,
           'opacity-50 shadow-lg z-50': isDragging,
         },
       )}
@@ -166,7 +185,7 @@ export default function CollectionItem({ item, searchTerm }: Props) {
       {isEditing && (
         <input
           autoFocus
-          className="flex-1 py-px px-1 text-xs leading-none bg-transparent border border-border dark:border-dark-input dark:text-dark-text outline-none"
+          className="flex-1 py-px px-1 text-xs leading-none bg-transparent text-foreground border border-blue-300 outline-none"
           value={editingName}
           type="text"
           onBlur={() => !isOpen && onSaveEdit()}
@@ -186,25 +205,22 @@ export default function CollectionItem({ item, searchTerm }: Props) {
           <span className="flex-1 text-xs truncate" title={item.name}>
             {searchTerm ? <SearchHighlighter text={item.name} term={searchTerm} /> : item.name}
           </span>
-          <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-button-secondary dark:bg-dark-input opacity-0 group-hover:opacity-100">
+          <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-muted opacity-0 group-hover:opacity-100">
             {!runningFolderId &&
               (isRequestRunning ? (
-                <StopIcon
-                  className="h-4 w-4 text-red-500 hover:text-red-600 cursor-pointer"
-                  onClick={handlePlayClick}
-                />
+                <StopIcon className="size-4 text-red-500 hover:text-red-600 cursor-pointer" onClick={handlePlayClick} />
               ) : (
                 <PlayIcon
-                  className="h-4 w-4 text-green-500 hover:text-green-600 cursor-pointer"
+                  className="size-4 text-green-500 hover:text-green-600 cursor-pointer"
                   onClick={handlePlayClick}
                 />
               ))}
             <EditIcon
-              className="h-4 w-4 text-button-text-secondary dark:text-text-secondary hover:text-button-primary cursor-pointer"
+              className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
               onClick={() => setIsEditing(true)}
             />
             <TrashIcon
-              className="h-3 w-3 text-button-text-secondary dark:text-text-secondary hover:text-button-danger cursor-pointer"
+              className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
               onClick={(event: MouseEvent) => {
                 event.stopPropagation();
                 dispatch(collectionActions.removeRequest(item.id));

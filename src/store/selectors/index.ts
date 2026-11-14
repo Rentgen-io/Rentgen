@@ -4,6 +4,7 @@ export * from './environmentSelectors';
 export * from './historySelectors';
 export * from './mappingsSelectors';
 export * from './modalsSelectors';
+export * from './preEvaluationSelectors';
 export * from './requestSelectors';
 export * from './responseSelectors';
 export * from './settingsSelectors';
