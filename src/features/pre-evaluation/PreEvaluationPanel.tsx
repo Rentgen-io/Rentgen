@@ -23,6 +23,7 @@ import {
   selectIsPreEvaluationRunning,
   selectPreEvaluation,
   selectPreEvaluationDisabled,
+  selectPreEvaluationError,
   selectPreEvaluationTotalRuns,
   selectPromptPathOptions,
   selectSelectedRequestId,
@@ -50,12 +51,14 @@ const modeOptions: RadioOption<MatchMode>[] = [
 export default function PreEvaluationPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
   const disabled = useAppSelector(selectPreEvaluationDisabled);
   const evaluationReport = useAppSelector(selectEvaluationReport);
   const isRunningPreEvaluation = useAppSelector(selectIsPreEvaluationRunning);
   const preEvaluation = useAppSelector(selectPreEvaluation) ?? DEFAULT_PRE_EVALUATION;
   const promptPathOptions = useAppSelector(selectPromptPathOptions);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
+  const validationError = useAppSelector(selectPreEvaluationError);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [iterations, setIterations] = useState<string>(String(preEvaluation.iterations));
@@ -266,6 +269,9 @@ export default function PreEvaluationPanel() {
           data={preEvaluation.questions}
           noDataComponent={<div className="p-4">{renderAddButton(ButtonType.SECONDARY_OUTLINE)}</div>}
         />
+        {validationError && (
+          <p className="m-0 text-xs text-muted-foreground">{t(validationError.key, validationError.values)}</p>
+        )}
         {!isRunningPreEvaluation ? (
           <Button
             className="inline-flex items-center gap-2 @xl:w-fit truncate"

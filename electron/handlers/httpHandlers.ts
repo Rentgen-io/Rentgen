@@ -50,10 +50,25 @@ function decodeToText(data: unknown): string | null {
   return null;
 }
 
+function parseJsonOrText(text: string): ResponseBody {
+  try {
+    return JSON.parse(text) as ResponseBody;
+  } catch {
+    return text;
+  }
+}
+
+function looksLikeJson(text: string): boolean {
+  const trimmed = text.trim();
+
+  return (trimmed.startsWith('{') && trimmed.endsWith('}')) || (trimmed.startsWith('[') && trimmed.endsWith(']'));
+}
+
 function toBody(data: unknown, contentType: string): ResponseBody {
   if (data === null || data === undefined) return null;
 
   const text = decodeToText(data);
+
   if (text === null) {
     if (Array.isArray(data)) return data;
     if (typeof data === 'object') return data as Record<string, unknown>;
@@ -62,13 +77,15 @@ function toBody(data: unknown, contentType: string): ResponseBody {
     return String(data);
   }
   if (text === '') return null;
-  if (!/\bapplication\/([\w.-]+\+)?json\b/i.test(contentType)) return text;
 
-  try {
-    return JSON.parse(text) as ResponseBody;
-  } catch {
-    return text;
-  }
+  if (/\bapplication\/([\w.-]+\+)?json\b/i.test(contentType)) return parseJsonOrText(text);
+  if (
+    !/\b(text\/(html|xml|css|javascript|csv)|application\/([\w.-]+\+)?xml)\b/i.test(contentType) &&
+    looksLikeJson(text)
+  )
+    return parseJsonOrText(text);
+
+  return text;
 }
 
 const activeRequests = new Map<string, AbortController>();
