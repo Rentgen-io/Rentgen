@@ -144,8 +144,7 @@ export const modalsSlice = createSlice({
       state.openReloadModal = true;
     },
     openSendHttpSuccessModal: (state) => {
-      const stored = localStorage.getItem('sendHttpSuccessModalDoNotShowAgain');
-      state.openSendHttpSuccessModal = stored === null ? true : stored !== 'true';
+      state.openSendHttpSuccessModal = true;
     },
     openSetAsDynamicVariableModal: (state, action: PayloadAction<Omit<SetAsDynamicVariableModalState, 'isOpen'>>) => {
       state.setAsDynamicVariableModal = { ...action.payload, isOpen: true };

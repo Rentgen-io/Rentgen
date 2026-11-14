@@ -96,7 +96,8 @@ export function useSendHttpRequest() {
           selectedRequestId ? mappings[selectedRequestId] : undefined,
         ));
 
-        dispatch(modalsActions.openSendHttpSuccessModal());
+        const doNotShowAgain = localStorage.getItem('sendHttpSuccessModalDoNotShowAgain');
+        if (!doNotShowAgain || doNotShowAgain !== 'true') dispatch(modalsActions.openSendHttpSuccessModal());
       }
 
       dispatch(requestActions.setBodyParameters(bodyParameters));
