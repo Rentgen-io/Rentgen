@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { TESTING_MODE_TAB_INDEX } from 'src/constants/testingModeTabs';
+import { TESTS_TAB_INDEX } from 'src/constants/testsTabs';
 import { ReportFormat, SidebarTab } from 'src/types';
 
 interface UIState {
@@ -15,8 +17,8 @@ const initialState: UIState = {
   exportFormat: 'json',
   showLicenseSettings: false,
   sidebarActiveTab: 'collections',
-  testingModeActiveTab: 0,
-  testsActiveTab: 1,
+  testingModeActiveTab: TESTING_MODE_TAB_INDEX.apiTesting,
+  testsActiveTab: TESTS_TAB_INDEX.security,
 };
 
 export const uiSlice = createSlice({

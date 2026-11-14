@@ -7,16 +7,28 @@ import Button, { ButtonType } from 'src/components/buttons/Button';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import Loader from 'src/components/loaders/Loader';
 import { useLicense } from 'src/hooks/useLicense';
-import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectActiveAiProvider, selectAiActiveTab, selectLicense, selectSelectedRequestId } from 'src/store/selectors';
+import {
+  selectActiveAiProvider,
+  selectAiActiveTab,
+  selectAiOverview,
+  selectAiTests,
+  selectAiUsage,
+  selectIsAiTestsRunning,
+  selectIsRunningAiTests,
+  selectIsRunningTests,
+  selectLicense,
+  selectSelectedRequestId,
+} from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { uiActions } from 'src/store/slices/uiSlice';
 import {
+  cancelAiTestsGeneration,
   determineRequestParameterTestStatus,
   determineTestStatus,
   ERROR_RESPONSE_EXPECTED,
+  executeAllAiTests,
   SUCCESS_RESPONSE_EXPECTED,
 } from 'src/test-engine';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
@@ -27,15 +39,18 @@ import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHead
 export default function AiTestingPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { aiOverview, aiTests, aiUsage, isAiTestsRunning, runningAiTests, cancelAiTestsGeneration, executeAllAiTests } =
-    useTests();
 
   const aiActiveTab = useAppSelector(selectAiActiveTab);
+  const aiOverview = useAppSelector(selectAiOverview);
+  const aiTests = useAppSelector(selectAiTests);
+  const aiUsage = useAppSelector(selectAiUsage);
+  const isAiTestsRunning = useAppSelector(selectIsAiTestsRunning);
+  const isRunningAiTests = useAppSelector(selectIsRunningAiTests);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
 
   const [showAiRequestMaskControls, setShowAiRequestMaskControls] = useState<boolean>(false);
 
-  useEffect(() => cancelAiTestsGeneration, [cancelAiTestsGeneration]);
+  useEffect(() => cancelAiTestsGeneration, []);
   useEffect(() => {
     if (aiOverview || (aiTests && aiTests.length > 0)) setShowAiRequestMaskControls(false);
   }, [aiOverview, aiTests]);
@@ -72,9 +87,7 @@ export default function AiTestingPanel() {
                 {t('ai.overview')}
               </Tab>
               <Tab className="flex items-center gap-2 pb-1 border-b-2 border-transparent list-none outline-none truncate cursor-pointer">
-                {(isAiTestsRunning || Object.keys(runningAiTests).length > 0) && (
-                  <Loader className="size-4 shrink-0 [&>span]:border-2!" />
-                )}
+                {isRunningAiTests && <Loader className="size-4 shrink-0 [&>span]:border-2!" />}
                 <span className="truncate">{t('ai.tests')}</span>
                 <span className="min-w-5 py-0.5 px-1.5 font-normal text-xs text-muted-foreground bg-muted-foreground/10 rounded box-border">
                   {aiTests?.length ?? 0}
@@ -241,10 +254,10 @@ export default function AiTestingPanel() {
 function RunAiTestingButton({ onClick }: { onClick(): void }) {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { isRunningTests } = useTests();
   const { isValidating, validateLicense } = useLicense();
 
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
+  const isRunningTests = useAppSelector(selectIsRunningTests);
   const license = useAppSelector(selectLicense);
 
   return (

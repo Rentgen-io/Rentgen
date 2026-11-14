@@ -1,4 +1,5 @@
-import { RESPONSE_STATUS } from 'shared/responseStatus';
+import { isSuccessStatus } from 'shared/responseStatus';
+import { generateFolderId, generateRequestId } from 'shared/utils/id';
 import { sendHttp } from 'src/api/network';
 import {
   OpenApiDocument,
@@ -16,7 +17,6 @@ import {
   PostmanItem,
   PostmanRequest,
 } from 'src/types';
-import { generateFolderId, generateRequestId } from 'shared/utils/id';
 import { extractStatusCode } from './http';
 import { isPlainObject, parseJsonObject } from './object';
 import { generateRandomNumber } from './random';
@@ -53,7 +53,7 @@ export async function fetchOpenApiSchema(url: string): Promise<OpenApiDocument |
   try {
     const response = await sendHttp({ method: 'GET', url, headers: { Accept: 'application/json' } });
     const statusCode = extractStatusCode(response);
-    if (statusCode < RESPONSE_STATUS.OK || statusCode >= RESPONSE_STATUS.REDIRECT) return null;
+    if (!isSuccessStatus(statusCode)) return null;
 
     const schema = parseJsonObject(response.body);
     return isOpenApiSchema(schema) ? schema : null;

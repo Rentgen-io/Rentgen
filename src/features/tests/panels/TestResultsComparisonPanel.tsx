@@ -9,7 +9,7 @@ import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
 import { useAppDispatch } from 'src/store/hooks';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { ORIGINAL_REQUEST_TEST_PARAMETER_NAME } from 'src/test-engine';
-import { ResponseBody, HttpRequest, HttpResponse, TestResult, TestResults } from 'src/types';
+import { HttpRequest, HttpResponse, ResponseBody, TestResult, TestResults } from 'src/types';
 import { detectObjectType, truncateValue } from 'src/utils';
 import { twMerge } from 'tailwind-merge';
 import PotentialBugsTable, { PotentialBug } from '../tables/PotentialBugsTable';

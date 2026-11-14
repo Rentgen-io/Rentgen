@@ -35,3 +35,13 @@ export function getResponseStatusTitle(code: ResponseStatusValue): string {
 
   return code === RESPONSE_STATUS.OK ? title.toUpperCase() : title;
 }
+
+/** 2xx */
+export function isSuccessStatus(code: number): boolean {
+  return code >= RESPONSE_STATUS.OK && code < RESPONSE_STATUS.REDIRECT;
+}
+
+/** 4xx */
+export function isClientErrorStatus(code: number): boolean {
+  return code >= RESPONSE_STATUS.BAD_REQUEST && code < RESPONSE_STATUS.SERVER_ERROR;
+}

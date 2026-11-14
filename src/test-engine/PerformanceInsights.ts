@@ -1,4 +1,4 @@
-import { getResponseStatusTitle, RESPONSE_STATUS } from 'shared/responseStatus';
+import { getResponseStatusTitle, isClientErrorStatus, RESPONSE_STATUS } from 'shared/responseStatus';
 import {
   ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
   LOAD_TEST_NAME,
@@ -274,7 +274,7 @@ export async function runLoadTest(
 
     const statusCode = extractStatusCode(response);
     if (statusCode >= RESPONSE_STATUS.SERVER_ERROR) server5xxFailures++;
-    if (statusCode >= RESPONSE_STATUS.BAD_REQUEST && statusCode < RESPONSE_STATUS.SERVER_ERROR) client4xxFailures++;
+    if (isClientErrorStatus(statusCode)) client4xxFailures++;
 
     // Check early abort conditions
     if (server5xxFailures >= MAX_EARLY_ABORT_FAILURES) isAborted = true;

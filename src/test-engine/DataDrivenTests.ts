@@ -1,4 +1,4 @@
-import { RESPONSE_STATUS, getResponseStatusTitle } from 'shared/responseStatus';
+import { RESPONSE_STATUS, getResponseStatusTitle, isClientErrorStatus, isSuccessStatus } from 'shared/responseStatus';
 import { sendHttp } from 'src/api/network';
 import { getDatasets } from 'src/constants/datasets';
 import store from 'src/store';
@@ -101,7 +101,7 @@ export class DataDrivenTests extends BaseTests<TestResult[]> {
       const response = await sendHttp(request, this.signal);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
-        if (statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.REDIRECT)
+        if (isSuccessStatus(statusCode))
           testStatus.status = TestStatus.Pass;
 
         return testStatus;
@@ -264,8 +264,8 @@ export function determineRequestParameterTestStatus(
 ): { actual: string; status: TestStatus } {
   const testStatus = { actual: response.status, status: TestStatus.Fail };
   if (
-    (testData?.valid && statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.REDIRECT) ||
-    (!testData?.valid && statusCode >= RESPONSE_STATUS.BAD_REQUEST && statusCode < RESPONSE_STATUS.SERVER_ERROR)
+    (testData?.valid && isSuccessStatus(statusCode)) ||
+    (!testData?.valid && isClientErrorStatus(statusCode))
   )
     testStatus.status = TestStatus.Pass;
 

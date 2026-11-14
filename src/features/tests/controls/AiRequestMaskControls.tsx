@@ -5,10 +5,16 @@ import Toggle from 'src/components/inputs/Toggle';
 import Loader from 'src/components/loaders/Loader';
 import Timer from 'src/components/timers/Timer';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
-import useTests from 'src/hooks/useTests';
 import { useAppSelector } from 'src/store/hooks';
-import { selectActiveAiProvider, selectTestOptions } from 'src/store/selectors';
-import { AI_RESPONSE_TIMEOUT_MS, getMaskableFields, getSuggestedMaskedFields, RequestRedactor } from 'src/test-engine';
+import { selectActiveAiProvider, selectAiRunStartedAt, selectTestOptions } from 'src/store/selectors';
+import {
+  AI_RESPONSE_TIMEOUT_MS,
+  cancelAiTestsGeneration,
+  executeAiTestsGeneration,
+  getMaskableFields,
+  getSuggestedMaskedFields,
+  RequestRedactor,
+} from 'src/test-engine';
 import { createHttpRequest } from 'src/utils';
 
 const PREVIEW_EDITOR_OPTIONS = { folding: false, lineNumbers: 'off' } as const;
@@ -19,9 +25,8 @@ interface Props {
 
 export function AiRequestMaskControls({ onCancel }: Props) {
   const { t } = useTranslation();
-  const { aiRunStartedAt, cancelAiTestsGeneration, executeAiTestsGeneration } = useTests();
-
   const activeAiProvider = useAppSelector(selectActiveAiProvider);
+  const aiRunStartedAt = useAppSelector(selectAiRunStartedAt);
   const testOptions = useAppSelector(selectTestOptions);
 
   const [masked, setMasked] = useState<Set<string>>(() => new Set(getSuggestedMaskedFields(testOptions?.headers)));

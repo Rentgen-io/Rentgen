@@ -10,9 +10,12 @@ import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import { PERFORMANCE_INSIGHTS } from 'src/features/settings/test-engine/PerformanceInsightsSettings';
 import LoadTestRunControls from 'src/features/tests/controls/LoadTestRunControls';
 import TestResultControls from 'src/features/tests/controls/TestResultControls';
-import useTests from 'src/hooks/useTests';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectDisabledPerformanceInsights } from 'src/store/selectors';
+import {
+  selectDisabledPerformanceInsights,
+  selectIsPerformanceRunning,
+  selectPerformanceTests,
+} from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
 import { TestStatus } from 'src/types';
@@ -21,9 +24,10 @@ import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColum
 export default function PerformanceInsightsPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { isPerformanceRunning, performanceTests } = useTests();
 
   const disabledPerformanceInsights = useAppSelector(selectDisabledPerformanceInsights);
+  const isPerformanceRunning = useAppSelector(selectIsPerformanceRunning);
+  const performanceTests = useAppSelector(selectPerformanceTests);
 
   const hasFailures = performanceTests.some(({ status }) =>
     [TestStatus.Bug, TestStatus.Fail, TestStatus.Warning].includes(status),

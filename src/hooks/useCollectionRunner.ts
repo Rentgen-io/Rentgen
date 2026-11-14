@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { RESPONSE_STATUS } from 'shared/responseStatus';
+import { isSuccessStatus } from 'shared/responseStatus';
 import { sendHttp } from 'src/api/network';
 import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
@@ -92,10 +92,9 @@ export function useCollectionRunner() {
 
         // The state after the response: mappings, selection or variables may have changed while waiting for it
         const latestState = store.getState();
-        const { bodyParameters, queryParameters } =
-          status >= RESPONSE_STATUS.OK && status < RESPONSE_STATUS.REDIRECT
-            ? extractRequestParameters(body, url, selectMappings(latestState)[item.id])
-            : { bodyParameters: {}, queryParameters: {} };
+        const { bodyParameters, queryParameters } = isSuccessStatus(status)
+          ? extractRequestParameters(body, url, selectMappings(latestState)[item.id])
+          : { bodyParameters: {}, queryParameters: {} };
 
         if (selectSelectedRequestId(latestState) === item.id) {
           dispatch(responseActions.setResponse(response));

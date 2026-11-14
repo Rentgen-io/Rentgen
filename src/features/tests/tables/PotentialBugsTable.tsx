@@ -2,8 +2,6 @@ import { memo, useMemo } from 'react';
 import DataTable, { ExpanderComponentProps, TableProps } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
-import { useAppSelector } from 'src/store/hooks';
-import { selectTheme } from 'src/store/selectors';
 import { HttpResponse } from 'src/types';
 
 export interface PotentialBug {
@@ -16,10 +14,7 @@ export interface PotentialBug {
 export default function PotentialBugsTable({ data, ...otherProps }: Omit<TableProps<PotentialBug>, 'columns'>) {
   const { t } = useTranslation();
 
-  const theme = useAppSelector(selectTheme);
-
   const definedData = useMemo(() => data?.filter(Boolean) ?? [], [data]);
-  const isDark = theme === 'dark';
 
   return (
     <DataTable
@@ -40,36 +35,30 @@ export default function PotentialBugsTable({ data, ...otherProps }: Omit<TablePr
       customStyles={{
         expanderCell: {
           style: {
-            ...(isDark && {
-              borderBottomColor: '#343a46',
-            }),
+            borderBottomColor: 'var(--color-border)',
           },
         },
         expanderButton: {
           style: {
-            ...(isDark && { color: 'white' }),
+            color: 'var(--color-foreground)',
           },
         },
         headRow: {
           style: {
-            color: isDark ? 'white' : 'black',
-            backgroundColor: isDark ? '#23272f' : '#fafafa',
-            ...(isDark && {
-              borderBottomColor: '#343a46',
-            }),
+            color: 'var(--color-foreground)',
+            backgroundColor: 'var(--color-surface)',
+            borderBottomColor: 'var(--color-border)',
           },
         },
         rows: {
           style: {
-            color: isDark ? 'white' : 'black',
+            color: 'var(--color-foreground)',
             backgroundColor: 'transparent',
           },
         },
         cells: {
           style: {
-            ...(isDark && {
-              borderBottomColor: '#343a46',
-            }),
+            borderBottomColor: 'var(--color-border)',
           },
         },
         table: {
