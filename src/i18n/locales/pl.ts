@@ -125,6 +125,8 @@ const pl = {
     message: 'Wiadomość',
     noBody: 'To żądanie nie ma treści',
     bodyType: 'Typ treści',
+    key: 'Klucz',
+    value: 'Wartość',
   },
 
   // Response

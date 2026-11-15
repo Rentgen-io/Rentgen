@@ -125,6 +125,8 @@ const de = {
     message: 'Nachricht',
     noBody: 'Diese Anfrage hat keinen Body',
     bodyType: 'Body-Typ',
+    key: 'Schlüssel',
+    value: 'Wert',
   },
 
   // Response

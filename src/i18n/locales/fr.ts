@@ -125,6 +125,8 @@ const fr = {
     message: 'Message',
     noBody: "Cette requête n'a pas de corps",
     bodyType: 'Type de corps',
+    key: 'Clé',
+    value: 'Valeur',
   },
 
   // Response

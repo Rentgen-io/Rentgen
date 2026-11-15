@@ -26,7 +26,11 @@ const COOKIE_FLAG_REGEXES = [
   /(?:^|\s)(?:-b|--cookie)\s+(?<value>[^\s'"]\S*)/,
 ];
 const FORM_PAIR_REGEX = /^[\w.\-[\]%]+=[^&]*$/;
-const LINE_CONTINUATION_REGEX = /\\\r?\n/g;
+// `\` + newline, also with trailing spaces, or a standalone ` \ ` left when the newlines of a multi-line command
+// were replaced by spaces (a shell would read `\ ` as an escaped space glued to the next flag: " --header")
+const LINE_CONTINUATION_REGEX = /\\ *\r?\n|(?<=\s)\\ +/g;
+// Tabs and Unicode spaces (e.g. the non-breaking spaces of text copied from a web page or an editor), but not newlines
+const NON_NEWLINE_WHITESPACE_REGEX = /[^\S\r\n]/g;
 const MULTIPART_CONTENT_TYPE_REGEX = /^\s*multipart\/form-data/i;
 // curl reads a --form value starting with @ or < from a file and treats `;` as the start of field options
 const UNSAFE_FORM_VALUE_REGEX = /^[@<]|;/;
@@ -36,7 +40,8 @@ const UNSAFE_FORM_VALUE_REGEX = /^[@<]|;/;
  * Throws when the text is not a cURL command.
  */
 export function extractCurl(curl: string): HttpRequest<PostmanBody> {
-  const command = curl.replace(LINE_CONTINUATION_REGEX, ' ').trim();
+  // Plain spaces first: parse-curl and the line continuations only recognize those
+  const command = curl.replace(NON_NEWLINE_WHITESPACE_REGEX, ' ').replace(LINE_CONTINUATION_REGEX, ' ').trim();
   const parsedCurl = parseCurl(command) as ParseCurlResult | undefined;
   if (!parsedCurl) throw new Error('Not a cURL command');
 

@@ -117,7 +117,7 @@ const en = {
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: value',
     body: 'Body',
-    bodyPlaceholderHttp: 'Enter request body (JSON or Form Data)',
+    bodyPlaceholderHttp: 'Enter request body (JSON or Text)',
     bodyPlaceholderWss: 'Compose message',
     wssUrlRequired: '🔴 Please use ws:// or wss:// URL',
     modePlaceholder: 'MODE',
@@ -125,6 +125,8 @@ const en = {
     message: 'Message',
     noBody: 'This request does not have a body',
     bodyType: 'Body type',
+    key: 'Key',
+    value: 'Value',
   },
 
   // Response

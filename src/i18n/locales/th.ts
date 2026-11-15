@@ -125,6 +125,8 @@ const th = {
     message: 'ข้อความ',
     noBody: 'คำขอนี้ไม่มีเนื้อหา',
     bodyType: 'ประเภทเนื้อหา',
+    key: 'คีย์',
+    value: 'ค่า',
   },
 
   // Response

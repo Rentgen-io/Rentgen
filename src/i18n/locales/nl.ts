@@ -125,6 +125,8 @@ const nl = {
     message: 'Bericht',
     noBody: 'Dit verzoek heeft geen body',
     bodyType: 'Body-type',
+    key: 'Sleutel',
+    value: 'Waarde',
   },
 
   // Response

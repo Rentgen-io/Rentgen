@@ -125,6 +125,8 @@ const lt = {
     message: 'Žinutė',
     noBody: 'Ši užklausa neturi turinio',
     bodyType: 'Turinio tipas',
+    key: 'Raktas',
+    value: 'Reikšmė',
   },
 
   // Response

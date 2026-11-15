@@ -125,6 +125,8 @@ const id = {
     message: 'Pesan',
     noBody: 'Permintaan ini tidak memiliki body',
     bodyType: 'Jenis body',
+    key: 'Kunci',
+    value: 'Nilai',
   },
 
   // Response

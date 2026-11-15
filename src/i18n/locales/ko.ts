@@ -125,6 +125,8 @@ const ko = {
     message: '메시지',
     noBody: '이 요청에는 본문이 없습니다',
     bodyType: '본문 유형',
+    key: '키',
+    value: '값',
   },
 
   // Response

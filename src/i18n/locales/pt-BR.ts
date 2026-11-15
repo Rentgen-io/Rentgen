@@ -125,6 +125,8 @@ const ptBR = {
     message: 'Mensagem',
     noBody: 'Esta requisição não tem corpo',
     bodyType: 'Tipo de corpo',
+    key: 'Chave',
+    value: 'Valor',
   },
 
   // Response

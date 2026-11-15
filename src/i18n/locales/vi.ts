@@ -125,6 +125,8 @@ const vi = {
     message: 'Tin nhắn',
     noBody: 'Yêu cầu này không có nội dung',
     bodyType: 'Loại nội dung',
+    key: 'Khóa',
+    value: 'Giá trị',
   },
 
   // Response

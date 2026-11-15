@@ -125,6 +125,8 @@ const ja = {
     message: 'メッセージ',
     noBody: 'このリクエストにはボディがありません',
     bodyType: 'ボディの種類',
+    key: 'キー',
+    value: '値',
   },
 
   // Response

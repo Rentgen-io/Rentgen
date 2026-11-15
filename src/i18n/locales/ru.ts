@@ -125,6 +125,8 @@ const ru = {
     message: 'Сообщение',
     noBody: 'У этого запроса нет тела',
     bodyType: 'Тип тела',
+    key: 'Ключ',
+    value: 'Значение',
   },
 
   // Response

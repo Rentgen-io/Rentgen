@@ -125,6 +125,8 @@ const uk = {
     message: 'Повідомлення',
     noBody: 'Цей запит не має тіла',
     bodyType: 'Тип тіла',
+    key: 'Ключ',
+    value: 'Значення',
   },
 
   // Response

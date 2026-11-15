@@ -125,6 +125,8 @@ const hi = {
     message: 'संदेश',
     noBody: 'इस अनुरोध में कोई बॉडी नहीं है',
     bodyType: 'बॉडी प्रकार',
+    key: 'कुंजी',
+    value: 'मान',
   },
 
   // Response

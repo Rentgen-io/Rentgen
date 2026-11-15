@@ -125,6 +125,8 @@ const tr = {
     message: 'Mesaj',
     noBody: 'Bu isteğin gövdesi yok',
     bodyType: 'Gövde türü',
+    key: 'Anahtar',
+    value: 'Değer',
   },
 
   // Response

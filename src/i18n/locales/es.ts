@@ -125,6 +125,8 @@ const es = {
     message: 'Mensaje',
     noBody: 'Esta solicitud no tiene cuerpo',
     bodyType: 'Tipo de cuerpo',
+    key: 'Clave',
+    value: 'Valor',
   },
 
   // Response

@@ -5,6 +5,7 @@ import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import { MAX_JSON_HIGHLIGHT_LENGTH, shouldHighlightJson } from 'src/components/highlighters/VariableHighlighter';
 import HighlightedTextarea from 'src/components/inputs/HighlightedTextarea';
 import ResizeHandler from 'src/components/panels/ResizeHandler';
+import UrlencodedTable from 'src/features/request/UrlencodedTable';
 import { useResizableSize } from 'src/hooks/useResizableSize';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -53,6 +54,8 @@ export default function RequestEditors() {
   const bodyFields =
     bodyMode === 'formdata' ? body?.formdata : bodyMode === 'urlencoded' ? body?.urlencoded : undefined;
   const editorStyle = { height: size ?? undefined };
+  // A table grows with its rows up to the max, then scrolls
+  const tableEditorStyle = { ...editorStyle, maxHeight: MAX_EDITOR_HEIGHT };
   const isWssMode = mode === 'WSS';
 
   const currentTab = isWssMode ? 'body' : activeTab;
@@ -157,7 +160,11 @@ export default function RequestEditors() {
           ) : (
             <>
               {bodyMode === 'formdata' && <div className="min-h-28 box-border" style={editorStyle} />}
-              {bodyMode === 'urlencoded' && <div className="min-h-28 box-border" style={editorStyle} />}
+              {bodyMode === 'urlencoded' && (
+                <div className="min-h-28 py-3 px-4 box-border overflow-auto" style={tableEditorStyle}>
+                  <UrlencodedTable />
+                </div>
+              )}
               {!bodyMode && (
                 <div className="flex items-center justify-center min-h-28 p-3 box-border" style={editorStyle}>
                   <p className="m-0 p-4 text-xs text-muted-foreground">{t('request.noBody')}</p>

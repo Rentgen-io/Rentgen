@@ -125,6 +125,8 @@ const zhCN = {
     message: '消息',
     noBody: '此请求没有请求体',
     bodyType: '请求体类型',
+    key: '键',
+    value: '值',
   },
 
   // Response
