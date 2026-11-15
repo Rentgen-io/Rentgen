@@ -20,7 +20,6 @@ import { EvaluationReport, EvaluationResult, HttpRequest } from 'src/types';
 import {
   evaluate,
   extractStatusCode,
-  findPromptPointers,
   getByJsonPointer,
   parseJsonObject,
   setByJsonPointer,
@@ -72,9 +71,6 @@ export async function executePreEvaluation() {
     selectHeaders(state),
     selectUrl(state),
   );
-
-  if (!findPromptPointers(substitutedBody).includes(preEvaluation.promptPath))
-    throw new Error(t('preEvaluation.selectUserPromptField'));
 
   activeController?.abort();
   const controller = new AbortController();
