@@ -3,7 +3,6 @@ import Button, { ButtonType } from 'src/components/buttons/Button';
 import Select, { SelectOption } from 'src/components/inputs/Select';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import ProgressBar from 'src/components/loaders/ProgressBar';
-import { TESTS_TAB_INDEX } from 'src/constants/testsTabs';
 import { useReportExport } from 'src/hooks/useReportExport';
 import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -65,7 +64,7 @@ export default function TestRunnerBar() {
   const handleRun = () => {
     const state = store.getState();
 
-    dispatch(uiActions.setTestsActiveTab(TESTS_TAB_INDEX.security));
+    dispatch(uiActions.setTestsActiveTab('security'));
     executeAllTests({
       ...substituteRequestVariables(
         selectBody(state),

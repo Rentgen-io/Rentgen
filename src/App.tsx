@@ -2,7 +2,7 @@ import { ComponentType, memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Loader from 'src/components/loaders/Loader';
-import { TESTING_MODE_TAB_INDEX, TESTING_MODE_TABS, TestingModeTabId } from 'src/constants/testingModeTabs';
+import { TESTING_MODE_TABS, TestingModeTab } from 'src/constants/testing-mode-tabs';
 import EnvironmentEditor from 'src/features/environment/EnvironmentEditor';
 import AppModals from 'src/features/modals/AppModals';
 import PreEvaluationPanel from 'src/features/pre-evaluation/PreEvaluationPanel';
@@ -131,7 +131,7 @@ function RequestView() {
 function HttpResponseSection() {
   const testingModeActiveTab = useAppSelector(selectTestingModeActiveTab);
 
-  return <HttpResponsePanel showParameters={testingModeActiveTab === TESTING_MODE_TAB_INDEX.apiTesting} />;
+  return <HttpResponsePanel showParameters={testingModeActiveTab === 'apiTesting'} />;
 }
 
 function ApiTestingPanel() {
@@ -145,8 +145,7 @@ function ApiTestingPanel() {
   );
 }
 
-// Both stay mounted (forceRenderTabPanel) and select their own data: memo keeps the tab labels' re-renders out of them
-const TESTING_MODE_PANELS: Record<TestingModeTabId, ComponentType> = {
+const TESTING_MODE_PANELS: Record<TestingModeTab, ComponentType> = {
   apiTesting: memo(ApiTestingPanel),
   preEvaluation: memo(PreEvaluationPanel),
 };
@@ -159,7 +158,7 @@ function TestingModeTabs() {
   const isRunningPreEvaluation = useAppSelector(selectIsPreEvaluationRunning);
   const testingModeActiveTab = useAppSelector(selectTestingModeActiveTab);
 
-  const isRunning: Record<TestingModeTabId, boolean> = {
+  const isRunning: Record<TestingModeTab, boolean> = {
     apiTesting: isRunningAnyTests,
     preEvaluation: isRunningPreEvaluation,
   };
@@ -168,29 +167,29 @@ function TestingModeTabs() {
     <Tabs
       className="flex flex-col flex-auto"
       forceRenderTabPanel
-      selectedIndex={testingModeActiveTab}
+      selectedIndex={TESTING_MODE_TABS.findIndex(({ tab }) => tab === testingModeActiveTab)}
       selectedTabClassName="text-foreground border-primary! cursor-default!"
       selectedTabPanelClassName="flex! flex-col flex-auto"
       onSelect={(index) => {
-        dispatch(uiActions.setTestingModeActiveTab(index));
+        dispatch(uiActions.setTestingModeActiveTab(TESTING_MODE_TABS[index].tab));
       }}
     >
       <TabList className="flex gap-6 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
-        {TESTING_MODE_TABS.map(({ id, labelKey }) => (
+        {TESTING_MODE_TABS.map(({ labelKey, tab }) => (
           <Tab
-            key={id}
             className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer"
+            key={tab}
           >
-            {isRunning[id] && <Loader className="size-4 shrink-0 [&>span]:border-2!" />}
+            {isRunning[tab] && <Loader className="size-4 shrink-0 [&>span]:border-2!" />}
             <span className="truncate">{t(labelKey)}</span>
           </Tab>
         ))}
       </TabList>
-      {TESTING_MODE_TABS.map(({ id }) => {
-        const Panel = TESTING_MODE_PANELS[id];
+      {TESTING_MODE_TABS.map(({ tab }) => {
+        const Panel = TESTING_MODE_PANELS[tab];
 
         return (
-          <TabPanel key={id} className="hidden">
+          <TabPanel key={tab} className="hidden">
             <Panel />
           </TabPanel>
         );

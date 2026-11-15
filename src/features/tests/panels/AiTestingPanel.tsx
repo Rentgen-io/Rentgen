@@ -32,11 +32,13 @@ import {
   executeAllAiTests,
   SUCCESS_RESPONSE_EXPECTED,
 } from 'src/test-engine';
-import { TestResult } from 'src/types';
+import { AiTab, TestResult } from 'src/types';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
 import AiTestRunControls from '../controls/AiTestRunControls';
 import TestRunControls from '../controls/TestRunControls';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
+
+const AI_TABS: AiTab[] = ['overview', 'tests'];
 
 export default function AiTestingPanel() {
   const dispatch = useAppDispatch();
@@ -54,6 +56,7 @@ export default function AiTestingPanel() {
 
   // A stable empty list while there are no AI tests (`aiTests ?? []` would be a new array on every render)
   const aiTestResults = aiTests ?? [];
+  const isTestsTab = aiActiveTab === 'tests';
 
   const columns = useMemo<TableColumn<TestResult>[]>(
     () => [
@@ -135,14 +138,14 @@ export default function AiTestingPanel() {
           <Tabs
             className="relative"
             forceRenderTabPanel
-            selectedIndex={aiActiveTab}
+            selectedIndex={AI_TABS.indexOf(aiActiveTab)}
             selectedTabClassName="text-foreground border-primary! cursor-default!"
             selectedTabPanelClassName="flex! flex-col gap-4"
             onSelect={(index) => {
-              dispatch(uiActions.setAiActiveTab(index));
+              dispatch(uiActions.setAiActiveTab(AI_TABS[index]));
             }}
           >
-            {aiActiveTab === 1 && aiTests && aiTests.length > 0 && (
+            {isTestsTab && aiTests && aiTests.length > 0 && (
               <TestRunControls
                 className="absolute top-0.5 right-0.5 min-w-22"
                 label={`${t('common.runAll')} (${aiTests.length})`}
@@ -226,7 +229,7 @@ export default function AiTestingPanel() {
             </TabPanel>
           </Tabs>
           <div className="flex flex-col @xl:flex-row @xl:items-center gap-4">
-            {aiActiveTab === 1 && <RunAiTestingButton onClick={() => setShowAiRequestMaskControls(true)} />}
+            {isTestsTab && <RunAiTestingButton onClick={() => setShowAiRequestMaskControls(true)} />}
             {aiUsage && (
               <div className="flex-auto text-xs text-muted-foreground @xl:text-right">
                 <Trans

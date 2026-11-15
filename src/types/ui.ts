@@ -1,7 +1,7 @@
 import { IntegrityStatus, PostmanCollection, ProjectData, ProjectMeta } from './index';
 
+export type AiTab = 'overview' | 'tests';
 export type SidebarTab = 'collections' | 'environments' | 'history' | null;
-
 export type SettingsTab = 'testEngine' | 'general' | 'ai' | 'themes' | 'language' | 'cli';
 
 export interface ImportConflict {

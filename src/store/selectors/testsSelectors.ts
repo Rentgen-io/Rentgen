@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { TestsTabId } from 'src/constants/testsTabs';
+import { TestsTab } from 'src/constants/tests-tabs';
 import { RootState } from 'src/store';
 import { getTestsStatistics } from 'src/test-engine/BaseTests';
 import { TestResults } from 'src/types';
@@ -87,7 +87,7 @@ export const selectIsRunningAiTests = (state: RootState) =>
   state.tests.isAiTestsRunning || Object.keys(state.tests.runningAiTests).length > 0;
 export const selectIsRunningAnyTests = (state: RootState) =>
   selectIsRunningTests(state) || selectIsAiBusy(state) || selectIsRunningAiTests(state);
-export const selectTestsStatistics: (state: RootState) => Record<TestsTabId, TestsStatistics> = createSelector(
+export const selectTestsStatistics: (state: RootState) => Record<TestsTab, TestsStatistics> = createSelector(
   [
     selectAiTests,
     selectSecurityTests,
@@ -113,7 +113,7 @@ export const selectTestsStatistics: (state: RootState) => Record<TestsTabId, Tes
     crud: getTestsStatistics(crudTests),
   }),
 );
-export const selectTestsTabsRunning: (state: RootState) => Record<TestsTabId, boolean> = createSelector(
+export const selectTestsTabsRunning: (state: RootState) => Record<TestsTab, boolean> = createSelector(
   [selectIsGeneratingAiTests, selectIsSecurityRunning, selectIsPerformanceRunning, selectIsDataDrivenRunning],
   (isGeneratingAiTests, isSecurityRunning, isPerformanceRunning, isDataDrivenRunning) => ({
     ai: isGeneratingAiTests,

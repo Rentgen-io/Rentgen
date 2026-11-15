@@ -3,7 +3,7 @@ import { ComponentType, memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Loader from 'src/components/loaders/Loader';
-import { TESTS_TAB_INDEX, TESTS_TABS, TestsTabId } from 'src/constants/testsTabs';
+import { TESTS_TABS, TestsTab } from 'src/constants/tests-tabs';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectTestsActiveTab, selectTestsStatistics, selectTestsTabsRunning } from 'src/store/selectors';
 import { uiActions } from 'src/store/slices/uiSlice';
@@ -19,7 +19,7 @@ import SecurityTestsPanel from './SecurityTestsPanel';
  * All panels stay mounted (forceRenderTabPanel). They take no props and select their own data, so memo keeps this
  * component's re-renders (statistics / running flags changing) from re-rendering their tables.
  */
-const PANELS: Record<TestsTabId, ComponentType> = {
+const PANELS: Record<TestsTab, ComponentType> = {
   ai: memo(AiTestingPanel),
   security: memo(SecurityTestsPanel),
   performance: memo(PerformanceInsightsPanel),
@@ -41,36 +41,36 @@ export default function TestsPanel() {
     <div className="flex flex-col flex-auto gap-4">
       <TestResultsSummary
         onSelectTab={(id) => {
-          dispatch(uiActions.setTestsActiveTab(TESTS_TAB_INDEX[id]));
+          dispatch(uiActions.setTestsActiveTab(id));
           testsTabsRef.current?.scrollIntoView({ behavior: 'smooth' });
         }}
       />
       <Tabs
         className="flex flex-col flex-auto"
         forceRenderTabPanel
-        selectedIndex={testsActiveTab}
+        selectedIndex={TESTS_TABS.findIndex(({ tab }) => tab === testsActiveTab)}
         selectedTabClassName="text-foreground border-primary! cursor-default!"
         selectedTabPanelClassName="flex! flex-col flex-auto gap-4"
         onSelect={(index) => {
-          dispatch(uiActions.setTestsActiveTab(index));
+          dispatch(uiActions.setTestsActiveTab(TESTS_TABS[index].tab));
         }}
       >
         <TabList
-          ref={testsTabsRef}
           className="flex gap-6 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border"
+          ref={testsTabsRef}
         >
-          {TESTS_TABS.map(({ id, labelKey }) => {
-            const { bugs, failed, passed, warnings } = statistics[id];
+          {TESTS_TABS.map(({ labelKey, tab }) => {
+            const { bugs, failed, passed, warnings } = statistics[tab];
             const issueCount = bugs + failed + warnings;
             const label = t(labelKey);
 
             return (
               <Tab
-                key={id}
                 className="relative flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none truncate cursor-pointer"
+                key={tab}
                 title={label}
               >
-                {isRunning[id] ? (
+                {isRunning[tab] ? (
                   <Loader className="size-4 shrink-0 [&>span]:border-2!" />
                 ) : (
                   <span
@@ -95,11 +95,11 @@ export default function TestsPanel() {
             );
           })}
         </TabList>
-        {TESTS_TABS.map(({ id }) => {
-          const Panel = PANELS[id];
+        {TESTS_TABS.map(({ tab }) => {
+          const Panel = PANELS[tab];
 
           return (
-            <TabPanel key={id} className="hidden min-h-51.5 py-3 px-4">
+            <TabPanel className="hidden min-h-51.5 py-3 px-4" key={tab}>
               <Panel />
             </TabPanel>
           );

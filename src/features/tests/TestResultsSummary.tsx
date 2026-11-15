@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from 'react-tooltip';
 import Button, { ButtonType } from 'src/components/buttons/Button';
-import { TESTS_TABS, TestsTabId } from 'src/constants/testsTabs';
+import { TESTS_TABS, TestsTab } from 'src/constants/tests-tabs';
 import { useAppSelector } from 'src/store/hooks';
 import { selectTestsStatistics } from 'src/store/selectors';
 
@@ -17,7 +17,7 @@ const testResultMetrics: string[][] = [
 ];
 
 interface Props {
-  onSelectTab: (id: TestsTabId) => void;
+  onSelectTab: (tab: TestsTab) => void;
 }
 
 export default function TestResultsSummary({ onSelectTab }: Props) {
@@ -42,7 +42,7 @@ export default function TestResultsSummary({ onSelectTab }: Props) {
   );
   const findings = useMemo(
     () =>
-      TESTS_TABS.map(({ id, labelKey }) => ({ ...statistics[id], id, labelKey }))
+      TESTS_TABS.map(({ tab, labelKey }) => ({ ...statistics[tab], tab, labelKey }))
         .filter(({ bugs, failed, warnings }) => bugs + failed + warnings > 0)
         .sort((a, b) => b.bugs - a.bugs || b.failed - a.failed || b.warnings - a.warnings),
     [statistics],
@@ -57,7 +57,7 @@ export default function TestResultsSummary({ onSelectTab }: Props) {
             <p className="m-0 text-xs text-muted-foreground">{t('tests.resultsDescription')}</p>
           </div>
           {findings.length > 0 && (
-            <Button buttonType={ButtonType.SECONDARY} className="shrink-0" onClick={() => onSelectTab(findings[0].id)}>
+            <Button buttonType={ButtonType.SECONDARY} className="shrink-0" onClick={() => onSelectTab(findings[0].tab)}>
               {t('tests.reviewFindings')}
             </Button>
           )}
@@ -104,11 +104,11 @@ export default function TestResultsSummary({ onSelectTab }: Props) {
       )}
       {findings.length > 0 && (
         <div className="border border-border divide-y divide-border rounded overflow-hidden">
-          {findings.map(({ bugs, failed, id, labelKey, warnings }) => (
+          {findings.map(({ bugs, failed, labelKey, tab, warnings }) => (
             <div
               className="flex items-center justify-between gap-2 py-3 px-4 text-xs hover:bg-accent-soft cursor-pointer"
-              key={id}
-              onClick={() => onSelectTab(id)}
+              key={tab}
+              onClick={() => onSelectTab(tab)}
             >
               <span>{t(labelKey)}</span>
               <span className="flex items-center gap-2 text-[11px] text-muted-foreground">

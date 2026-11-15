@@ -1,31 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TESTING_MODE_TAB_INDEX } from 'src/constants/testingModeTabs';
-import { TESTS_TAB_INDEX } from 'src/constants/testsTabs';
-import { ReportFormat, SidebarTab } from 'src/types';
+import { TestingModeTab } from 'src/constants/testing-mode-tabs';
+import { TestsTab } from 'src/constants/tests-tabs';
+import { AiTab, ReportFormat, SidebarTab } from 'src/types';
 
 interface UIState {
-  aiActiveTab: number;
+  aiActiveTab: AiTab;
   exportFormat: ReportFormat;
   showLicenseSettings: boolean;
   sidebarActiveTab: SidebarTab;
-  testingModeActiveTab: number;
-  testsActiveTab: number;
+  testingModeActiveTab: TestingModeTab;
+  testsActiveTab: TestsTab;
 }
 
 const initialState: UIState = {
-  aiActiveTab: 0,
+  aiActiveTab: 'overview',
   exportFormat: 'json',
   showLicenseSettings: false,
   sidebarActiveTab: 'collections',
-  testingModeActiveTab: TESTING_MODE_TAB_INDEX.apiTesting,
-  testsActiveTab: TESTS_TAB_INDEX.security,
+  testingModeActiveTab: 'apiTesting',
+  testsActiveTab: 'security',
 };
 
 export const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    setAiActiveTab: (state, action: PayloadAction<number>) => {
+    setAiActiveTab: (state, action: PayloadAction<AiTab>) => {
       state.aiActiveTab = action.payload;
     },
     setExportFormat: (state, action: PayloadAction<ReportFormat>) => {
@@ -37,10 +37,10 @@ export const uiSlice = createSlice({
     setSidebarActiveTab: (state, action: PayloadAction<SidebarTab>) => {
       state.sidebarActiveTab = action.payload;
     },
-    setTestingModeActiveTab: (state, action: PayloadAction<number>) => {
+    setTestingModeActiveTab: (state, action: PayloadAction<TestingModeTab>) => {
       state.testingModeActiveTab = action.payload;
     },
-    setTestsActiveTab: (state, action: PayloadAction<number>) => {
+    setTestsActiveTab: (state, action: PayloadAction<TestsTab>) => {
       state.testsActiveTab = action.payload;
     },
     toggleSidebarTab: (state, action: PayloadAction<SidebarTab>) => {
