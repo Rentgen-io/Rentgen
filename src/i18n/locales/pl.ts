@@ -64,8 +64,6 @@ const pl = {
   // Collections Panel
   collections: {
     newFolder: 'Nowy folder',
-    importCollection: 'Importuj kolekcję',
-    exportCollection: 'Eksportuj kolekcję',
     searchRequests: 'Szukaj zapytań...',
     noMatchingRequests: 'Brak pasujących zapytań',
     noSavedRequests: 'Brak zapisanych zapytań',
@@ -102,7 +100,6 @@ const pl = {
   // History
   history: {
     title: 'Historia',
-    clearAll: 'Wyczyść wszystko',
     searchHistory: 'Szukaj w historii...',
     noMatchingHistory: 'Brak pasującej historii',
     noHistoryYet: 'Brak historii',
@@ -117,7 +114,7 @@ const pl = {
     headers: 'Nagłówki',
     headersPlaceholder: 'Klucz-Nagłówka: wartość',
     body: 'Treść',
-    bodyPlaceholderHttp: 'Wpisz treść zapytania (JSON lub Form Data)',
+    bodyPlaceholderHttp: 'Wpisz treść zapytania (JSON lub tekst)',
     bodyPlaceholderWss: 'Napisz wiadomość',
     wssUrlRequired: '🔴 Proszę użyć adresu URL ws:// lub wss://',
     modePlaceholder: 'TRYB',

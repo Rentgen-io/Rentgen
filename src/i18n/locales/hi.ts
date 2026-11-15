@@ -64,8 +64,6 @@ const hi = {
   // Collections Panel
   collections: {
     newFolder: 'नया फ़ोल्डर',
-    importCollection: 'संग्रह आयात करें',
-    exportCollection: 'संग्रह निर्यात करें',
     searchRequests: 'अनुरोध खोजें...',
     noMatchingRequests: 'कोई मेल खाने वाला अनुरोध नहीं',
     noSavedRequests: 'कोई सहेजा गया अनुरोध नहीं',
@@ -102,7 +100,6 @@ const hi = {
   // History
   history: {
     title: 'इतिहास',
-    clearAll: 'सभी साफ़ करें',
     searchHistory: 'इतिहास खोजें...',
     noMatchingHistory: 'कोई मेल खाने वाला इतिहास नहीं',
     noHistoryYet: 'अभी तक कोई इतिहास नहीं',
@@ -117,7 +114,7 @@ const hi = {
     headers: 'हैडर',
     headersPlaceholder: 'Header-Key: value',
     body: 'बॉडी',
-    bodyPlaceholderHttp: 'अनुरोध बॉडी दर्ज करें (JSON या Form Data)',
+    bodyPlaceholderHttp: 'अनुरोध बॉडी दर्ज करें (JSON या टेक्स्ट)',
     bodyPlaceholderWss: 'संदेश लिखें',
     wssUrlRequired: '🔴 कृपया ws:// या wss:// URL का उपयोग करें',
     modePlaceholder: 'MODE',

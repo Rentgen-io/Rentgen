@@ -64,8 +64,6 @@ const lt = {
   // Collections Panel
   collections: {
     newFolder: 'Naujas aplankas',
-    importCollection: 'Importuoti kolekciją',
-    exportCollection: 'Eksportuoti kolekciją',
     searchRequests: 'Ieškoti užklausų...',
     noMatchingRequests: 'Nerasta atitinkančių užklausų',
     noSavedRequests: 'Nėra išsaugotų užklausų',
@@ -102,7 +100,6 @@ const lt = {
   // History
   history: {
     title: 'Istorija',
-    clearAll: 'Išvalyti viską',
     searchHistory: 'Ieškoti istorijoje...',
     noMatchingHistory: 'Nerasta atitinkančios istorijos',
     noHistoryYet: 'Istorijos dar nėra',
@@ -117,7 +114,7 @@ const lt = {
     headers: 'Antraštės',
     headersPlaceholder: 'Antraštės-Raktas: reikšmė',
     body: 'Turinys',
-    bodyPlaceholderHttp: 'Įveskite užklausos turinį (JSON arba Form Data)',
+    bodyPlaceholderHttp: 'Įveskite užklausos turinį (JSON arba tekstas)',
     bodyPlaceholderWss: 'Parašykite žinutę',
     wssUrlRequired: '🔴 Prašome naudoti ws:// arba wss:// URL',
     modePlaceholder: 'REŽIMAS',

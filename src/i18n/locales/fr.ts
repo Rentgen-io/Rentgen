@@ -64,8 +64,6 @@ const fr = {
   // Collections Panel
   collections: {
     newFolder: 'Nouveau dossier',
-    importCollection: 'Importer une collection',
-    exportCollection: 'Exporter la collection',
     searchRequests: 'Rechercher des requêtes...',
     noMatchingRequests: 'Aucune requête correspondante',
     noSavedRequests: 'Aucune requête enregistrée',
@@ -102,7 +100,6 @@ const fr = {
   // History
   history: {
     title: 'Historique',
-    clearAll: 'Tout effacer',
     searchHistory: "Rechercher dans l'historique...",
     noMatchingHistory: 'Aucun historique correspondant',
     noHistoryYet: "Pas encore d'historique",
@@ -117,7 +114,7 @@ const fr = {
     headers: 'En-têtes',
     headersPlaceholder: 'Clé-en-tête : valeur',
     body: 'Corps',
-    bodyPlaceholderHttp: 'Saisir le corps de la requête (JSON ou Form Data)',
+    bodyPlaceholderHttp: 'Saisir le corps de la requête (JSON ou texte)',
     bodyPlaceholderWss: 'Rédiger un message',
     wssUrlRequired: '🔴 Veuillez utiliser une URL ws:// ou wss://',
     modePlaceholder: 'MODE',

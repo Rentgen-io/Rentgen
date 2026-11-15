@@ -64,8 +64,6 @@ const zhCN = {
   // Collections Panel
   collections: {
     newFolder: '新建文件夹',
-    importCollection: '导入集合',
-    exportCollection: '导出集合',
     searchRequests: '搜索请求...',
     noMatchingRequests: '没有匹配的请求',
     noSavedRequests: '没有已保存的请求',
@@ -102,7 +100,6 @@ const zhCN = {
   // History
   history: {
     title: '历史',
-    clearAll: '全部清除',
     searchHistory: '搜索历史...',
     noMatchingHistory: '没有匹配的历史记录',
     noHistoryYet: '暂无历史记录',
@@ -117,7 +114,7 @@ const zhCN = {
     headers: '请求头',
     headersPlaceholder: 'Header-Key: value',
     body: '请求体',
-    bodyPlaceholderHttp: '输入请求体 (JSON 或表单数据)',
+    bodyPlaceholderHttp: '输入请求体 (JSON 或文本)',
     bodyPlaceholderWss: '撰写消息',
     wssUrlRequired: '🔴 请使用 ws:// 或 wss:// URL',
     modePlaceholder: '模式',

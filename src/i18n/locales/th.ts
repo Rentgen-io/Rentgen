@@ -64,8 +64,6 @@ const th = {
   // Collections Panel
   collections: {
     newFolder: 'โฟลเดอร์ใหม่',
-    importCollection: 'นำเข้าคอลเลกชัน',
-    exportCollection: 'ส่งออกคอลเลกชัน',
     searchRequests: 'ค้นหาคำขอ...',
     noMatchingRequests: 'ไม่มีคำขอที่ตรงกัน',
     noSavedRequests: 'ยังไม่มีคำขอที่บันทึกไว้',
@@ -102,7 +100,6 @@ const th = {
   // History
   history: {
     title: 'ประวัติ',
-    clearAll: 'ล้างทั้งหมด',
     searchHistory: 'ค้นหาประวัติ...',
     noMatchingHistory: 'ไม่มีประวัติที่ตรงกัน',
     noHistoryYet: 'ยังไม่มีประวัติ',
@@ -117,7 +114,7 @@ const th = {
     headers: 'เฮดเดอร์',
     headersPlaceholder: 'Header-Key: value',
     body: 'บอดี้',
-    bodyPlaceholderHttp: 'ป้อนบอดี้ของคำขอ (JSON หรือ Form Data)',
+    bodyPlaceholderHttp: 'ป้อนบอดี้ของคำขอ (JSON หรือข้อความ)',
     bodyPlaceholderWss: 'เขียนข้อความ',
     wssUrlRequired: '🔴 กรุณาใช้ URL แบบ ws:// หรือ wss://',
     modePlaceholder: 'MODE',

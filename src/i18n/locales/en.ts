@@ -64,8 +64,6 @@ const en = {
   // Collections Panel
   collections: {
     newFolder: 'New Folder',
-    importCollection: 'Import Collection',
-    exportCollection: 'Export Collection',
     searchRequests: 'Search requests...',
     noMatchingRequests: 'No matching requests',
     noSavedRequests: 'No saved requests',
@@ -102,7 +100,6 @@ const en = {
   // History
   history: {
     title: 'History',
-    clearAll: 'Clear All',
     searchHistory: 'Search history...',
     noMatchingHistory: 'No matching history',
     noHistoryYet: 'No history yet',

@@ -155,7 +155,6 @@ export default function CollectionsPanel() {
         <div
           className="h-full flex items-center gap-2 w-full px-3 py-2 hover:bg-muted box-border cursor-pointer outline-none"
           onClick={() => dispatch(collectionActions.addFolder(t('collections.newFolder')))}
-          title={t('collections.newFolder')}
         >
           <AddIcon className="size-4 text-muted-foreground" />
           <span className="text-xs text-muted-foreground">{t('collections.newFolder')}</span>
@@ -163,12 +162,10 @@ export default function CollectionsPanel() {
         <div className="flex items-center gap-2 pr-2">
           <ImportIcon
             className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
-            title={t('collections.importCollection')}
             onClick={handleImport}
           />
           <ExportIcon
             className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
-            title={t('collections.exportCollection')}
             onClick={handleExport}
           />
         </div>

@@ -64,8 +64,6 @@ const ko = {
   // Collections Panel
   collections: {
     newFolder: '새 폴더',
-    importCollection: '컬렉션 가져오기',
-    exportCollection: '컬렉션 내보내기',
     searchRequests: '요청 검색...',
     noMatchingRequests: '일치하는 요청이 없습니다',
     noSavedRequests: '저장된 요청이 없습니다',
@@ -102,7 +100,6 @@ const ko = {
   // History
   history: {
     title: '기록',
-    clearAll: '모두 지우기',
     searchHistory: '기록 검색...',
     noMatchingHistory: '일치하는 기록이 없습니다',
     noHistoryYet: '아직 기록이 없습니다',
@@ -117,7 +114,7 @@ const ko = {
     headers: '헤더',
     headersPlaceholder: 'Header-Key: value',
     body: '바디',
-    bodyPlaceholderHttp: '요청 바디를 입력하세요 (JSON 또는 Form Data)',
+    bodyPlaceholderHttp: '요청 바디를 입력하세요 (JSON 또는 텍스트)',
     bodyPlaceholderWss: '메시지 작성',
     wssUrlRequired: '🔴 ws:// 또는 wss:// URL을 사용해 주세요',
     modePlaceholder: '모드',

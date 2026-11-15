@@ -64,8 +64,6 @@ const ru = {
   // Collections Panel
   collections: {
     newFolder: 'Новая папка',
-    importCollection: 'Импортировать коллекцию',
-    exportCollection: 'Экспортировать коллекцию',
     searchRequests: 'Поиск запросов...',
     noMatchingRequests: 'Нет подходящих запросов',
     noSavedRequests: 'Нет сохраненных запросов',
@@ -102,7 +100,6 @@ const ru = {
   // History
   history: {
     title: 'История',
-    clearAll: 'Очистить все',
     searchHistory: 'Поиск по истории...',
     noMatchingHistory: 'Нет совпадений в истории',
     noHistoryYet: 'История пока пуста',
@@ -117,7 +114,7 @@ const ru = {
     headers: 'Заголовки',
     headersPlaceholder: 'Header-Key: value',
     body: 'Тело',
-    bodyPlaceholderHttp: 'Введите тело запроса (JSON или Form Data)',
+    bodyPlaceholderHttp: 'Введите тело запроса (JSON или текст)',
     bodyPlaceholderWss: 'Составьте сообщение',
     wssUrlRequired: '🔴 Используйте URL с ws:// или wss://',
     modePlaceholder: 'MODE',

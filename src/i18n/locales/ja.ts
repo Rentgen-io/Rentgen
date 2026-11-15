@@ -64,8 +64,6 @@ const ja = {
   // Collections Panel
   collections: {
     newFolder: '新規フォルダ',
-    importCollection: 'コレクションをインポート',
-    exportCollection: 'コレクションをエクスポート',
     searchRequests: 'リクエストを検索...',
     noMatchingRequests: '一致するリクエストはありません',
     noSavedRequests: '保存されたリクエストはありません',
@@ -102,7 +100,6 @@ const ja = {
   // History
   history: {
     title: '履歴',
-    clearAll: 'すべてクリア',
     searchHistory: '履歴を検索...',
     noMatchingHistory: '一致する履歴はありません',
     noHistoryYet: 'まだ履歴がありません',
@@ -117,7 +114,7 @@ const ja = {
     headers: 'ヘッダー',
     headersPlaceholder: 'Header-Key: value',
     body: 'ボディ',
-    bodyPlaceholderHttp: 'リクエストボディを入力 (JSON または Form Data)',
+    bodyPlaceholderHttp: 'リクエストボディを入力 (JSON またはテキスト)',
     bodyPlaceholderWss: 'メッセージを作成',
     wssUrlRequired: '🔴 ws:// または wss:// の URL を使用してください',
     modePlaceholder: 'モード',

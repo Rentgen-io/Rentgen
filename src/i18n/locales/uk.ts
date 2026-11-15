@@ -64,8 +64,6 @@ const uk = {
   // Collections Panel
   collections: {
     newFolder: 'Нова тека',
-    importCollection: 'Імпортувати колекцію',
-    exportCollection: 'Експортувати колекцію',
     searchRequests: 'Пошук запитів...',
     noMatchingRequests: 'Немає відповідних запитів',
     noSavedRequests: 'Немає збережених запитів',
@@ -102,7 +100,6 @@ const uk = {
   // History
   history: {
     title: 'Історія',
-    clearAll: 'Очистити все',
     searchHistory: 'Пошук в історії...',
     noMatchingHistory: 'Немає відповідної історії',
     noHistoryYet: 'Історія порожня',
@@ -117,7 +114,7 @@ const uk = {
     headers: 'Заголовки',
     headersPlaceholder: 'Ключ-Заголовка: значення',
     body: 'Тіло',
-    bodyPlaceholderHttp: 'Введіть тіло запиту (JSON або Form Data)',
+    bodyPlaceholderHttp: 'Введіть тіло запиту (JSON або текст)',
     bodyPlaceholderWss: 'Напишіть повідомлення',
     wssUrlRequired: '🔴 Використовуйте URL з ws:// або wss://',
     modePlaceholder: 'РЕЖИМ',

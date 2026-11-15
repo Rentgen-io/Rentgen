@@ -43,7 +43,6 @@ export default function HistoryPanel() {
           <TrashIcon
             className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
             onClick={() => dispatch(historyActions.clearHistory())}
-            title={t('history.clearAll')}
           />
         )}
       </div>

@@ -64,8 +64,6 @@ const nl = {
   // Collections Panel
   collections: {
     newFolder: 'Nieuwe map',
-    importCollection: 'Collectie importeren',
-    exportCollection: 'Collectie exporteren',
     searchRequests: 'Verzoeken zoeken...',
     noMatchingRequests: 'Geen overeenkomende verzoeken',
     noSavedRequests: 'Geen opgeslagen verzoeken',
@@ -102,7 +100,6 @@ const nl = {
   // History
   history: {
     title: 'Geschiedenis',
-    clearAll: 'Alles wissen',
     searchHistory: 'Zoek in geschiedenis...',
     noMatchingHistory: 'Geen overeenkomende geschiedenis',
     noHistoryYet: 'Nog geen geschiedenis',
@@ -117,7 +114,7 @@ const nl = {
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: waarde',
     body: 'Body',
-    bodyPlaceholderHttp: 'Voer body van verzoek in (JSON of Form Data)',
+    bodyPlaceholderHttp: 'Voer body van verzoek in (JSON of tekst)',
     bodyPlaceholderWss: 'Bericht opstellen',
     wssUrlRequired: '🔴 Gebruik een ws:// of wss:// URL',
     modePlaceholder: 'MODUS',

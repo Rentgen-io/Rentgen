@@ -64,8 +64,6 @@ const tr = {
   // Collections Panel
   collections: {
     newFolder: 'Yeni Klasör',
-    importCollection: 'Koleksiyonu İçe Aktar',
-    exportCollection: 'Koleksiyonu Dışa Aktar',
     searchRequests: 'İstekleri ara...',
     noMatchingRequests: 'Eşleşen istek yok',
     noSavedRequests: 'Kaydedilmiş istek yok',
@@ -102,7 +100,6 @@ const tr = {
   // History
   history: {
     title: 'Geçmiş',
-    clearAll: 'Tümünü Temizle',
     searchHistory: 'Geçmişte ara...',
     noMatchingHistory: 'Eşleşen geçmiş yok',
     noHistoryYet: 'Henüz geçmiş yok',
@@ -117,7 +114,7 @@ const tr = {
     headers: 'Başlıklar',
     headersPlaceholder: 'Başlık-Anahtar: değer',
     body: 'Gövde',
-    bodyPlaceholderHttp: 'İstek gövdesini girin (JSON veya Form Data)',
+    bodyPlaceholderHttp: 'İstek gövdesini girin (JSON veya metin)',
     bodyPlaceholderWss: 'Mesaj oluşturun',
     wssUrlRequired: '🔴 Lütfen ws:// veya wss:// URL kullanın',
     modePlaceholder: 'MOD',

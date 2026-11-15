@@ -64,8 +64,6 @@ const id = {
   // Collections Panel
   collections: {
     newFolder: 'Folder Baru',
-    importCollection: 'Impor Koleksi',
-    exportCollection: 'Ekspor Koleksi',
     searchRequests: 'Cari permintaan...',
     noMatchingRequests: 'Tidak ada permintaan yang cocok',
     noSavedRequests: 'Tidak ada permintaan tersimpan',
@@ -102,7 +100,6 @@ const id = {
   // History
   history: {
     title: 'Riwayat',
-    clearAll: 'Hapus Semua',
     searchHistory: 'Cari riwayat...',
     noMatchingHistory: 'Tidak ada riwayat yang cocok',
     noHistoryYet: 'Belum ada riwayat',
@@ -117,7 +114,7 @@ const id = {
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: value',
     body: 'Body',
-    bodyPlaceholderHttp: 'Masukkan body permintaan (JSON atau Form Data)',
+    bodyPlaceholderHttp: 'Masukkan body permintaan (JSON atau teks)',
     bodyPlaceholderWss: 'Tulis pesan',
     wssUrlRequired: '🔴 Mohon gunakan URL ws:// atau wss://',
     modePlaceholder: 'MODE',

@@ -64,8 +64,6 @@ const de = {
   // Collections Panel
   collections: {
     newFolder: 'Neuer Ordner',
-    importCollection: 'Sammlung importieren',
-    exportCollection: 'Sammlung exportieren',
     searchRequests: 'Anfragen durchsuchen...',
     noMatchingRequests: 'Keine passenden Anfragen',
     noSavedRequests: 'Keine gespeicherten Anfragen',
@@ -102,7 +100,6 @@ const de = {
   // History
   history: {
     title: 'Verlauf',
-    clearAll: 'Alle löschen',
     searchHistory: 'Verlauf durchsuchen...',
     noMatchingHistory: 'Kein passender Verlauf',
     noHistoryYet: 'Noch kein Verlauf',
@@ -117,7 +114,7 @@ const de = {
     headers: 'Header',
     headersPlaceholder: 'Header-Schlüssel: Wert',
     body: 'Body',
-    bodyPlaceholderHttp: 'Anfrage-Body eingeben (JSON oder Form Data)',
+    bodyPlaceholderHttp: 'Anfrage-Body eingeben (JSON oder Text)',
     bodyPlaceholderWss: 'Nachricht verfassen',
     wssUrlRequired: '🔴 Bitte verwenden Sie eine ws:// oder wss:// URL',
     modePlaceholder: 'MODUS',
@@ -238,7 +235,8 @@ const de = {
       requestConflicts: '{{count}} Anfrage(n) mit übereinstimmender URL + Methode oder Namen',
       importWarnings: 'Importwarnungen: {{count}}',
       replaceDescription: 'Gesamte bestehende Sammlung ersetzen ({{folders}} Ordner, {{requests}} Anfragen)',
-      mergeDescription: 'Nur eindeutige Elemente hinzufügen (Duplikate nach URL + Methode oder Name werden übersprungen)',
+      mergeDescription:
+        'Nur eindeutige Elemente hinzufügen (Duplikate nach URL + Methode oder Name werden übersprungen)',
       newFolders: '{{count}} neue(r) Ordner',
       newRequests: '{{count}} neue Anfrage(n)',
       noNewItems: 'Keine neuen Elemente zum Hinzufügen',

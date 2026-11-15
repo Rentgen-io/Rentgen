@@ -64,8 +64,6 @@ const vi = {
   // Collections Panel
   collections: {
     newFolder: 'Thư mục mới',
-    importCollection: 'Nhập bộ sưu tập',
-    exportCollection: 'Xuất bộ sưu tập',
     searchRequests: 'Tìm kiếm yêu cầu...',
     noMatchingRequests: 'Không có yêu cầu phù hợp',
     noSavedRequests: 'Không có yêu cầu nào được lưu',
@@ -102,7 +100,6 @@ const vi = {
   // History
   history: {
     title: 'Lịch sử',
-    clearAll: 'Xóa tất cả',
     searchHistory: 'Tìm kiếm lịch sử...',
     noMatchingHistory: 'Không có lịch sử phù hợp',
     noHistoryYet: 'Chưa có lịch sử',
@@ -117,7 +114,7 @@ const vi = {
     headers: 'Tiêu đề',
     headersPlaceholder: 'Khóa-tiêu-đề: giá trị',
     body: 'Nội dung',
-    bodyPlaceholderHttp: 'Nhập nội dung yêu cầu (JSON hoặc Form Data)',
+    bodyPlaceholderHttp: 'Nhập nội dung yêu cầu (JSON hoặc văn bản)',
     bodyPlaceholderWss: 'Soạn tin nhắn',
     wssUrlRequired: '🔴 Vui lòng sử dụng URL ws:// hoặc wss://',
     modePlaceholder: 'CHẾ ĐỘ',

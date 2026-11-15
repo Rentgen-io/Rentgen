@@ -64,8 +64,6 @@ const ptBR = {
   // Collections Panel
   collections: {
     newFolder: 'Nova pasta',
-    importCollection: 'Importar coleção',
-    exportCollection: 'Exportar coleção',
     searchRequests: 'Buscar requisições...',
     noMatchingRequests: 'Nenhuma requisição correspondente',
     noSavedRequests: 'Nenhuma requisição salva',
@@ -102,7 +100,6 @@ const ptBR = {
   // History
   history: {
     title: 'Histórico',
-    clearAll: 'Limpar tudo',
     searchHistory: 'Buscar no histórico...',
     noMatchingHistory: 'Nenhum histórico correspondente',
     noHistoryYet: 'Ainda não há histórico',
@@ -117,7 +114,7 @@ const ptBR = {
     headers: 'Cabeçalhos',
     headersPlaceholder: 'Header-Key: valor',
     body: 'Corpo',
-    bodyPlaceholderHttp: 'Digite o corpo da requisição (JSON ou Form Data)',
+    bodyPlaceholderHttp: 'Digite o corpo da requisição (JSON ou texto)',
     bodyPlaceholderWss: 'Escrever mensagem',
     wssUrlRequired: '🔴 Por favor, use uma URL ws:// ou wss://',
     modePlaceholder: 'MODO',

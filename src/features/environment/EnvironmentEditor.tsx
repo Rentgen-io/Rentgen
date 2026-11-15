@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useEffectEvent, useMemo, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import Button, { ButtonType } from 'src/components/buttons/Button';
@@ -21,7 +21,6 @@ import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 const COLOR_OPTIONS = ['#EF4444', '#F97316', '#EAB308', '#22C55E', '#3B82F6', '#8B5CF6', '#EC4899', '#6B7280'];
 const DEFAULT_COLOR = '#3B82F6';
-const AUTOSAVE_DELAY = 500;
 const REMOVE_COLUMN_WIDTH = '40px';
 
 // A static variable row; `id` only identifies the row while editing (stable table / React key), it isn't saved
@@ -107,37 +106,27 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
     [color, environmentId, staticRows, t, title],
   );
 
-  // In refs, so the autosave isn't restarted by a new onSave function (App passes an inline one) and the pending save
-  // can still run when the editor closes
-  const onSaveRef = useRef(onSave);
-  const pendingSaveRef = useRef<(() => void) | null>(null);
-
-  useEffect(() => {
-    onSaveRef.current = onSave;
-  });
-
   // Silent autosave of an existing environment (only creating one is confirmed). Compares the normalized draft, so e.g.
   // a trailing space doesn't cause a save
-  useEffect(() => {
-    pendingSaveRef.current = null;
+  const saveChanges = useEffectEvent(() => {
     if (isNew || !environment || isSameEnvironment(draftEnvironment, environment)) return;
+    // Also runs when the editor closes: not for an environment deleted meanwhile (saving would add it back)
+    if (!selectEnvironments(store.getState()).some(({ id }) => id === draftEnvironment.id)) return;
 
-    const save = () => {
-      pendingSaveRef.current = null;
-      // Also runs when the editor closes: not for an environment deleted meanwhile (saving would add it back)
-      if (!selectEnvironments(store.getState()).some(({ id }) => id === draftEnvironment.id)) return;
+    onSave(draftEnvironment);
+  });
 
-      onSaveRef.current(draftEnvironment);
-    };
+  // Saving is requested on blur (text fields) or right after a discrete change (a color, a value option, a removed
+  // row). It runs after the render, so it sees the state set in the same event, e.g. a name committed on blur
+  const [saveRequest, setSaveRequest] = useState<number>(0);
+  const requestSave = useCallback(() => setSaveRequest((count) => count + 1), []);
 
-    pendingSaveRef.current = save;
-    const timeoutId = setTimeout(save, AUTOSAVE_DELAY);
+  useEffect(() => {
+    if (saveRequest) saveChanges();
+  }, [saveRequest]);
 
-    return () => clearTimeout(timeoutId);
-  }, [draftEnvironment, environment, isNew]);
-
-  // Closing the editor (or switching to another environment) within the delay still saves the last changes
-  useEffect(() => () => pendingSaveRef.current?.(), []);
+  // Closing the editor (or switching to another environment) before a blur still saves the last changes
+  useEffect(() => () => saveChanges(), []);
 
   const handleSave = () => {
     onSave({ ...draftEnvironment, id: generateEnvironmentId() });
@@ -167,10 +156,12 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
     (row: Row) => {
       dropNameDraft(row.id);
 
-      if (row.kind === 'static') setStaticRows((prev) => withTrailingEmptyRow(prev.filter(({ id }) => id !== row.id)));
-      else dispatch(environmentActions.removeDynamicVariable({ id: row.id }));
+      if (row.kind === 'static') {
+        setStaticRows((prev) => withTrailingEmptyRow(prev.filter(({ id }) => id !== row.id)));
+        requestSave();
+      } else dispatch(environmentActions.removeDynamicVariable({ id: row.id }));
     },
-    [dispatch, dropNameDraft],
+    [dispatch, dropNameDraft, requestSave],
   );
 
   const commitName = useCallback(
@@ -184,6 +175,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
       if (row.kind === 'static') {
         changeStaticRow(row.id, 'key', name);
+        requestSave();
         return;
       }
 
@@ -202,7 +194,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
 
       dispatch(environmentActions.updateDynamicVariable({ id, updates: { key: name } }));
     },
-    [allDynamicVariables, nameDrafts, changeStaticRow, dispatch, dropNameDraft, t],
+    [allDynamicVariables, nameDrafts, changeStaticRow, dispatch, dropNameDraft, requestSave, t],
   );
 
   const columns = useMemo<TableColumn<Row>[]>(
@@ -244,7 +236,10 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                 value={
                   valueOptions.find((option) => option.value === row.value) ?? { value: row.value, label: row.value }
                 }
-                onChange={(option) => changeStaticRow(row.id, 'value', option?.value ?? '')}
+                onChange={(option) => {
+                  changeStaticRow(row.id, 'value', option?.value ?? '');
+                  requestSave();
+                }}
               />
             );
 
@@ -274,7 +269,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
         center: true,
       },
     ],
-    [duplicateNames, nameDrafts, valueOptions, changeStaticRow, commitName, removeRow, t],
+    [duplicateNames, nameDrafts, valueOptions, changeStaticRow, commitName, removeRow, requestSave, t],
   );
 
   return (
@@ -297,6 +292,7 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
           <Input
             placeholder={t('environment.environmentNamePlaceholder')}
             value={title}
+            onBlur={requestSave}
             onChange={(event) => setTitle(event.target.value)}
           />
         </div>
@@ -315,14 +311,18 @@ export default function EnvironmentEditor({ environment, isNew, onSave }: Props)
                 style={{ backgroundColor: option }}
                 title={option}
                 type="button"
-                onClick={() => setColor(option)}
+                onClick={() => {
+                  setColor(option);
+                  requestSave();
+                }}
               />
             ))}
             <input
               aria-label={t('environment.color')}
-              className="w-10 h-8 cursor-pointer border-0 p-0"
+              className="size-8 p-0 border-0 rounded cursor-pointer"
               type="color"
               value={color}
+              onBlur={requestSave}
               onChange={(event) => setColor(event.target.value)}
             />
           </div>

@@ -64,8 +64,6 @@ const it = {
   // Collections Panel
   collections: {
     newFolder: 'Nuova cartella',
-    importCollection: 'Importa raccolta',
-    exportCollection: 'Esporta raccolta',
     searchRequests: 'Cerca richieste...',
     noMatchingRequests: 'Nessuna richiesta corrispondente',
     noSavedRequests: 'Nessuna richiesta salvata',
@@ -102,7 +100,6 @@ const it = {
   // History
   history: {
     title: 'Cronologia',
-    clearAll: 'Cancella tutto',
     searchHistory: 'Cerca nella cronologia...',
     noMatchingHistory: 'Nessuna cronologia corrispondente',
     noHistoryYet: 'Nessuna cronologia ancora',
@@ -117,7 +114,7 @@ const it = {
     headers: 'Intestazioni',
     headersPlaceholder: 'Chiave-intestazione: valore',
     body: 'Corpo',
-    bodyPlaceholderHttp: 'Inserisci il corpo della richiesta (JSON o Form Data)',
+    bodyPlaceholderHttp: 'Inserisci il corpo della richiesta (JSON o testo)',
     bodyPlaceholderWss: 'Scrivi messaggio',
     wssUrlRequired: '🔴 Utilizza un URL ws:// o wss://',
     modePlaceholder: 'MODALITÀ',
