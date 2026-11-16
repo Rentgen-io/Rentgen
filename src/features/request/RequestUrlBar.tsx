@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectHighlightColor,
   selectIsRequestDisabled,
+  selectIsSending,
   selectMethod,
   selectMode,
   selectSelectedRequestId,
@@ -40,15 +41,16 @@ export default function RequestUrlBar() {
 
   const mode = useAppSelector(selectMode);
   const method = useAppSelector(selectMethod);
-  const url = useAppSelector(selectUrl);
   const disabled = useAppSelector(selectIsRequestDisabled);
   const highlightColor = useAppSelector(selectHighlightColor);
+  const isSending = useAppSelector(selectIsSending);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
+  const url = useAppSelector(selectUrl);
   const variables = useAppSelector(selectVariableNames);
   const wssConnected = useAppSelector(selectWssConnected);
 
   const { saveRequest, autoSaveRequest } = useSaveRequest();
-  const { isSending, abortRequest, sendHttpRequest } = useSendHttpRequest();
+  const { abortRequest, sendHttpRequest } = useSendHttpRequest();
   const { connect, disconnect, send } = useWssActions();
 
   const isHttpMode = mode === 'HTTP';

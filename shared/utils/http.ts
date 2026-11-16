@@ -36,6 +36,11 @@ export function toPostmanFilePath(filePath: string): string {
   return /^[a-zA-Z]:[\\/]/.test(filePath) ? `/${filePath.replace(/\\/g, '/')}` : filePath;
 }
 
+/** The name of a file from its path, Windows or POSIX style. */
+export function getFileName(filePath: string): string {
+  return filePath.split(/[\\/]/).pop() || filePath;
+}
+
 /** Wraps form fields in the IPC-safe urlencoded body; the main process turns it into a real `URLSearchParams`. */
 export function createUrlEncodedBody(entries: Array<[string, string]>): UrlEncodedBody {
   return { __type: 'urlencoded', entries };

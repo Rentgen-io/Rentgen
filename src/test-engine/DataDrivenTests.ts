@@ -1,9 +1,11 @@
-import { RESPONSE_STATUS, getResponseStatusTitle, isClientErrorStatus, isSuccessStatus } from 'shared/responseStatus';
+import { getResponseStatusTitle, isClientErrorStatus, isSuccessStatus, RESPONSE_STATUS } from 'shared/responseStatus';
+import { prepareTestFiles } from 'src/api/files';
 import { sendHttp } from 'src/api/network';
 import { getDatasets } from 'src/constants/datasets';
 import store from 'src/store';
 import {
   DataType,
+  FileFormat,
   HttpRequest,
   HttpResponse,
   Interval,
@@ -14,22 +16,27 @@ import {
   TestStatus,
 } from 'src/types';
 import {
+  BINARY_FILE_FORMATS,
   createHttpRequest,
   createTestHttpRequest,
   extractBodyParameters,
+  FILE_FORMATS,
   generateRandomNumber,
   generateRandomString,
   getBodyParameterValue,
+  getFileName,
+  getTestFileName,
   normalizeDecimal,
+  TestFileKind,
 } from 'src/utils';
 import {
   BaseTests,
-  ERROR_RESPONSE_EXPECTED,
-  ORIGINAL_REQUEST_TEST_PARAMETER_NAME,
-  SUCCESS_RESPONSE_EXPECTED,
   createErrorTestResult,
   createTestResult,
   determineTestStatus,
+  ERROR_RESPONSE_EXPECTED,
+  ORIGINAL_REQUEST_TEST_PARAMETER_NAME,
+  SUCCESS_RESPONSE_EXPECTED,
 } from './BaseTests';
 import { Abortable, Test } from './decorators';
 
@@ -37,12 +44,17 @@ const VALUE_NORMALIZATION_TEST_EXPECTED = `${RESPONSE_STATUS.BAD_REQUEST} ${getR
 
 export class DataDrivenTests extends BaseTests<TestResult[]> {
   private signal?: AbortSignal;
+  private testFilesDirectory = '';
 
   protected async execute(signal: AbortSignal): Promise<TestResult[]> {
     this.signal = signal;
 
     const results: TestResult[] = [];
-    const { body, headers, method, url } = this.options;
+    const { body, bodyParameters, headers, method, url } = this.options;
+
+    if (Object.values(bodyParameters).some(({ type }) => type === 'file'))
+      this.testFilesDirectory = await prepareTestFiles();
+
     const request = createHttpRequest(body, headers, method, url);
 
     // Test original request first as baseline
@@ -101,8 +113,7 @@ export class DataDrivenTests extends BaseTests<TestResult[]> {
       const response = await sendHttp(request, this.signal);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
-        if (isSuccessStatus(statusCode))
-          testStatus.status = TestStatus.Pass;
+        if (isSuccessStatus(statusCode)) testStatus.status = TestStatus.Pass;
 
         return testStatus;
       });
@@ -136,7 +147,7 @@ export class DataDrivenTests extends BaseTests<TestResult[]> {
     const results: TestResult[] = [];
     const datasets = getDatasets(store.getState().settings.testEngine.configuration.email.domain);
     const dataset = [
-      ...generateDynamicTestData(parameterValue),
+      ...generateDynamicTestData(parameterValue, this.testFilesDirectory),
       ...(datasets[type] || []).map((dataset) => {
         if (type !== 'string' || !dataset.valid) return dataset;
 
@@ -207,8 +218,10 @@ async function testRequestParameter(
 ): Promise<TestResult> {
   onTestStart?.();
 
-  const { parameterName, parameterType, testData } = options;
+  const { bodyParameters, parameterName, parameterType, testData } = options;
   const request = createTestHttpRequest(options);
+  const isFileTest = parameterType === 'body' && !!parameterName && bodyParameters[parameterName]?.type === 'file';
+  const value = isFileTest && typeof testData?.value === 'string' ? getFileName(testData.value) : testData?.value;
 
   try {
     const response = await sendHttp(request, signal);
@@ -216,23 +229,9 @@ async function testRequestParameter(
       determine(response, statusCode, testData),
     );
 
-    return createTestResult(
-      `${parameterType}.${parameterName}`,
-      expected,
-      actual,
-      status,
-      request,
-      response,
-      testData?.value,
-    );
+    return createTestResult(`${parameterType}.${parameterName}`, expected, actual, status, request, response, value);
   } catch (error) {
-    return createErrorTestResult(
-      `${parameterType}.${parameterName}`,
-      expected,
-      String(error),
-      request,
-      testData?.value,
-    );
+    return createErrorTestResult(`${parameterType}.${parameterName}`, expected, String(error), request, value);
   }
 }
 
@@ -263,16 +262,18 @@ export function determineRequestParameterTestStatus(
   testData?: TestData,
 ): { actual: string; status: TestStatus } {
   const testStatus = { actual: response.status, status: TestStatus.Fail };
-  if (
-    (testData?.valid && isSuccessStatus(statusCode)) ||
-    (!testData?.valid && isClientErrorStatus(statusCode))
-  )
+  if ((testData?.valid && isSuccessStatus(statusCode)) || (!testData?.valid && isClientErrorStatus(statusCode)))
     testStatus.status = TestStatus.Pass;
 
   return testStatus;
 }
 
-export function generateDynamicTestData({ mandatory, type, value }: ParameterValue): TestData[] {
+/**
+ * The generated test data of a parameter: the "required" checks, and the type's own (enum values, number boundaries,
+ * string lengths, test files). `testFilesDirectory` is where the test files are (see prepareTestFiles); without it the
+ * test data can still be counted.
+ */
+export function generateDynamicTestData({ mandatory, type, value }: ParameterValue, filesDirectory = ''): TestData[] {
   const results: TestData[] = [];
   if (mandatory !== undefined) {
     results.push({ value: null, valid: !mandatory });
@@ -296,10 +297,31 @@ export function generateDynamicTestData({ mandatory, type, value }: ParameterVal
 
       results.push({ value: generateRandomString((value as Interval).max + 1), valid: false });
       break;
+    case 'file':
+      results.push(...generateFileTestData(Array.isArray(value) ? value : FILE_FORMATS, filesDirectory));
+      break;
     default:
   }
 
   return results;
+}
+
+/**
+ * Test files for the accepted (selected) formats: a sample of every format, accepted only when its format is; and,
+ * never accepted, a fake of every accepted binary format (text under its extension, so only an extension check
+ * passes it) and an empty file of the first accepted format.
+ */
+export function generateFileTestData(acceptedFormats: FileFormat[], filesDirectory: string): TestData[] {
+  const getPath = (kind: TestFileKind, format: FileFormat) => `${filesDirectory}/${getTestFileName(kind, format)}`;
+  const accepted = FILE_FORMATS.filter((format) => acceptedFormats.includes(format));
+
+  return [
+    ...FILE_FORMATS.map((format) => ({ value: getPath('sample', format), valid: accepted.includes(format) })),
+    ...accepted
+      .filter((format) => BINARY_FILE_FORMATS.includes(format))
+      .map((format) => ({ value: getPath('fake', format), valid: false })),
+    ...(accepted.length ? [{ value: getPath('empty', accepted[0]), valid: false }] : []),
+  ];
 }
 
 export function generateEnumTestData(value: string): TestData[] {
@@ -375,5 +397,5 @@ export function isParameterTestSkipped(dataType: DataType): boolean {
 }
 
 export function isNormalizationTestSkipped(dataType: string | undefined): boolean {
-  return dataType === 'boolean' || dataType === 'number';
+  return dataType === 'file' || dataType === 'boolean' || dataType === 'number';
 }

@@ -2,13 +2,12 @@ import { useCallback } from 'react';
 import { RESPONSE_STATUS_LABEL, isSuccessStatus } from 'shared/responseStatus';
 import { sendHttp } from 'src/api/network';
 import { store } from 'src/store';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { useAppDispatch } from 'src/store/hooks';
 import {
   selectBody,
   selectDynamicVariables,
   selectHeaders,
   selectHistoryEnabled,
-  selectIsSending,
   selectMappings,
   selectMethod,
   selectSelectedEnvironment,
@@ -39,8 +38,6 @@ let activeController: AbortController | null = null;
  */
 export function useSendHttpRequest() {
   const dispatch = useAppDispatch();
-
-  const isSending = useAppSelector(selectIsSending);
 
   const abortRequest = useCallback(() => {
     activeController?.abort();
@@ -131,5 +128,5 @@ export function useSendHttpRequest() {
     }
   }, [dispatch]);
 
-  return { isSending, abortRequest, sendHttpRequest };
+  return { abortRequest, sendHttpRequest };
 }

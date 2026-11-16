@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconButton } from 'src/components/buttons/IconButton';
 import Input from 'src/components/inputs/Input';
@@ -8,190 +8,222 @@ import Toggle from 'src/components/inputs/Toggle';
 import { useAppSelector } from 'src/store/hooks';
 import { selectTestEngineConfiguration } from 'src/store/selectors';
 import { isParameterTestSkipped } from 'src/test-engine';
-import { DataType, Interval, ParameterValue } from 'src/types';
-import { clamp, getInitialParameterValue, normalizeDecimal } from 'src/utils';
+import { DataType, FileFormat, Interval, ParameterValue } from 'src/types';
+import { clamp, FILE_FORMATS, getInitialParameterValue, normalizeDecimal } from 'src/utils';
 
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 
+// A decimal typed with only zeros after the point, e.g. "5.00"
 const TRAILING_ZEROS_PATTERN = /^-?\d+[.,]0+$/;
+// Added to such a value so it stays a decimal ("0.00 - decimal" in the hint) instead of becoming the integer 5;
+// normalizeDecimal() rounds it away for display and in the tests
+const DECIMAL_MARKER = 0.001;
+
+const NUMBER_LIMITS: Interval = { min: -Number.MAX_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER };
+const STRING_LENGTH_LIMITS: Interval = { min: 1, max: 1_000_000 };
+
+const TYPE_OPTIONS: { value: DataType; labelKey: string }[] = [
+  { value: 'do-not-test', labelKey: 'parameterTypes.doNotTest' },
+  { value: 'randomEmail', labelKey: 'parameterTypes.randomEmail' },
+  { value: 'randomGuid', labelKey: 'parameterTypes.randomGuid' },
+  { value: 'randomInt', labelKey: 'parameterTypes.randomInteger' },
+  { value: 'randomString', labelKey: 'parameterTypes.randomString' },
+  { value: 'boolean', labelKey: 'parameterTypes.boolean' },
+  { value: 'currency', labelKey: 'parameterTypes.currency' },
+  { value: 'date_yyyy_mm_dd', labelKey: 'parameterTypes.dateYYYYMMDD' },
+  { value: 'email', labelKey: 'parameterTypes.email' },
+  { value: 'enum', labelKey: 'parameterTypes.enum' },
+  { value: 'file', labelKey: 'parameterTypes.file' },
+  { value: 'guid', labelKey: 'parameterTypes.guid' },
+  { value: 'ipv4', labelKey: 'parameterTypes.ipv4' },
+  { value: 'number', labelKey: 'parameterTypes.number' },
+  { value: 'numeric_string', labelKey: 'parameterTypes.numericString' },
+  { value: 'phone', labelKey: 'parameterTypes.phone' },
+  { value: 'string', labelKey: 'parameterTypes.string' },
+  { value: 'url', labelKey: 'parameterTypes.url' },
+];
+
+// The hint shown above the controls of the types that have settings
+const HINT_KEYS: Partial<Record<DataType, string>> = {
+  enum: 'controls.enumLabel',
+  file: 'controls.fileLabel',
+  number: 'controls.numberLabel',
+  numeric_string: 'controls.numberLabel',
+  string: 'controls.stringLabel',
+};
+
+// Format names aren't translated: JPG, PNG, ...
+const FILE_FORMAT_OPTIONS: SelectOption<FileFormat, string>[] = FILE_FORMATS.map((format) => ({
+  value: format,
+  label: format.toUpperCase(),
+}));
+
+const INPUT_CLASS_NAME = 'w-full p-1.25';
 
 interface Props {
+  /** Whether the parameter may be tested as a file: a field of a form-data body */
+  canBeFile?: boolean;
   parameterValue: ParameterValue;
   onChange: (value: ParameterValue) => void;
 }
 
-export function ParameterControls({ parameterValue, onChange }: Props) {
+/** The test settings of one body / query parameter: its type, the type's settings, and whether it's mandatory. */
+export function ParameterControls({ canBeFile = false, parameterValue, onChange }: Props) {
   const { t } = useTranslation();
 
-  const testEngineConfiguration = useAppSelector(selectTestEngineConfiguration);
+  const { number: numberSettings, string: stringSettings } = useAppSelector(selectTestEngineConfiguration);
 
-  const parameterOptions: SelectOption<DataType>[] = [
-    { value: 'do-not-test', label: t('parameterTypes.doNotTest') },
-    { value: 'randomEmail', label: t('parameterTypes.randomEmail') },
-    { value: 'randomGuid', label: t('parameterTypes.randomGuid') },
-    { value: 'randomInt', label: t('parameterTypes.randomInteger') },
-    { value: 'randomString', label: t('parameterTypes.randomString') },
-    { value: 'boolean', label: t('parameterTypes.boolean') },
-    { value: 'currency', label: t('parameterTypes.currency') },
-    { value: 'date_yyyy_mm_dd', label: t('parameterTypes.dateYYYYMMDD') },
-    { value: 'email', label: t('parameterTypes.email') },
-    { value: 'enum', label: t('parameterTypes.enum') },
-    { value: 'guid', label: t('parameterTypes.guid') },
-    { value: 'ipv4', label: t('parameterTypes.ipv4') },
-    { value: 'number', label: t('parameterTypes.number') },
-    { value: 'numeric_string', label: t('parameterTypes.numericString') },
-    { value: 'phone', label: t('parameterTypes.phone') },
-    { value: 'string', label: t('parameterTypes.string') },
-    { value: 'url', label: t('parameterTypes.url') },
-  ];
   const { mandatory, type, value } = parameterValue;
-  const inputClassName = 'w-full p-1.25';
+  const showFileOption = canBeFile || type === 'file';
+
+  const typeOptions = useMemo<SelectOption<DataType>[]>(
+    () =>
+      TYPE_OPTIONS.filter((option) => showFileOption || option.value !== 'file').map(({ value, labelKey }) => ({
+        value,
+        label: t(labelKey),
+      })),
+    [showFileOption, t],
+  );
+
+  const isDoNotTest = type === 'do-not-test';
+  const hintKey = type === 'file' && !canBeFile ? undefined : HINT_KEYS[type];
+
+  const changeValue = (newValue: ParameterValue['value']) => onChange({ ...parameterValue, value: newValue });
+
+  const changeType = (event: ChangeEvent<HTMLSelectElement>) => {
+    const newType = event.target.value as DataType;
+
+    // A type that isn't tested has no settings; it's mandatory unless it's "Do not test"
+    onChange(
+      isParameterTestSkipped(newType)
+        ? getInitialParameterValue(newType, '', newType !== 'do-not-test')
+        : getInitialParameterValue(newType),
+    );
+  };
 
   return (
     <div className="w-full max-w-110">
-      {renderLabel()}
+      {hintKey && <div className="mb-1 text-xs text-muted-foreground">{t(hintKey)}</div>}
       <div className="grid grid-cols-2 gap-2">
         {type === 'enum' && (
           <Input
-            className={inputClassName}
+            className={INPUT_CLASS_NAME}
             value={value as string}
-            onChange={(event) => onChange({ ...parameterValue, value: event.target.value })}
+            onChange={(event) => changeValue(event.target.value)}
           />
         )}
         {(type === 'number' || type === 'numeric_string') && (
-          <div className="flex items-center gap-2">
-            <Input
-              className={inputClassName}
-              placeholder={t('controls.minPlaceholder')}
-              step={0.01}
-              type="number"
-              value={normalizeDecimal((value as Interval).min) ?? ''}
-              onBlur={() => onMinBlur(testEngineConfiguration.number.min)}
-              onChange={(event) => onMinChange(event.target.value, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER)}
-            />
-            <Input
-              className={inputClassName}
-              placeholder={t('controls.maxPlaceholder')}
-              step={0.01}
-              type="number"
-              value={normalizeDecimal((value as Interval).max) ?? ''}
-              onBlur={() => onMaxBlur(testEngineConfiguration.number.max)}
-              onChange={(event) => onMaxChange(event.target.value, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER)}
-            />
-          </div>
+          <IntervalInputs
+            allowDecimals
+            defaults={numberSettings}
+            interval={value as Interval}
+            limits={NUMBER_LIMITS}
+            onChange={changeValue}
+          />
         )}
         {type === 'string' && (
-          <div className="flex items-center gap-2">
-            <Input
-              className={inputClassName}
-              placeholder={t('controls.minPlaceholder')}
-              step={1}
-              type="number"
-              value={(value as Interval).min ?? ''}
-              onBlur={() => onMinBlur(testEngineConfiguration.string.minLength)}
-              onChange={(event) => onMinChange(event.target.value, 1, 1000000)}
-            />
-            <Input
-              className={inputClassName}
-              placeholder={t('controls.maxPlaceholder')}
-              step={1}
-              type="number"
-              value={(value as Interval).max ?? ''}
-              onBlur={() => onMaxBlur(testEngineConfiguration.string.maxLength)}
-              onChange={(event) => onMaxChange(event.target.value, 1, 1000000)}
-            />
-          </div>
+          <IntervalInputs
+            defaults={{ min: stringSettings.minLength, max: stringSettings.maxLength }}
+            interval={value as Interval}
+            limits={STRING_LENGTH_LIMITS}
+            onChange={changeValue}
+          />
+        )}
+        {canBeFile && type === 'file' && (
+          <SimpleSelect
+            className="w-full p-1"
+            options={FILE_FORMAT_OPTIONS}
+            multiple
+            size={1}
+            value={Array.isArray(value) ? value : FILE_FORMATS}
+            onChange={(event) => {
+              const formats = Array.from(event.target.selectedOptions, (option) => option.value as FileFormat);
+              if (formats.length) changeValue(formats);
+            }}
+          />
         )}
         <div className="col-start-2 flex items-center gap-1">
-          <SimpleSelect className="w-full p-1" options={parameterOptions} value={type} onChange={onSelectTypeChange} />
+          <SimpleSelect className="w-full p-1" options={typeOptions} value={type} onChange={changeType} />
           <IconButton
+            aria-label={t('parameterTypes.doNotTest')}
             className="size-7 shrink-0"
+            title={t('parameterTypes.doNotTest')}
             onClick={() => onChange({ type: 'do-not-test', value: '', mandatory: false })}
           >
             <ClearCrossIcon className="size-4" />
           </IconButton>
           <Toggle
             checked={mandatory}
-            disabled={isDoNotTestType(type)}
-            title={!isDoNotTestType(type) ? t('controls.mandatoryToggle') : undefined}
-            onChange={(e) => onChange({ ...parameterValue, mandatory: e.target.checked })}
+            disabled={isDoNotTest}
+            title={isDoNotTest ? undefined : t('controls.mandatoryToggle')}
+            onChange={(event) => onChange({ ...parameterValue, mandatory: event.target.checked })}
           />
         </div>
       </div>
     </div>
   );
+}
 
-  function renderLabel() {
-    let label: string | null = null;
-    switch (type) {
-      case 'enum':
-        label = t('controls.enumLabel');
-        break;
-      case 'number':
-      case 'numeric_string':
-        label = t('controls.numberLabel');
-        break;
-      case 'string':
-        label = t('controls.stringLabel');
-        break;
-    }
+// While a bound is being retyped it may be empty (null), although an Interval is always complete once it's committed
+type IntervalDraft = { [K in keyof Interval]: number | null };
 
-    if (!label) return null;
+interface IntervalInputsProps {
+  allowDecimals?: boolean;
+  defaults: Interval;
+  interval: Interval;
+  limits: Interval;
+  onChange: (interval: Interval) => void;
+}
 
-    return <div className="mb-1 text-xs text-muted-foreground">{label}</div>;
-  }
+/**
+ * The min / max bounds of a number or a string length. A bound is clamped to the limits while typed, may be emptied
+ * while retyped, and on blur gets its default back when empty and is kept on its side of the other bound.
+ */
+function IntervalInputs({ allowDecimals = false, defaults, interval, limits, onChange }: IntervalInputsProps) {
+  const { t } = useTranslation();
 
-  function onMinBlur(minValue: number) {
-    const min = (value as Interval).min;
-    const max = (value as Interval).max;
+  const { min, max } = interval as IntervalDraft;
 
-    onChange({
-      ...parameterValue,
-      value: { ...(value as Interval), min: Math.min(min ?? minValue, max) },
-    });
-  }
+  // The draft is only incomplete between typing and blur, see IntervalDraft
+  const changeInterval = (draft: IntervalDraft) => onChange(draft as Interval);
 
-  function onMaxBlur(maxValue: number) {
-    const min = (value as Interval).min;
-    const max = (value as Interval).max;
+  const parseBound = (text: string): number | null => {
+    if (!text) return null;
 
-    onChange({
-      ...parameterValue,
-      value: { ...(value as Interval), max: Math.max(min, max ?? maxValue) },
-    });
-  }
+    const bound = clamp(Number(text), limits.min, limits.max);
+    return allowDecimals && TRAILING_ZEROS_PATTERN.test(text) ? bound + DECIMAL_MARKER : bound;
+  };
 
-  function onMinChange(value: string, minValue: number, maxValue: number) {
-    if (!value) {
-      onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), min: null as unknown as number } });
-      return;
-    }
+  const formatBound = (bound: number | null) => (bound === null ? '' : allowDecimals ? normalizeDecimal(bound) : bound);
 
-    let min = clamp(Number(value), minValue, maxValue);
-    if (TRAILING_ZEROS_PATTERN.test(value) && min !== null) min += 0.001; // to preserve trailing zeros in decimals
+  const commitMin = () => {
+    const newMin = min ?? defaults.min;
+    changeInterval({ min: max === null ? newMin : Math.min(newMin, max), max });
+  };
 
-    onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), min } });
-  }
+  const commitMax = () => {
+    const newMax = max ?? defaults.max;
+    changeInterval({ min, max: min === null ? newMax : Math.max(min, newMax) });
+  };
 
-  function onMaxChange(value: string, minValue: number, maxValue: number) {
-    if (!value) {
-      onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), max: null as unknown as number } });
-      return;
-    }
+  const inputProps = { className: INPUT_CLASS_NAME, step: allowDecimals ? 0.01 : 1, type: 'number' };
 
-    let max = clamp(Number(value), minValue, maxValue);
-    if (TRAILING_ZEROS_PATTERN.test(value) && max !== null) max += 0.001; // to preserve trailing zeros in decimals
-
-    onChange({ ...parameterValue, value: { ...(parameterValue.value as Interval), max } });
-  }
-
-  function onSelectTypeChange(event: ChangeEvent<HTMLSelectElement>) {
-    const type = event.target.value as DataType;
-    if (isParameterTestSkipped(type)) onChange(getInitialParameterValue(type, '', !isDoNotTestType(type)));
-    else onChange(getInitialParameterValue(type));
-  }
-
-  function isDoNotTestType(type: DataType) {
-    return type === 'do-not-test';
-  }
+  return (
+    <div className="flex items-center gap-2">
+      <Input
+        {...inputProps}
+        placeholder={t('controls.minPlaceholder')}
+        value={formatBound(min)}
+        onBlur={commitMin}
+        onChange={(event) => changeInterval({ min: parseBound(event.target.value), max })}
+      />
+      <Input
+        {...inputProps}
+        placeholder={t('controls.maxPlaceholder')}
+        value={formatBound(max)}
+        onBlur={commitMax}
+        onChange={(event) => changeInterval({ min, max: parseBound(event.target.value) })}
+      />
+    </div>
+  );
 }

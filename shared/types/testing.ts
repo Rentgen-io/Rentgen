@@ -8,6 +8,7 @@ export type DataType =
   | 'date_yyyy_mm_dd'
   | 'email'
   | 'enum'
+  | 'file'
   | 'ftp_url'
   | 'guid'
   | 'ipv4'
@@ -21,6 +22,8 @@ export type DataType =
   | 'randomInt'
   | 'randomEmail'
   | 'randomGuid';
+
+export type FileFormat = 'jpg' | 'png' | 'pdf' | 'docx' | 'xlsx' | 'csv' | 'txt';
 
 export type ParameterType = 'body' | 'query';
 
@@ -39,7 +42,7 @@ export interface TestData {
 export interface ParameterValue {
   mandatory?: boolean;
   type: DataType;
-  value?: number | string | Interval;
+  value?: number | string | Interval | FileFormat[];
   overrides?: TestData[];
 }
 

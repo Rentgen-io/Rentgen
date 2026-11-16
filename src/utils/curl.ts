@@ -301,7 +301,7 @@ function buildBodyArguments(body: RequestBody | undefined): string[] {
       ),
       ...(body.files ?? []).map(
         ([key, filePath]) =>
-          `--form ${quoteShellArg(`${key}=@${quoteFormFilePath(toLocalFilePath(filePath))}`)}`,
+          `--form ${quoteShellArg(`${key}=@${filePath ? quoteFormFilePath(toLocalFilePath(filePath)) : filePath}`)}`,
       ),
     ];
 

@@ -2,6 +2,7 @@ export * from 'shared/utils/http';
 export * from 'shared/utils/id';
 export * from 'shared/utils/postman-converter';
 export * from 'shared/utils/string';
+export * from 'shared/utils/test-files';
 export * from './collection';
 export * from './curl';
 export * from './dynamicVariable';

@@ -4,11 +4,13 @@ import { twMerge } from 'tailwind-merge';
 import { ParameterControls } from './ParameterControls';
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Whether the parameters may be tested as files: the fields of a form-data body */
+  canBeFile?: boolean;
   parameters: RequestParameters;
   onChange: (parameters: RequestParameters) => void;
 }
 
-export default function ParametersPanel({ className, parameters, onChange, ...otherProps }: Props) {
+export default function ParametersPanel({ canBeFile, className, parameters, onChange, ...otherProps }: Props) {
   return (
     <div className={twMerge('flex flex-col gap-4', className)} {...otherProps}>
       {Object.entries(parameters).map(([key, value]) => (
@@ -16,7 +18,11 @@ export default function ParametersPanel({ className, parameters, onChange, ...ot
           <span className="flex-1 min-w-1/5 mb-2 font-monospace truncate" title={key}>
             {key}
           </span>
-          <ParameterControls parameterValue={value} onChange={(value) => onChange({ ...parameters, [key]: value })} />
+          <ParameterControls
+            canBeFile={canBeFile}
+            parameterValue={value}
+            onChange={(value) => onChange({ ...parameters, [key]: value })}
+          />
         </div>
       ))}
     </div>

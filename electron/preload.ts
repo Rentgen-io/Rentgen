@@ -34,6 +34,7 @@ interface ElectronApi {
   onWssEvent: (callback: (data: any) => void) => () => void;
   openExternal: (url: string) => void;
   pingHost: (host: string) => Promise<any>;
+  prepareTestFiles: () => Promise<string>;
   saveCollection: (collection: any) => Promise<{ success: boolean; error?: string }>;
   saveEnvironments: (environments: any) => Promise<{ success: boolean; error?: string }>;
   saveDynamicVariables: (variables: any) => Promise<{ success: boolean; error?: string }>;
@@ -77,6 +78,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   openExternal: (url: string) => ipcRenderer.send('open-external', url),
   pingHost: (host: string): Promise<any> => ipcRenderer.invoke('ping-host', host),
+  prepareTestFiles: (): Promise<string> => ipcRenderer.invoke('prepare-test-files'),
   saveCollection: (collection: any): Promise<{ success: boolean; error?: string }> =>
     ipcRenderer.invoke('save-collection', collection),
   saveEnvironments: (environments: any): Promise<{ success: boolean; error?: string }> =>

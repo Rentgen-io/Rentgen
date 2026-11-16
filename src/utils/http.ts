@@ -1,9 +1,17 @@
 import { Method } from 'axios';
 import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
-import { createFormDataBody, createUrlEncodedBody, getFormDataFilePaths, isFieldsBody } from 'shared/utils/http';
+import {
+  createFormDataBody,
+  createUrlEncodedBody,
+  getFormDataFilePaths,
+  isFieldsBody,
+  isFormDataBody,
+} from 'shared/utils/http';
+import { FILE_FORMATS } from 'shared/utils/test-files';
 import { store } from 'src/store';
 import {
   DataType,
+  FormDataBody,
   HttpRequest,
   HttpResponse,
   MappingsState,
@@ -55,7 +63,11 @@ export function createTestHttpRequest(options: TestOptions): HttpRequest {
     options;
   const testBody = structuredClone(body);
 
-  if (isFieldsBody(testBody)) {
+  if (isFormDataBody(testBody)) {
+    const writer = createFormDataParameterWriter(testBody, bodyParameters);
+
+    applyParameterValues(bodyParameters, parameterType === 'body' ? parameterName : undefined, testData, writer);
+  } else if (isFieldsBody(testBody)) {
     const fields = testBody.entries;
     const writer = createTextParameterWriter((name, value) => updateField(fields, name, value));
 
@@ -105,13 +117,15 @@ export function buildRequestBody(body: PostmanBody): RequestBody {
 
 /**
  * The body's testable parameters with their initial test settings: every form field, or every JSON property
- * (objects and arrays themselves are marked "do not test", only their children are tested).
+ * (objects and arrays themselves are marked "do not test", only their children are tested). A form-data file field
+ * is a `file` parameter, also when a text field has the same name.
  */
 export function extractBodyParameters(body: unknown): RequestParameters {
   const parameters: RequestParameters = {};
 
   if (isFieldsBody(body)) {
     for (const [key, value] of body.entries) parameters[key] = getInitialParameterValue(detectDataType(value), value);
+    if (isFormDataBody(body)) for (const [key] of body.files ?? []) parameters[key] = getInitialParameterValue('file');
   } else if (isObject(body)) {
     for (const [path, type] of Object.entries(extractPropertiesFromJson(body))) {
       if (type === 'DO_NOT_TEST') {
@@ -226,14 +240,30 @@ export function getInitialParameterValue(
       return { ...parameterValue, value: settings.number };
     case 'string':
       return { ...parameterValue, value: { min: settings.string.minLength, max: settings.string.maxLength } };
+    case 'file':
+      return { ...parameterValue, value: [...FILE_FORMATS] };
     default:
       return parameterValue;
   }
 }
 
-/** The extracted parameters, each replaced by the user's saved mapping when one exists. */
-export function applyMapping(extracted: RequestParameters, mapped: RequestParameters): RequestParameters {
-  return Object.fromEntries(Object.keys(extracted).map((key) => [key, key in mapped ? mapped[key] : extracted[key]]));
+/**
+ * The extracted parameters, each replaced by the user's saved mapping when one exists. Any field may be mapped to any
+ * type (e.g. a file field tested with strings), but `file` only where a file can be sent: a saved `file` mapping is
+ * ignored unless `canBeFile` (a form-data body), and the extracted parameter is used instead.
+ */
+export function applyMapping(
+  extracted: RequestParameters,
+  mapped: RequestParameters,
+  canBeFile = false,
+): RequestParameters {
+  return Object.fromEntries(
+    Object.keys(extracted).map((key) => {
+      const useMapping = key in mapped && (canBeFile || mapped[key].type !== 'file');
+
+      return [key, useMapping ? mapped[key] : extracted[key]];
+    }),
+  );
 }
 
 /**
@@ -253,7 +283,7 @@ export function extractRequestParameters(
   );
 
   return {
-    bodyParameters: applyMapping(extractBodyParameters(body), mapping?.body ?? {}),
+    bodyParameters: applyMapping(extractBodyParameters(body), mapping?.body ?? {}, isFormDataBody(body)),
     queryParameters: applyMapping(queryParameters, mapping?.query ?? {}),
   };
 }
@@ -264,6 +294,31 @@ export function extractRequestParameters(
 function updateField(fields: FormEntry[], name: string, value: string): void {
   const field = fields.find(([key]) => key === name);
   if (field) field[1] = value;
+}
+
+/**
+ * Sends a form-data field as text, also a file field (e.g. a file field tested with strings): its file parts are
+ * dropped and the text value set. A field the body doesn't have is not added.
+ */
+function setFormDataText(body: FormDataBody, name: string, value: string): void {
+  const isFileField = !!body.files?.some(([key]) => key === name);
+  if (isFileField) body.files = body.files!.filter(([key]) => key !== name);
+
+  const field = body.entries.find(([key]) => key === name);
+  if (field) field[1] = value;
+  else if (isFileField) body.entries.push([name, value]);
+}
+
+/**
+ * Sends a form-data field as one file, also a text field (e.g. a text field tested with files): its text value and
+ * other files are replaced by the file. A field the body doesn't have is not added.
+ */
+function setFormDataFile(body: FormDataBody, name: string, filePath: string): void {
+  const hasField = [...body.entries, ...(body.files ?? [])].some(([key]) => key === name);
+  if (!hasField) return;
+
+  body.entries = body.entries.filter(([key]) => key !== name);
+  body.files = [...(body.files ?? []).filter(([key]) => key !== name), [name, filePath]];
 }
 
 /** Reads a value by dot/bracket notation path; `undefined` as soon as a step is null or undefined. */
@@ -307,5 +362,22 @@ function createTextParameterWriter(setValue: (name: string, value: string) => vo
   return {
     setTestValue: (name, value) => setValue(name, stringifyValue(value)),
     setRandomValue: (name, value) => setValue(name, String(value)),
+  };
+}
+
+/**
+ * Writer for a form-data body: like the text writer, but the field's mapping decides how its test value is sent,
+ * whatever the field is in the request: a `file` parameter's test value is the path of the file to send, any other
+ * parameter's value is sent as text. Random values are always text (no random type is a file).
+ */
+function createFormDataParameterWriter(body: FormDataBody, parameters: RequestParameters): ParameterWriter {
+  const textWriter = createTextParameterWriter((name, value) => setFormDataText(body, name, value));
+
+  return {
+    ...textWriter,
+    setTestValue: (name, value) => {
+      if (parameters[name]?.type === 'file') setFormDataFile(body, name, String(value));
+      else textWriter.setTestValue(name, value);
+    },
   };
 }

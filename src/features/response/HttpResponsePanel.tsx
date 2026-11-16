@@ -10,11 +10,12 @@ import ResizeHandler from 'src/components/panels/ResizeHandler';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import { useElementHeight } from 'src/hooks/useElementHeight';
 import { useResizableSize } from 'src/hooks/useResizableSize';
-import { useSendHttpRequest } from 'src/hooks/useSendHttpRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
+  selectBodyMode,
   selectBodyParameters,
   selectHttpResponse,
+  selectIsSending,
   selectQueryParameters,
   selectSelectedRequestId,
   selectSelectedRequestRunResult,
@@ -22,8 +23,8 @@ import {
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
-import ParametersPanel from '../parameters/ParametersPanel';
 import { isAbortedResponse } from 'src/utils';
+import ParametersPanel from '../parameters/ParametersPanel';
 
 const MIN_RESPONSE_HEIGHT = 160;
 const MAX_RESPONSE_HEIGHT = '50vh';
@@ -37,9 +38,11 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
+  const bodyMode = useAppSelector(selectBodyMode);
   const bodyParameters = useAppSelector(selectBodyParameters);
   const queryParameters = useAppSelector(selectQueryParameters);
   const httpResponse = useAppSelector(selectHttpResponse);
+  const isSending = useAppSelector(selectIsSending);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const requestWithFolder = useAppSelector(selectSelectedRequestWithFolder);
   const runResult = useAppSelector(selectSelectedRequestRunResult);
@@ -51,7 +54,6 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
     minSize: MIN_RESPONSE_HEIGHT,
     storageKey: 'responsePanelHeight',
   });
-  const { isSending } = useSendHttpRequest();
 
   const setVariable = useCallback(
     (path: string, value: string, source: 'body' | 'header') => {
@@ -210,6 +212,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                   {hasBodyParameters && (
                     <TabPanel>
                       <ParametersPanel
+                        canBeFile={bodyMode === 'formdata'}
                         parameters={bodyParameters}
                         onChange={(parameters) => dispatch(requestActions.updateBodyParameters(parameters))}
                       />

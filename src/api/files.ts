@@ -25,4 +25,6 @@ export const importPostmanCollection = (): Promise<ImportResult> => window.elect
 
 export const importProject = (): Promise<ProjectImportResult> => window.electronAPI.importProject();
 
+export const prepareTestFiles = (): Promise<string> => window.electronAPI.prepareTestFiles();
+
 export const selectFiles = (): Promise<string[]> => window.electronAPI.selectFiles();

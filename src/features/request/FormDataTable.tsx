@@ -2,7 +2,6 @@ import { useId, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from 'react-tooltip';
-import { getFormDataFilePaths, toPostmanFilePath } from 'shared/utils/http';
 import { selectFiles } from 'src/api/files';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import HighlightedInput from 'src/components/inputs/HighlightedInput';
@@ -12,6 +11,7 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectBodyFormData, selectHighlightColor, selectVariableNames } from 'src/store/selectors';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { PostmanFormDataItem } from 'src/types';
+import { getFileName, getFormDataFilePaths, toPostmanFilePath } from 'src/utils';
 
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 import TrashIcon from 'src/assets/icons/trash-icon.svg';
@@ -188,10 +188,6 @@ function toSrc(filePaths: string[]): PostmanFormDataItem['src'] {
   return filePaths.length === 1 ? filePaths[0] : filePaths;
 }
 
-function getFileName(filePath: string): string {
-  return filePath.split(/[\\/]/).pop() || filePath;
-}
-
 /** Keeps exactly one empty row at the end, for adding a field. */
 function withTrailingEmptyRow(rows: Row[]): Row[] {
   const lastRow = rows[rows.length - 1];
@@ -226,7 +222,7 @@ function FileControls({ filePaths, onChange }: { filePaths: string[]; onChange: 
   };
 
   return (
-    <div className="flex flex-auto items-center justify-between h-fit min-w-0 py-1.5 px-2.5 text-foreground">
+    <div className="flex flex-auto items-center justify-between gap-2 h-fit min-w-0 py-1.5 px-2.5 text-foreground">
       {filePaths.length ? (
         <>
           <div

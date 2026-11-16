@@ -34,6 +34,11 @@ async function buildFormData({ entries, files = [] }: FormDataBody): Promise<For
 
   for (const [key, value] of entries) formData.append(key, value);
   for (const [key, rawPath] of files) {
+    if (!parseJsonOrText(rawPath)) {
+      formData.append(key, new Blob([]), '');
+      continue;
+    }
+
     const filePath = toLocalFilePath(rawPath);
     formData.append(key, await openFileAsBlob(filePath), basename(filePath));
   }

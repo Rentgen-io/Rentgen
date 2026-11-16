@@ -15,6 +15,7 @@ import {
   registerMappingsHandlers,
   registerProjectHandlers,
   registerSettingsHandlers,
+  registerTestFileHandlers,
   registerWssHandlers,
 } from './handlers';
 
@@ -145,6 +146,7 @@ registerProjectHandlers();
 registerCertificateHandlers();
 registerCliHandlers();
 registerMappingsHandlers();
+registerTestFileHandlers();
 
 ipcMain.handle('get-app-version', () => app.getVersion());
 ipcMain.on('open-external', (_, url: string) => shell.openExternal(url));

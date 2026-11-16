@@ -200,7 +200,7 @@ export function getTestsTableColumns(
       name: label('Value'),
       selector: (row) => truncateValue(row.value),
       cell: (row) => (
-        <span className="whitespace-pre" data-tag="allowRowEvents">
+        <span className="truncate" data-tag="allowRowEvents">
           {truncateValue(row.value)}
         </span>
       ),

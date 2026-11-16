@@ -8,4 +8,5 @@ export * from './importExportHandlers';
 export * from './mappingsHandlers';
 export * from './projectHandlers';
 export * from './settingsHandlers';
+export * from './testFileHandlers';
 export * from './wssHandlers';
