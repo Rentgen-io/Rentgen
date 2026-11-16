@@ -586,7 +586,8 @@ const ja = {
     description:
       'デモのアサーションは編集可能なサンプルです。モデルの言語や拒否の言い回しに合わせて調整してください。照合では大文字と小文字を区別せず、直線のアポストロフィと文字装飾用のアポストロフィは同一として扱います。OR は列挙されたいずれかのフレーズを禁止し、AND はすべてのフレーズが同時に出現する場合を禁止します。',
     runEachQuestion: '各質問は、現在のリクエストと選択した環境に対して実行されます。',
-    saveRequestMessage: '評価とレポートを保持するには、このリクエストをコレクションに保存してください。',
+    preEvaluationHint: 'リクエストを送信すると、事前評価を実行できます。',
+    preEvaluationUnavailable: '事前評価を実行するには、成功したレスポンス (HTTP 2xx または 3xx) が必要です。',
     runPreEvaluation: '事前評価を実行',
     userPromptField: 'ユーザープロンプトのフィールド',
     userPromptPlaceholder: 'JSONフィールドを選択',

@@ -595,7 +595,8 @@ const fr = {
     description:
       "Les assertions de démonstration sont des exemples modifiables. Adaptez-les à la langue et à la formulation de refus de votre modèle. La correspondance ignore la casse et considère les apostrophes droites et typographiques comme équivalentes. OR interdit toute phrase listée ; AND interdit toutes les phrases lorsqu'elles apparaissent ensemble.",
     runEachQuestion: "Chaque question est exécutée avec la requête actuelle et l'environnement sélectionné.",
-    saveRequestMessage: 'Enregistrez cette requête dans une collection pour conserver son évaluation et son rapport.',
+    preEvaluationHint: 'Envoyez une requête pour lancer la pré-évaluation.',
+    preEvaluationUnavailable: 'La pré-évaluation nécessite une réponse réussie (HTTP 2xx ou 3xx).',
     runPreEvaluation: 'Lancer la pré-évaluation',
     userPromptField: 'Champ du prompt utilisateur',
     userPromptPlaceholder: 'Sélectionner un champ JSON',

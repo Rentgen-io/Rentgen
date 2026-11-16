@@ -20,13 +20,14 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectCurrentRun,
   selectEvaluationReport,
+  selectHasHttpResponse,
   selectIsPreEvaluationRunning,
+  selectIsResponseSuccessful,
   selectPreEvaluation,
   selectPreEvaluationDisabled,
   selectPreEvaluationError,
   selectPreEvaluationTotalRuns,
   selectPromptPathOptions,
-  selectSelectedRequestId,
 } from 'src/store/selectors';
 import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { executePreEvaluation, stopPreEvaluation } from 'src/test-engine';
@@ -54,10 +55,11 @@ export default function PreEvaluationPanel() {
 
   const disabled = useAppSelector(selectPreEvaluationDisabled);
   const evaluationReport = useAppSelector(selectEvaluationReport);
+  const hasHttpResponse = useAppSelector(selectHasHttpResponse);
+  const isResponseSuccessful = useAppSelector(selectIsResponseSuccessful);
   const isRunningPreEvaluation = useAppSelector(selectIsPreEvaluationRunning);
   const preEvaluation = useAppSelector(selectPreEvaluation) ?? DEFAULT_PRE_EVALUATION;
   const promptPathOptions = useAppSelector(selectPromptPathOptions);
-  const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const validationError = useAppSelector(selectPreEvaluationError);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -162,8 +164,12 @@ export default function PreEvaluationPanel() {
           <h5 className="m-0">{t('preEvaluation.title')}</h5>
           <p className="m-0 text-xs text-muted-foreground">{t('preEvaluation.runEachQuestion')}</p>
         </div>
+        {!isResponseSuccessful && (
+          <p className="m-0 text-xs text-muted-foreground">
+            {t(hasHttpResponse ? 'preEvaluation.preEvaluationUnavailable' : 'preEvaluation.preEvaluationHint')}
+          </p>
+        )}
         <p className="m-0 text-xs text-muted-foreground">{t('preEvaluation.description')}</p>
-        {!selectedRequestId && <p className="m-0 text-xs">{t('preEvaluation.saveRequestMessage')}</p>}
       </div>
       <div className="relative flex flex-col gap-4 py-3 px-4">
         <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-4">
@@ -275,7 +281,7 @@ export default function PreEvaluationPanel() {
         {!isRunningPreEvaluation ? (
           <Button
             className="inline-flex items-center gap-2 @xl:w-fit truncate"
-            disabled={disabled}
+            disabled={disabled || !isResponseSuccessful}
             onClick={async () => {
               if (disabled) return;
 

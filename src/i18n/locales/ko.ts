@@ -581,7 +581,8 @@ const ko = {
     description:
       '데모 어설션은 편집 가능한 예시입니다. 모델의 언어와 거부 표현에 맞게 조정하세요. 매칭은 대소문자를 구분하지 않으며 직선 아포스트로피와 타이포그래피 아포스트로피를 동일하게 취급합니다. OR는 나열된 구문 중 하나라도 금지하고, AND는 모든 구문이 함께 나타나는 경우를 금지합니다.',
     runEachQuestion: '각 질문은 현재 요청과 선택한 환경을 대상으로 실행됩니다.',
-    saveRequestMessage: '평가와 보고서를 보존하려면 이 요청을 컬렉션에 저장하세요.',
+    preEvaluationHint: '요청을 보내면 사전 평가를 실행할 수 있습니다.',
+    preEvaluationUnavailable: '사전 평가를 실행하려면 성공한 응답(HTTP 2xx 또는 3xx)이 필요합니다.',
     runPreEvaluation: '사전 평가 실행',
     userPromptField: '사용자 프롬프트 필드',
     userPromptPlaceholder: 'JSON 필드 선택',

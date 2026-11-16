@@ -582,7 +582,8 @@ const id = {
     description:
       'Assertion demo adalah contoh yang dapat diedit. Sesuaikan dengan bahasa dan kata-kata penolakan model Anda. Pencocokan mengabaikan huruf besar/kecil dan menganggap apostrof lurus dan tipografis setara. OR melarang salah satu frasa yang terdaftar; AND melarang semua frasa jika muncul bersamaan.',
     runEachQuestion: 'Setiap pertanyaan dijalankan terhadap permintaan saat ini dan environment yang dipilih.',
-    saveRequestMessage: 'Simpan permintaan ini ke koleksi untuk menyimpan evaluasi dan laporannya.',
+    preEvaluationHint: 'Kirim permintaan untuk menjalankan pra-evaluasi.',
+    preEvaluationUnavailable: 'Pra-evaluasi memerlukan respons yang berhasil (HTTP 2xx atau 3xx).',
     runPreEvaluation: 'Jalankan Pra-Evaluasi',
     userPromptField: 'Bidang prompt pengguna',
     userPromptPlaceholder: 'Pilih bidang JSON',

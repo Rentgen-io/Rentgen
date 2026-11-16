@@ -581,7 +581,8 @@ const en = {
     description:
       "Demo assertions are editable examples. Adapt them to your model's language and refusal wording. Matching ignores case and treats straight and typographic apostrophes as equivalent. OR forbids any listed phrase; AND forbids all phrases appearing together.",
     runEachQuestion: 'Each question runs against the current request and selected environment.',
-    saveRequestMessage: 'Save this request to a collection to retain its evaluation and report.',
+    preEvaluationHint: 'Send a request to run the pre-evaluation.',
+    preEvaluationUnavailable: 'Pre-evaluation requires a successful response (HTTP 2xx or 3xx).',
     runPreEvaluation: 'Run Pre-Evaluation',
     userPromptField: 'User prompt field',
     userPromptPlaceholder: 'Select JSON field',

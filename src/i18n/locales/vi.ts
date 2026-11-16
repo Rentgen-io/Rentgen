@@ -582,7 +582,8 @@ const vi = {
     description:
       'Các assertion demo là ví dụ có thể chỉnh sửa. Hãy điều chỉnh chúng theo ngôn ngữ và cách diễn đạt từ chối của mô hình của bạn. Việc so khớp bỏ qua chữ hoa/chữ thường và coi dấu nháy đơn thẳng và dấu nháy đơn kiểu chữ in là tương đương. OR cấm bất kỳ cụm từ nào được liệt kê; AND cấm khi tất cả các cụm từ xuất hiện cùng nhau.',
     runEachQuestion: 'Mỗi câu hỏi được chạy với yêu cầu hiện tại và môi trường đã chọn.',
-    saveRequestMessage: 'Lưu yêu cầu này vào một bộ sưu tập để giữ lại đánh giá và báo cáo.',
+    preEvaluationHint: 'Gửi yêu cầu để chạy tiền đánh giá.',
+    preEvaluationUnavailable: 'Tiền đánh giá yêu cầu phản hồi thành công (HTTP 2xx hoặc 3xx).',
     runPreEvaluation: 'Chạy tiền đánh giá',
     userPromptField: 'Trường prompt của người dùng',
     userPromptPlaceholder: 'Chọn trường JSON',

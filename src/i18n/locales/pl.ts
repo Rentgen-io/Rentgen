@@ -588,7 +588,8 @@ const pl = {
     description:
       'Demonstracyjne asercje to edytowalne przykłady. Dostosuj je do języka i sposobu formułowania odmów w Twoim modelu. Dopasowanie ignoruje wielkość liter i traktuje proste oraz typograficzne apostrofy jako równoważne. OR zabrania dowolnej z wymienionych fraz; AND zabrania wszystkich fraz występujących razem.',
     runEachQuestion: 'Każde pytanie jest uruchamiane dla bieżącego żądania i wybranego środowiska.',
-    saveRequestMessage: 'Zapisz to żądanie w kolekcji, aby zachować jego ocenę i raport.',
+    preEvaluationHint: 'Wyślij zapytanie, aby uruchomić wstępną ocenę.',
+    preEvaluationUnavailable: 'Wstępna ocena wymaga poprawnej odpowiedzi (HTTP 2xx lub 3xx).',
     runPreEvaluation: 'Uruchom wstępną ocenę',
     userPromptField: 'Pole promptu użytkownika',
     userPromptPlaceholder: 'Wybierz pole JSON',

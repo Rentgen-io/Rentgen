@@ -589,7 +589,8 @@ const lt = {
     description:
       'Demonstraciniai tvirtinimai yra redaguojami pavyzdžiai. Pritaikykite juos savo modelio kalbai ir atsisakymo formuluotėms. Lyginant neatsižvelgiama į raidžių dydį, o tiesūs ir tipografiniai apostrofai laikomi lygiaverčiais. OR draudžia bet kurią išvardytą frazę; AND draudžia visas frazes, kai jos pasirodo kartu.',
     runEachQuestion: 'Kiekvienas klausimas vykdomas su dabartine užklausa ir pasirinkta aplinka.',
-    saveRequestMessage: 'Išsaugokite šią užklausą kolekcijoje, kad išliktų jos vertinimas ir ataskaita.',
+    preEvaluationHint: 'Išsiųskite užklausą, kad galėtumėte vykdyti išankstinį vertinimą.',
+    preEvaluationUnavailable: 'Išankstiniam vertinimui reikalingas sėkmingas atsakymas (HTTP 2xx arba 3xx).',
     runPreEvaluation: 'Vykdyti išankstinį vertinimą',
     userPromptField: 'Naudotojo užklausos laukas',
     userPromptPlaceholder: 'Pasirinkite JSON lauką',

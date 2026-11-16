@@ -590,7 +590,8 @@ const de = {
     description:
       'Demo-Assertions sind bearbeitbare Beispiele. Passen Sie sie an die Sprache und die Ablehnungsformulierungen Ihres Modells an. Beim Abgleich wird die Groß- und Kleinschreibung ignoriert, und gerade und typografische Apostrophe gelten als gleichwertig. OR verbietet jede aufgeführte Phrase; AND verbietet alle Phrasen, wenn sie zusammen auftreten.',
     runEachQuestion: 'Jede Frage wird mit der aktuellen Anfrage und der ausgewählten Umgebung ausgeführt.',
-    saveRequestMessage: 'Speichern Sie diese Anfrage in einer Sammlung, um die Bewertung und den Bericht zu behalten.',
+    preEvaluationHint: 'Senden Sie eine Anfrage, um die Vorabbewertung auszuführen.',
+    preEvaluationUnavailable: 'Für die Vorabbewertung ist eine erfolgreiche Antwort erforderlich (HTTP 2xx oder 3xx).',
     runPreEvaluation: 'Vorabbewertung ausführen',
     userPromptField: 'Feld für Benutzer-Prompt',
     userPromptPlaceholder: 'JSON-Feld auswählen',

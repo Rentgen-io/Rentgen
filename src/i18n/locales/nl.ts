@@ -589,7 +589,8 @@ const nl = {
     description:
       'Demo-assertions zijn bewerkbare voorbeelden. Pas ze aan op de taal en de weigeringsformuleringen van je model. Bij het vergelijken wordt hoofdlettergebruik genegeerd en worden rechte en typografische apostroffen als gelijkwaardig beschouwd. OR verbiedt elke vermelde zin; AND verbiedt alle zinnen wanneer ze samen voorkomen.',
     runEachQuestion: 'Elke vraag wordt uitgevoerd met het huidige verzoek en de geselecteerde omgeving.',
-    saveRequestMessage: 'Sla dit verzoek op in een collectie om de evaluatie en het rapport te bewaren.',
+    preEvaluationHint: 'Verstuur een verzoek om de voorevaluatie uit te voeren.',
+    preEvaluationUnavailable: 'Voor de voorevaluatie is een geslaagde reactie nodig (HTTP 2xx of 3xx).',
     runPreEvaluation: 'Voorevaluatie uitvoeren',
     userPromptField: 'Veld voor gebruikersprompt',
     userPromptPlaceholder: 'Selecteer JSON-veld',

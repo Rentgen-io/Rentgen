@@ -587,7 +587,8 @@ const tr = {
     description:
       'Demo doğrulamaları düzenlenebilir örneklerdir. Bunları modelinizin diline ve ret ifadelerine göre uyarlayın. Eşleştirme büyük/küçük harfi yok sayar ve düz ile tipografik kesme işaretlerini eşdeğer kabul eder. OR listelenen ifadelerden herhangi birini yasaklar; AND tüm ifadeler birlikte göründüğünde yasaklar.',
     runEachQuestion: 'Her soru, geçerli istek ve seçili ortam üzerinde çalıştırılır.',
-    saveRequestMessage: 'Değerlendirmeyi ve raporu saklamak için bu isteği bir koleksiyona kaydedin.',
+    preEvaluationHint: 'Ön değerlendirmeyi çalıştırmak için bir istek gönderin.',
+    preEvaluationUnavailable: 'Ön değerlendirme için başarılı bir yanıt gerekir (HTTP 2xx veya 3xx).',
     runPreEvaluation: 'Ön Değerlendirmeyi Çalıştır',
     userPromptField: 'Kullanıcı istemi alanı',
     userPromptPlaceholder: 'JSON alanı seçin',

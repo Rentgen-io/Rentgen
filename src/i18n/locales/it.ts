@@ -589,7 +589,8 @@ const it = {
     description:
       'Le asserzioni demo sono esempi modificabili. Adattale alla lingua e alla formulazione dei rifiuti del tuo modello. Il confronto ignora maiuscole e minuscole e considera equivalenti gli apostrofi dritti e tipografici. OR vieta qualsiasi frase elencata; AND vieta tutte le frasi quando compaiono insieme.',
     runEachQuestion: "Ogni domanda viene eseguita con la richiesta corrente e l'ambiente selezionato.",
-    saveRequestMessage: 'Salva questa richiesta in una raccolta per conservarne la valutazione e il report.',
+    preEvaluationHint: 'Invia una richiesta per eseguire la pre-valutazione.',
+    preEvaluationUnavailable: 'La pre-valutazione richiede una risposta riuscita (HTTP 2xx o 3xx).',
     runPreEvaluation: 'Esegui pre-valutazione',
     userPromptField: 'Campo del prompt utente',
     userPromptPlaceholder: 'Seleziona campo JSON',

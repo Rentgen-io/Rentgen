@@ -589,7 +589,8 @@ const ptBR = {
     description:
       'As asserções de demonstração são exemplos editáveis. Adapte-as ao idioma e à redação de recusa do seu modelo. A correspondência ignora maiúsculas e minúsculas e trata apóstrofos retos e tipográficos como equivalentes. OR proíbe qualquer frase listada; AND proíbe todas as frases quando aparecem juntas.',
     runEachQuestion: 'Cada pergunta é executada com a requisição atual e o ambiente selecionado.',
-    saveRequestMessage: 'Salve esta requisição em uma coleção para manter sua avaliação e relatório.',
+    preEvaluationHint: 'Envie uma requisição para executar a pré-avaliação.',
+    preEvaluationUnavailable: 'A pré-avaliação requer uma resposta bem-sucedida (HTTP 2xx ou 3xx).',
     runPreEvaluation: 'Executar pré-avaliação',
     userPromptField: 'Campo do prompt do usuário',
     userPromptPlaceholder: 'Selecionar campo JSON',
