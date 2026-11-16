@@ -5,6 +5,7 @@ import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import { MAX_JSON_HIGHLIGHT_LENGTH, shouldHighlightJson } from 'src/components/highlighters/VariableHighlighter';
 import HighlightedTextarea from 'src/components/inputs/HighlightedTextarea';
 import ResizeHandler from 'src/components/panels/ResizeHandler';
+import FormDataTable from 'src/features/request/FormDataTable';
 import UrlencodedTable from 'src/features/request/UrlencodedTable';
 import { useResizableSize } from 'src/hooks/useResizableSize';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
@@ -159,10 +160,10 @@ export default function RequestEditors() {
             </div>
           ) : (
             <>
-              {bodyMode === 'formdata' && <div className="min-h-28 box-border" style={editorStyle} />}
-              {bodyMode === 'urlencoded' && (
+              {(bodyMode === 'formdata' || bodyMode === 'urlencoded') && (
                 <div className="min-h-28 py-3 px-4 box-border overflow-auto" style={tableEditorStyle}>
-                  <UrlencodedTable />
+                  {bodyMode === 'formdata' && <FormDataTable />}
+                  {bodyMode === 'urlencoded' && <UrlencodedTable />}
                 </div>
               )}
               {!bodyMode && (

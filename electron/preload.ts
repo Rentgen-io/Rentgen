@@ -40,6 +40,7 @@ interface ElectronApi {
   saveHistory: (entries: any) => Promise<{ success: boolean; error?: string }>;
   saveMappings: (mappings: MappingsState) => void;
   saveSettings: (settings: SettingsState) => void;
+  selectFiles: () => Promise<string[]>;
   sendHttp: (request: HttpRequest, requestId?: string) => Promise<HttpResponse>;
   sendWss: (message: string) => void;
   uninstallCli: () => Promise<CliActionResult>;
@@ -86,6 +87,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('save-history', entries),
   saveMappings: (mappings: MappingsState): void => ipcRenderer.send('save-mappings', mappings),
   saveSettings: (settings: SettingsState): void => ipcRenderer.send('save-settings', settings),
+  selectFiles: (): Promise<string[]> => ipcRenderer.invoke('select-files'),
   sendHttp: (request: HttpRequest, requestId?: string): Promise<HttpResponse> =>
     ipcRenderer.invoke('http-request', request, requestId),
   sendWss: (message: string): void => ipcRenderer.send('wss-send', message),

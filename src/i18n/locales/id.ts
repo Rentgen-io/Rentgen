@@ -122,6 +122,11 @@ const id = {
     message: 'Pesan',
     noBody: 'Permintaan ini tidak memiliki body',
     bodyType: 'Jenis body',
+    selectFiles: 'Pilih file',
+    filesSelected_one: '{{count}} file dipilih',
+    filesSelected_other: '{{count}} file dipilih',
+    localFileWarning:
+      'File ini tersimpan di perangkat Anda, jadi rekan tim yang menerima permintaan ini tidak dapat menggunakannya.',
     key: 'Kunci',
     value: 'Nilai',
   },

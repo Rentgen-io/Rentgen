@@ -122,6 +122,11 @@ const tr = {
     message: 'Mesaj',
     noBody: 'Bu isteğin gövdesi yok',
     bodyType: 'Gövde türü',
+    selectFiles: 'Dosya seç',
+    filesSelected_one: '{{count}} dosya seçildi',
+    filesSelected_other: '{{count}} dosya seçildi',
+    localFileWarning:
+      'Bu dosya bilgisayarınızda kayıtlı olduğundan, bu isteği paylaştığınız ekip arkadaşlarınız dosyayı kullanamaz.',
     key: 'Anahtar',
     value: 'Değer',
   },

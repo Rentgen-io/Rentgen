@@ -122,6 +122,13 @@ const lt = {
     message: 'Žinutė',
     noBody: 'Ši užklausa neturi turinio',
     bodyType: 'Turinio tipas',
+    selectFiles: 'Pasirinkti failus',
+    filesSelected_one: 'Pasirinktas {{count}} failas',
+    filesSelected_few: 'Pasirinkti {{count}} failai',
+    filesSelected_many: 'Pasirinkta {{count}} failo',
+    filesSelected_other: 'Pasirinkta {{count}} failų',
+    localFileWarning:
+      'Šis failas saugomas jūsų kompiuteryje, todėl komandos nariai, su kuriais bendrinate šią užklausą, negalės jo naudoti.',
     key: 'Raktas',
     value: 'Reikšmė',
   },

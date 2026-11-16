@@ -122,6 +122,13 @@ const ru = {
     message: 'Сообщение',
     noBody: 'У этого запроса нет тела',
     bodyType: 'Тип тела',
+    selectFiles: 'Выбрать файлы',
+    filesSelected_one: 'Выбран {{count}} файл',
+    filesSelected_few: 'Выбрано {{count}} файла',
+    filesSelected_many: 'Выбрано {{count}} файлов',
+    filesSelected_other: 'Выбрано {{count}} файла',
+    localFileWarning:
+      'Этот файл хранится на вашем компьютере, поэтому коллеги, с которыми вы поделитесь этим запросом, не смогут его использовать.',
     key: 'Ключ',
     value: 'Значение',
   },

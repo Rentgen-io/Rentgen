@@ -66,4 +66,38 @@ export function registerImportExportHandlers(): void {
       return { error: String(error) };
     }
   });
+
+  // Export file
+  ipcMain.handle(
+    'export-file',
+    async (_, payload: { defaultPath?: string; content: string; filters?: Electron.FileFilter[] }) => {
+      const {
+        defaultPath = `rentgen-file-${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.json`,
+        content,
+        filters,
+      } = payload || {};
+
+      const result = await dialog.showSaveDialog({
+        defaultPath,
+        filters: filters ?? [{ name: 'Rentgen File', extensions: ['json'] }],
+      });
+
+      if (result.canceled || !result.filePath) return { canceled: true };
+
+      try {
+        fs.writeFileSync(result.filePath, content, 'utf-8');
+      } catch (error) {
+        return { canceled: false, error: String(error) };
+      }
+
+      return { canceled: false, filePath: result.filePath };
+    },
+  );
+
+  // Pick files for form-data fields: only their paths are returned, the files are read when the request is sent
+  ipcMain.handle('select-files', async (): Promise<string[]> => {
+    const result = await dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] });
+
+    return result.canceled ? [] : result.filePaths;
+  });
 }

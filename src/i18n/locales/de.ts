@@ -122,6 +122,11 @@ const de = {
     message: 'Nachricht',
     noBody: 'Diese Anfrage hat keinen Body',
     bodyType: 'Body-Typ',
+    selectFiles: 'Dateien auswählen',
+    filesSelected_one: '{{count}} Datei ausgewählt',
+    filesSelected_other: '{{count}} Dateien ausgewählt',
+    localFileWarning:
+      'Diese Datei ist auf Ihrem Rechner gespeichert, daher können Teammitglieder, mit denen Sie diese Anfrage teilen, sie nicht verwenden.',
     key: 'Schlüssel',
     value: 'Wert',
   },

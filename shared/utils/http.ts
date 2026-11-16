@@ -28,6 +28,14 @@ export function toLocalFilePath(filePath: string): string {
   return /^\/[a-zA-Z]:[\\/]/.test(filePath) ? filePath.slice(1) : filePath;
 }
 
+/**
+ * A local path as Postman stores it in `src`: forward slashes, and a Windows path with a leading slash
+ * (`C:\Users\...` → `/C:/Users/...`). The reverse of `toLocalFilePath`; POSIX paths are returned unchanged.
+ */
+export function toPostmanFilePath(filePath: string): string {
+  return /^[a-zA-Z]:[\\/]/.test(filePath) ? `/${filePath.replace(/\\/g, '/')}` : filePath;
+}
+
 /** Wraps form fields in the IPC-safe urlencoded body; the main process turns it into a real `URLSearchParams`. */
 export function createUrlEncodedBody(entries: Array<[string, string]>): UrlEncodedBody {
   return { __type: 'urlencoded', entries };

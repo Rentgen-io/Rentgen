@@ -86,7 +86,7 @@ export function createTestHttpRequest(options: TestOptions): HttpRequest {
  */
 export function buildRequestBody(body: PostmanBody): RequestBody {
   if (body.mode === 'formdata') {
-    const fields = (body.formdata ?? []).filter(({ key, disabled }) => key && !disabled);
+    const fields = (body.formdata ?? []).filter(({ disabled }) => !disabled);
 
     return createFormDataBody(
       fields.filter(({ type }) => type !== 'file').map(({ key, value }) => [key, value ?? '']),
@@ -97,9 +97,7 @@ export function buildRequestBody(body: PostmanBody): RequestBody {
   }
   if (body.mode === 'urlencoded')
     return createUrlEncodedBody(
-      (body.urlencoded ?? [])
-        .filter(({ key, disabled }) => key && !disabled)
-        .map(({ key, value }) => [key, value ?? '']),
+      (body.urlencoded ?? []).filter(({ disabled }) => !disabled).map(({ key, value }) => [key, value ?? '']),
     );
 
   return tryParseJsonObject(body.raw ?? null) as RequestBody;

@@ -122,6 +122,11 @@ const it = {
     message: 'Messaggio',
     noBody: 'Questa richiesta non ha un corpo',
     bodyType: 'Tipo di corpo',
+    selectFiles: 'Seleziona file',
+    filesSelected_one: '{{count}} file selezionato',
+    filesSelected_other: '{{count}} file selezionati',
+    localFileWarning:
+      'Questo file è salvato sul tuo computer, quindi i colleghi con cui condividi questa richiesta non potranno usarlo.',
     key: 'Chiave',
     value: 'Valore',
   },

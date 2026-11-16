@@ -122,6 +122,13 @@ const uk = {
     message: 'Повідомлення',
     noBody: 'Цей запит не має тіла',
     bodyType: 'Тип тіла',
+    selectFiles: 'Вибрати файли',
+    filesSelected_one: 'Вибрано {{count}} файл',
+    filesSelected_few: 'Вибрано {{count}} файли',
+    filesSelected_many: 'Вибрано {{count}} файлів',
+    filesSelected_other: 'Вибрано {{count}} файлу',
+    localFileWarning:
+      'Цей файл зберігається на вашому комп’ютері, тож колеги, з якими ви поділитеся цим запитом, не зможуть його використати.',
     key: 'Ключ',
     value: 'Значення',
   },

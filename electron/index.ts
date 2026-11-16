@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
-import { app, BrowserWindow, dialog, ipcMain, Menu, nativeTheme, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, nativeTheme, shell } from 'electron';
 import { installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
-import { existsSync, unlinkSync, writeFileSync } from 'fs';
+import { existsSync, unlinkSync } from 'fs';
 import path from 'path';
 import {
   loadSettings,
@@ -148,30 +148,3 @@ registerMappingsHandlers();
 
 ipcMain.handle('get-app-version', () => app.getVersion());
 ipcMain.on('open-external', (_, url: string) => shell.openExternal(url));
-
-// Export file
-ipcMain.handle(
-  'export-file',
-  async (_, payload: { defaultPath?: string; content: string; filters?: Electron.FileFilter[] }) => {
-    const {
-      defaultPath = `rentgen-file-${new Date().toISOString().replace(/\D/g, '').slice(0, 14)}.json`,
-      content,
-      filters,
-    } = payload || {};
-
-    const result = await dialog.showSaveDialog({
-      defaultPath,
-      filters: filters ?? [{ name: 'Rentgen File', extensions: ['json'] }],
-    });
-
-    if (result.canceled || !result.filePath) return { canceled: true };
-
-    try {
-      writeFileSync(result.filePath, content, 'utf-8');
-    } catch (error) {
-      return { canceled: false, error: String(error) };
-    }
-
-    return { canceled: false, filePath: result.filePath };
-  },
-);

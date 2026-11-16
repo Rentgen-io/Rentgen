@@ -122,6 +122,13 @@ const pl = {
     message: 'Wiadomość',
     noBody: 'To żądanie nie ma treści',
     bodyType: 'Typ treści',
+    selectFiles: 'Wybierz pliki',
+    filesSelected_one: 'Wybrano {{count}} plik',
+    filesSelected_few: 'Wybrano {{count}} pliki',
+    filesSelected_many: 'Wybrano {{count}} plików',
+    filesSelected_other: 'Wybrano {{count}} pliku',
+    localFileWarning:
+      'Ten plik jest zapisany na Twoim komputerze, więc członkowie zespołu, którym udostępnisz to żądanie, nie będą mogli go użyć.',
     key: 'Klucz',
     value: 'Wartość',
   },

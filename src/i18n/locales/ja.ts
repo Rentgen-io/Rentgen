@@ -122,6 +122,11 @@ const ja = {
     message: 'メッセージ',
     noBody: 'このリクエストにはボディがありません',
     bodyType: 'ボディの種類',
+    selectFiles: 'ファイルを選択',
+    filesSelected_one: '{{count}} 個のファイルを選択済み',
+    filesSelected_other: '{{count}} 個のファイルを選択済み',
+    localFileWarning:
+      'このファイルはお使いのマシンに保存されているため、このリクエストを共有したチームメンバーは使用できません。',
     key: 'キー',
     value: '値',
   },

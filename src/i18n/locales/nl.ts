@@ -122,6 +122,11 @@ const nl = {
     message: 'Bericht',
     noBody: 'Dit verzoek heeft geen body',
     bodyType: 'Body-type',
+    selectFiles: 'Bestanden selecteren',
+    filesSelected_one: '{{count}} bestand geselecteerd',
+    filesSelected_other: '{{count}} bestanden geselecteerd',
+    localFileWarning:
+      'Dit bestand staat op je eigen computer, dus teamgenoten met wie je dit verzoek deelt, kunnen het niet gebruiken.',
     key: 'Sleutel',
     value: 'Waarde',
   },

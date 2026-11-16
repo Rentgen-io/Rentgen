@@ -10,8 +10,6 @@ import { PostmanUrlencodedItem } from 'src/types';
 
 import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
-const REMOVE_COLUMN_WIDTH = '40px';
-
 // A urlencoded field; `id` only identifies the row while editing (stable table / React key), it isn't saved
 interface Row extends PostmanUrlencodedItem {
   id: string;
@@ -64,7 +62,6 @@ export default function UrlencodedTable() {
   const columns: TableColumn<Row>[] = [
     {
       name: t('request.key'),
-      width: `calc((100% - ${REMOVE_COLUMN_WIDTH}) / 3)`,
       cell: (row) => (
         <HighlightedInput
           className="w-full bg-transparent border-0"
@@ -80,7 +77,6 @@ export default function UrlencodedTable() {
     },
     {
       name: t('request.value'),
-      width: `calc((100% - ${REMOVE_COLUMN_WIDTH}) * 2 / 3)`,
       cell: (row) => (
         <HighlightedInput
           className="w-full bg-transparent border-0"
@@ -102,7 +98,7 @@ export default function UrlencodedTable() {
             onClick={() => removeRow(row.id)}
           />
         ),
-      width: REMOVE_COLUMN_WIDTH,
+      width: '40px',
       center: true,
     },
   ];

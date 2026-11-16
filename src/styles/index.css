@@ -197,7 +197,7 @@
     @apply bg-transparent!;
   }
 
-  :is(.environment-data-table, .pre-evaluation-data-table, .urlencoded-data-table) {
+  :is(.environment-data-table, .form-data-data-table, .pre-evaluation-data-table, .urlencoded-data-table) {
     @apply border border-border rounded!;
 
     :is(.rdt_wrapper, .rdt_Table) {

@@ -122,6 +122,11 @@ const hi = {
     message: 'संदेश',
     noBody: 'इस अनुरोध में कोई बॉडी नहीं है',
     bodyType: 'बॉडी प्रकार',
+    selectFiles: 'फ़ाइलें चुनें',
+    filesSelected_one: '{{count}} फ़ाइल चुनी गई',
+    filesSelected_other: '{{count}} फ़ाइलें चुनी गईं',
+    localFileWarning:
+      'यह फ़ाइल आपकी मशीन पर सहेजी गई है, इसलिए जिन साथियों के साथ आप यह अनुरोध साझा करेंगे, वे इसका उपयोग नहीं कर पाएंगे।',
     key: 'कुंजी',
     value: 'मान',
   },

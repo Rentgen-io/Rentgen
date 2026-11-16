@@ -122,6 +122,11 @@ const fr = {
     message: 'Message',
     noBody: "Cette requête n'a pas de corps",
     bodyType: 'Type de corps',
+    selectFiles: 'Sélectionner des fichiers',
+    filesSelected_one: '{{count}} fichier sélectionné',
+    filesSelected_other: '{{count}} fichiers sélectionnés',
+    localFileWarning:
+      "Ce fichier est enregistré sur votre machine : les coéquipiers avec qui vous partagez cette requête ne pourront pas l'utiliser.",
     key: 'Clé',
     value: 'Valeur',
   },

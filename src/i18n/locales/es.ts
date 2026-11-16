@@ -122,6 +122,11 @@ const es = {
     message: 'Mensaje',
     noBody: 'Esta solicitud no tiene cuerpo',
     bodyType: 'Tipo de cuerpo',
+    selectFiles: 'Seleccionar archivos',
+    filesSelected_one: '{{count}} archivo seleccionado',
+    filesSelected_other: '{{count}} archivos seleccionados',
+    localFileWarning:
+      'Este archivo está guardado en tu equipo, así que los compañeros con los que compartas esta solicitud no podrán usarlo.',
     key: 'Clave',
     value: 'Valor',
   },

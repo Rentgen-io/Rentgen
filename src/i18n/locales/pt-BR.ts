@@ -122,6 +122,11 @@ const ptBR = {
     message: 'Mensagem',
     noBody: 'Esta requisição não tem corpo',
     bodyType: 'Tipo de corpo',
+    selectFiles: 'Selecionar arquivos',
+    filesSelected_one: '{{count}} arquivo selecionado',
+    filesSelected_other: '{{count}} arquivos selecionados',
+    localFileWarning:
+      'Este arquivo está salvo na sua máquina, então os colegas com quem você compartilhar esta requisição não poderão usá-lo.',
     key: 'Chave',
     value: 'Valor',
   },
