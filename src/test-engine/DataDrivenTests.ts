@@ -16,7 +16,6 @@ import {
   TestStatus,
 } from 'src/types';
 import {
-  BINARY_FILE_FORMATS,
   createHttpRequest,
   createTestHttpRequest,
   extractBodyParameters,
@@ -27,7 +26,6 @@ import {
   getFileName,
   getTestFileName,
   normalizeDecimal,
-  TestFileKind,
 } from 'src/utils';
 import {
   BaseTests,
@@ -221,7 +219,16 @@ async function testRequestParameter(
   const { bodyParameters, parameterName, parameterType, testData } = options;
   const request = createTestHttpRequest(options);
   const isFileTest = parameterType === 'body' && !!parameterName && bodyParameters[parameterName]?.type === 'file';
-  const value = isFileTest && typeof testData?.value === 'string' ? getFileName(testData.value) : testData?.value;
+
+  let value = testData?.value;
+  let name = `${parameterType}.${parameterName}`;
+
+  if (isFileTest && typeof testData?.value === 'string') {
+    value = getFileName(testData.value);
+
+    const format = value.split('.').pop()?.toUpperCase();
+    name = testData.valid ? `Accept supported ${format} file` : `Reject unsupported ${format} file`;
+  }
 
   try {
     const response = await sendHttp(request, signal);
@@ -229,9 +236,9 @@ async function testRequestParameter(
       determine(response, statusCode, testData),
     );
 
-    return createTestResult(`${parameterType}.${parameterName}`, expected, actual, status, request, response, value);
+    return createTestResult(name, expected, actual, status, request, response, value);
   } catch (error) {
-    return createErrorTestResult(`${parameterType}.${parameterName}`, expected, String(error), request, value);
+    return createErrorTestResult(name, expected, String(error), request, value);
   }
 }
 
@@ -306,22 +313,12 @@ export function generateDynamicTestData({ mandatory, type, value }: ParameterVal
   return results;
 }
 
-/**
- * Test files for the accepted (selected) formats: a sample of every format, accepted only when its format is; and,
- * never accepted, a fake of every accepted binary format (text under its extension, so only an extension check
- * passes it) and an empty file of the first accepted format.
- */
+/** A sample file of every format: valid when its format is accepted (selected), invalid otherwise. */
 export function generateFileTestData(acceptedFormats: FileFormat[], filesDirectory: string): TestData[] {
-  const getPath = (kind: TestFileKind, format: FileFormat) => `${filesDirectory}/${getTestFileName(kind, format)}`;
-  const accepted = FILE_FORMATS.filter((format) => acceptedFormats.includes(format));
-
-  return [
-    ...FILE_FORMATS.map((format) => ({ value: getPath('sample', format), valid: accepted.includes(format) })),
-    ...accepted
-      .filter((format) => BINARY_FILE_FORMATS.includes(format))
-      .map((format) => ({ value: getPath('fake', format), valid: false })),
-    ...(accepted.length ? [{ value: getPath('empty', accepted[0]), valid: false }] : []),
-  ];
+  return FILE_FORMATS.map((format) => ({
+    value: `${filesDirectory}/${getTestFileName(format)}`,
+    valid: acceptedFormats.includes(format),
+  }));
 }
 
 export function generateEnumTestData(value: string): TestData[] {

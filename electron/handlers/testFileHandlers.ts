@@ -3,7 +3,7 @@ import { mkdir, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { crc32, deflateSync } from 'zlib';
 import type { FileFormat } from 'shared/types/testing';
-import { BINARY_FILE_FORMATS, FILE_FORMATS, getTestFileName } from 'shared/utils/test-files';
+import { FILE_FORMATS, getTestFileName } from 'shared/utils/test-files';
 
 const TEST_FILES_DIRECTORY = 'rentgen-test-files';
 const SAMPLE_TEXT = 'Rentgen test file';
@@ -199,27 +199,15 @@ const SAMPLES: Record<FileFormat, () => Buffer | string> = {
 };
 
 /**
- * Writes the test files of every format into the app's temp directory (rewritten on each call, so they're always
- * intact) and returns that directory: a valid sample, an empty file, and for a binary format a fake (text under its
- * extension). The test engine finds them by getTestFileName().
+ * Writes a sample file of every format into the app's temp directory (rewritten on each call, so they're always
+ * intact) and returns that directory. The test engine finds them by getTestFileName().
  */
 export async function prepareTestFiles(): Promise<string> {
   const directory = join(app.getPath('temp'), TEST_FILES_DIRECTORY);
   await mkdir(directory, { recursive: true });
 
   await Promise.all(
-    FILE_FORMATS.flatMap((format) => [
-      writeFile(join(directory, getTestFileName('sample', format)), SAMPLES[format]()),
-      writeFile(join(directory, getTestFileName('empty', format)), ''),
-      ...(BINARY_FILE_FORMATS.includes(format)
-        ? [
-            writeFile(
-              join(directory, getTestFileName('fake', format)),
-              `This is plain text, not a ${format.toUpperCase()} file.\n`,
-            ),
-          ]
-        : []),
-    ]),
+    FILE_FORMATS.map((format) => writeFile(join(directory, getTestFileName(format)), SAMPLES[format]())),
   );
 
   return directory;
