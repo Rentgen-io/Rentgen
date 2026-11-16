@@ -4,6 +4,7 @@ import {
   extractQueryParameters,
   hasUrlEncodedContentType,
   isFieldsBody,
+  isFormDataBody,
   isObject,
   setDeepObjectProperty,
   stringifyValue,
@@ -422,10 +423,33 @@ function getValueAtPath(source: unknown, path: string): unknown {
     .reduce<unknown>((value, key) => (isObject(value) ? value[key] : undefined), source);
 }
 
+/**
+ * The form-data files as [field name, path]: the field name is the file field's name, indexed when it has several
+ * files (e.g. "avatar", or "photos[0]" and "photos[1]"), so each file can be masked on its own.
+ */
+function getFileFields(files: Array<[string, string]> = []): Array<[string, string]> {
+  const counts = new Map<string, number>();
+  for (const [name] of files) counts.set(name, (counts.get(name) ?? 0) + 1);
+
+  const indexes = new Map<string, number>();
+  return files.map(([name, path]) => {
+    const index = indexes.get(name) ?? 0;
+    indexes.set(name, index + 1);
+
+    return [counts.get(name)! > 1 ? `${name}[${index}]` : name, path];
+  });
+}
+
 function getBodyFields(body: RequestBody | undefined): Array<[string, unknown]> {
   if (body === null || body === undefined || body === '') return [];
 
-  if (isFieldsBody(body)) return body.entries.map(([name, value]) => [`${MASK_BODY_PREFIX}${name}`, value]);
+  if (isFieldsBody(body))
+    return [
+      ...body.entries.map(([name, value]): [string, unknown] => [`${MASK_BODY_PREFIX}${name}`, value]),
+      ...(isFormDataBody(body)
+        ? getFileFields(body.files).map(([field, path]): [string, unknown] => [`${MASK_BODY_PREFIX}${field}`, path])
+        : []),
+    ];
 
   const parsed = tryParseJsonObject(body);
   if (!isObject(parsed)) return [];
@@ -634,16 +658,19 @@ export class RequestRedactor {
   private redactBody(body: unknown): unknown {
     if (body === null || body === undefined) return body;
 
-    if (isFieldsBody(body))
+    if (isFormDataBody(body))
       return {
         ...body,
-        entries: body.entries.map(([name, value]) => {
-          const masked = this.body.get(name);
-          return masked && value === String(masked.value)
-            ? [name, masked.token]
-            : [this.redactText(name), this.redactText(value)];
+        entries: this.redactFormEntries(body.entries.map(([name, value]) => [name, name, value])),
+        // A file's path is masked like a text value (it may reveal e.g. the user name in a home directory)
+        ...(body.files && {
+          files: this.redactFormEntries(
+            getFileFields(body.files).map(([field, path], index) => [body.files![index][0], field, path]),
+          ),
         }),
       };
+    if (isFieldsBody(body))
+      return { ...body, entries: this.redactFormEntries(body.entries.map(([name, value]) => [name, name, value])) };
 
     const parsed = tryParseJsonObject(body);
     if (!isObject(parsed)) return this.redactJson(parsed);
@@ -653,6 +680,19 @@ export class RequestRedactor {
       if (sameValue(getValueAtPath(redacted, path), masked.value)) setDeepObjectProperty(redacted, path, masked.token);
 
     return this.redactJson(redacted);
+  }
+
+  /**
+   * Form fields as [name, mask field, value], e.g. ["photos", "photos[1]", path] for a second file: a value is replaced
+   * by its token when its mask field is masked and it still holds the original value.
+   */
+  private redactFormEntries(fields: Array<[string, string, string]>): Array<[string, string]> {
+    return fields.map(([name, field, value]) => {
+      const masked = this.body.get(field);
+      return masked && value === String(masked.value)
+        ? [name, masked.token]
+        : [this.redactText(name), this.redactText(value)];
+    });
   }
 
   // ----- Restoration (AI output) -----
