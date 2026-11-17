@@ -48,6 +48,8 @@ const en = {
     stop: 'Stop',
     noOptions: 'No options',
     resizeHint: 'Drag to resize, double-click to reset',
+    toggleTheme: 'Toggle theme',
+    allEnvironments: 'All Environments',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const en = {
   // Collections Panel
   collections: {
     newFolder: 'New Folder',
-    importCollection: 'Import Collection',
-    exportCollection: 'Export Collection',
     searchRequests: 'Search requests...',
     noMatchingRequests: 'No matching requests',
     noSavedRequests: 'No saved requests',
@@ -95,12 +95,12 @@ const en = {
     deleteEnvironmentConfirm: 'Are you sure you want to delete this environment?',
     deleteEnvironment: 'Delete Environment',
     untitled: 'Untitled',
+    duplicateVariable: 'A variable with this name already exists',
   },
 
   // History
   history: {
     title: 'History',
-    clearAll: 'Clear All',
     searchHistory: 'Search history...',
     noMatchingHistory: 'No matching history',
     noHistoryYet: 'No history yet',
@@ -114,12 +114,23 @@ const en = {
     enterUrl: 'Enter URL or paste text',
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: 'Bulk Edit',
+    keyValueEdit: 'Key-Value Edit',
     body: 'Body',
-    bodyPlaceholderHttp: 'Enter request body (JSON or Form Data)',
-    bodyPlaceholderWss: 'Message body',
+    bodyPlaceholderHttp: 'Enter request body (JSON or Text)',
+    bodyPlaceholderWss: 'Compose message',
     wssUrlRequired: '🔴 Please use ws:// or wss:// URL',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
+    message: 'Message',
+    noBody: 'This request does not have a body',
+    bodyType: 'Body type',
+    selectFiles: 'Select Files',
+    filesSelected_one: '{{count}} file selected',
+    filesSelected_other: '{{count}} files selected',
+    localFileWarning: "This file is stored on your machine, so teammates you share this request with can't use it.",
+    key: 'Key',
+    value: 'Value',
   },
 
   // Response
@@ -149,7 +160,7 @@ const en = {
     testsHint: 'Send a request to generate tests from its response.',
     testsUnavailable: 'Test generation requires a successful response (HTTP 2xx or 3xx).',
     generateAndRun: 'Generate & Run Tests',
-    runningTests: 'Running tests... ({{current}}/{{total}})',
+    runningTests: 'Running... ({{current}}/{{total}})',
     noTestsGenerated: 'No tests generated',
     selectForCompare: 'Select for Compare',
     compareWithSelected: 'Compare with Selected',
@@ -243,13 +254,10 @@ const en = {
       variableNamePlaceholder: 'variable_name',
       preview: 'Preview',
       environment: 'Environment',
-      allEnvironments: 'All Environments',
       untitledEnvironment: 'Untitled Environment',
       selectEnvironment: 'Select environment...',
       linkedRequest: 'Linked Request',
       variableNameRequired: 'Variable name is required',
-      selectorRequired: 'Selector is required',
-      selectEnvironmentError: 'Please select an environment',
       duplicateWarning: 'A variable with this name already exists. It will be overwritten.',
     },
     projectImport: {
@@ -479,6 +487,12 @@ const en = {
     enumLabel: 'Enter all valid values separated by ","',
     numberLabel: 'Set Min/Max range for boundary test. 0 - integer, 0.00 - decimal',
     stringLabel: 'Value Min/Max length',
+    fileLabel: 'Accepted file formats',
+    fileFormatGroups: {
+      images: 'Images',
+      documents: 'Documents',
+      spreadsheets: 'Spreadsheets',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: 'Review data sent to AI',
@@ -502,6 +516,7 @@ const en = {
     dateYYYYMMDD: 'Date (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    file: 'File',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Number',
@@ -541,7 +556,8 @@ const en = {
 
   // Messages panel
   messages: {
-    title: 'Messages',
+    title: 'Response',
+    empty: '(empty)',
   },
 
   // Export format labels
@@ -574,7 +590,8 @@ const en = {
     description:
       "Demo assertions are editable examples. Adapt them to your model's language and refusal wording. Matching ignores case and treats straight and typographic apostrophes as equivalent. OR forbids any listed phrase; AND forbids all phrases appearing together.",
     runEachQuestion: 'Each question runs against the current request and selected environment.',
-    saveRequestMessage: 'Save this request to a collection to retain its evaluation and report.',
+    preEvaluationHint: 'Send a request to run the pre-evaluation.',
+    preEvaluationUnavailable: 'Pre-evaluation requires a successful response (HTTP 2xx or 3xx).',
     runPreEvaluation: 'Run Pre-Evaluation',
     userPromptField: 'User prompt field',
     userPromptPlaceholder: 'Select JSON field',

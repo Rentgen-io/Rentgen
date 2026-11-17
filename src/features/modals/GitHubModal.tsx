@@ -1,75 +1,30 @@
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { openExternal } from 'src/api/system';
-import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
-import Modal from 'src/components/modals/Modal';
-import useTests from 'src/hooks/useTests';
+import PromptModal from 'src/components/modals/PromptModal';
+import { GITHUB_PROMPT_STORAGE_KEY } from 'src/hooks/useTestRunEndPrompts';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectOpenGitHubModal } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
+import { DAY_MS } from 'src/utils';
 
-const STORAGE_KEY = 'gitHubModalHiddenUntil';
-const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
-const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
-const FOREVER = new Date('9999-12-31T00:00:00.000Z');
-
+/** Opened by useTestRunEndPrompts when a test run finishes without bugs (or the "Follow" prompt is hidden). */
 export default function GitHubModal() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const { crudTests, dataDrivenTests, isRunningTests, performanceTests, securityTests } = useTests();
-
   const isOpen = useAppSelector(selectOpenGitHubModal);
-  const isRun =
-    !isRunningTests && [crudTests, dataDrivenTests, performanceTests, securityTests].some((tests) => tests.length > 0);
-
-  useEffect(() => {
-    const storedValue = localStorage.getItem(STORAGE_KEY);
-    if (!storedValue) localStorage.setItem(STORAGE_KEY, new Date(Date.now() + WEEK_MS).toISOString());
-  }, []);
-
-  useEffect(() => {
-    if (!isRun) return;
-
-    const storedValue = localStorage.getItem(STORAGE_KEY);
-    const hiddenUntil = storedValue ? new Date(storedValue).getTime() : NaN;
-    if (!Number.isNaN(hiddenUntil) && Date.now() < hiddenUntil) return;
-
-    dispatch(modalsActions.openGitHubModal());
-  }, [isRun]);
-
-  const onClose = (hideUntil: Date = FOREVER) => {
-    localStorage.setItem(STORAGE_KEY, hideUntil.toISOString());
-    dispatch(modalsActions.closeGitHubModal());
-  };
 
   return (
-    <Modal className="[&>div]:w-100!" isOpen={isOpen} onClose={() => onClose(new Date(Date.now() + THREE_DAYS_MS))}>
-      <div className="flex flex-col gap-4">
-        <h5 className="m-0">⭐ {t('modals.gitHub.title')}</h5>
-        <p className="m-0 text-xs text-muted-foreground">{t('modals.gitHub.message')}</p>
-        <div className="flex items-center justify-end gap-2">
-          <Button buttonSize={ButtonSize.SMALL} buttonType={ButtonType.SECONDARY_OUTLINE} onClick={() => onClose()}>
-            {t('modals.gitHub.neverAskAgain')}
-          </Button>
-          <Button
-            buttonSize={ButtonSize.SMALL}
-            buttonType={ButtonType.SECONDARY}
-            onClick={() => onClose(new Date(Date.now() + THREE_DAYS_MS))}
-          >
-            {t('modals.gitHub.later')}
-          </Button>
-          <Button
-            buttonSize={ButtonSize.SMALL}
-            onClick={() => {
-              openExternal('https://github.com/Rentgen-io/Rentgen');
-              onClose();
-            }}
-          >
-            {t('modals.gitHub.starOnGitHub')}
-          </Button>
-        </div>
-      </div>
-    </Modal>
+    <PromptModal
+      actionLabel={t('modals.gitHub.starOnGitHub')}
+      actionUrl="https://github.com/Rentgen-io/Rentgen"
+      isOpen={isOpen}
+      laterLabel={t('modals.gitHub.later')}
+      messages={[t('modals.gitHub.message')]}
+      neverAskAgainLabel={t('modals.gitHub.neverAskAgain')}
+      snoozeMs={3 * DAY_MS}
+      storageKey={GITHUB_PROMPT_STORAGE_KEY}
+      title={`⭐ ${t('modals.gitHub.title')}`}
+      onClose={() => dispatch(modalsActions.closeGitHubModal())}
+    />
   );
 }

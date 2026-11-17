@@ -22,7 +22,7 @@ interface JsonToken {
 }
 
 interface Props {
-  highlightColor: string;
+  highlightColor?: string;
   highlightJson?: boolean;
   text: string;
   variables?: string[];
@@ -32,14 +32,16 @@ export default memo(function VariableHighlighter({ highlightColor, highlightJson
   const variableKeys = useMemo(() => new Set(variables.map((variable) => variable.trim())), [variables]);
 
   return useMemo(() => {
+    const color = highlightColor || 'var(--color-variable-default)';
     const renderVariables = (value: string): ReactNode =>
       parseVariables(value).map((segment, index) =>
         segment.isVariable && variableKeys.has(segment.text.slice(2, -2).trim()) ? (
           <span
             key={index}
             style={{
-              color: highlightColor,
-              backgroundColor: `${highlightColor}20`,
+              color,
+              // 12.5% opacity; color-mix (not a hex alpha suffix) so CSS variables work too
+              backgroundColor: `color-mix(in srgb, ${color} 12.5%, transparent)`,
               borderRadius: '2px',
             }}
           >

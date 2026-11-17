@@ -5,6 +5,7 @@ import SetAsDynamicVariableModal from 'src/features/environment/SetAsDynamicVari
 import ImportConflictModal from 'src/features/settings/ImportConflictModal';
 import ProjectImportConfirmModal from 'src/features/settings/ProjectImportConfirmModal';
 import SettingsModal from 'src/features/settings/SettingsModal';
+import { useTestRunEndPrompts } from 'src/hooks/useTestRunEndPrompts';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectDeleteFolderModal,
@@ -27,6 +28,9 @@ export default function AppModals() {
   const openSendHttpSuccessModal = useAppSelector(selectOpenSendHttpSuccessModal);
   const environmentToDelete = useAppSelector(selectEnvironmentToDelete);
   const deleteFolderModal = useAppSelector(selectDeleteFolderModal);
+
+  // Opens the "Follow" / "Star on GitHub" prompt below when a test run finishes
+  useTestRunEndPrompts();
 
   return (
     <>

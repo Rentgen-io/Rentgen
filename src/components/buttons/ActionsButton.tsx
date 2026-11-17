@@ -60,7 +60,7 @@ export default function ActionsButton({
                 <div
                   key={index}
                   className={cn(
-                    'text-xs hover:bg-secondary-hover cursor-pointer',
+                    'text-xs hover:bg-accent-soft cursor-pointer',
                     { 'py-2 px-3': buttonSize === ButtonSize.MEDIUM },
                     { 'py-1 px-2': buttonSize === ButtonSize.SMALL },
                   )}

@@ -48,6 +48,8 @@ const vi = {
     stop: 'Dừng',
     noOptions: 'Không có tùy chọn',
     resizeHint: 'Kéo để thay đổi kích thước, nhấp đúp để đặt lại',
+    toggleTheme: 'Chuyển giao diện',
+    allEnvironments: 'Tất cả môi trường',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const vi = {
   // Collections Panel
   collections: {
     newFolder: 'Thư mục mới',
-    importCollection: 'Nhập bộ sưu tập',
-    exportCollection: 'Xuất bộ sưu tập',
     searchRequests: 'Tìm kiếm yêu cầu...',
     noMatchingRequests: 'Không có yêu cầu phù hợp',
     noSavedRequests: 'Không có yêu cầu nào được lưu',
@@ -95,12 +95,12 @@ const vi = {
     deleteEnvironmentConfirm: 'Bạn có chắc chắn muốn xóa môi trường này?',
     deleteEnvironment: 'Xóa môi trường',
     untitled: 'Không có tiêu đề',
+    duplicateVariable: 'Đã có biến với tên này',
   },
 
   // History
   history: {
     title: 'Lịch sử',
-    clearAll: 'Xóa tất cả',
     searchHistory: 'Tìm kiếm lịch sử...',
     noMatchingHistory: 'Không có lịch sử phù hợp',
     noHistoryYet: 'Chưa có lịch sử',
@@ -114,12 +114,23 @@ const vi = {
     enterUrl: 'Nhập URL hoặc dán văn bản',
     headers: 'Tiêu đề',
     headersPlaceholder: 'Khóa-tiêu-đề: giá trị',
+    bulkEdit: 'Chỉnh sửa hàng loạt',
+    keyValueEdit: 'Chỉnh sửa khóa-giá trị',
     body: 'Nội dung',
-    bodyPlaceholderHttp: 'Nhập nội dung yêu cầu (JSON hoặc Form Data)',
-    bodyPlaceholderWss: 'Nội dung tin nhắn',
+    bodyPlaceholderHttp: 'Nhập nội dung yêu cầu (JSON hoặc văn bản)',
+    bodyPlaceholderWss: 'Soạn tin nhắn',
     wssUrlRequired: '🔴 Vui lòng sử dụng URL ws:// hoặc wss://',
     modePlaceholder: 'CHẾ ĐỘ',
     methodPlaceholder: 'PHƯƠNG THỨC',
+    message: 'Tin nhắn',
+    noBody: 'Yêu cầu này không có nội dung',
+    bodyType: 'Loại nội dung',
+    selectFiles: 'Chọn tệp',
+    filesSelected_one: 'Đã chọn {{count}} tệp',
+    filesSelected_other: 'Đã chọn {{count}} tệp',
+    localFileWarning: 'Tệp này được lưu trên máy của bạn, nên đồng đội mà bạn chia sẻ yêu cầu này sẽ không dùng được.',
+    key: 'Khóa',
+    value: 'Giá trị',
   },
 
   // Response
@@ -149,7 +160,7 @@ const vi = {
     testsHint: 'Gửi yêu cầu để tạo kiểm thử từ phản hồi của nó.',
     testsUnavailable: 'Việc tạo kiểm thử yêu cầu phản hồi thành công (HTTP 2xx hoặc 3xx).',
     generateAndRun: 'Tạo và chạy kiểm thử',
-    runningTests: 'Đang chạy kiểm thử... ({{current}}/{{total}})',
+    runningTests: 'Đang chạy... ({{current}}/{{total}})',
     noTestsGenerated: 'Không có kiểm thử nào được tạo',
     selectForCompare: 'Chọn để so sánh',
     compareWithSelected: 'So sánh với mục đã chọn',
@@ -244,13 +255,10 @@ const vi = {
       variableNamePlaceholder: 'tên_biến',
       preview: 'Xem trước',
       environment: 'Môi trường',
-      allEnvironments: 'Tất cả môi trường',
       untitledEnvironment: 'Môi trường không có tiêu đề',
       selectEnvironment: 'Chọn môi trường...',
       linkedRequest: 'Yêu cầu liên kết',
       variableNameRequired: 'Bắt buộc phải có tên biến',
-      selectorRequired: 'Bắt buộc phải có bộ chọn',
-      selectEnvironmentError: 'Vui lòng chọn một môi trường',
       duplicateWarning: 'Một biến với tên này đã tồn tại. Nó sẽ bị ghi đè.',
     },
     projectImport: {
@@ -480,6 +488,12 @@ const vi = {
     enumLabel: 'Nhập tất cả các giá trị hợp lệ, phân cách bằng ","',
     numberLabel: 'Đặt phạm vi Min/Max cho kiểm thử biên. 0 - số nguyên, 0.00 - số thập phân',
     stringLabel: 'Độ dài giá trị tối thiểu/tối đa',
+    fileLabel: 'Định dạng tệp được chấp nhận',
+    fileFormatGroups: {
+      images: 'Hình ảnh',
+      documents: 'Tài liệu',
+      spreadsheets: 'Bảng tính',
+    },
     minPlaceholder: 'Tối thiểu',
     maxPlaceholder: 'Tối đa',
     reviewDataSentToAi: 'Xem lại dữ liệu gửi đến AI',
@@ -503,6 +517,7 @@ const vi = {
     dateYYYYMMDD: 'Ngày (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    file: 'Tệp',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Số',
@@ -542,7 +557,8 @@ const vi = {
 
   // Messages panel
   messages: {
-    title: 'Tin nhắn',
+    title: 'Phản hồi',
+    empty: '(trống)',
   },
 
   // Export format labels
@@ -575,7 +591,8 @@ const vi = {
     description:
       'Các assertion demo là ví dụ có thể chỉnh sửa. Hãy điều chỉnh chúng theo ngôn ngữ và cách diễn đạt từ chối của mô hình của bạn. Việc so khớp bỏ qua chữ hoa/chữ thường và coi dấu nháy đơn thẳng và dấu nháy đơn kiểu chữ in là tương đương. OR cấm bất kỳ cụm từ nào được liệt kê; AND cấm khi tất cả các cụm từ xuất hiện cùng nhau.',
     runEachQuestion: 'Mỗi câu hỏi được chạy với yêu cầu hiện tại và môi trường đã chọn.',
-    saveRequestMessage: 'Lưu yêu cầu này vào một bộ sưu tập để giữ lại đánh giá và báo cáo.',
+    preEvaluationHint: 'Gửi yêu cầu để chạy tiền đánh giá.',
+    preEvaluationUnavailable: 'Tiền đánh giá yêu cầu phản hồi thành công (HTTP 2xx hoặc 3xx).',
     runPreEvaluation: 'Chạy tiền đánh giá',
     userPromptField: 'Trường prompt của người dùng',
     userPromptPlaceholder: 'Chọn trường JSON',

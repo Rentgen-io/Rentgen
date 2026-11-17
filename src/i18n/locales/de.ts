@@ -48,6 +48,8 @@ const de = {
     stop: 'Stopp',
     noOptions: 'Keine Optionen',
     resizeHint: 'Ziehen, um die Größe zu ändern, Doppelklick zum Zurücksetzen',
+    toggleTheme: 'Design wechseln',
+    allEnvironments: 'Alle Umgebungen',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const de = {
   // Collections Panel
   collections: {
     newFolder: 'Neuer Ordner',
-    importCollection: 'Sammlung importieren',
-    exportCollection: 'Sammlung exportieren',
     searchRequests: 'Anfragen durchsuchen...',
     noMatchingRequests: 'Keine passenden Anfragen',
     noSavedRequests: 'Keine gespeicherten Anfragen',
@@ -95,12 +95,12 @@ const de = {
     deleteEnvironmentConfirm: 'Möchten Sie diese Umgebung wirklich löschen?',
     deleteEnvironment: 'Umgebung löschen',
     untitled: 'Ohne Titel',
+    duplicateVariable: 'Eine Variable mit diesem Namen existiert bereits',
   },
 
   // History
   history: {
     title: 'Verlauf',
-    clearAll: 'Alle löschen',
     searchHistory: 'Verlauf durchsuchen...',
     noMatchingHistory: 'Kein passender Verlauf',
     noHistoryYet: 'Noch kein Verlauf',
@@ -114,12 +114,24 @@ const de = {
     enterUrl: 'URL eingeben oder Text einfügen',
     headers: 'Header',
     headersPlaceholder: 'Header-Schlüssel: Wert',
+    bulkEdit: 'Massenbearbeitung',
+    keyValueEdit: 'Schlüssel-Wert-Bearbeitung',
     body: 'Body',
-    bodyPlaceholderHttp: 'Anfrage-Body eingeben (JSON oder Form Data)',
-    bodyPlaceholderWss: 'Nachrichten-Body',
+    bodyPlaceholderHttp: 'Anfrage-Body eingeben (JSON oder Text)',
+    bodyPlaceholderWss: 'Nachricht verfassen',
     wssUrlRequired: '🔴 Bitte verwenden Sie eine ws:// oder wss:// URL',
     modePlaceholder: 'MODUS',
     methodPlaceholder: 'METHODE',
+    message: 'Nachricht',
+    noBody: 'Diese Anfrage hat keinen Body',
+    bodyType: 'Body-Typ',
+    selectFiles: 'Dateien auswählen',
+    filesSelected_one: '{{count}} Datei ausgewählt',
+    filesSelected_other: '{{count}} Dateien ausgewählt',
+    localFileWarning:
+      'Diese Datei ist auf Ihrem Rechner gespeichert, daher können Teammitglieder, mit denen Sie diese Anfrage teilen, sie nicht verwenden.',
+    key: 'Schlüssel',
+    value: 'Wert',
   },
 
   // Response
@@ -149,7 +161,7 @@ const de = {
     testsHint: 'Senden Sie eine Anfrage, um aus ihrer Antwort Tests zu generieren.',
     testsUnavailable: 'Für die Testgenerierung ist eine erfolgreiche Antwort erforderlich (HTTP 2xx oder 3xx).',
     generateAndRun: 'Tests generieren und ausführen',
-    runningTests: 'Tests werden ausgeführt... ({{current}}/{{total}})',
+    runningTests: 'Wird ausgeführt... ({{current}}/{{total}})',
     noTestsGenerated: 'Keine Tests generiert',
     selectForCompare: 'Zum Vergleichen auswählen',
     compareWithSelected: 'Mit Auswahl vergleichen',
@@ -231,7 +243,8 @@ const de = {
       requestConflicts: '{{count}} Anfrage(n) mit übereinstimmender URL + Methode oder Namen',
       importWarnings: 'Importwarnungen: {{count}}',
       replaceDescription: 'Gesamte bestehende Sammlung ersetzen ({{folders}} Ordner, {{requests}} Anfragen)',
-      mergeDescription: 'Nur eindeutige Elemente hinzufügen (Duplikate nach URL + Methode oder Name werden übersprungen)',
+      mergeDescription:
+        'Nur eindeutige Elemente hinzufügen (Duplikate nach URL + Methode oder Name werden übersprungen)',
       newFolders: '{{count}} neue(r) Ordner',
       newRequests: '{{count}} neue Anfrage(n)',
       noNewItems: 'Keine neuen Elemente zum Hinzufügen',
@@ -244,13 +257,10 @@ const de = {
       variableNamePlaceholder: 'variablen_name',
       preview: 'Vorschau',
       environment: 'Umgebung',
-      allEnvironments: 'Alle Umgebungen',
       untitledEnvironment: 'Umgebung ohne Titel',
       selectEnvironment: 'Umgebung auswählen...',
       linkedRequest: 'Verknüpfte Anfrage',
       variableNameRequired: 'Variablenname ist erforderlich',
-      selectorRequired: 'Selektor ist erforderlich',
-      selectEnvironmentError: 'Bitte wählen Sie eine Umgebung aus',
       duplicateWarning: 'Eine Variable mit diesem Namen existiert bereits. Sie wird überschrieben.',
     },
     projectImport: {
@@ -485,6 +495,12 @@ const de = {
     enumLabel: 'Geben Sie alle gültigen Werte getrennt durch "," ein',
     numberLabel: 'Setzen Sie Min/Max-Bereich für Grenzwerttest. 0 - Ganzzahl, 0.00 - Dezimalzahl',
     stringLabel: 'Minimale/maximale Wertelänge',
+    fileLabel: 'Akzeptierte Dateiformate',
+    fileFormatGroups: {
+      images: 'Bilder',
+      documents: 'Dokumente',
+      spreadsheets: 'Tabellen',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: 'An die KI gesendete Daten prüfen',
@@ -509,6 +525,7 @@ const de = {
     dateYYYYMMDD: 'Datum (JJJJ-MM-TT)',
     email: 'E-Mail',
     enum: 'Enum',
+    file: 'Datei',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Zahl',
@@ -548,7 +565,8 @@ const de = {
 
   // Messages panel
   messages: {
-    title: 'Nachrichten',
+    title: 'Antwort',
+    empty: '(leer)',
   },
 
   // Export format labels
@@ -581,7 +599,8 @@ const de = {
     description:
       'Demo-Assertions sind bearbeitbare Beispiele. Passen Sie sie an die Sprache und die Ablehnungsformulierungen Ihres Modells an. Beim Abgleich wird die Groß- und Kleinschreibung ignoriert, und gerade und typografische Apostrophe gelten als gleichwertig. OR verbietet jede aufgeführte Phrase; AND verbietet alle Phrasen, wenn sie zusammen auftreten.',
     runEachQuestion: 'Jede Frage wird mit der aktuellen Anfrage und der ausgewählten Umgebung ausgeführt.',
-    saveRequestMessage: 'Speichern Sie diese Anfrage in einer Sammlung, um die Bewertung und den Bericht zu behalten.',
+    preEvaluationHint: 'Senden Sie eine Anfrage, um die Vorabbewertung auszuführen.',
+    preEvaluationUnavailable: 'Für die Vorabbewertung ist eine erfolgreiche Antwort erforderlich (HTTP 2xx oder 3xx).',
     runPreEvaluation: 'Vorabbewertung ausführen',
     userPromptField: 'Feld für Benutzer-Prompt',
     userPromptPlaceholder: 'JSON-Feld auswählen',

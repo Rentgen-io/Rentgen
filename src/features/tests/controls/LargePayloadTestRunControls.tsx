@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from 'src/components/inputs/Input';
-import useTests from 'src/hooks/useTests';
 import { useAppSelector } from 'src/store/hooks';
-import { selectTestOptions } from 'src/store/selectors';
+import { selectIsLargePayloadTestRunning, selectTestOptions } from 'src/store/selectors';
+import { executeLargePayloadTest } from 'src/test-engine';
 import { clamp } from 'src/utils';
 import TestRunControls from './TestRunControls';
 
@@ -11,7 +11,7 @@ const MAX_PAYLOAD_SIZE_MB = 100;
 
 export default function LargePayloadTestRunControls() {
   const { t } = useTranslation();
-  const { isLargePayloadTestRunning, executeLargePayloadTest } = useTests();
+  const isLargePayloadTestRunning = useAppSelector(selectIsLargePayloadTestRunning);
 
   const testOptions = useAppSelector(selectTestOptions);
 

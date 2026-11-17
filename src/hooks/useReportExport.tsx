@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appConfig } from 'shared/constants';
 import { exportFile, generateCertificate as generateCertificateFile } from 'src/api/files';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { store } from 'src/store';
 import { selectCurrentTestResults, selectExportFormat, selectHttpResponse } from 'src/store/selectors';
 import { ExportReport } from 'src/types';
 import { buildSuite, formatReport } from 'src/utils';
@@ -10,16 +10,18 @@ import { notify } from 'src/utils/toast';
 
 const MINIMUM_TESTS_FOR_CERTIFICATE = 70;
 
+/**
+ * The results are read from the store when exporting (not subscribed to), so the returned callbacks are stable and the
+ * calling component doesn't re-render on every test progress update.
+ */
 export function useReportExport() {
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const testResults = useAppSelector(selectCurrentTestResults);
-  const exportFormat = useAppSelector(selectExportFormat);
-  const httpResponse = useAppSelector(selectHttpResponse);
-
   const exportReport = useCallback(async () => {
-    if (!testResults || !testResults.testOptions) return;
+    const state = store.getState();
+    const testResults = selectCurrentTestResults(state);
+
+    if (!testResults?.testOptions) return;
 
     const { aiTests, aiUsage, crudTests, dataDrivenTests, performanceTests, securityTests, testOptions } = testResults;
     const report: ExportReport = {
@@ -31,7 +33,7 @@ export function useReportExport() {
         headers: testOptions.headers,
         body: testOptions.body,
       },
-      lastHttpResponse: httpResponse,
+      lastHttpResponse: selectHttpResponse(state),
       suites: [
         buildSuite('AI Tests', aiTests ?? [], aiUsage ?? null),
         buildSuite('Security Tests', securityTests),
@@ -42,7 +44,7 @@ export function useReportExport() {
     };
 
     try {
-      const result = await exportFile(formatReport(report, exportFormat));
+      const result = await exportFile(formatReport(report, selectExportFormat(state)));
 
       if (result?.error) throw new Error(result.error);
       if (result?.canceled) return;
@@ -51,9 +53,11 @@ export function useReportExport() {
     } catch {
       notify.error(t('tests.failedToExport'), { toastId: 'error-export-report' });
     }
-  }, [testResults, exportFormat, httpResponse, dispatch]);
+  }, [t]);
 
   const generateCertificate = useCallback(async () => {
+    const testResults = selectCurrentTestResults(store.getState());
+
     if (!testResults || testResults.count < MINIMUM_TESTS_FOR_CERTIFICATE) {
       notify.error(t('tests.notEligible'), { toastId: 'error-generate-certificate' });
       return;
@@ -69,7 +73,7 @@ export function useReportExport() {
     } catch {
       notify.error(t('tests.failedToGenerateCertificate'), { toastId: 'error-generate-certificate' });
     }
-  }, [testResults, t, dispatch]);
+  }, [t]);
 
   return { exportReport, generateCertificate };
 }

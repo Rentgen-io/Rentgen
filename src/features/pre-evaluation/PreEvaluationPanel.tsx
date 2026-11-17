@@ -10,13 +10,29 @@ import Select from 'src/components/inputs/Select';
 import TextareaAutosize from 'src/components/inputs/TextareaAutosize';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import ProgressBar from 'src/components/loaders/ProgressBar';
-import { DEFAULT_EVALUATION_QUESTIONS } from 'src/constants/pre-evaluation';
-import usePreEvaluation, { MAX_ITERATIONS, MIN_ITERATIONS } from 'src/hooks/usePreEvaluation';
+import {
+  DEFAULT_EVALUATION_QUESTIONS,
+  DEFAULT_PRE_EVALUATION,
+  MAX_ITERATIONS,
+  MIN_ITERATIONS,
+} from 'src/constants/pre-evaluation';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectBody, selectPreEvaluationDisabled, selectSelectedRequestId } from 'src/store/selectors';
+import {
+  selectCurrentRun,
+  selectEvaluationReport,
+  selectHasHttpResponse,
+  selectIsPreEvaluationRunning,
+  selectIsResponseSuccessful,
+  selectPreEvaluation,
+  selectPreEvaluationDisabled,
+  selectPreEvaluationError,
+  selectPreEvaluationTotalRuns,
+  selectPromptPathOptions,
+} from 'src/store/selectors';
 import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
+import { executePreEvaluation, stopPreEvaluation } from 'src/test-engine';
 import { EvaluationQuestion, MatchMode } from 'src/types';
-import { findPromptPointers, parseCsv, parseJsonObject, toCsv } from 'src/utils';
+import { parseCsv, toCsv } from 'src/utils';
 import { notify } from 'src/utils/toast';
 import PreEvaluationReport from './PreEvaluationReport';
 
@@ -36,28 +52,20 @@ const modeOptions: RadioOption<MatchMode>[] = [
 export default function PreEvaluationPanel() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const {
-    currentRun,
-    evaluationReport,
-    isRunningPreEvaluation,
-    preEvaluation,
-    totalRuns,
-    cancelPreEvaluation,
-    executePreEvaluation,
-  } = usePreEvaluation();
 
-  const body = useAppSelector(selectBody);
   const disabled = useAppSelector(selectPreEvaluationDisabled);
-  const selectedRequestId = useAppSelector(selectSelectedRequestId);
+  const evaluationReport = useAppSelector(selectEvaluationReport);
+  const hasHttpResponse = useAppSelector(selectHasHttpResponse);
+  const isResponseSuccessful = useAppSelector(selectIsResponseSuccessful);
+  const isRunningPreEvaluation = useAppSelector(selectIsPreEvaluationRunning);
+  const preEvaluation = useAppSelector(selectPreEvaluation) ?? DEFAULT_PRE_EVALUATION;
+  const promptPathOptions = useAppSelector(selectPromptPathOptions);
+  const validationError = useAppSelector(selectPreEvaluationError);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [iterations, setIterations] = useState<string>(String(preEvaluation.iterations));
   const [responsePath, setResponsePath] = useState<string>(preEvaluation.responsePath);
 
-  const promptPathOptions = useMemo(
-    () => findPromptPointers(parseJsonObject(body)).map((path) => ({ label: path, value: path })),
-    [body],
-  );
   const selectedPromptPath = promptPathOptions.find((option) => option.value === preEvaluation.promptPath) ?? null;
 
   const columns = useMemo<TableColumn<EvaluationQuestion>[]>(() => {
@@ -156,8 +164,12 @@ export default function PreEvaluationPanel() {
           <h5 className="m-0">{t('preEvaluation.title')}</h5>
           <p className="m-0 text-xs text-muted-foreground">{t('preEvaluation.runEachQuestion')}</p>
         </div>
+        {!isResponseSuccessful && (
+          <p className="m-0 text-xs text-muted-foreground">
+            {t(hasHttpResponse ? 'preEvaluation.preEvaluationUnavailable' : 'preEvaluation.preEvaluationHint')}
+          </p>
+        )}
         <p className="m-0 text-xs text-muted-foreground">{t('preEvaluation.description')}</p>
-        {!selectedRequestId && <p className="m-0 text-xs">{t('preEvaluation.saveRequestMessage')}</p>}
       </div>
       <div className="relative flex flex-col gap-4 py-3 px-4">
         <div className="flex flex-col 2xl:flex-row 2xl:items-center gap-4">
@@ -263,10 +275,13 @@ export default function PreEvaluationPanel() {
           data={preEvaluation.questions}
           noDataComponent={<div className="p-4">{renderAddButton(ButtonType.SECONDARY_OUTLINE)}</div>}
         />
+        {validationError && (
+          <p className="m-0 text-xs text-muted-foreground">{t(validationError.key, validationError.values)}</p>
+        )}
         {!isRunningPreEvaluation ? (
           <Button
             className="inline-flex items-center gap-2 @xl:w-fit truncate"
-            disabled={disabled}
+            disabled={disabled || !isResponseSuccessful}
             onClick={async () => {
               if (disabled) return;
 
@@ -283,26 +298,34 @@ export default function PreEvaluationPanel() {
             <span className="truncate">{t('preEvaluation.runPreEvaluation')}</span>
           </Button>
         ) : (
-          <div className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between gap-2">
-            <Button
-              className="inline-flex items-center gap-2 @lg:w-fit truncate"
-              onClick={() => cancelPreEvaluation(false)}
-            >
-              <StopIcon className="size-4 shrink-0" />
-              <span className="truncate">{t('common.stop')}</span>
-            </Button>
-            <LoaderWithText
-              className="w-auto text-xs font-normal [&_.loader]:size-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
-              text={t('preEvaluation.running', { current: currentRun, total: totalRuns })}
-            />
-          </div>
-        )}
-        {isRunningPreEvaluation && (
-          <ProgressBar className="absolute bottom-0 left-0" max={totalRuns} value={currentRun} />
+          <PreEvaluationProgress onStop={stopPreEvaluation} />
         )}
       </div>
       {evaluationReport && <PreEvaluationReport report={evaluationReport} />}
     </div>
+  );
+}
+
+function PreEvaluationProgress({ onStop }: { onStop: () => void }) {
+  const { t } = useTranslation();
+
+  const currentRun = useAppSelector(selectCurrentRun);
+  const totalRuns = useAppSelector(selectPreEvaluationTotalRuns);
+
+  return (
+    <>
+      <div className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between gap-2">
+        <Button className="inline-flex items-center gap-2 @lg:w-fit truncate" onClick={onStop}>
+          <StopIcon className="size-4 shrink-0" />
+          <span className="truncate">{t('common.stop')}</span>
+        </Button>
+        <LoaderWithText
+          className="w-auto text-xs font-normal [&_.loader]:size-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
+          text={t('preEvaluation.running', { current: currentRun, total: totalRuns })}
+        />
+      </div>
+      <ProgressBar className="absolute bottom-0 left-0" max={totalRuns} value={currentRun} />
+    </>
   );
 }
 

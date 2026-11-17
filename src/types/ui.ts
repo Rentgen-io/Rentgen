@@ -1,6 +1,8 @@
 import { IntegrityStatus, PostmanCollection, ProjectData, ProjectMeta } from './index';
 
+export type AiTab = 'overview' | 'tests';
 export type SidebarTab = 'collections' | 'environments' | 'history' | null;
+export type SettingsTab = 'testEngine' | 'general' | 'ai' | 'themes' | 'language' | 'cli';
 
 export interface ImportConflict {
   type: 'collection' | 'folder' | 'request';
@@ -26,6 +28,12 @@ export interface ImportConflictModalState {
   warnings: string[];
 }
 
+export interface ResponsePanelContext {
+  source: 'body' | 'header';
+  jsonPath?: string | null;
+  jsonValue?: string | null;
+}
+
 export interface SetAsDynamicVariableModalState {
   isOpen: boolean;
   initialSelector: string;
@@ -42,12 +50,4 @@ export interface ProjectImportConfirmModalState {
   meta: ProjectMeta | null;
   integrityStatus: IntegrityStatus | null;
   fileName: string;
-}
-
-export interface ParsedCurlResult {
-  body: string | null;
-  decodedLines: string[];
-  headers: Record<string, string>;
-  method: string;
-  url: string;
 }

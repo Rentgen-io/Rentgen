@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_FOLDER_ID } from 'shared/utils/collection';
 import { loadCollection as loadCollectionFile } from 'src/api/storage';
 import i18n from 'src/i18n';
-import { PostmanCollection, PostmanFolder, PreEvaluation } from 'src/types';
+import { PostmanBody, PostmanCollection, PostmanFolder, PostmanHeader, PreEvaluation } from 'src/types';
 import {
   addFolderToCollection,
   addRequestToCollection,
@@ -50,9 +50,9 @@ export const collectionSlice = createSlice({
     addRequest: (
       state,
       action: PayloadAction<{
-        body: string | null;
+        body: PostmanBody;
         folderId?: string;
-        headers: Record<string, string>;
+        headers: PostmanHeader[];
         method: string;
         preEvaluation: PreEvaluation | null;
         url: string;
@@ -233,8 +233,8 @@ export const collectionSlice = createSlice({
     updateRequest: (
       state,
       action: PayloadAction<{
-        body: string | null;
-        headers: Record<string, string>;
+        body: PostmanBody;
+        headers: PostmanHeader[];
         method: string;
         preEvaluation: PreEvaluation | null;
         requestId: string;

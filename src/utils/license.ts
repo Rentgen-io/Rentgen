@@ -1,5 +1,6 @@
 import i18n from 'src/i18n';
 import store from 'src/store';
+import { LICENSE_PLANS, LicenseInfo, LicensePlan, LicenseResult } from 'src/types';
 import { notify } from './toast';
 
 const PUBLIC_KEY_PEM = `-----BEGIN PUBLIC KEY-----
@@ -7,25 +8,7 @@ MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAuy/6d8vo+G5iVx/TixNS\nc3h8IUzrBACUUp
 -----END PUBLIC KEY-----`;
 
 const ISSUER = 'rentgen.io';
-const ALLOWED_PLANS = ['pro'] as const;
 const DAY_SECONDS = 86_400;
-
-export type LicensePlan = (typeof ALLOWED_PLANS)[number];
-export type LicenseStatus = 'valid' | 'expired' | 'not_yet_valid' | 'invalid';
-
-export interface LicenseInfo {
-  company: string;
-  daysLeft: number;
-  expiresOn: string;
-  plan: LicensePlan;
-  startsOn: string;
-  trial: boolean;
-}
-
-export type LicenseResult =
-  | { valid: true; status: 'valid'; info: LicenseInfo }
-  | { valid: false; status: 'expired' | 'not_yet_valid' | 'trial_used'; error: string; info: LicenseInfo }
-  | { valid: false; status: 'invalid'; error: string };
 
 export interface VerifyOptions {
   now?: number;
@@ -78,7 +61,7 @@ function isSafeInt(v: unknown): v is number {
 }
 
 function isAllowedPlan(v: unknown): v is LicensePlan {
-  return (ALLOWED_PLANS as readonly unknown[]).includes(v);
+  return (LICENSE_PLANS as readonly unknown[]).includes(v);
 }
 
 function isLicenseClaims(p: unknown): p is LicenseClaims {

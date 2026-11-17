@@ -10,11 +10,12 @@ import ResizeHandler from 'src/components/panels/ResizeHandler';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import { useElementHeight } from 'src/hooks/useElementHeight';
 import { useResizableSize } from 'src/hooks/useResizableSize';
-import { useSendHttpRequest } from 'src/hooks/useSendHttpRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
+  selectBodyMode,
   selectBodyParameters,
   selectHttpResponse,
+  selectIsSending,
   selectQueryParameters,
   selectSelectedRequestId,
   selectSelectedRequestRunResult,
@@ -22,6 +23,7 @@ import {
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
+import { isAbortedResponse } from 'src/utils';
 import ParametersPanel from '../parameters/ParametersPanel';
 
 const MIN_RESPONSE_HEIGHT = 160;
@@ -36,9 +38,11 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
+  const bodyMode = useAppSelector(selectBodyMode);
   const bodyParameters = useAppSelector(selectBodyParameters);
   const queryParameters = useAppSelector(selectQueryParameters);
   const httpResponse = useAppSelector(selectHttpResponse);
+  const isSending = useAppSelector(selectIsSending);
   const selectedRequestId = useAppSelector(selectSelectedRequestId);
   const requestWithFolder = useAppSelector(selectSelectedRequestWithFolder);
   const runResult = useAppSelector(selectSelectedRequestRunResult);
@@ -50,7 +54,6 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
     minSize: MIN_RESPONSE_HEIGHT,
     storageKey: 'responsePanelHeight',
   });
-  const { isSending } = useSendHttpRequest();
 
   const setVariable = useCallback(
     (path: string, value: string, source: 'body' | 'header') => {
@@ -71,7 +74,6 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
     [requestWithFolder, selectedRequestId, dispatch],
   );
 
-  const isAborted = httpResponse?.status === RESPONSE_STATUS_LABEL.ABORTED;
   const isNetworkError = httpResponse?.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
   const hasBodyParameters = Object.keys(bodyParameters).length > 0;
   const hasQueryParameters = Object.keys(queryParameters).length > 0;
@@ -104,11 +106,13 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                 ) : (
                   <span
                     className={cn('py-px px-2 text-xs rounded', {
-                      'text-green-500 bg-green-500/10': httpResponse?.status.startsWith('2') && !runResult?.warning,
-                      'text-yellow-500 bg-yellow-500/10': httpResponse?.status.startsWith('2') && runResult?.warning,
+                      'text-metric-pass bg-metric-pass/10': httpResponse?.status.startsWith('2') && !runResult?.warning,
+                      'text-metric-warning bg-metric-warning/10':
+                        httpResponse?.status.startsWith('2') && runResult?.warning,
                       'text-blue-500 bg-blue-500/10': httpResponse?.status.startsWith('3'),
-                      'text-orange-500 bg-orange-500/10': httpResponse?.status.startsWith('4') || isAborted,
-                      'text-red-500 bg-red-500/10':
+                      'text-primary bg-primary/10':
+                        httpResponse?.status.startsWith('4') || isAbortedResponse(httpResponse),
+                      'text-metric-fail bg-metric-fail/10':
                         httpResponse?.status.startsWith('5') || isNetworkError || httpResponse?.status === 'Error',
                     })}
                   >
@@ -161,7 +165,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                   )}
                   <JsonViewer
                     maxHeight={viewerMaxHeight}
-                    responsePanelContext={{ isResponsePanel: true, source: 'body' }}
+                    responsePanelContext={{ source: 'body' }}
                     showVariableButtons={!!requestWithFolder}
                     source={httpResponse.body}
                     onSetVariable={(path, value) => setVariable(path, value, 'body')}
@@ -178,7 +182,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                   )}
                   <JsonViewer
                     maxHeight={viewerMaxHeight}
-                    responsePanelContext={{ isResponsePanel: true, source: 'header' }}
+                    responsePanelContext={{ source: 'header' }}
                     showVariableButtons={!!requestWithFolder}
                     source={httpResponse.headers}
                     onSetVariable={(path, value) => setVariable(path, value, 'header')}
@@ -208,6 +212,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                   {hasBodyParameters && (
                     <TabPanel>
                       <ParametersPanel
+                        canBeFile={bodyMode === 'formdata'}
                         parameters={bodyParameters}
                         onChange={(parameters) => dispatch(requestActions.updateBodyParameters(parameters))}
                       />

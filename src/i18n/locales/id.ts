@@ -48,6 +48,8 @@ const id = {
     stop: 'Hentikan',
     noOptions: 'Tidak ada opsi',
     resizeHint: 'Seret untuk mengubah ukuran, klik dua kali untuk mengatur ulang',
+    toggleTheme: 'Ganti tema',
+    allEnvironments: 'Semua Lingkungan',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const id = {
   // Collections Panel
   collections: {
     newFolder: 'Folder Baru',
-    importCollection: 'Impor Koleksi',
-    exportCollection: 'Ekspor Koleksi',
     searchRequests: 'Cari permintaan...',
     noMatchingRequests: 'Tidak ada permintaan yang cocok',
     noSavedRequests: 'Tidak ada permintaan tersimpan',
@@ -95,12 +95,12 @@ const id = {
     deleteEnvironmentConfirm: 'Yakin ingin menghapus lingkungan ini?',
     deleteEnvironment: 'Hapus Lingkungan',
     untitled: 'Tanpa Judul',
+    duplicateVariable: 'Variabel dengan nama ini sudah ada',
   },
 
   // History
   history: {
     title: 'Riwayat',
-    clearAll: 'Hapus Semua',
     searchHistory: 'Cari riwayat...',
     noMatchingHistory: 'Tidak ada riwayat yang cocok',
     noHistoryYet: 'Belum ada riwayat',
@@ -114,12 +114,24 @@ const id = {
     enterUrl: 'Masukkan URL atau tempel teks',
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: 'Edit Massal',
+    keyValueEdit: 'Edit Kunci-Nilai',
     body: 'Body',
-    bodyPlaceholderHttp: 'Masukkan body permintaan (JSON atau Form Data)',
-    bodyPlaceholderWss: 'Body pesan',
+    bodyPlaceholderHttp: 'Masukkan body permintaan (JSON atau teks)',
+    bodyPlaceholderWss: 'Tulis pesan',
     wssUrlRequired: '🔴 Mohon gunakan URL ws:// atau wss://',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METODE',
+    message: 'Pesan',
+    noBody: 'Permintaan ini tidak memiliki body',
+    bodyType: 'Jenis body',
+    selectFiles: 'Pilih file',
+    filesSelected_one: '{{count}} file dipilih',
+    filesSelected_other: '{{count}} file dipilih',
+    localFileWarning:
+      'File ini tersimpan di perangkat Anda, jadi rekan tim yang menerima permintaan ini tidak dapat menggunakannya.',
+    key: 'Kunci',
+    value: 'Nilai',
   },
 
   // Response
@@ -149,7 +161,7 @@ const id = {
     testsHint: 'Kirim permintaan untuk menghasilkan tes dari responsnya.',
     testsUnavailable: 'Pembuatan tes memerlukan respons yang berhasil (HTTP 2xx atau 3xx).',
     generateAndRun: 'Hasilkan & Jalankan Tes',
-    runningTests: 'Menjalankan tes... ({{current}}/{{total}})',
+    runningTests: 'Menjalankan... ({{current}}/{{total}})',
     noTestsGenerated: 'Tidak ada tes yang dihasilkan',
     selectForCompare: 'Pilih untuk Bandingkan',
     compareWithSelected: 'Bandingkan dengan Pilihan',
@@ -244,13 +256,10 @@ const id = {
       variableNamePlaceholder: 'nama_variabel',
       preview: 'Pratinjau',
       environment: 'Lingkungan',
-      allEnvironments: 'Semua Lingkungan',
       untitledEnvironment: 'Lingkungan Tanpa Judul',
       selectEnvironment: 'Pilih lingkungan...',
       linkedRequest: 'Permintaan Tertaut',
       variableNameRequired: 'Nama variabel wajib diisi',
-      selectorRequired: 'Selektor wajib diisi',
-      selectEnvironmentError: 'Mohon pilih lingkungan',
       duplicateWarning: 'Variabel dengan nama ini sudah ada. Akan ditimpa.',
     },
     projectImport: {
@@ -479,6 +488,12 @@ const id = {
     enumLabel: 'Masukkan semua nilai valid dipisahkan dengan ","',
     numberLabel: 'Atur rentang Min/Maks untuk tes batas. 0 - bilangan bulat, 0.00 - desimal',
     stringLabel: 'Panjang minimum/maksimum nilai',
+    fileLabel: 'Format file yang diterima',
+    fileFormatGroups: {
+      images: 'Gambar',
+      documents: 'Dokumen',
+      spreadsheets: 'Spreadsheet',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
     reviewDataSentToAi: 'Tinjau data yang dikirim ke AI',
@@ -502,6 +517,7 @@ const id = {
     dateYYYYMMDD: 'Tanggal (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    file: 'File',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Angka',
@@ -541,7 +557,8 @@ const id = {
 
   // Messages panel
   messages: {
-    title: 'Pesan',
+    title: 'Respons',
+    empty: '(kosong)',
   },
 
   // Export format labels
@@ -574,7 +591,8 @@ const id = {
     description:
       'Assertion demo adalah contoh yang dapat diedit. Sesuaikan dengan bahasa dan kata-kata penolakan model Anda. Pencocokan mengabaikan huruf besar/kecil dan menganggap apostrof lurus dan tipografis setara. OR melarang salah satu frasa yang terdaftar; AND melarang semua frasa jika muncul bersamaan.',
     runEachQuestion: 'Setiap pertanyaan dijalankan terhadap permintaan saat ini dan environment yang dipilih.',
-    saveRequestMessage: 'Simpan permintaan ini ke koleksi untuk menyimpan evaluasi dan laporannya.',
+    preEvaluationHint: 'Kirim permintaan untuk menjalankan pra-evaluasi.',
+    preEvaluationUnavailable: 'Pra-evaluasi memerlukan respons yang berhasil (HTTP 2xx atau 3xx).',
     runPreEvaluation: 'Jalankan Pra-Evaluasi',
     userPromptField: 'Bidang prompt pengguna',
     userPromptPlaceholder: 'Pilih bidang JSON',

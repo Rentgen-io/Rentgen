@@ -48,6 +48,8 @@ const ja = {
     stop: '停止',
     noOptions: 'オプションなし',
     resizeHint: 'ドラッグでサイズ変更、ダブルクリックでリセット',
+    toggleTheme: 'テーマを切り替え',
+    allEnvironments: 'すべての環境',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const ja = {
   // Collections Panel
   collections: {
     newFolder: '新規フォルダ',
-    importCollection: 'コレクションをインポート',
-    exportCollection: 'コレクションをエクスポート',
     searchRequests: 'リクエストを検索...',
     noMatchingRequests: '一致するリクエストはありません',
     noSavedRequests: '保存されたリクエストはありません',
@@ -95,12 +95,12 @@ const ja = {
     deleteEnvironmentConfirm: 'この環境を削除してもよろしいですか?',
     deleteEnvironment: '環境を削除',
     untitled: '無題',
+    duplicateVariable: 'この名前の変数は既に存在します',
   },
 
   // History
   history: {
     title: '履歴',
-    clearAll: 'すべてクリア',
     searchHistory: '履歴を検索...',
     noMatchingHistory: '一致する履歴はありません',
     noHistoryYet: 'まだ履歴がありません',
@@ -114,12 +114,24 @@ const ja = {
     enterUrl: 'URL を入力するかテキストを貼り付け',
     headers: 'ヘッダー',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: '一括編集',
+    keyValueEdit: 'キーと値で編集',
     body: 'ボディ',
-    bodyPlaceholderHttp: 'リクエストボディを入力 (JSON または Form Data)',
-    bodyPlaceholderWss: 'メッセージボディ',
+    bodyPlaceholderHttp: 'リクエストボディを入力 (JSON またはテキスト)',
+    bodyPlaceholderWss: 'メッセージを作成',
     wssUrlRequired: '🔴 ws:// または wss:// の URL を使用してください',
     modePlaceholder: 'モード',
     methodPlaceholder: 'メソッド',
+    message: 'メッセージ',
+    noBody: 'このリクエストにはボディがありません',
+    bodyType: 'ボディの種類',
+    selectFiles: 'ファイルを選択',
+    filesSelected_one: '{{count}} 個のファイルを選択済み',
+    filesSelected_other: '{{count}} 個のファイルを選択済み',
+    localFileWarning:
+      'このファイルはお使いのマシンに保存されているため、このリクエストを共有したチームメンバーは使用できません。',
+    key: 'キー',
+    value: '値',
   },
 
   // Response
@@ -149,7 +161,7 @@ const ja = {
     testsHint: 'リクエストを送信すると、そのレスポンスからテストを生成します。',
     testsUnavailable: 'テストを生成するには、成功したレスポンス (HTTP 2xx または 3xx) が必要です。',
     generateAndRun: 'テストを生成して実行',
-    runningTests: 'テストを実行中... ({{current}}/{{total}})',
+    runningTests: '実行中... ({{current}}/{{total}})',
     noTestsGenerated: 'テストが生成されませんでした',
     selectForCompare: '比較対象として選択',
     compareWithSelected: '選択したものと比較',
@@ -245,13 +257,10 @@ const ja = {
       variableNamePlaceholder: 'variable_name',
       preview: 'プレビュー',
       environment: '環境',
-      allEnvironments: 'すべての環境',
       untitledEnvironment: '無題の環境',
       selectEnvironment: '環境を選択...',
       linkedRequest: 'リンクされたリクエスト',
       variableNameRequired: 'バリアブル名は必須です',
-      selectorRequired: 'セレクタは必須です',
-      selectEnvironmentError: '環境を選択してください',
       duplicateWarning: 'この名前のバリアブルはすでに存在します。上書きされます。',
     },
     projectImport: {
@@ -483,6 +492,12 @@ const ja = {
     enumLabel: '有効な値をすべて "," で区切って入力してください',
     numberLabel: '境界値テスト用の Min/Max 範囲を設定します。0 - 整数、0.00 - 小数',
     stringLabel: '値の最小/最大長',
+    fileLabel: '受け付けるファイル形式',
+    fileFormatGroups: {
+      images: '画像',
+      documents: 'ドキュメント',
+      spreadsheets: 'スプレッドシート',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: 'AIに送信するデータを確認',
@@ -506,6 +521,7 @@ const ja = {
     dateYYYYMMDD: '日付 (YYYY-MM-DD)',
     email: 'メールアドレス',
     enum: 'Enum',
+    file: 'ファイル',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: '数値',
@@ -545,7 +561,8 @@ const ja = {
 
   // Messages panel
   messages: {
-    title: 'メッセージ',
+    title: 'レスポンス',
+    empty: '(空)',
   },
 
   // Export format labels
@@ -578,7 +595,8 @@ const ja = {
     description:
       'デモのアサーションは編集可能なサンプルです。モデルの言語や拒否の言い回しに合わせて調整してください。照合では大文字と小文字を区別せず、直線のアポストロフィと文字装飾用のアポストロフィは同一として扱います。OR は列挙されたいずれかのフレーズを禁止し、AND はすべてのフレーズが同時に出現する場合を禁止します。',
     runEachQuestion: '各質問は、現在のリクエストと選択した環境に対して実行されます。',
-    saveRequestMessage: '評価とレポートを保持するには、このリクエストをコレクションに保存してください。',
+    preEvaluationHint: 'リクエストを送信すると、事前評価を実行できます。',
+    preEvaluationUnavailable: '事前評価を実行するには、成功したレスポンス (HTTP 2xx または 3xx) が必要です。',
     runPreEvaluation: '事前評価を実行',
     userPromptField: 'ユーザープロンプトのフィールド',
     userPromptPlaceholder: 'JSONフィールドを選択',

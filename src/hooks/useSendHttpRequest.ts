@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
-import { RESPONSE_STATUS, RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
+import { RESPONSE_STATUS_LABEL, isSuccessStatus } from 'shared/responseStatus';
 import { sendHttp } from 'src/api/network';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { store } from 'src/store';
+import { useAppDispatch } from 'src/store/hooks';
 import {
   selectBody,
   selectDynamicVariables,
   selectHeaders,
   selectHistoryEnabled,
-  selectIsSending,
   selectMappings,
   selectMethod,
   selectSelectedEnvironment,
@@ -21,34 +21,23 @@ import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { RequestParameters } from 'src/types';
 import {
-  applyMapping,
-  collectExtractionFailures,
   createHttpRequest,
-  detectDataType,
-  extractBodyParameters,
-  extractQueryParameters,
+  extractDynamicVariables,
+  extractRequestParameters,
   extractStatusCode,
   formatExtractionWarning,
   generateHistoryId,
-  getInitialParameterValue,
   substituteRequestVariables,
 } from 'src/utils';
 
 let activeController: AbortController | null = null;
 
+/**
+ * The request is read from the store when sending (not subscribed to), so sendHttpRequest is stable and only isSending
+ * re-renders the calling component.
+ */
 export function useSendHttpRequest() {
   const dispatch = useAppDispatch();
-
-  const body = useAppSelector(selectBody);
-  const dynamicVariables = useAppSelector(selectDynamicVariables);
-  const headers = useAppSelector(selectHeaders);
-  const historyEnabled = useAppSelector(selectHistoryEnabled);
-  const isSending = useAppSelector(selectIsSending);
-  const mappings = useAppSelector(selectMappings);
-  const method = useAppSelector(selectMethod);
-  const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
-  const selectedRequestId = useAppSelector(selectSelectedRequestId);
-  const url = useAppSelector(selectUrl);
 
   const abortRequest = useCallback(() => {
     activeController?.abort();
@@ -60,15 +49,26 @@ export function useSendHttpRequest() {
     const controller = new AbortController();
     activeController = controller;
 
+    const state = store.getState();
+    const body = selectBody(state);
+    const dynamicVariables = selectDynamicVariables(state);
+    const headers = selectHeaders(state);
+    const historyEnabled = selectHistoryEnabled(state);
+    const mappings = selectMappings(state);
+    const method = selectMethod(state);
+    const selectedEnvironment = selectSelectedEnvironment(state);
+    const selectedRequestId = selectSelectedRequestId(state);
+    const url = selectUrl(state);
+
     dispatch(requestActions.setIsSending(true));
 
     const historyEntry = {
-      id: generateHistoryId(),
-      timestamp: Date.now(),
-      method,
-      url,
-      headers,
       body,
+      headers,
+      id: generateHistoryId(),
+      method,
+      timestamp: Date.now(),
+      url,
     };
 
     try {
@@ -76,7 +76,7 @@ export function useSendHttpRequest() {
         url: substitutedUrl,
         headers: substitutedHeaders,
         body: substitutedBody,
-      } = substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables);
+      } = substituteRequestVariables(body, selectedEnvironment, dynamicVariables, headers, url);
       const request = createHttpRequest(substitutedBody, substitutedHeaders, method, substitutedUrl);
       const response = await sendHttp(request, controller.signal);
       const status = extractStatusCode(response);
@@ -86,22 +86,15 @@ export function useSendHttpRequest() {
       let bodyParameters: RequestParameters = {};
       let queryParameters: RequestParameters = {};
 
-      if (status >= RESPONSE_STATUS.OK && status < RESPONSE_STATUS.REDIRECT) {
-        bodyParameters = applyMapping(
-          extractBodyParameters(substitutedBody, substitutedHeaders),
-          (selectedRequestId && mappings[selectedRequestId]?.body) || {},
-        );
-        queryParameters = applyMapping(
-          Object.fromEntries(
-            Object.entries(extractQueryParameters(substitutedUrl)).map(([key, value]) => [
-              key,
-              getInitialParameterValue(detectDataType(value), value),
-            ]),
-          ),
-          (selectedRequestId && mappings[selectedRequestId]?.query) || {},
-        );
+      if (isSuccessStatus(status)) {
+        ({ bodyParameters, queryParameters } = extractRequestParameters(
+          substitutedBody,
+          substitutedUrl,
+          selectedRequestId ? mappings[selectedRequestId] : undefined,
+        ));
 
-        dispatch(modalsActions.openSendHttpSuccessModal());
+        const doNotShowAgain = localStorage.getItem('sendHttpSuccessModalDoNotShowAgain');
+        if (!doNotShowAgain || doNotShowAgain !== 'true') dispatch(modalsActions.openSendHttpSuccessModal());
       }
 
       dispatch(requestActions.setBodyParameters(bodyParameters));
@@ -116,7 +109,7 @@ export function useSendHttpRequest() {
             bodyParameters,
             queryParameters,
             error: null,
-            warning: formatExtractionWarning(collectExtractionFailures(dynamicVariables, selectedRequestId, response)),
+            warning: formatExtractionWarning(extractDynamicVariables(dynamicVariables, selectedRequestId, response)),
           }),
         );
     } catch (error) {
@@ -133,18 +126,7 @@ export function useSendHttpRequest() {
       if (historyEnabled) dispatch(historyActions.addEntry(historyEntry));
       activeController = null;
     }
-  }, [
-    body,
-    dynamicVariables,
-    headers,
-    historyEnabled,
-    mappings,
-    method,
-    selectedEnvironment,
-    selectedRequestId,
-    url,
-    dispatch,
-  ]);
+  }, [dispatch]);
 
-  return { isSending, abortRequest, sendHttpRequest };
+  return { abortRequest, sendHttpRequest };
 }

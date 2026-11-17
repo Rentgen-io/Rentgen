@@ -48,6 +48,8 @@ const tr = {
     stop: 'Durdur',
     noOptions: 'Seçenek yok',
     resizeHint: 'Yeniden boyutlandırmak için sürükleyin, sıfırlamak için çift tıklayın',
+    toggleTheme: 'Temayı değiştir',
+    allEnvironments: 'Tüm Ortamlar',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const tr = {
   // Collections Panel
   collections: {
     newFolder: 'Yeni Klasör',
-    importCollection: 'Koleksiyonu İçe Aktar',
-    exportCollection: 'Koleksiyonu Dışa Aktar',
     searchRequests: 'İstekleri ara...',
     noMatchingRequests: 'Eşleşen istek yok',
     noSavedRequests: 'Kaydedilmiş istek yok',
@@ -95,12 +95,12 @@ const tr = {
     deleteEnvironmentConfirm: 'Bu ortamı silmek istediğinizden emin misiniz?',
     deleteEnvironment: 'Ortamı Sil',
     untitled: 'Adsız',
+    duplicateVariable: 'Bu ada sahip bir değişken zaten var',
   },
 
   // History
   history: {
     title: 'Geçmiş',
-    clearAll: 'Tümünü Temizle',
     searchHistory: 'Geçmişte ara...',
     noMatchingHistory: 'Eşleşen geçmiş yok',
     noHistoryYet: 'Henüz geçmiş yok',
@@ -114,12 +114,24 @@ const tr = {
     enterUrl: 'URL girin veya metin yapıştırın',
     headers: 'Başlıklar',
     headersPlaceholder: 'Başlık-Anahtar: değer',
+    bulkEdit: 'Toplu Düzenleme',
+    keyValueEdit: 'Anahtar-Değer Düzenleme',
     body: 'Gövde',
-    bodyPlaceholderHttp: 'İstek gövdesini girin (JSON veya Form Data)',
-    bodyPlaceholderWss: 'Mesaj gövdesi',
+    bodyPlaceholderHttp: 'İstek gövdesini girin (JSON veya metin)',
+    bodyPlaceholderWss: 'Mesaj oluşturun',
     wssUrlRequired: '🔴 Lütfen ws:// veya wss:// URL kullanın',
     modePlaceholder: 'MOD',
     methodPlaceholder: 'METOT',
+    message: 'Mesaj',
+    noBody: 'Bu isteğin gövdesi yok',
+    bodyType: 'Gövde türü',
+    selectFiles: 'Dosya seç',
+    filesSelected_one: '{{count}} dosya seçildi',
+    filesSelected_other: '{{count}} dosya seçildi',
+    localFileWarning:
+      'Bu dosya bilgisayarınızda kayıtlı olduğundan, bu isteği paylaştığınız ekip arkadaşlarınız dosyayı kullanamaz.',
+    key: 'Anahtar',
+    value: 'Değer',
   },
 
   // Response
@@ -149,7 +161,7 @@ const tr = {
     testsHint: 'Yanıtından test oluşturmak için bir istek gönderin.',
     testsUnavailable: 'Test oluşturmak için başarılı bir yanıt gerekir (HTTP 2xx veya 3xx).',
     generateAndRun: 'Testleri Oluştur ve Çalıştır',
-    runningTests: 'Testler çalıştırılıyor... ({{current}}/{{total}})',
+    runningTests: 'Çalıştırılıyor... ({{current}}/{{total}})',
     noTestsGenerated: 'Test oluşturulmadı',
     selectForCompare: 'Karşılaştırmak için seç',
     compareWithSelected: 'Seçilenle Karşılaştır',
@@ -244,13 +256,10 @@ const tr = {
       variableNamePlaceholder: 'degisken_adi',
       preview: 'Önizleme',
       environment: 'Ortam',
-      allEnvironments: 'Tüm Ortamlar',
       untitledEnvironment: 'Adsız Ortam',
       selectEnvironment: 'Ortam seçin...',
       linkedRequest: 'Bağlı İstek',
       variableNameRequired: 'Değişken adı gereklidir',
-      selectorRequired: 'Seçici gereklidir',
-      selectEnvironmentError: 'Lütfen bir ortam seçin',
       duplicateWarning: 'Bu ada sahip bir değişken zaten var. Üzerine yazılacak.',
     },
     projectImport: {
@@ -484,6 +493,12 @@ const tr = {
     enumLabel: 'Tüm geçerli değerleri "," ile ayırarak girin',
     numberLabel: 'Sınır testi için Min/Maks aralığını ayarlayın. 0 - tam sayı, 0.00 - ondalık',
     stringLabel: 'Minimum/maksimum değer uzunluğu',
+    fileLabel: 'Kabul edilen dosya biçimleri',
+    fileFormatGroups: {
+      images: 'Görseller',
+      documents: 'Belgeler',
+      spreadsheets: 'Elektronik tablolar',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
     reviewDataSentToAi: 'Yapay zekâya gönderilen verileri gözden geçirin',
@@ -507,6 +522,7 @@ const tr = {
     dateYYYYMMDD: 'Tarih (YYYY-AA-GG)',
     email: 'E-posta',
     enum: 'Enum',
+    file: 'Dosya',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Sayı',
@@ -546,7 +562,8 @@ const tr = {
 
   // Messages panel
   messages: {
-    title: 'Mesajlar',
+    title: 'Yanıt',
+    empty: '(boş)',
   },
 
   // Export format labels
@@ -579,7 +596,8 @@ const tr = {
     description:
       'Demo doğrulamaları düzenlenebilir örneklerdir. Bunları modelinizin diline ve ret ifadelerine göre uyarlayın. Eşleştirme büyük/küçük harfi yok sayar ve düz ile tipografik kesme işaretlerini eşdeğer kabul eder. OR listelenen ifadelerden herhangi birini yasaklar; AND tüm ifadeler birlikte göründüğünde yasaklar.',
     runEachQuestion: 'Her soru, geçerli istek ve seçili ortam üzerinde çalıştırılır.',
-    saveRequestMessage: 'Değerlendirmeyi ve raporu saklamak için bu isteği bir koleksiyona kaydedin.',
+    preEvaluationHint: 'Ön değerlendirmeyi çalıştırmak için bir istek gönderin.',
+    preEvaluationUnavailable: 'Ön değerlendirme için başarılı bir yanıt gerekir (HTTP 2xx veya 3xx).',
     runPreEvaluation: 'Ön Değerlendirmeyi Çalıştır',
     userPromptField: 'Kullanıcı istemi alanı',
     userPromptPlaceholder: 'JSON alanı seçin',

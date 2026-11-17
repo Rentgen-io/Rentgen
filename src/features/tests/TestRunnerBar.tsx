@@ -1,30 +1,36 @@
 import { useTranslation } from 'react-i18next';
-import { RESPONSE_STATUS } from 'shared/responseStatus';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Select, { SelectOption } from 'src/components/inputs/Select';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import ProgressBar from 'src/components/loaders/ProgressBar';
 import { useReportExport } from 'src/hooks/useReportExport';
-import useTests from 'src/hooks/useTests';
+import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBody,
   selectBodyParameters,
+  selectCurrentTest,
   selectCurrentTestResults,
   selectDynamicVariables,
   selectExportFormat,
+  selectHasHttpResponse,
+  selectHasTestResults,
+  selectHasTestResultsToCompare,
   selectHeaders,
   selectHttpResponse,
+  selectIsAiBusy,
+  selectIsResponseSuccessful,
+  selectIsRunningTests,
   selectIsSending,
   selectMethod,
   selectQueryParameters,
   selectSelectedEnvironment,
-  selectStatusCode,
-  selectTestResultsToCompare,
+  selectTestsCount,
   selectUrl,
 } from 'src/store/selectors';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { uiActions } from 'src/store/slices/uiSlice';
+import { cancelAllTests, executeAllTests } from 'src/test-engine';
 import { ReportFormat } from 'src/types';
 import { substituteRequestVariables } from 'src/utils';
 
@@ -37,23 +43,15 @@ export default function TestRunnerBar() {
   const { t } = useTranslation();
 
   const { exportReport, generateCertificate } = useReportExport();
-  const { aiRunStartedAt, currentTest, isAiTestsRunning, isRunningTests, testsCount, cancelAllTests, executeAllTests } =
-    useTests();
 
-  const body = useAppSelector(selectBody);
-  const bodyParameters = useAppSelector(selectBodyParameters);
-  const dynamicVariables = useAppSelector(selectDynamicVariables);
   const exportFormat = useAppSelector(selectExportFormat);
-  const headers = useAppSelector(selectHeaders);
-  const httpResponse = useAppSelector(selectHttpResponse);
+  const hasHttpResponse = useAppSelector(selectHasHttpResponse);
+  const hasTestResults = useAppSelector(selectHasTestResults);
+  const hasTestResultsToCompare = useAppSelector(selectHasTestResultsToCompare);
+  const isAiBusy = useAppSelector(selectIsAiBusy);
+  const isResponseSuccessful = useAppSelector(selectIsResponseSuccessful);
+  const isRunningTests = useAppSelector(selectIsRunningTests);
   const isSending = useAppSelector(selectIsSending);
-  const method = useAppSelector(selectMethod);
-  const queryParameters = useAppSelector(selectQueryParameters);
-  const selectedEnvironment = useAppSelector(selectSelectedEnvironment);
-  const statusCode = useAppSelector(selectStatusCode);
-  const testResults = useAppSelector(selectCurrentTestResults);
-  const testResultsToCompare = useAppSelector(selectTestResultsToCompare);
-  const url = useAppSelector(selectUrl);
 
   const exportFormatOptions: SelectOption<ReportFormat>[] = [
     { value: 'json', label: t('exportFormats.json') },
@@ -61,9 +59,34 @@ export default function TestRunnerBar() {
     { value: 'csv', label: t('exportFormats.csv') },
   ];
 
-  const isResponseSuccessful =
-    httpResponse && statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.BAD_REQUEST;
-  const isRunning = isRunningTests || isAiTestsRunning || Boolean(aiRunStartedAt);
+  const isRunning = isRunningTests || isAiBusy;
+
+  const handleRun = () => {
+    const state = store.getState();
+
+    dispatch(uiActions.setTestsActiveTab('security'));
+    executeAllTests({
+      ...substituteRequestVariables(
+        selectBody(state),
+        selectSelectedEnvironment(state),
+        selectDynamicVariables(state),
+        selectHeaders(state),
+        selectUrl(state),
+      ),
+      bodyParameters: selectBodyParameters(state),
+      method: selectMethod(state),
+      queryParameters: selectQueryParameters(state),
+    });
+  };
+
+  const handleAddToCompare = () => {
+    const state = store.getState();
+    const testResults = selectCurrentTestResults(state);
+    if (!testResults) return;
+
+    dispatch(testsActions.addResultToCompare(testResults));
+    if (!hasTestResultsToCompare) dispatch(testsActions.setCompareResponse(selectHttpResponse(state)));
+  };
 
   return (
     <div className="relative flex flex-col gap-4 bg-surface py-3 px-4 border-b border-border">
@@ -72,16 +95,11 @@ export default function TestRunnerBar() {
           <h5 className="m-0">{t('tests.testsTitle')}</h5>
           {!isResponseSuccessful && (
             <p className="m-0 text-xs text-muted-foreground">
-              {t(httpResponse ? 'tests.testsUnavailable' : 'tests.testsHint')}
+              {t(hasHttpResponse ? 'tests.testsUnavailable' : 'tests.testsHint')}
             </p>
           )}
         </div>
-        {isRunningTests && (
-          <LoaderWithText
-            className="w-auto text-xs font-normal [&_.loader]:size-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
-            text={t('tests.runningTests', { current: currentTest, total: testsCount })}
-          />
-        )}
+        {isRunningTests && <TestRunProgressText />}
       </div>
       <div className="flex flex-col @xl:flex-row @xl:items-center @xl:justify-between gap-2">
         <div className="flex flex-col @xl:flex-row @xl:items-center gap-2 @xl:min-w-0">
@@ -89,40 +107,29 @@ export default function TestRunnerBar() {
             <Button
               className="inline-flex items-center gap-2 @xl:truncate"
               disabled={isRunning || isSending || !isResponseSuccessful}
-              onClick={() => {
-                dispatch(uiActions.setTestsActiveTab(1));
-                executeAllTests({
-                  ...substituteRequestVariables(url, headers, body, selectedEnvironment, dynamicVariables),
-                  bodyParameters,
-                  method,
-                  queryParameters,
-                });
-              }}
+              onClick={handleRun}
             >
               <PlayIcon className="size-4 shrink-0" />
               <span className="@xl:truncate">{t('tests.generateAndRun')}</span>
             </Button>
           ) : (
-            <Button className="inline-flex items-center gap-2 @xl:truncate" onClick={() => cancelAllTests(false)}>
+            <Button className="inline-flex items-center gap-2 @xl:truncate" onClick={cancelAllTests}>
               <StopIcon className="size-4 shrink-0" />
               <span className="@xl:truncate">{t('common.stop')}</span>
             </Button>
           )}
-          {testResults && !isRunningTests && (
+          {hasTestResults && !isRunningTests && (
             <Button
               buttonType={ButtonType.SECONDARY_OUTLINE}
               className="@xl:truncate"
               disabled={isRunning}
-              onClick={() => {
-                dispatch(testsActions.addResultToCompare(testResults));
-                if (testResultsToCompare.length < 1) dispatch(testsActions.setCompareResponse(httpResponse));
-              }}
+              onClick={handleAddToCompare}
             >
-              {testResultsToCompare.length < 1 ? t('tests.selectForCompare') : t('tests.compareWithSelected')}
+              {hasTestResultsToCompare ? t('tests.compareWithSelected') : t('tests.selectForCompare')}
             </Button>
           )}
         </div>
-        {testResults && !isRunningTests && (
+        {hasTestResults && !isRunningTests && (
           <div className="flex flex-col @xl:flex-row @xl:justify-end @xl:items-center gap-4 @xl:gap-2 @xl:min-w-0">
             <div className="flex flex-col @xl:flex-row @xl:items-center gap-2">
               <Select
@@ -153,9 +160,29 @@ export default function TestRunnerBar() {
           </div>
         )}
       </div>
-      {isRunningTests && testsCount > 0 && (
-        <ProgressBar className="absolute bottom-0 left-0" max={testsCount} value={currentTest} />
-      )}
+      {isRunningTests && <TestRunProgressBar />}
     </div>
   );
+}
+
+function TestRunProgressText() {
+  const { t } = useTranslation();
+  const currentTest = useAppSelector(selectCurrentTest);
+  const testsCount = useAppSelector(selectTestsCount);
+
+  return (
+    <LoaderWithText
+      className="w-auto text-xs font-normal [&_.loader]:size-4 [&_.loader]:shrink-0 [&_.loader>span]:border-2!"
+      text={t('tests.runningTests', { current: currentTest, total: testsCount })}
+    />
+  );
+}
+
+function TestRunProgressBar() {
+  const currentTest = useAppSelector(selectCurrentTest);
+  const testsCount = useAppSelector(selectTestsCount);
+
+  if (testsCount <= 0) return null;
+
+  return <ProgressBar className="absolute bottom-0 left-0" max={testsCount} value={currentTest} />;
 }

@@ -1,10 +1,17 @@
 import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connectWebSocket, disconnectWebSocket, onWebSocketEvent, sendWebSocketMessage } from 'src/api/network';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectBody, selectHeaders, selectUrl } from 'src/store/selectors';
+import { store } from 'src/store';
+import { useAppDispatch } from 'src/store/hooks';
+import {
+  selectBody,
+  selectDynamicVariables,
+  selectHeaders,
+  selectSelectedEnvironment,
+  selectUrl,
+} from 'src/store/selectors';
 import { websocketActions } from 'src/store/slices/websocketSlice';
-import { parseHeaders } from 'src/utils';
+import { substituteRequestVariables } from 'src/utils';
 
 export function useWssEventBridge() {
   const dispatch = useAppDispatch();
@@ -21,29 +28,47 @@ export function useWssEventBridge() {
   }, [dispatch]);
 }
 
+/**
+ * Returned callbacks are stable and don't subscribe the calling component to the request, so typing in the URL /
+ * message doesn't re-run the variable substitution on every keystroke.
+ */
 export function useWssActions() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const url = useAppSelector(selectUrl);
-  const headers = useAppSelector(selectHeaders);
-  const body = useAppSelector(selectBody);
-
   const connect = useCallback(() => {
+    const { url, headers } = substituteCurrentRequest();
+
     if (!url.startsWith('ws')) {
       dispatch(websocketActions.addMessage({ direction: 'system', data: t('request.wssUrlRequired') }));
       return;
     }
 
-    connectWebSocket({ url, headers: parseHeaders(headers) });
-  }, [url, headers, t, dispatch]);
+    connectWebSocket({ url, headers });
+  }, [t, dispatch]);
 
   const disconnect = useCallback(() => disconnectWebSocket(), []);
 
   const send = useCallback(() => {
-    dispatch(websocketActions.handleWssSent({ data: body }));
-    sendWebSocketMessage(body);
-  }, [body, dispatch]);
+    const { body } = substituteCurrentRequest();
+    const message = body == null ? '' : typeof body === 'string' ? body : JSON.stringify(body);
+
+    dispatch(websocketActions.handleWssSent({ data: message }));
+    sendWebSocketMessage(message);
+  }, [dispatch]);
 
   return { connect, disconnect, send };
+}
+
+// Variables are substituted when connecting / sending, from the current store state
+function substituteCurrentRequest() {
+  const state = store.getState();
+
+  return substituteRequestVariables(
+    selectBody(state),
+    selectSelectedEnvironment(state),
+    selectDynamicVariables(state),
+    selectHeaders(state),
+    selectUrl(state),
+  );
 }

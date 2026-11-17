@@ -48,6 +48,8 @@ const hi = {
     stop: 'रोकें',
     noOptions: 'कोई विकल्प नहीं',
     resizeHint: 'आकार बदलने के लिए खींचें, रीसेट करने के लिए डबल-क्लिक करें',
+    toggleTheme: 'थीम बदलें',
+    allEnvironments: 'सभी एनवायरनमेंट',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const hi = {
   // Collections Panel
   collections: {
     newFolder: 'नया फ़ोल्डर',
-    importCollection: 'संग्रह आयात करें',
-    exportCollection: 'संग्रह निर्यात करें',
     searchRequests: 'अनुरोध खोजें...',
     noMatchingRequests: 'कोई मेल खाने वाला अनुरोध नहीं',
     noSavedRequests: 'कोई सहेजा गया अनुरोध नहीं',
@@ -95,12 +95,12 @@ const hi = {
     deleteEnvironmentConfirm: 'क्या आप वाकई इस एनवायरनमेंट को हटाना चाहते हैं?',
     deleteEnvironment: 'एनवायरनमेंट हटाएँ',
     untitled: 'बिना शीर्षक',
+    duplicateVariable: 'इस नाम का वेरिएबल पहले से मौजूद है',
   },
 
   // History
   history: {
     title: 'इतिहास',
-    clearAll: 'सभी साफ़ करें',
     searchHistory: 'इतिहास खोजें...',
     noMatchingHistory: 'कोई मेल खाने वाला इतिहास नहीं',
     noHistoryYet: 'अभी तक कोई इतिहास नहीं',
@@ -114,12 +114,24 @@ const hi = {
     enterUrl: 'URL दर्ज करें या टेक्स्ट पेस्ट करें',
     headers: 'हैडर',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: 'बल्क एडिट',
+    keyValueEdit: 'की-वैल्यू एडिट',
     body: 'बॉडी',
-    bodyPlaceholderHttp: 'अनुरोध बॉडी दर्ज करें (JSON या Form Data)',
-    bodyPlaceholderWss: 'संदेश बॉडी',
+    bodyPlaceholderHttp: 'अनुरोध बॉडी दर्ज करें (JSON या टेक्स्ट)',
+    bodyPlaceholderWss: 'संदेश लिखें',
     wssUrlRequired: '🔴 कृपया ws:// या wss:// URL का उपयोग करें',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
+    message: 'संदेश',
+    noBody: 'इस अनुरोध में कोई बॉडी नहीं है',
+    bodyType: 'बॉडी प्रकार',
+    selectFiles: 'फ़ाइलें चुनें',
+    filesSelected_one: '{{count}} फ़ाइल चुनी गई',
+    filesSelected_other: '{{count}} फ़ाइलें चुनी गईं',
+    localFileWarning:
+      'यह फ़ाइल आपकी मशीन पर सहेजी गई है, इसलिए जिन साथियों के साथ आप यह अनुरोध साझा करेंगे, वे इसका उपयोग नहीं कर पाएंगे।',
+    key: 'कुंजी',
+    value: 'मान',
   },
 
   // Response
@@ -149,7 +161,7 @@ const hi = {
     testsHint: 'प्रतिक्रिया से टेस्ट जनरेट करने के लिए एक अनुरोध भेजें।',
     testsUnavailable: 'टेस्ट जनरेट करने के लिए सफल प्रतिक्रिया (HTTP 2xx या 3xx) आवश्यक है।',
     generateAndRun: 'टेस्ट जनरेट करें और चलाएँ',
-    runningTests: 'टेस्ट चल रहे हैं... ({{current}}/{{total}})',
+    runningTests: 'चल रहा है... ({{current}}/{{total}})',
     noTestsGenerated: 'कोई टेस्ट जनरेट नहीं हुआ',
     selectForCompare: 'तुलना के लिए चुनें',
     compareWithSelected: 'चयनित के साथ तुलना करें',
@@ -244,13 +256,10 @@ const hi = {
       variableNamePlaceholder: 'variable_name',
       preview: 'प्रीव्यू',
       environment: 'एनवायरनमेंट',
-      allEnvironments: 'सभी एनवायरनमेंट',
       untitledEnvironment: 'बिना शीर्षक एनवायरनमेंट',
       selectEnvironment: 'एनवायरनमेंट चुनें...',
       linkedRequest: 'लिंक किया गया अनुरोध',
       variableNameRequired: 'वैरिएबल का नाम आवश्यक है',
-      selectorRequired: 'सेलेक्टर आवश्यक है',
-      selectEnvironmentError: 'कृपया एक एनवायरनमेंट चुनें',
       duplicateWarning: 'इस नाम का वैरिएबल पहले से मौजूद है। इसे अधिलेखित किया जाएगा।',
     },
     projectImport: {
@@ -479,6 +488,12 @@ const hi = {
     enumLabel: '"," से अलग करके सभी मान्य मान दर्ज करें',
     numberLabel: 'सीमा परीक्षण के लिए Min/Max श्रेणी सेट करें। 0 - पूर्णांक, 0.00 - दशमलव',
     stringLabel: 'मान की न्यूनतम/अधिकतम लंबाई',
+    fileLabel: 'स्वीकृत फ़ाइल फ़ॉर्मेट',
+    fileFormatGroups: {
+      images: 'छवियाँ',
+      documents: 'दस्तावेज़',
+      spreadsheets: 'स्प्रेडशीट',
+    },
     minPlaceholder: 'न्यूनतम',
     maxPlaceholder: 'अधिकतम',
     reviewDataSentToAi: 'AI को भेजे गए डेटा की समीक्षा करें',
@@ -502,6 +517,7 @@ const hi = {
     dateYYYYMMDD: 'तिथि (YYYY-MM-DD)',
     email: 'ईमेल',
     enum: 'Enum',
+    file: 'फ़ाइल',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'संख्या',
@@ -541,7 +557,8 @@ const hi = {
 
   // Messages panel
   messages: {
-    title: 'संदेश',
+    title: 'प्रतिक्रिया',
+    empty: '(खाली)',
   },
 
   // Export format labels
@@ -574,7 +591,8 @@ const hi = {
     description:
       'डेमो असर्शन संपादन योग्य उदाहरण हैं। इन्हें अपने मॉडल की भाषा और अस्वीकृति शब्दावली के अनुसार बदलें। मिलान में अक्षरों के बड़े-छोटे रूप की अनदेखी की जाती है और सीधे तथा टाइपोग्राफ़िक एपॉस्ट्रॉफ़ी को समान माना जाता है। OR सूचीबद्ध किसी भी वाक्यांश को प्रतिबंधित करता है; AND तब प्रतिबंधित करता है जब सभी वाक्यांश एक साथ दिखाई दें।',
     runEachQuestion: 'प्रत्येक प्रश्न वर्तमान रिक्वेस्ट और चुने गए एनवायरनमेंट के विरुद्ध चलता है।',
-    saveRequestMessage: 'इसका मूल्यांकन और रिपोर्ट सुरक्षित रखने के लिए इस रिक्वेस्ट को किसी कलेक्शन में सेव करें।',
+    preEvaluationHint: 'प्री-इवैल्यूएशन चलाने के लिए एक अनुरोध भेजें।',
+    preEvaluationUnavailable: 'प्री-इवैल्यूएशन के लिए सफल प्रतिक्रिया (HTTP 2xx या 3xx) आवश्यक है।',
     runPreEvaluation: 'प्री-इवैल्यूएशन चलाएँ',
     userPromptField: 'उपयोगकर्ता प्रॉम्प्ट फ़ील्ड',
     userPromptPlaceholder: 'JSON फ़ील्ड चुनें',

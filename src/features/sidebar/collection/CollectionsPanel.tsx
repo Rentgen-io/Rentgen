@@ -34,8 +34,6 @@ export default function CollectionsPanel() {
   const loading = useAppSelector(selectCollectionLoading);
 
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [editingFolderId, setEditingFolderId] = useState<string | null>(null);
-  const [editingName, setEditingName] = useState<string>('');
 
   const isSearching = searchTerm.trim().length > 0;
   const filteredFolders = useMemo(
@@ -141,27 +139,6 @@ export default function CollectionsPanel() {
     }
   };
 
-  const handleStartEdit = (folderId: string) => {
-    const folder = folders.find((f) => f.id === folderId);
-    if (folder) {
-      setEditingFolderId(folderId);
-      setEditingName(folder.name);
-    }
-  };
-
-  const handleSaveEdit = (folderId: string, newName: string) => {
-    if (newName.trim()) {
-      dispatch(collectionActions.renameFolder({ folderId, newName: newName.trim() }));
-    }
-    setEditingFolderId(null);
-    setEditingName('');
-  };
-
-  const handleCancelEdit = () => {
-    setEditingFolderId(null);
-    setEditingName('');
-  };
-
   // Create flat list of all sortable IDs (folders + all items from all folders)
   const allSortableIds = useMemo(() => {
     const ids: string[] = [];
@@ -177,8 +154,7 @@ export default function CollectionsPanel() {
       <div className="h-9 shrink-0 flex items-center justify-between gap-2 border-b border-border box-border">
         <div
           className="h-full flex items-center gap-2 w-full px-3 py-2 hover:bg-muted box-border cursor-pointer outline-none"
-          onClick={() => dispatch(collectionActions.addFolder('New Folder'))}
-          title={t('collections.newFolder')}
+          onClick={() => dispatch(collectionActions.addFolder(t('collections.newFolder')))}
         >
           <AddIcon className="size-4 text-muted-foreground" />
           <span className="text-xs text-muted-foreground">{t('collections.newFolder')}</span>
@@ -186,12 +162,10 @@ export default function CollectionsPanel() {
         <div className="flex items-center gap-2 pr-2">
           <ImportIcon
             className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
-            title={t('collections.importCollection')}
             onClick={handleImport}
           />
           <ExportIcon
             className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
-            title={t('collections.exportCollection')}
             onClick={handleExport}
           />
         </div>
@@ -204,33 +178,12 @@ export default function CollectionsPanel() {
       ) : filteredFolders.length > 0 ? (
         <div className="h-full overflow-x-hidden overflow-y-auto">
           {isSearching ? (
-            filteredFolders.map((folder) => (
-              <CollectionGroup
-                key={folder.id}
-                folder={folder}
-                isEditing={editingFolderId === folder.id}
-                editingName={editingName}
-                searchTerm={searchTerm}
-                onStartEdit={handleStartEdit}
-                onSaveEdit={handleSaveEdit}
-                onCancelEdit={handleCancelEdit}
-                onEditingNameChange={setEditingName}
-              />
-            ))
+            filteredFolders.map((folder) => <CollectionGroup key={folder.id} folder={folder} searchTerm={searchTerm} />)
           ) : (
             <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
               <SortableContext items={allSortableIds} strategy={verticalListSortingStrategy}>
                 {folders.map((folder) => (
-                  <CollectionGroup
-                    key={folder.id}
-                    folder={folder}
-                    isEditing={editingFolderId === folder.id}
-                    editingName={editingName}
-                    onStartEdit={handleStartEdit}
-                    onSaveEdit={handleSaveEdit}
-                    onCancelEdit={handleCancelEdit}
-                    onEditingNameChange={setEditingName}
-                  />
+                  <CollectionGroup key={folder.id} folder={folder} />
                 ))}
               </SortableContext>
             </DndContext>

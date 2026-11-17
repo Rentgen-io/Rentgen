@@ -1,10 +1,12 @@
-import { HttpBody, HttpRequest, HttpResponse, TestResult, TestStatus } from 'src/types';
+import { HttpRequest, HttpResponse, RequestBody, ResponseBody, TestResult, TestStatus } from 'src/types';
 import {
-  convertUrlEncodedToFormEntries,
   extractPropertiesFromJson,
   extractQueryParameters,
+  getFormDataFileFields,
+  hasUrlEncodedContentType,
+  isFieldsBody,
+  isFormDataBody,
   isObject,
-  isUrlEncodedContentType,
   setDeepObjectProperty,
   stringifyValue,
   tryParseJsonObject,
@@ -422,11 +424,19 @@ function getValueAtPath(source: unknown, path: string): unknown {
     .reduce<unknown>((value, key) => (isObject(value) ? value[key] : undefined), source);
 }
 
-function getBodyFields(body: HttpBody | undefined, headers: Record<string, string>): Array<[string, unknown]> {
+function getBodyFields(body: RequestBody | undefined): Array<[string, unknown]> {
   if (body === null || body === undefined || body === '') return [];
 
-  if (isUrlEncodedContentType(headers))
-    return convertUrlEncodedToFormEntries(String(body)).map(([name, value]) => [`${MASK_BODY_PREFIX}${name}`, value]);
+  if (isFieldsBody(body))
+    return [
+      ...body.entries.map(([name, value]): [string, unknown] => [`${MASK_BODY_PREFIX}${name}`, value]),
+      ...(isFormDataBody(body)
+        ? getFormDataFileFields(body.files).map(([field, path]): [string, unknown] => [
+            `${MASK_BODY_PREFIX}${field}`,
+            path,
+          ])
+        : []),
+    ];
 
   const parsed = tryParseJsonObject(body);
   if (!isObject(parsed)) return [];
@@ -441,7 +451,7 @@ export function getMaskableFields({ url, headers = {}, body }: MaskableRequest):
   return [
     [MASK_URL_FIELD, url],
     ...Object.entries(headers).map(([name, value]): [string, unknown] => [`${MASK_HEADER_PREFIX}${name}`, value]),
-    ...getBodyFields(body, headers),
+    ...getBodyFields(body),
     ...Object.entries(extractQueryParameters(url)).map(([name, value]): [string, unknown] => [
       `${MASK_QUERY_PREFIX}${name}`,
       value,
@@ -538,7 +548,7 @@ export class RequestRedactor {
       }),
     );
     const redacted = { ...request, url: this.redactUrl(request.url), headers };
-    if ('body' in request) redacted.body = this.redactBody(request.body, request.headers ?? {}) as HttpBody;
+    if ('body' in request) redacted.body = this.redactBody(request.body) as RequestBody;
 
     return redacted;
   }
@@ -553,7 +563,7 @@ export class RequestRedactor {
       ]),
     ) as Record<string, string>;
 
-    return { ...response, headers, body: this.redactJson(response.body) as HttpBody };
+    return { ...response, headers, body: this.redactJson(response.body) as ResponseBody };
   }
 
   /** A value of a request field (e.g. "body.email"): replaced by its token when it equals the original. */
@@ -632,19 +642,22 @@ export class RequestRedactor {
     return `${redactedBase}${parameters.length ? `?${parameters.join('&')}` : ''}${this.url ? '' : this.redactText(hash)}`;
   }
 
-  private redactBody(body: unknown, headers: Record<string, string>): unknown {
+  private redactBody(body: unknown): unknown {
     if (body === null || body === undefined) return body;
 
-    if (typeof body === 'string' && isUrlEncodedContentType(headers))
-      return convertUrlEncodedToFormEntries(body)
-        .map(([name, value]) => {
-          const masked = this.body.get(name);
-          const encodedName = new URLSearchParams([[name, '']]).toString().slice(0, -1);
-          return masked && value === String(masked.value)
-            ? `${encodedName}=${masked.token}`
-            : this.redactText(new URLSearchParams([[name, value]]).toString());
-        })
-        .join('&');
+    if (isFormDataBody(body))
+      return {
+        ...body,
+        entries: this.redactFormEntries(body.entries.map(([name, value]) => [name, name, value])),
+        // A file's path is masked like a text value (it may reveal e.g. the user name in a home directory)
+        ...(body.files && {
+          files: this.redactFormEntries(
+            getFormDataFileFields(body.files).map(([field, path], index) => [body.files![index][0], field, path]),
+          ),
+        }),
+      };
+    if (isFieldsBody(body))
+      return { ...body, entries: this.redactFormEntries(body.entries.map(([name, value]) => [name, name, value])) };
 
     const parsed = tryParseJsonObject(body);
     if (!isObject(parsed)) return this.redactJson(parsed);
@@ -654,6 +667,19 @@ export class RequestRedactor {
       if (sameValue(getValueAtPath(redacted, path), masked.value)) setDeepObjectProperty(redacted, path, masked.token);
 
     return this.redactJson(redacted);
+  }
+
+  /**
+   * Form fields as [name, mask field, value], e.g. ["photos", "photos[1]", path] for a second file: a value is replaced
+   * by its token when its mask field is masked and it still holds the original value.
+   */
+  private redactFormEntries(fields: Array<[string, string, string]>): Array<[string, string]> {
+    return fields.map(([name, field, value]) => {
+      const masked = this.body.get(field);
+      return masked && value === String(masked.value)
+        ? [name, masked.token]
+        : [this.redactText(name), this.redactText(value)];
+    });
   }
 
   // ----- Restoration (AI output) -----
@@ -669,11 +695,13 @@ export class RequestRedactor {
         Object.entries(request.headers ?? {}).map(([name, value]) => [name, this.restoreText(value, false)]),
       ),
     };
+    // A body the AI writes as plain `a=1&b=2` text has no type of its own, so only its header tells that restored
+    // values must be URL-encoded
     if ('body' in request)
       restored.body =
         typeof request.body === 'string'
-          ? this.restoreText(request.body, isUrlEncodedContentType(request.headers ?? {}))
-          : (this.restoreJson(request.body) as HttpBody);
+          ? this.restoreText(request.body, hasUrlEncodedContentType(request.headers ?? {}))
+          : (this.restoreJson(request.body) as RequestBody);
 
     return restored;
   }

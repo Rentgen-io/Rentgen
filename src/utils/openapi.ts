@@ -1,4 +1,5 @@
-import { RESPONSE_STATUS } from 'shared/responseStatus';
+import { isSuccessStatus } from 'shared/responseStatus';
+import { generateFolderId, generateRequestId } from 'shared/utils/id';
 import { sendHttp } from 'src/api/network';
 import {
   OpenApiDocument,
@@ -16,7 +17,6 @@ import {
   PostmanItem,
   PostmanRequest,
 } from 'src/types';
-import { generateFolderId, generateRequestId } from './collection';
 import { extractStatusCode } from './http';
 import { isPlainObject, parseJsonObject } from './object';
 import { generateRandomNumber } from './random';
@@ -53,7 +53,7 @@ export async function fetchOpenApiSchema(url: string): Promise<OpenApiDocument |
   try {
     const response = await sendHttp({ method: 'GET', url, headers: { Accept: 'application/json' } });
     const statusCode = extractStatusCode(response);
-    if (statusCode < RESPONSE_STATUS.OK || statusCode >= RESPONSE_STATUS.REDIRECT) return null;
+    if (!isSuccessStatus(statusCode)) return null;
 
     const schema = parseJsonObject(response.body);
     return isOpenApiSchema(schema) ? schema : null;
@@ -453,24 +453,24 @@ function toPostmanBody(contentType: string, sample: unknown): PostmanBody | unde
   const type = contentType.split(';')[0].trim().toLowerCase();
 
   if (type === 'application/x-www-form-urlencoded')
-    return { mode: 'urlencoded', raw: new URLSearchParams(toFormEntries(sample)).toString() };
+    return { mode: 'urlencoded', urlencoded: toFormEntries(sample).map(([key, value]) => ({ key, value })) };
 
-  if (type === 'multipart/form-data') return { mode: 'formdata', raw: JSON.stringify(sample, null, 2) };
+  if (type === 'multipart/form-data')
+    return { mode: 'formdata', formdata: toFormEntries(sample).map(([key, value]) => ({ key, value, type: 'text' })) };
 
   if (typeof sample === 'string') return { mode: 'raw', raw: sample };
 
   return { mode: 'raw', raw: JSON.stringify(sample, null, 2) };
 }
 
-function toFormEntries(sample: unknown): Record<string, string> {
-  if (!isPlainObject(sample)) return {};
+/** Top-level fields of an object sample as form fields; nested objects and arrays are sent as JSON text. */
+function toFormEntries(sample: unknown): Array<[string, string]> {
+  if (!isPlainObject(sample)) return [];
 
-  return Object.fromEntries(
-    Object.entries(sample).map(([key, value]) => [
-      key,
-      value === null || value === undefined ? '' : typeof value === 'object' ? JSON.stringify(value) : String(value),
-    ]),
-  );
+  return Object.entries(sample).map(([key, value]) => [
+    key,
+    value === null || value === undefined ? '' : typeof value === 'object' ? JSON.stringify(value) : String(value),
+  ]);
 }
 
 function sampleSchema(

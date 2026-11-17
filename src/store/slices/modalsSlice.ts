@@ -8,6 +8,7 @@ import {
   ProjectImportConfirmModalState,
   ProjectMeta,
   SetAsDynamicVariableModalState,
+  SettingsTab,
 } from 'src/types';
 
 interface ModalsState {
@@ -24,7 +25,7 @@ interface ModalsState {
   projectImportConfirmModal: ProjectImportConfirmModalState;
   setAsDynamicVariableModal: SetAsDynamicVariableModalState;
   settingsModal: {
-    activeTab: number;
+    activeTab: SettingsTab;
     isOpen: boolean;
   };
 }
@@ -64,7 +65,7 @@ const initialState: ModalsState = {
   openSendHttpSuccessModal: false,
   projectImportConfirmModal: emptyProjectImportConfirmModal,
   setAsDynamicVariableModal: emptySetAsDynamicVariableModal,
-  settingsModal: { isOpen: false, activeTab: 0 },
+  settingsModal: { isOpen: false, activeTab: 'testEngine' },
 };
 
 export const modalsSlice = createSlice({
@@ -99,7 +100,7 @@ export const modalsSlice = createSlice({
       state.setAsDynamicVariableModal = emptySetAsDynamicVariableModal;
     },
     closeSettingsModal: (state) => {
-      state.settingsModal = { activeTab: 0, isOpen: false };
+      state.settingsModal = { activeTab: 'testEngine', isOpen: false };
     },
     openDeleteFolderModal: (state, action: PayloadAction<string>) => {
       state.deleteFolderModal = { folderId: action.payload, isOpen: true };
@@ -143,14 +144,13 @@ export const modalsSlice = createSlice({
       state.openReloadModal = true;
     },
     openSendHttpSuccessModal: (state) => {
-      const stored = localStorage.getItem('sendHttpSuccessModalDoNotShowAgain');
-      state.openSendHttpSuccessModal = stored === null ? true : stored !== 'true';
+      state.openSendHttpSuccessModal = true;
     },
     openSetAsDynamicVariableModal: (state, action: PayloadAction<Omit<SetAsDynamicVariableModalState, 'isOpen'>>) => {
       state.setAsDynamicVariableModal = { ...action.payload, isOpen: true };
     },
-    openSettingsModal: (state, action: PayloadAction<number | undefined>) => {
-      state.settingsModal = { activeTab: action.payload ?? 0, isOpen: true };
+    openSettingsModal: (state, action: PayloadAction<SettingsTab | undefined>) => {
+      state.settingsModal = { activeTab: action.payload ?? 'testEngine', isOpen: true };
     },
   },
 });

@@ -48,6 +48,8 @@ const ru = {
     stop: 'Остановить',
     noOptions: 'Нет вариантов',
     resizeHint: 'Перетащите, чтобы изменить размер, дважды щёлкните для сброса',
+    toggleTheme: 'Сменить тему',
+    allEnvironments: 'Все окружения',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const ru = {
   // Collections Panel
   collections: {
     newFolder: 'Новая папка',
-    importCollection: 'Импортировать коллекцию',
-    exportCollection: 'Экспортировать коллекцию',
     searchRequests: 'Поиск запросов...',
     noMatchingRequests: 'Нет подходящих запросов',
     noSavedRequests: 'Нет сохраненных запросов',
@@ -95,12 +95,12 @@ const ru = {
     deleteEnvironmentConfirm: 'Вы уверены, что хотите удалить это окружение?',
     deleteEnvironment: 'Удалить окружение',
     untitled: 'Без названия',
+    duplicateVariable: 'Переменная с таким именем уже существует',
   },
 
   // History
   history: {
     title: 'История',
-    clearAll: 'Очистить все',
     searchHistory: 'Поиск по истории...',
     noMatchingHistory: 'Нет совпадений в истории',
     noHistoryYet: 'История пока пуста',
@@ -114,12 +114,26 @@ const ru = {
     enterUrl: 'Введите URL или вставьте текст',
     headers: 'Заголовки',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: 'Массовое редактирование',
+    keyValueEdit: 'Редактирование «ключ-значение»',
     body: 'Тело',
-    bodyPlaceholderHttp: 'Введите тело запроса (JSON или Form Data)',
-    bodyPlaceholderWss: 'Тело сообщения',
+    bodyPlaceholderHttp: 'Введите тело запроса (JSON или текст)',
+    bodyPlaceholderWss: 'Составьте сообщение',
     wssUrlRequired: '🔴 Используйте URL с ws:// или wss://',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
+    message: 'Сообщение',
+    noBody: 'У этого запроса нет тела',
+    bodyType: 'Тип тела',
+    selectFiles: 'Выбрать файлы',
+    filesSelected_one: 'Выбран {{count}} файл',
+    filesSelected_few: 'Выбрано {{count}} файла',
+    filesSelected_many: 'Выбрано {{count}} файлов',
+    filesSelected_other: 'Выбрано {{count}} файла',
+    localFileWarning:
+      'Этот файл хранится на вашем компьютере, поэтому коллеги, с которыми вы поделитесь этим запросом, не смогут его использовать.',
+    key: 'Ключ',
+    value: 'Значение',
   },
 
   // Response
@@ -149,7 +163,7 @@ const ru = {
     testsHint: 'Отправьте запрос, чтобы сгенерировать тесты на основе ответа.',
     testsUnavailable: 'Для генерации тестов требуется успешный ответ (HTTP 2xx или 3xx).',
     generateAndRun: 'Сгенерировать и запустить тесты',
-    runningTests: 'Выполняются тесты... ({{current}}/{{total}})',
+    runningTests: 'Выполняется... ({{current}}/{{total}})',
     noTestsGenerated: 'Тесты не сгенерированы',
     selectForCompare: 'Выбрать для сравнения',
     compareWithSelected: 'Сравнить с выбранным',
@@ -244,13 +258,10 @@ const ru = {
       variableNamePlaceholder: 'variable_name',
       preview: 'Предпросмотр',
       environment: 'Окружение',
-      allEnvironments: 'Все окружения',
       untitledEnvironment: 'Окружение без названия',
       selectEnvironment: 'Выберите окружение...',
       linkedRequest: 'Связанный запрос',
       variableNameRequired: 'Имя переменной обязательно',
-      selectorRequired: 'Селектор обязателен',
-      selectEnvironmentError: 'Пожалуйста, выберите окружение',
       duplicateWarning: 'Переменная с таким именем уже существует. Она будет перезаписана.',
     },
     projectImport: {
@@ -484,6 +495,12 @@ const ru = {
     enumLabel: 'Введите все допустимые значения, разделенные запятой',
     numberLabel: 'Задайте диапазон Min/Max для граничного теста. 0 - целое, 0.00 - десятичное',
     stringLabel: 'Минимальная/максимальная длина значения',
+    fileLabel: 'Допустимые форматы файлов',
+    fileFormatGroups: {
+      images: 'Изображения',
+      documents: 'Документы',
+      spreadsheets: 'Электронные таблицы',
+    },
     minPlaceholder: 'Мин',
     maxPlaceholder: 'Макс',
     reviewDataSentToAi: 'Проверьте данные, отправляемые в ИИ',
@@ -507,6 +524,7 @@ const ru = {
     dateYYYYMMDD: 'Дата (YYYY-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    file: 'Файл',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Число',
@@ -546,7 +564,8 @@ const ru = {
 
   // Messages panel
   messages: {
-    title: 'Сообщения',
+    title: 'Ответ',
+    empty: '(пусто)',
   },
 
   // Export format labels
@@ -579,7 +598,8 @@ const ru = {
     description:
       'Демонстрационные проверки — это редактируемые примеры. Адаптируйте их к языку и формулировкам отказов вашей модели. При сопоставлении регистр игнорируется, а прямые и типографские апострофы считаются равнозначными. OR запрещает любую из перечисленных фраз; AND запрещает все фразы, встречающиеся вместе.',
     runEachQuestion: 'Каждый вопрос выполняется для текущего запроса и выбранного окружения.',
-    saveRequestMessage: 'Сохраните этот запрос в коллекции, чтобы сохранить его оценку и отчёт.',
+    preEvaluationHint: 'Отправьте запрос, чтобы запустить предварительную оценку.',
+    preEvaluationUnavailable: 'Для предварительной оценки требуется успешный ответ (HTTP 2xx или 3xx).',
     runPreEvaluation: 'Запустить предварительную оценку',
     userPromptField: 'Поле пользовательского промпта',
     userPromptPlaceholder: 'Выберите поле JSON',

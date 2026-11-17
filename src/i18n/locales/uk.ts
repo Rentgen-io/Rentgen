@@ -48,6 +48,8 @@ const uk = {
     stop: 'Зупинити',
     noOptions: 'Немає варіантів',
     resizeHint: 'Перетягніть, щоб змінити розмір, двічі клацніть для скидання',
+    toggleTheme: 'Змінити тему',
+    allEnvironments: 'Усі середовища',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const uk = {
   // Collections Panel
   collections: {
     newFolder: 'Нова тека',
-    importCollection: 'Імпортувати колекцію',
-    exportCollection: 'Експортувати колекцію',
     searchRequests: 'Пошук запитів...',
     noMatchingRequests: 'Немає відповідних запитів',
     noSavedRequests: 'Немає збережених запитів',
@@ -95,12 +95,12 @@ const uk = {
     deleteEnvironmentConfirm: 'Ви впевнені, що хочете видалити це середовище?',
     deleteEnvironment: 'Видалити середовище',
     untitled: 'Без назви',
+    duplicateVariable: 'Змінна з такою назвою вже існує',
   },
 
   // History
   history: {
     title: 'Історія',
-    clearAll: 'Очистити все',
     searchHistory: 'Пошук в історії...',
     noMatchingHistory: 'Немає відповідної історії',
     noHistoryYet: 'Історія порожня',
@@ -114,12 +114,26 @@ const uk = {
     enterUrl: 'Введіть URL або вставте текст',
     headers: 'Заголовки',
     headersPlaceholder: 'Ключ-Заголовка: значення',
+    bulkEdit: 'Масове редагування',
+    keyValueEdit: 'Редагування «ключ-значення»',
     body: 'Тіло',
-    bodyPlaceholderHttp: 'Введіть тіло запиту (JSON або Form Data)',
-    bodyPlaceholderWss: 'Тіло повідомлення',
+    bodyPlaceholderHttp: 'Введіть тіло запиту (JSON або текст)',
+    bodyPlaceholderWss: 'Напишіть повідомлення',
     wssUrlRequired: '🔴 Використовуйте URL з ws:// або wss://',
     modePlaceholder: 'РЕЖИМ',
     methodPlaceholder: 'МЕТОД',
+    message: 'Повідомлення',
+    noBody: 'Цей запит не має тіла',
+    bodyType: 'Тип тіла',
+    selectFiles: 'Вибрати файли',
+    filesSelected_one: 'Вибрано {{count}} файл',
+    filesSelected_few: 'Вибрано {{count}} файли',
+    filesSelected_many: 'Вибрано {{count}} файлів',
+    filesSelected_other: 'Вибрано {{count}} файлу',
+    localFileWarning:
+      'Цей файл зберігається на вашому комп’ютері, тож колеги, з якими ви поділитеся цим запитом, не зможуть його використати.',
+    key: 'Ключ',
+    value: 'Значення',
   },
 
   // Response
@@ -149,7 +163,7 @@ const uk = {
     testsHint: 'Надішліть запит, щоб згенерувати тести на основі відповіді.',
     testsUnavailable: 'Для генерації тестів потрібна успішна відповідь (HTTP 2xx або 3xx).',
     generateAndRun: 'Згенерувати та запустити тести',
-    runningTests: 'Виконання тестів... ({{current}}/{{total}})',
+    runningTests: 'Виконується... ({{current}}/{{total}})',
     noTestsGenerated: 'Тести не згенеровано',
     selectForCompare: 'Обрати для порівняння',
     compareWithSelected: 'Порівняти з обраним',
@@ -244,13 +258,10 @@ const uk = {
       variableNamePlaceholder: 'назва_змінної',
       preview: 'Попередній перегляд',
       environment: 'Середовище',
-      allEnvironments: 'Усі середовища',
       untitledEnvironment: 'Середовище без назви',
       selectEnvironment: 'Оберіть середовище...',
       linkedRequest: "Пов'язаний запит",
       variableNameRequired: 'Назва змінної є обовʼязковою',
-      selectorRequired: 'Селектор є обовʼязковим',
-      selectEnvironmentError: 'Будь ласка, оберіть середовище',
       duplicateWarning: 'Змінна з такою назвою вже існує. Її буде перезаписано.',
     },
     projectImport: {
@@ -483,6 +494,12 @@ const uk = {
     enumLabel: 'Введіть усі допустимі значення, розділені ","',
     numberLabel: 'Встановіть діапазон Мін/Макс для граничного тесту. 0 - ціле, 0.00 - десяткове',
     stringLabel: 'Мінімальна/максимальна довжина значення',
+    fileLabel: 'Допустимі формати файлів',
+    fileFormatGroups: {
+      images: 'Зображення',
+      documents: 'Документи',
+      spreadsheets: 'Електронні таблиці',
+    },
     minPlaceholder: 'Мін',
     maxPlaceholder: 'Макс',
     reviewDataSentToAi: 'Перевірте дані, що надсилаються до ШІ',
@@ -506,6 +523,7 @@ const uk = {
     dateYYYYMMDD: 'Дата (РРРР-ММ-ДД)',
     email: 'Email',
     enum: 'Enum',
+    file: 'Файл',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Число',
@@ -545,7 +563,8 @@ const uk = {
 
   // Messages panel
   messages: {
-    title: 'Повідомлення',
+    title: 'Відповідь',
+    empty: '(порожньо)',
   },
 
   // Export format labels
@@ -578,7 +597,8 @@ const uk = {
     description:
       'Демонстраційні перевірки — це приклади, які можна редагувати. Адаптуйте їх до мови та формулювань відмов вашої моделі. Під час зіставлення регістр ігнорується, а прямі й типографські апострофи вважаються рівнозначними. OR забороняє будь-яку з наведених фраз; AND забороняє всі фрази, що трапляються разом.',
     runEachQuestion: 'Кожне запитання виконується для поточного запиту та вибраного середовища.',
-    saveRequestMessage: 'Збережіть цей запит у колекції, щоб зберегти його оцінку та звіт.',
+    preEvaluationHint: 'Надішліть запит, щоб запустити попереднє оцінювання.',
+    preEvaluationUnavailable: 'Для попереднього оцінювання потрібна успішна відповідь (HTTP 2xx або 3xx).',
     runPreEvaluation: 'Запустити попереднє оцінювання',
     userPromptField: 'Поле запиту користувача',
     userPromptPlaceholder: 'Виберіть поле JSON',

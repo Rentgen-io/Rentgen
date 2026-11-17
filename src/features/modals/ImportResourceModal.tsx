@@ -95,7 +95,7 @@ export default function ImportResourceModal() {
   return (
     <Modal isOpen={openImportResourceModal} onClose={handleClose}>
       <IconButton className="absolute top-2.25 right-3" onClick={handleClose}>
-        <ClearCrossIcon className="h-5 w-5" />
+        <ClearCrossIcon className="size-5" />
       </IconButton>
       <div className="flex flex-col gap-4">
         <h5 className="m-0">{t('common.import')}</h5>

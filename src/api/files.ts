@@ -18,9 +18,13 @@ export const exportPostmanCollection = (collection: PostmanCollection): Promise<
 
 export const exportProject = (): Promise<ProjectExportResult> => window.electronAPI.exportProject();
 
+export const generateCertificate = (results: TestResults): Promise<ExportResult> =>
+  window.electronAPI.generateCertificate(results);
+
 export const importPostmanCollection = (): Promise<ImportResult> => window.electronAPI.importPostmanCollection();
 
 export const importProject = (): Promise<ProjectImportResult> => window.electronAPI.importProject();
 
-export const generateCertificate = (results: TestResults): Promise<ExportResult> =>
-  window.electronAPI.generateCertificate(results);
+export const prepareTestFiles = (): Promise<string> => window.electronAPI.prepareTestFiles();
+
+export const selectFiles = (): Promise<string[]> => window.electronAPI.selectFiles();

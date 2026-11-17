@@ -48,6 +48,8 @@ const es = {
     stop: 'Detener',
     noOptions: 'Sin opciones',
     resizeHint: 'Arrastra para cambiar el tamaño, haz doble clic para restablecer',
+    toggleTheme: 'Cambiar tema',
+    allEnvironments: 'Todos los entornos',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const es = {
   // Collections Panel
   collections: {
     newFolder: 'Nueva carpeta',
-    importCollection: 'Importar colección',
-    exportCollection: 'Exportar colección',
     searchRequests: 'Buscar solicitudes...',
     noMatchingRequests: 'No hay solicitudes coincidentes',
     noSavedRequests: 'No hay solicitudes guardadas',
@@ -95,12 +95,12 @@ const es = {
     deleteEnvironmentConfirm: '¿Estás seguro de que deseas eliminar este entorno?',
     deleteEnvironment: 'Eliminar entorno',
     untitled: 'Sin título',
+    duplicateVariable: 'Ya existe una variable con este nombre',
   },
 
   // History
   history: {
     title: 'Historial',
-    clearAll: 'Borrar todo',
     searchHistory: 'Buscar en historial...',
     noMatchingHistory: 'No hay historial coincidente',
     noHistoryYet: 'Aún no hay historial',
@@ -114,12 +114,24 @@ const es = {
     enterUrl: 'Introduce una URL o pega texto',
     headers: 'Cabeceras',
     headersPlaceholder: 'Clave-Cabecera: valor',
+    bulkEdit: 'Edición masiva',
+    keyValueEdit: 'Edición clave-valor',
     body: 'Cuerpo',
-    bodyPlaceholderHttp: 'Introduce el cuerpo de la solicitud (JSON o Form Data)',
-    bodyPlaceholderWss: 'Cuerpo del mensaje',
+    bodyPlaceholderHttp: 'Introduce el cuerpo de la solicitud (JSON o texto)',
+    bodyPlaceholderWss: 'Redactar mensaje',
     wssUrlRequired: '🔴 Por favor usa una URL con ws:// o wss://',
     modePlaceholder: 'MODO',
     methodPlaceholder: 'MÉTODO',
+    message: 'Mensaje',
+    noBody: 'Esta solicitud no tiene cuerpo',
+    bodyType: 'Tipo de cuerpo',
+    selectFiles: 'Seleccionar archivos',
+    filesSelected_one: '{{count}} archivo seleccionado',
+    filesSelected_other: '{{count}} archivos seleccionados',
+    localFileWarning:
+      'Este archivo está guardado en tu equipo, así que los compañeros con los que compartas esta solicitud no podrán usarlo.',
+    key: 'Clave',
+    value: 'Valor',
   },
 
   // Response
@@ -149,7 +161,7 @@ const es = {
     testsHint: 'Envía una solicitud para generar pruebas a partir de su respuesta.',
     testsUnavailable: 'La generación de pruebas requiere una respuesta correcta (HTTP 2xx o 3xx).',
     generateAndRun: 'Generar y ejecutar pruebas',
-    runningTests: 'Ejecutando pruebas... ({{current}}/{{total}})',
+    runningTests: 'Ejecutando... ({{current}}/{{total}})',
     noTestsGenerated: 'No se generaron pruebas',
     selectForCompare: 'Seleccionar para comparar',
     compareWithSelected: 'Comparar con seleccionado',
@@ -246,13 +258,10 @@ const es = {
       variableNamePlaceholder: 'nombre_variable',
       preview: 'Vista previa',
       environment: 'Entorno',
-      allEnvironments: 'Todos los entornos',
       untitledEnvironment: 'Entorno sin título',
       selectEnvironment: 'Seleccionar entorno...',
       linkedRequest: 'Solicitud vinculada',
       variableNameRequired: 'El nombre de variable es obligatorio',
-      selectorRequired: 'El selector es obligatorio',
-      selectEnvironmentError: 'Por favor selecciona un entorno',
       duplicateWarning: 'Ya existe una variable con este nombre. Será sobrescrita.',
     },
     projectImport: {
@@ -485,6 +494,12 @@ const es = {
     enumLabel: 'Introduce todos los valores válidos separados por ","',
     numberLabel: 'Establece el rango Mín/Máx para prueba de límites. 0 - entero, 0.00 - decimal',
     stringLabel: 'Longitud mínima/máxima del valor',
+    fileLabel: 'Formatos de archivo aceptados',
+    fileFormatGroups: {
+      images: 'Imágenes',
+      documents: 'Documentos',
+      spreadsheets: 'Hojas de cálculo',
+    },
     minPlaceholder: 'Mín',
     maxPlaceholder: 'Máx',
     reviewDataSentToAi: 'Revisar los datos enviados a la IA',
@@ -509,6 +524,7 @@ const es = {
     dateYYYYMMDD: 'Fecha (AAAA-MM-DD)',
     email: 'Email',
     enum: 'Enum',
+    file: 'Archivo',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Número',
@@ -548,7 +564,8 @@ const es = {
 
   // Messages panel
   messages: {
-    title: 'Mensajes',
+    title: 'Respuesta',
+    empty: '(vacío)',
   },
 
   // Export format labels
@@ -581,7 +598,8 @@ const es = {
     description:
       'Las aserciones de demostración son ejemplos editables. Adáptalas al idioma y a la redacción de rechazo de tu modelo. La coincidencia ignora mayúsculas y minúsculas y trata los apóstrofos rectos y tipográficos como equivalentes. OR prohíbe cualquiera de las frases indicadas; AND prohíbe todas las frases cuando aparecen juntas.',
     runEachQuestion: 'Cada pregunta se ejecuta con la solicitud actual y el entorno seleccionado.',
-    saveRequestMessage: 'Guarda esta solicitud en una colección para conservar su evaluación e informe.',
+    preEvaluationHint: 'Envía una solicitud para ejecutar la preevaluación.',
+    preEvaluationUnavailable: 'La preevaluación requiere una respuesta correcta (HTTP 2xx o 3xx).',
     runPreEvaluation: 'Ejecutar preevaluación',
     userPromptField: 'Campo del prompt del usuario',
     userPromptPlaceholder: 'Seleccionar campo JSON',

@@ -5,8 +5,7 @@ import { IconButton } from 'src/components/buttons/IconButton';
 import Select, { SelectOption } from 'src/components/inputs/Select';
 import { useReset } from 'src/hooks/useReset';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectEnvironments, selectMode, selectSelectedEnvironmentId } from 'src/store/selectors';
-import { environmentActions } from 'src/store/slices/environmentSlice';
+import { selectMode } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { Mode, requestActions } from 'src/store/slices/requestSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
@@ -26,8 +25,6 @@ export default function RequestModeBar() {
   const { t } = useTranslation();
 
   const mode = useAppSelector(selectMode);
-  const environments = useAppSelector(selectEnvironments);
-  const selectedEnvironmentId = useAppSelector(selectSelectedEnvironmentId);
 
   const reset = useReset();
 
@@ -41,7 +38,10 @@ export default function RequestModeBar() {
           placeholder={t('request.modePlaceholder')}
           value={modeOptions.find((option) => option.value === mode)}
           onChange={(option) => {
-            if (option) dispatch(requestActions.setMode(option.value));
+            // Re-selecting the current mode must not wipe the request
+            if (!option || option.value === mode) return;
+
+            dispatch(requestActions.setMode(option.value));
             reset();
           }}
         />
@@ -56,17 +56,20 @@ export default function RequestModeBar() {
         )}
       </div>
       <div className="flex-auto flex items-center justify-end gap-2">
-        <EnvironmentSelector
-          className="flex-auto @lg:flex-none"
-          environments={environments}
-          selectedEnvironmentId={selectedEnvironmentId}
-          onSelect={(id) => dispatch(environmentActions.selectEnvironment(id))}
-        />
-        <IconButton onClick={() => dispatch(settingsActions.toggleTheme())}>
+        <EnvironmentSelector className="flex-auto @lg:flex-none" />
+        <IconButton
+          aria-label={t('common.toggleTheme')}
+          title={t('common.toggleTheme')}
+          onClick={() => dispatch(settingsActions.toggleTheme())}
+        >
           <DarkModeIcon className="size-4 dark:hidden" />
           <LightModeIcon className="hidden dark:block size-4" />
         </IconButton>
-        <IconButton onClick={() => dispatch(modalsActions.openReloadModal())}>
+        <IconButton
+          aria-label={t('modals.reload.title')}
+          title={t('modals.reload.title')}
+          onClick={() => dispatch(modalsActions.openReloadModal())}
+        >
           <ReloadIcon className="size-4" />
         </IconButton>
       </div>

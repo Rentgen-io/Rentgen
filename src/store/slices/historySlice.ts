@@ -1,19 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { isCurrentHistoryEntry } from 'shared/utils/history';
 import { loadHistory as loadHistoryFile } from 'src/api/storage';
 import { HistoryEntry } from 'src/types';
-
-function getRetentionCutoff(retention: string): number | null {
-  const now = Date.now();
-  const durations: Record<string, number> = {
-    '1w': 7 * 24 * 60 * 60 * 1000,
-    '1m': 30 * 24 * 60 * 60 * 1000,
-    '3m': 90 * 24 * 60 * 60 * 1000,
-    '6m': 180 * 24 * 60 * 60 * 1000,
-    '1y': 365 * 24 * 60 * 60 * 1000,
-  };
-  if (retention === 'none' || !durations[retention]) return null;
-  return now - durations[retention];
-}
 
 interface HistoryState {
   entries: HistoryEntry[];
@@ -46,7 +34,7 @@ export const historySlice = createSlice({
       state.entries = state.entries.filter((entry) => entry.id !== action.payload);
     },
     setEntries: (state, action: PayloadAction<HistoryEntry[]>) => {
-      state.entries = action.payload;
+      state.entries = action.payload.filter(isCurrentHistoryEntry);
     },
   },
   extraReducers: (builder) => {
@@ -55,6 +43,19 @@ export const historySlice = createSlice({
     });
   },
 });
+
+function getRetentionCutoff(retention: string): number | null {
+  const now = Date.now();
+  const durations: Record<string, number> = {
+    '1w': 7 * 24 * 60 * 60 * 1000,
+    '1m': 30 * 24 * 60 * 60 * 1000,
+    '3m': 90 * 24 * 60 * 60 * 1000,
+    '6m': 180 * 24 * 60 * 60 * 1000,
+    '1y': 365 * 24 * 60 * 60 * 1000,
+  };
+  if (retention === 'none' || !durations[retention]) return null;
+  return now - durations[retention];
+}
 
 export const historyActions = historySlice.actions;
 export default historySlice.reducer;

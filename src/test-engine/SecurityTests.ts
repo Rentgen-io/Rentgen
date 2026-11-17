@@ -1,6 +1,6 @@
 import { Method } from 'axios';
 import { appConfig } from 'shared/constants';
-import { getResponseStatusTitle, RESPONSE_STATUS } from 'shared/responseStatus';
+import { getResponseStatusTitle, isSuccessStatus, RESPONSE_STATUS } from 'shared/responseStatus';
 import {
   AUTHORIZATION_TEST_NAME,
   CACHE_CONTROL_PRIVATE_API_TEST_NAME,
@@ -515,8 +515,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
       const response = await sendHttp(modifiedRequest, this.signal);
       const { actual, status } = determineTestStatus(response, (response, statusCode) => {
         const testStatus = { actual: response.status, status: TestStatus.Fail };
-        if (statusCode >= RESPONSE_STATUS.OK && statusCode < RESPONSE_STATUS.REDIRECT)
-          testStatus.status = TestStatus.Pass;
+        if (isSuccessStatus(statusCode)) testStatus.status = TestStatus.Pass;
 
         return testStatus;
       });

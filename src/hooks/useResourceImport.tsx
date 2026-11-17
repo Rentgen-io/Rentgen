@@ -7,6 +7,7 @@ import { OpenApiDocument } from 'src/types';
 import {
   extractCurl,
   fetchOpenApiSchema,
+  headersToPostmanFormat,
   isHttpUrl,
   isOpenApiSchema,
   openApiToFolder,
@@ -52,27 +53,13 @@ export function useResourceImport() {
       try {
         if (curl.length > MAX_CURL_LENGTH) return false;
 
-        const {
-          body: curlBody,
-          decodedLines,
-          headers: curlHeaders,
-          method: curlMethod,
-          url: curlUrl,
-        } = extractCurl(curl);
+        const { body, headers, method, url } = extractCurl(curl);
 
         reset();
-        dispatch(requestActions.setUrl(curlUrl));
-        dispatch(requestActions.setMethod(curlMethod as Method));
-        dispatch(
-          requestActions.setHeaders(
-            Object.entries(curlHeaders)
-              .map(([key, value]) => `${key}: ${value}`)
-              .join('\n'),
-          ),
-        );
-
-        if (decodedLines.length > 0) dispatch(requestActions.setBody(decodedLines.join('\n')));
-        else dispatch(requestActions.setBody(curlBody ? String(curlBody).trim() : ''));
+        dispatch(requestActions.setUrl(url));
+        dispatch(requestActions.setMethod(method as Method));
+        dispatch(requestActions.setHeaders(headersToPostmanFormat(headers)));
+        dispatch(requestActions.setBody(body ?? {}));
 
         return true;
       } catch {

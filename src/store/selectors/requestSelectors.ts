@@ -3,7 +3,11 @@ import { RootState } from 'src/store';
 import { selectIsRunningTests } from './testsSelectors';
 
 export const selectBody = (state: RootState) => state.request.body;
+export const selectBodyRaw = (state: RootState) => state.request.body.raw;
+export const selectBodyFormData = (state: RootState) => state.request.body.formdata;
+export const selectBodyMode = (state: RootState) => state.request.body.mode;
 export const selectBodyParameters = (state: RootState) => state.request.bodyParameters;
+export const selectBodyUrlencoded = (state: RootState) => state.request.body.urlencoded;
 export const selectHeaders = (state: RootState) => state.request.headers;
 export const selectIsSending = (state: RootState) => state.request.isSending;
 export const selectMethod = (state: RootState) => state.request.method;

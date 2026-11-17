@@ -34,12 +34,14 @@ interface ElectronApi {
   onWssEvent: (callback: (data: any) => void) => () => void;
   openExternal: (url: string) => void;
   pingHost: (host: string) => Promise<any>;
+  prepareTestFiles: () => Promise<string>;
   saveCollection: (collection: any) => Promise<{ success: boolean; error?: string }>;
   saveEnvironments: (environments: any) => Promise<{ success: boolean; error?: string }>;
   saveDynamicVariables: (variables: any) => Promise<{ success: boolean; error?: string }>;
   saveHistory: (entries: any) => Promise<{ success: boolean; error?: string }>;
   saveMappings: (mappings: MappingsState) => void;
   saveSettings: (settings: SettingsState) => void;
+  selectFiles: () => Promise<string[]>;
   sendHttp: (request: HttpRequest, requestId?: string) => Promise<HttpResponse>;
   sendWss: (message: string) => void;
   uninstallCli: () => Promise<CliActionResult>;
@@ -76,6 +78,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   openExternal: (url: string) => ipcRenderer.send('open-external', url),
   pingHost: (host: string): Promise<any> => ipcRenderer.invoke('ping-host', host),
+  prepareTestFiles: (): Promise<string> => ipcRenderer.invoke('prepare-test-files'),
   saveCollection: (collection: any): Promise<{ success: boolean; error?: string }> =>
     ipcRenderer.invoke('save-collection', collection),
   saveEnvironments: (environments: any): Promise<{ success: boolean; error?: string }> =>
@@ -86,6 +89,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('save-history', entries),
   saveMappings: (mappings: MappingsState): void => ipcRenderer.send('save-mappings', mappings),
   saveSettings: (settings: SettingsState): void => ipcRenderer.send('save-settings', settings),
+  selectFiles: (): Promise<string[]> => ipcRenderer.invoke('select-files'),
   sendHttp: (request: HttpRequest, requestId?: string): Promise<HttpResponse> =>
     ipcRenderer.invoke('http-request', request, requestId),
   sendWss: (message: string): void => ipcRenderer.send('wss-send', message),

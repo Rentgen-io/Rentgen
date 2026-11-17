@@ -68,14 +68,17 @@ export interface VariableValidationResult {
   missingVariables: string[];
 }
 
+export interface VariableSuggestion {
+  key: string;
+  environments: Environment[];
+  isAvailable: boolean;
+  isGlobal: boolean;
+}
+
 /**
  * Result of extracting a dynamic variable from a response
  */
-export interface ExtractionResult {
-  value: string | null;
-  success: boolean;
-  error?: string;
-}
+export type ExtractionResult = { success: true; value: string } | { success: false; error: string };
 
 /**
  * Details about a failed dynamic variable extraction

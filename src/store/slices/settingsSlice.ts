@@ -4,8 +4,7 @@ import { defaultSettings } from 'shared/defaults';
 import { MEDIAN_RESPONSE_TIME_TEST_NAME, NETWORK_SHARE_TEST_NAME, PING_LATENCY_TEST_NAME } from 'shared/testNames';
 import { loadSettings as loadSettingsFile } from 'src/api/storage';
 import i18n from 'src/i18n';
-import { AiProvider, HistoryRetention, Language, SettingsState } from 'src/types';
-import { LicenseResult } from 'src/utils';
+import { AiProvider, HistoryRetention, Language, LicenseResult, SettingsState } from 'src/types';
 
 export const initialState: SettingsState = defaultSettings;
 

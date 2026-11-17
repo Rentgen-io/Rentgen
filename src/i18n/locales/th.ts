@@ -48,6 +48,8 @@ const th = {
     stop: 'หยุด',
     noOptions: 'ไม่มีตัวเลือก',
     resizeHint: 'ลากเพื่อปรับขนาด ดับเบิลคลิกเพื่อรีเซ็ต',
+    toggleTheme: 'สลับธีม',
+    allEnvironments: 'เอนไวรอนเมนต์ทั้งหมด',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const th = {
   // Collections Panel
   collections: {
     newFolder: 'โฟลเดอร์ใหม่',
-    importCollection: 'นำเข้าคอลเลกชัน',
-    exportCollection: 'ส่งออกคอลเลกชัน',
     searchRequests: 'ค้นหาคำขอ...',
     noMatchingRequests: 'ไม่มีคำขอที่ตรงกัน',
     noSavedRequests: 'ยังไม่มีคำขอที่บันทึกไว้',
@@ -95,12 +95,12 @@ const th = {
     deleteEnvironmentConfirm: 'คุณแน่ใจหรือไม่ว่าต้องการลบเอนไวรอนเมนต์นี้?',
     deleteEnvironment: 'ลบเอนไวรอนเมนต์',
     untitled: 'ไม่มีชื่อ',
+    duplicateVariable: 'มีตัวแปรชื่อนี้อยู่แล้ว',
   },
 
   // History
   history: {
     title: 'ประวัติ',
-    clearAll: 'ล้างทั้งหมด',
     searchHistory: 'ค้นหาประวัติ...',
     noMatchingHistory: 'ไม่มีประวัติที่ตรงกัน',
     noHistoryYet: 'ยังไม่มีประวัติ',
@@ -114,12 +114,23 @@ const th = {
     enterUrl: 'ป้อน URL หรือวางข้อความ',
     headers: 'เฮดเดอร์',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: 'แก้ไขแบบกลุ่ม',
+    keyValueEdit: 'แก้ไขแบบคีย์-ค่า',
     body: 'บอดี้',
-    bodyPlaceholderHttp: 'ป้อนบอดี้ของคำขอ (JSON หรือ Form Data)',
-    bodyPlaceholderWss: 'เนื้อหาข้อความ',
+    bodyPlaceholderHttp: 'ป้อนบอดี้ของคำขอ (JSON หรือข้อความ)',
+    bodyPlaceholderWss: 'เขียนข้อความ',
     wssUrlRequired: '🔴 กรุณาใช้ URL แบบ ws:// หรือ wss://',
     modePlaceholder: 'MODE',
     methodPlaceholder: 'METHOD',
+    message: 'ข้อความ',
+    noBody: 'คำขอนี้ไม่มีเนื้อหา',
+    bodyType: 'ประเภทเนื้อหา',
+    selectFiles: 'เลือกไฟล์',
+    filesSelected_one: 'เลือก {{count}} ไฟล์แล้ว',
+    filesSelected_other: 'เลือก {{count}} ไฟล์แล้ว',
+    localFileWarning: 'ไฟล์นี้เก็บอยู่ในเครื่องของคุณ เพื่อนร่วมทีมที่คุณแชร์คำขอนี้ด้วยจึงใช้ไฟล์นี้ไม่ได้',
+    key: 'คีย์',
+    value: 'ค่า',
   },
 
   // Response
@@ -149,7 +160,7 @@ const th = {
     testsHint: 'ส่งคำขอเพื่อสร้างเทสต์จากการตอบกลับ',
     testsUnavailable: 'การสร้างเทสต์ต้องใช้การตอบกลับที่สำเร็จ (HTTP 2xx หรือ 3xx)',
     generateAndRun: 'สร้างและรันเทสต์',
-    runningTests: 'กำลังรันเทสต์... ({{current}}/{{total}})',
+    runningTests: 'กำลังรัน... ({{current}}/{{total}})',
     noTestsGenerated: 'ไม่มีการสร้างเทสต์',
     selectForCompare: 'เลือกเพื่อเปรียบเทียบ',
     compareWithSelected: 'เปรียบเทียบกับที่เลือก',
@@ -243,13 +254,10 @@ const th = {
       variableNamePlaceholder: 'variable_name',
       preview: 'ตัวอย่าง',
       environment: 'เอนไวรอนเมนต์',
-      allEnvironments: 'เอนไวรอนเมนต์ทั้งหมด',
       untitledEnvironment: 'เอนไวรอนเมนต์ที่ไม่มีชื่อ',
       selectEnvironment: 'เลือกเอนไวรอนเมนต์...',
       linkedRequest: 'คำขอที่เชื่อมโยง',
       variableNameRequired: 'จำเป็นต้องระบุชื่อตัวแปร',
-      selectorRequired: 'จำเป็นต้องระบุ Selector',
-      selectEnvironmentError: 'กรุณาเลือกเอนไวรอนเมนต์',
       duplicateWarning: 'มีตัวแปรชื่อนี้อยู่แล้ว ตัวแปรจะถูกเขียนทับ',
     },
     projectImport: {
@@ -478,6 +486,12 @@ const th = {
     enumLabel: 'ป้อนค่าที่ถูกต้องทั้งหมดโดยคั่นด้วย ","',
     numberLabel: 'กำหนดช่วง Min/Max สำหรับเทสต์ขอบเขต 0 - จำนวนเต็ม, 0.00 - ทศนิยม',
     stringLabel: 'ความยาวค่าต่ำสุด/สูงสุด',
+    fileLabel: 'รูปแบบไฟล์ที่รองรับ',
+    fileFormatGroups: {
+      images: 'รูปภาพ',
+      documents: 'เอกสาร',
+      spreadsheets: 'สเปรดชีต',
+    },
     minPlaceholder: 'ต่ำสุด',
     maxPlaceholder: 'สูงสุด',
     reviewDataSentToAi: 'ตรวจสอบข้อมูลที่ส่งไปยัง AI',
@@ -501,6 +515,7 @@ const th = {
     dateYYYYMMDD: 'วันที่ (YYYY-MM-DD)',
     email: 'อีเมล',
     enum: 'Enum',
+    file: 'ไฟล์',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'จำนวน',
@@ -540,7 +555,8 @@ const th = {
 
   // Messages panel
   messages: {
-    title: 'ข้อความ',
+    title: 'การตอบกลับ',
+    empty: '(ว่างเปล่า)',
   },
 
   // Export format labels
@@ -573,7 +589,8 @@ const th = {
     description:
       'Assertion ตัวอย่างเป็นตัวอย่างที่แก้ไขได้ ปรับให้เหมาะกับภาษาและถ้อยคำปฏิเสธของโมเดลของคุณ การจับคู่จะไม่สนใจตัวพิมพ์ใหญ่-เล็ก และถือว่าอัญประกาศเดี่ยวแบบตรงและแบบตัวพิมพ์เทียบเท่ากัน OR ห้ามวลีใดวลีหนึ่งที่ระบุไว้ ส่วน AND ห้ามเมื่อทุกวลีปรากฏร่วมกัน',
     runEachQuestion: 'แต่ละคำถามจะทำงานกับคำขอปัจจุบันและสภาพแวดล้อมที่เลือก',
-    saveRequestMessage: 'บันทึกคำขอนี้ลงในคอลเลกชันเพื่อเก็บการประเมินและรายงาน',
+    preEvaluationHint: 'ส่งคำขอเพื่อเรียกใช้การประเมินล่วงหน้า',
+    preEvaluationUnavailable: 'การประเมินล่วงหน้าต้องใช้การตอบกลับที่สำเร็จ (HTTP 2xx หรือ 3xx)',
     runPreEvaluation: 'เรียกใช้การประเมินล่วงหน้า',
     userPromptField: 'ฟิลด์พรอมต์ของผู้ใช้',
     userPromptPlaceholder: 'เลือกฟิลด์ JSON',

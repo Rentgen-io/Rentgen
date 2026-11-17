@@ -3,7 +3,9 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from 'react-tooltip';
 import Button, { ButtonType } from 'src/components/buttons/Button';
-import { getTestsStatistics } from 'src/test-engine';
+import { TESTS_TABS, TestsTab } from 'src/constants/tests-tabs';
+import { useAppSelector } from 'src/store/hooks';
+import { selectTestsStatistics } from 'src/store/selectors';
 
 import InfoIcon from 'src/assets/icons/info-icon.svg';
 
@@ -14,14 +16,13 @@ const testResultMetrics: string[][] = [
   ['passed', 'common.passed', 'text-metric-pass'],
 ];
 
-export default function TestResultsSummary({
-  statistics,
-  onClick,
-}: {
-  statistics: { [label: string]: ReturnType<typeof getTestsStatistics> };
-  onClick: (index: number) => void;
-}) {
+interface Props {
+  onSelectTab: (tab: TestsTab) => void;
+}
+
+export default function TestResultsSummary({ onSelectTab }: Props) {
   const { t } = useTranslation();
+  const statistics = useAppSelector(selectTestsStatistics);
 
   const totals = useMemo(
     () =>
@@ -41,8 +42,7 @@ export default function TestResultsSummary({
   );
   const findings = useMemo(
     () =>
-      Object.entries(statistics)
-        .map(([label, stats], index) => ({ ...stats, label, index }))
+      TESTS_TABS.map(({ tab, labelKey }) => ({ ...statistics[tab], tab, labelKey }))
         .filter(({ bugs, failed, warnings }) => bugs + failed + warnings > 0)
         .sort((a, b) => b.bugs - a.bugs || b.failed - a.failed || b.warnings - a.warnings),
     [statistics],
@@ -57,7 +57,7 @@ export default function TestResultsSummary({
             <p className="m-0 text-xs text-muted-foreground">{t('tests.resultsDescription')}</p>
           </div>
           {findings.length > 0 && (
-            <Button buttonType={ButtonType.SECONDARY} className="shrink-0" onClick={() => onClick(findings[0].index)}>
+            <Button buttonType={ButtonType.SECONDARY} className="shrink-0" onClick={() => onSelectTab(findings[0].tab)}>
               {t('tests.reviewFindings')}
             </Button>
           )}
@@ -104,13 +104,13 @@ export default function TestResultsSummary({
       )}
       {findings.length > 0 && (
         <div className="border border-border divide-y divide-border rounded overflow-hidden">
-          {findings.map(({ bugs, failed, label, index, warnings }) => (
+          {findings.map(({ bugs, failed, labelKey, tab, warnings }) => (
             <div
               className="flex items-center justify-between gap-2 py-3 px-4 text-xs hover:bg-accent-soft cursor-pointer"
-              key={index}
-              onClick={() => onClick(index)}
+              key={tab}
+              onClick={() => onSelectTab(tab)}
             >
-              <span>{label}</span>
+              <span>{t(labelKey)}</span>
               <span className="flex items-center gap-2 text-[11px] text-muted-foreground">
                 {bugs > 0 && (
                   <span>

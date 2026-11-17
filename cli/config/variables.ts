@@ -1,5 +1,6 @@
 import type { DynamicVariable, Environment, EnvironmentVariable } from '../../shared/types/environment';
-import type { PostmanItem, PostmanRequest, PostmanHeader } from '../../shared/types/postman';
+import type { PostmanBody, PostmanItem, PostmanRequest, PostmanHeader } from '../../shared/types/postman';
+import { substituteBodyVariables } from '../../shared/utils/http';
 
 export interface ResolvedRequest {
   id: string;
@@ -7,7 +8,7 @@ export interface ResolvedRequest {
   method: string;
   url: string;
   headers: PostmanHeader[];
-  body?: string;
+  body?: PostmanBody;
 }
 
 export class VariableStore {
@@ -72,7 +73,7 @@ export class VariableStore {
         key: h.key,
         value: this.substitute(h.value),
       })),
-      body: r.body?.raw !== undefined ? this.substitute(r.body.raw) : undefined,
+      body: r.body && substituteBodyVariables(r.body, (text) => this.substitute(text)),
     };
   }
 
@@ -106,12 +107,9 @@ export function parseVarOverrides(vars: string[]): Record<string, string> {
 /** Filter dynamic variables to those that apply when running a given folder:
  *  the dvar belongs to this folder (collectionId === folder.id) or is global
  *  (collectionId is null or empty string). */
-export function filterDynamicVarsForFolder(
-  all: DynamicVariable[],
-  folderId: string,
-): DynamicVariable[] {
+export function filterDynamicVarsForFolder(all: DynamicVariable[], folderId: string): DynamicVariable[] {
   return all.filter((dv) => {
-    const cid = (dv as { collectionId: string | null }).collectionId;
+    const cid = (dv as DynamicVariable & { collectionId?: string | null }).collectionId;
     return cid === folderId || cid === null || cid === '';
   });
 }

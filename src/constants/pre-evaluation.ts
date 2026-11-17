@@ -43,6 +43,9 @@ export const DEFAULT_EVALUATION_QUESTIONS: EvaluationQuestion[] = [
   },
 ];
 
+export const MIN_ITERATIONS = 1;
+export const MAX_ITERATIONS = 1000;
+
 export const DEFAULT_PRE_EVALUATION: PreEvaluation = {
   iterations: 100,
   promptPath: '',

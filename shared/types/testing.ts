@@ -1,6 +1,12 @@
 import { Method } from 'axios';
-import { HttpBody, HttpRequest, HttpResponse } from 'shared/types/http';
-import type { AiUsage } from 'src/api/ai';
+import { HttpRequest, HttpResponse, RequestBody } from 'shared/types/http';
+
+/** Token usage reported by an AI provider for one chat request. */
+export interface AiUsage {
+  promptTokens: number;
+  completionTokens: number;
+  totalTokens: number;
+}
 
 export type DataType =
   | 'boolean'
@@ -8,6 +14,7 @@ export type DataType =
   | 'date_yyyy_mm_dd'
   | 'email'
   | 'enum'
+  | 'file'
   | 'ftp_url'
   | 'guid'
   | 'ipv4'
@@ -21,6 +28,29 @@ export type DataType =
   | 'randomInt'
   | 'randomEmail'
   | 'randomGuid';
+
+export type FileFormat =
+  | 'jpg'
+  | 'jpeg'
+  | 'png'
+  | 'gif'
+  | 'webp'
+  | 'avif'
+  | 'heic'
+  | 'heif'
+  | 'tif'
+  | 'tiff'
+  | 'bmp'
+  | 'svg'
+  | 'ico'
+  | 'pdf'
+  | 'docx'
+  | 'txt'
+  | 'json'
+  | 'xlsx'
+  | 'csv';
+
+export type FileFormatGroup = 'images' | 'documents' | 'spreadsheets';
 
 export type ParameterType = 'body' | 'query';
 
@@ -39,7 +69,7 @@ export interface TestData {
 export interface ParameterValue {
   mandatory?: boolean;
   type: DataType;
-  value?: number | string | Interval;
+  value?: number | string | Interval | FileFormat[];
   overrides?: TestData[];
 }
 
@@ -48,7 +78,7 @@ export interface RequestParameters {
 }
 
 export interface TestOptions {
-  body: HttpBody;
+  body: RequestBody;
   bodyParameters: RequestParameters;
   headers: Record<string, string>;
   method: Method | string;

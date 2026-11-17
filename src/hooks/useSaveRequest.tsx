@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { store } from 'src/store';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { useAppDispatch } from 'src/store/hooks';
 import {
   selectBody,
   selectBodyParameters,
@@ -20,42 +20,37 @@ import {
 import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
-import { extractStatusCode, findRequestById, parseHeaders } from 'src/utils';
+import { extractStatusCode, findRequestById } from 'src/utils';
 import { notify } from 'src/utils/toast';
 
+/**
+ * The state is read from the store when saving (not subscribed to), so the returned callbacks are stable, never save
+ * stale values, and don't re-render the calling component on every request / response / collection change.
+ */
 export function useSaveRequest() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const body = useAppSelector(selectBody);
-  const bodyParameters = useAppSelector(selectBodyParameters);
-  const collection = useAppSelector(selectCollectionData);
-  const disabled = useAppSelector(selectIsRequestDisabled);
-  const headers = useAppSelector(selectHeaders);
-  const httpResponse = useAppSelector(selectHttpResponse);
-  const method = useAppSelector(selectMethod);
-  const preEvaluation = useAppSelector(selectPreEvaluation);
-  const queryParameters = useAppSelector(selectQueryParameters);
-  const selectedFolderId = useAppSelector(selectSelectedFolderId);
-  const selectedRequestId = useAppSelector(selectSelectedRequestId);
-  const testResults = useAppSelector(selectCurrentTestResults);
-  const url = useAppSelector(selectUrl);
-
   const saveRequest = useCallback(
     ({ duplicate = false, silent = false }: { duplicate?: boolean; silent?: boolean } = {}) => {
-      let requestId: string | null = selectedRequestId;
-      const parsedHeaders = parseHeaders(headers);
+      const state = store.getState();
+      const body = selectBody(state);
+      const httpResponse = selectHttpResponse(state);
+      const method = selectMethod(state);
+      const headers = selectHeaders(state);
+      const preEvaluation = selectPreEvaluation(state);
+      const testResults = selectCurrentTestResults(state);
+      const url = selectUrl(state);
+      let requestId: string | null = selectSelectedRequestId(state);
 
-      if (!duplicate && requestId && findRequestById(collection, requestId))
-        dispatch(
-          collectionActions.updateRequest({ body, headers: parsedHeaders, method, preEvaluation, requestId, url }),
-        );
+      if (!duplicate && requestId && findRequestById(selectCollectionData(state), requestId))
+        dispatch(collectionActions.updateRequest({ body, headers, method, preEvaluation, requestId, url }));
       else {
         dispatch(
           collectionActions.addRequest({
             body,
-            folderId: selectedFolderId,
-            headers: parsedHeaders,
+            folderId: selectSelectedFolderId(state),
+            headers,
             method,
             preEvaluation,
             url,
@@ -69,9 +64,9 @@ export function useSaveRequest() {
       if (requestId && httpResponse)
         dispatch(
           collectionRunActions.addResult({
-            bodyParameters,
+            bodyParameters: selectBodyParameters(state),
             error: null,
-            queryParameters,
+            queryParameters: selectQueryParameters(state),
             requestId,
             response: httpResponse,
             status: extractStatusCode(httpResponse),
@@ -80,28 +75,15 @@ export function useSaveRequest() {
 
       if (!silent) notify.success(t('common.saved'), { toastId: 'success-save-request' });
     },
-    [
-      body,
-      bodyParameters,
-      collection,
-      headers,
-      httpResponse,
-      method,
-      preEvaluation,
-      queryParameters,
-      selectedFolderId,
-      selectedRequestId,
-      testResults,
-      url,
-      dispatch,
-    ],
+    [dispatch, t],
   );
 
   const autoSaveRequest = useCallback(() => {
-    if (disabled || !selectedRequestId) return;
+    const state = store.getState();
+    if (selectIsRequestDisabled(state) || !selectSelectedRequestId(state)) return;
 
     saveRequest({ silent: true });
-  }, [disabled, selectedRequestId, saveRequest]);
+  }, [saveRequest]);
 
   return { saveRequest, autoSaveRequest };
 }

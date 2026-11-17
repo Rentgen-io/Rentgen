@@ -48,6 +48,8 @@ const nl = {
     stop: 'Stoppen',
     noOptions: 'Geen opties',
     resizeHint: 'Sleep om het formaat te wijzigen, dubbelklik om te herstellen',
+    toggleTheme: 'Thema wisselen',
+    allEnvironments: 'Alle omgevingen',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const nl = {
   // Collections Panel
   collections: {
     newFolder: 'Nieuwe map',
-    importCollection: 'Collectie importeren',
-    exportCollection: 'Collectie exporteren',
     searchRequests: 'Verzoeken zoeken...',
     noMatchingRequests: 'Geen overeenkomende verzoeken',
     noSavedRequests: 'Geen opgeslagen verzoeken',
@@ -95,12 +95,12 @@ const nl = {
     deleteEnvironmentConfirm: 'Weet je zeker dat je deze omgeving wilt verwijderen?',
     deleteEnvironment: 'Omgeving verwijderen',
     untitled: 'Naamloos',
+    duplicateVariable: 'Er bestaat al een variabele met deze naam',
   },
 
   // History
   history: {
     title: 'Geschiedenis',
-    clearAll: 'Alles wissen',
     searchHistory: 'Zoek in geschiedenis...',
     noMatchingHistory: 'Geen overeenkomende geschiedenis',
     noHistoryYet: 'Nog geen geschiedenis',
@@ -114,12 +114,24 @@ const nl = {
     enterUrl: 'Voer URL in of plak tekst',
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: waarde',
+    bulkEdit: 'Bulkbewerking',
+    keyValueEdit: 'Sleutel-waardebewerking',
     body: 'Body',
-    bodyPlaceholderHttp: 'Voer body van verzoek in (JSON of Form Data)',
-    bodyPlaceholderWss: 'Body van bericht',
+    bodyPlaceholderHttp: 'Voer body van verzoek in (JSON of tekst)',
+    bodyPlaceholderWss: 'Bericht opstellen',
     wssUrlRequired: '🔴 Gebruik een ws:// of wss:// URL',
     modePlaceholder: 'MODUS',
     methodPlaceholder: 'METHODE',
+    message: 'Bericht',
+    noBody: 'Dit verzoek heeft geen body',
+    bodyType: 'Body-type',
+    selectFiles: 'Bestanden selecteren',
+    filesSelected_one: '{{count}} bestand geselecteerd',
+    filesSelected_other: '{{count}} bestanden geselecteerd',
+    localFileWarning:
+      'Dit bestand staat op je eigen computer, dus teamgenoten met wie je dit verzoek deelt, kunnen het niet gebruiken.',
+    key: 'Sleutel',
+    value: 'Waarde',
   },
 
   // Response
@@ -149,7 +161,7 @@ const nl = {
     testsHint: 'Verstuur een verzoek om tests te genereren op basis van de reactie.',
     testsUnavailable: 'Voor het genereren van tests is een geslaagde reactie nodig (HTTP 2xx of 3xx).',
     generateAndRun: 'Tests genereren en uitvoeren',
-    runningTests: 'Tests worden uitgevoerd... ({{current}}/{{total}})',
+    runningTests: 'Wordt uitgevoerd... ({{current}}/{{total}})',
     noTestsGenerated: 'Geen tests gegenereerd',
     selectForCompare: 'Selecteren om te vergelijken',
     compareWithSelected: 'Vergelijken met geselecteerde',
@@ -245,13 +257,10 @@ const nl = {
       variableNamePlaceholder: 'variabele_naam',
       preview: 'Voorbeeld',
       environment: 'Omgeving',
-      allEnvironments: 'Alle omgevingen',
       untitledEnvironment: 'Naamloze omgeving',
       selectEnvironment: 'Selecteer omgeving...',
       linkedRequest: 'Gekoppeld verzoek',
       variableNameRequired: 'Naam van variabele is verplicht',
-      selectorRequired: 'Selector is verplicht',
-      selectEnvironmentError: 'Selecteer een omgeving',
       duplicateWarning: 'Er bestaat al een variabele met deze naam. Deze wordt overschreven.',
     },
     projectImport: {
@@ -485,6 +494,12 @@ const nl = {
     enumLabel: 'Voer alle geldige waarden in, gescheiden door ","',
     numberLabel: 'Stel Min/Max-bereik in voor grenswaardetest. 0 - geheel getal, 0,00 - decimaal',
     stringLabel: 'Minimale/maximale waardelengte',
+    fileLabel: 'Geaccepteerde bestandsformaten',
+    fileFormatGroups: {
+      images: 'Afbeeldingen',
+      documents: 'Documenten',
+      spreadsheets: 'Spreadsheets',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: 'Controleer de gegevens die naar de AI worden verzonden',
@@ -509,6 +524,7 @@ const nl = {
     dateYYYYMMDD: 'Datum (JJJJ-MM-DD)',
     email: 'E-mail',
     enum: 'Enum',
+    file: 'Bestand',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Getal',
@@ -548,7 +564,8 @@ const nl = {
 
   // Messages panel
   messages: {
-    title: 'Berichten',
+    title: 'Reactie',
+    empty: '(leeg)',
   },
 
   // Export format labels
@@ -581,7 +598,8 @@ const nl = {
     description:
       'Demo-assertions zijn bewerkbare voorbeelden. Pas ze aan op de taal en de weigeringsformuleringen van je model. Bij het vergelijken wordt hoofdlettergebruik genegeerd en worden rechte en typografische apostroffen als gelijkwaardig beschouwd. OR verbiedt elke vermelde zin; AND verbiedt alle zinnen wanneer ze samen voorkomen.',
     runEachQuestion: 'Elke vraag wordt uitgevoerd met het huidige verzoek en de geselecteerde omgeving.',
-    saveRequestMessage: 'Sla dit verzoek op in een collectie om de evaluatie en het rapport te bewaren.',
+    preEvaluationHint: 'Verstuur een verzoek om de voorevaluatie uit te voeren.',
+    preEvaluationUnavailable: 'Voor de voorevaluatie is een geslaagde reactie nodig (HTTP 2xx of 3xx).',
     runPreEvaluation: 'Voorevaluatie uitvoeren',
     userPromptField: 'Veld voor gebruikersprompt',
     userPromptPlaceholder: 'Selecteer JSON-veld',

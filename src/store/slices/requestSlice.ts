@@ -1,13 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Method } from 'axios';
-import { RequestParameters } from 'src/types';
+import {
+  PostmanBody,
+  PostmanBodyMode,
+  PostmanFormDataItem,
+  PostmanHeader,
+  PostmanUrlencodedItem,
+  RequestParameters,
+} from 'src/types';
 
 export type Mode = 'HTTP' | 'WSS';
 
 interface RequestState {
-  body: string;
+  body: PostmanBody;
   bodyParameters: RequestParameters;
-  headers: string;
+  headers: PostmanHeader[];
   isSending: boolean;
   method: Method;
   mode: Mode;
@@ -16,9 +23,9 @@ interface RequestState {
 }
 
 const initialState: RequestState = {
-  body: '{}',
+  body: {},
   bodyParameters: {},
-  headers: '',
+  headers: [],
   isSending: false,
   method: 'GET',
   mode: 'HTTP',
@@ -30,54 +37,37 @@ export const requestSlice = createSlice({
   name: 'request',
   initialState,
   reducers: {
-    importFromCurl: (
-      state,
-      action: PayloadAction<{
-        url: string;
-        method: string;
-        headers: string;
-        body: string;
-      }>,
-    ) => {
-      const { url, method, headers, body } = action.payload;
-
-      state.url = url;
-      state.method = method as Method;
-      state.headers = headers;
-      state.body = body;
-    },
-    loadFromCollection: (
-      state,
-      action: PayloadAction<{
-        method: string;
-        url: string;
-        headers: string;
-        body: string;
-      }>,
-    ) => {
-      const { method, url, headers, body } = action.payload;
-      state.method = method as Method;
-      state.url = url;
-      state.headers = headers;
-      state.body = body;
-      state.bodyParameters = {};
-      state.queryParameters = {};
-    },
     resetRequest: (state) => {
-      state.method = 'GET';
-      state.url = '';
-      state.headers = '';
-      state.body = '{}';
+      state.body = {};
       state.bodyParameters = {};
+      state.headers = [];
+      state.method = 'GET';
       state.queryParameters = {};
+      state.url = '';
     },
-    setBody: (state, action: PayloadAction<string>) => {
+    setBody: (state, action: PayloadAction<PostmanBody>) => {
       state.body = action.payload;
+    },
+    setBodyFormData: (state, action: PayloadAction<PostmanFormDataItem[]>) => {
+      state.body.formdata = action.payload;
+    },
+    setBodyMode: (state, action: PayloadAction<PostmanBodyMode | undefined>) => {
+      state.body.mode = action.payload;
+
+      if (state.body.mode === 'raw' && !state.body.raw) state.body.raw = '{}';
+      else if (state.body.mode === 'formdata' && !state.body.formdata) state.body.formdata = [];
+      else if (state.body.mode === 'urlencoded' && !state.body.urlencoded) state.body.urlencoded = [];
+    },
+    setBodyRaw: (state, action: PayloadAction<string>) => {
+      state.body.raw = action.payload;
     },
     setBodyParameters: (state, action: PayloadAction<RequestParameters>) => {
       state.bodyParameters = action.payload;
     },
-    setHeaders: (state, action: PayloadAction<string>) => {
+    setBodyUrlencoded: (state, action: PayloadAction<PostmanUrlencodedItem[]>) => {
+      state.body.urlencoded = action.payload;
+    },
+    setHeaders: (state, action: PayloadAction<PostmanHeader[]>) => {
       state.headers = action.payload;
     },
     setIsSending: (state, action: PayloadAction<boolean>) => {

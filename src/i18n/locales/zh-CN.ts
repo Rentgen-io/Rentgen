@@ -48,6 +48,8 @@ const zhCN = {
     stop: '停止',
     noOptions: '无选项',
     resizeHint: '拖动以调整大小，双击以重置',
+    toggleTheme: '切换主题',
+    allEnvironments: '所有环境',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const zhCN = {
   // Collections Panel
   collections: {
     newFolder: '新建文件夹',
-    importCollection: '导入集合',
-    exportCollection: '导出集合',
     searchRequests: '搜索请求...',
     noMatchingRequests: '没有匹配的请求',
     noSavedRequests: '没有已保存的请求',
@@ -95,12 +95,12 @@ const zhCN = {
     deleteEnvironmentConfirm: '确定要删除此环境吗？',
     deleteEnvironment: '删除环境',
     untitled: '未命名',
+    duplicateVariable: '已存在同名变量',
   },
 
   // History
   history: {
     title: '历史',
-    clearAll: '全部清除',
     searchHistory: '搜索历史...',
     noMatchingHistory: '没有匹配的历史记录',
     noHistoryYet: '暂无历史记录',
@@ -114,12 +114,23 @@ const zhCN = {
     enterUrl: '输入 URL 或粘贴文本',
     headers: '请求头',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: '批量编辑',
+    keyValueEdit: '键值编辑',
     body: '请求体',
-    bodyPlaceholderHttp: '输入请求体 (JSON 或表单数据)',
-    bodyPlaceholderWss: '消息内容',
+    bodyPlaceholderHttp: '输入请求体 (JSON 或文本)',
+    bodyPlaceholderWss: '撰写消息',
     wssUrlRequired: '🔴 请使用 ws:// 或 wss:// URL',
     modePlaceholder: '模式',
     methodPlaceholder: '方法',
+    message: '消息',
+    noBody: '此请求没有请求体',
+    bodyType: '请求体类型',
+    selectFiles: '选择文件',
+    filesSelected_one: '已选择 {{count}} 个文件',
+    filesSelected_other: '已选择 {{count}} 个文件',
+    localFileWarning: '此文件保存在你的电脑上，与你共享此请求的队友将无法使用它。',
+    key: '键',
+    value: '值',
   },
 
   // Response
@@ -149,7 +160,7 @@ const zhCN = {
     testsHint: '发送请求以根据其响应生成测试。',
     testsUnavailable: '生成测试需要成功的响应（HTTP 2xx 或 3xx）。',
     generateAndRun: '生成并运行测试',
-    runningTests: '正在运行测试... ({{current}}/{{total}})',
+    runningTests: '正在运行... ({{current}}/{{total}})',
     noTestsGenerated: '未生成测试',
     selectForCompare: '选择以进行比较',
     compareWithSelected: '与所选项比较',
@@ -239,13 +250,10 @@ const zhCN = {
       variableNamePlaceholder: 'variable_name',
       preview: '预览',
       environment: '环境',
-      allEnvironments: '所有环境',
       untitledEnvironment: '未命名环境',
       selectEnvironment: '选择环境...',
       linkedRequest: '关联的请求',
       variableNameRequired: '变量名为必填项',
-      selectorRequired: '选择器为必填项',
-      selectEnvironmentError: '请选择一个环境',
       duplicateWarning: '已存在同名变量。它将被覆盖。',
     },
     projectImport: {
@@ -470,6 +478,12 @@ const zhCN = {
     enumLabel: '输入所有有效值，以「,」分隔',
     numberLabel: '设置边界测试的最小/最大范围。0 - 整数，0.00 - 小数',
     stringLabel: '值的最小/最大长度',
+    fileLabel: '允许的文件格式',
+    fileFormatGroups: {
+      images: '图片',
+      documents: '文档',
+      spreadsheets: '电子表格',
+    },
     minPlaceholder: '最小',
     maxPlaceholder: '最大',
     reviewDataSentToAi: '检查发送给 AI 的数据',
@@ -493,6 +507,7 @@ const zhCN = {
     dateYYYYMMDD: '日期 (YYYY-MM-DD)',
     email: '邮箱',
     enum: '枚举',
+    file: '文件',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: '数字',
@@ -532,7 +547,8 @@ const zhCN = {
 
   // Messages panel
   messages: {
-    title: '消息',
+    title: '响应',
+    empty: '(空)',
   },
 
   // Export format labels
@@ -565,7 +581,8 @@ const zhCN = {
     description:
       '演示断言是可编辑的示例。请根据模型的语言和拒绝措辞进行调整。匹配时忽略大小写，并将直撇号和排版撇号视为等同。OR 禁止出现任一列出的短语；AND 禁止所有短语同时出现。',
     runEachQuestion: '每个问题都会针对当前请求和所选环境运行。',
-    saveRequestMessage: '将此请求保存到集合中，以保留其评估和报告。',
+    preEvaluationHint: '发送请求以运行预评估。',
+    preEvaluationUnavailable: '预评估需要成功的响应（HTTP 2xx 或 3xx）。',
     runPreEvaluation: '运行预评估',
     userPromptField: '用户提示词字段',
     userPromptPlaceholder: '选择 JSON 字段',

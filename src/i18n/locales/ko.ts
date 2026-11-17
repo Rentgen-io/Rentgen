@@ -48,6 +48,8 @@ const ko = {
     stop: '중지',
     noOptions: '옵션 없음',
     resizeHint: '드래그하여 크기 조정, 두 번 클릭하여 초기화',
+    toggleTheme: '테마 전환',
+    allEnvironments: '모든 환경',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const ko = {
   // Collections Panel
   collections: {
     newFolder: '새 폴더',
-    importCollection: '컬렉션 가져오기',
-    exportCollection: '컬렉션 내보내기',
     searchRequests: '요청 검색...',
     noMatchingRequests: '일치하는 요청이 없습니다',
     noSavedRequests: '저장된 요청이 없습니다',
@@ -95,12 +95,12 @@ const ko = {
     deleteEnvironmentConfirm: '이 환경을 정말 삭제하시겠어요?',
     deleteEnvironment: '환경 삭제',
     untitled: '제목 없음',
+    duplicateVariable: '이 이름의 변수가 이미 있습니다',
   },
 
   // History
   history: {
     title: '기록',
-    clearAll: '모두 지우기',
     searchHistory: '기록 검색...',
     noMatchingHistory: '일치하는 기록이 없습니다',
     noHistoryYet: '아직 기록이 없습니다',
@@ -114,12 +114,23 @@ const ko = {
     enterUrl: 'URL을 입력하거나 텍스트를 붙여넣으세요',
     headers: '헤더',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: '일괄 편집',
+    keyValueEdit: '키-값 편집',
     body: '바디',
-    bodyPlaceholderHttp: '요청 바디를 입력하세요 (JSON 또는 Form Data)',
-    bodyPlaceholderWss: '메시지 바디',
+    bodyPlaceholderHttp: '요청 바디를 입력하세요 (JSON 또는 텍스트)',
+    bodyPlaceholderWss: '메시지 작성',
     wssUrlRequired: '🔴 ws:// 또는 wss:// URL을 사용해 주세요',
     modePlaceholder: '모드',
     methodPlaceholder: '메서드',
+    message: '메시지',
+    noBody: '이 요청에는 본문이 없습니다',
+    bodyType: '본문 유형',
+    selectFiles: '파일 선택',
+    filesSelected_one: '파일 {{count}}개 선택됨',
+    filesSelected_other: '파일 {{count}}개 선택됨',
+    localFileWarning: '이 파일은 내 컴퓨터에 저장되어 있어 이 요청을 공유한 팀원은 사용할 수 없습니다.',
+    key: '키',
+    value: '값',
   },
 
   // Response
@@ -149,7 +160,7 @@ const ko = {
     testsHint: '요청을 보내면 응답을 기반으로 테스트를 생성합니다.',
     testsUnavailable: '테스트를 생성하려면 성공한 응답(HTTP 2xx 또는 3xx)이 필요합니다.',
     generateAndRun: '테스트 생성 및 실행',
-    runningTests: '테스트 실행 중... ({{current}}/{{total}})',
+    runningTests: '실행 중... ({{current}}/{{total}})',
     noTestsGenerated: '생성된 테스트 없음',
     selectForCompare: '비교 대상으로 선택',
     compareWithSelected: '선택 항목과 비교',
@@ -244,13 +255,10 @@ const ko = {
       variableNamePlaceholder: 'variable_name',
       preview: '미리보기',
       environment: '환경',
-      allEnvironments: '모든 환경',
       untitledEnvironment: '제목 없는 환경',
       selectEnvironment: '환경을 선택하세요...',
       linkedRequest: '연결된 요청',
       variableNameRequired: '변수 이름이 필요합니다',
-      selectorRequired: '셀렉터가 필요합니다',
-      selectEnvironmentError: '환경을 선택해 주세요',
       duplicateWarning: '같은 이름의 변수가 이미 있습니다. 덮어쓰여집니다.',
     },
     projectImport: {
@@ -479,6 +487,12 @@ const ko = {
     enumLabel: '유효한 값을 모두 ","로 구분해 입력하세요',
     numberLabel: '경계 테스트를 위한 Min/Max 범위를 설정하세요. 0 - 정수, 0.00 - 소수',
     stringLabel: '값의 최소/최대 길이',
+    fileLabel: '허용되는 파일 형식',
+    fileFormatGroups: {
+      images: '이미지',
+      documents: '문서',
+      spreadsheets: '스프레드시트',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: 'AI로 전송되는 데이터 검토',
@@ -502,6 +516,7 @@ const ko = {
     dateYYYYMMDD: '날짜 (YYYY-MM-DD)',
     email: '이메일',
     enum: 'Enum',
+    file: '파일',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: '숫자',
@@ -541,7 +556,8 @@ const ko = {
 
   // Messages panel
   messages: {
-    title: '메시지',
+    title: '응답',
+    empty: '(비어 있음)',
   },
 
   // Export format labels
@@ -574,7 +590,8 @@ const ko = {
     description:
       '데모 어설션은 편집 가능한 예시입니다. 모델의 언어와 거부 표현에 맞게 조정하세요. 매칭은 대소문자를 구분하지 않으며 직선 아포스트로피와 타이포그래피 아포스트로피를 동일하게 취급합니다. OR는 나열된 구문 중 하나라도 금지하고, AND는 모든 구문이 함께 나타나는 경우를 금지합니다.',
     runEachQuestion: '각 질문은 현재 요청과 선택한 환경을 대상으로 실행됩니다.',
-    saveRequestMessage: '평가와 보고서를 보존하려면 이 요청을 컬렉션에 저장하세요.',
+    preEvaluationHint: '요청을 보내면 사전 평가를 실행할 수 있습니다.',
+    preEvaluationUnavailable: '사전 평가를 실행하려면 성공한 응답(HTTP 2xx 또는 3xx)이 필요합니다.',
     runPreEvaluation: '사전 평가 실행',
     userPromptField: '사용자 프롬프트 필드',
     userPromptPlaceholder: 'JSON 필드 선택',

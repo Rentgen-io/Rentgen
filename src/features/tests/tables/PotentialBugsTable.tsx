@@ -1,9 +1,7 @@
 import { memo, useMemo } from 'react';
-import DataTable, { ExpanderComponentProps, TableProps } from 'react-data-table-component';
+import DataTable, { ExpanderComponentProps, TableColumn, TableProps, TableStyles } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
-import { useAppSelector } from 'src/store/hooks';
-import { selectTheme } from 'src/store/selectors';
 import { HttpResponse } from 'src/types';
 
 export interface PotentialBug {
@@ -13,73 +11,75 @@ export interface PotentialBug {
   modifiedResponse: HttpResponse | null;
 }
 
+// Static: defined once instead of a new object on every render (the table would recompute its styles each time)
+const TABLE_STYLES: TableStyles = {
+  expanderCell: {
+    style: {
+      borderBottomColor: 'var(--color-border)',
+    },
+  },
+  expanderButton: {
+    style: {
+      color: 'var(--color-foreground)',
+    },
+  },
+  headRow: {
+    style: {
+      color: 'var(--color-foreground)',
+      backgroundColor: 'var(--color-surface)',
+      borderBottomColor: 'var(--color-border)',
+    },
+  },
+  rows: {
+    style: {
+      color: 'var(--color-foreground)',
+      backgroundColor: 'transparent',
+    },
+  },
+  cells: {
+    style: {
+      borderBottomColor: 'var(--color-border)',
+    },
+  },
+  table: {
+    style: {
+      backgroundColor: 'transparent',
+    },
+  },
+};
+
+/** The tests whose response changed between the two compared runs; a row expands to the response diff. */
 export default function PotentialBugsTable({ data, ...otherProps }: Omit<TableProps<PotentialBug>, 'columns'>) {
   const { t } = useTranslation();
 
-  const theme = useAppSelector(selectTheme);
-
   const definedData = useMemo(() => data?.filter(Boolean) ?? [], [data]);
-  const isDark = theme === 'dark';
+
+  const columns = useMemo<TableColumn<PotentialBug>[]>(
+    () => [
+      {
+        name: t('tables.name'),
+        selector: (row) => row.name,
+      },
+      {
+        name: t('tables.description'),
+        // `cell` for custom content (`selector` is for the plain value). The issues are one per line: kept, but long
+        // ones wrap instead of overflowing the cell. `allowRowEvents`: clicking the text still expands the row
+        cell: (row) => (
+          <div className="py-1 px-0 whitespace-pre-wrap wrap-break-word" data-tag="allowRowEvents">
+            {row.issue}
+          </div>
+        ),
+      },
+    ],
+    [t],
+  );
 
   return (
     <DataTable
-      columns={[
-        {
-          name: t('tables.name'),
-          selector: (row) => row.name,
-        },
-        {
-          name: t('tables.description'),
-          selector: (row, id) => (
-            <div className="py-1 px-0 whitespace-pre" data-column-id={id} data-tag="allowRowEvents">
-              {row.issue}
-            </div>
-          ),
-        },
-      ]}
-      customStyles={{
-        expanderCell: {
-          style: {
-            ...(isDark && {
-              borderBottomColor: '#343a46',
-            }),
-          },
-        },
-        expanderButton: {
-          style: {
-            ...(isDark && { color: 'white' }),
-          },
-        },
-        headRow: {
-          style: {
-            color: isDark ? 'white' : 'black',
-            backgroundColor: isDark ? '#23272f' : '#fafafa',
-            ...(isDark && {
-              borderBottomColor: '#343a46',
-            }),
-          },
-        },
-        rows: {
-          style: {
-            color: isDark ? 'white' : 'black',
-            backgroundColor: 'transparent',
-          },
-        },
-        cells: {
-          style: {
-            ...(isDark && {
-              borderBottomColor: '#343a46',
-            }),
-          },
-        },
-        table: {
-          style: {
-            backgroundColor: 'transparent',
-          },
-        },
-      }}
+      columns={columns}
+      customStyles={TABLE_STYLES}
       expandableRows
-      expandableRowsComponent={ExpandedTestComponent}
+      expandableRowsComponent={ExpandedPotentialBug}
       expandOnRowClicked
       data={definedData}
       fixedHeader={true}
@@ -88,6 +88,7 @@ export default function PotentialBugsTable({ data, ...otherProps }: Omit<TablePr
   );
 }
 
-export const ExpandedTestComponent = memo(({ data }: ExpanderComponentProps<PotentialBug>) => (
-  <JsonDiffViewer className="pt-3" data={[data.originalResponse, data.modifiedResponse]} />
-));
+// The response diff (a Monaco diff editor); memoized, as rendering it is expensive
+const ExpandedPotentialBug = memo(function ExpandedPotentialBug({ data }: ExpanderComponentProps<PotentialBug>) {
+  return <JsonDiffViewer className="pt-3" data={[data.originalResponse, data.modifiedResponse]} />;
+});

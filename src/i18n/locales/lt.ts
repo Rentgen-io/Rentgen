@@ -48,6 +48,8 @@ const lt = {
     stop: 'Sustabdyti',
     noOptions: 'Nėra parinkčių',
     resizeHint: 'Vilkite, kad pakeistumėte dydį, dukart spustelėkite, kad atkurtumėte',
+    toggleTheme: 'Perjungti temą',
+    allEnvironments: 'Visos aplinkos',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const lt = {
   // Collections Panel
   collections: {
     newFolder: 'Naujas aplankas',
-    importCollection: 'Importuoti kolekciją',
-    exportCollection: 'Eksportuoti kolekciją',
     searchRequests: 'Ieškoti užklausų...',
     noMatchingRequests: 'Nerasta atitinkančių užklausų',
     noSavedRequests: 'Nėra išsaugotų užklausų',
@@ -95,12 +95,12 @@ const lt = {
     deleteEnvironmentConfirm: 'Ar tikrai norite ištrinti šią aplinką?',
     deleteEnvironment: 'Ištrinti aplinką',
     untitled: 'Be pavadinimo',
+    duplicateVariable: 'Kintamasis tokiu pavadinimu jau yra',
   },
 
   // History
   history: {
     title: 'Istorija',
-    clearAll: 'Išvalyti viską',
     searchHistory: 'Ieškoti istorijoje...',
     noMatchingHistory: 'Nerasta atitinkančios istorijos',
     noHistoryYet: 'Istorijos dar nėra',
@@ -114,12 +114,26 @@ const lt = {
     enterUrl: 'Įveskite URL arba įklijuokite tekstą',
     headers: 'Antraštės',
     headersPlaceholder: 'Antraštės-Raktas: reikšmė',
+    bulkEdit: 'Masinis redagavimas',
+    keyValueEdit: 'Rakto ir reikšmės redagavimas',
     body: 'Turinys',
-    bodyPlaceholderHttp: 'Įveskite užklausos turinį (JSON arba Form Data)',
-    bodyPlaceholderWss: 'Žinutės turinys',
+    bodyPlaceholderHttp: 'Įveskite užklausos turinį (JSON arba tekstas)',
+    bodyPlaceholderWss: 'Parašykite žinutę',
     wssUrlRequired: '🔴 Prašome naudoti ws:// arba wss:// URL',
     modePlaceholder: 'REŽIMAS',
     methodPlaceholder: 'METODAS',
+    message: 'Žinutė',
+    noBody: 'Ši užklausa neturi turinio',
+    bodyType: 'Turinio tipas',
+    selectFiles: 'Pasirinkti failus',
+    filesSelected_one: 'Pasirinktas {{count}} failas',
+    filesSelected_few: 'Pasirinkti {{count}} failai',
+    filesSelected_many: 'Pasirinkta {{count}} failo',
+    filesSelected_other: 'Pasirinkta {{count}} failų',
+    localFileWarning:
+      'Šis failas saugomas jūsų kompiuteryje, todėl komandos nariai, su kuriais bendrinate šią užklausą, negalės jo naudoti.',
+    key: 'Raktas',
+    value: 'Reikšmė',
   },
 
   // Response
@@ -149,7 +163,7 @@ const lt = {
     testsHint: 'Išsiųskite užklausą, kad pagal jos atsakymą būtų sugeneruoti testai.',
     testsUnavailable: 'Testams generuoti reikalingas sėkmingas atsakymas (HTTP 2xx arba 3xx).',
     generateAndRun: 'Generuoti ir vykdyti testus',
-    runningTests: 'Vykdomi testai... ({{current}}/{{total}})',
+    runningTests: 'Vykdoma... ({{current}}/{{total}})',
     noTestsGenerated: 'Nesugeneruota jokių testų',
     selectForCompare: 'Pasirinkti palyginimui',
     compareWithSelected: 'Palyginti su pasirinktu',
@@ -244,13 +258,10 @@ const lt = {
       variableNamePlaceholder: 'kintamojo_pavadinimas',
       preview: 'Peržiūra',
       environment: 'Aplinka',
-      allEnvironments: 'Visos aplinkos',
       untitledEnvironment: 'Aplinka be pavadinimo',
       selectEnvironment: 'Pasirinkite aplinką...',
       linkedRequest: 'Susieta užklausa',
       variableNameRequired: 'Kintamojo pavadinimas privalomas',
-      selectorRequired: 'Selektorius privalomas',
-      selectEnvironmentError: 'Prašome pasirinkti aplinką',
       duplicateWarning: 'Kintamasis su šiuo pavadinimu jau egzistuoja. Jis bus perrašytas.',
     },
     projectImport: {
@@ -483,6 +494,12 @@ const lt = {
     enumLabel: 'Įveskite visas galimas reikšmes, atskirtas „,"',
     numberLabel: 'Nustatykite Min/Max intervalą ribiniam testui. 0 - sveikasis, 0.00 - dešimtainis',
     stringLabel: 'Minimalus/maksimalus reikšmės ilgis',
+    fileLabel: 'Priimami failų formatai',
+    fileFormatGroups: {
+      images: 'Paveikslėliai',
+      documents: 'Dokumentai',
+      spreadsheets: 'Skaičiuoklės',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
     reviewDataSentToAi: 'Peržiūrėkite AI siunčiamus duomenis',
@@ -507,6 +524,7 @@ const lt = {
     dateYYYYMMDD: 'Data (YYYY-MM-DD)',
     email: 'El. paštas',
     enum: 'Enum',
+    file: 'Failas',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Skaičius',
@@ -546,7 +564,8 @@ const lt = {
 
   // Messages panel
   messages: {
-    title: 'Žinutės',
+    title: 'Atsakymas',
+    empty: '(tuščia)',
   },
 
   // Export format labels
@@ -579,7 +598,8 @@ const lt = {
     description:
       'Demonstraciniai tvirtinimai yra redaguojami pavyzdžiai. Pritaikykite juos savo modelio kalbai ir atsisakymo formuluotėms. Lyginant neatsižvelgiama į raidžių dydį, o tiesūs ir tipografiniai apostrofai laikomi lygiaverčiais. OR draudžia bet kurią išvardytą frazę; AND draudžia visas frazes, kai jos pasirodo kartu.',
     runEachQuestion: 'Kiekvienas klausimas vykdomas su dabartine užklausa ir pasirinkta aplinka.',
-    saveRequestMessage: 'Išsaugokite šią užklausą kolekcijoje, kad išliktų jos vertinimas ir ataskaita.',
+    preEvaluationHint: 'Išsiųskite užklausą, kad galėtumėte vykdyti išankstinį vertinimą.',
+    preEvaluationUnavailable: 'Išankstiniam vertinimui reikalingas sėkmingas atsakymas (HTTP 2xx arba 3xx).',
     runPreEvaluation: 'Vykdyti išankstinį vertinimą',
     userPromptField: 'Naudotojo užklausos laukas',
     userPromptPlaceholder: 'Pasirinkite JSON lauką',

@@ -48,6 +48,8 @@ const pl = {
     stop: 'Zatrzymaj',
     noOptions: 'Brak opcji',
     resizeHint: 'Przeciągnij, aby zmienić rozmiar, kliknij dwukrotnie, aby przywrócić',
+    toggleTheme: 'Przełącz motyw',
+    allEnvironments: 'Wszystkie środowiska',
   },
 
   // Sidebar
@@ -63,8 +65,6 @@ const pl = {
   // Collections Panel
   collections: {
     newFolder: 'Nowy folder',
-    importCollection: 'Importuj kolekcję',
-    exportCollection: 'Eksportuj kolekcję',
     searchRequests: 'Szukaj zapytań...',
     noMatchingRequests: 'Brak pasujących zapytań',
     noSavedRequests: 'Brak zapisanych zapytań',
@@ -95,12 +95,12 @@ const pl = {
     deleteEnvironmentConfirm: 'Czy na pewno chcesz usunąć to środowisko?',
     deleteEnvironment: 'Usuń środowisko',
     untitled: 'Bez nazwy',
+    duplicateVariable: 'Zmienna o tej nazwie już istnieje',
   },
 
   // History
   history: {
     title: 'Historia',
-    clearAll: 'Wyczyść wszystko',
     searchHistory: 'Szukaj w historii...',
     noMatchingHistory: 'Brak pasującej historii',
     noHistoryYet: 'Brak historii',
@@ -114,12 +114,26 @@ const pl = {
     enterUrl: 'Wpisz URL lub wklej tekst',
     headers: 'Nagłówki',
     headersPlaceholder: 'Klucz-Nagłówka: wartość',
+    bulkEdit: 'Edycja zbiorcza',
+    keyValueEdit: 'Edycja klucz-wartość',
     body: 'Treść',
-    bodyPlaceholderHttp: 'Wpisz treść zapytania (JSON lub Form Data)',
-    bodyPlaceholderWss: 'Treść wiadomości',
+    bodyPlaceholderHttp: 'Wpisz treść zapytania (JSON lub tekst)',
+    bodyPlaceholderWss: 'Napisz wiadomość',
     wssUrlRequired: '🔴 Proszę użyć adresu URL ws:// lub wss://',
     modePlaceholder: 'TRYB',
     methodPlaceholder: 'METODA',
+    message: 'Wiadomość',
+    noBody: 'To żądanie nie ma treści',
+    bodyType: 'Typ treści',
+    selectFiles: 'Wybierz pliki',
+    filesSelected_one: 'Wybrano {{count}} plik',
+    filesSelected_few: 'Wybrano {{count}} pliki',
+    filesSelected_many: 'Wybrano {{count}} plików',
+    filesSelected_other: 'Wybrano {{count}} pliku',
+    localFileWarning:
+      'Ten plik jest zapisany na Twoim komputerze, więc członkowie zespołu, którym udostępnisz to żądanie, nie będą mogli go użyć.',
+    key: 'Klucz',
+    value: 'Wartość',
   },
 
   // Response
@@ -149,7 +163,7 @@ const pl = {
     testsHint: 'Wyślij zapytanie, aby wygenerować testy na podstawie odpowiedzi.',
     testsUnavailable: 'Generowanie testów wymaga poprawnej odpowiedzi (HTTP 2xx lub 3xx).',
     generateAndRun: 'Generuj i uruchom testy',
-    runningTests: 'Uruchamianie testów... ({{current}}/{{total}})',
+    runningTests: 'Uruchamianie... ({{current}}/{{total}})',
     noTestsGenerated: 'Nie wygenerowano testów',
     selectForCompare: 'Wybierz do porównania',
     compareWithSelected: 'Porównaj z wybranym',
@@ -245,13 +259,10 @@ const pl = {
       variableNamePlaceholder: 'nazwa_zmiennej',
       preview: 'Podgląd',
       environment: 'Środowisko',
-      allEnvironments: 'Wszystkie środowiska',
       untitledEnvironment: 'Środowisko bez nazwy',
       selectEnvironment: 'Wybierz środowisko...',
       linkedRequest: 'Powiązane zapytanie',
       variableNameRequired: 'Nazwa zmiennej jest wymagana',
-      selectorRequired: 'Selektor jest wymagany',
-      selectEnvironmentError: 'Proszę wybrać środowisko',
       duplicateWarning: 'Zmienna o tej nazwie już istnieje. Zostanie nadpisana.',
     },
     projectImport: {
@@ -483,6 +494,12 @@ const pl = {
     enumLabel: 'Wpisz wszystkie prawidłowe wartości oddzielone ","',
     numberLabel: 'Ustaw zakres Min/Maks dla testu granicy. 0 - całkowita, 0.00 - dziesiętna',
     stringLabel: 'Minimalna/maksymalna długość wartości',
+    fileLabel: 'Akceptowane formaty plików',
+    fileFormatGroups: {
+      images: 'Obrazy',
+      documents: 'Dokumenty',
+      spreadsheets: 'Arkusze kalkulacyjne',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
     reviewDataSentToAi: 'Przejrzyj dane wysyłane do AI',
@@ -506,6 +523,7 @@ const pl = {
     dateYYYYMMDD: 'Data (RRRR-MM-DD)',
     email: 'E-mail',
     enum: 'Enum',
+    file: 'Plik',
     guid: 'Guid (UUID)',
     ipv4: 'IPv4',
     number: 'Liczba',
@@ -545,7 +563,8 @@ const pl = {
 
   // Messages panel
   messages: {
-    title: 'Wiadomości',
+    title: 'Odpowiedź',
+    empty: '(puste)',
   },
 
   // Export format labels
@@ -578,7 +597,8 @@ const pl = {
     description:
       'Demonstracyjne asercje to edytowalne przykłady. Dostosuj je do języka i sposobu formułowania odmów w Twoim modelu. Dopasowanie ignoruje wielkość liter i traktuje proste oraz typograficzne apostrofy jako równoważne. OR zabrania dowolnej z wymienionych fraz; AND zabrania wszystkich fraz występujących razem.',
     runEachQuestion: 'Każde pytanie jest uruchamiane dla bieżącego żądania i wybranego środowiska.',
-    saveRequestMessage: 'Zapisz to żądanie w kolekcji, aby zachować jego ocenę i raport.',
+    preEvaluationHint: 'Wyślij zapytanie, aby uruchomić wstępną ocenę.',
+    preEvaluationUnavailable: 'Wstępna ocena wymaga poprawnej odpowiedzi (HTTP 2xx lub 3xx).',
     runPreEvaluation: 'Uruchom wstępną ocenę',
     userPromptField: 'Pole promptu użytkownika',
     userPromptPlaceholder: 'Wybierz pole JSON',
