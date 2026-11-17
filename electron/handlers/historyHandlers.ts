@@ -1,6 +1,7 @@
 import { app, ipcMain } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
+import { isCurrentHistoryEntry } from 'shared/utils/history';
 
 const getHistoryPath = () => path.join(app.getPath('userData'), 'history.json');
 
@@ -9,8 +10,15 @@ export function registerHistoryHandlers(): void {
     const historyPath = getHistoryPath();
     try {
       if (fs.existsSync(historyPath)) {
-        const data = fs.readFileSync(historyPath, 'utf-8');
-        return JSON.parse(data);
+        const entries: unknown = JSON.parse(fs.readFileSync(historyPath, 'utf-8'));
+        if (!Array.isArray(entries)) return [];
+
+        // Entries of the former format are dropped, and the file rewritten without them, so this happens only once
+        const currentEntries = entries.filter(isCurrentHistoryEntry);
+        if (currentEntries.length !== entries.length)
+          fs.writeFileSync(historyPath, JSON.stringify(currentEntries, null, 2), 'utf-8');
+
+        return currentEntries;
       }
     } catch (error) {
       console.error('Error loading history:', error);

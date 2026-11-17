@@ -153,8 +153,8 @@ export function isSameHeaders(a: PostmanHeader[], b: PostmanHeader[]): boolean {
 }
 
 /**
- * Parses headers written as text, one `Name: value` per line (bulk edit, and old history entries). A line without a
- * colon is taken as a cookie, also when pasted with curl's `-b` flag.
+ * Parses headers written as text, one `Name: value` per line (bulk edit). A line without a colon is taken as a cookie,
+ * also when pasted with curl's `-b` flag.
  */
 export function parseHeaderText(text: string): PostmanHeader[] {
   return text
