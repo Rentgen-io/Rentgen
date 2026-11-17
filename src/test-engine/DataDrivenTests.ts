@@ -219,16 +219,8 @@ async function testRequestParameter(
   const { bodyParameters, parameterName, parameterType, testData } = options;
   const request = createTestHttpRequest(options);
   const isFileTest = parameterType === 'body' && !!parameterName && bodyParameters[parameterName]?.type === 'file';
-
-  let value = testData?.value;
-  let name = `${parameterType}.${parameterName}`;
-
-  if (isFileTest && typeof testData?.value === 'string') {
-    value = getFileName(testData.value);
-
-    const format = value.split('.').pop()?.toUpperCase();
-    name = testData.valid ? `Accept supported ${format} file` : `Reject unsupported ${format} file`;
-  }
+  const value = isFileTest && typeof testData?.value === 'string' ? getFileName(testData.value) : testData?.value;
+  const name = `${parameterType}.${parameterName}`;
 
   try {
     const response = await sendHttp(request, signal);

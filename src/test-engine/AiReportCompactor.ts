@@ -2,6 +2,7 @@ import { HttpRequest, HttpResponse, RequestBody, ResponseBody, TestResult, TestS
 import {
   extractPropertiesFromJson,
   extractQueryParameters,
+  getFormDataFileFields,
   hasUrlEncodedContentType,
   isFieldsBody,
   isFormDataBody,
@@ -423,23 +424,6 @@ function getValueAtPath(source: unknown, path: string): unknown {
     .reduce<unknown>((value, key) => (isObject(value) ? value[key] : undefined), source);
 }
 
-/**
- * The form-data files as [field name, path]: the field name is the file field's name, indexed when it has several
- * files (e.g. "avatar", or "photos[0]" and "photos[1]"), so each file can be masked on its own.
- */
-function getFileFields(files: Array<[string, string]> = []): Array<[string, string]> {
-  const counts = new Map<string, number>();
-  for (const [name] of files) counts.set(name, (counts.get(name) ?? 0) + 1);
-
-  const indexes = new Map<string, number>();
-  return files.map(([name, path]) => {
-    const index = indexes.get(name) ?? 0;
-    indexes.set(name, index + 1);
-
-    return [counts.get(name)! > 1 ? `${name}[${index}]` : name, path];
-  });
-}
-
 function getBodyFields(body: RequestBody | undefined): Array<[string, unknown]> {
   if (body === null || body === undefined || body === '') return [];
 
@@ -447,7 +431,10 @@ function getBodyFields(body: RequestBody | undefined): Array<[string, unknown]> 
     return [
       ...body.entries.map(([name, value]): [string, unknown] => [`${MASK_BODY_PREFIX}${name}`, value]),
       ...(isFormDataBody(body)
-        ? getFileFields(body.files).map(([field, path]): [string, unknown] => [`${MASK_BODY_PREFIX}${field}`, path])
+        ? getFormDataFileFields(body.files).map(([field, path]): [string, unknown] => [
+            `${MASK_BODY_PREFIX}${field}`,
+            path,
+          ])
         : []),
     ];
 
@@ -665,7 +652,7 @@ export class RequestRedactor {
         // A file's path is masked like a text value (it may reveal e.g. the user name in a home directory)
         ...(body.files && {
           files: this.redactFormEntries(
-            getFileFields(body.files).map(([field, path], index) => [body.files![index][0], field, path]),
+            getFormDataFileFields(body.files).map(([field, path], index) => [body.files![index][0], field, path]),
           ),
         }),
       };

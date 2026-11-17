@@ -3,6 +3,7 @@ import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import {
   createFormDataBody,
   createUrlEncodedBody,
+  getFormDataFileFields,
   getFormDataFilePaths,
   isFieldsBody,
   isFormDataBody,
@@ -117,15 +118,17 @@ export function buildRequestBody(body: PostmanBody): RequestBody {
 
 /**
  * The body's testable parameters with their initial test settings: every form field, or every JSON property
- * (objects and arrays themselves are marked "do not test", only their children are tested). A form-data file field
- * is a `file` parameter, also when a text field has the same name.
+ * (objects and arrays themselves are marked "do not test", only their children are tested). Every form-data file is
+ * a `file` parameter of its own: "videos[0]", "videos[1]" when a field has several (see getFormDataFileFields); a
+ * file wins over a text field of the same name.
  */
 export function extractBodyParameters(body: unknown): RequestParameters {
   const parameters: RequestParameters = {};
 
   if (isFieldsBody(body)) {
     for (const [key, value] of body.entries) parameters[key] = getInitialParameterValue(detectDataType(value), value);
-    if (isFormDataBody(body)) for (const [key] of body.files ?? []) parameters[key] = getInitialParameterValue('file');
+    if (isFormDataBody(body))
+      for (const [field] of getFormDataFileFields(body.files)) parameters[field] = getInitialParameterValue('file');
   } else if (isObject(body)) {
     for (const [path, type] of Object.entries(extractPropertiesFromJson(body))) {
       if (type === 'DO_NOT_TEST') {
@@ -296,29 +299,45 @@ function updateField(fields: FormEntry[], name: string, value: string): void {
   if (field) field[1] = value;
 }
 
-/**
- * Sends a form-data field as text, also a file field (e.g. a file field tested with strings): its file parts are
- * dropped and the text value set. A field the body doesn't have is not added.
- */
-function setFormDataText(body: FormDataBody, name: string, value: string): void {
-  const isFileField = !!body.files?.some(([key]) => key === name);
-  if (isFileField) body.files = body.files!.filter(([key]) => key !== name);
-
-  const field = body.entries.find(([key]) => key === name);
-  if (field) field[1] = value;
-  else if (isFileField) body.entries.push([name, value]);
+/** The index in `body.files` of the file a parameter names (e.g. "videos[1]"); -1 when it names no file. */
+function findFormDataFile(body: FormDataBody, parameterName: string): number {
+  return getFormDataFileFields(body.files).findIndex(([field]) => field === parameterName);
 }
 
 /**
- * Sends a form-data field as one file, also a text field (e.g. a text field tested with files): its text value and
- * other files are replaced by the file. A field the body doesn't have is not added.
+ * Sends a form-data parameter as text. A file parameter (e.g. a file tested with strings) becomes a text field of the
+ * file's field name, in place of that one file; the field's other files are kept. A field the body doesn't have is
+ * not added.
  */
-function setFormDataFile(body: FormDataBody, name: string, filePath: string): void {
-  const hasField = [...body.entries, ...(body.files ?? [])].some(([key]) => key === name);
-  if (!hasField) return;
+function setFormDataText(body: FormDataBody, parameterName: string, value: string): void {
+  const fileIndex = findFormDataFile(body, parameterName);
+  if (fileIndex !== -1) {
+    const [name] = body.files![fileIndex];
+    body.files = body.files!.filter((_, index) => index !== fileIndex);
+    body.entries.push([name, value]);
+    return;
+  }
 
-  body.entries = body.entries.filter(([key]) => key !== name);
-  body.files = [...(body.files ?? []).filter(([key]) => key !== name), [name, filePath]];
+  const field = body.entries.find(([key]) => key === parameterName);
+  if (field) field[1] = value;
+}
+
+/**
+ * Sends a form-data parameter as a file. A file parameter gets the file in place of its own file (the field's other
+ * files are kept); a text field (e.g. tested with files) is replaced by the file. A field the body doesn't have is not
+ * added.
+ */
+function setFormDataFile(body: FormDataBody, parameterName: string, filePath: string): void {
+  const fileIndex = findFormDataFile(body, parameterName);
+  if (fileIndex !== -1) {
+    body.files![fileIndex] = [body.files![fileIndex][0], filePath];
+    return;
+  }
+
+  if (!body.entries.some(([key]) => key === parameterName)) return;
+
+  body.entries = body.entries.filter(([key]) => key !== parameterName);
+  body.files = [...(body.files ?? []), [parameterName, filePath]];
 }
 
 /** Reads a value by dot/bracket notation path; `undefined` as soon as a step is null or undefined. */

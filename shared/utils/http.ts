@@ -36,6 +36,23 @@ export function toPostmanFilePath(filePath: string): string {
   return /^[a-zA-Z]:[\\/]/.test(filePath) ? `/${filePath.replace(/\\/g, '/')}` : filePath;
 }
 
+/**
+ * The form-data file parts as [field, path]: the field is the part's name, indexed when that name has several files
+ * (e.g. "avatar", or "videos[0]" and "videos[1]"), so each file is tested and masked on its own.
+ */
+export function getFormDataFileFields(files: Array<[string, string]> = []): Array<[string, string]> {
+  const counts = new Map<string, number>();
+  for (const [name] of files) counts.set(name, (counts.get(name) ?? 0) + 1);
+
+  const indexes = new Map<string, number>();
+  return files.map(([name, path]) => {
+    const index = indexes.get(name) ?? 0;
+    indexes.set(name, index + 1);
+
+    return [counts.get(name)! > 1 ? `${name}[${index}]` : name, path];
+  });
+}
+
 /** The name of a file from its path, Windows or POSIX style. */
 export function getFileName(filePath: string): string {
   return filePath.split(/[\\/]/).pop() || filePath;
