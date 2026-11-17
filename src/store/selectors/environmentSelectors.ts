@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'src/store';
+import { Environment, VariableSuggestion } from 'src/types';
 
 export const selectDynamicVariables = (state: RootState) => state.environment.dynamicVariables;
 export const selectEditingEnvironmentId = (state: RootState) => state.environment.editingEnvironmentId;
@@ -28,4 +29,40 @@ export const selectVariableNames = createSelector(
       .filter(({ environmentId }) => environmentId === selectedEnvironment?.id || !environmentId)
       .map(({ key }) => key),
   ],
+);
+
+/** Variable names from all environments (and dynamic variables), deduplicated, for the {{ autocompletion */
+export const selectVariableSuggestions = createSelector(
+  [selectEnvironments, selectDynamicVariables, selectSelectedEnvironmentId],
+  (environments, dynamicVariables, selectedId) => {
+    const environmentsById = new Map(environments.map((environment) => [environment.id, environment]));
+    const suggestions = new Map<string, VariableSuggestion>();
+
+    const add = (rawKey: string, environment: Environment | null, isAvailable: boolean, isGlobal = false) => {
+      const key = rawKey.trim();
+      if (!key) return;
+
+      let suggestion = suggestions.get(key);
+      if (!suggestion)
+        suggestions.set(key, (suggestion = { key, environments: [], isAvailable: false, isGlobal: false }));
+      if (environment && !suggestion.environments.includes(environment)) suggestion.environments.push(environment);
+      suggestion.isAvailable ||= isAvailable;
+      suggestion.isGlobal ||= isGlobal;
+    };
+
+    environments.forEach((environment) =>
+      environment.variables?.forEach(({ key }) => add(key, environment, environment.id === selectedId)),
+    );
+    // Same scoping as selectVariableNames: a dynamic variable without an environment applies to all of them
+    dynamicVariables.forEach(({ key, environmentId }) =>
+      add(
+        key,
+        environmentId ? (environmentsById.get(environmentId) ?? null) : null,
+        !environmentId || environmentId === selectedId,
+        !environmentId,
+      ),
+    );
+
+    return [...suggestions.values()].sort((a, b) => a.key.localeCompare(b.key));
+  },
 );

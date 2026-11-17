@@ -46,8 +46,8 @@ export default function Select<T, IsMulti extends boolean = false, L extends Rea
         const className = isMulti ? undefined : getValue()[0]?.className;
         return cn('m-0! p-0!', className ?? 'text-foreground!');
       },
-      menu: () => 'm-0! rounded! transition-none! shadow-lg! z-50!',
-      menuList: () => 'py-1! px-0! bg-background!',
+      menu: () => 'm-0! bg-transparent! rounded! transition-none! shadow-default! z-50!',
+      menuList: () => 'py-1! px-0! bg-background! rounded!',
       option: ({ data, isSelected, isDisabled }) =>
         cn(
           'rounded-none transition-none',

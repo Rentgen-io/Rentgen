@@ -38,6 +38,7 @@
   --color-token-number: #098658;
   --color-token-literal: #0000ff;
   --color-token-punctuation: #555555;
+  --color-variable-default: #6b7280;
   --color-test-pass: #eefff5;
   --color-test-fail: #fff2f1;
   --color-test-manual: #f5f5f5;
