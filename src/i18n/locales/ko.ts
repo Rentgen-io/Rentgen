@@ -49,6 +49,7 @@ const ko = {
     noOptions: '옵션 없음',
     resizeHint: '드래그하여 크기 조정, 두 번 클릭하여 초기화',
     toggleTheme: '테마 전환',
+    allEnvironments: '모든 환경',
   },
 
   // Sidebar
@@ -254,7 +255,6 @@ const ko = {
       variableNamePlaceholder: 'variable_name',
       preview: '미리보기',
       environment: '환경',
-      allEnvironments: '모든 환경',
       untitledEnvironment: '제목 없는 환경',
       selectEnvironment: '환경을 선택하세요...',
       linkedRequest: '연결된 요청',

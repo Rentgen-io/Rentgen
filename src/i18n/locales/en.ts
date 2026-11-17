@@ -49,6 +49,7 @@ const en = {
     noOptions: 'No options',
     resizeHint: 'Drag to resize, double-click to reset',
     toggleTheme: 'Toggle theme',
+    allEnvironments: 'All Environments',
   },
 
   // Sidebar
@@ -253,7 +254,6 @@ const en = {
       variableNamePlaceholder: 'variable_name',
       preview: 'Preview',
       environment: 'Environment',
-      allEnvironments: 'All Environments',
       untitledEnvironment: 'Untitled Environment',
       selectEnvironment: 'Select environment...',
       linkedRequest: 'Linked Request',

@@ -49,6 +49,7 @@ const nl = {
     noOptions: 'Geen opties',
     resizeHint: 'Sleep om het formaat te wijzigen, dubbelklik om te herstellen',
     toggleTheme: 'Thema wisselen',
+    allEnvironments: 'Alle omgevingen',
   },
 
   // Sidebar
@@ -256,7 +257,6 @@ const nl = {
       variableNamePlaceholder: 'variabele_naam',
       preview: 'Voorbeeld',
       environment: 'Omgeving',
-      allEnvironments: 'Alle omgevingen',
       untitledEnvironment: 'Naamloze omgeving',
       selectEnvironment: 'Selecteer omgeving...',
       linkedRequest: 'Gekoppeld verzoek',

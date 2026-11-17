@@ -36,7 +36,7 @@ function SetAsDynamicVariableForm() {
 
   const environmentOptions = useMemo<SelectOption<string>[]>(
     () => [
-      { value: ALL_ENVIRONMENTS_VALUE, label: t('modals.setDynamicVariable.allEnvironments') },
+      { value: ALL_ENVIRONMENTS_VALUE, label: t('common.allEnvironments') },
       ...environments.map((env) => ({
         value: env.id,
         label: env.title || t('modals.setDynamicVariable.untitledEnvironment'),

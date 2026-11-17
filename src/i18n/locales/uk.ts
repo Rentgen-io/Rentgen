@@ -49,6 +49,7 @@ const uk = {
     noOptions: 'Немає варіантів',
     resizeHint: 'Перетягніть, щоб змінити розмір, двічі клацніть для скидання',
     toggleTheme: 'Змінити тему',
+    allEnvironments: 'Усі середовища',
   },
 
   // Sidebar
@@ -257,7 +258,6 @@ const uk = {
       variableNamePlaceholder: 'назва_змінної',
       preview: 'Попередній перегляд',
       environment: 'Середовище',
-      allEnvironments: 'Усі середовища',
       untitledEnvironment: 'Середовище без назви',
       selectEnvironment: 'Оберіть середовище...',
       linkedRequest: "Пов'язаний запит",

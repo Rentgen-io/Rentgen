@@ -49,6 +49,7 @@ const it = {
     noOptions: 'Nessuna opzione',
     resizeHint: 'Trascina per ridimensionare, fai doppio clic per ripristinare',
     toggleTheme: 'Cambia tema',
+    allEnvironments: 'Tutti gli ambienti',
   },
 
   // Sidebar
@@ -257,7 +258,6 @@ const it = {
       variableNamePlaceholder: 'nome_variabile',
       preview: 'Anteprima',
       environment: 'Ambiente',
-      allEnvironments: 'Tutti gli ambienti',
       untitledEnvironment: 'Ambiente senza titolo',
       selectEnvironment: 'Seleziona ambiente...',
       linkedRequest: 'Richiesta collegata',

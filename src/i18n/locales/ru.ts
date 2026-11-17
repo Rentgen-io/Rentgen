@@ -49,6 +49,7 @@ const ru = {
     noOptions: 'Нет вариантов',
     resizeHint: 'Перетащите, чтобы изменить размер, дважды щёлкните для сброса',
     toggleTheme: 'Сменить тему',
+    allEnvironments: 'Все окружения',
   },
 
   // Sidebar
@@ -257,7 +258,6 @@ const ru = {
       variableNamePlaceholder: 'variable_name',
       preview: 'Предпросмотр',
       environment: 'Окружение',
-      allEnvironments: 'Все окружения',
       untitledEnvironment: 'Окружение без названия',
       selectEnvironment: 'Выберите окружение...',
       linkedRequest: 'Связанный запрос',

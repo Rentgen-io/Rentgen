@@ -49,6 +49,7 @@ const tr = {
     noOptions: 'Seçenek yok',
     resizeHint: 'Yeniden boyutlandırmak için sürükleyin, sıfırlamak için çift tıklayın',
     toggleTheme: 'Temayı değiştir',
+    allEnvironments: 'Tüm Ortamlar',
   },
 
   // Sidebar
@@ -255,7 +256,6 @@ const tr = {
       variableNamePlaceholder: 'degisken_adi',
       preview: 'Önizleme',
       environment: 'Ortam',
-      allEnvironments: 'Tüm Ortamlar',
       untitledEnvironment: 'Adsız Ortam',
       selectEnvironment: 'Ortam seçin...',
       linkedRequest: 'Bağlı İstek',

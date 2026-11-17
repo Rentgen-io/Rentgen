@@ -13,6 +13,7 @@ import {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/store/hooks';
 import { selectVariableSuggestions } from 'src/store/selectors';
 import { VariableSuggestion } from 'src/types';
@@ -54,6 +55,8 @@ export default function useVariableAutocomplete<T extends Field>(
   { onBlur, onKeyDown, onSelect }: Handlers<T>,
   enabled = true,
 ) {
+  const { t } = useTranslation();
+
   const suggestions = useAppSelector(selectVariableSuggestions);
 
   const menuRef = useRef<HTMLUListElement>(null);
@@ -197,7 +200,10 @@ export default function useVariableAutocomplete<T extends Field>(
                 'text-muted-foreground': !suggestion.isAvailable,
               })}
               role="option"
-              title={suggestion.environments.map(({ title }) => title).join(', ')}
+              title={[
+                ...suggestion.environments.map(({ title }) => title),
+                ...(suggestion.isGlobal ? [t('common.allEnvironments')] : []),
+              ].join(', ')}
               onClick={() => accept(suggestion)}
               onMouseEnter={() => setActiveIndex(index)}
               onMouseDown={(event) => event.preventDefault()}

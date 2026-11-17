@@ -49,6 +49,7 @@ const vi = {
     noOptions: 'Không có tùy chọn',
     resizeHint: 'Kéo để thay đổi kích thước, nhấp đúp để đặt lại',
     toggleTheme: 'Chuyển giao diện',
+    allEnvironments: 'Tất cả môi trường',
   },
 
   // Sidebar
@@ -254,7 +255,6 @@ const vi = {
       variableNamePlaceholder: 'tên_biến',
       preview: 'Xem trước',
       environment: 'Môi trường',
-      allEnvironments: 'Tất cả môi trường',
       untitledEnvironment: 'Môi trường không có tiêu đề',
       selectEnvironment: 'Chọn môi trường...',
       linkedRequest: 'Yêu cầu liên kết',

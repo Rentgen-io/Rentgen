@@ -49,6 +49,7 @@ const id = {
     noOptions: 'Tidak ada opsi',
     resizeHint: 'Seret untuk mengubah ukuran, klik dua kali untuk mengatur ulang',
     toggleTheme: 'Ganti tema',
+    allEnvironments: 'Semua Lingkungan',
   },
 
   // Sidebar
@@ -255,7 +256,6 @@ const id = {
       variableNamePlaceholder: 'nama_variabel',
       preview: 'Pratinjau',
       environment: 'Lingkungan',
-      allEnvironments: 'Semua Lingkungan',
       untitledEnvironment: 'Lingkungan Tanpa Judul',
       selectEnvironment: 'Pilih lingkungan...',
       linkedRequest: 'Permintaan Tertaut',

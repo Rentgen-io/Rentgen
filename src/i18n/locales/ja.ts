@@ -49,6 +49,7 @@ const ja = {
     noOptions: 'オプションなし',
     resizeHint: 'ドラッグでサイズ変更、ダブルクリックでリセット',
     toggleTheme: 'テーマを切り替え',
+    allEnvironments: 'すべての環境',
   },
 
   // Sidebar
@@ -256,7 +257,6 @@ const ja = {
       variableNamePlaceholder: 'variable_name',
       preview: 'プレビュー',
       environment: '環境',
-      allEnvironments: 'すべての環境',
       untitledEnvironment: '無題の環境',
       selectEnvironment: '環境を選択...',
       linkedRequest: 'リンクされたリクエスト',

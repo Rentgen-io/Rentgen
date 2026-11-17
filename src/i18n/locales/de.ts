@@ -49,6 +49,7 @@ const de = {
     noOptions: 'Keine Optionen',
     resizeHint: 'Ziehen, um die Größe zu ändern, Doppelklick zum Zurücksetzen',
     toggleTheme: 'Design wechseln',
+    allEnvironments: 'Alle Umgebungen',
   },
 
   // Sidebar
@@ -256,7 +257,6 @@ const de = {
       variableNamePlaceholder: 'variablen_name',
       preview: 'Vorschau',
       environment: 'Umgebung',
-      allEnvironments: 'Alle Umgebungen',
       untitledEnvironment: 'Umgebung ohne Titel',
       selectEnvironment: 'Umgebung auswählen...',
       linkedRequest: 'Verknüpfte Anfrage',

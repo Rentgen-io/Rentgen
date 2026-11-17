@@ -49,6 +49,7 @@ const th = {
     noOptions: 'ไม่มีตัวเลือก',
     resizeHint: 'ลากเพื่อปรับขนาด ดับเบิลคลิกเพื่อรีเซ็ต',
     toggleTheme: 'สลับธีม',
+    allEnvironments: 'เอนไวรอนเมนต์ทั้งหมด',
   },
 
   // Sidebar
@@ -253,7 +254,6 @@ const th = {
       variableNamePlaceholder: 'variable_name',
       preview: 'ตัวอย่าง',
       environment: 'เอนไวรอนเมนต์',
-      allEnvironments: 'เอนไวรอนเมนต์ทั้งหมด',
       untitledEnvironment: 'เอนไวรอนเมนต์ที่ไม่มีชื่อ',
       selectEnvironment: 'เลือกเอนไวรอนเมนต์...',
       linkedRequest: 'คำขอที่เชื่อมโยง',

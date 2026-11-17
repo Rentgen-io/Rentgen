@@ -49,6 +49,7 @@ const hi = {
     noOptions: 'कोई विकल्प नहीं',
     resizeHint: 'आकार बदलने के लिए खींचें, रीसेट करने के लिए डबल-क्लिक करें',
     toggleTheme: 'थीम बदलें',
+    allEnvironments: 'सभी एनवायरनमेंट',
   },
 
   // Sidebar
@@ -255,7 +256,6 @@ const hi = {
       variableNamePlaceholder: 'variable_name',
       preview: 'प्रीव्यू',
       environment: 'एनवायरनमेंट',
-      allEnvironments: 'सभी एनवायरनमेंट',
       untitledEnvironment: 'बिना शीर्षक एनवायरनमेंट',
       selectEnvironment: 'एनवायरनमेंट चुनें...',
       linkedRequest: 'लिंक किया गया अनुरोध',

@@ -49,6 +49,7 @@ const zhCN = {
     noOptions: '无选项',
     resizeHint: '拖动以调整大小，双击以重置',
     toggleTheme: '切换主题',
+    allEnvironments: '所有环境',
   },
 
   // Sidebar
@@ -249,7 +250,6 @@ const zhCN = {
       variableNamePlaceholder: 'variable_name',
       preview: '预览',
       environment: '环境',
-      allEnvironments: '所有环境',
       untitledEnvironment: '未命名环境',
       selectEnvironment: '选择环境...',
       linkedRequest: '关联的请求',

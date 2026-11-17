@@ -49,6 +49,7 @@ const lt = {
     noOptions: 'Nėra parinkčių',
     resizeHint: 'Vilkite, kad pakeistumėte dydį, dukart spustelėkite, kad atkurtumėte',
     toggleTheme: 'Perjungti temą',
+    allEnvironments: 'Visos aplinkos',
   },
 
   // Sidebar
@@ -257,7 +258,6 @@ const lt = {
       variableNamePlaceholder: 'kintamojo_pavadinimas',
       preview: 'Peržiūra',
       environment: 'Aplinka',
-      allEnvironments: 'Visos aplinkos',
       untitledEnvironment: 'Aplinka be pavadinimo',
       selectEnvironment: 'Pasirinkite aplinką...',
       linkedRequest: 'Susieta užklausa',

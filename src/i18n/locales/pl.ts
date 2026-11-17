@@ -49,6 +49,7 @@ const pl = {
     noOptions: 'Brak opcji',
     resizeHint: 'Przeciągnij, aby zmienić rozmiar, kliknij dwukrotnie, aby przywrócić',
     toggleTheme: 'Przełącz motyw',
+    allEnvironments: 'Wszystkie środowiska',
   },
 
   // Sidebar
@@ -258,7 +259,6 @@ const pl = {
       variableNamePlaceholder: 'nazwa_zmiennej',
       preview: 'Podgląd',
       environment: 'Środowisko',
-      allEnvironments: 'Wszystkie środowiska',
       untitledEnvironment: 'Środowisko bez nazwy',
       selectEnvironment: 'Wybierz środowisko...',
       linkedRequest: 'Powiązane zapytanie',

@@ -49,6 +49,7 @@ const ptBR = {
     noOptions: 'Sem opções',
     resizeHint: 'Arraste para redimensionar, clique duas vezes para redefinir',
     toggleTheme: 'Alternar tema',
+    allEnvironments: 'Todos os ambientes',
   },
 
   // Sidebar
@@ -257,7 +258,6 @@ const ptBR = {
       variableNamePlaceholder: 'nome_da_variavel',
       preview: 'Pré-visualização',
       environment: 'Ambiente',
-      allEnvironments: 'Todos os ambientes',
       untitledEnvironment: 'Ambiente sem título',
       selectEnvironment: 'Selecionar ambiente...',
       linkedRequest: 'Requisição vinculada',
