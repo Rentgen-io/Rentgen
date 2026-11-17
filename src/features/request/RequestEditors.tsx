@@ -58,7 +58,6 @@ export default function RequestEditors() {
   const bodyFields =
     bodyMode === 'formdata' ? body?.formdata : bodyMode === 'urlencoded' ? body?.urlencoded : undefined;
   const editorStyle = { height: size ?? undefined };
-  const tableEditorStyle = { ...editorStyle, maxHeight: MAX_EDITOR_HEIGHT };
   const isWssMode = mode === 'WSS';
 
   const currentTab = isWssMode ? 'body' : activeTab;
@@ -135,7 +134,7 @@ export default function RequestEditors() {
                 <HeadersBulkEditor height={size} />
               </div>
             ) : (
-              <div className="min-h-28 py-3 px-4 box-border overflow-auto" style={tableEditorStyle}>
+              <div className="min-h-28 py-3 px-4 box-border overflow-auto" style={editorStyle}>
                 <HeadersTable />
               </div>
             )}
@@ -170,7 +169,7 @@ export default function RequestEditors() {
           ) : (
             <>
               {(bodyMode === 'formdata' || bodyMode === 'urlencoded') && (
-                <div className="min-h-28 py-3 px-4 box-border overflow-auto" style={tableEditorStyle}>
+                <div className="min-h-28 py-3 px-4 box-border overflow-auto" style={editorStyle}>
                   {bodyMode === 'formdata' && <FormDataTable />}
                   {bodyMode === 'urlencoded' && <UrlencodedTable />}
                 </div>
