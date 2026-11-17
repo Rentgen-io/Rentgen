@@ -487,6 +487,11 @@ const id = {
     numberLabel: 'Atur rentang Min/Maks untuk tes batas. 0 - bilangan bulat, 0.00 - desimal',
     stringLabel: 'Panjang minimum/maksimum nilai',
     fileLabel: 'Format file yang diterima',
+    fileFormatGroups: {
+      images: 'Gambar',
+      documents: 'Dokumen',
+      spreadsheets: 'Spreadsheet',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
     reviewDataSentToAi: 'Tinjau data yang dikirim ke AI',

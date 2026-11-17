@@ -493,6 +493,11 @@ const uk = {
     numberLabel: 'Встановіть діапазон Мін/Макс для граничного тесту. 0 - ціле, 0.00 - десяткове',
     stringLabel: 'Мінімальна/максимальна довжина значення',
     fileLabel: 'Допустимі формати файлів',
+    fileFormatGroups: {
+      images: 'Зображення',
+      documents: 'Документи',
+      spreadsheets: 'Електронні таблиці',
+    },
     minPlaceholder: 'Мін',
     maxPlaceholder: 'Макс',
     reviewDataSentToAi: 'Перевірте дані, що надсилаються до ШІ',

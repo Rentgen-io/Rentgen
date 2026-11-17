@@ -23,7 +23,27 @@ export type DataType =
   | 'randomEmail'
   | 'randomGuid';
 
-export type FileFormat = 'jpg' | 'png' | 'pdf' | 'docx' | 'xlsx' | 'csv' | 'txt';
+export type FileFormat =
+  | 'jpg'
+  | 'jpeg'
+  | 'png'
+  | 'gif'
+  | 'webp'
+  | 'avif'
+  | 'heic'
+  | 'heif'
+  | 'tif'
+  | 'tiff'
+  | 'bmp'
+  | 'svg'
+  | 'ico'
+  | 'pdf'
+  | 'docx'
+  | 'txt'
+  | 'xlsx'
+  | 'csv';
+
+export type FileFormatGroup = 'images' | 'documents' | 'spreadsheets';
 
 export type ParameterType = 'body' | 'query';
 

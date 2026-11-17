@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { IconButton } from 'src/components/buttons/IconButton';
 import Input from 'src/components/inputs/Input';
 import { SelectOption } from 'src/components/inputs/Select';
-import SimpleSelect from 'src/components/inputs/SimpleSelect';
+import SimpleSelect, { SelectOptionGroup } from 'src/components/inputs/SimpleSelect';
 import Toggle from 'src/components/inputs/Toggle';
 import { useAppSelector } from 'src/store/hooks';
 import { selectTestEngineConfiguration } from 'src/store/selectors';
 import { isParameterTestSkipped } from 'src/test-engine';
 import { DataType, FileFormat, Interval, ParameterValue } from 'src/types';
-import { clamp, FILE_FORMATS, getInitialParameterValue, normalizeDecimal } from 'src/utils';
+import { clamp, FILE_FORMAT_GROUPS, FILE_FORMATS, getInitialParameterValue, normalizeDecimal } from 'src/utils';
 
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 
@@ -52,16 +52,9 @@ const HINT_KEYS: Partial<Record<DataType, string>> = {
   string: 'controls.stringLabel',
 };
 
-// Format names aren't translated: JPG, PNG, ...
-const FILE_FORMAT_OPTIONS: SelectOption<FileFormat, string>[] = FILE_FORMATS.map((format) => ({
-  value: format,
-  label: format.toUpperCase(),
-}));
-
 const INPUT_CLASS_NAME = 'w-full p-1.25';
 
 interface Props {
-  /** Whether the parameter may be tested as a file: a field of a form-data body */
   canBeFile?: boolean;
   parameterValue: ParameterValue;
   onChange: (value: ParameterValue) => void;
@@ -83,6 +76,15 @@ export function ParameterControls({ canBeFile = false, parameterValue, onChange 
         label: t(labelKey),
       })),
     [showFileOption, t],
+  );
+
+  const fileFormatOptions = useMemo<SelectOptionGroup<FileFormat>[]>(
+    () =>
+      Object.entries(FILE_FORMAT_GROUPS).map(([group, formats]) => ({
+        label: t(`controls.fileFormatGroups.${group}`),
+        options: formats.map((format) => ({ value: format, label: format.toUpperCase() })),
+      })),
+    [t],
   );
 
   const isDoNotTest = type === 'do-not-test';
@@ -132,7 +134,7 @@ export function ParameterControls({ canBeFile = false, parameterValue, onChange 
         {canBeFile && type === 'file' && (
           <SimpleSelect
             className="w-full p-1"
-            options={FILE_FORMAT_OPTIONS}
+            options={fileFormatOptions}
             multiple
             size={1}
             value={Array.isArray(value) ? value : FILE_FORMATS}

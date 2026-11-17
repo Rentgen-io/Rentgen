@@ -494,6 +494,11 @@ const de = {
     numberLabel: 'Setzen Sie Min/Max-Bereich für Grenzwerttest. 0 - Ganzzahl, 0.00 - Dezimalzahl',
     stringLabel: 'Minimale/maximale Wertelänge',
     fileLabel: 'Akzeptierte Dateiformate',
+    fileFormatGroups: {
+      images: 'Bilder',
+      documents: 'Dokumente',
+      spreadsheets: 'Tabellen',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: 'An die KI gesendete Daten prüfen',

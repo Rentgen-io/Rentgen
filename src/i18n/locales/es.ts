@@ -493,6 +493,11 @@ const es = {
     numberLabel: 'Establece el rango Mín/Máx para prueba de límites. 0 - entero, 0.00 - decimal',
     stringLabel: 'Longitud mínima/máxima del valor',
     fileLabel: 'Formatos de archivo aceptados',
+    fileFormatGroups: {
+      images: 'Imágenes',
+      documents: 'Documentos',
+      spreadsheets: 'Hojas de cálculo',
+    },
     minPlaceholder: 'Mín',
     maxPlaceholder: 'Máx',
     reviewDataSentToAi: 'Revisar los datos enviados a la IA',

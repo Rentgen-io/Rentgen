@@ -40,6 +40,139 @@ function createJpeg(): Buffer {
   return nativeImage.createFromBuffer(createPng()).toJPEG(90);
 }
 
+/** A 1×1 white GIF: a 2-color palette and one LZW-coded pixel (clear code, color 0, end code). */
+function createGif(): Buffer {
+  return Buffer.concat([
+    Buffer.from('GIF89a', 'ascii'),
+    Buffer.from([1, 0, 1, 0, 0x80, 0, 0]), // 1×1, global palette of 2 colors
+    Buffer.from([0xff, 0xff, 0xff, 0, 0, 0]), // White, black
+    Buffer.from([0x2c, 0, 0, 0, 0, 1, 0, 1, 0, 0]), // Image at 0,0 of 1×1
+    Buffer.from([2, 2, 0x44, 0x01, 0, 0x3b]), // LZW minimum code size 2, one data block, trailer
+  ]);
+}
+
+/** A 1×1 lossless WebP (the common feature-detection image). */
+function createWebp(): Buffer {
+  return Buffer.from('UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==', 'base64');
+}
+
+/** A 1×1 AVIF (an AV1 image in a HEIF container; the common feature-detection image). */
+const AVIF_BASE64 =
+  'AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A=';
+
+function createAvif(): Buffer {
+  return Buffer.from(AVIF_BASE64, 'base64');
+}
+
+/**
+ * The AVIF image under another HEIF major brand: "mif1" makes it a generic HEIF file. "heic" marks it as an HEIC file
+ * (what servers check), though a real HEIC image is HEVC-coded, which only a full encoder can produce.
+ */
+function createHeif(majorBrand: 'heic' | 'mif1'): Buffer {
+  const heif = createAvif();
+  heif.write(majorBrand, 8, 'ascii'); // The ftyp box's major brand
+
+  return heif;
+}
+
+/** A 1×1 white uncompressed grayscale TIFF (baseline: the required tags, then the resolutions and the pixel). */
+function createTiff(): Buffer {
+  const SHORT = 3;
+  const LONG = 4;
+  const RATIONAL = 5;
+
+  const entries: Array<[tag: number, type: number, value: number]> = [];
+  const ifdSize = 2 + 12 * 12 + 4; // Entry count, 12 entries, next IFD offset
+  const xResolutionOffset = 8 + ifdSize;
+  const yResolutionOffset = xResolutionOffset + 8;
+  const pixelOffset = yResolutionOffset + 8;
+
+  entries.push(
+    [256, SHORT, 1], // ImageWidth
+    [257, SHORT, 1], // ImageLength
+    [258, SHORT, 8], // BitsPerSample
+    [259, SHORT, 1], // Compression: none
+    [262, SHORT, 1], // PhotometricInterpretation: black is zero
+    [273, LONG, pixelOffset], // StripOffsets
+    [277, SHORT, 1], // SamplesPerPixel
+    [278, SHORT, 1], // RowsPerStrip
+    [279, LONG, 1], // StripByteCounts
+    [282, RATIONAL, xResolutionOffset], // XResolution
+    [283, RATIONAL, yResolutionOffset], // YResolution
+    [296, SHORT, 2], // ResolutionUnit: inch
+  );
+
+  const tiff = Buffer.alloc(pixelOffset + 1);
+  tiff.write('II', 0, 'ascii'); // Little-endian
+  tiff.writeUInt16LE(42, 2);
+  tiff.writeUInt32LE(8, 4); // Offset of the first IFD
+  tiff.writeUInt16LE(entries.length, 8);
+  entries.forEach(([tag, type, value], index) => {
+    const offset = 10 + index * 12;
+    tiff.writeUInt16LE(tag, offset);
+    tiff.writeUInt16LE(type, offset + 2);
+    tiff.writeUInt32LE(1, offset + 4); // Count
+    if (type === SHORT) tiff.writeUInt16LE(value, offset + 8);
+    else tiff.writeUInt32LE(value, offset + 8);
+  });
+  // The next IFD offset stays 0; 72 dpi in both directions, then the white pixel
+  tiff.writeUInt32LE(72, xResolutionOffset);
+  tiff.writeUInt32LE(1, xResolutionOffset + 4);
+  tiff.writeUInt32LE(72, yResolutionOffset);
+  tiff.writeUInt32LE(1, yResolutionOffset + 4);
+  tiff[pixelOffset] = 0xff;
+
+  return tiff;
+}
+
+/** A 1×1 white 24-bit BMP: file header, info header, and one pixel row padded to 4 bytes. */
+function createBmp(): Buffer {
+  const bmp = Buffer.alloc(14 + 40 + 4);
+  bmp.write('BM', 0, 'ascii');
+  bmp.writeUInt32LE(bmp.length, 2); // File size
+  bmp.writeUInt32LE(14 + 40, 10); // Offset of the pixels
+  bmp.writeUInt32LE(40, 14); // Info header size
+  bmp.writeInt32LE(1, 18); // Width
+  bmp.writeInt32LE(1, 22); // Height
+  bmp.writeUInt16LE(1, 26); // Planes
+  bmp.writeUInt16LE(24, 28); // Bits per pixel
+  bmp.writeUInt32LE(4, 34); // Image size
+  bmp.writeInt32LE(2835, 38); // 72 dpi, in pixels per meter
+  bmp.writeInt32LE(2835, 42);
+  bmp.fill(0xff, 54, 57); // The pixel (blue, green, red)
+
+  return bmp;
+}
+
+/** A 1×1 white 32-bit icon: the directory, then the image as a BMP without file header, plus its transparency mask. */
+function createIco(): Buffer {
+  const image = Buffer.alloc(40 + 4 + 4);
+  image.writeUInt32LE(40, 0); // Info header size
+  image.writeInt32LE(1, 4); // Width
+  image.writeInt32LE(2, 8); // Height: doubled for the image and its mask
+  image.writeUInt16LE(1, 12); // Planes
+  image.writeUInt16LE(32, 14); // Bits per pixel
+  image.writeUInt32LE(8, 20); // Image size: the pixel, and the mask row padded to 4 bytes
+  image.fill(0xff, 40, 44); // The pixel (blue, green, red, alpha); the mask stays 0 (opaque)
+
+  const directory = Buffer.alloc(6 + 16);
+  directory.writeUInt16LE(1, 2); // Type: icon
+  directory.writeUInt16LE(1, 4); // Image count
+  directory[6] = 1; // Width
+  directory[7] = 1; // Height
+  directory.writeUInt16LE(1, 10); // Planes
+  directory.writeUInt16LE(32, 12); // Bits per pixel
+  directory.writeUInt32LE(image.length, 14);
+  directory.writeUInt32LE(directory.length, 18); // Offset of the image
+
+  return Buffer.concat([directory, image]);
+}
+
+/** A 1×1 white SVG. */
+function createSvg(): string {
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"><rect width="1" height="1" fill="#fff"/></svg>\n';
+}
+
 // ---------- PDF ----------
 
 /** A one-page PDF with a line of text; the cross-reference table is computed from the object offsets. */
@@ -190,12 +323,23 @@ function createXlsx(): Buffer {
 
 const SAMPLES: Record<FileFormat, () => Buffer | string> = {
   jpg: createJpeg,
+  jpeg: createJpeg,
   png: createPng,
+  gif: createGif,
+  webp: createWebp,
+  avif: createAvif,
+  heic: () => createHeif('heic'),
+  heif: () => createHeif('mif1'),
+  tif: createTiff,
+  tiff: createTiff,
+  bmp: createBmp,
+  svg: createSvg,
+  ico: createIco,
   pdf: createPdf,
   docx: createDocx,
+  txt: () => `${SAMPLE_TEXT}\n`,
   xlsx: createXlsx,
   csv: () => `id,name\n1,${SAMPLE_TEXT}\n`,
-  txt: () => `${SAMPLE_TEXT}\n`,
 };
 
 /**

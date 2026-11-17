@@ -494,6 +494,11 @@ const it = {
     numberLabel: 'Imposta intervallo Min/Max per il test ai limiti. 0 - intero, 0,00 - decimale',
     stringLabel: 'Lunghezza minima/massima del valore',
     fileLabel: 'Formati di file accettati',
+    fileFormatGroups: {
+      images: 'Immagini',
+      documents: 'Documenti',
+      spreadsheets: 'Fogli di calcolo',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: "Rivedi i dati inviati all'AI",

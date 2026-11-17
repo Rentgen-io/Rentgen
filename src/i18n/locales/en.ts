@@ -486,6 +486,11 @@ const en = {
     numberLabel: 'Set Min/Max range for boundary test. 0 - integer, 0.00 - decimal',
     stringLabel: 'Value Min/Max length',
     fileLabel: 'Accepted file formats',
+    fileFormatGroups: {
+      images: 'Images',
+      documents: 'Documents',
+      spreadsheets: 'Spreadsheets',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: 'Review data sent to AI',

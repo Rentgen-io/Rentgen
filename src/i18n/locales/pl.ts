@@ -493,6 +493,11 @@ const pl = {
     numberLabel: 'Ustaw zakres Min/Maks dla testu granicy. 0 - całkowita, 0.00 - dziesiętna',
     stringLabel: 'Minimalna/maksymalna długość wartości',
     fileLabel: 'Akceptowane formaty plików',
+    fileFormatGroups: {
+      images: 'Obrazy',
+      documents: 'Dokumenty',
+      spreadsheets: 'Arkusze kalkulacyjne',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
     reviewDataSentToAi: 'Przejrzyj dane wysyłane do AI',

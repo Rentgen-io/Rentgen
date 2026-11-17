@@ -493,6 +493,11 @@ const lt = {
     numberLabel: 'Nustatykite Min/Max intervalą ribiniam testui. 0 - sveikasis, 0.00 - dešimtainis',
     stringLabel: 'Minimalus/maksimalus reikšmės ilgis',
     fileLabel: 'Priimami failų formatai',
+    fileFormatGroups: {
+      images: 'Paveikslėliai',
+      documents: 'Dokumentai',
+      spreadsheets: 'Skaičiuoklės',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
     reviewDataSentToAi: 'Peržiūrėkite AI siunčiamus duomenis',

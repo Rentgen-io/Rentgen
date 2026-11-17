@@ -485,6 +485,11 @@ const th = {
     numberLabel: 'กำหนดช่วง Min/Max สำหรับเทสต์ขอบเขต 0 - จำนวนเต็ม, 0.00 - ทศนิยม',
     stringLabel: 'ความยาวค่าต่ำสุด/สูงสุด',
     fileLabel: 'รูปแบบไฟล์ที่รองรับ',
+    fileFormatGroups: {
+      images: 'รูปภาพ',
+      documents: 'เอกสาร',
+      spreadsheets: 'สเปรดชีต',
+    },
     minPlaceholder: 'ต่ำสุด',
     maxPlaceholder: 'สูงสุด',
     reviewDataSentToAi: 'ตรวจสอบข้อมูลที่ส่งไปยัง AI',

@@ -494,6 +494,11 @@ const ru = {
     numberLabel: 'Задайте диапазон Min/Max для граничного теста. 0 - целое, 0.00 - десятичное',
     stringLabel: 'Минимальная/максимальная длина значения',
     fileLabel: 'Допустимые форматы файлов',
+    fileFormatGroups: {
+      images: 'Изображения',
+      documents: 'Документы',
+      spreadsheets: 'Электронные таблицы',
+    },
     minPlaceholder: 'Мин',
     maxPlaceholder: 'Макс',
     reviewDataSentToAi: 'Проверьте данные, отправляемые в ИИ',

@@ -499,6 +499,11 @@ const fr = {
     numberLabel: 'Définir la plage Min/Max pour le test aux limites. 0 - entier, 0.00 - décimal',
     stringLabel: 'Longueur minimale/maximale de la valeur',
     fileLabel: 'Formats de fichier acceptés',
+    fileFormatGroups: {
+      images: 'Images',
+      documents: 'Documents',
+      spreadsheets: 'Feuilles de calcul',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: "Vérifier les données envoyées à l'IA",

@@ -477,6 +477,11 @@ const zhCN = {
     numberLabel: '设置边界测试的最小/最大范围。0 - 整数，0.00 - 小数',
     stringLabel: '值的最小/最大长度',
     fileLabel: '允许的文件格式',
+    fileFormatGroups: {
+      images: '图片',
+      documents: '文档',
+      spreadsheets: '电子表格',
+    },
     minPlaceholder: '最小',
     maxPlaceholder: '最大',
     reviewDataSentToAi: '检查发送给 AI 的数据',

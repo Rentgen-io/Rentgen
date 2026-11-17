@@ -493,6 +493,11 @@ const nl = {
     numberLabel: 'Stel Min/Max-bereik in voor grenswaardetest. 0 - geheel getal, 0,00 - decimaal',
     stringLabel: 'Minimale/maximale waardelengte',
     fileLabel: 'Geaccepteerde bestandsformaten',
+    fileFormatGroups: {
+      images: 'Afbeeldingen',
+      documents: 'Documenten',
+      spreadsheets: 'Spreadsheets',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: 'Controleer de gegevens die naar de AI worden verzonden',

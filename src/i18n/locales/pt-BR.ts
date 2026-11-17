@@ -493,6 +493,11 @@ const ptBR = {
     numberLabel: 'Defina o intervalo Mín/Máx para teste de limites. 0 - inteiro, 0.00 - decimal',
     stringLabel: 'Comprimento mínimo/máximo do valor',
     fileLabel: 'Formatos de arquivo aceitos',
+    fileFormatGroups: {
+      images: 'Imagens',
+      documents: 'Documentos',
+      spreadsheets: 'Planilhas',
+    },
     minPlaceholder: 'Mín',
     maxPlaceholder: 'Máx',
     reviewDataSentToAi: 'Revisar os dados enviados à IA',

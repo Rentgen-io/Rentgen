@@ -487,6 +487,11 @@ const vi = {
     numberLabel: 'Đặt phạm vi Min/Max cho kiểm thử biên. 0 - số nguyên, 0.00 - số thập phân',
     stringLabel: 'Độ dài giá trị tối thiểu/tối đa',
     fileLabel: 'Định dạng tệp được chấp nhận',
+    fileFormatGroups: {
+      images: 'Hình ảnh',
+      documents: 'Tài liệu',
+      spreadsheets: 'Bảng tính',
+    },
     minPlaceholder: 'Tối thiểu',
     maxPlaceholder: 'Tối đa',
     reviewDataSentToAi: 'Xem lại dữ liệu gửi đến AI',

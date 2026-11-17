@@ -492,6 +492,11 @@ const tr = {
     numberLabel: 'Sınır testi için Min/Maks aralığını ayarlayın. 0 - tam sayı, 0.00 - ondalık',
     stringLabel: 'Minimum/maksimum değer uzunluğu',
     fileLabel: 'Kabul edilen dosya biçimleri',
+    fileFormatGroups: {
+      images: 'Görseller',
+      documents: 'Belgeler',
+      spreadsheets: 'Elektronik tablolar',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Maks',
     reviewDataSentToAi: 'Yapay zekâya gönderilen verileri gözden geçirin',

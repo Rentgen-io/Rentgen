@@ -491,6 +491,11 @@ const ja = {
     numberLabel: '境界値テスト用の Min/Max 範囲を設定します。0 - 整数、0.00 - 小数',
     stringLabel: '値の最小/最大長',
     fileLabel: '受け付けるファイル形式',
+    fileFormatGroups: {
+      images: '画像',
+      documents: 'ドキュメント',
+      spreadsheets: 'スプレッドシート',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: 'AIに送信するデータを確認',

@@ -486,6 +486,11 @@ const ko = {
     numberLabel: '경계 테스트를 위한 Min/Max 범위를 설정하세요. 0 - 정수, 0.00 - 소수',
     stringLabel: '값의 최소/최대 길이',
     fileLabel: '허용되는 파일 형식',
+    fileFormatGroups: {
+      images: '이미지',
+      documents: '문서',
+      spreadsheets: '스프레드시트',
+    },
     minPlaceholder: 'Min',
     maxPlaceholder: 'Max',
     reviewDataSentToAi: 'AI로 전송되는 데이터 검토',

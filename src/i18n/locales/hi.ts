@@ -487,6 +487,11 @@ const hi = {
     numberLabel: 'सीमा परीक्षण के लिए Min/Max श्रेणी सेट करें। 0 - पूर्णांक, 0.00 - दशमलव',
     stringLabel: 'मान की न्यूनतम/अधिकतम लंबाई',
     fileLabel: 'स्वीकृत फ़ाइल फ़ॉर्मेट',
+    fileFormatGroups: {
+      images: 'छवियाँ',
+      documents: 'दस्तावेज़',
+      spreadsheets: 'स्प्रेडशीट',
+    },
     minPlaceholder: 'न्यूनतम',
     maxPlaceholder: 'अधिकतम',
     reviewDataSentToAi: 'AI को भेजे गए डेटा की समीक्षा करें',
