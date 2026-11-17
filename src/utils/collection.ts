@@ -47,16 +47,14 @@ export function headersToPostmanFormat(headers: Record<string, string>): Postman
   return Object.entries(headers).map(([key, value]) => ({ key, value }));
 }
 
-/** When a header repeats, the last value wins. */
+/**
+ * The headers as sent (a record), names and values trimmed: headers without a name are left out, and when a header
+ * repeats, the last value wins.
+ */
 export function postmanHeadersToRecord(headers: PostmanHeader[]): Record<string, string> {
-  return Object.fromEntries(headers.map(({ key, value }) => [key, value]));
-}
-
-/** Formats headers as the header editor's text: one `Name: value` per line. */
-export function headersRecordToString(headers: Record<string, string>): string {
-  return Object.entries(headers)
-    .map(([key, value]) => `${key}: ${value}`)
-    .join('\n');
+  return Object.fromEntries(
+    headers.filter(({ key }) => key.trim()).map(({ key, value }) => [key.trim(), value.trim()]),
+  );
 }
 
 // ---------- Requests ----------
@@ -66,7 +64,7 @@ export function addRequestToCollection(
   collection: PostmanCollection,
   method: string,
   url: string,
-  headers: Record<string, string>,
+  headers: PostmanHeader[],
   body: PostmanBody,
   preEvaluation: PreEvaluation | null,
   folderId: string = DEFAULT_FOLDER_ID,
@@ -99,7 +97,7 @@ export function updateRequestInCollection(
   requestId: string,
   method: string,
   url: string,
-  headers: Record<string, string>,
+  headers: PostmanHeader[],
   body: PostmanBody,
   preEvaluation: PreEvaluation | null,
 ): PostmanCollection {
@@ -428,17 +426,12 @@ export function countMergeAdditions(
 
 // ---------- Helpers ----------
 
-function buildPostmanRequest(
-  method: string,
-  url: string,
-  headers: Record<string, string>,
-  body: PostmanBody,
-): PostmanRequest {
+function buildPostmanRequest(method: string, url: string, headers: PostmanHeader[], body: PostmanBody): PostmanRequest {
   const postmanBody = toPostmanBody(body);
 
   return {
     method: method.toUpperCase(),
-    header: headersToPostmanFormat(headers),
+    header: headers,
     url,
     ...(postmanBody && { body: postmanBody }),
   };

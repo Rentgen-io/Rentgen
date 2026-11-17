@@ -25,14 +25,7 @@ import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
-import {
-  CollectionItemData,
-  findFolderIdByRequestId,
-  findRequestById,
-  headersRecordToString,
-  isAbortedResponse,
-  postmanHeadersToRecord,
-} from 'src/utils';
+import { CollectionItemData, findFolderIdByRequestId, findRequestById, isAbortedResponse } from 'src/utils';
 
 import EditIcon from 'src/assets/icons/edit-icon.svg';
 import PlayIcon from 'src/assets/icons/play-icon.svg';
@@ -125,7 +118,7 @@ function CollectionItem({ item, searchTerm }: Props) {
     );
     dispatch(requestActions.setMethod(request.method as Method));
     dispatch(requestActions.setUrl(request.url));
-    dispatch(requestActions.setHeaders(headersRecordToString(postmanHeadersToRecord(request.header))));
+    dispatch(requestActions.setHeaders(request.header));
     dispatch(requestActions.setBody(request.body ?? {}));
 
     if (savedRequest.preEvaluation) dispatch(preEvaluationActions.setPreEvaluation(savedRequest.preEvaluation));

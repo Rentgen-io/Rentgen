@@ -22,9 +22,7 @@ import {
   extractStatusCode,
   findRequestById,
   formatExtractionWarning,
-  headersRecordToString,
   isAbortedResponse,
-  postmanHeadersToRecord,
   substituteRequestVariables,
 } from 'src/utils';
 
@@ -82,7 +80,7 @@ export function useCollectionRunner() {
           request.body ?? {},
           selectSelectedEnvironment(state),
           selectDynamicVariables(state),
-          headersRecordToString(postmanHeadersToRecord(request.header)),
+          request.header,
           request.url,
         );
 

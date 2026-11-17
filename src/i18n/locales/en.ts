@@ -113,6 +113,8 @@ const en = {
     enterUrl: 'Enter URL or paste text',
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: 'Bulk Edit',
+    keyValueEdit: 'Key-Value Edit',
     body: 'Body',
     bodyPlaceholderHttp: 'Enter request body (JSON or Text)',
     bodyPlaceholderWss: 'Compose message',

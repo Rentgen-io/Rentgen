@@ -113,6 +113,8 @@ const hi = {
     enterUrl: 'URL दर्ज करें या टेक्स्ट पेस्ट करें',
     headers: 'हैडर',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: 'बल्क एडिट',
+    keyValueEdit: 'की-वैल्यू एडिट',
     body: 'बॉडी',
     bodyPlaceholderHttp: 'अनुरोध बॉडी दर्ज करें (JSON या टेक्स्ट)',
     bodyPlaceholderWss: 'संदेश लिखें',

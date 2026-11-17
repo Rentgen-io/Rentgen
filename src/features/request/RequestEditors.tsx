@@ -6,6 +6,8 @@ import { MAX_JSON_HIGHLIGHT_LENGTH, shouldHighlightJson } from 'src/components/h
 import HighlightedTextarea from 'src/components/inputs/HighlightedTextarea';
 import ResizeHandler from 'src/components/panels/ResizeHandler';
 import FormDataTable from 'src/features/request/FormDataTable';
+import HeadersBulkEditor from 'src/features/request/HeadersBulkEditor';
+import HeadersTable from 'src/features/request/HeadersTable';
 import UrlencodedTable from 'src/features/request/UrlencodedTable';
 import { useResizableSize } from 'src/hooks/useResizableSize';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
@@ -13,7 +15,7 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectBody, selectHeaders, selectHighlightColor, selectMode, selectVariableNames } from 'src/store/selectors';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { PostmanBodyMode } from 'src/types';
-import { formatBody, getHeaderValue, parseHeaders } from 'src/utils';
+import { formatBody, getHeaderValue, postmanHeadersToRecord } from 'src/utils';
 
 // Height of the headers / body textareas (shared). Until the user resizes them they grow with their content between
 // these 112px (min-h-28) and MAX_EDITOR_HEIGHT; the max keeps the response below within reach
@@ -41,6 +43,7 @@ export default function RequestEditors() {
   const variables = useAppSelector(selectVariableNames);
 
   const [activeTab, setActiveTab] = useState<EditorTab>('body');
+  const [isHeadersBulkEdit, setIsHeadersBulkEdit] = useState<boolean>(false);
 
   const { autoSaveRequest } = useSaveRequest();
   const { handleProps, size, targetRef } = useResizableSize<HTMLDivElement>({
@@ -55,7 +58,6 @@ export default function RequestEditors() {
   const bodyFields =
     bodyMode === 'formdata' ? body?.formdata : bodyMode === 'urlencoded' ? body?.urlencoded : undefined;
   const editorStyle = { height: size ?? undefined };
-  // A table grows with its rows up to the max, then scrolls
   const tableEditorStyle = { ...editorStyle, maxHeight: MAX_EDITOR_HEIGHT };
   const isWssMode = mode === 'WSS';
 
@@ -67,7 +69,7 @@ export default function RequestEditors() {
     ? !!bodyRaw.trim()
     : !!bodyFields?.some(({ key, disabled }: { key: string; disabled?: boolean }) => !!key && !disabled);
 
-  const contentType = useMemo(() => getHeaderValue(parseHeaders(headers), 'content-type'), [headers]);
+  const contentType = useMemo(() => getHeaderValue(postmanHeadersToRecord(headers), 'content-type'), [headers]);
   const highlightJson = useMemo(
     () => isRawEditor && bodyRaw.length <= MAX_JSON_HIGHLIGHT_LENGTH && shouldHighlightJson(bodyRaw, contentType),
     [bodyRaw, contentType, isRawEditor],
@@ -86,13 +88,23 @@ export default function RequestEditors() {
         <TabList className="flex gap-4 m-0 pt-3 pb-0 px-4 text-xs font-medium text-muted-foreground border-b border-border">
           {!isWssMode && (
             <Tab className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer">
-              {t('request.headers')} {headers.trim() && <Indicator />}
+              {t('request.headers')} {headers.some(({ key }) => key.trim()) && <Indicator />}
             </Tab>
           )}
           <Tab className="flex items-center gap-2 pb-2.5 border-b-2 border-transparent list-none outline-none cursor-pointer">
             {isWssMode ? t('request.message') : t('request.body')} {hasBody && <Indicator />}
           </Tab>
         </TabList>
+        {!isWssMode && currentTab === 'headers' && (
+          <Button
+            className="absolute top-1/2 -translate-y-1/2 right-4"
+            buttonSize={ButtonSize.SMALL}
+            buttonType={ButtonType.SECONDARY}
+            onClick={() => setIsHeadersBulkEdit((isBulkEdit) => !isBulkEdit)}
+          >
+            {isHeadersBulkEdit ? t('request.keyValueEdit') : t('request.bulkEdit')}
+          </Button>
+        )}
         {!isWssMode && currentTab === 'body' && (
           <div
             className="absolute top-1/2 -translate-y-1/2 right-0 flex gap-2 py-3 px-4 text-foreground"
@@ -118,23 +130,20 @@ export default function RequestEditors() {
       <div ref={targetRef}>
         {!isWssMode && (
           <TabPanel className="hidden">
-            <div className="flex flex-col gap-2 px-1">
-              <HighlightedTextarea
-                className="border-none"
-                height={size}
-                highlightColor={highlightColor}
-                placeholder={t('request.headersPlaceholder')}
-                value={headers}
-                variables={variables}
-                onBlur={autoSaveRequest}
-                onChange={(event) => dispatch(requestActions.setHeaders(event.target.value))}
-              />
-            </div>
+            {isHeadersBulkEdit ? (
+              <div className="px-1">
+                <HeadersBulkEditor height={size} />
+              </div>
+            ) : (
+              <div className="min-h-28 py-3 px-4 box-border overflow-auto" style={tableEditorStyle}>
+                <HeadersTable />
+              </div>
+            )}
           </TabPanel>
         )}
         <TabPanel className="hidden">
           {isRawEditor ? (
-            <div className="relative flex flex-col gap-2 px-1">
+            <div className="relative px-1">
               <HighlightedTextarea
                 className="border-none"
                 height={size}

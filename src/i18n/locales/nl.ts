@@ -113,6 +113,8 @@ const nl = {
     enterUrl: 'Voer URL in of plak tekst',
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: waarde',
+    bulkEdit: 'Bulkbewerking',
+    keyValueEdit: 'Sleutel-waardebewerking',
     body: 'Body',
     bodyPlaceholderHttp: 'Voer body van verzoek in (JSON of tekst)',
     bodyPlaceholderWss: 'Bericht opstellen',

@@ -113,6 +113,8 @@ const zhCN = {
     enterUrl: '输入 URL 或粘贴文本',
     headers: '请求头',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: '批量编辑',
+    keyValueEdit: '键值编辑',
     body: '请求体',
     bodyPlaceholderHttp: '输入请求体 (JSON 或文本)',
     bodyPlaceholderWss: '撰写消息',

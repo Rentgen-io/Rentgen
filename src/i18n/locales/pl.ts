@@ -113,6 +113,8 @@ const pl = {
     enterUrl: 'Wpisz URL lub wklej tekst',
     headers: 'Nagłówki',
     headersPlaceholder: 'Klucz-Nagłówka: wartość',
+    bulkEdit: 'Edycja zbiorcza',
+    keyValueEdit: 'Edycja klucz-wartość',
     body: 'Treść',
     bodyPlaceholderHttp: 'Wpisz treść zapytania (JSON lub tekst)',
     bodyPlaceholderWss: 'Napisz wiadomość',

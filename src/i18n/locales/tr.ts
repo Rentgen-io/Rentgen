@@ -113,6 +113,8 @@ const tr = {
     enterUrl: 'URL girin veya metin yapıştırın',
     headers: 'Başlıklar',
     headersPlaceholder: 'Başlık-Anahtar: değer',
+    bulkEdit: 'Toplu Düzenleme',
+    keyValueEdit: 'Anahtar-Değer Düzenleme',
     body: 'Gövde',
     bodyPlaceholderHttp: 'İstek gövdesini girin (JSON veya metin)',
     bodyPlaceholderWss: 'Mesaj oluşturun',

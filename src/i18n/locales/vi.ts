@@ -113,6 +113,8 @@ const vi = {
     enterUrl: 'Nhập URL hoặc dán văn bản',
     headers: 'Tiêu đề',
     headersPlaceholder: 'Khóa-tiêu-đề: giá trị',
+    bulkEdit: 'Chỉnh sửa hàng loạt',
+    keyValueEdit: 'Chỉnh sửa khóa-giá trị',
     body: 'Nội dung',
     bodyPlaceholderHttp: 'Nhập nội dung yêu cầu (JSON hoặc văn bản)',
     bodyPlaceholderWss: 'Soạn tin nhắn',

@@ -1,13 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Method } from 'axios';
-import { PostmanBody, PostmanBodyMode, PostmanFormDataItem, PostmanUrlencodedItem, RequestParameters } from 'src/types';
+import {
+  PostmanBody,
+  PostmanBodyMode,
+  PostmanFormDataItem,
+  PostmanHeader,
+  PostmanUrlencodedItem,
+  RequestParameters,
+} from 'src/types';
 
 export type Mode = 'HTTP' | 'WSS';
 
 interface RequestState {
   body: PostmanBody;
   bodyParameters: RequestParameters;
-  headers: string;
+  headers: PostmanHeader[];
   isSending: boolean;
   method: Method;
   mode: Mode;
@@ -18,7 +25,7 @@ interface RequestState {
 const initialState: RequestState = {
   body: {},
   bodyParameters: {},
-  headers: '',
+  headers: [],
   isSending: false,
   method: 'GET',
   mode: 'HTTP',
@@ -33,7 +40,7 @@ export const requestSlice = createSlice({
     resetRequest: (state) => {
       state.body = {};
       state.bodyParameters = {};
-      state.headers = '';
+      state.headers = [];
       state.method = 'GET';
       state.queryParameters = {};
       state.url = '';
@@ -60,7 +67,7 @@ export const requestSlice = createSlice({
     setBodyUrlencoded: (state, action: PayloadAction<PostmanUrlencodedItem[]>) => {
       state.body.urlencoded = action.payload;
     },
-    setHeaders: (state, action: PayloadAction<string>) => {
+    setHeaders: (state, action: PayloadAction<PostmanHeader[]>) => {
       state.headers = action.payload;
     },
     setIsSending: (state, action: PayloadAction<boolean>) => {

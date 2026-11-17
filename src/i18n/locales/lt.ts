@@ -113,6 +113,8 @@ const lt = {
     enterUrl: 'Įveskite URL arba įklijuokite tekstą',
     headers: 'Antraštės',
     headersPlaceholder: 'Antraštės-Raktas: reikšmė',
+    bulkEdit: 'Masinis redagavimas',
+    keyValueEdit: 'Rakto ir reikšmės redagavimas',
     body: 'Turinys',
     bodyPlaceholderHttp: 'Įveskite užklausos turinį (JSON arba tekstas)',
     bodyPlaceholderWss: 'Parašykite žinutę',

@@ -113,6 +113,8 @@ const th = {
     enterUrl: 'ป้อน URL หรือวางข้อความ',
     headers: 'เฮดเดอร์',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: 'แก้ไขแบบกลุ่ม',
+    keyValueEdit: 'แก้ไขแบบคีย์-ค่า',
     body: 'บอดี้',
     bodyPlaceholderHttp: 'ป้อนบอดี้ของคำขอ (JSON หรือข้อความ)',
     bodyPlaceholderWss: 'เขียนข้อความ',

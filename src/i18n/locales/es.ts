@@ -113,6 +113,8 @@ const es = {
     enterUrl: 'Introduce una URL o pega texto',
     headers: 'Cabeceras',
     headersPlaceholder: 'Clave-Cabecera: valor',
+    bulkEdit: 'Edición masiva',
+    keyValueEdit: 'Edición clave-valor',
     body: 'Cuerpo',
     bodyPlaceholderHttp: 'Introduce el cuerpo de la solicitud (JSON o texto)',
     bodyPlaceholderWss: 'Redactar mensaje',

@@ -113,6 +113,8 @@ const fr = {
     enterUrl: "Saisir l'URL ou coller le texte",
     headers: 'En-têtes',
     headersPlaceholder: 'Clé-en-tête : valeur',
+    bulkEdit: 'Édition groupée',
+    keyValueEdit: 'Édition clé-valeur',
     body: 'Corps',
     bodyPlaceholderHttp: 'Saisir le corps de la requête (JSON ou texte)',
     bodyPlaceholderWss: 'Rédiger un message',

@@ -113,6 +113,8 @@ const ru = {
     enterUrl: 'Введите URL или вставьте текст',
     headers: 'Заголовки',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: 'Массовое редактирование',
+    keyValueEdit: 'Редактирование «ключ-значение»',
     body: 'Тело',
     bodyPlaceholderHttp: 'Введите тело запроса (JSON или текст)',
     bodyPlaceholderWss: 'Составьте сообщение',

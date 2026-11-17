@@ -133,7 +133,7 @@ function filterGroupsBySearch(groups: DateGroup[], searchTerm: string): DateGrou
         (entry) =>
           entry.url.toLowerCase().includes(term) ||
           entry.method.toLowerCase().includes(term) ||
-          entry.headers.toLowerCase().includes(term),
+          entry.headers.some(({ key, value }) => `${key}: ${value}`.toLowerCase().includes(term)),
       );
       if (filtered.length > 0) acc.push({ ...group, entries: filtered });
     }

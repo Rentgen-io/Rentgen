@@ -1,8 +1,8 @@
-import { PostmanBody } from './postman';
+import { PostmanBody, PostmanHeader } from './postman';
 
 export interface HistoryEntry {
   body: PostmanBody;
-  headers: string;
+  headers: PostmanHeader[];
   id: string;
   method: string;
   timestamp: number;

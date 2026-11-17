@@ -113,6 +113,8 @@ const it = {
     enterUrl: 'Inserisci URL o incolla testo',
     headers: 'Intestazioni',
     headersPlaceholder: 'Chiave-intestazione: valore',
+    bulkEdit: 'Modifica in blocco',
+    keyValueEdit: 'Modifica chiave-valore',
     body: 'Corpo',
     bodyPlaceholderHttp: 'Inserisci il corpo della richiesta (JSON o testo)',
     bodyPlaceholderWss: 'Scrivi messaggio',

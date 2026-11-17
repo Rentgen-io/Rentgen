@@ -113,6 +113,8 @@ const ja = {
     enterUrl: 'URL を入力するかテキストを貼り付け',
     headers: 'ヘッダー',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: '一括編集',
+    keyValueEdit: 'キーと値で編集',
     body: 'ボディ',
     bodyPlaceholderHttp: 'リクエストボディを入力 (JSON またはテキスト)',
     bodyPlaceholderWss: 'メッセージを作成',

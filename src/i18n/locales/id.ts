@@ -113,6 +113,8 @@ const id = {
     enterUrl: 'Masukkan URL atau tempel teks',
     headers: 'Headers',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: 'Edit Massal',
+    keyValueEdit: 'Edit Kunci-Nilai',
     body: 'Body',
     bodyPlaceholderHttp: 'Masukkan body permintaan (JSON atau teks)',
     bodyPlaceholderWss: 'Tulis pesan',

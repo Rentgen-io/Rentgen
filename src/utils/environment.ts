@@ -6,9 +6,11 @@ import {
   EnvironmentVariable,
   ExtractionFailure,
   PostmanBody,
+  PostmanHeader,
   RequestBody,
 } from 'src/types';
-import { buildRequestBody, parseHeaders } from './http';
+import { postmanHeadersToRecord } from './collection';
+import { buildRequestBody } from './http';
 import { generateRandomValue } from './random';
 
 interface SubstitutedRequest {
@@ -71,7 +73,7 @@ export function substituteRequestVariables(
   body: PostmanBody,
   environment: Environment | null,
   dynamicVariables: DynamicVariable[],
-  headers: string,
+  headers: PostmanHeader[],
   url: string,
 ): SubstitutedRequest {
   const staticVariables = environment?.variables ?? [];
@@ -84,7 +86,10 @@ export function substituteRequestVariables(
 
   return {
     body: buildRequestBody(substituteBodyVariables(body, substitute)),
-    headers: withBodyContentType(parseHeaders(substitute(headers)), body),
+    headers: withBodyContentType(
+      postmanHeadersToRecord(headers.map(({ key, value }) => ({ key: substitute(key), value: substitute(value) }))),
+      body,
+    ),
     url: substitute(url),
   };
 }

@@ -113,6 +113,8 @@ const de = {
     enterUrl: 'URL eingeben oder Text einfügen',
     headers: 'Header',
     headersPlaceholder: 'Header-Schlüssel: Wert',
+    bulkEdit: 'Massenbearbeitung',
+    keyValueEdit: 'Schlüssel-Wert-Bearbeitung',
     body: 'Body',
     bodyPlaceholderHttp: 'Anfrage-Body eingeben (JSON oder Text)',
     bodyPlaceholderWss: 'Nachricht verfassen',

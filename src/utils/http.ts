@@ -141,27 +141,6 @@ export function convertUrlEncodedToFormEntries(encoded: string): FormEntry[] {
 
 // ---------- Headers ----------
 
-/**
- * Parses the header editor text (one `Name: value` per line). A line without a colon is taken as a cookie,
- * also when pasted with curl's `-b` flag.
- */
-export function parseHeaders(headers: string): Record<string, string> {
-  if (!headers) return {};
-
-  return Object.fromEntries(
-    headers
-      .split('\n')
-      .map((line) => line.trim())
-      .filter(Boolean)
-      .map((line) => {
-        const separatorIndex = line.indexOf(':');
-        if (separatorIndex === -1) return ['Cookie', line.startsWith('-b ') ? line.slice(2).trim() : line];
-
-        return [line.slice(0, separatorIndex).trim(), line.slice(separatorIndex + 1).trim()];
-      }),
-  );
-}
-
 /** The header's name as written in `headers`, found case-insensitively. */
 export function getHeaderKey(headers: Record<string, string>, headerName: string): string | undefined {
   return Object.keys(headers).find((key) => key.toLowerCase() === headerName.toLowerCase());

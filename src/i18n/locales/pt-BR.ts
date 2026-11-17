@@ -113,6 +113,8 @@ const ptBR = {
     enterUrl: 'Digite a URL ou cole o texto',
     headers: 'Cabeçalhos',
     headersPlaceholder: 'Header-Key: valor',
+    bulkEdit: 'Edição em massa',
+    keyValueEdit: 'Edição chave-valor',
     body: 'Corpo',
     bodyPlaceholderHttp: 'Digite o corpo da requisição (JSON ou texto)',
     bodyPlaceholderWss: 'Escrever mensagem',

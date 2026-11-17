@@ -113,6 +113,8 @@ const ko = {
     enterUrl: 'URL을 입력하거나 텍스트를 붙여넣으세요',
     headers: '헤더',
     headersPlaceholder: 'Header-Key: value',
+    bulkEdit: '일괄 편집',
+    keyValueEdit: '키-값 편집',
     body: '바디',
     bodyPlaceholderHttp: '요청 바디를 입력하세요 (JSON 또는 텍스트)',
     bodyPlaceholderWss: '메시지 작성',

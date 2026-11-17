@@ -20,7 +20,7 @@ import {
 import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
-import { extractStatusCode, findRequestById, parseHeaders } from 'src/utils';
+import { extractStatusCode, findRequestById } from 'src/utils';
 import { notify } from 'src/utils/toast';
 
 /**
@@ -37,22 +37,20 @@ export function useSaveRequest() {
       const body = selectBody(state);
       const httpResponse = selectHttpResponse(state);
       const method = selectMethod(state);
-      const parsedHeaders = parseHeaders(selectHeaders(state));
+      const headers = selectHeaders(state);
       const preEvaluation = selectPreEvaluation(state);
       const testResults = selectCurrentTestResults(state);
       const url = selectUrl(state);
       let requestId: string | null = selectSelectedRequestId(state);
 
       if (!duplicate && requestId && findRequestById(selectCollectionData(state), requestId))
-        dispatch(
-          collectionActions.updateRequest({ body, headers: parsedHeaders, method, preEvaluation, requestId, url }),
-        );
+        dispatch(collectionActions.updateRequest({ body, headers, method, preEvaluation, requestId, url }));
       else {
         dispatch(
           collectionActions.addRequest({
             body,
             folderId: selectSelectedFolderId(state),
-            headers: parsedHeaders,
+            headers,
             method,
             preEvaluation,
             url,

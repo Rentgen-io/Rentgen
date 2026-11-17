@@ -1,5 +1,5 @@
 import { FieldsBody, FormDataBody, UrlEncodedBody } from 'shared/types/http';
-import { PostmanBody, PostmanBodyMode, PostmanFormDataItem } from 'shared/types/postman';
+import { PostmanBody, PostmanBodyMode, PostmanFormDataItem, PostmanHeader } from 'shared/types/postman';
 
 // Raw bodies are left out: their content type depends on the text (JSON, XML, ...), so the user sets it
 const BODY_MODE_CONTENT_TYPES: Partial<Record<PostmanBodyMode, string>> = {
@@ -137,4 +137,34 @@ export function isFieldsBody(body: unknown): body is FieldsBody {
   const { __type, entries } = body as Partial<FieldsBody>;
 
   return (__type === 'formdata' || __type === 'urlencoded') && Array.isArray(entries);
+}
+
+/** Headers as text, one `Name: value` per line (the bulk edit format). */
+export function formatHeaderText(headers: PostmanHeader[]): string {
+  return headers.map(({ key, value }) => `${key}: ${value}`).join('\n');
+}
+
+export function isSameHeaders(a: PostmanHeader[], b: PostmanHeader[]): boolean {
+  return (
+    a === b ||
+    (a.length === b.length &&
+      a.every((header, index) => header.key === b[index].key && header.value === b[index].value))
+  );
+}
+
+/**
+ * Parses headers written as text, one `Name: value` per line (bulk edit, and old history entries). A line without a
+ * colon is taken as a cookie, also when pasted with curl's `-b` flag.
+ */
+export function parseHeaderText(text: string): PostmanHeader[] {
+  return text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const separatorIndex = line.indexOf(':');
+      if (separatorIndex === -1) return { key: 'Cookie', value: line.startsWith('-b ') ? line.slice(2).trim() : line };
+
+      return { key: line.slice(0, separatorIndex).trim(), value: line.slice(separatorIndex + 1).trim() };
+    });
 }

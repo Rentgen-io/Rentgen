@@ -113,6 +113,8 @@ const uk = {
     enterUrl: 'Введіть URL або вставте текст',
     headers: 'Заголовки',
     headersPlaceholder: 'Ключ-Заголовка: значення',
+    bulkEdit: 'Масове редагування',
+    keyValueEdit: 'Редагування «ключ-значення»',
     body: 'Тіло',
     bodyPlaceholderHttp: 'Введіть тіло запиту (JSON або текст)',
     bodyPlaceholderWss: 'Напишіть повідомлення',
