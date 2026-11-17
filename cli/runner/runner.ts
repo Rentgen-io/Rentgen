@@ -65,8 +65,10 @@ export class SequentialRunner {
     const resolved = this.variableStore.substituteRequest(item);
     const unresolvedNow = this.variableStore.getLastUnresolved();
 
+    // As in the app: names and values trimmed, a header without a name is left out (a table row with only a value is
+    // saved like that, and Node rejects an empty header name); when a header repeats, the last value wins
     const requestHeaders: Record<string, string> = {};
-    for (const h of resolved.headers) requestHeaders[h.key] = h.value;
+    for (const h of resolved.headers) if (h.key.trim()) requestHeaders[h.key.trim()] = h.value.trim();
 
     const headers = withBodyContentType(requestHeaders, resolved.body ?? {});
     const body = resolved.body && toRequestBody(resolved.body);
