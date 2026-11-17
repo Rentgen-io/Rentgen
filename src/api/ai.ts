@@ -1,6 +1,6 @@
 import { isSuccessStatus } from 'shared/responseStatus';
 import i18n from 'src/i18n';
-import type { AiProvider, ResponseBody } from 'src/types';
+import type { AiProvider, AiUsage, ResponseBody } from 'src/types';
 import { extractStatusCode, isObject } from 'src/utils';
 import { sendHttp } from './network';
 
@@ -12,12 +12,6 @@ export type AiRole = 'system' | 'user' | 'assistant';
 export interface AiMessage {
   role: AiRole;
   content: string;
-}
-
-export interface AiUsage {
-  promptTokens: number;
-  completionTokens: number;
-  totalTokens: number;
 }
 
 export type AiChatResult =

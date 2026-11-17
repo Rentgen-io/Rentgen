@@ -1,13 +1,6 @@
 import { Method } from 'axios';
 import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
-import {
-  createFormDataBody,
-  createUrlEncodedBody,
-  getFormDataFileFields,
-  getFormDataFilePaths,
-  isFieldsBody,
-  isFormDataBody,
-} from 'shared/utils/http';
+import { buildFieldsBody, getFormDataFileFields, isFieldsBody, isFormDataBody } from 'shared/utils/http';
 import { FILE_FORMATS } from 'shared/utils/test-files';
 import { store } from 'src/store';
 import {
@@ -92,28 +85,9 @@ export function createTestHttpRequest(options: TestOptions): HttpRequest {
 
 // ---------- Bodies ----------
 
-/**
- * Builds the body that is sent from the editor body: form-data or urlencoded fields, or the parsed raw text.
- * Form-data file fields are sent as file paths (a File/Blob cannot cross IPC); a field with several files
- * becomes one part per file, and a file field without a file is skipped.
- */
+/** Builds the body that is sent from the editor body: form-data or urlencoded fields, or the parsed raw text. */
 export function buildRequestBody(body: PostmanBody): RequestBody {
-  if (body.mode === 'formdata') {
-    const fields = (body.formdata ?? []).filter(({ disabled }) => !disabled);
-
-    return createFormDataBody(
-      fields.filter(({ type }) => type !== 'file').map(({ key, value }) => [key, value ?? '']),
-      fields
-        .filter(({ type }) => type === 'file')
-        .flatMap((field) => getFormDataFilePaths(field).map((filePath): FormEntry => [field.key, filePath])),
-    );
-  }
-  if (body.mode === 'urlencoded')
-    return createUrlEncodedBody(
-      (body.urlencoded ?? []).filter(({ disabled }) => !disabled).map(({ key, value }) => [key, value ?? '']),
-    );
-
-  return tryParseJsonObject(body.raw ?? null) as RequestBody;
+  return buildFieldsBody(body) ?? (tryParseJsonObject(body.raw ?? null) as RequestBody);
 }
 
 /**

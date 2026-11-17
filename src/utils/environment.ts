@@ -1,3 +1,4 @@
+import { substituteBodyVariables, withBodyContentType } from 'shared/utils/http';
 import {
   DataType,
   DynamicVariable,
@@ -5,10 +6,9 @@ import {
   EnvironmentVariable,
   ExtractionFailure,
   PostmanBody,
-  PostmanBodyMode,
   RequestBody,
 } from 'src/types';
-import { buildRequestBody, getHeaderKey, parseHeaders } from './http';
+import { buildRequestBody, parseHeaders } from './http';
 import { generateRandomValue } from './random';
 
 interface SubstitutedRequest {
@@ -21,11 +21,6 @@ type Substitute = (text: string) => string;
 
 const ARRAY_INDEX_REGEX = /\[(\d+)]/g;
 const VARIABLE_PLACEHOLDER_REGEX = /\{\{([^}]+)}}/g;
-// Raw bodies are left out: their content type depends on the text (JSON, XML, ...), so the user sets it
-const BODY_MODE_CONTENT_TYPES: Partial<Record<PostmanBodyMode, string>> = {
-  formdata: 'multipart/form-data',
-  urlencoded: 'application/x-www-form-urlencoded',
-};
 
 // ---------- Variable extraction ----------
 
@@ -124,32 +119,4 @@ function buildVariables(
 
 function substituteVariables(text: string, variables: Map<string, string>): string {
   return text.replace(VARIABLE_PLACEHOLDER_REGEX, (_, name: string) => variables.get(name.trim()) ?? '');
-}
-
-/** Substitutes the raw body and the keys and values of form-data and urlencoded fields. */
-function substituteBodyVariables(body: PostmanBody, substitute: Substitute): PostmanBody {
-  const substituteField = <T extends { key: string; value?: string }>(field: T): T => ({
-    ...field,
-    key: substitute(field.key),
-    ...(field.value !== undefined && { value: substitute(field.value) }),
-  });
-
-  return {
-    ...body,
-    ...(body.raw !== undefined && { raw: substitute(body.raw) }),
-    ...(body.formdata && { formdata: body.formdata.map(substituteField) }),
-    ...(body.urlencoded && { urlencoded: body.urlencoded.map(substituteField) }),
-  };
-}
-
-/**
- * Adds the Content-Type of a form-data or urlencoded body, as Postman does, unless the user set one.
- * Axios would set it anyway (with the multipart boundary), but this way it appears in test results, reports
- * and cURL exports, and the AI copies it into the requests it writes.
- */
-function withBodyContentType(headers: Record<string, string>, body: PostmanBody): Record<string, string> {
-  const contentType = body.mode && BODY_MODE_CONTENT_TYPES[body.mode];
-  if (!contentType || getHeaderKey(headers, 'content-type')) return headers;
-
-  return { ...headers, 'Content-Type': contentType };
 }

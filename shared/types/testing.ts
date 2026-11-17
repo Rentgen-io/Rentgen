@@ -1,6 +1,12 @@
 import { Method } from 'axios';
 import { HttpRequest, HttpResponse, RequestBody } from 'shared/types/http';
-import type { AiUsage } from 'src/api/ai';
+
+/** Token usage reported by an AI provider for one chat request. */
+export interface AiUsage {
+  promptTokens: number;
+  completionTokens: number;
+  totalTokens: number;
+}
 
 export type DataType =
   | 'boolean'

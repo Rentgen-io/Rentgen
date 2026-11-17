@@ -9,6 +9,10 @@ export interface HeaderContext {
   totalRequests: number;
 }
 
+// A request's status line and section labels, and the details under them
+const LABEL_INDENT = '      ';
+const DETAIL_INDENT = '        ';
+
 export class ConsoleReporter {
   constructor(private options: { verbose: boolean; noColor: boolean }) {
     if (options.noColor) {
@@ -30,18 +34,22 @@ export class ConsoleReporter {
     process.stdout.write(`${tag} ${result.method} ${result.url}\n`);
 
     if (result.error) {
-      const lines = result.error.split('\n');
-      process.stdout.write(`      ${chalk.red('✗')} ${chalk.red(`Network Error: ${lines[0]}`)}\n`);
-      for (let i = 1; i < lines.length; i++) {
-        process.stdout.write(`        ${chalk.dim(lines[i])}\n`);
-      }
+      const [firstLine, ...detailLines] = result.error.split('\n');
+      this.writeLine(this.indent(`${chalk.red('✗')} ${chalk.red(`Network Error: ${firstLine}`)}`, LABEL_INDENT));
+      for (const line of detailLines) this.writeLine(this.indent(chalk.dim(line)));
     } else if (result.success) {
-      process.stdout.write(
-        `      ${chalk.green('✓')} ${chalk.green(result.statusText)} ${chalk.dim(`(${result.duration}ms)`)}\n`,
+      this.writeLine(
+        this.indent(
+          `${chalk.green('✓')} ${chalk.green(result.statusText)} ${chalk.dim(`(${result.duration}ms)`)}`,
+          LABEL_INDENT,
+        ),
       );
     } else {
-      process.stdout.write(
-        `      ${chalk.red('✗')} ${chalk.red(result.statusText)} ${chalk.dim(`(${result.duration}ms)`)}\n`,
+      this.writeLine(
+        this.indent(
+          `${chalk.red('✗')} ${chalk.red(result.statusText)} ${chalk.dim(`(${result.duration}ms)`)}`,
+          LABEL_INDENT,
+        ),
       );
     }
 
@@ -81,45 +89,60 @@ export class ConsoleReporter {
 
   private printVerboseDetails(verbose: VerboseDetails): void {
     if (verbose.unresolvedVariables.length > 0) {
-      process.stdout.write(
-        `      ${chalk.yellow('⚠')} ${chalk.yellow(
-          `Unresolved variables (substituted as empty string): ${verbose.unresolvedVariables.join(', ')}`,
-        )}\n`,
+      this.writeLine(
+        this.indent(
+          `${chalk.yellow('⚠')} ${chalk.yellow(
+            `Unresolved variables (substituted as empty string): ${verbose.unresolvedVariables.join(', ')}`,
+          )}`,
+          LABEL_INDENT,
+        ),
       );
     }
 
-    process.stdout.write(chalk.dim('      Request Headers:') + '\n');
-    for (const [key, value] of Object.entries(verbose.requestHeaders)) {
-      process.stdout.write(chalk.dim(`        ${key}: ${value}`) + '\n');
-    }
+    this.writeLabel('Request Headers:');
+    this.writeHeaders(verbose.requestHeaders);
 
     if (verbose.requestBody) {
-      process.stdout.write(chalk.dim('      Request Body:') + '\n');
-      process.stdout.write(chalk.dim(`        ${this.truncate(verbose.requestBody, 500)}`) + '\n');
+      this.writeLabel('Request Body:');
+      this.writeLine(chalk.dim(this.indent(this.truncate(verbose.requestBody, 500))));
     }
 
-    process.stdout.write(chalk.dim('      Response Headers:') + '\n');
-    for (const [key, value] of Object.entries(verbose.responseHeaders)) {
-      process.stdout.write(chalk.dim(`        ${key}: ${value}`) + '\n');
-    }
+    this.writeLabel('Response Headers:');
+    this.writeHeaders(verbose.responseHeaders);
 
-    process.stdout.write(chalk.dim('      Response Body:') + '\n');
-    process.stdout.write(chalk.dim(`        ${this.truncate(verbose.responseBody, 1000)}`) + '\n');
+    this.writeLabel('Response Body:');
+    this.writeLine(chalk.dim(this.indent(this.truncate(verbose.responseBody, 1000))));
 
     if (verbose.dynamicVarDetails.length > 0) {
-      process.stdout.write(chalk.dim('      Dynamic Variables:') + '\n');
+      this.writeLabel('Dynamic Variables:');
       for (const dv of verbose.dynamicVarDetails) {
-        if (dv.extracted) {
-          process.stdout.write(
-            `        ${chalk.green('✓')} ${chalk.dim(
-              `${dv.key} = "${dv.value}" (extracted from ${dv.source}: ${dv.selector})`,
-            )}\n`,
-          );
-        } else {
-          process.stdout.write(`        ${chalk.yellow('⚠')} ${chalk.yellow(`${dv.key} — ${dv.error}`)}\n`);
-        }
+        this.writeLine(
+          this.indent(
+            dv.extracted
+              ? `${chalk.green('✓')} ${chalk.dim(`${dv.key} = "${dv.value}" (extracted from ${dv.source}: ${dv.selector})`)}`
+              : `${chalk.yellow('⚠')} ${chalk.yellow(`${dv.key} — ${dv.error}`)}`,
+          ),
+        );
       }
     }
+  }
+
+  private writeLabel(label: string): void {
+    this.writeLine(chalk.dim(this.indent(label, LABEL_INDENT)));
+  }
+
+  /** One `name: value` line per header; a multi-line value stays indented too. */
+  private writeHeaders(headers: Record<string, string>): void {
+    for (const [key, value] of Object.entries(headers)) this.writeLine(chalk.dim(this.indent(`${key}: ${value}`)));
+  }
+
+  private writeLine(text: string): void {
+    process.stdout.write(`${text}\n`);
+  }
+
+  /** Indents every line of the text, so a multi-line one (form fields, formatted JSON) stays under its label. */
+  private indent(text: string, prefix = DETAIL_INDENT): string {
+    return text.replace(/^/gm, prefix);
   }
 
   private truncate(text: string, maxLen: number): string {

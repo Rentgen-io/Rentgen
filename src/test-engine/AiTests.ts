@@ -1,9 +1,9 @@
 import { Method } from 'axios';
 import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
-import { type AiUsage, sendAiChatRequest } from 'src/api/ai';
+import { sendAiChatRequest } from 'src/api/ai';
 import { sendHttp } from 'src/api/network';
 import i18n from 'src/i18n';
-import { AiProvider, AiTestsOverview, ResponseBody, TestOptions, TestResult, TestStatus } from 'src/types';
+import { AiProvider, AiTestsOverview, AiUsage, ResponseBody, TestOptions, TestResult, TestStatus } from 'src/types';
 import { createHttpRequest, tryParseJsonObject } from 'src/utils';
 import { notify } from 'src/utils/toast';
 import { AI_REPORT_FORMAT_PROMPT, AiReportCompactor } from './AiReportCompactor';

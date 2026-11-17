@@ -1,10 +1,13 @@
 import axios, { AxiosError } from 'axios';
+import { toRequestData } from '../../shared/node/requestData';
+import type { FieldsBody } from '../../shared/types/http';
 
 export interface HttpRequest {
   method: string;
   url: string;
   headers: Record<string, string>;
-  body?: string;
+  /** Raw text, or form-data / urlencoded fields (sent as in the desktop app, files read from disk). */
+  body?: string | FieldsBody;
 }
 
 export interface HttpResponse {
@@ -23,11 +26,14 @@ export class HttpClient {
     const start = performance.now();
 
     try {
+      const requestBody = request.body;
       const response = await axios({
         url: request.url,
         method: request.method.toLowerCase(),
-        headers: withJsonContentTypeIfNeeded(request.headers, request.body),
-        data: request.body || undefined,
+        headers:
+          typeof requestBody === 'string' ? withJsonContentTypeIfNeeded(request.headers, requestBody) : request.headers,
+        // Inside the try, so an unreadable form-data file is reported like any other request error
+        data: typeof requestBody === 'string' ? requestBody || undefined : await toRequestData(requestBody),
         timeout: this.timeout,
         validateStatus: () => true,
         maxBodyLength: Infinity,

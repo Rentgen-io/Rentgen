@@ -1,5 +1,24 @@
 import { Interval } from 'shared/types/testing';
-import { LicenseResult } from 'src/utils';
+
+// The plans a license may grant; a license for any other plan is rejected
+export const LICENSE_PLANS = ['pro'] as const;
+
+export type LicensePlan = (typeof LICENSE_PLANS)[number];
+export type LicenseStatus = 'valid' | 'expired' | 'not_yet_valid' | 'invalid';
+
+export interface LicenseInfo {
+  company: string;
+  daysLeft: number;
+  expiresOn: string;
+  plan: LicensePlan;
+  startsOn: string;
+  trial: boolean;
+}
+
+export type LicenseResult =
+  | { valid: true; status: 'valid'; info: LicenseInfo }
+  | { valid: false; status: 'expired' | 'not_yet_valid' | 'trial_used'; error: string; info: LicenseInfo }
+  | { valid: false; status: 'invalid'; error: string };
 
 export const LANGUAGES = [
   { code: 'en', label: 'English' },

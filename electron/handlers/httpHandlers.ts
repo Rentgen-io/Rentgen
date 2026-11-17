@@ -1,50 +1,9 @@
 import axios from 'axios';
 import { exec } from 'child_process';
 import { ipcMain } from 'electron';
-import { openAsBlob } from 'fs';
-import { basename } from 'path';
+import { toRequestData } from 'shared/node/requestData';
 import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
-import { FormDataBody, HttpRequest, HttpResponse, RequestBody, ResponseBody } from 'shared/types/http';
-import { isFormDataBody, isUrlEncodedBody, toLocalFilePath } from 'shared/utils/http';
-
-/**
- * Builds the real FormData / URLSearchParams here; axios then sets the matching Content-Type
- * (multipart with the boundary, or application/x-www-form-urlencoded) unless the request sets one.
- */
-async function toRequestData(body: RequestBody | undefined): Promise<unknown> {
-  if (isUrlEncodedBody(body)) return new URLSearchParams(body.entries);
-  if (isFormDataBody(body)) return buildFormData(body);
-
-  return body;
-}
-
-async function openFileAsBlob(filePath: string): Promise<Blob> {
-  try {
-    return await openAsBlob(filePath);
-  } catch (error) {
-    throw new Error(`Cannot read form-data file "${filePath}": ${(error as Error).message}`, {
-      cause: error,
-    });
-  }
-}
-
-/** Text fields first, then the files, each streamed from disk under its file name. */
-async function buildFormData({ entries, files = [] }: FormDataBody): Promise<FormData> {
-  const formData = new FormData();
-
-  for (const [key, value] of entries) formData.append(key, value);
-  for (const [key, rawPath] of files) {
-    if (!parseJsonOrText(rawPath)) {
-      formData.append(key, new Blob([]), '');
-      continue;
-    }
-
-    const filePath = toLocalFilePath(rawPath);
-    formData.append(key, await openFileAsBlob(filePath), basename(filePath));
-  }
-
-  return formData;
-}
+import { HttpRequest, HttpResponse, ResponseBody } from 'shared/types/http';
 
 function decodeToText(data: unknown): string | null {
   if (typeof data === 'string') return data;

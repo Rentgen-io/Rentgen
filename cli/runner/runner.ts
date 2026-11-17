@@ -1,5 +1,7 @@
 import type { Environment } from '../../shared/types/environment';
-import type { PostmanFolder, PostmanItem } from '../../shared/types/postman';
+import type { FieldsBody } from '../../shared/types/http';
+import type { PostmanBody, PostmanFolder, PostmanItem } from '../../shared/types/postman';
+import { buildFieldsBody, isFieldsBody, withBodyContentType } from '../../shared/utils/http';
 import { HttpClient, type HttpResponse } from '../http/client';
 import { VariableStore } from '../config/variables';
 import { extractDynamicVariable } from './extractor';
@@ -63,8 +65,12 @@ export class SequentialRunner {
     const resolved = this.variableStore.substituteRequest(item);
     const unresolvedNow = this.variableStore.getLastUnresolved();
 
-    const headers: Record<string, string> = {};
-    for (const h of resolved.headers) headers[h.key] = h.value;
+    const requestHeaders: Record<string, string> = {};
+    for (const h of resolved.headers) requestHeaders[h.key] = h.value;
+
+    const headers = withBodyContentType(requestHeaders, resolved.body ?? {});
+    const body = resolved.body && toRequestBody(resolved.body);
+    const requestBody = describeRequestBody(body);
 
     let response: HttpResponse;
     try {
@@ -72,7 +78,7 @@ export class SequentialRunner {
         method: resolved.method,
         url: resolved.url,
         headers,
-        body: resolved.body,
+        body,
       });
     } catch (error) {
       return {
@@ -90,7 +96,7 @@ export class SequentialRunner {
         ...(this.options.verbose && {
           verbose: {
             requestHeaders: headers,
-            requestBody: resolved.body,
+            requestBody,
             responseHeaders: {},
             responseBody: '',
             dynamicVarDetails: [],
@@ -147,7 +153,7 @@ export class SequentialRunner {
     if (this.options.verbose) {
       result.verbose = {
         requestHeaders: headers,
-        requestBody: resolved.body,
+        requestBody,
         responseHeaders: response.headers,
         responseBody: response.body,
         dynamicVarDetails,
@@ -170,4 +176,20 @@ export class SequentialRunner {
       results,
     };
   }
+}
+
+/** As in the desktop app: the form-data / urlencoded fields for those modes, otherwise the raw text. */
+function toRequestBody(body: PostmanBody): string | FieldsBody | undefined {
+  return buildFieldsBody(body) ?? body.raw;
+}
+
+/** The request body as shown in verbose output: form fields as `name=value`, files as `name=@path`, one per line. */
+function describeRequestBody(body: string | FieldsBody | undefined): string | undefined {
+  if (!isFieldsBody(body)) return body;
+  if (body.__type === 'urlencoded') return new URLSearchParams(body.entries).toString();
+
+  return [
+    ...body.entries.map(([name, value]) => `${name}=${value}`),
+    ...(body.files ?? []).map(([name, filePath]) => `${name}=@${filePath}`),
+  ].join('\n');
 }

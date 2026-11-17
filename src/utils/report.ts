@@ -1,5 +1,4 @@
-import { AiUsage } from 'src/api/ai';
-import { ExportReport, ReportFormat, ReportSuite, TestResult } from 'src/types';
+import { AiUsage, ExportReport, ReportFormat, ReportSuite, TestResult } from 'src/types';
 
 export function buildSuite(name: string, tests: TestResult[], usage?: AiUsage | null): ReportSuite {
   return {
