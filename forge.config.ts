@@ -67,8 +67,14 @@ const config: ForgeConfig = {
           post: './scripts/linux/postinst.sh',
           preun: './scripts/linux/prerm.sh',
         },
+        // Copy of electron-installer-redhat 4.0.0's spec.ejs with %install copying from
+        // %{_topdir}/BUILD/usr instead of a cwd-relative `usr/`. rpm >= 4.20 runs %install
+        // inside a per-package builddir (BUILD/<name>-<version>-build), so the relative
+        // path no longer resolves and rpmbuild fails.
+        specTemplate: './scripts/linux/rpm-spec.ejs',
       } as NonNullable<MakerRpmConfig['options']> & {
         scripts?: { pre?: string; post?: string; preun?: string; postun?: string };
+        specTemplate?: string;
       },
     }),
     new MakerDeb({
