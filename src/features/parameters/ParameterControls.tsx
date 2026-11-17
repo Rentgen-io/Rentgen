@@ -140,7 +140,7 @@ export function ParameterControls({ canBeFile = false, parameterValue, onChange 
             value={Array.isArray(value) ? value : []}
             onChange={(event) => {
               const formats = Array.from(event.target.selectedOptions, (option) => option.value as FileFormat);
-              if (formats.length) changeValue(formats);
+              changeValue(formats);
             }}
           />
         )}
