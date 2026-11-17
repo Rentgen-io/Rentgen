@@ -3,7 +3,7 @@ import type { FileFormat, FileFormatGroup } from 'shared/types/testing';
 /** The formats a `file` parameter can be tested with, by group, in the order they're offered. */
 export const FILE_FORMAT_GROUPS: Record<FileFormatGroup, FileFormat[]> = {
   images: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'heic', 'heif', 'tif', 'tiff', 'bmp', 'svg', 'ico'],
-  documents: ['pdf', 'docx', 'txt'],
+  documents: ['pdf', 'docx', 'txt', 'json'],
   spreadsheets: ['xlsx', 'csv'],
 };
 

@@ -45,7 +45,7 @@ export default function SimpleSelect({ className, disabled, options, placeholder
       {placeholder && <option value="">{placeholder}</option>}
       {options.map((item) =>
         isGroup(item) ? (
-          <optgroup key={item.label} label={item.label}>
+          <optgroup className="text-foreground bg-background" key={item.label} label={item.label}>
             {item.options.map(renderOption)}
           </optgroup>
         ) : (

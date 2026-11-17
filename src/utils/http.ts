@@ -1,7 +1,6 @@
 import { Method } from 'axios';
 import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
 import { buildFieldsBody, getFormDataFileFields, isFieldsBody, isFormDataBody } from 'shared/utils/http';
-import { FILE_FORMATS } from 'shared/utils/test-files';
 import { store } from 'src/store';
 import {
   DataType,
@@ -196,8 +195,6 @@ export function getInitialParameterValue(
       return { ...parameterValue, value: settings.number };
     case 'string':
       return { ...parameterValue, value: { min: settings.string.minLength, max: settings.string.maxLength } };
-    case 'file':
-      return { ...parameterValue, value: [...FILE_FORMATS] };
     default:
       return parameterValue;
   }

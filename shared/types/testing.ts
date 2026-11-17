@@ -46,6 +46,7 @@ export type FileFormat =
   | 'pdf'
   | 'docx'
   | 'txt'
+  | 'json'
   | 'xlsx'
   | 'csv';
 

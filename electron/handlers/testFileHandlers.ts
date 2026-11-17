@@ -338,6 +338,7 @@ const SAMPLES: Record<FileFormat, () => Buffer | string> = {
   pdf: createPdf,
   docx: createDocx,
   txt: () => `${SAMPLE_TEXT}\n`,
+  json: () => `${JSON.stringify({ id: 1, name: SAMPLE_TEXT }, null, 2)}\n`,
   xlsx: createXlsx,
   csv: () => `id,name\n1,${SAMPLE_TEXT}\n`,
 };
