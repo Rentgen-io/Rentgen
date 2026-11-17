@@ -15,7 +15,7 @@ export default function ContextMenuItem({ label, disabled = false, divider = fal
       {divider && <div className="my-1 border-t border-border" role="separator" />}
       <button
         className={cn(
-          'w-full px-3 py-1.5 text-left text-xs text-foreground hover:bg-secondary-hover focus-visible:bg-secondary-hover outline-none border-none bg-transparent cursor-pointer',
+          'w-full px-3 py-1.5 text-left text-xs text-foreground hover:bg-accent-soft focus-visible:bg-accent-soft outline-none border-none bg-transparent cursor-pointer',
           {
             'opacity-50 hover:bg-transparent cursor-not-allowed': disabled,
           },

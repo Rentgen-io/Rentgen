@@ -54,7 +54,7 @@ export default function Select<T, IsMulti extends boolean = false, L extends Rea
           {
             'bg-secondary-hover!': isSelected,
             'text-foreground!': !data.className,
-            'bg-background! hover:bg-secondary-hover!': !isSelected,
+            'bg-background! hover:bg-accent-soft!': !isSelected,
             'cursor-pointer!': !isDisabled,
           },
           data.className,
