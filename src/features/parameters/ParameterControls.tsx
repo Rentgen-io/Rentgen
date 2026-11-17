@@ -9,7 +9,7 @@ import { useAppSelector } from 'src/store/hooks';
 import { selectTestEngineConfiguration } from 'src/store/selectors';
 import { isParameterTestSkipped } from 'src/test-engine';
 import { DataType, FileFormat, Interval, ParameterValue } from 'src/types';
-import { clamp, FILE_FORMAT_GROUPS, FILE_FORMATS, getInitialParameterValue, normalizeDecimal } from 'src/utils';
+import { clamp, FILE_FORMAT_GROUPS, getInitialParameterValue, normalizeDecimal } from 'src/utils';
 
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 
@@ -137,7 +137,7 @@ export function ParameterControls({ canBeFile = false, parameterValue, onChange 
             options={fileFormatOptions}
             multiple
             size={1}
-            value={Array.isArray(value) ? value : FILE_FORMATS}
+            value={Array.isArray(value) ? value : []}
             onChange={(event) => {
               const formats = Array.from(event.target.selectedOptions, (option) => option.value as FileFormat);
               if (formats.length) changeValue(formats);
