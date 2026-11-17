@@ -29,8 +29,9 @@ const MAX_ENVIRONMENT_DOTS = 4;
 
 // An unfinished "{{name" right before the caret
 const OPEN_VARIABLE_REGEX = /\{\{([^{}\s]*)$/;
-// The rest of the name (and its closing braces) right after the caret, replaced as well when a suggestion is accepted
-const VARIABLE_REST_REGEX = /^[^{}\s]*(?:}})?/;
+// The rest of an existing variable right after the caret (e.g. editing "{{na|me}}"), replaced as well when a suggestion
+// is accepted. Only when its closing braces follow, so text right after a newly typed "{{" is kept
+const VARIABLE_REST_REGEX = /^[^{}\s]*}}/;
 
 interface Match {
   start: number;
@@ -80,7 +81,7 @@ export default function useVariableAutocomplete<T extends Field>(
       return;
     }
 
-    const rest = VARIABLE_REST_REGEX.exec(value!.slice(selectionStart))![0];
+    const rest = VARIABLE_REST_REGEX.exec(value!.slice(selectionStart))?.[0] ?? '';
     const next = { start: open.index, end: selectionStart + rest.length, query: open[1] };
 
     setMatch((previous) =>
