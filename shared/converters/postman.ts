@@ -7,15 +7,9 @@ import {
   PostmanItem,
   PostmanRequest,
 } from 'shared/types/postman';
-import { COLLECTION_SCHEMA, DEFAULT_FOLDER_ID, DEFAULT_FOLDER_NAME } from 'shared/utils/collection';
+import { COLLECTION_SCHEMA, uniqueFolderName } from 'shared/utils/collection';
 import { generateFolderId, generateRequestId } from 'shared/utils/id';
 import { v4 as uuidv4 } from 'uuid';
-
-export interface PostmanImportResult {
-  collection: PostmanCollection;
-  /** Postman features that Rentgen does not support and dropped on import (auth, scripts, variables). */
-  warnings: string[];
-}
 
 export interface CollectionValidationResult {
   valid: boolean;
@@ -62,28 +56,11 @@ interface PostmanFileBody extends Omit<PostmanBody, 'mode'> {
   };
 }
 
-interface PostmanFileAuth {
-  type: 'bearer' | 'basic' | 'apikey' | 'oauth2' | 'noauth' | string;
-  bearer?: { key: string; value: string }[];
-  basic?: { key: string; value: string }[];
-  apikey?: { key: string; value: string }[];
-}
-
-interface PostmanFileEvent {
-  listen: 'prerequest' | 'test';
-  script: {
-    type: string;
-    exec: string[];
-  };
-}
-
 interface PostmanFileRequest {
   method: string;
   url: string | PostmanFileUrl;
   header?: PostmanFileHeader[];
   body?: PostmanFileBody;
-  auth?: PostmanFileAuth;
-  description?: string;
 }
 
 // Postman item can be a request OR a folder (recursive)
@@ -92,16 +69,12 @@ interface PostmanFileItem {
   _postman_id?: string;
   request: PostmanFileRequest;
   response?: unknown[];
-  event?: PostmanFileEvent[];
 }
 
 interface PostmanFileFolder {
   name: string;
   _postman_id?: string;
   item: (PostmanFileItem | PostmanFileFolder)[];
-  auth?: PostmanFileAuth;
-  event?: PostmanFileEvent[];
-  description?: string;
 }
 
 interface PostmanFileCollectionInfo {
@@ -115,15 +88,6 @@ interface PostmanFileCollectionInfo {
 export interface PostmanFileCollection {
   info: PostmanFileCollectionInfo;
   item: (PostmanFileItem | PostmanFileFolder)[];
-  auth?: PostmanFileAuth;
-  variable?: PostmanFileVariable[];
-  event?: PostmanFileEvent[];
-}
-
-/** Folders collected while flattening the nested Postman tree. */
-interface FlattenedFolders {
-  folders: PostmanFolder[];
-  warnings: string[];
 }
 
 const DEFAULT_IMPORTED_COLLECTION_NAME = 'Imported Collection';
@@ -174,9 +138,7 @@ function toPostmanRequest(request: PostmanRequest): PostmanFileRequest {
 function toPostmanBody(body: PostmanBody): PostmanFileBody | undefined {
   if (body.mode === 'raw' && body.raw)
     return { mode: 'raw', raw: body.raw, options: { raw: { language: detectRawLanguage(body.raw) } } };
-
   if (body.mode === 'urlencoded' && body.urlencoded) return { mode: 'urlencoded', urlencoded: body.urlencoded };
-
   if (body.mode === 'formdata' && body.formdata) return { mode: 'formdata', formdata: body.formdata };
 
   return undefined;
@@ -213,71 +175,55 @@ function detectRawLanguage(content: string): string {
 
 /**
  * Converts a Postman collection to the Rentgen format. Nested folders are flattened into "Parent / Child" folders,
- * and requests outside any folder go to the default folder.
+ * and requests outside any folder go to a folder named after the collection.
  */
-export function postmanToRentgen(postmanCollection: PostmanFileCollection): PostmanImportResult {
-  const warnings = getCollectionWarnings(postmanCollection);
-  const flattened: FlattenedFolders = { folders: [], warnings: [] };
+export function postmanToRentgen(postmanCollection: PostmanFileCollection): PostmanCollection {
+  const collectionName = postmanCollection.info.name || DEFAULT_IMPORTED_COLLECTION_NAME;
+  const flattenedFolders: PostmanFolder[] = [];
   const rootRequests: PostmanItem[] = [];
 
   for (const item of postmanCollection.item) {
-    if (isPostmanFolder(item)) flattenFolder(item, '', flattened);
-    else if (isPostmanRequest(item)) rootRequests.push(fromPostmanItem(item, flattened.warnings));
+    if (isPostmanFolder(item)) flattenFolder(item, '', flattenedFolders);
+    else if (isPostmanRequest(item)) rootRequests.push(fromPostmanItem(item));
   }
 
-  // The default folder holds the root requests, and is kept even when empty so the collection has a folder
-  const folders =
-    rootRequests.length > 0 || flattened.folders.length === 0
-      ? [{ id: DEFAULT_FOLDER_ID, name: DEFAULT_FOLDER_NAME, item: rootRequests }, ...flattened.folders]
-      : flattened.folders;
+  // The root folder comes first, and is kept even when empty if it is the only folder
+  const folders: PostmanFolder[] =
+    rootRequests.length > 0 || flattenedFolders.length === 0
+      ? [{ id: generateFolderId(), name: collectionName, item: rootRequests }]
+      : [];
+
+  // On a name clash the flattened folder gets a counter, e.g. "Users (2)"
+  for (const folder of flattenedFolders) folders.push({ ...folder, name: uniqueFolderName(folders, folder.name) });
 
   return {
-    collection: {
-      info: {
-        name: postmanCollection.info.name || DEFAULT_IMPORTED_COLLECTION_NAME,
-        description: postmanCollection.info.description || '',
-        schema: COLLECTION_SCHEMA,
-      },
-      item: folders,
+    info: {
+      name: collectionName,
+      description: postmanCollection.info.description || '',
+      schema: COLLECTION_SCHEMA,
     },
-    warnings: [...warnings, ...flattened.warnings],
+    item: folders,
   };
-}
-
-function getCollectionWarnings({ auth, variable, event }: PostmanFileCollection): string[] {
-  const warnings: string[] = [];
-
-  if (auth) warnings.push('Collection-level authentication was ignored');
-  if (variable?.length) warnings.push(`${variable.length} collection variables were ignored`);
-  if (event?.length) warnings.push('Collection-level scripts were ignored');
-
-  return warnings;
 }
 
 /**
  * Adds a folder and its subfolders as single-level folders named by their path, e.g. "Users / Admin".
  * Subfolders come before their parent, and a folder without direct requests is not added.
  */
-function flattenFolder(folder: PostmanFileFolder, parentPath: string, flattened: FlattenedFolders): void {
+function flattenFolder(folder: PostmanFileFolder, parentPath: string, folders: PostmanFolder[]): void {
   const path = parentPath ? `${parentPath}${FOLDER_PATH_SEPARATOR}${folder.name}` : folder.name;
-
-  if (folder.event?.length) flattened.warnings.push(`Folder "${path}" scripts were ignored`);
-  if (folder.auth) flattened.warnings.push(`Folder "${path}" auth was ignored`);
-
-  for (const child of folder.item) if (isPostmanFolder(child)) flattenFolder(child, path, flattened);
+  for (const child of folder.item) if (isPostmanFolder(child)) flattenFolder(child, path, folders);
 
   const requests = folder.item.filter(isPostmanRequest);
   if (requests.length > 0)
-    flattened.folders.push({
+    folders.push({
       id: folder._postman_id || generateFolderId(),
       name: path,
-      item: requests.map((request) => fromPostmanItem(request, flattened.warnings)),
+      item: requests.map(fromPostmanItem),
     });
 }
 
-function fromPostmanItem(item: PostmanFileItem, warnings: string[]): PostmanItem {
-  if (item.event?.length) warnings.push(`Request "${item.name}" scripts were ignored`);
-
+function fromPostmanItem(item: PostmanFileItem): PostmanItem {
   return {
     id: item._postman_id || generateRequestId(),
     name: item.name,

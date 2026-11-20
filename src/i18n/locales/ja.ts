@@ -70,7 +70,6 @@ const ja = {
     noSavedRequests: '保存されたリクエストはありません',
     importFailed: 'インポートに失敗しました: {{error}}',
     exportFailed: 'エクスポートに失敗しました: {{error}}',
-    importedWithWarnings: '{{count}} 件の警告とともにインポートしました',
     failedToLoadCollection: 'コレクションの読み込みに失敗しました',
   },
 
@@ -241,7 +240,6 @@ const ja = {
       collectionNamesMatch: 'コレクション名が一致しています',
       folderConflicts: '名前が一致するフォルダが {{count}} 件あります',
       requestConflicts: 'URL + メソッドまたは名前が一致するリクエストが {{count}} 件あります',
-      importWarnings: 'インポートの警告: {{count}}',
       replaceDescription: '既存のコレクション全体を置き換える ({{folders}} フォルダ、{{requests}} リクエスト)',
       mergeDescription: 'ユニークな項目のみを追加 (URL + メソッドまたは名前で重複をスキップ)',
       newFolders: '新規フォルダ {{count}} 件',

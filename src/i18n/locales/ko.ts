@@ -70,7 +70,6 @@ const ko = {
     noSavedRequests: '저장된 요청이 없습니다',
     importFailed: '가져오기 실패: {{error}}',
     exportFailed: '내보내기 실패: {{error}}',
-    importedWithWarnings: '경고 {{count}}건과 함께 가져왔습니다',
     failedToLoadCollection: '컬렉션을 불러오지 못했습니다',
   },
 
@@ -240,7 +239,6 @@ const ko = {
       collectionNamesMatch: '컬렉션 이름이 일치합니다',
       folderConflicts: '이름이 일치하는 폴더 {{count}}개',
       requestConflicts: 'URL + 메서드 또는 이름이 일치하는 요청 {{count}}개',
-      importWarnings: '가져오기 경고: {{count}}',
       replaceDescription: '기존 컬렉션 전체 바꾸기 (폴더 {{folders}}개, 요청 {{requests}}개)',
       mergeDescription: '고유 항목만 추가 (URL + 메서드 또는 이름 기준 중복은 건너뜀)',
       newFolders: '새 폴더 {{count}}개',

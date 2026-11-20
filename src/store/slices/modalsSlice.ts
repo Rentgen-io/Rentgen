@@ -9,7 +9,6 @@ export interface ImportConflictModalState {
   isOpen: boolean;
   importedCollection: PostmanCollection | null;
   conflictSummary: ImportConflictSummary | null;
-  warnings: string[];
 }
 
 export interface SetAsDynamicVariableModalState {
@@ -63,7 +62,6 @@ const emptyImportConflictModal: ImportConflictModalState = {
   conflictSummary: null,
   importedCollection: null,
   isOpen: false,
-  warnings: [],
 };
 
 const emptyProjectImportConfirmModal: ProjectImportConfirmModalState = {
@@ -138,14 +136,12 @@ export const modalsSlice = createSlice({
       action: PayloadAction<{
         collection: PostmanCollection;
         conflictSummary: ImportConflictSummary;
-        warnings: string[];
       }>,
     ) => {
       state.importConflictModal = {
         conflictSummary: action.payload.conflictSummary,
         importedCollection: action.payload.collection,
         isOpen: true,
-        warnings: action.payload.warnings,
       };
     },
     openProjectImportConfirmModal: (

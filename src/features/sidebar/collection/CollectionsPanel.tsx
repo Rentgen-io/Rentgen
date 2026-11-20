@@ -50,28 +50,16 @@ export default function CollectionsPanel() {
       return;
     }
 
-    if (result.collection) {
-      const conflictSummary = detectImportConflicts(collection, result.collection);
+    if (!result.collection) return;
 
-      if (conflictSummary.hasConflicts) {
-        dispatch(
-          modalsActions.openImportConflictModal({
-            collection: result.collection,
-            conflictSummary,
-            warnings: result.warnings || [],
-          }),
-        );
-      } else {
-        dispatch(collectionActions.importCollection({ collection: result.collection, mode: 'merge' }));
-
-        const warningCount = result.warnings?.length || 0;
-        if (warningCount > 0)
-          notify.warning(t('collections.importedWithWarnings', { count: warningCount }), {
-            toastId: 'warning-import-collection',
-          });
-        else notify.success(t('common.imported'), { toastId: 'success-import-collection' });
-      }
+    const conflictSummary = detectImportConflicts(collection, result.collection);
+    if (conflictSummary.hasConflicts) {
+      dispatch(modalsActions.openImportConflictModal({ collection: result.collection, conflictSummary }));
+      return;
     }
+
+    dispatch(collectionActions.importCollection({ collection: result.collection, mode: 'merge' }));
+    notify.success(t('common.imported'), { toastId: 'success-import-collection' });
   };
 
   const handleExport = async () => {

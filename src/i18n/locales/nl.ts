@@ -70,7 +70,6 @@ const nl = {
     noSavedRequests: 'Geen opgeslagen verzoeken',
     importFailed: 'Importeren mislukt: {{error}}',
     exportFailed: 'Exporteren mislukt: {{error}}',
-    importedWithWarnings: 'Geïmporteerd met {{count}} waarschuwing(en)',
     failedToLoadCollection: 'Collectie laden mislukt',
   },
 
@@ -242,7 +241,6 @@ const nl = {
       collectionNamesMatch: 'Collectienamen komen overeen',
       folderConflicts: '{{count}} map(pen) met overeenkomende namen',
       requestConflicts: '{{count}} verzoek(en) met overeenkomende URL + methode of naam',
-      importWarnings: 'Importwaarschuwingen: {{count}}',
       replaceDescription: 'Bestaande collectie volledig vervangen ({{folders}} mappen, {{requests}} verzoeken)',
       mergeDescription: 'Alleen unieke items toevoegen (slaat duplicaten op basis van URL + methode of naam over)',
       newFolders: '{{count}} nieuwe map(pen)',

@@ -28,12 +28,11 @@ export function registerImportExportHandlers(): void {
       if (!validation.valid) return { error: validation.error };
 
       // Convert to Rentgen format
-      const { collection, warnings } = postmanToRentgen(parsed);
+      const collection = postmanToRentgen(parsed);
 
       return {
         success: true,
         collection,
-        warnings,
         fileName: path.basename(result.filePaths[0]),
       };
     } catch (error) {

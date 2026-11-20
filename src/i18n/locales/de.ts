@@ -70,7 +70,6 @@ const de = {
     noSavedRequests: 'Keine gespeicherten Anfragen',
     importFailed: 'Import fehlgeschlagen: {{error}}',
     exportFailed: 'Export fehlgeschlagen: {{error}}',
-    importedWithWarnings: 'Importiert mit {{count}} Warnung(en)',
     failedToLoadCollection: 'Sammlung konnte nicht geladen werden',
   },
 
@@ -241,7 +240,6 @@ const de = {
       collectionNamesMatch: 'Sammlungsnamen stimmen überein',
       folderConflicts: '{{count}} Ordner mit übereinstimmenden Namen',
       requestConflicts: '{{count}} Anfrage(n) mit übereinstimmender URL + Methode oder Namen',
-      importWarnings: 'Importwarnungen: {{count}}',
       replaceDescription: 'Gesamte bestehende Sammlung ersetzen ({{folders}} Ordner, {{requests}} Anfragen)',
       mergeDescription:
         'Nur eindeutige Elemente hinzufügen (Duplikate nach URL + Methode oder Name werden übersprungen)',

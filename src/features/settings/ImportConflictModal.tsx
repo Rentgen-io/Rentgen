@@ -13,7 +13,7 @@ export default function ImportConflictModal() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const { isOpen, importedCollection, conflictSummary, warnings } = useAppSelector(selectImportConflictModal);
+  const { isOpen, importedCollection, conflictSummary } = useAppSelector(selectImportConflictModal);
   const existingCollection = useAppSelector(selectCollectionData);
 
   const mergeStats = useMemo(() => {
@@ -56,11 +56,6 @@ export default function ImportConflictModal() {
           {conflictSummary.requestConflicts.length > 0 && (
             <p className="m-0 text-xs">
               - {t('modals.importConflict.requestConflicts', { count: conflictSummary.requestConflicts.length })}
-            </p>
-          )}
-          {warnings.length > 0 && (
-            <p className="m-0 mt-2 text-xs text-destructive">
-              {t('modals.importConflict.importWarnings', { count: warnings.length })}
             </p>
           )}
         </div>
