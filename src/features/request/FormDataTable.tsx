@@ -1,7 +1,9 @@
-import { useId, useState } from 'react';
+import { useId } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from 'react-tooltip';
+import { PostmanFormDataItem } from 'shared/types/postman';
+import { getFileName, getFormDataFilePaths, toPostmanFilePath } from 'shared/utils/http';
 import { selectFiles } from 'src/api/files';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import HighlightedInput from 'src/components/inputs/HighlightedInput';
@@ -10,8 +12,7 @@ import { useSaveRequest } from 'src/hooks/useSaveRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectBodyFormData, selectHighlightColor, selectVariableNames } from 'src/store/selectors';
 import { requestActions } from 'src/store/slices/requestSlice';
-import { PostmanFormDataItem } from 'src/types';
-import { getFileName, getFormDataFilePaths, toPostmanFilePath } from 'src/utils';
+import { EditableRow, useEditableRows } from './useEditableRows';
 
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 import TrashIcon from 'src/assets/icons/trash-icon.svg';
@@ -26,11 +27,7 @@ const typeOptions: SelectOption<FieldType, string>[] = [
   { label: 'File', value: 'file' },
 ];
 
-// A form-data field; `id` only identifies the row while editing (stable table / React key), it isn't saved
-interface Row extends PostmanFormDataItem {
-  id: string;
-  value: string;
-}
+type Row = EditableRow<PostmanFormDataItem>;
 
 /**
  * Edits the form-data body fields of the request. Every change is written to the store (so a send always uses the
@@ -46,33 +43,16 @@ export default function FormDataTable() {
 
   const { autoSaveRequest } = useSaveRequest();
 
-  const [rows, setRows] = useState<Row[]>(() => toRows(items));
-  const [syncedItems, setSyncedItems] = useState<PostmanFormDataItem[] | undefined>(items);
+  const { rows, changeRow, removeRow } = useEditableRows({
+    items,
+    isEmpty: isEmptyRow,
+    isSame: isSameItems,
+    toItem,
+    onChange: (nextItems) => dispatch(requestActions.setBodyFormData(nextItems)),
+  });
 
-  // Fields changed elsewhere (another request selected, an import): the rows start over from them
-  if (!isSameItems(items, syncedItems)) {
-    setSyncedItems(items);
-    setRows(toRows(items));
-  }
-
-  const updateRows = (nextRows: Row[]) => {
-    const rowsWithEmptyRow = withTrailingEmptyRow(nextRows);
-    const nextItems = rowsWithEmptyRow.filter((row) => !isEmptyRow(row)).map(toItem);
-
-    setRows(rowsWithEmptyRow);
-    setSyncedItems(nextItems);
-    dispatch(requestActions.setBodyFormData(nextItems));
-  };
-
-  const changeRow = (id: string, changes: Partial<Pick<Row, 'key' | 'src' | 'type' | 'value'>>) =>
-    updateRows(
-      rows
-        .map((row) => (row.id === id ? { ...row, ...changes } : row))
-        .filter((row) => row.id === id || !isEmptyRow(row)),
-    );
-
-  const removeRow = (id: string) => {
-    updateRows(rows.filter((row) => row.id !== id));
+  const deleteRow = (id: string) => {
+    removeRow(id);
     autoSaveRequest();
   };
 
@@ -142,7 +122,7 @@ export default function FormDataTable() {
         isEmptyRow(row) ? null : (
           <TrashIcon
             className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
-            onClick={() => removeRow(row.id)}
+            onClick={() => deleteRow(row.id)}
           />
         ),
       width: '40px',
@@ -151,17 +131,6 @@ export default function FormDataTable() {
   ];
 
   return <DataTable className="form-data-data-table" columns={columns} data={rows} keyField="id" />;
-}
-
-// Row ids only need to be unique while the app runs
-let nextRowId = 0;
-
-function createRow(item: PostmanFormDataItem = { key: '', value: '' }): Row {
-  return { ...item, value: item.value ?? '', id: `form-data-${nextRowId++}` };
-}
-
-function toRows(items: PostmanFormDataItem[] | undefined): Row[] {
-  return withTrailingEmptyRow((items ?? []).map((item) => createRow(item)));
 }
 
 function toItem(row: Row): PostmanFormDataItem {
@@ -188,15 +157,9 @@ function toSrc(filePaths: string[]): PostmanFormDataItem['src'] {
   return filePaths.length === 1 ? filePaths[0] : filePaths;
 }
 
-/** Keeps exactly one empty row at the end, for adding a field. */
-function withTrailingEmptyRow(rows: Row[]): Row[] {
-  const lastRow = rows[rows.length - 1];
-  return lastRow && isEmptyRow(lastRow) ? rows : [...rows, createRow()];
-}
-
-function isSameItems(a: PostmanFormDataItem[] | undefined, b: PostmanFormDataItem[] | undefined): boolean {
+function isSameItems(a: PostmanFormDataItem[], b: PostmanFormDataItem[]): boolean {
   if (a === b) return true;
-  if (!a || !b || a.length !== b.length) return false;
+  if (a.length !== b.length) return false;
 
   return a.every(
     (item, index) =>

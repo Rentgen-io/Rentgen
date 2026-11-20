@@ -1,18 +1,31 @@
-import { DEFAULT_FOLDER_ID, DEFAULT_FOLDER_NAME } from 'shared/utils/collection';
-import { generateFolderId, generateRequestId } from 'shared/utils/id';
 import {
-  ImportConflict,
-  ImportConflictSummary,
   PostmanBody,
   PostmanCollection,
   PostmanFolder,
   PostmanHeader,
   PostmanItem,
   PostmanRequest,
-  PreEvaluation,
-} from 'src/types';
+} from 'shared/types/postman';
+import { PreEvaluation } from 'shared/types/pre-evaluation';
+import { DEFAULT_FOLDER_ID, DEFAULT_FOLDER_NAME } from 'shared/utils/collection';
+import { generateFolderId, generateRequestId } from 'shared/utils/id';
 
-export { createEmptyCollection } from 'shared/utils/collection';
+export interface ImportConflict {
+  type: 'collection' | 'folder' | 'request';
+  existingName: string;
+  importedName: string;
+  folderId?: string;
+  folderName?: string;
+  requestMethod?: string;
+  requestUrl?: string;
+}
+
+export interface ImportConflictSummary {
+  hasConflicts: boolean;
+  collectionNameMatch: boolean;
+  folderConflicts: ImportConflict[];
+  requestConflicts: ImportConflict[];
+}
 
 /** A request as listed in the sidebar. */
 export interface CollectionItemData {
@@ -39,22 +52,6 @@ export interface RequestWithFolder {
 interface RequestLocation {
   folderIndex: number;
   itemIndex: number;
-}
-
-// ---------- Headers ----------
-
-export function headersToPostmanFormat(headers: Record<string, string>): PostmanHeader[] {
-  return Object.entries(headers).map(([key, value]) => ({ key, value }));
-}
-
-/**
- * The headers as sent (a record), names and values trimmed: headers without a name are left out, and when a header
- * repeats, the last value wins.
- */
-export function postmanHeadersToRecord(headers: PostmanHeader[]): Record<string, string> {
-  return Object.fromEntries(
-    headers.filter(({ key }) => key.trim()).map(({ key, value }) => [key.trim(), value.trim()]),
-  );
 }
 
 // ---------- Requests ----------
@@ -236,22 +233,6 @@ export function reorderFolderInCollection(
 
 export function removeFolderFromCollection(collection: PostmanCollection, folderId: string): PostmanCollection {
   return { ...collection, item: collection.item.filter((folder) => folder.id !== folderId) };
-}
-
-/**
- * Builds a folder name that does not collide with existing folders by appending a counter.
- * `ignoreFolderId` excludes a folder from the check, e.g. the one being renamed.
- */
-export function uniqueFolderName(collection: PostmanCollection, name: string, ignoreFolderId?: string): string {
-  const existingNames = new Set(
-    collection.item.filter((folder) => folder.id !== ignoreFolderId).map((folder) => folder.name),
-  );
-  if (!existingNames.has(name)) return name;
-
-  let counter = 2;
-  while (existingNames.has(`${name} (${counter})`)) counter++;
-
-  return `${name} (${counter})`;
 }
 
 // ---------- Sidebar ----------

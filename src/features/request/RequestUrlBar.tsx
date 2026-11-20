@@ -8,7 +8,6 @@ import { CreatableSelect } from 'src/components/inputs/CreatableSelect';
 import HighlightedInput from 'src/components/inputs/HighlightedInput';
 import { SelectOption } from 'src/components/inputs/Select';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
-import { useSendHttpRequest } from 'src/hooks/useSendHttpRequest';
 import { useWssActions } from 'src/hooks/useWebSocket';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -23,6 +22,7 @@ import {
   selectWssConnected,
 } from 'src/store/selectors';
 import { requestActions } from 'src/store/slices/requestSlice';
+import { useSendHttpRequest } from './useSendHttpRequest';
 
 const methodOptions: SelectOption<Method, string>[] = [
   { value: 'GET', label: 'GET', className: 'text-method-get!' },

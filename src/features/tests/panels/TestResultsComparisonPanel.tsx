@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { HttpRequest, HttpResponse, ResponseBody } from 'shared/types/http';
+import { TestResult, TestResults } from 'shared/types/testing';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import { IconButton } from 'src/components/buttons/IconButton';
 import Toggle from 'src/components/inputs/Toggle';
@@ -9,8 +11,7 @@ import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
 import { useAppDispatch } from 'src/store/hooks';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { ORIGINAL_REQUEST_TEST_PARAMETER_NAME } from 'src/test-engine';
-import { HttpRequest, HttpResponse, ResponseBody, TestResult, TestResults } from 'src/types';
-import { detectObjectType, truncateValue } from 'src/utils';
+import { detectObjectType, truncateValue } from 'src/utils/object';
 import { twMerge } from 'tailwind-merge';
 import PotentialBugsTable, { PotentialBug } from '../tables/PotentialBugsTable';
 

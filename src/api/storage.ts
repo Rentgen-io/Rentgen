@@ -1,4 +1,8 @@
-import { DynamicVariable, Environment, HistoryEntry, MappingsState, PostmanCollection, SettingsState } from 'src/types';
+import { DynamicVariable, Environment } from 'shared/types/environment';
+import { HistoryEntry } from 'shared/types/history';
+import { MappingsState } from 'shared/types/mappings';
+import { PostmanCollection } from 'shared/types/postman';
+import { SettingsState } from 'shared/types/settings';
 
 export const loadCollection = () => window.electronAPI.loadCollection();
 export const saveCollection = (collection: PostmanCollection) => window.electronAPI.saveCollection(collection);

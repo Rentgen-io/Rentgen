@@ -63,11 +63,6 @@ export interface DynamicVariable {
 /**
  * Result of validating dynamic variables before request execution
  */
-export interface VariableValidationResult {
-  isValid: boolean;
-  missingVariables: string[];
-}
-
 export interface VariableSuggestion {
   key: string;
   environments: Environment[];

@@ -2,6 +2,9 @@ import { Method } from 'axios';
 
 export type ResponseBody = string | number | boolean | Record<string, unknown> | unknown[] | null;
 
+/** A form field as [name, value], or a form-data file as [name, path]. */
+export type FormEntry = [string, string];
+
 /**
  * multipart/form-data body in a structured-clone-safe shape: a DOM `FormData` cannot cross Electron IPC,
  * so the renderer sends the entries and the main process builds the real `FormData`.
@@ -9,9 +12,9 @@ export type ResponseBody = string | number | boolean | Record<string, unknown> |
 export interface FormDataBody {
   __type: 'formdata';
   /** Text fields as [name, value]. */
-  entries: Array<[string, string]>;
+  entries: FormEntry[];
   /** File fields as [name, path on disk]; the main process reads the files when sending, after the text fields. */
-  files?: Array<[string, string]>;
+  files?: FormEntry[];
 }
 
 /**
@@ -20,7 +23,7 @@ export interface FormDataBody {
  */
 export interface UrlEncodedBody {
   __type: 'urlencoded';
-  entries: Array<[string, string]>;
+  entries: FormEntry[];
 }
 
 /** A body made of key/value fields. */

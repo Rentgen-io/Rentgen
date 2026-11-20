@@ -1,5 +1,5 @@
 import { openExternal } from 'src/api/system';
-import { hidePrompt } from 'src/utils';
+import { hidePrompt } from 'src/services/prompts';
 import Button, { ButtonSize, ButtonType } from '../buttons/Button';
 import Modal from './Modal';
 

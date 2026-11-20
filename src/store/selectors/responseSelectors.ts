@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RESPONSE_STATUS } from 'shared/responseStatus';
 import { RootState } from 'src/store';
-import { extractStatusCode } from 'src/utils';
+import { extractStatusCode } from 'src/utils/http';
 
 export const selectHttpResponse = (state: RootState) => state.response.httpResponse;
 export const selectHasHttpResponse = (state: RootState) => Boolean(state.response.httpResponse);

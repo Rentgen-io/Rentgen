@@ -1,12 +1,12 @@
 import cn from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import type { CliActionResult, CliStatus } from 'shared/types/cli';
 import { exportProject } from 'src/api/files';
 import { getCliStatus, installCli, openExternal, uninstallCli } from 'src/api/system';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import Loader from 'src/components/loaders/Loader';
-import type { CliActionResult, CliStatus } from 'src/types';
-import { notify } from 'src/utils/toast';
+import { notify } from 'src/services/notify';
 import SettingsHeader from '../SettingsHeader';
 
 interface FlagRow {

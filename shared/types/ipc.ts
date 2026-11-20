@@ -5,7 +5,6 @@ export interface ImportResult {
   success?: boolean;
   error?: string;
   collection?: PostmanCollection;
-  warnings?: string[];
   fileName?: string;
 }
 

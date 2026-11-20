@@ -2,6 +2,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import cn from 'classnames';
 import { memo } from 'react';
+import { Environment } from 'shared/types/environment';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectEditingEnvironmentId,
@@ -9,7 +10,6 @@ import {
   selectSelectedEnvironmentId,
 } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';
-import { Environment } from 'src/types';
 
 import TrashIcon from 'src/assets/icons/trash-icon.svg';
 

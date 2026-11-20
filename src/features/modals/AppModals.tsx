@@ -5,7 +5,6 @@ import SetAsDynamicVariableModal from 'src/features/environment/SetAsDynamicVari
 import ImportConflictModal from 'src/features/settings/ImportConflictModal';
 import ProjectImportConfirmModal from 'src/features/settings/ProjectImportConfirmModal';
 import SettingsModal from 'src/features/settings/SettingsModal';
-import { useTestRunEndPrompts } from 'src/hooks/useTestRunEndPrompts';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectDeleteFolderModal,
@@ -19,6 +18,7 @@ import { modalsActions } from 'src/store/slices/modalsSlice';
 import FollowModal from './FollowModal';
 import GitHubModal from './GitHubModal';
 import ImportResourceModal from './ImportResourceModal';
+import { useTestRunEndPrompts } from './useTestRunEndPrompts';
 
 export default function AppModals() {
   const dispatch = useAppDispatch();

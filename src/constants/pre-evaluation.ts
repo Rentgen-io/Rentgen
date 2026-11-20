@@ -1,4 +1,4 @@
-import { EvaluationQuestion, PreEvaluation } from 'src/types';
+import { EvaluationQuestion, PreEvaluation } from 'shared/types/pre-evaluation';
 
 export const DEFAULT_EVALUATION_QUESTIONS: EvaluationQuestion[] = [
   {

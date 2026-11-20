@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { TableColumn } from 'react-data-table-component';
 import { Trans, useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { TestResult } from 'shared/types/testing';
 import { Accordion } from 'src/components/accordion/Accordion';
 import { AccordionItem } from 'src/components/accordion/AccordionItem';
 import Button, { ButtonType } from 'src/components/buttons/Button';
@@ -23,7 +24,7 @@ import {
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
-import { uiActions } from 'src/store/slices/uiSlice';
+import { AiTab, uiActions } from 'src/store/slices/uiSlice';
 import {
   cancelAiTestsGeneration,
   determineRequestParameterTestStatus,
@@ -32,7 +33,6 @@ import {
   executeAllAiTests,
   SUCCESS_RESPONSE_EXPECTED,
 } from 'src/test-engine';
-import { AiTab, TestResult } from 'src/types';
 import { AiRequestMaskControls } from '../controls/AiRequestMaskControls';
 import AiTestRunControls from '../controls/AiTestRunControls';
 import TestRunControls from '../controls/TestRunControls';

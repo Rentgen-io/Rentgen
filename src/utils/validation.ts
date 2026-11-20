@@ -1,4 +1,4 @@
-import { DataType } from 'src/types';
+import { DataType } from 'shared/types/testing';
 
 const DATA_TYPE_DETECTORS: ReadonlyArray<{
   type: DataType;

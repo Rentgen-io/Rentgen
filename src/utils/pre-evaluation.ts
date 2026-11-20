@@ -1,15 +1,26 @@
+import { PostmanBody } from 'shared/types/postman';
+import { EvaluationQuestion, MatchMode, PreEvaluation } from 'shared/types/pre-evaluation';
 import { MAX_ITERATIONS, MIN_ITERATIONS } from 'src/constants/pre-evaluation';
-import i18n from 'src/i18n';
-import { EvaluationQuestion, MatchMode, PostmanBody, PreEvaluation } from 'src/types';
 import { v4 as uuidv4 } from 'uuid';
 import { isObject, toJsonPointer } from './object';
 
-export const CSV_HEADERS = ['prompt', 'contains', 'containsMode', 'notContains', 'notContainsMode'];
+const CSV_HEADERS = ['prompt', 'contains', 'containsMode', 'notContains', 'notContainsMode'];
 
-/** Why a pre-evaluation can't run, as a translation key (with its interpolation values). */
-export interface PreEvaluationError {
+/** A message as a translation key, with its interpolation values. */
+export interface PreEvaluationMessage {
   key: string;
-  values?: Record<string, number>;
+  values?: Record<string, string | number>;
+}
+
+/** Why a CSV file can't be imported; `key` and `values` are the translation of the reason. */
+export class CsvImportError extends Error {
+  constructor(
+    readonly key: string,
+    readonly values?: Record<string, string | number>,
+  ) {
+    super(key);
+    this.name = 'CsvImportError';
+  }
 }
 
 /**
@@ -22,7 +33,7 @@ export function getPreEvaluationError(
   { body, method, url }: { body: PostmanBody; method: string; url: string },
   preEvaluation: PreEvaluation,
   promptPointers: string[],
-): PreEvaluationError | null {
+): PreEvaluationMessage | null {
   if (!url || ['GET', 'HEAD'].includes(method.toUpperCase()) || body.mode === 'formdata' || body.mode === 'urlencoded')
     return { key: 'preEvaluation.useRequestMethodWithJsonBody' };
 
@@ -82,7 +93,7 @@ function tokenizeCsv(text: string): string[][] {
     }
   }
 
-  if (inQuotes) throw new Error(i18n.t('preEvaluation.unclosedQuotedField'));
+  if (inQuotes) throw new CsvImportError('preEvaluation.unclosedQuotedField');
   endRow();
   return rows;
 }
@@ -96,7 +107,7 @@ function parseTerms(value: string, rowNumber: number): string[] {
   }
 
   if (!Array.isArray(parsed) || parsed.some((t) => typeof t !== 'string' || !t.trim()))
-    throw new Error(i18n.t('preEvaluation.invalidTerms', { rowNumber }));
+    throw new CsvImportError('preEvaluation.invalidTerms', { rowNumber });
 
   return parsed;
 }
@@ -105,16 +116,16 @@ export function parseCsv(input: string): EvaluationQuestion[] {
   const [header, ...rows] = tokenizeCsv(input.replace(/^\uFEFF/, ''));
 
   if (header?.length !== CSV_HEADERS.length || header.some((h, i) => h !== CSV_HEADERS[i]))
-    throw new Error(i18n.t('preEvaluation.expectedCsvColumns', { columns: CSV_HEADERS.join(', ') }));
+    throw new CsvImportError('preEvaluation.expectedCsvColumns', { columns: CSV_HEADERS.join(', ') });
 
   return rows.map((cells, index) => {
     const rowNumber = index + 2;
     if (cells.length !== CSV_HEADERS.length || !cells[0].trim())
-      throw new Error(i18n.t('preEvaluation.invalidCsvRow', { rowNumber }));
+      throw new CsvImportError('preEvaluation.invalidCsvRow', { rowNumber });
 
     const [prompt, contains, containsMode, notContains, notContainsMode] = cells;
     if (!isMatchMode(containsMode) || !isMatchMode(notContainsMode))
-      throw new Error(i18n.t('preEvaluation.invalidOperator', { rowNumber }));
+      throw new CsvImportError('preEvaluation.invalidOperator', { rowNumber });
 
     return {
       id: uuidv4(),
@@ -157,11 +168,12 @@ function normalizeMatchText(text: string): string {
   return text.normalize('NFC').replace(APOSTROPHE_VARIANTS, "'").toLowerCase();
 }
 
-export function evaluate(text: string, question: EvaluationQuestion): string[] {
+/** Why the text fails the question's assertions, as translation messages; empty when it passes. */
+export function evaluate(text: string, question: EvaluationQuestion): PreEvaluationMessage[] {
   const { contains, containsMode, notContains, notContainsMode } = question;
   if (!contains.length && !notContains.length) return [];
 
-  const reasons: string[] = [];
+  const reasons: PreEvaluationMessage[] = [];
   const normalized = normalizeMatchText(text);
 
   const matches = (terms: string[], mode: MatchMode) => {
@@ -170,12 +182,13 @@ export function evaluate(text: string, question: EvaluationQuestion): string[] {
   };
 
   if (contains.length && !matches(contains, containsMode))
-    reasons.push(i18n.t('preEvaluation.missingRequiredText', { containsMode, contains: contains.join(', ') }));
+    reasons.push({ key: 'preEvaluation.missingRequiredText', values: { containsMode, contains: contains.join(', ') } });
 
   if (notContains.length && matches(notContains, notContainsMode))
-    reasons.push(
-      i18n.t('preEvaluation.containsForbiddenText', { notContainsMode, notContains: notContains.join(', ') }),
-    );
+    reasons.push({
+      key: 'preEvaluation.containsForbiddenText',
+      values: { notContainsMode, notContains: notContains.join(', ') },
+    });
 
   return reasons;
 }

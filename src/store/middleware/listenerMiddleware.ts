@@ -1,4 +1,5 @@
 import { createListenerMiddleware, isAnyOf, isFulfilled } from '@reduxjs/toolkit';
+import { PostmanFolder } from 'shared/types/postman';
 import {
   saveCollection,
   saveDynamicVariables,
@@ -17,8 +18,7 @@ import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { loadSettings, settingsActions } from 'src/store/slices/settingsSlice';
-import { PostmanFolder } from 'src/types';
-import { extractDynamicVariables } from 'src/utils';
+import { extractDynamicVariables } from 'src/utils/dynamicVariable';
 
 const isParametersUpdate = isAnyOf(requestActions.updateBodyParameters, requestActions.updateQueryParameters);
 

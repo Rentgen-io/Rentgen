@@ -1,5 +1,7 @@
 import { ChangeEvent, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { DataType, FileFormat, Interval, ParameterValue } from 'shared/types/testing';
+import { FILE_FORMAT_GROUPS } from 'shared/utils/test-files';
 import { IconButton } from 'src/components/buttons/IconButton';
 import Input from 'src/components/inputs/Input';
 import { SelectOption } from 'src/components/inputs/Select';
@@ -8,8 +10,8 @@ import Toggle from 'src/components/inputs/Toggle';
 import { useAppSelector } from 'src/store/hooks';
 import { selectTestEngineConfiguration } from 'src/store/selectors';
 import { isParameterTestSkipped } from 'src/test-engine';
-import { DataType, FileFormat, Interval, ParameterValue } from 'src/types';
-import { clamp, FILE_FORMAT_GROUPS, getInitialParameterValue, normalizeDecimal } from 'src/utils';
+import { getInitialParameterValue } from 'src/test-engine/parameters';
+import { clamp, normalizeDecimal } from 'src/utils/number';
 
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 
@@ -64,7 +66,8 @@ interface Props {
 export function ParameterControls({ canBeFile = false, parameterValue, onChange }: Props) {
   const { t } = useTranslation();
 
-  const { number: numberSettings, string: stringSettings } = useAppSelector(selectTestEngineConfiguration);
+  const settings = useAppSelector(selectTestEngineConfiguration);
+  const { number: numberSettings, string: stringSettings } = settings;
 
   const { mandatory, type, value } = parameterValue;
   const showFileOption = canBeFile || type === 'file';
@@ -98,8 +101,8 @@ export function ParameterControls({ canBeFile = false, parameterValue, onChange 
     // A type that isn't tested has no settings; it's mandatory unless it's "Do not test"
     onChange(
       isParameterTestSkipped(newType)
-        ? getInitialParameterValue(newType, '', newType !== 'do-not-test')
-        : getInitialParameterValue(newType),
+        ? getInitialParameterValue(newType, settings, '', newType !== 'do-not-test')
+        : getInitialParameterValue(newType, settings),
     );
   };
 

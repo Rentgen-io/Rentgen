@@ -1,7 +1,10 @@
 import { isSuccessStatus } from 'shared/responseStatus';
+import type { ResponseBody } from 'shared/types/http';
+import type { AiProvider } from 'shared/types/settings';
+import type { AiUsage } from 'shared/types/testing';
 import i18n from 'src/i18n';
-import type { AiProvider, AiUsage, ResponseBody } from 'src/types';
-import { extractStatusCode, isObject } from 'src/utils';
+import { extractStatusCode } from 'src/utils/http';
+import { isObject } from 'src/utils/object';
 import { sendHttp } from './network';
 
 const ANTHROPIC_VERSION = '2023-06-01';

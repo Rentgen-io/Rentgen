@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AiTestsOverview, AiUsage, HttpResponse, TestOptions, TestResult, TestResults } from 'src/types';
+import { HttpResponse } from 'shared/types/http';
+import { AiTestsOverview, AiUsage, TestOptions, TestResult, TestResults } from 'shared/types/testing';
 
 interface TestState extends TestResults {
   aiRunStartedAt?: number;

@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 import { RESPONSE_STATUS_LABEL, isSuccessStatus } from 'shared/responseStatus';
+import { RequestParameters } from 'shared/types/testing';
+import { generateHistoryId } from 'shared/utils/id';
 import { sendHttp } from 'src/api/network';
 import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
@@ -12,6 +14,7 @@ import {
   selectMethod,
   selectSelectedEnvironment,
   selectSelectedRequestId,
+  selectTestEngineConfiguration,
   selectUrl,
 } from 'src/store/selectors';
 import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
@@ -19,16 +22,10 @@ import { historyActions } from 'src/store/slices/historySlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
-import { RequestParameters } from 'src/types';
-import {
-  createHttpRequest,
-  extractDynamicVariables,
-  extractRequestParameters,
-  extractStatusCode,
-  formatExtractionWarning,
-  generateHistoryId,
-  substituteRequestVariables,
-} from 'src/utils';
+import { extractRequestParameters } from 'src/test-engine/parameters';
+import { extractDynamicVariables } from 'src/utils/dynamicVariable';
+import { formatExtractionWarning, substituteRequestVariables } from 'src/utils/environment';
+import { createHttpRequest, extractStatusCode } from 'src/utils/http';
 
 let activeController: AbortController | null = null;
 
@@ -58,6 +55,7 @@ export function useSendHttpRequest() {
     const method = selectMethod(state);
     const selectedEnvironment = selectSelectedEnvironment(state);
     const selectedRequestId = selectSelectedRequestId(state);
+    const testEngineConfiguration = selectTestEngineConfiguration(state);
     const url = selectUrl(state);
 
     dispatch(requestActions.setIsSending(true));
@@ -76,7 +74,14 @@ export function useSendHttpRequest() {
         url: substitutedUrl,
         headers: substitutedHeaders,
         body: substitutedBody,
-      } = substituteRequestVariables(body, selectedEnvironment, dynamicVariables, headers, url);
+      } = substituteRequestVariables(
+        body,
+        selectedEnvironment,
+        dynamicVariables,
+        headers,
+        testEngineConfiguration,
+        url,
+      );
       const request = createHttpRequest(substitutedBody, substitutedHeaders, method, substitutedUrl);
       const response = await sendHttp(request, controller.signal);
       const status = extractStatusCode(response);
@@ -91,6 +96,7 @@ export function useSendHttpRequest() {
           substitutedBody,
           substitutedUrl,
           selectedRequestId ? mappings[selectedRequestId] : undefined,
+          testEngineConfiguration,
         ));
 
         const doNotShowAgain = localStorage.getItem('sendHttpSuccessModalDoNotShowAgain');

@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import PromptModal from 'src/components/modals/PromptModal';
-import { GITHUB_PROMPT_STORAGE_KEY } from 'src/hooks/useTestRunEndPrompts';
+import { DAY_MS } from 'src/services/prompts';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectOpenGitHubModal } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { DAY_MS } from 'src/utils';
+import { GITHUB_PROMPT_STORAGE_KEY } from './useTestRunEndPrompts';
 
 /** Opened by useTestRunEndPrompts when a test run finishes without bugs (or the "Follow" prompt is hidden). */
 export default function GitHubModal() {

@@ -11,15 +11,15 @@ import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrate
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { exportPostmanCollection, importPostmanCollection } from 'src/api/files';
+import Loader from 'src/components/loaders/Loader';
+import { notify } from 'src/services/notify';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionData, selectCollectionLoading, selectSidebarFolders } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { detectImportConflicts, filterCollectionsBySearch } from 'src/utils';
-import { notify } from 'src/utils/toast';
+import { detectImportConflicts, filterCollectionsBySearch } from 'src/utils/collection';
 import SideBarSearch from '../SidebarSearch';
 import CollectionGroup from './CollectionGroup';
-import Loader from 'src/components/loaders/Loader';
 
 import AddIcon from 'src/assets/icons/add-icon.svg';
 import ExportIcon from 'src/assets/icons/export-icon.svg';
@@ -50,28 +50,16 @@ export default function CollectionsPanel() {
       return;
     }
 
-    if (result.collection) {
-      const conflictSummary = detectImportConflicts(collection, result.collection);
+    if (!result.collection) return;
 
-      if (conflictSummary.hasConflicts) {
-        dispatch(
-          modalsActions.openImportConflictModal({
-            collection: result.collection,
-            conflictSummary,
-            warnings: result.warnings || [],
-          }),
-        );
-      } else {
-        dispatch(collectionActions.importCollection({ collection: result.collection, mode: 'merge' }));
-
-        const warningCount = result.warnings?.length || 0;
-        if (warningCount > 0)
-          notify.warning(t('collections.importedWithWarnings', { count: warningCount }), {
-            toastId: 'warning-import-collection',
-          });
-        else notify.success(t('common.imported'), { toastId: 'success-import-collection' });
-      }
+    const conflictSummary = detectImportConflicts(collection, result.collection);
+    if (conflictSummary.hasConflicts) {
+      dispatch(modalsActions.openImportConflictModal({ collection: result.collection, conflictSummary }));
+      return;
     }
+
+    dispatch(collectionActions.importCollection({ collection: result.collection, mode: 'merge' }));
+    notify.success(t('common.imported'), { toastId: 'success-import-collection' });
   };
 
   const handleExport = async () => {

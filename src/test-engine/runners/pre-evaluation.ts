@@ -1,4 +1,6 @@
 import { isSuccessStatus } from 'shared/responseStatus';
+import { HttpRequest } from 'shared/types/http';
+import { EvaluationReport, EvaluationResult } from 'shared/types/pre-evaluation';
 import { sendHttp } from 'src/api/network';
 import { DEFAULT_PRE_EVALUATION } from 'src/constants/pre-evaluation';
 import i18n from 'src/i18n';
@@ -13,18 +15,14 @@ import {
   selectPreEvaluationTotalRuns,
   selectSelectedEnvironment,
   selectSelectedRequestId,
+  selectTestEngineConfiguration,
   selectUrl,
 } from 'src/store/selectors';
 import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
-import { EvaluationReport, EvaluationResult, HttpRequest } from 'src/types';
-import {
-  evaluate,
-  extractStatusCode,
-  getByJsonPointer,
-  parseJsonObject,
-  setByJsonPointer,
-  substituteRequestVariables,
-} from 'src/utils';
+import { substituteRequestVariables } from 'src/utils/environment';
+import { extractStatusCode } from 'src/utils/http';
+import { getByJsonPointer, parseJsonObject, setByJsonPointer } from 'src/utils/object';
+import { evaluate } from 'src/utils/pre-evaluation';
 
 /*
  * Drives pre-evaluation runs through the store. Not a hook: the request and settings are read from the store when a run
@@ -69,6 +67,7 @@ export async function executePreEvaluation() {
     selectSelectedEnvironment(state),
     selectDynamicVariables(state),
     selectHeaders(state),
+    selectTestEngineConfiguration(state),
     selectUrl(state),
   );
 
@@ -120,7 +119,11 @@ export async function executePreEvaluation() {
           if (preEvaluation.responsePath && typeof text !== 'string')
             result.reasons.push(t('preEvaluation.responseTextFieldMissing'));
           else
-            result.reasons.push(...evaluate(typeof text === 'string' ? text : (JSON.stringify(text) ?? ''), question));
+            result.reasons.push(
+              ...evaluate(typeof text === 'string' ? text : (JSON.stringify(text) ?? ''), question).map(
+                ({ key, values }) => t(key, values),
+              ),
+            );
         } catch (error) {
           if (controller.signal.aborted) break;
 

@@ -4,14 +4,15 @@ import cn from 'classnames';
 import { memo, useEffect, useState } from 'react';
 import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
 import { useContextMenu } from 'src/features/context-menu';
-import { useCollectionRunner } from 'src/hooks/useCollectionRunner';
-import { CollectionRunResult } from 'src/store/slices/collectionRunSlice';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionRunResults, selectRunningFolderId, selectSelectedFolderId } from 'src/store/selectors';
+import { CollectionRunResult } from 'src/store/slices/collectionRunSlice';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { CollectionFolderData, CollectionItemData, isAbortedResponse } from 'src/utils';
+import { CollectionFolderData, CollectionItemData } from 'src/utils/collection';
+import { isAbortedResponse } from 'src/utils/http';
 import CollectionItem from './CollectionItem';
+import { useCollectionRunner } from './useCollectionRunner';
 
 import ChevronIcon from 'src/assets/icons/chevron-icon.svg';
 import EditIcon from 'src/assets/icons/edit-icon.svg';

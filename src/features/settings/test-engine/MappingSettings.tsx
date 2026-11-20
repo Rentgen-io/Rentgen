@@ -5,7 +5,7 @@ import Input from 'src/components/inputs/Input';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectTestEngineConfiguration } from 'src/store/selectors';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import { clamp } from 'src/utils';
+import { clamp } from 'src/utils/number';
 import SettingsHeader from '../SettingsHeader';
 
 export function MappingSettings() {

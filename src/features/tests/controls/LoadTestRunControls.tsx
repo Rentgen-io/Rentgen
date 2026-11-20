@@ -4,7 +4,7 @@ import Input from 'src/components/inputs/Input';
 import { useAppSelector } from 'src/store/hooks';
 import { selectIsLoadTestRunning, selectTestOptions } from 'src/store/selectors';
 import { executeLoadTest } from 'src/test-engine';
-import { clamp } from 'src/utils';
+import { clamp } from 'src/utils/number';
 import TestRunControls from './TestRunControls';
 
 export default function LoadTestRunControls() {

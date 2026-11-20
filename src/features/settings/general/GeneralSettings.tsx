@@ -1,16 +1,16 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { HistoryRetention } from 'shared/types/settings';
 import { exportProject, importProject } from 'src/api/files';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Input from 'src/components/inputs/Input';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import Toggle from 'src/components/inputs/Toggle';
+import { notify } from 'src/services/notify';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectHistoryEnabled, selectHistoryRetention, selectHistorySize } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import { HistoryRetention } from 'src/types';
-import { notify } from 'src/utils/toast';
 import SettingsHeader from '../SettingsHeader';
 
 export function GeneralSettings() {

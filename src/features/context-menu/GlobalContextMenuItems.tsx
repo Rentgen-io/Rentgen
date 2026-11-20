@@ -2,8 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionData, selectSelectedRequestId } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { ResponsePanelContext } from 'src/types';
-import { findRequestWithFolder } from 'src/utils';
+import { ResponsePanelContext } from 'src/types/ui';
+import { findRequestWithFolder } from 'src/utils/collection';
 import ContextMenuItem from './ContextMenuItem';
 
 // Input types supporting the text selection API (selectionStart / setRangeText). Others, e.g. number, email, checkbox

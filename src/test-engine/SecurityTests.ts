@@ -19,9 +19,13 @@ import {
   UPPERCASE_DOMAIN_TEST_NAME,
   UPPERCASE_PATH_TEST_NAME,
 } from 'shared/testNames';
+import type { HttpRequest, HttpResponse } from 'shared/types/http';
+import type { TestEngineConfiguration } from 'shared/types/settings';
+import { type TestOptions, type TestResult, TestStatus } from 'shared/types/testing';
+import { getHeaderValue } from 'shared/utils/headers';
 import { sendHttp } from 'src/api/network';
-import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from 'src/types';
-import { createHttpRequest, createTestHttpRequest, getHeaderValue, uppercaseDomain, uppercasePath } from 'src/utils';
+import { createHttpRequest } from 'src/utils/http';
+import { uppercaseDomain, uppercasePath } from 'src/utils/url';
 import {
   BaseTests,
   createErrorTestResult,
@@ -31,6 +35,7 @@ import {
   SUCCESS_RESPONSE_EXPECTED,
 } from './BaseTests';
 import { Abortable, Test } from './decorators';
+import { createTestHttpRequest } from './parameters';
 
 let activeController: AbortController | null = null;
 
@@ -53,6 +58,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
   constructor(
     protected options: TestOptions,
     private disabledTests: string[],
+    private readonly settings: TestEngineConfiguration,
     protected onTestStart?: () => void,
   ) {
     super(options, onTestStart);
@@ -65,7 +71,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
 
     const securityTests: TestResult[] = [];
     const crudTests: TestResult[] = [];
-    const request = createTestHttpRequest(this.options);
+    const request = createTestHttpRequest(this.options, this.settings);
     const { headers, method, url } = request;
 
     try {
@@ -212,7 +218,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
   private async testOptionsMethod(): Promise<{ testResult: TestResult; allowHeader: string }> {
     this.onTestStart?.();
 
-    const request = createTestHttpRequest(this.options);
+    const request = createTestHttpRequest(this.options, this.settings);
     const modifiedRequest: HttpRequest = { url: request.url, method: 'OPTIONS', headers: request.headers };
 
     try {
@@ -256,7 +262,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
   private async testUnsupportedMethod(): Promise<TestResult> {
     this.onTestStart?.();
 
-    const request = createTestHttpRequest({ ...this.options, method: 'FOOBAR' });
+    const request = createTestHttpRequest({ ...this.options, method: 'FOOBAR' }, this.settings);
 
     try {
       const response = await sendHttp(request, this.signal);
@@ -295,7 +301,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
   private async testMissingAuthorization(): Promise<TestResult> {
     this.onTestStart?.();
 
-    const request = createTestHttpRequest(this.options);
+    const request = createTestHttpRequest(this.options, this.settings);
     const minimalHeaders: Record<string, string> = {};
 
     for (const [key, value] of Object.entries(request.headers))
@@ -335,7 +341,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
   private async testInvalidAuthorization(): Promise<TestResult> {
     this.onTestStart?.();
 
-    const request = createTestHttpRequest(this.options);
+    const request = createTestHttpRequest(this.options, this.settings);
     const headers = Object.entries(request.headers);
     const authHeader = headers.find(([key]) => SENSITIVE_HEADERS.has(key.toLowerCase()));
 
@@ -391,7 +397,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
   private async testCors(): Promise<TestResult> {
     this.onTestStart?.();
 
-    const request = createTestHttpRequest(this.options);
+    const request = createTestHttpRequest(this.options, this.settings);
     const modifiedRequest: HttpRequest = {
       ...request,
       headers: { ...request.headers, Origin: appConfig.origin },
@@ -429,7 +435,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
   private async testNotFound(): Promise<TestResult> {
     this.onTestStart?.();
 
-    const request = createTestHttpRequest(this.options);
+    const request = createTestHttpRequest(this.options, this.settings);
     const modifiedRequest: HttpRequest = { ...request, url: createNotFoundUrl(request.url) };
 
     try {
@@ -463,7 +469,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
         TestStatus.Manual,
       );
 
-    const request = createTestHttpRequest(this.options);
+    const request = createTestHttpRequest(this.options, this.settings);
     const testValue = 'No XSS echo';
     const modifiedRequest: HttpRequest = {
       ...request,
@@ -508,7 +514,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
   private async testUppercaseDomain(): Promise<TestResult> {
     this.onTestStart?.();
 
-    const request = createTestHttpRequest(this.options);
+    const request = createTestHttpRequest(this.options, this.settings);
     const modifiedRequest: HttpRequest = { ...request, url: uppercaseDomain(request.url) };
 
     try {
@@ -545,7 +551,7 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
   private async testUppercasePath(): Promise<TestResult> {
     this.onTestStart?.();
 
-    const request = createTestHttpRequest(this.options);
+    const request = createTestHttpRequest(this.options, this.settings);
     const modifiedRequest: HttpRequest = { ...request, url: uppercasePath(request.url) };
 
     try {
@@ -629,8 +635,12 @@ export class SecurityTests extends BaseTests<{ crudTests: TestResult[]; security
   }
 }
 
-export async function runLargePayloadTest(options: TestOptions, size: number): Promise<TestResult> {
-  const request = createTestHttpRequest({ ...options, method: 'POST' });
+export async function runLargePayloadTest(
+  options: TestOptions,
+  settings: TestEngineConfiguration,
+  size: number,
+): Promise<TestResult> {
+  const request = createTestHttpRequest({ ...options, method: 'POST' }, settings);
   const modifiedRequest: HttpRequest = {
     ...request,
     headers: { ...request.headers, 'Content-Type': 'application/json' },

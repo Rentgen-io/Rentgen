@@ -7,17 +7,15 @@ import {
   PING_LATENCY_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
 } from 'shared/testNames';
+import type { HttpRequest, HttpResponse } from 'shared/types/http';
+import type { TestEngineConfiguration } from 'shared/types/settings';
+import { type TestOptions, type TestResult, TestStatus } from 'shared/types/testing';
+import { getHeaderValue } from 'shared/utils/headers';
 import { pingHost, sendHttp } from 'src/api/network';
-import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from 'src/types';
-import {
-  calculateMedian,
-  calculatePercentile,
-  containsArray,
-  createTestHttpRequest,
-  extractStatusCode,
-  getHeaderValue,
-  hasQueryParameters,
-} from 'src/utils';
+import { extractStatusCode } from 'src/utils/http';
+import { containsArray } from 'src/utils/object';
+import { calculateMedian, calculatePercentile } from 'src/utils/statistics';
+import { hasQueryParameters } from 'src/utils/url';
 import {
   BaseTests,
   createErrorTestResult,
@@ -26,6 +24,7 @@ import {
   ORIGINAL_REQUEST_TEST_PARAMETER_NAME,
 } from './BaseTests';
 import { Abortable, Test } from './decorators';
+import { createTestHttpRequest } from './parameters';
 
 let activeController: AbortController | null = null;
 
@@ -240,6 +239,7 @@ export class PerformanceInsights extends BaseTests<TestResult[]> {
 
 export async function runLoadTest(
   options: TestOptions,
+  settings: TestEngineConfiguration,
   threadCount: number,
   requestCount: number,
   updateProgress?: (sentRequestCount: number, requestCount: number) => void,
@@ -262,7 +262,7 @@ export async function runLoadTest(
   async function executeSingleRequest(): Promise<void> {
     if (isAborted || controller.signal?.aborted) return;
 
-    const currentRequest = createTestHttpRequest(options);
+    const currentRequest = createTestHttpRequest(options, settings);
     const currentResponse = await sendHttp(currentRequest, controller.signal);
 
     // Discard responses of requests cancelled by the signal

@@ -1,4 +1,6 @@
 import { LARGE_PAYLOAD_TEST_NAME, LOAD_TEST_NAME, OPTIONS_METHOD_HANDLING_TEST_NAME } from 'shared/testNames';
+import { TestEngineConfiguration } from 'shared/types/settings';
+import { ParameterValue, TestOptions, TestResult } from 'shared/types/testing';
 import { getDatasets } from 'src/constants/datasets';
 import { store } from 'src/store';
 import {
@@ -32,7 +34,6 @@ import {
   SecurityTests,
 } from 'src/test-engine';
 import { getTestCount } from 'src/test-engine/decorators';
-import { ParameterValue, TestOptions, TestResult } from 'src/types';
 
 /*
  * Drives test runs through the store. Not a hook: every action reads what it needs from the store once, when it starts,
@@ -70,15 +71,16 @@ export function abortAllTestRuns() {
 
 // --- Full run (security, data-driven, performance) ---
 
-async function calculateDataDrivenTestsCount(options: TestOptions, emailDomain: string): Promise<number> {
+async function calculateDataDrivenTestsCount(options: TestOptions, settings: TestEngineConfiguration): Promise<number> {
   let dataDrivenTestsCount = 0;
-  const datasets = getDatasets(emailDomain);
+  const datasets = getDatasets(settings.email.domain);
   const countValues = async (_: unknown, value: ParameterValue) => {
     dataDrivenTestsCount += [...generateDynamicTestData(value), ...(datasets[value.type] || [])].length;
   };
 
   await runDataDrivenTests(
     options,
+    settings,
     async () => {
       dataDrivenTestsCount += 1;
     },
@@ -92,12 +94,13 @@ async function calculateDataDrivenTestsCount(options: TestOptions, emailDomain: 
 async function executeSecurityTests(
   options: TestOptions,
   disabledSecurityTests: string[],
+  settings: TestEngineConfiguration,
 ): Promise<{ crudTests: TestResult[]; securityTests: TestResult[] }> {
   dispatch(testsActions.setSecurityRunning(true));
   dispatch(testsActions.setSecurityTests([]));
   dispatch(testsActions.setCrudTests([]));
 
-  securityTestsInstance = new SecurityTests(options, disabledSecurityTests, incrementCurrentTest);
+  securityTestsInstance = new SecurityTests(options, disabledSecurityTests, settings, incrementCurrentTest);
   const { crudTests, securityTests } = await securityTestsInstance.run();
 
   dispatch(testsActions.setCrudTests(crudTests));
@@ -107,11 +110,11 @@ async function executeSecurityTests(
   return { crudTests, securityTests };
 }
 
-async function executeDataDrivenTests(options: TestOptions): Promise<TestResult[]> {
+async function executeDataDrivenTests(options: TestOptions, settings: TestEngineConfiguration): Promise<TestResult[]> {
   dispatch(testsActions.setDataDrivenRunning(true));
   dispatch(testsActions.setDataDrivenTests([]));
 
-  dataDrivenTestsInstance = new DataDrivenTests(options, incrementCurrentTest);
+  dataDrivenTestsInstance = new DataDrivenTests(options, settings, incrementCurrentTest);
   const dataDrivenTestResults = await dataDrivenTestsInstance.run();
 
   dispatch(testsActions.setDataDrivenTests(dataDrivenTestResults));
@@ -155,8 +158,8 @@ export async function executeAllTests(options: TestOptions) {
   const aiUsage = selectAiUsage(state);
   const disabledPerformanceInsights = selectDisabledPerformanceInsights(state);
   const disabledSecurityTests = selectDisabledSecurityTests(state);
-  const emailDomain = selectTestEngineConfiguration(state).email.domain;
   const selectedRequestId = selectSelectedRequestId(state);
+  const settings = selectTestEngineConfiguration(state);
 
   abortAllTests = false;
 
@@ -164,7 +167,7 @@ export async function executeAllTests(options: TestOptions) {
   dispatch(testsActions.startAllTests());
 
   const count =
-    (await calculateDataDrivenTestsCount(options, emailDomain)) +
+    (await calculateDataDrivenTestsCount(options, settings)) +
     getTestCount(DataDrivenTests) +
     getTestCount(SecurityTests) +
     getTestCount(PerformanceInsights) -
@@ -177,9 +180,9 @@ export async function executeAllTests(options: TestOptions) {
   dispatch(testsActions.setTimestamp(timestamp));
 
   const { crudTests, securityTests } = !abortAllTests
-    ? await executeSecurityTests(options, disabledSecurityTests)
+    ? await executeSecurityTests(options, disabledSecurityTests, settings)
     : { crudTests: [], securityTests: [] };
-  const dataDrivenTests = !abortAllTests ? await executeDataDrivenTests(options) : [];
+  const dataDrivenTests = !abortAllTests ? await executeDataDrivenTests(options, settings) : [];
   const performanceTests = !abortAllTests
     ? await executePerformanceTests(options, dataDrivenTests, disabledPerformanceInsights)
     : [];
@@ -276,11 +279,12 @@ export async function executeAllAiTests() {
 // --- Single heavy tests ---
 
 export async function executeLargePayloadTest(options: TestOptions, size: number) {
-  const selectedRequestId = selectSelectedRequestId(store.getState());
+  const state = store.getState();
+  const selectedRequestId = selectSelectedRequestId(state);
 
   dispatch(testsActions.setLargePayloadTestRunning(true));
 
-  const result = await runLargePayloadTest(options, size);
+  const result = await runLargePayloadTest(options, selectTestEngineConfiguration(state), size);
 
   dispatch(testsActions.updateSecurityTest({ name: LARGE_PAYLOAD_TEST_NAME, result }));
   dispatch(testsActions.setLargePayloadTestRunning(false));
@@ -325,13 +329,19 @@ export async function executeLoadTest(options: TestOptions, threadCount: number,
   updateProgress(0, 0, requestCount);
 
   let lastPercent = 0;
-  const result = await runLoadTest(options, threadCount, requestCount, (sentRequestCount, totalRequestCount) => {
-    const percent = Math.floor((sentRequestCount / totalRequestCount) * 100);
-    if (percent === lastPercent) return;
+  const result = await runLoadTest(
+    options,
+    selectTestEngineConfiguration(state),
+    threadCount,
+    requestCount,
+    (sentRequestCount, totalRequestCount) => {
+      const percent = Math.floor((sentRequestCount / totalRequestCount) * 100);
+      if (percent === lastPercent) return;
 
-    lastPercent = percent;
-    updateProgress(percent, sentRequestCount, totalRequestCount);
-  });
+      lastPercent = percent;
+      updateProgress(percent, sentRequestCount, totalRequestCount);
+    },
+  );
 
   dispatch(testsActions.updatePerformanceTest({ name: LOAD_TEST_NAME, result }));
   dispatch(testsActions.setLoadTestRunning(false));

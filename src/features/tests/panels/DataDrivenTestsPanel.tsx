@@ -2,6 +2,7 @@ import cn from 'classnames';
 import { useMemo } from 'react';
 import { TableColumn } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
+import { TestResult } from 'shared/types/testing';
 import SimpleSelect from 'src/components/inputs/SimpleSelect';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import { getDatasets } from 'src/constants/datasets';
@@ -23,7 +24,6 @@ import {
   generateEnumTestData,
   SUCCESS_RESPONSE_EXPECTED,
 } from 'src/test-engine';
-import { TestResult } from 'src/types';
 import TestsTable, { ExpandedTestComponent, getTestsTableColumns, TestsTableHeader } from '../tables/TestsTable';
 
 export default function DataDrivenTestsPanel() {

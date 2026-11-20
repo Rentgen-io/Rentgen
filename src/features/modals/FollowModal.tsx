@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import PromptModal from 'src/components/modals/PromptModal';
-import { FOLLOW_PROMPT_STORAGE_KEY } from 'src/hooks/useTestRunEndPrompts';
+import { DAY_MS } from 'src/services/prompts';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectOpenFollowModal } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { DAY_MS } from 'src/utils';
+import { FOLLOW_PROMPT_STORAGE_KEY } from './useTestRunEndPrompts';
 
 /** Opened by useTestRunEndPrompts when a test run finds a bug. */
 export default function FollowModal() {

@@ -1,14 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DEFAULT_FOLDER_ID } from 'shared/utils/collection';
+import { PostmanBody, PostmanCollection, PostmanFolder, PostmanHeader } from 'shared/types/postman';
+import { PreEvaluation } from 'shared/types/pre-evaluation';
+import { createEmptyCollection, DEFAULT_FOLDER_ID, uniqueFolderName } from 'shared/utils/collection';
+import { generateFolderId, generateRequestId } from 'shared/utils/id';
 import { loadCollection as loadCollectionFile } from 'src/api/storage';
 import i18n from 'src/i18n';
-import { PostmanBody, PostmanCollection, PostmanFolder, PostmanHeader, PreEvaluation } from 'src/types';
 import {
   addFolderToCollection,
   addRequestToCollection,
-  createEmptyCollection,
-  generateFolderId,
-  generateRequestId,
   moveRequestToFolder,
   removeFolderFromCollection,
   removeRequestFromCollection,
@@ -16,9 +15,8 @@ import {
   renameRequestInCollection,
   reorderFolderInCollection,
   reorderRequestInCollection,
-  uniqueFolderName,
   updateRequestInCollection,
-} from 'src/utils';
+} from 'src/utils/collection';
 
 export type ImportMode = 'replace' | 'merge' | 'copy';
 
@@ -45,7 +43,7 @@ export const collectionSlice = createSlice({
   initialState,
   reducers: {
     addFolder: (state, action: PayloadAction<string>) => {
-      state.data = addFolderToCollection(state.data, uniqueFolderName(state.data, action.payload));
+      state.data = addFolderToCollection(state.data, uniqueFolderName(state.data.item, action.payload));
     },
     addRequest: (
       state,
@@ -123,7 +121,7 @@ export const collectionSlice = createSlice({
           const newFolder = {
             ...folder,
             id: generateFolderId(),
-            name: uniqueFolderName(state.data, `${folder.name} (copy)`),
+            name: uniqueFolderName(state.data.item, `${folder.name} (copy)`),
             item: folder.item.map((request) => ({
               ...request,
               id: generateRequestId(),
@@ -172,7 +170,7 @@ export const collectionSlice = createSlice({
     importFolder: (state, action: PayloadAction<PostmanFolder>) => {
       state.data.item.unshift({
         id: generateFolderId(),
-        name: uniqueFolderName(state.data, action.payload.name),
+        name: uniqueFolderName(state.data.item, action.payload.name),
         item: action.payload.item.map((request) => ({ ...request, id: generateRequestId() })),
       });
     },
@@ -200,7 +198,7 @@ export const collectionSlice = createSlice({
     },
     renameFolder: (state, action: PayloadAction<{ folderId: string; newName: string }>) => {
       const { folderId, newName } = action.payload;
-      state.data = renameFolderInCollection(state.data, folderId, uniqueFolderName(state.data, newName, folderId));
+      state.data = renameFolderInCollection(state.data, folderId, uniqueFolderName(state.data.item, newName, folderId));
     },
     renameRequest: (state, action: PayloadAction<{ requestId: string; newName: string }>) => {
       const { requestId, newName } = action.payload;

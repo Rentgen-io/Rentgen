@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react';
-import { RequestParameters } from 'src/types';
+import { RequestParameters } from 'shared/types/testing';
 import { twMerge } from 'tailwind-merge';
 import { ParameterControls } from './ParameterControls';
 

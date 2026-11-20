@@ -1,19 +1,16 @@
 import { Method } from 'axios';
 import { useCallback } from 'react';
+import { headersToPostmanFormat } from 'shared/utils/headers';
+import { fetchOpenApiSchema } from 'src/api/openapi';
+import { extractCurl } from 'src/converters/curl';
+import { isOpenApiSchema, openApiToFolder } from 'src/converters/openapi';
+import { useReset } from 'src/hooks/useReset';
 import { useAppDispatch } from 'src/store/hooks';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
-import { OpenApiDocument } from 'src/types';
-import {
-  extractCurl,
-  fetchOpenApiSchema,
-  headersToPostmanFormat,
-  isHttpUrl,
-  isOpenApiSchema,
-  openApiToFolder,
-  parseJsonObject,
-} from 'src/utils';
-import { useReset } from './useReset';
+import { OpenApiDocument } from 'src/types/openapi';
+import { parseJsonObject } from 'src/utils/object';
+import { isHttpUrl } from 'src/utils/url';
 
 const MAX_CURL_LENGTH = 200_000;
 

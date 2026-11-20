@@ -15,7 +15,7 @@ import {
   getSuggestedMaskedFields,
   RequestRedactor,
 } from 'src/test-engine';
-import { createHttpRequest } from 'src/utils';
+import { createHttpRequest } from 'src/utils/http';
 
 const PREVIEW_EDITOR_OPTIONS = { folding: false, lineNumbers: 'off' } as const;
 

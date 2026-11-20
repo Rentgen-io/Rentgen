@@ -2,18 +2,18 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import Modal from 'src/components/modals/Modal';
+import { notify } from 'src/services/notify';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionData, selectImportConflictModal } from 'src/store/selectors';
 import { collectionActions, ImportMode } from 'src/store/slices/collectionSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { countMergeAdditions } from 'src/utils';
-import { notify } from 'src/utils/toast';
+import { countMergeAdditions } from 'src/utils/collection';
 
 export default function ImportConflictModal() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const { isOpen, importedCollection, conflictSummary, warnings } = useAppSelector(selectImportConflictModal);
+  const { isOpen, importedCollection, conflictSummary } = useAppSelector(selectImportConflictModal);
   const existingCollection = useAppSelector(selectCollectionData);
 
   const mergeStats = useMemo(() => {
@@ -56,11 +56,6 @@ export default function ImportConflictModal() {
           {conflictSummary.requestConflicts.length > 0 && (
             <p className="m-0 text-xs">
               - {t('modals.importConflict.requestConflicts', { count: conflictSummary.requestConflicts.length })}
-            </p>
-          )}
-          {warnings.length > 0 && (
-            <p className="m-0 mt-2 text-xs text-destructive">
-              {t('modals.importConflict.importWarnings', { count: warnings.length })}
             </p>
           )}
         </div>

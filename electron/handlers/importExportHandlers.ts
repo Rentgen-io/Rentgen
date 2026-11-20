@@ -1,7 +1,7 @@
 import { dialog, ipcMain } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import { postmanToRentgen, rentgenToPostman, validatePostmanCollection } from 'shared/utils/postman-converter';
+import { postmanToRentgen, rentgenToPostman, validatePostmanCollection } from 'shared/converters/postman';
 import type { ExportResult, ImportResult } from 'shared/types/ipc';
 import type { PostmanCollection } from 'shared/types/postman';
 
@@ -28,12 +28,11 @@ export function registerImportExportHandlers(): void {
       if (!validation.valid) return { error: validation.error };
 
       // Convert to Rentgen format
-      const { collection, warnings } = postmanToRentgen(parsed);
+      const collection = postmanToRentgen(parsed);
 
       return {
         success: true,
         collection,
-        warnings,
         fileName: path.basename(result.filePaths[0]),
       };
     } catch (error) {

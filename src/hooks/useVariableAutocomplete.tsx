@@ -14,9 +14,9 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { VariableSuggestion } from 'shared/types/environment';
 import { useAppSelector } from 'src/store/hooks';
 import { selectVariableSuggestions } from 'src/store/selectors';
-import { VariableSuggestion } from 'src/types';
 import { getCaretCoordinates } from 'src/utils/caret';
 
 type Field = HTMLInputElement | HTMLTextAreaElement;

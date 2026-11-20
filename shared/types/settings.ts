@@ -4,8 +4,6 @@ import { Interval } from 'shared/types/testing';
 export const LICENSE_PLANS = ['pro'] as const;
 
 export type LicensePlan = (typeof LICENSE_PLANS)[number];
-export type LicenseStatus = 'valid' | 'expired' | 'not_yet_valid' | 'invalid';
-
 export interface LicenseInfo {
   company: string;
   daysLeft: number;
@@ -106,3 +104,5 @@ export interface SettingsState {
   theme: 'light' | 'dark';
   language: Language;
 }
+
+export type TestEngineConfiguration = SettingsState['testEngine']['configuration'];

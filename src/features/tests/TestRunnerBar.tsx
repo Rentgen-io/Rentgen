@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
+import { ReportFormat } from 'shared/types/testing';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import Select, { SelectOption } from 'src/components/inputs/Select';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import ProgressBar from 'src/components/loaders/ProgressBar';
-import { useReportExport } from 'src/hooks/useReportExport';
 import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -25,14 +25,15 @@ import {
   selectMethod,
   selectQueryParameters,
   selectSelectedEnvironment,
+  selectTestEngineConfiguration,
   selectTestsCount,
   selectUrl,
 } from 'src/store/selectors';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { uiActions } from 'src/store/slices/uiSlice';
 import { cancelAllTests, executeAllTests } from 'src/test-engine';
-import { ReportFormat } from 'src/types';
-import { substituteRequestVariables } from 'src/utils';
+import { substituteRequestVariables } from 'src/utils/environment';
+import { useReportExport } from './useReportExport';
 
 import ExportIcon from 'src/assets/icons/export-icon.svg';
 import PlayIcon from 'src/assets/icons/play-icon.svg';
@@ -71,6 +72,7 @@ export default function TestRunnerBar() {
         selectSelectedEnvironment(state),
         selectDynamicVariables(state),
         selectHeaders(state),
+        selectTestEngineConfiguration(state),
         selectUrl(state),
       ),
       bodyParameters: selectBodyParameters(state),

@@ -8,14 +8,15 @@ import DataTable, {
   TableProps,
 } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
+import { TestResult, TestStatus } from 'shared/types/testing';
 import { CopyButton } from 'src/components/buttons/CopyButton';
 import { IconButton } from 'src/components/buttons/IconButton';
 import { HttpPanel } from 'src/components/panels/HttpPanel';
+import { generateCurl } from 'src/converters/curl';
 import { useAppSelector } from 'src/store/hooks';
 import { selectDisabledPerformanceInsights, selectDisabledSecurityTests } from 'src/store/selectors';
 import { getTestsStatistics } from 'src/test-engine';
-import { TestResult, TestStatus } from 'src/types';
-import { generateCurl, truncateValue } from 'src/utils';
+import { truncateValue } from 'src/utils/object';
 import { twMerge } from 'tailwind-merge';
 
 import GearIcon from 'src/assets/icons/gear-icon.svg';
@@ -200,7 +201,7 @@ export function getTestsTableColumns(
       name: label('Value'),
       selector: (row) => truncateValue(row.value),
       cell: (row) => (
-        <span className="truncate" data-tag="allowRowEvents">
+        <span className="truncate whitespace-pre" data-tag="allowRowEvents">
           {truncateValue(row.value)}
         </span>
       ),

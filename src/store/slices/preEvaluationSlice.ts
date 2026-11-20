@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { EvaluationQuestion, EvaluationReport, PreEvaluation } from 'shared/types/pre-evaluation';
 import { DEFAULT_PRE_EVALUATION } from 'src/constants/pre-evaluation';
-import { EvaluationQuestion, EvaluationReport, PreEvaluation } from 'src/types';
 import { v4 as uuidv4 } from 'uuid';
 
 interface PreEvaluationState {

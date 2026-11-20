@@ -1,6 +1,7 @@
 import { RESPONSE_STATUS } from 'shared/responseStatus';
-import { HttpRequest, HttpResponse, TestOptions, TestResult, TestStatus } from 'src/types';
-import { extractStatusCode } from 'src/utils';
+import { HttpRequest, HttpResponse } from 'shared/types/http';
+import { TestOptions, TestResult, TestStatus } from 'shared/types/testing';
+import { extractStatusCode } from 'src/utils/http';
 
 export const ERROR_RESPONSE_EXPECTED = '4xx';
 export const NOT_AVAILABLE_TEST = 'Not Available';

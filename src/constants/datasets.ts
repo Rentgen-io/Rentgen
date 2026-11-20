@@ -1,5 +1,5 @@
 import { appConfig } from 'shared/constants';
-import { TestData } from 'src/types';
+import { TestData } from 'shared/types/testing';
 
 export const getDatasets = (emailDomain: string = appConfig.domain): Record<string, TestData[]> => ({
   email: [

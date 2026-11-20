@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
+import { EvaluationQuestion, MatchMode } from 'shared/types/pre-evaluation';
 import { exportFile } from 'src/api/files';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import { RadioButtons, RadioOption } from 'src/components/buttons/RadioButtons';
@@ -16,6 +17,7 @@ import {
   MAX_ITERATIONS,
   MIN_ITERATIONS,
 } from 'src/constants/pre-evaluation';
+import { notify } from 'src/services/notify';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectCurrentRun,
@@ -31,9 +33,7 @@ import {
 } from 'src/store/selectors';
 import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { executePreEvaluation, stopPreEvaluation } from 'src/test-engine';
-import { EvaluationQuestion, MatchMode } from 'src/types';
-import { parseCsv, toCsv } from 'src/utils';
-import { notify } from 'src/utils/toast';
+import { CsvImportError, parseCsv, toCsv } from 'src/utils/pre-evaluation';
 import PreEvaluationReport from './PreEvaluationReport';
 
 import AddIcon from 'src/assets/icons/add-icon.svg';
@@ -247,7 +247,13 @@ export default function PreEvaluationPanel() {
 
                   notify.success(t('common.imported'), { toastId: 'success-pre-evaluation-import' });
                 } catch (error) {
-                  notify.error(error instanceof Error ? error.message : String(error), {
+                  const message =
+                    error instanceof CsvImportError
+                      ? t(error.key, error.values)
+                      : error instanceof Error
+                        ? error.message
+                        : String(error);
+                  notify.error(message, {
                     toastId: 'error-pre-evaluation-import',
                   });
                 }

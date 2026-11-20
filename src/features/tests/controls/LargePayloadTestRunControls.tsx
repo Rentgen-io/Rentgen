@@ -4,7 +4,7 @@ import Input from 'src/components/inputs/Input';
 import { useAppSelector } from 'src/store/hooks';
 import { selectIsLargePayloadTestRunning, selectTestOptions } from 'src/store/selectors';
 import { executeLargePayloadTest } from 'src/test-engine';
-import { clamp } from 'src/utils';
+import { clamp } from 'src/utils/number';
 import TestRunControls from './TestRunControls';
 
 const MAX_PAYLOAD_SIZE_MB = 100;

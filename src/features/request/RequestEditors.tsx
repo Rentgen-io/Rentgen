@@ -1,6 +1,8 @@
 import { useId, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { PostmanBodyMode } from 'shared/types/postman';
+import { getHeaderValue, postmanHeadersToRecord } from 'shared/utils/headers';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import { MAX_JSON_HIGHLIGHT_LENGTH, shouldHighlightJson } from 'src/components/highlighters/VariableHighlighter';
 import HighlightedTextarea from 'src/components/inputs/HighlightedTextarea';
@@ -14,8 +16,7 @@ import { useSaveRequest } from 'src/hooks/useSaveRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectBody, selectHeaders, selectHighlightColor, selectMode, selectVariableNames } from 'src/store/selectors';
 import { requestActions } from 'src/store/slices/requestSlice';
-import { PostmanBodyMode } from 'src/types';
-import { formatBody, getHeaderValue, postmanHeadersToRecord } from 'src/utils';
+import { formatBody } from 'src/utils/http';
 
 // Height of the headers / body textareas (shared). Until the user resizes them they grow with their content between
 // these 112px (min-h-28) and MAX_EDITOR_HEIGHT; the max keeps the response below within reach

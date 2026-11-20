@@ -1,7 +1,4 @@
-import i18n from 'src/i18n';
-import store from 'src/store';
-import { LICENSE_PLANS, LicenseInfo, LicensePlan, LicenseResult } from 'src/types';
-import { notify } from './toast';
+import { License, LICENSE_PLANS, LicenseInfo, LicensePlan, LicenseResult } from 'shared/types/settings';
 
 const PUBLIC_KEY_PEM = `-----BEGIN PUBLIC KEY-----
 MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAuy/6d8vo+G5iVx/TixNS\nc3h8IUzrBACUUp7XdK4l/nsd3mhzb7WmhRuPEqekSsr3fsKGabmTkeeFqNhvWk3f\ntzU80+EVVqIzOkMU6jBSfDZ5pHCNYkU+d9VWz3kuT5wcgTTQjDvwP+7+MBAIp216\n/0w1d5Cnk3l1sLi4jA2fN9fE0kACXhWRI44pcRscrCefEWU84qEItYg+8Ns198GQ\nd0Nc0elWlG91/h/2bsnuWhP0q3VHhXNwxQxkLhTs5s3/pnUNZc3eWi/NwIu8m7L9\nHhuvS11Y1ILP9OB5vDKRstaApw0RUjkHvwJaNusDudHkz+znOymqzlS3Ru15hYO3\nEzDmoF4xT6YBz9rg4+7NrDqLnVPPFSrfNNvF4J7klh69FA7kmNANiO+qNKdS9K2s\nM450xvROfQRoLm45seqsn6M3XDmwKPSM6FcGOgtg/zWRm/q8QgKZ7OHDXTcLAs34\n4QZtHytJG/oGnHd9SkaY15zF3PVmBrOK3cNzQhowjeT/AgMBAAE=
@@ -12,6 +9,8 @@ const DAY_SECONDS = 86_400;
 
 export interface VerifyOptions {
   now?: number;
+  /** The saved license: a trial license can't be activated again once a trial was used, unless it's the saved one. */
+  savedLicense?: Pick<License, 'key' | 'trialUsed'>;
 }
 
 interface JwtHeader {
@@ -106,7 +105,7 @@ function getPublicKey(): Promise<CryptoKey> {
 
 export async function verifyLicense(
   licenseKey: string | null,
-  { now = Math.floor(Date.now() / 1000) }: VerifyOptions = {},
+  { now = Math.floor(Date.now() / 1000), savedLicense }: VerifyOptions = {},
 ): Promise<LicenseResult> {
   const invalid = (error: string): LicenseResult => ({ valid: false, status: 'invalid', error });
 
@@ -145,8 +144,7 @@ export async function verifyLicense(
       trial: isLessThanOneYear(new Date(claims.startsOn), new Date(claims.expiresOn)),
     };
 
-    const state = store.getState();
-    if (info.trial && state.settings.ai.license.trialUsed && licenseKey !== state.settings.ai.license.key)
+    if (info.trial && savedLicense?.trialUsed && licenseKey !== savedLicense.key)
       return { valid: false, status: 'trial_used', error: 'Trial license already used', info };
 
     if (now < claims.nbf) return { valid: false, status: 'not_yet_valid', error: 'License is not yet valid', info };
@@ -155,31 +153,5 @@ export async function verifyLicense(
     return { valid: true, status: 'valid', info };
   } catch (error: unknown) {
     return invalid(error instanceof Error ? error.message : 'Invalid license key');
-  }
-}
-
-export function showLicenseMessage(result: LicenseResult): void {
-  switch (result.status) {
-    case 'valid':
-      notify.success(
-        i18n.t('settings.ai.validLicense', { company: result.info.company, expiresOn: result.info.expiresOn }),
-        {
-          toastId: 'success-license-validation',
-        },
-      );
-      break;
-    case 'expired':
-      notify.error(i18n.t('settings.ai.expiredLicense'), { toastId: 'error-license-validation' });
-      break;
-    case 'trial_used':
-      notify.error(i18n.t('settings.ai.trialUsedLicense'), { toastId: 'error-license-validation' });
-      break;
-    case 'not_yet_valid':
-      notify.warning(i18n.t('settings.ai.notYetValidLicense', { startsOn: result.info.startsOn }), {
-        toastId: 'error-license-warning',
-      });
-      break;
-    default:
-      notify.error(i18n.t('settings.ai.invalidLicense'), { toastId: 'error-license-validation' });
   }
 }

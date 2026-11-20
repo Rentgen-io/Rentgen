@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { ResponsePanelContext } from 'src/types';
+import { ResponsePanelContext } from 'src/types/ui';
 import ContextMenu from './ContextMenu';
 import GlobalContextMenuItems, { isTextField } from './GlobalContextMenuItems';
 

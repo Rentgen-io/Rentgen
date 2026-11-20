@@ -1,7 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { DEFAULT_PRE_EVALUATION } from 'src/constants/pre-evaluation';
 import { RootState } from 'src/store';
-import { findPromptPointers, getPreEvaluationError, parseJsonObject } from 'src/utils';
+import { parseJsonObject } from 'src/utils/object';
+import { findPromptPointers, getPreEvaluationError } from 'src/utils/pre-evaluation';
 import { selectBody, selectIsSending, selectMethod, selectUrl } from './requestSelectors';
 
 export const selectAllEvaluationReports = (state: RootState) => state.preEvaluation.reports;

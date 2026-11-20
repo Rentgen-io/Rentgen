@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { isSuccessStatus } from 'shared/responseStatus';
+import { PostmanItem } from 'shared/types/postman';
 import { sendHttp } from 'src/api/network';
 import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
@@ -9,22 +10,17 @@ import {
   selectMappings,
   selectSelectedEnvironment,
   selectSelectedRequestId,
+  selectTestEngineConfiguration,
 } from 'src/store/selectors';
 import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
-import { PostmanItem } from 'src/types';
-import {
-  createHttpRequest,
-  extractDynamicVariables,
-  extractRequestParameters,
-  extractStatusCode,
-  findRequestById,
-  formatExtractionWarning,
-  isAbortedResponse,
-  substituteRequestVariables,
-} from 'src/utils';
+import { extractRequestParameters } from 'src/test-engine/parameters';
+import { findRequestById } from 'src/utils/collection';
+import { extractDynamicVariables } from 'src/utils/dynamicVariable';
+import { formatExtractionWarning, substituteRequestVariables } from 'src/utils/environment';
+import { createHttpRequest, extractStatusCode, isAbortedResponse } from 'src/utils/http';
 
 const activeControllers = new Map<string, AbortController>();
 
@@ -81,6 +77,7 @@ export function useCollectionRunner() {
           selectSelectedEnvironment(state),
           selectDynamicVariables(state),
           request.header,
+          selectTestEngineConfiguration(state),
           request.url,
         );
 
@@ -91,7 +88,12 @@ export function useCollectionRunner() {
         // The state after the response: mappings, selection or variables may have changed while waiting for it
         const latestState = store.getState();
         const { bodyParameters, queryParameters } = isSuccessStatus(status)
-          ? extractRequestParameters(body, url, selectMappings(latestState)[item.id])
+          ? extractRequestParameters(
+              body,
+              url,
+              selectMappings(latestState)[item.id],
+              selectTestEngineConfiguration(latestState),
+            )
           : { bodyParameters: {}, queryParameters: {} };
 
         if (selectSelectedRequestId(latestState) === item.id) {

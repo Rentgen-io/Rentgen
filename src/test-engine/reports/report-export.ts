@@ -1,4 +1,4 @@
-import { AiUsage, ExportReport, ReportFormat, ReportSuite, TestResult } from 'src/types';
+import { AiUsage, ExportReport, ReportFormat, ReportSuite, TestResult } from 'shared/types/testing';
 
 export function buildSuite(name: string, tests: TestResult[], usage?: AiUsage | null): ReportSuite {
   return {

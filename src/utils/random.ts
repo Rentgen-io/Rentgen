@@ -1,6 +1,6 @@
+import { TestEngineConfiguration } from 'shared/types/settings';
+import { DataType } from 'shared/types/testing';
 import { v4 as uuidv4 } from 'uuid';
-import { store } from 'src/store';
-import { DataType } from 'src/types';
 
 export function generateRandomString(length: number): string {
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -16,7 +16,7 @@ export function generateRandomNumber(min: number, max: number): number {
   return parseFloat((Math.random() * (max - min) + min).toFixed(2));
 }
 
-export function generateRandomEmail(domain: string, usernameLength: number): string {
+function generateRandomEmail(domain: string, usernameLength: number): string {
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let username = '';
   for (let i = 0; i < usernameLength; i++) username += characters[Math.floor(Math.random() * characters.length)];
@@ -24,9 +24,8 @@ export function generateRandomEmail(domain: string, usernameLength: number): str
   return `${username}@${domain}`;
 }
 
-export function generateRandomValue(dataType: DataType): string | number | null {
-  const settings = store.getState().settings.testEngine.configuration;
-
+/** A new random value for a random type (e.g. randomInt), from the given settings; `null` for any other type. */
+export function generateRandomValue(dataType: DataType, settings: TestEngineConfiguration): string | number | null {
   if (dataType === 'randomString') return generateRandomString(settings.randomString.length);
   if (dataType === 'randomInt') return generateRandomNumber(settings.randomInt.min, settings.randomInt.max);
   if (dataType === 'randomEmail') return generateRandomEmail(settings.email.domain, settings.randomEmail.length);

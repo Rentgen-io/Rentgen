@@ -1,11 +1,7 @@
-import {
-  ExportResult,
-  ImportResult,
-  PostmanCollection,
-  ProjectExportResult,
-  ProjectImportResult,
-  TestResults,
-} from 'src/types';
+import { ExportResult, ImportResult } from 'shared/types/ipc';
+import { PostmanCollection } from 'shared/types/postman';
+import { ProjectExportResult, ProjectImportResult } from 'shared/types/project';
+import { TestResults } from 'shared/types/testing';
 
 export const exportFile = (payload: {
   defaultPath?: string;

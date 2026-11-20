@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { notify } from 'src/utils/toast';
+import { notify } from 'src/services/notify';
 import { twMerge } from 'tailwind-merge';
 import Button, { Props as ButtonProps, ButtonSize, ButtonType } from './Button';
 

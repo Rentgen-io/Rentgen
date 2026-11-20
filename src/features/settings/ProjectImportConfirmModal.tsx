@@ -1,8 +1,12 @@
 import { useTranslation } from 'react-i18next';
+import { HistoryEntry } from 'shared/types/history';
+import { MappingsState } from 'shared/types/mappings';
+import { SettingsState } from 'shared/types/settings';
 import { exportProject } from 'src/api/files';
 import IntegrityBadge from 'src/components/badges/IntegrityBadge';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import ConfirmationModal from 'src/components/modals/ConfirmationModal';
+import { notify } from 'src/services/notify';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectProjectImportConfirmModal } from 'src/store/selectors';
 import { collectionActions } from 'src/store/slices/collectionSlice';
@@ -11,8 +15,6 @@ import { historyActions } from 'src/store/slices/historySlice';
 import { mappingsActions } from 'src/store/slices/mappingsSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import { HistoryEntry, MappingsState, SettingsState } from 'src/types';
-import { notify } from 'src/utils/toast';
 
 function formatDate(isoString: string): string {
   try {

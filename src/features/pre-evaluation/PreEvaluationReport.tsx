@@ -1,14 +1,16 @@
 import cn from 'classnames';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { HttpResponse } from 'shared/types/http';
+import { EvaluationReport } from 'shared/types/pre-evaluation';
 import { exportFile } from 'src/api/files';
 import { AccordionItem } from 'src/components/accordion/AccordionItem';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import { CopyButton } from 'src/components/buttons/CopyButton';
 import { HttpPanel } from 'src/components/panels/HttpPanel';
-import { EvaluationReport, HttpResponse } from 'src/types';
-import { formatDuration, generateCurl } from 'src/utils';
-import { notify } from 'src/utils/toast';
+import { generateCurl } from 'src/converters/curl';
+import { notify } from 'src/services/notify';
+import { formatDuration } from 'src/utils/number';
 
 import ExportIcon from 'src/assets/icons/export-icon.svg';
 

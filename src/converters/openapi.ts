@@ -1,6 +1,5 @@
-import { isSuccessStatus } from 'shared/responseStatus';
+import { PostmanBody, PostmanFolder, PostmanHeader, PostmanItem, PostmanRequest } from 'shared/types/postman';
 import { generateFolderId, generateRequestId } from 'shared/utils/id';
-import { sendHttp } from 'src/api/network';
 import {
   OpenApiDocument,
   OpenApiMethod,
@@ -11,15 +10,9 @@ import {
   OpenApiSchemaObject,
   OpenApiSecurityScheme,
   OpenApiServer,
-  PostmanBody,
-  PostmanFolder,
-  PostmanHeader,
-  PostmanItem,
-  PostmanRequest,
-} from 'src/types';
-import { extractStatusCode } from './http';
-import { isPlainObject, parseJsonObject } from './object';
-import { generateRandomNumber } from './random';
+} from 'src/types/openapi';
+import { isPlainObject } from 'src/utils/object';
+import { generateRandomNumber } from 'src/utils/random';
 
 const HTTP_METHODS: OpenApiMethod[] = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace'];
 const JSON_CONTENT_TYPE = /^application\/([\w.+-]+\+)?json$/i;
@@ -47,19 +40,6 @@ export function isOpenApiSchema(value: unknown): value is OpenApiDocument {
 
   // OpenAPI 3.1 allows documents without `paths` as long as `webhooks` or `components` exist
   return isPlainObject(value.paths) || isPlainObject(value.webhooks) || isPlainObject(value.components);
-}
-
-export async function fetchOpenApiSchema(url: string): Promise<OpenApiDocument | null> {
-  try {
-    const response = await sendHttp({ method: 'GET', url, headers: { Accept: 'application/json' } });
-    const statusCode = extractStatusCode(response);
-    if (!isSuccessStatus(statusCode)) return null;
-
-    const schema = parseJsonObject(response.body);
-    return isOpenApiSchema(schema) ? schema : null;
-  } catch {
-    return null;
-  }
 }
 
 /**

@@ -1,15 +1,10 @@
+import { DynamicVariable, Environment, EnvironmentVariable, ExtractionFailure } from 'shared/types/environment';
+import { RequestBody } from 'shared/types/http';
+import { PostmanBody, PostmanHeader } from 'shared/types/postman';
+import { TestEngineConfiguration } from 'shared/types/settings';
+import { DataType } from 'shared/types/testing';
+import { postmanHeadersToRecord } from 'shared/utils/headers';
 import { substituteBodyVariables, withBodyContentType } from 'shared/utils/http';
-import {
-  DataType,
-  DynamicVariable,
-  Environment,
-  EnvironmentVariable,
-  ExtractionFailure,
-  PostmanBody,
-  PostmanHeader,
-  RequestBody,
-} from 'src/types';
-import { postmanHeadersToRecord } from './collection';
 import { buildRequestBody } from './http';
 import { generateRandomValue } from './random';
 
@@ -74,13 +69,16 @@ export function substituteRequestVariables(
   environment: Environment | null,
   dynamicVariables: DynamicVariable[],
   headers: PostmanHeader[],
+  settings: TestEngineConfiguration,
   url: string,
 ): SubstitutedRequest {
   const staticVariables = environment?.variables ?? [];
   // Guards against callers passing `undefined` despite the type
   const allDynamicVariables = dynamicVariables ?? [];
   const hasVariables = staticVariables.length > 0 || allDynamicVariables.length > 0;
-  const variables = hasVariables ? buildVariables(staticVariables, allDynamicVariables, environment?.id || null) : null;
+  const variables = hasVariables
+    ? buildVariables(allDynamicVariables, environment?.id || null, settings, staticVariables)
+    : null;
 
   const substitute: Substitute = (text) => (variables ? substituteVariables(text, variables) : text);
 
@@ -101,9 +99,10 @@ export function substituteRequestVariables(
  * or belong to the selected environment.
  */
 function buildVariables(
-  staticVariables: EnvironmentVariable[],
   dynamicVariables: DynamicVariable[],
   environmentId: string | null,
+  settings: TestEngineConfiguration,
+  staticVariables: EnvironmentVariable[],
 ): Map<string, string> {
   const variables = new Map<string, string>();
 
@@ -111,7 +110,7 @@ function buildVariables(
     if (!key || !value) continue;
 
     // A random keyword (e.g. "randomEmail") gets a new random value on every request
-    variables.set(key, String(generateRandomValue(value as DataType) ?? value));
+    variables.set(key, String(generateRandomValue(value as DataType, settings) ?? value));
   }
 
   for (const variable of dynamicVariables) {

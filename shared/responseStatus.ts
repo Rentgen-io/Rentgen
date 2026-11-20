@@ -1,4 +1,4 @@
-import { snakeCaseToTitleCase } from './utils/string';
+import { snakeCaseToTitleCase } from 'shared/utils/string';
 
 export const RESPONSE_STATUS = {
   NETWORK_ERROR: 0,
