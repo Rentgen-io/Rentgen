@@ -7,6 +7,7 @@ import {
   LOAD_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
 } from 'shared/testNames';
+import { TestResult, TestStatus } from 'shared/types/testing';
 import Toggle from 'src/components/inputs/Toggle';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import { PERFORMANCE_INSIGHTS } from 'src/features/settings/test-engine/PerformanceInsightsSettings';
@@ -20,7 +21,6 @@ import {
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import { TestResult, TestStatus } from 'src/types';
 import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColumns } from '../tables/TestsTable';
 
 export default function PerformanceInsightsPanel() {

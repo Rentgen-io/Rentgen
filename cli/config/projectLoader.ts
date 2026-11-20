@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { computeChecksum } from 'shared/node/checksum';
 import type { IntegrityStatus, ProjectData, ProjectFile, ProjectMeta } from '../../shared/types/project';
-import { computeChecksum } from '../../shared/utils/checksum';
 
 export interface LoadedProject {
   file: ProjectFile;

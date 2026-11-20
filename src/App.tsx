@@ -1,6 +1,7 @@
 import { ComponentType, memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { Environment } from 'shared/types/environment';
 import Loader from 'src/components/loaders/Loader';
 import { TESTING_MODE_TABS, TestingModeTab } from 'src/constants/testing-mode-tabs';
 import EnvironmentEditor from 'src/features/environment/EnvironmentEditor';
@@ -37,7 +38,6 @@ import {
 } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { uiActions } from 'src/store/slices/uiSlice';
-import { Environment } from 'src/types';
 
 /*
  * App is only the layout and the app-wide hooks: every part below selects the state it shows itself, so a change

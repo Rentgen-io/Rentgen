@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react';
+import { TestStatus } from 'shared/types/testing';
+import { DAY_MS, hidePrompt, isPromptHidden } from 'src/services/prompts';
 import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -9,8 +11,6 @@ import {
   selectSecurityTests,
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { TestStatus } from 'src/types';
-import { DAY_MS, hidePrompt, isPromptHidden } from 'src/utils/prompts';
 
 // localStorage keys holding until when a prompt is hidden (see utils/prompts)
 export const FOLLOW_PROMPT_STORAGE_KEY = 'followModalHiddenUntil';

@@ -113,7 +113,7 @@ const id = {
     untitledRequest: 'Permintaan Tanpa Judul',
     enterUrl: 'Masukkan URL atau tempel teks',
     headers: 'Headers',
-    headersPlaceholder: 'Header-Key: value',
+    headersPlaceholder: 'Baris dipisahkan dengan baris baru\nKunci dan nilai dipisahkan dengan :',
     bulkEdit: 'Edit Massal',
     keyValueEdit: 'Edit Kunci-Nilai',
     body: 'Body',

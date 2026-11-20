@@ -113,7 +113,7 @@ const hi = {
     untitledRequest: 'बिना शीर्षक अनुरोध',
     enterUrl: 'URL दर्ज करें या टेक्स्ट पेस्ट करें',
     headers: 'हैडर',
-    headersPlaceholder: 'Header-Key: value',
+    headersPlaceholder: 'पंक्तियाँ नई लाइन से अलग होती हैं\nकुंजी और मान : से अलग होते हैं',
     bulkEdit: 'बल्क एडिट',
     keyValueEdit: 'की-वैल्यू एडिट',
     body: 'बॉडी',

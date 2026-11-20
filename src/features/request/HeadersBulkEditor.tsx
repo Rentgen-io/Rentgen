@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PostmanHeader } from 'shared/types/postman';
+import { formatHeaderText, isSameHeaders, parseHeaderText } from 'shared/utils/headers';
 import HighlightedTextarea from 'src/components/inputs/HighlightedTextarea';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectHeaders, selectHighlightColor, selectVariableNames } from 'src/store/selectors';
 import { requestActions } from 'src/store/slices/requestSlice';
-import { PostmanHeader } from 'src/types';
-import { formatHeaderText, isSameHeaders, parseHeaderText } from 'src/utils';
 
 interface Props {
   /** The editor height set by the user; grows with its content when null */

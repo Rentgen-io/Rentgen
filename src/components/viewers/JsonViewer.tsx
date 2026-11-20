@@ -11,8 +11,8 @@ import {
 } from 'src/monaco/themes';
 import { useAppSelector } from 'src/store/hooks';
 import { selectTheme } from 'src/store/selectors';
-import { ResponsePanelContext } from 'src/types';
-import { extractValue, stringifyExtractedValue } from 'src/utils';
+import { ResponsePanelContext } from 'src/types/ui';
+import { extractValue, stringifyExtractedValue } from 'src/utils/environment';
 
 // Configure Monaco to use local ESM bundle instead of CDN (required for Electron)
 loader.config({ monaco });

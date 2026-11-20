@@ -113,7 +113,7 @@ const th = {
     untitledRequest: 'คำขอที่ไม่มีชื่อ',
     enterUrl: 'ป้อน URL หรือวางข้อความ',
     headers: 'เฮดเดอร์',
-    headersPlaceholder: 'Header-Key: value',
+    headersPlaceholder: 'แต่ละแถวคั่นด้วยการขึ้นบรรทัดใหม่\nคีย์และค่าคั่นด้วย :',
     bulkEdit: 'แก้ไขแบบกลุ่ม',
     keyValueEdit: 'แก้ไขแบบคีย์-ค่า',
     body: 'บอดี้',

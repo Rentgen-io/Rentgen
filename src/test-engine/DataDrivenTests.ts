@@ -1,32 +1,24 @@
 import { getResponseStatusTitle, isClientErrorStatus, isSuccessStatus, RESPONSE_STATUS } from 'shared/responseStatus';
+import type { HttpRequest, HttpResponse } from 'shared/types/http';
+import type { TestEngineConfiguration } from 'shared/types/settings';
+import {
+  type DataType,
+  type FileFormat,
+  type Interval,
+  type ParameterValue,
+  type TestData,
+  type TestOptions,
+  type TestResult,
+  TestStatus,
+} from 'shared/types/testing';
+import { getFileName } from 'shared/utils/http';
+import { FILE_FORMATS, getTestFileName } from 'shared/utils/test-files';
 import { prepareTestFiles } from 'src/api/files';
 import { sendHttp } from 'src/api/network';
 import { getDatasets } from 'src/constants/datasets';
-import store from 'src/store';
-import {
-  DataType,
-  FileFormat,
-  HttpRequest,
-  HttpResponse,
-  Interval,
-  ParameterValue,
-  TestData,
-  TestOptions,
-  TestResult,
-  TestStatus,
-} from 'src/types';
-import {
-  createHttpRequest,
-  createTestHttpRequest,
-  extractBodyParameters,
-  FILE_FORMATS,
-  generateRandomNumber,
-  generateRandomString,
-  getBodyParameterValue,
-  getFileName,
-  getTestFileName,
-  normalizeDecimal,
-} from 'src/utils';
+import { createHttpRequest } from 'src/utils/http';
+import { normalizeDecimal } from 'src/utils/number';
+import { generateRandomNumber, generateRandomString } from 'src/utils/random';
 import {
   BaseTests,
   createErrorTestResult,
@@ -37,12 +29,21 @@ import {
   SUCCESS_RESPONSE_EXPECTED,
 } from './BaseTests';
 import { Abortable, Test } from './decorators';
+import { createTestHttpRequest, extractBodyParameters, getBodyParameterValue } from './parameters';
 
 const VALUE_NORMALIZATION_TEST_EXPECTED = `${RESPONSE_STATUS.BAD_REQUEST} ${getResponseStatusTitle(RESPONSE_STATUS.BAD_REQUEST)}/${RESPONSE_STATUS.UNPROCESSABLE_ENTITY} ${getResponseStatusTitle(RESPONSE_STATUS.UNPROCESSABLE_ENTITY)} or Trimmed/Normalized Value`;
 
 export class DataDrivenTests extends BaseTests<TestResult[]> {
   private signal?: AbortSignal;
   private testFilesDirectory = '';
+
+  constructor(
+    options: TestOptions,
+    private readonly settings: TestEngineConfiguration,
+    onTestStart?: () => void,
+  ) {
+    super(options, onTestStart);
+  }
 
   protected async execute(signal: AbortSignal): Promise<TestResult[]> {
     this.signal = signal;
@@ -60,6 +61,7 @@ export class DataDrivenTests extends BaseTests<TestResult[]> {
 
     await runDataDrivenTests(
       this.options,
+      this.settings,
       async (parameterName: string, { type, overrides }: ParameterValue) => {
         const testData: TestData = {
           value: `   ${getBodyParameterValue(body, parameterName)}   `,
@@ -70,6 +72,7 @@ export class DataDrivenTests extends BaseTests<TestResult[]> {
         results.push(
           await testRequestParameter(
             { ...this.options, parameterName, parameterType: 'body', testData: updateData },
+            this.settings,
             type === 'enum'
               ? updateData.valid
                 ? SUCCESS_RESPONSE_EXPECTED
@@ -143,7 +146,7 @@ export class DataDrivenTests extends BaseTests<TestResult[]> {
   ): Promise<TestResult[]> {
     const { type, value, overrides } = parameterValue;
     const results: TestResult[] = [];
-    const datasets = getDatasets(store.getState().settings.testEngine.configuration.email.domain);
+    const datasets = getDatasets(this.settings.email.domain);
     const dataset = [
       ...generateDynamicTestData(parameterValue, this.testFilesDirectory),
       ...(datasets[type] || []).map((dataset) => {
@@ -162,6 +165,7 @@ export class DataDrivenTests extends BaseTests<TestResult[]> {
       results.push(
         await testRequestParameter(
           { ...options, testData: updateData },
+          this.settings,
           updateData.valid ? SUCCESS_RESPONSE_EXPECTED : ERROR_RESPONSE_EXPECTED,
           this.signal!,
           determineRequestParameterTestStatus,
@@ -176,12 +180,13 @@ export class DataDrivenTests extends BaseTests<TestResult[]> {
 
 export async function runDataDrivenTests(
   options: TestOptions,
+  settings: TestEngineConfiguration,
   onValueNormalizationTest: (key: string, value: ParameterValue) => Promise<void>,
   onBodyParameterTest: (key: string, value: ParameterValue) => Promise<void>,
   onQueryParameterTest: (key: string, value: ParameterValue) => Promise<void>,
 ) {
   const { body, bodyParameters, queryParameters } = options;
-  const originalBodyParameters = extractBodyParameters(body);
+  const originalBodyParameters = extractBodyParameters(body, settings);
 
   // Test string value normalization (trimming)
   for (const [key, value] of Object.entries(bodyParameters)) {
@@ -205,6 +210,7 @@ export async function runDataDrivenTests(
 
 async function testRequestParameter(
   options: TestOptions,
+  settings: TestEngineConfiguration,
   expected: string,
   signal: AbortSignal,
   determine: (
@@ -217,7 +223,7 @@ async function testRequestParameter(
   onTestStart?.();
 
   const { bodyParameters, parameterName, parameterType, testData } = options;
-  const request = createTestHttpRequest(options);
+  const request = createTestHttpRequest(options, settings);
   const isFileTest = parameterType === 'body' && !!parameterName && bodyParameters[parameterName]?.type === 'file';
   const value = isFileTest && typeof testData?.value === 'string' ? getFileName(testData.value) : testData?.value;
   const name = `${parameterType}.${parameterName}`;

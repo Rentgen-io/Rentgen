@@ -113,7 +113,7 @@ const tr = {
     untitledRequest: 'Adsız İstek',
     enterUrl: 'URL girin veya metin yapıştırın',
     headers: 'Başlıklar',
-    headersPlaceholder: 'Başlık-Anahtar: değer',
+    headersPlaceholder: 'Satırlar yeni satırla ayrılır\nAnahtarlar ve değerler : ile ayrılır',
     bulkEdit: 'Toplu Düzenleme',
     keyValueEdit: 'Anahtar-Değer Düzenleme',
     body: 'Gövde',

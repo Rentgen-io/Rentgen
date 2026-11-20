@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { IntegrityStatus, ProjectData } from '../types/project';
+import { IntegrityStatus, ProjectData } from 'shared/types/project';
 
 // Part of the checksum format stored in project files: changing it marks every saved project as modified
 const CHECKSUM_PREFIX = 'sha256:';

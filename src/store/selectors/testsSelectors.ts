@@ -1,8 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { TestResults } from 'shared/types/testing';
 import { TestsTab } from 'src/constants/tests-tabs';
 import { RootState } from 'src/store';
 import { getTestsStatistics } from 'src/test-engine/BaseTests';
-import { TestResults } from 'src/types';
 import { selectDisabledPerformanceInsights, selectDisabledSecurityTests } from './settingsSelectors';
 
 export type TestsStatistics = ReturnType<typeof getTestsStatistics>;

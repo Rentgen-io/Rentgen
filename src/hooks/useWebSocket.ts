@@ -8,10 +8,11 @@ import {
   selectDynamicVariables,
   selectHeaders,
   selectSelectedEnvironment,
+  selectTestEngineConfiguration,
   selectUrl,
 } from 'src/store/selectors';
 import { websocketActions } from 'src/store/slices/websocketSlice';
-import { substituteRequestVariables } from 'src/utils';
+import { substituteRequestVariables } from 'src/utils/environment';
 
 export function useWssEventBridge() {
   const dispatch = useAppDispatch();
@@ -69,6 +70,7 @@ function substituteCurrentRequest() {
     selectSelectedEnvironment(state),
     selectDynamicVariables(state),
     selectHeaders(state),
+    selectTestEngineConfiguration(state),
     selectUrl(state),
   );
 }

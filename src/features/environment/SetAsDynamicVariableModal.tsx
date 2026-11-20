@@ -5,11 +5,11 @@ import { FieldLabel } from 'src/components/inputs/FieldLabel';
 import Input from 'src/components/inputs/Input';
 import Select, { SelectOption } from 'src/components/inputs/Select';
 import ConfirmationModal from 'src/components/modals/ConfirmationModal';
+import { notify } from 'src/services/notify';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectDynamicVariables, selectEnvironments, selectSetAsDynamicVariableModal } from 'src/store/selectors';
 import { environmentActions } from 'src/store/slices/environmentSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { notify } from 'src/utils/toast';
 
 const ALL_ENVIRONMENTS_VALUE = 'all';
 

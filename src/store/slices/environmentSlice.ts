@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { DynamicVariable, Environment, EnvironmentVariable } from 'shared/types/environment';
+import { generateDynamicVariableId } from 'shared/utils/id';
 import {
   loadDynamicVariables as loadDynamicVariablesFile,
   loadEnvironments as loadEnvironmentsFile,
 } from 'src/api/storage';
-import { DynamicVariable, Environment, EnvironmentVariable } from 'src/types';
-import { generateDynamicVariableId } from 'src/utils';
 
 /** A dynamic variable as defined by the user; the slice manages its id, lastUpdated and previousRequests. */
 type DynamicVariableDefinition = Omit<DynamicVariable, 'id' | 'lastUpdated' | 'previousRequests'>;

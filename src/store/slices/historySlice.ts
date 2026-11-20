@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { HistoryEntry } from 'shared/types/history';
 import { isCurrentHistoryEntry } from 'shared/utils/history';
 import { loadHistory as loadHistoryFile } from 'src/api/storage';
-import { HistoryEntry } from 'src/types';
 
 interface HistoryState {
   entries: HistoryEntry[];

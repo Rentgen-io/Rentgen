@@ -113,7 +113,7 @@ const ru = {
     untitledRequest: 'Запрос без названия',
     enterUrl: 'Введите URL или вставьте текст',
     headers: 'Заголовки',
-    headersPlaceholder: 'Header-Key: value',
+    headersPlaceholder: 'Строки разделяются переводом строки\nКлючи и значения разделяются символом :',
     bulkEdit: 'Массовое редактирование',
     keyValueEdit: 'Редактирование «ключ-значение»',
     body: 'Тело',

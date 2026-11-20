@@ -1,4 +1,4 @@
-import { HttpRequest, HttpResponse } from 'src/types';
+import { HttpRequest, HttpResponse } from 'shared/types/http';
 import { v4 as uuidv4 } from 'uuid';
 
 export const sendHttp = async (request: HttpRequest, signal?: AbortSignal): Promise<HttpResponse> => {

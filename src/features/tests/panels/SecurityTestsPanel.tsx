@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { TableColumn } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
 import { LARGE_PAYLOAD_TEST_NAME } from 'shared/testNames';
+import { TestResult, TestStatus } from 'shared/types/testing';
 import Toggle from 'src/components/inputs/Toggle';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import { SECURITY_TESTS } from 'src/features/settings/test-engine/SecurityTestsSettings';
@@ -15,7 +16,6 @@ import {
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import { TestResult, TestStatus } from 'src/types';
 import LargePayloadTestRunControls from '../controls/LargePayloadTestRunControls';
 import TestResultControls from '../controls/TestResultControls';
 import TestsTable, { ExpandedTestComponent, TestsTableHeader, getTestsTableColumns } from '../tables/TestsTable';

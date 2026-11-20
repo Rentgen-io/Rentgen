@@ -1,15 +1,34 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  ImportConflictModalState,
-  ImportConflictSummary,
-  IntegrityStatus,
-  PostmanCollection,
-  ProjectData,
-  ProjectImportConfirmModalState,
-  ProjectMeta,
-  SetAsDynamicVariableModalState,
-  SettingsTab,
-} from 'src/types';
+import { PostmanCollection } from 'shared/types/postman';
+import { IntegrityStatus, ProjectData, ProjectMeta } from 'shared/types/project';
+import { ImportConflictSummary } from 'src/utils/collection';
+
+export type SettingsTab = 'testEngine' | 'general' | 'ai' | 'themes' | 'language' | 'cli';
+
+export interface ImportConflictModalState {
+  isOpen: boolean;
+  importedCollection: PostmanCollection | null;
+  conflictSummary: ImportConflictSummary | null;
+  warnings: string[];
+}
+
+export interface SetAsDynamicVariableModalState {
+  isOpen: boolean;
+  initialSelector: string;
+  initialValue: string;
+  requestId: string;
+  collectionName: string;
+  requestName: string;
+  source: 'body' | 'header';
+}
+
+export interface ProjectImportConfirmModalState {
+  isOpen: boolean;
+  data: ProjectData | null;
+  meta: ProjectMeta | null;
+  integrityStatus: IntegrityStatus | null;
+  fileName: string;
+}
 
 interface ModalsState {
   deleteFolderModal: {

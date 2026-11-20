@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'src/store';
-import { collectionToGroupedSidebarData, findRequestWithFolder } from 'src/utils';
+import { collectionToGroupedSidebarData, findRequestWithFolder } from 'src/utils/collection';
 
 export const selectCollectionData = (state: RootState) => state.collection.data;
 export const selectCollectionLoading = (state: RootState) => state.collection.loading;

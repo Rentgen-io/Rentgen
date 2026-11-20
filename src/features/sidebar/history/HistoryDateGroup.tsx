@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
-import { HistoryEntry } from 'src/types';
+import { HistoryEntry } from 'shared/types/history';
 import HistoryItem from './HistoryItem';
 
 import ChevronIcon from 'src/assets/icons/chevron-icon.svg';

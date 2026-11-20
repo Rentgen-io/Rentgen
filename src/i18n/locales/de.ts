@@ -113,7 +113,7 @@ const de = {
     untitledRequest: 'Anfrage ohne Titel',
     enterUrl: 'URL eingeben oder Text einfügen',
     headers: 'Header',
-    headersPlaceholder: 'Header-Schlüssel: Wert',
+    headersPlaceholder: 'Zeilen werden durch Zeilenumbrüche getrennt\nSchlüssel und Werte werden durch : getrennt',
     bulkEdit: 'Massenbearbeitung',
     keyValueEdit: 'Schlüssel-Wert-Bearbeitung',
     body: 'Body',

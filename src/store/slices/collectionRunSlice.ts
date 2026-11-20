@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HttpResponse, RequestParameters } from 'src/types';
+import { HttpResponse } from 'shared/types/http';
+import { RequestParameters } from 'shared/types/testing';
 
 export interface CollectionRunResult {
   bodyParameters: RequestParameters | null;

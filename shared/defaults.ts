@@ -1,6 +1,6 @@
+import { MappingsState } from 'shared/types/mappings';
+import { SettingsState } from 'shared/types/settings';
 import { appConfig } from './constants';
-import { MappingsState } from './types/mappings';
-import { SettingsState } from './types/settings';
 
 export const defaultMappings: MappingsState = {};
 

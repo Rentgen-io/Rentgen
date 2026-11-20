@@ -113,7 +113,7 @@ const ko = {
     untitledRequest: '제목 없는 요청',
     enterUrl: 'URL을 입력하거나 텍스트를 붙여넣으세요',
     headers: '헤더',
-    headersPlaceholder: 'Header-Key: value',
+    headersPlaceholder: '행은 줄바꿈으로 구분됩니다\n키와 값은 콜론(:)으로 구분됩니다',
     bulkEdit: '일괄 편집',
     keyValueEdit: '키-값 편집',
     body: '바디',

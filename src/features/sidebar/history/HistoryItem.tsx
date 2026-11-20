@@ -1,6 +1,7 @@
 import { Method } from 'axios';
 import { memo, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { HistoryEntry } from 'shared/types/history';
 import MethodBadge from 'src/components/badges/MethodBadge';
 import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
 import { useReset } from 'src/hooks/useReset';
@@ -10,7 +11,6 @@ import { selectIsComparingTestResults } from 'src/store/selectors';
 import { historyActions } from 'src/store/slices/historySlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
-import { HistoryEntry } from 'src/types';
 
 import TrashIcon from 'src/assets/icons/trash-icon.svg';
 

@@ -2,12 +2,12 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import Modal from 'src/components/modals/Modal';
+import { notify } from 'src/services/notify';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectCollectionData, selectImportConflictModal } from 'src/store/selectors';
 import { collectionActions, ImportMode } from 'src/store/slices/collectionSlice';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { countMergeAdditions } from 'src/utils';
-import { notify } from 'src/utils/toast';
+import { countMergeAdditions } from 'src/utils/collection';
 
 export default function ImportConflictModal() {
   const dispatch = useAppDispatch();

@@ -1,8 +1,8 @@
 import { memo, useMemo } from 'react';
 import DataTable, { ExpanderComponentProps, TableColumn, TableProps, TableStyles } from 'react-data-table-component';
 import { useTranslation } from 'react-i18next';
+import { HttpResponse } from 'shared/types/http';
 import { JsonDiffViewer } from 'src/components/viewers/JsonDiffViewer';
-import { HttpResponse } from 'src/types';
 
 export interface PotentialBug {
   name: string;

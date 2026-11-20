@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import merge from 'deepmerge';
 import { defaultSettings } from 'shared/defaults';
 import { MEDIAN_RESPONSE_TIME_TEST_NAME, NETWORK_SHARE_TEST_NAME, PING_LATENCY_TEST_NAME } from 'shared/testNames';
+import { AiProvider, HistoryRetention, Language, LicenseResult, SettingsState } from 'shared/types/settings';
 import { loadSettings as loadSettingsFile } from 'src/api/storage';
 import i18n from 'src/i18n';
-import { AiProvider, HistoryRetention, Language, LicenseResult, SettingsState } from 'src/types';
 
 export const initialState: SettingsState = defaultSettings;
 

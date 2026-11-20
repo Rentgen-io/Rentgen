@@ -6,8 +6,8 @@ import {
   PostmanFormDataItem,
   PostmanHeader,
   PostmanUrlencodedItem,
-  RequestParameters,
-} from 'src/types';
+} from 'shared/types/postman';
+import { RequestParameters } from 'shared/types/testing';
 
 export type Mode = 'HTTP' | 'WSS';
 

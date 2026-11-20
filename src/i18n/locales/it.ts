@@ -113,7 +113,7 @@ const it = {
     untitledRequest: 'Richiesta senza titolo',
     enterUrl: 'Inserisci URL o incolla testo',
     headers: 'Intestazioni',
-    headersPlaceholder: 'Chiave-intestazione: valore',
+    headersPlaceholder: 'Le righe sono separate da un a capo\nChiavi e valori sono separati da :',
     bulkEdit: 'Modifica in blocco',
     keyValueEdit: 'Modifica chiave-valore',
     body: 'Corpo',

@@ -113,7 +113,7 @@ const lt = {
     untitledRequest: 'Užklausa be pavadinimo',
     enterUrl: 'Įveskite URL arba įklijuokite tekstą',
     headers: 'Antraštės',
-    headersPlaceholder: 'Antraštės-Raktas: reikšmė',
+    headersPlaceholder: 'Eilutės atskiriamos nauja eilute\nRaktai ir reikšmės atskiriami simboliu :',
     bulkEdit: 'Masinis redagavimas',
     keyValueEdit: 'Rakto ir reikšmės redagavimas',
     body: 'Turinys',

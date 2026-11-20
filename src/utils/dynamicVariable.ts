@@ -1,6 +1,7 @@
-import { DynamicVariable, ExtractionFailure, ExtractionResult, HttpResponse } from 'src/types';
+import { DynamicVariable, ExtractionFailure, ExtractionResult } from 'shared/types/environment';
+import { HttpResponse } from 'shared/types/http';
+import { getHeaderKey } from 'shared/utils/headers';
 import { extractValue, stringifyExtractedValue } from './environment';
-import { getHeaderKey } from './http';
 
 /**
  * Extracts the dynamic variables linked to a request from its response.

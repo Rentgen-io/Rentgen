@@ -10,10 +10,10 @@ import {
   PING_LATENCY_TEST_NAME,
   RESPONSE_SIZE_CHECK_TEST_NAME,
 } from 'shared/testNames';
+import { TestResult, TestStatus } from 'shared/types/testing';
 import { CopyButton } from 'src/components/buttons/CopyButton';
+import { generateCurl } from 'src/converters/curl';
 import { performanceTemplates, securityTemplates } from 'src/test-engine/reports';
-import { TestResult, TestStatus } from 'src/types';
-import { generateCurl } from 'src/utils';
 import { twMerge } from 'tailwind-merge';
 
 type TestType = 'security' | 'performance';

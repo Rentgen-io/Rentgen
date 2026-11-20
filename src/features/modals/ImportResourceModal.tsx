@@ -5,11 +5,11 @@ import { IconButton } from 'src/components/buttons/IconButton';
 import Textarea from 'src/components/inputs/Textarea';
 import Loader from 'src/components/loaders/Loader';
 import Modal from 'src/components/modals/Modal';
-import { useResourceImport } from 'src/hooks/useResourceImport';
+import { notify } from 'src/services/notify';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectOpenImportResourceModal } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
-import { notify } from 'src/utils/toast';
+import { useResourceImport } from './useResourceImport';
 
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
 

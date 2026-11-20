@@ -113,7 +113,7 @@ const en = {
     untitledRequest: 'Untitled Request',
     enterUrl: 'Enter URL or paste text',
     headers: 'Headers',
-    headersPlaceholder: 'Header-Key: value',
+    headersPlaceholder: 'Rows are separated by new lines\nKeys and values are separated by :',
     bulkEdit: 'Bulk Edit',
     keyValueEdit: 'Key-Value Edit',
     body: 'Body',

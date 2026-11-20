@@ -113,7 +113,7 @@ const ptBR = {
     untitledRequest: 'Requisição sem título',
     enterUrl: 'Digite a URL ou cole o texto',
     headers: 'Cabeçalhos',
-    headersPlaceholder: 'Header-Key: valor',
+    headersPlaceholder: 'As linhas são separadas por quebras de linha\nChaves e valores são separados por :',
     bulkEdit: 'Edição em massa',
     keyValueEdit: 'Edição chave-valor',
     body: 'Corpo',

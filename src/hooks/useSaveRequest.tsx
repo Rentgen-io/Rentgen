@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { notify } from 'src/services/notify';
 import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
 import {
@@ -20,8 +21,8 @@ import {
 import { collectionRunActions } from 'src/store/slices/collectionRunSlice';
 import { collectionActions } from 'src/store/slices/collectionSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
-import { extractStatusCode, findRequestById } from 'src/utils';
-import { notify } from 'src/utils/toast';
+import { findRequestById } from 'src/utils/collection';
+import { extractStatusCode } from 'src/utils/http';
 
 /**
  * The state is read from the store when saving (not subscribed to), so the returned callbacks are stable, never save

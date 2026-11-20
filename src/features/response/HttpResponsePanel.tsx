@@ -23,7 +23,7 @@ import {
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
-import { isAbortedResponse } from 'src/utils';
+import { isAbortedResponse } from 'src/utils/http';
 import ParametersPanel from '../parameters/ParametersPanel';
 
 const MIN_RESPONSE_HEIGHT = 160;

@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appConfig } from 'shared/constants';
+import { ExportReport } from 'shared/types/testing';
 import { exportFile, generateCertificate as generateCertificateFile } from 'src/api/files';
+import { notify } from 'src/services/notify';
 import { store } from 'src/store';
 import { selectCurrentTestResults, selectExportFormat, selectHttpResponse } from 'src/store/selectors';
-import { ExportReport } from 'src/types';
-import { buildSuite, formatReport } from 'src/utils';
-import { notify } from 'src/utils/toast';
+import { buildSuite, formatReport } from 'src/test-engine/reports/report-export';
 
 const MINIMUM_TESTS_FOR_CERTIFICATE = 70;
 

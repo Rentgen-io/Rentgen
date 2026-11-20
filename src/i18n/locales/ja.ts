@@ -113,7 +113,7 @@ const ja = {
     untitledRequest: '無題のリクエスト',
     enterUrl: 'URL を入力するかテキストを貼り付け',
     headers: 'ヘッダー',
-    headersPlaceholder: 'Header-Key: value',
+    headersPlaceholder: '行は改行で区切ります\nキーと値は : で区切ります',
     bulkEdit: '一括編集',
     keyValueEdit: 'キーと値で編集',
     body: 'ボディ',

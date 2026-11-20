@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { LicenseResult } from 'shared/types/settings';
 import { openExternal } from 'src/api/system';
 import Button, { ButtonType } from 'src/components/buttons/Button';
 import { FieldLabel } from 'src/components/inputs/FieldLabel';
 import Textarea from 'src/components/inputs/Textarea';
 import { useLicense } from 'src/hooks/useLicense';
+import i18n from 'src/i18n';
+import { notify } from 'src/services/notify';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectLicense } from 'src/store/selectors';
 import { uiActions } from 'src/store/slices/uiSlice';
-import { showLicenseMessage } from 'src/utils';
 import SettingsHeader from '../SettingsHeader';
 
 const RENTGEN_LICENSE_ANNUAL_PRICE = 36;
@@ -87,4 +89,30 @@ export function AiLicenseSettings() {
       </div>
     </div>
   );
+}
+
+function showLicenseMessage(result: LicenseResult): void {
+  switch (result.status) {
+    case 'valid':
+      notify.success(
+        i18n.t('settings.ai.validLicense', { company: result.info.company, expiresOn: result.info.expiresOn }),
+        {
+          toastId: 'success-license-validation',
+        },
+      );
+      break;
+    case 'expired':
+      notify.error(i18n.t('settings.ai.expiredLicense'), { toastId: 'error-license-validation' });
+      break;
+    case 'trial_used':
+      notify.error(i18n.t('settings.ai.trialUsedLicense'), { toastId: 'error-license-validation' });
+      break;
+    case 'not_yet_valid':
+      notify.warning(i18n.t('settings.ai.notYetValidLicense', { startsOn: result.info.startsOn }), {
+        toastId: 'error-license-warning',
+      });
+      break;
+    default:
+      notify.error(i18n.t('settings.ai.invalidLicense'), { toastId: 'error-license-validation' });
+  }
 }

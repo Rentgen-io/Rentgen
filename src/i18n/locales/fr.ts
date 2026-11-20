@@ -113,7 +113,7 @@ const fr = {
     untitledRequest: 'Requête sans titre',
     enterUrl: "Saisir l'URL ou coller le texte",
     headers: 'En-têtes',
-    headersPlaceholder: 'Clé-en-tête : valeur',
+    headersPlaceholder: 'Les lignes sont séparées par des sauts de ligne\nLes clés et les valeurs sont séparées par :',
     bulkEdit: 'Édition groupée',
     keyValueEdit: 'Édition clé-valeur',
     body: 'Corps',

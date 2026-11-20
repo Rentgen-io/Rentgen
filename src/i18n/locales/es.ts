@@ -113,7 +113,7 @@ const es = {
     untitledRequest: 'Solicitud sin título',
     enterUrl: 'Introduce una URL o pega texto',
     headers: 'Cabeceras',
-    headersPlaceholder: 'Clave-Cabecera: valor',
+    headersPlaceholder: 'Las filas se separan con saltos de línea\nLas claves y los valores se separan con :',
     bulkEdit: 'Edición masiva',
     keyValueEdit: 'Edición clave-valor',
     body: 'Cuerpo',

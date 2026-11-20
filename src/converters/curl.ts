@@ -1,7 +1,9 @@
 import parseCurl from 'parse-curl';
+import { HttpRequest, RequestBody } from 'shared/types/http';
+import { PostmanBody, PostmanFormDataItem, PostmanUrlencodedItem } from 'shared/types/postman';
+import { getHeaderKey, isUrlEncodedContentType } from 'shared/utils/headers';
 import { isFormDataBody, isUrlEncodedBody, toLocalFilePath } from 'shared/utils/http';
-import { HttpRequest, PostmanBody, PostmanFormDataItem, PostmanUrlencodedItem, RequestBody } from 'src/types';
-import { convertUrlEncodedToFormEntries, getHeaderKey, isUrlEncodedContentType } from './http';
+import { convertUrlEncodedToFormEntries } from 'src/utils/http';
 
 /** What the untyped `parse-curl` package returns for a cURL command. */
 interface ParseCurlResult {

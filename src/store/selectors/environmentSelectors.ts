@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { Environment, VariableSuggestion } from 'shared/types/environment';
 import { RootState } from 'src/store';
-import { Environment, VariableSuggestion } from 'src/types';
 
 export const selectDynamicVariables = (state: RootState) => state.environment.dynamicVariables;
 export const selectEditingEnvironmentId = (state: RootState) => state.environment.editingEnvironmentId;

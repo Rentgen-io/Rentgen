@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
+import { Language, LANGUAGES } from 'shared/types/settings';
 import { openExternal } from 'src/api/system';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectLanguage } from 'src/store/selectors';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import { Language, LANGUAGES } from 'src/types';
 
 export function LanguageSettings() {
   const dispatch = useAppDispatch();

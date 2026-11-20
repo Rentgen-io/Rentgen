@@ -1,7 +1,7 @@
 import { dialog, ipcMain } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import { postmanToRentgen, rentgenToPostman, validatePostmanCollection } from 'shared/utils/postman-converter';
+import { postmanToRentgen, rentgenToPostman, validatePostmanCollection } from 'shared/converters/postman';
 import type { ExportResult, ImportResult } from 'shared/types/ipc';
 import type { PostmanCollection } from 'shared/types/postman';
 

@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { HistoryEntry } from 'shared/types/history';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectHistoryEntries } from 'src/store/selectors';
 import { historyActions } from 'src/store/slices/historySlice';
-import { HistoryEntry } from 'src/types';
 import SideBarSearch from '../SidebarSearch';
 import HistoryDateGroup from './HistoryDateGroup';
 

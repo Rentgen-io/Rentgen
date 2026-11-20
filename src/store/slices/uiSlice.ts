@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ReportFormat } from 'shared/types/testing';
 import { TestingModeTab } from 'src/constants/testing-mode-tabs';
 import { TestsTab } from 'src/constants/tests-tabs';
-import { AiTab, ReportFormat, SidebarTab } from 'src/types';
+
+export type AiTab = 'overview' | 'tests';
+export type SidebarTab = 'collections' | 'environments' | 'history' | null;
 
 interface UIState {
   aiActiveTab: AiTab;

@@ -113,7 +113,7 @@ const pl = {
     untitledRequest: 'Zapytanie bez nazwy',
     enterUrl: 'Wpisz URL lub wklej tekst',
     headers: 'Nagłówki',
-    headersPlaceholder: 'Klucz-Nagłówka: wartość',
+    headersPlaceholder: 'Wiersze są oddzielone znakami nowej linii\nKlucze i wartości są oddzielone znakiem :',
     bulkEdit: 'Edycja zbiorcza',
     keyValueEdit: 'Edycja klucz-wartość',
     body: 'Treść',

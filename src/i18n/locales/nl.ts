@@ -113,7 +113,7 @@ const nl = {
     untitledRequest: 'Naamloos verzoek',
     enterUrl: 'Voer URL in of plak tekst',
     headers: 'Headers',
-    headersPlaceholder: 'Header-Key: waarde',
+    headersPlaceholder: 'Rijen worden gescheiden door nieuwe regels\nSleutels en waarden worden gescheiden door :',
     bulkEdit: 'Bulkbewerking',
     keyValueEdit: 'Sleutel-waardebewerking',
     body: 'Body',

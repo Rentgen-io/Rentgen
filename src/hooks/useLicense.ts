@@ -1,7 +1,9 @@
 import { useCallback, useState } from 'react';
+import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
+import { selectLicense } from 'src/store/selectors';
 import { settingsActions } from 'src/store/slices/settingsSlice';
-import { verifyLicense } from 'src/utils';
+import { verifyLicense } from 'src/utils/license';
 
 export function useLicense() {
   const dispatch = useAppDispatch();
@@ -12,7 +14,7 @@ export function useLicense() {
     async (key: string | null, saveInvalid = true) => {
       setIsValidating(true);
 
-      const result = await verifyLicense(key);
+      const result = await verifyLicense(key, { savedLicense: selectLicense(store.getState()) });
       if (result.valid || saveInvalid) dispatch(settingsActions.setLicense({ key, result }));
 
       setIsValidating(false);

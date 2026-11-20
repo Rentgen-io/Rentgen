@@ -113,7 +113,7 @@ const vi = {
     untitledRequest: 'Yêu cầu không có tiêu đề',
     enterUrl: 'Nhập URL hoặc dán văn bản',
     headers: 'Tiêu đề',
-    headersPlaceholder: 'Khóa-tiêu-đề: giá trị',
+    headersPlaceholder: 'Các dòng được phân tách bằng ký tự xuống dòng\nKhóa và giá trị được phân tách bằng dấu :',
     bulkEdit: 'Chỉnh sửa hàng loạt',
     keyValueEdit: 'Chỉnh sửa khóa-giá trị',
     body: 'Nội dung',

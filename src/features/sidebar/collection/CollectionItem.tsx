@@ -6,7 +6,6 @@ import { memo, useEffect, useState } from 'react';
 import MethodBadge from 'src/components/badges/MethodBadge';
 import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
 import { useContextMenu } from 'src/features/context-menu';
-import { useCollectionRunner } from 'src/hooks/useCollectionRunner';
 import { useReset } from 'src/hooks/useReset';
 import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -25,7 +24,9 @@ import { preEvaluationActions } from 'src/store/slices/preEvaluationSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
-import { CollectionItemData, findFolderIdByRequestId, findRequestById, isAbortedResponse } from 'src/utils';
+import { CollectionItemData, findFolderIdByRequestId, findRequestById } from 'src/utils/collection';
+import { isAbortedResponse } from 'src/utils/http';
+import { useCollectionRunner } from './useCollectionRunner';
 
 import EditIcon from 'src/assets/icons/edit-icon.svg';
 import PlayIcon from 'src/assets/icons/play-icon.svg';

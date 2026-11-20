@@ -1,16 +1,10 @@
-import { HttpRequest, HttpResponse, RequestBody, ResponseBody, TestResult, TestStatus } from 'src/types';
-import {
-  extractPropertiesFromJson,
-  extractQueryParameters,
-  getFormDataFileFields,
-  hasUrlEncodedContentType,
-  isFieldsBody,
-  isFormDataBody,
-  isObject,
-  setDeepObjectProperty,
-  stringifyValue,
-  tryParseJsonObject,
-} from 'src/utils';
+import { HttpRequest, HttpResponse, RequestBody, ResponseBody } from 'shared/types/http';
+import { TestResult, TestStatus } from 'shared/types/testing';
+import { hasUrlEncodedContentType } from 'shared/utils/headers';
+import { getFormDataFileFields, isFieldsBody, isFormDataBody } from 'shared/utils/http';
+import { isObject, setDeepObjectProperty, stringifyValue, tryParseJsonObject } from 'src/utils/object';
+import { extractQueryParameters } from 'src/utils/url';
+import { extractPropertiesFromJson } from 'src/utils/validation';
 import { ORIGINAL_REQUEST_TEST_PARAMETER_NAME } from './BaseTests';
 import { SENSITIVE_HEADERS } from './SecurityTests';
 

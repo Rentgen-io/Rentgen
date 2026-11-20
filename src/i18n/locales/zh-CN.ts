@@ -113,7 +113,7 @@ const zhCN = {
     untitledRequest: '未命名请求',
     enterUrl: '输入 URL 或粘贴文本',
     headers: '请求头',
-    headersPlaceholder: 'Header-Key: value',
+    headersPlaceholder: '行之间用换行分隔\n键和值之间用 : 分隔',
     bulkEdit: '批量编辑',
     keyValueEdit: '键值编辑',
     body: '请求体',

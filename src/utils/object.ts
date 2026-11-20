@@ -104,7 +104,7 @@ export function toJsonPointer(tokens: string[]): string {
   return tokens.map((token) => `/${escapeJsonPointerToken(token)}`).join('');
 }
 
-export function parseJsonPointer(pointer: string): string[] {
+function parseJsonPointer(pointer: string): string[] {
   if (pointer === '') return [];
   if (!pointer.startsWith('/')) throw new Error(`Invalid JSON pointer: "${pointer}"`);
 
