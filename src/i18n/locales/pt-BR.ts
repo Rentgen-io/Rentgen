@@ -235,8 +235,8 @@ const ptBR = {
       doNotShowAgain: 'Não mostrar novamente',
     },
     deleteFolder: {
-      title: 'Excluir pasta',
-      description: 'Esta pasta contém requisições. Tem certeza de que deseja excluí-la?',
+      title: 'Excluir "{{name}}"',
+      description: 'Esta pasta não está vazia. Tem certeza de que deseja excluí-la?',
     },
     importConflict: {
       title: 'Conflitos de importação detectados',

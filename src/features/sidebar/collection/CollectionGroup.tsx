@@ -95,7 +95,7 @@ function CollectionGroup({ depth, folder, searchTerm }: Props) {
 
   const handleDelete = () => {
     if (!hasChildren) dispatch(collectionActions.removeFolder(folder.id));
-    else dispatch(modalsActions.openDeleteFolderModal(folder.id));
+    else dispatch(modalsActions.openDeleteFolderModal({ id: folder.id, name: folder.name }));
   };
 
   const toggleRun = () => {

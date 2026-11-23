@@ -235,8 +235,8 @@ const nl = {
       doNotShowAgain: 'Niet meer tonen',
     },
     deleteFolder: {
-      title: 'Map verwijderen',
-      description: 'Deze map bevat verzoeken. Weet je zeker dat je hem wilt verwijderen?',
+      title: '"{{name}}" verwijderen',
+      description: 'Deze map is niet leeg. Weet je zeker dat je hem wilt verwijderen?',
     },
     importConflict: {
       title: 'Importconflicten gedetecteerd',

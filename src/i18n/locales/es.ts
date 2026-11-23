@@ -235,8 +235,8 @@ const es = {
       doNotShowAgain: 'No mostrar de nuevo',
     },
     deleteFolder: {
-      title: 'Eliminar carpeta',
-      description: 'Esta carpeta contiene solicitudes. ¿Estás seguro de que deseas eliminarla?',
+      title: 'Eliminar "{{name}}"',
+      description: 'Esta carpeta no está vacía. ¿Estás seguro de que deseas eliminarla?',
     },
     importConflict: {
       title: 'Conflictos de importación detectados',

@@ -233,8 +233,8 @@ const ko = {
       doNotShowAgain: '다시 표시하지 않기',
     },
     deleteFolder: {
-      title: '폴더 삭제',
-      description: '이 폴더에는 요청이 포함되어 있습니다. 정말 삭제하시겠어요?',
+      title: '"{{name}}" 삭제',
+      description: '이 폴더는 비어 있지 않습니다. 정말 삭제하시겠어요?',
     },
     importConflict: {
       title: '가져오기 충돌이 감지되었습니다',

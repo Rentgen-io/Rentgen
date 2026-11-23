@@ -234,8 +234,8 @@ const de = {
       doNotShowAgain: 'Nicht mehr anzeigen',
     },
     deleteFolder: {
-      title: 'Ordner löschen',
-      description: 'Dieser Ordner enthält Anfragen. Möchten Sie ihn wirklich löschen?',
+      title: '"{{name}}" löschen',
+      description: 'Dieser Ordner ist nicht leer. Möchten Sie ihn wirklich löschen?',
     },
     importConflict: {
       title: 'Importkonflikte erkannt',

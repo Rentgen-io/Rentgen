@@ -234,8 +234,8 @@ const tr = {
       doNotShowAgain: 'Tekrar gösterme',
     },
     deleteFolder: {
-      title: 'Klasörü Sil',
-      description: 'Bu klasör istekler içeriyor. Silmek istediğinizden emin misiniz?',
+      title: '"{{name}}" Sil',
+      description: 'Bu klasör boş değil. Silmek istediğinizden emin misiniz?',
     },
     importConflict: {
       title: 'İçe Aktarma Çakışmaları Tespit Edildi',

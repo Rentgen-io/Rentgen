@@ -237,8 +237,8 @@ const pl = {
       doNotShowAgain: 'Nie pokazuj ponownie',
     },
     deleteFolder: {
-      title: 'Usuń folder',
-      description: 'Ten folder zawiera zapytania. Czy na pewno chcesz go usunąć?',
+      title: 'Usuń "{{name}}"',
+      description: 'Ten folder nie jest pusty. Czy na pewno chcesz go usunąć?',
     },
     importConflict: {
       title: 'Wykryto konflikty importu',

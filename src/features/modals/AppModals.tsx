@@ -78,11 +78,11 @@ export default function AppModals() {
       <ConfirmationModal
         confirmText={t('common.delete')}
         description={t('modals.deleteFolder.description')}
-        title={t('modals.deleteFolder.title')}
+        title={t('modals.deleteFolder.title', { name: deleteFolderModal.name })}
         isOpen={deleteFolderModal.isOpen}
         onClose={() => dispatch(modalsActions.closeDeleteFolderModal())}
         onConfirm={() => {
-          if (deleteFolderModal.folderId) dispatch(collectionActions.removeFolder(deleteFolderModal.folderId));
+          if (deleteFolderModal.id) dispatch(collectionActions.removeFolder(deleteFolderModal.id));
 
           dispatch(modalsActions.closeDeleteFolderModal());
         }}

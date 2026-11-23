@@ -234,8 +234,8 @@ const ja = {
       doNotShowAgain: '次回から表示しない',
     },
     deleteFolder: {
-      title: 'フォルダを削除',
-      description: 'このフォルダにはリクエストが含まれています。削除してもよろしいですか?',
+      title: '"{{name}}" を削除',
+      description: 'このフォルダは空ではありません。削除してもよろしいですか?',
     },
     importConflict: {
       title: 'インポートの競合が検出されました',

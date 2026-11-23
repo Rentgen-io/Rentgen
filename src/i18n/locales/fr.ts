@@ -235,8 +235,8 @@ const fr = {
       doNotShowAgain: 'Ne plus afficher',
     },
     deleteFolder: {
-      title: 'Supprimer le dossier',
-      description: 'Ce dossier contient des requêtes. Êtes-vous sûr de vouloir le supprimer ?',
+      title: 'Supprimer "{{name}}"',
+      description: "Ce dossier n'est pas vide. Êtes-vous sûr de vouloir le supprimer ?",
     },
     importConflict: {
       title: "Conflits d'import détectés",

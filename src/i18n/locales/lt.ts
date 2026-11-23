@@ -236,8 +236,8 @@ const lt = {
       doNotShowAgain: 'Daugiau nerodyti',
     },
     deleteFolder: {
-      title: 'Ištrinti aplanką',
-      description: 'Šiame aplanke yra užklausų. Ar tikrai norite jį ištrinti?',
+      title: 'Ištrinti „{{name}}“',
+      description: 'Šis aplankas nėra tuščias. Ar tikrai norite jį ištrinti?',
     },
     importConflict: {
       title: 'Aptikti importavimo konfliktai',

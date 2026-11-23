@@ -234,8 +234,8 @@ const hi = {
       doNotShowAgain: 'फिर से न दिखाएँ',
     },
     deleteFolder: {
-      title: 'फ़ोल्डर हटाएँ',
-      description: 'इस फ़ोल्डर में अनुरोध हैं। क्या आप वाकई इसे हटाना चाहते हैं?',
+      title: '"{{name}}" हटाएँ',
+      description: 'यह फ़ोल्डर खाली नहीं है। क्या आप वाकई इसे हटाना चाहते हैं?',
     },
     importConflict: {
       title: 'आयात विरोध मिले',

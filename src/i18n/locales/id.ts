@@ -234,8 +234,8 @@ const id = {
       doNotShowAgain: 'Jangan tampilkan lagi',
     },
     deleteFolder: {
-      title: 'Hapus Folder',
-      description: 'Folder ini berisi permintaan. Yakin ingin menghapusnya?',
+      title: 'Hapus "{{name}}"',
+      description: 'Folder ini tidak kosong. Yakin ingin menghapusnya?',
     },
     importConflict: {
       title: 'Konflik Impor Terdeteksi',

@@ -233,8 +233,8 @@ const vi = {
       doNotShowAgain: 'Không hiển thị lại',
     },
     deleteFolder: {
-      title: 'Xóa thư mục',
-      description: 'Thư mục này chứa các yêu cầu. Bạn có chắc chắn muốn xóa nó không?',
+      title: 'Xóa "{{name}}"',
+      description: 'Thư mục này không trống. Bạn có chắc chắn muốn xóa nó không?',
     },
     importConflict: {
       title: 'Đã phát hiện xung đột khi nhập',

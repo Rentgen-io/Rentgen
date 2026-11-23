@@ -232,8 +232,8 @@ const en = {
       doNotShowAgain: 'Do not show again',
     },
     deleteFolder: {
-      title: 'Delete Folder',
-      description: 'This folder contains requests. Are you sure you want to delete it?',
+      title: 'Delete "{{name}}"',
+      description: 'This folder is not empty. Are you sure you want to delete it?',
     },
     importConflict: {
       title: 'Import Conflicts Detected',

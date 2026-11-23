@@ -228,8 +228,8 @@ const zhCN = {
       doNotShowAgain: '不再显示',
     },
     deleteFolder: {
-      title: '删除文件夹',
-      description: '此文件夹包含请求。确定要删除吗？',
+      title: '删除「{{name}}」',
+      description: '此文件夹不为空。确定要删除吗？',
     },
     importConflict: {
       title: '检测到导入冲突',
