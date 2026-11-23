@@ -165,8 +165,8 @@ export function findFolderById(collection: PostmanCollection, folderId: string):
 }
 
 /**
- * Adds an empty folder: at the top of the collection, or as the last entry of the parent folder (like Postman). Its
- * name gets a counter when a sibling folder already has it.
+ * Adds an empty folder as the first entry: of the collection, or of the parent folder. Its name gets a counter when a
+ * sibling folder already has it.
  */
 export function addFolderToCollection(
   collection: PostmanCollection,
@@ -183,7 +183,7 @@ export function addFolderToCollection(
     ...collection,
     item: updateFolder(collection.item, parentId, (parent) => ({
       ...parent,
-      item: [...parent.item, { id, name: uniqueFolderName(parent.item, name), item: [] }],
+      item: [{ id, name: uniqueFolderName(parent.item, name), item: [] }, ...parent.item],
     })),
   };
 }

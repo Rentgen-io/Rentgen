@@ -48,7 +48,7 @@ export const collectionSlice = createSlice({
   name: 'collection',
   initialState,
   reducers: {
-    // At the top of the collection, or as the last entry of `parentId`. The ID is generated when the action is created,
+    // The first entry of the collection, or of `parentId`. The ID is generated when the action is created,
     // so the dispatcher knows the new folder (e.g. to start renaming it)
     addFolder: {
       reducer: (state, action: PayloadAction<{ id: string; name: string; parentId: string | null }>) => {
