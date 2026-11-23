@@ -46,6 +46,8 @@ const en = {
     add: 'Add',
     back: 'Back',
     stop: 'Stop',
+    rename: 'Rename',
+    moreActions: 'More actions',
     noOptions: 'No options',
     resizeHint: 'Drag to resize, double-click to reset',
     toggleTheme: 'Toggle theme',
@@ -65,6 +67,7 @@ const en = {
   // Collections Panel
   collections: {
     newFolder: 'New Folder',
+    addFolder: 'Add Folder',
     searchRequests: 'Search requests...',
     noMatchingRequests: 'No matching requests',
     noSavedRequests: 'No saved requests',

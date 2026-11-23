@@ -46,6 +46,8 @@ const uk = {
     add: 'Додати',
     back: 'Назад',
     stop: 'Зупинити',
+    rename: 'Перейменувати',
+    moreActions: 'Інші дії',
     noOptions: 'Немає варіантів',
     resizeHint: 'Перетягніть, щоб змінити розмір, двічі клацніть для скидання',
     toggleTheme: 'Змінити тему',
@@ -65,6 +67,7 @@ const uk = {
   // Collections Panel
   collections: {
     newFolder: 'Нова тека',
+    addFolder: 'Додати теку',
     searchRequests: 'Пошук запитів...',
     noMatchingRequests: 'Немає відповідних запитів',
     noSavedRequests: 'Немає збережених запитів',

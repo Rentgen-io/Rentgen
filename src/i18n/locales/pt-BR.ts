@@ -46,6 +46,8 @@ const ptBR = {
     add: 'Adicionar',
     back: 'Voltar',
     stop: 'Parar',
+    rename: 'Renomear',
+    moreActions: 'Mais ações',
     noOptions: 'Sem opções',
     resizeHint: 'Arraste para redimensionar, clique duas vezes para redefinir',
     toggleTheme: 'Alternar tema',
@@ -65,6 +67,7 @@ const ptBR = {
   // Collections Panel
   collections: {
     newFolder: 'Nova pasta',
+    addFolder: 'Adicionar pasta',
     searchRequests: 'Buscar requisições...',
     noMatchingRequests: 'Nenhuma requisição correspondente',
     noSavedRequests: 'Nenhuma requisição salva',

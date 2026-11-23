@@ -46,6 +46,8 @@ const vi = {
     add: 'Thêm',
     back: 'Quay lại',
     stop: 'Dừng',
+    rename: 'Đổi tên',
+    moreActions: 'Thao tác khác',
     noOptions: 'Không có tùy chọn',
     resizeHint: 'Kéo để thay đổi kích thước, nhấp đúp để đặt lại',
     toggleTheme: 'Chuyển giao diện',
@@ -65,6 +67,7 @@ const vi = {
   // Collections Panel
   collections: {
     newFolder: 'Thư mục mới',
+    addFolder: 'Thêm thư mục',
     searchRequests: 'Tìm kiếm yêu cầu...',
     noMatchingRequests: 'Không có yêu cầu phù hợp',
     noSavedRequests: 'Không có yêu cầu nào được lưu',

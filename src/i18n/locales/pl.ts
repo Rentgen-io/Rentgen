@@ -46,6 +46,8 @@ const pl = {
     add: 'Dodaj',
     back: 'Wstecz',
     stop: 'Zatrzymaj',
+    rename: 'Zmień nazwę',
+    moreActions: 'Więcej akcji',
     noOptions: 'Brak opcji',
     resizeHint: 'Przeciągnij, aby zmienić rozmiar, kliknij dwukrotnie, aby przywrócić',
     toggleTheme: 'Przełącz motyw',
@@ -65,6 +67,7 @@ const pl = {
   // Collections Panel
   collections: {
     newFolder: 'Nowy folder',
+    addFolder: 'Dodaj folder',
     searchRequests: 'Szukaj zapytań...',
     noMatchingRequests: 'Brak pasujących zapytań',
     noSavedRequests: 'Brak zapisanych zapytań',

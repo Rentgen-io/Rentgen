@@ -46,6 +46,8 @@ const de = {
     add: 'Hinzufügen',
     back: 'Zurück',
     stop: 'Stopp',
+    rename: 'Umbenennen',
+    moreActions: 'Weitere Aktionen',
     noOptions: 'Keine Optionen',
     resizeHint: 'Ziehen, um die Größe zu ändern, Doppelklick zum Zurücksetzen',
     toggleTheme: 'Design wechseln',
@@ -65,6 +67,7 @@ const de = {
   // Collections Panel
   collections: {
     newFolder: 'Neuer Ordner',
+    addFolder: 'Ordner hinzufügen',
     searchRequests: 'Anfragen durchsuchen...',
     noMatchingRequests: 'Keine passenden Anfragen',
     noSavedRequests: 'Keine gespeicherten Anfragen',

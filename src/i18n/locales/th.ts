@@ -46,6 +46,8 @@ const th = {
     add: 'เพิ่ม',
     back: 'ย้อนกลับ',
     stop: 'หยุด',
+    rename: 'เปลี่ยนชื่อ',
+    moreActions: 'การดำเนินการเพิ่มเติม',
     noOptions: 'ไม่มีตัวเลือก',
     resizeHint: 'ลากเพื่อปรับขนาด ดับเบิลคลิกเพื่อรีเซ็ต',
     toggleTheme: 'สลับธีม',
@@ -65,6 +67,7 @@ const th = {
   // Collections Panel
   collections: {
     newFolder: 'โฟลเดอร์ใหม่',
+    addFolder: 'เพิ่มโฟลเดอร์',
     searchRequests: 'ค้นหาคำขอ...',
     noMatchingRequests: 'ไม่มีคำขอที่ตรงกัน',
     noSavedRequests: 'ยังไม่มีคำขอที่บันทึกไว้',

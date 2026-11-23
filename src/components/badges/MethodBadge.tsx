@@ -17,7 +17,7 @@ interface Props {
 
 export default function MethodBadge({ method }: Props) {
   return (
-    <span className={cn('px-1.5 py-0.5 text-xs font-bold rounded', methodColorMap[method.toUpperCase()])}>
+    <span className={cn('px-1 py-px text-[10px] font-bold rounded', methodColorMap[method.toUpperCase()])}>
       {method}
     </span>
   );

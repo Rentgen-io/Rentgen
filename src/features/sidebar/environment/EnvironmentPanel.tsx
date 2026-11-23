@@ -52,7 +52,7 @@ export default function EnvironmentPanel() {
         <span className="text-xs text-muted-foreground">{t('environment.newEnvironment')}</span>
       </div>
       {environments.length > 0 ? (
-        <div className="h-full overflow-x-hidden overflow-y-auto">
+        <div className="h-full p-1 overflow-x-hidden overflow-y-auto">
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext items={environmentIds} strategy={verticalListSortingStrategy}>
               {environments.map((env) => (

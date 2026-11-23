@@ -2,6 +2,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import cn from 'classnames';
 import { memo, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
 import { useContextMenu } from 'src/features/context-menu';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -12,14 +13,13 @@ import { modalsActions } from 'src/store/slices/modalsSlice';
 import { CollectionFolderData, CollectionItemData } from 'src/utils/collection';
 import { isAbortedResponse } from 'src/utils/http';
 import CollectionItem from './CollectionItem';
+import RowActionsMenu from './RowActionsMenu';
 import { useCollectionRunner } from './useCollectionRunner';
 
 import ChevronIcon from 'src/assets/icons/chevron-icon.svg';
-import EditIcon from 'src/assets/icons/edit-icon.svg';
 import FolderIcon from 'src/assets/icons/folder-icon.svg';
 import PlayIcon from 'src/assets/icons/play-icon.svg';
 import StopIcon from 'src/assets/icons/stop-icon.svg';
-import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 interface Props {
   folder: CollectionFolderData;
@@ -32,6 +32,7 @@ interface Props {
  */
 function CollectionGroup({ folder, searchTerm }: Props) {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { cancelFolderRun, runFolder } = useCollectionRunner();
   const { isOpen } = useContextMenu();
 
@@ -47,6 +48,7 @@ function CollectionGroup({ folder, searchTerm }: Props) {
 
   const isThisFolderRunning = runningFolderId === folder.id;
   const isOtherFolderRunning = runningFolderId !== null && runningFolderId !== folder.id;
+  const canRun = folder.items.length > 0 && !isOtherFolderRunning;
 
   const { attributes, isDragging, listeners, transform, transition, setNodeRef } = useSortable({
     id: folder.id,
@@ -60,8 +62,7 @@ function CollectionGroup({ folder, searchTerm }: Props) {
     if (!isSelected) dispatch(collectionActions.selectFolder(folder.id));
   };
 
-  const handleEditClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
+  const handleRename = () => {
     setEditingName(folder.name);
     setIsEditing(true);
   };
@@ -73,16 +74,19 @@ function CollectionGroup({ folder, searchTerm }: Props) {
     setIsEditing(false);
   };
 
-  const handleDeleteClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
+  const handleDelete = () => {
     if (folder.items.length === 0) dispatch(collectionActions.removeFolder(folder.id));
     else dispatch(modalsActions.openDeleteFolderModal(folder.id));
   };
 
-  const handlePlayClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
+  const toggleRun = () => {
     if (isThisFolderRunning) cancelFolderRun();
     else runFolder(folder.id);
+  };
+
+  const handlePlayClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    toggleRun();
   };
 
   useEffect(() => {
@@ -104,8 +108,8 @@ function CollectionGroup({ folder, searchTerm }: Props) {
       >
         <div
           className={cn(
-            'relative h-9 flex items-center gap-2 px-3 py-1.5',
-            'hover:bg-muted box-border group cursor-pointer outline-none',
+            'relative h-6 flex items-center gap-2 py-1 px-2 rounded',
+            'hover:bg-muted has-aria-expanded:bg-muted box-border group cursor-pointer outline-none',
             {
               'bg-muted': isSelected,
             },
@@ -115,7 +119,7 @@ function CollectionGroup({ folder, searchTerm }: Props) {
           {...listeners}
         >
           <ChevronIcon
-            className={cn('size-4 shrink-0 text-muted-foreground', {
+            className={cn('size-4 -mr-1 shrink-0 text-muted-foreground', {
               'rotate-90': isExpanded,
             })}
           />
@@ -150,9 +154,13 @@ function CollectionGroup({ folder, searchTerm }: Props) {
           </span>
 
           {!isEditing && (
-            <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-muted opacity-0 group-hover:opacity-100">
-              {folder.items.length > 0 &&
-                !isOtherFolderRunning &&
+            <div
+              className={cn(
+                'absolute top-0 bottom-0 right-0 px-2 flex items-center gap-1 rounded bg-muted',
+                'opacity-0 group-hover:opacity-100 has-focus-visible:opacity-100 has-aria-expanded:opacity-100',
+              )}
+            >
+              {canRun &&
                 (isThisFolderRunning ? (
                   <StopIcon
                     className="size-4 text-red-500 hover:text-red-600 cursor-pointer"
@@ -164,13 +172,19 @@ function CollectionGroup({ folder, searchTerm }: Props) {
                     onClick={handlePlayClick}
                   />
                 ))}
-              <EditIcon
-                className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
-                onClick={handleEditClick}
-              />
-              <TrashIcon
-                className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
-                onClick={handleDeleteClick}
+              <RowActionsMenu
+                actions={[
+                  // TODO: not implemented yet
+                  { label: t('collections.addFolder'), onClick: () => {} },
+                  {
+                    label: isThisFolderRunning ? t('common.stop') : t('common.run'),
+                    disabled: !canRun,
+                    divider: true,
+                    onClick: toggleRun,
+                  },
+                  { label: t('common.rename'), divider: true, onClick: handleRename },
+                  { label: t('common.delete'), destructive: true, onClick: handleDelete },
+                ]}
               />
             </div>
           )}

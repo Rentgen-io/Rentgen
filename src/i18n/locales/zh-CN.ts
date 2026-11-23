@@ -46,6 +46,8 @@ const zhCN = {
     add: '添加',
     back: '返回',
     stop: '停止',
+    rename: '重命名',
+    moreActions: '更多操作',
     noOptions: '无选项',
     resizeHint: '拖动以调整大小，双击以重置',
     toggleTheme: '切换主题',
@@ -65,6 +67,7 @@ const zhCN = {
   // Collections Panel
   collections: {
     newFolder: '新建文件夹',
+    addFolder: '添加文件夹',
     searchRequests: '搜索请求...',
     noMatchingRequests: '没有匹配的请求',
     noSavedRequests: '没有已保存的请求',

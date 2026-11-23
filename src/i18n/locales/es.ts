@@ -46,6 +46,8 @@ const es = {
     add: 'Añadir',
     back: 'Atrás',
     stop: 'Detener',
+    rename: 'Renombrar',
+    moreActions: 'Más acciones',
     noOptions: 'Sin opciones',
     resizeHint: 'Arrastra para cambiar el tamaño, haz doble clic para restablecer',
     toggleTheme: 'Cambiar tema',
@@ -65,6 +67,7 @@ const es = {
   // Collections Panel
   collections: {
     newFolder: 'Nueva carpeta',
+    addFolder: 'Añadir carpeta',
     searchRequests: 'Buscar solicitudes...',
     noMatchingRequests: 'No hay solicitudes coincidentes',
     noSavedRequests: 'No hay solicitudes guardadas',

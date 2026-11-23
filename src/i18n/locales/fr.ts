@@ -46,6 +46,8 @@ const fr = {
     add: 'Ajouter',
     back: 'Retour',
     stop: 'Arrêter',
+    rename: 'Renommer',
+    moreActions: "Plus d'actions",
     noOptions: 'Aucune option',
     resizeHint: 'Faites glisser pour redimensionner, double-cliquez pour réinitialiser',
     toggleTheme: 'Changer de thème',
@@ -65,6 +67,7 @@ const fr = {
   // Collections Panel
   collections: {
     newFolder: 'Nouveau dossier',
+    addFolder: 'Ajouter un dossier',
     searchRequests: 'Rechercher des requêtes...',
     noMatchingRequests: 'Aucune requête correspondante',
     noSavedRequests: 'Aucune requête enregistrée',

@@ -46,6 +46,8 @@ const nl = {
     add: 'Toevoegen',
     back: 'Terug',
     stop: 'Stoppen',
+    rename: 'Hernoemen',
+    moreActions: 'Meer acties',
     noOptions: 'Geen opties',
     resizeHint: 'Sleep om het formaat te wijzigen, dubbelklik om te herstellen',
     toggleTheme: 'Thema wisselen',
@@ -65,6 +67,7 @@ const nl = {
   // Collections Panel
   collections: {
     newFolder: 'Nieuwe map',
+    addFolder: 'Map toevoegen',
     searchRequests: 'Verzoeken zoeken...',
     noMatchingRequests: 'Geen overeenkomende verzoeken',
     noSavedRequests: 'Geen opgeslagen verzoeken',

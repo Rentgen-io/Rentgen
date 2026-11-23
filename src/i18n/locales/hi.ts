@@ -46,6 +46,8 @@ const hi = {
     add: 'जोड़ें',
     back: 'वापस',
     stop: 'रोकें',
+    rename: 'नाम बदलें',
+    moreActions: 'अधिक क्रियाएँ',
     noOptions: 'कोई विकल्प नहीं',
     resizeHint: 'आकार बदलने के लिए खींचें, रीसेट करने के लिए डबल-क्लिक करें',
     toggleTheme: 'थीम बदलें',
@@ -65,6 +67,7 @@ const hi = {
   // Collections Panel
   collections: {
     newFolder: 'नया फ़ोल्डर',
+    addFolder: 'फ़ोल्डर जोड़ें',
     searchRequests: 'अनुरोध खोजें...',
     noMatchingRequests: 'कोई मेल खाने वाला अनुरोध नहीं',
     noSavedRequests: 'कोई सहेजा गया अनुरोध नहीं',

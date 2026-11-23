@@ -46,6 +46,8 @@ const lt = {
     add: 'Pridėti',
     back: 'Atgal',
     stop: 'Sustabdyti',
+    rename: 'Pervadinti',
+    moreActions: 'Daugiau veiksmų',
     noOptions: 'Nėra parinkčių',
     resizeHint: 'Vilkite, kad pakeistumėte dydį, dukart spustelėkite, kad atkurtumėte',
     toggleTheme: 'Perjungti temą',
@@ -65,6 +67,7 @@ const lt = {
   // Collections Panel
   collections: {
     newFolder: 'Naujas aplankas',
+    addFolder: 'Pridėti aplanką',
     searchRequests: 'Ieškoti užklausų...',
     noMatchingRequests: 'Nerasta atitinkančių užklausų',
     noSavedRequests: 'Nėra išsaugotų užklausų',

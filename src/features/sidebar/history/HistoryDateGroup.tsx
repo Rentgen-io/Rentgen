@@ -23,11 +23,11 @@ export default function HistoryDateGroup({ label, entries, searchTerm }: Props) 
   return (
     <>
       <div
-        className="h-9 flex items-center gap-2 px-3 py-1.5 hover:bg-muted box-border cursor-pointer outline-none"
+        className="h-6 flex items-center gap-2 py-1 px-2 rounded hover:bg-muted box-border cursor-pointer outline-none"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <ChevronIcon
-          className={cn('size-4 text-muted-foreground', {
+          className={cn('size-4 -mr-1 shrink-0 text-muted-foreground', {
             'rotate-90': isExpanded,
           })}
         />

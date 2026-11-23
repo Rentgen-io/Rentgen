@@ -46,6 +46,8 @@ const tr = {
     add: 'Ekle',
     back: 'Geri',
     stop: 'Durdur',
+    rename: 'Yeniden adlandır',
+    moreActions: 'Diğer işlemler',
     noOptions: 'Seçenek yok',
     resizeHint: 'Yeniden boyutlandırmak için sürükleyin, sıfırlamak için çift tıklayın',
     toggleTheme: 'Temayı değiştir',
@@ -65,6 +67,7 @@ const tr = {
   // Collections Panel
   collections: {
     newFolder: 'Yeni Klasör',
+    addFolder: 'Klasör Ekle',
     searchRequests: 'İstekleri ara...',
     noMatchingRequests: 'Eşleşen istek yok',
     noSavedRequests: 'Kaydedilmiş istek yok',

@@ -52,7 +52,7 @@ export default function HistoryPanel() {
       )}
 
       {groups.length > 0 ? (
-        <div className="h-full overflow-x-hidden overflow-y-auto">
+        <div className="h-full p-1 overflow-x-hidden overflow-y-auto">
           {groups.map((group) => (
             <HistoryDateGroup key={group.date} label={group.label} entries={group.entries} searchTerm={searchTerm} />
           ))}

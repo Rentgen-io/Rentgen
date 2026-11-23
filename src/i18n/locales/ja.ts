@@ -46,6 +46,8 @@ const ja = {
     add: '追加',
     back: '戻る',
     stop: '停止',
+    rename: '名前を変更',
+    moreActions: 'その他の操作',
     noOptions: 'オプションなし',
     resizeHint: 'ドラッグでサイズ変更、ダブルクリックでリセット',
     toggleTheme: 'テーマを切り替え',
@@ -65,6 +67,7 @@ const ja = {
   // Collections Panel
   collections: {
     newFolder: '新規フォルダ',
+    addFolder: 'フォルダを追加',
     searchRequests: 'リクエストを検索...',
     noMatchingRequests: '一致するリクエストはありません',
     noSavedRequests: '保存されたリクエストはありません',

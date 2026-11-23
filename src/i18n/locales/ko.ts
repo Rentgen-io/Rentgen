@@ -46,6 +46,8 @@ const ko = {
     add: '추가',
     back: '뒤로',
     stop: '중지',
+    rename: '이름 바꾸기',
+    moreActions: '추가 작업',
     noOptions: '옵션 없음',
     resizeHint: '드래그하여 크기 조정, 두 번 클릭하여 초기화',
     toggleTheme: '테마 전환',
@@ -65,6 +67,7 @@ const ko = {
   // Collections Panel
   collections: {
     newFolder: '새 폴더',
+    addFolder: '폴더 추가',
     searchRequests: '요청 검색...',
     noMatchingRequests: '일치하는 요청이 없습니다',
     noSavedRequests: '저장된 요청이 없습니다',

@@ -46,6 +46,8 @@ const it = {
     add: 'Aggiungi',
     back: 'Indietro',
     stop: 'Interrompi',
+    rename: 'Rinomina',
+    moreActions: 'Altre azioni',
     noOptions: 'Nessuna opzione',
     resizeHint: 'Trascina per ridimensionare, fai doppio clic per ripristinare',
     toggleTheme: 'Cambia tema',
@@ -65,6 +67,7 @@ const it = {
   // Collections Panel
   collections: {
     newFolder: 'Nuova cartella',
+    addFolder: 'Aggiungi cartella',
     searchRequests: 'Cerca richieste...',
     noMatchingRequests: 'Nessuna richiesta corrispondente',
     noSavedRequests: 'Nessuna richiesta salvata',

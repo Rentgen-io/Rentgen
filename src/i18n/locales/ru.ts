@@ -46,6 +46,8 @@ const ru = {
     add: 'Добавить',
     back: 'Назад',
     stop: 'Остановить',
+    rename: 'Переименовать',
+    moreActions: 'Другие действия',
     noOptions: 'Нет вариантов',
     resizeHint: 'Перетащите, чтобы изменить размер, дважды щёлкните для сброса',
     toggleTheme: 'Сменить тему',
@@ -65,6 +67,7 @@ const ru = {
   // Collections Panel
   collections: {
     newFolder: 'Новая папка',
+    addFolder: 'Добавить папку',
     searchRequests: 'Поиск запросов...',
     noMatchingRequests: 'Нет подходящих запросов',
     noSavedRequests: 'Нет сохраненных запросов',

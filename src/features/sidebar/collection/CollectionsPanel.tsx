@@ -164,7 +164,7 @@ export default function CollectionsPanel() {
           <Loader />
         </div>
       ) : filteredFolders.length > 0 ? (
-        <div className="h-full overflow-x-hidden overflow-y-auto">
+        <div className="h-full p-1 overflow-x-hidden overflow-y-auto">
           {isSearching ? (
             filteredFolders.map((folder) => <CollectionGroup key={folder.id} folder={folder} searchTerm={searchTerm} />)
           ) : (

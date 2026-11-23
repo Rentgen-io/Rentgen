@@ -46,6 +46,8 @@ const id = {
     add: 'Tambah',
     back: 'Kembali',
     stop: 'Hentikan',
+    rename: 'Ganti nama',
+    moreActions: 'Tindakan lainnya',
     noOptions: 'Tidak ada opsi',
     resizeHint: 'Seret untuk mengubah ukuran, klik dua kali untuk mengatur ulang',
     toggleTheme: 'Ganti tema',
@@ -65,6 +67,7 @@ const id = {
   // Collections Panel
   collections: {
     newFolder: 'Folder Baru',
+    addFolder: 'Tambah Folder',
     searchRequests: 'Cari permintaan...',
     noMatchingRequests: 'Tidak ada permintaan yang cocok',
     noSavedRequests: 'Tidak ada permintaan tersimpan',

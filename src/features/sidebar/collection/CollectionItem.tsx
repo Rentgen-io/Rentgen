@@ -3,6 +3,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { Method } from 'axios';
 import cn from 'classnames';
 import { memo, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import MethodBadge from 'src/components/badges/MethodBadge';
 import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
 import { useContextMenu } from 'src/features/context-menu';
@@ -26,12 +27,11 @@ import { responseActions } from 'src/store/slices/responseSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { CollectionItemData, findFolderIdByRequestId, findRequestById } from 'src/utils/collection';
 import { isAbortedResponse } from 'src/utils/http';
+import RowActionsMenu from './RowActionsMenu';
 import { useCollectionRunner } from './useCollectionRunner';
 
-import EditIcon from 'src/assets/icons/edit-icon.svg';
 import PlayIcon from 'src/assets/icons/play-icon.svg';
 import StopIcon from 'src/assets/icons/stop-icon.svg';
-import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 interface Props {
   item: CollectionItemData;
@@ -44,6 +44,7 @@ interface Props {
  */
 function CollectionItem({ item, searchTerm }: Props) {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { cancelRequestRun, runRequest } = useCollectionRunner();
   const { isOpen } = useContextMenu();
   const reset = useReset();
@@ -127,11 +128,14 @@ function CollectionItem({ item, searchTerm }: Props) {
     if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
   };
 
-  const handlePlayClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
-
+  const toggleRun = () => {
     if (isRequestRunning) cancelRequestRun(item.id);
     else runRequest(item.id);
+  };
+
+  const handlePlayClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    toggleRun();
   };
 
   const onSaveEdit = () => {
@@ -149,7 +153,8 @@ function CollectionItem({ item, searchTerm }: Props) {
         transition,
       }}
       className={cn(
-        'relative h-9 flex items-center gap-2 px-3 py-1.5 hover:bg-muted box-border group cursor-pointer outline-none',
+        'relative h-6 flex items-center gap-2 py-1 pl-7 pr-2 rounded',
+        'hover:bg-muted has-aria-expanded:bg-muted box-border group cursor-pointer outline-none',
         {
           'bg-muted': isSelected,
           'opacity-50 shadow-lg z-50': isDragging,
@@ -199,7 +204,12 @@ function CollectionItem({ item, searchTerm }: Props) {
           <span className="flex-1 text-xs truncate" title={item.name}>
             {searchTerm ? <SearchHighlighter text={item.name} term={searchTerm} /> : item.name}
           </span>
-          <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-muted opacity-0 group-hover:opacity-100">
+          <div
+            className={cn(
+              'absolute top-0 bottom-0 right-0 px-2 flex items-center gap-1 rounded bg-muted',
+              'opacity-0 group-hover:opacity-100 has-focus-visible:opacity-100 has-aria-expanded:opacity-100',
+            )}
+          >
             {!isAnyFolderRunning &&
               (isRequestRunning ? (
                 <StopIcon className="size-4 text-red-500 hover:text-red-600 cursor-pointer" onClick={handlePlayClick} />
@@ -209,19 +219,20 @@ function CollectionItem({ item, searchTerm }: Props) {
                   onClick={handlePlayClick}
                 />
               ))}
-            <EditIcon
-              className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
-              onClick={(event: React.MouseEvent) => {
-                event.stopPropagation();
-                setIsEditing(true);
-              }}
-            />
-            <TrashIcon
-              className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
-              onClick={(event: MouseEvent) => {
-                event.stopPropagation();
-                dispatch(collectionActions.removeRequest(item.id));
-              }}
+            <RowActionsMenu
+              actions={[
+                {
+                  label: isRequestRunning ? t('common.stop') : t('common.run'),
+                  disabled: isAnyFolderRunning,
+                  onClick: toggleRun,
+                },
+                { label: t('common.rename'), divider: true, onClick: () => setIsEditing(true) },
+                {
+                  label: t('common.delete'),
+                  destructive: true,
+                  onClick: () => dispatch(collectionActions.removeRequest(item.id)),
+                },
+              ]}
             />
           </div>
         </>
