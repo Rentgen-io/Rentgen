@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { countNodes } from 'shared/utils/collection';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
 import Modal from 'src/components/modals/Modal';
 import { notify } from 'src/services/notify';
@@ -34,8 +35,8 @@ export default function ImportConflictModal() {
 
   if (!isOpen || !conflictSummary || !importedCollection) return null;
 
-  const totalImportedFolders = importedCollection.item.length;
-  const totalImportedRequests = importedCollection.item.reduce((acc, folder) => acc + folder.item.length, 0);
+  // Also the subfolders and the requests in them
+  const { folders: totalImportedFolders, requests: totalImportedRequests } = countNodes(importedCollection.item);
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>

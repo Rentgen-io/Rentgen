@@ -1,5 +1,3 @@
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import { Method } from 'axios';
 import cn from 'classnames';
 import { memo, useEffect, useState } from 'react';
@@ -28,12 +26,15 @@ import { testsActions } from 'src/store/slices/testsSlice';
 import { CollectionItemData, findFolderIdByRequestId, findRequestById } from 'src/utils/collection';
 import { isAbortedResponse } from 'src/utils/http';
 import RowActionsMenu from './RowActionsMenu';
+import { DropIndicator, getIndent, useTreeNodeDnd } from './treeDnd';
 import { useCollectionRunner } from './useCollectionRunner';
 
 import PlayIcon from 'src/assets/icons/play-icon.svg';
 import StopIcon from 'src/assets/icons/stop-icon.svg';
 
 interface Props {
+  /** Nesting level: 1 for a request directly in a top-level folder. */
+  depth: number;
   item: CollectionItemData;
   searchTerm?: string;
 }
@@ -42,7 +43,7 @@ interface Props {
  * A request in the sidebar. Subscribes only to what this row shows (its own selection / run state), and data only
  * needed when it's clicked is read from the store then: a change of another request doesn't re-render it (memo).
  */
-function CollectionItem({ item, searchTerm }: Props) {
+function CollectionItem({ depth, item, searchTerm }: Props) {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { cancelRequestRun, runRequest } = useCollectionRunner();
@@ -57,10 +58,13 @@ function CollectionItem({ item, searchTerm }: Props) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editingName, setEditingName] = useState<string>(item.name);
 
-  const { attributes, isDragging, listeners, transform, transition, setNodeRef } = useSortable({
-    id: item.id,
-    data: { type: 'item', folderId: item.folderId },
-  });
+  const indent = getIndent(depth);
+  // Not draggable while searching: the list then shows only the matches, so drop positions would be misleading
+  const { attributes, dropPosition, isDragging, listeners, setNodeRef } = useTreeNodeDnd(
+    item.id,
+    { type: 'request', name: item.name, method: item.method },
+    Boolean(searchTerm),
+  );
 
   useEffect(() => setEditingName(item.name), [isEditing, item.name]);
 
@@ -148,16 +152,13 @@ function CollectionItem({ item, searchTerm }: Props) {
   return (
     <div
       ref={setNodeRef}
-      style={{
-        transform: CSS.Transform.toString(transform),
-        transition,
-      }}
+      style={{ paddingLeft: indent }}
       className={cn(
-        'relative h-6 flex items-center gap-2 py-1 pl-7 pr-2 rounded',
+        'relative h-6 flex items-center gap-2 py-1 pr-2 rounded',
         'hover:bg-muted has-aria-expanded:bg-muted box-border group cursor-pointer outline-none',
         {
           'bg-muted': isSelected,
-          'opacity-50 shadow-lg z-50': isDragging,
+          'opacity-50': isDragging,
         },
       )}
       onClick={handleClick}
@@ -237,6 +238,7 @@ function CollectionItem({ item, searchTerm }: Props) {
           </div>
         </>
       )}
+      <DropIndicator position={dropPosition} />
     </div>
   );
 }

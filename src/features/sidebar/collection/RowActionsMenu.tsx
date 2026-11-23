@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ContextMenu } from 'src/features/context-menu';
 import ContextMenuItem from 'src/features/context-menu/ContextMenuItem';
 
-import MoreIcon from 'src/assets/icons/more-icon.svg';
+import ActionsIcon from 'src/assets/icons/actions-icon.svg';
 
 // Gap between the "..." button and the menu below it
 const MENU_OFFSET = 4;
@@ -83,7 +83,7 @@ export default function RowActionsMenu({ actions }: Props) {
         onClick={handleButtonClick}
         onMouseDown={() => (wasOpenOnMouseDown.current = isOpen)}
       >
-        <MoreIcon className="size-4" />
+        <ActionsIcon className="size-4" />
       </button>
 
       <ContextMenu isOpen={isOpen} position={position ?? { x: 0, y: 0 }} onClose={close}>

@@ -36,7 +36,7 @@ export default function EnvironmentSelector({ className }: Props) {
       value: CREATE_ENVIRONMENT_OPTION,
       label: (
         <span className="flex items-center gap-2">
-          <AddIcon className="size-4" />
+          <AddIcon className="size-3.5" />
           {t('environment.newEnvironment')}
         </span>
       ),

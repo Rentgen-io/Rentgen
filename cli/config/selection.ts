@@ -1,6 +1,7 @@
 import { select } from '@inquirer/prompts';
 import type { Environment } from '../../shared/types/environment';
 import type { PostmanCollection, PostmanFolder } from '../../shared/types/postman';
+import { collectRequests } from '../../shared/utils/collection';
 
 export interface Selection {
   folder: PostmanFolder;
@@ -21,7 +22,8 @@ export async function resolveSelection(
 ): Promise<Selection> {
   const folder = await resolveFolder(collection.item, options.collectionArg);
 
-  if (folder.item.length === 0) {
+  // Also the requests in its subfolders, which are run too
+  if (collectRequests(folder.item).length === 0) {
     console.error(`Folder '${folder.name}' has no requests.`);
     process.exit(2);
   }
@@ -31,10 +33,7 @@ export async function resolveSelection(
   return { folder, environment };
 }
 
-async function resolveFolder(
-  folders: PostmanFolder[],
-  arg: string | undefined,
-): Promise<PostmanFolder> {
+async function resolveFolder(folders: PostmanFolder[], arg: string | undefined): Promise<PostmanFolder> {
   if (folders.length === 0) {
     console.error('Project has no folders.');
     process.exit(2);
@@ -51,11 +50,10 @@ async function resolveFolder(
 
   return select<PostmanFolder>({
     message: 'Select folder to run',
-    choices: folders.map((f) => ({
-      name: f.name,
-      value: f,
-      description: `${f.item.length} request${f.item.length === 1 ? '' : 's'}`,
-    })),
+    choices: folders.map((f) => {
+      const requestCount = collectRequests(f.item).length;
+      return { name: f.name, value: f, description: `${requestCount} request${requestCount === 1 ? '' : 's'}` };
+    }),
   });
 }
 
@@ -77,10 +75,7 @@ function lookupFolderByArg(folders: PostmanFolder[], arg: string): PostmanFolder
   process.exit(2);
 }
 
-async function resolveEnvironment(
-  environments: Environment[],
-  arg: string | undefined,
-): Promise<Environment | null> {
+async function resolveEnvironment(environments: Environment[], arg: string | undefined): Promise<Environment | null> {
   if (arg !== undefined && arg.toLowerCase() === NONE_SENTINEL) {
     return null;
   }

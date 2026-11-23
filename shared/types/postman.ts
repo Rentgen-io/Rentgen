@@ -30,11 +30,15 @@ export interface PostmanItem {
   request: PostmanRequest;
 }
 
+/** A folder holds requests and subfolders, in any order (like Postman). */
 export interface PostmanFolder {
   id: string;
   name: string;
-  item: PostmanItem[];
+  item: PostmanNode[];
 }
+
+/** An entry of a folder: a request or a subfolder. Tell them apart with isFolder (shared/utils/collection). */
+export type PostmanNode = PostmanItem | PostmanFolder;
 
 export interface PostmanCollectionInfo {
   name: string;
@@ -42,6 +46,7 @@ export interface PostmanCollectionInfo {
   schema: string;
 }
 
+/** The top level holds only folders; requests and subfolders are inside them. */
 export interface PostmanCollection {
   info: PostmanCollectionInfo;
   item: PostmanFolder[];
