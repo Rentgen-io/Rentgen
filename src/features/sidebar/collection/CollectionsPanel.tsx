@@ -140,7 +140,7 @@ export default function CollectionsPanel() {
 
   return (
     <>
-      <div className="h-8 shrink-0 flex items-center justify-between gap-2 p-1 border-b border-border box-border">
+      <div className="h-8 shrink-0 flex items-center justify-between gap-2 p-1 box-border">
         <div
           className="h-full flex items-center gap-2 w-full py-1 px-2 rounded hover:bg-muted box-border cursor-pointer outline-none"
           onClick={() => dispatch(collectionActions.addFolder({ name: t('collections.newFolder') }))}

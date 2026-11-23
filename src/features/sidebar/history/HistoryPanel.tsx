@@ -37,7 +37,7 @@ export default function HistoryPanel() {
 
   return (
     <>
-      <div className="h-8 shrink-0 flex items-center justify-between gap-2 px-3 py-2 border-b border-border box-border">
+      <div className="h-8 shrink-0 flex items-center justify-between gap-2 py-2 px-3 box-border">
         <span className="text-xs text-muted-foreground">{t('history.title')}</span>
         {entries.length > 0 && (
           <TrashIcon

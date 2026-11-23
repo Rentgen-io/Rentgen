@@ -42,7 +42,7 @@ export default function SideBarSearch({ placeholder, value, onChange }: Props) {
   };
 
   return (
-    <div className="relative border-b border-border">
+    <div className="relative border-y border-border">
       <SearchIcon className="absolute -translate-y-1/2 top-1/2 left-3 size-4 text-muted-foreground pointer-events-none" />
       <input
         ref={inputRef}
