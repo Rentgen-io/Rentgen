@@ -31,6 +31,12 @@ const RANDOM_NUMBER_MAX = 10000;
 // Random numbers generated for one first path segment during an import, keyed by their `min:max` range
 type RandomNumberCache = Map<string, number>;
 
+/** The folder of a path segment, and its subfolders by segment (to find them while adding requests). */
+interface PathFolder {
+  folder: PostmanFolder;
+  subfolders: Map<string, PathFolder>;
+}
+
 export function isOpenApiSchema(value: unknown): value is OpenApiDocument {
   if (!isPlainObject(value) || !isPlainObject(value.info)) return false;
 
@@ -43,17 +49,19 @@ export function isOpenApiSchema(value: unknown): value is OpenApiDocument {
 }
 
 /**
- * Convert an OpenAPI/Swagger document into a collection folder holding one request per operation.
+ * Convert an OpenAPI/Swagger document into a collection folder holding one request per operation, in a subfolder per
+ * path segment like Postman's import (see `addToPathFolder`).
  * `sourceUrl` is the location the document was downloaded from and is used to resolve relative server URLs.
  */
 export function openApiToFolder(document: OpenApiDocument, sourceUrl?: string): PostmanFolder {
   const documentBaseUrl = resolveBaseUrl(document.servers, document, sourceUrl) || BASE_URL_PLACEHOLDER;
   const paths = isPlainObject(document.paths) ? document.paths : {};
-  const items: PostmanItem[] = [];
+  const root = createPathFolder(document.info?.title?.trim() || DEFAULT_FOLDER_NAME);
   const randomNumbersBySegment = new Map<string, RandomNumberCache>();
+  let requestCount = 0;
 
   for (const [path, rawPathItem] of Object.entries(paths)) {
-    if (items.length >= MAX_REQUESTS) break;
+    if (requestCount >= MAX_REQUESTS) break;
 
     const pathItem = deref<OpenApiPathItem>(document, rawPathItem);
     if (!pathItem) continue;
@@ -66,24 +74,51 @@ export function openApiToFolder(document: OpenApiDocument, sourceUrl?: string): 
     }
 
     for (const method of HTTP_METHODS) {
-      if (items.length >= MAX_REQUESTS) break;
+      if (requestCount >= MAX_REQUESTS) break;
 
       const operation = pathItem[method];
       if (!isPlainObject(operation)) continue;
 
-      items.push(buildItem(document, pathItem, operation, method, path, documentBaseUrl, randomNumbers, sourceUrl));
+      addToPathFolder(
+        root,
+        path,
+        buildItem(document, pathItem, operation, method, path, documentBaseUrl, randomNumbers, sourceUrl),
+      );
+      requestCount++;
     }
   }
 
-  return {
-    id: generateFolderId(),
-    name: document.info?.title?.trim() || DEFAULT_FOLDER_NAME,
-    item: items,
-  };
+  return root.folder;
 }
 
 function firstPathSegment(path: string): string {
   return path.split('/').find((segment) => segment.length > 0) ?? '';
+}
+
+function createPathFolder(name: string): PathFolder {
+  return { folder: { id: generateFolderId(), name, item: [] }, subfolders: new Map() };
+}
+
+/**
+ * Like Postman: adds the request to the folder of its path, with a folder per segment (e.g. `/pets/{petId}`: `pets` ›
+ * `{petId}`), even when it holds a single request. Folders and requests are in the order they first appear in the
+ * document; requests of `/` stay in the root folder.
+ */
+function addToPathFolder(root: PathFolder, path: string, request: PostmanItem) {
+  let parent = root;
+
+  for (const segment of path.split('/').filter(Boolean)) {
+    let subfolder = parent.subfolders.get(segment);
+    if (!subfolder) {
+      subfolder = createPathFolder(segment);
+      parent.subfolders.set(segment, subfolder);
+      parent.folder.item.push(subfolder.folder);
+    }
+
+    parent = subfolder;
+  }
+
+  parent.folder.item.push(request);
 }
 
 function buildItem(
