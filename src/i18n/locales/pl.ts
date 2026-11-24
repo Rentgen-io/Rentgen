@@ -147,6 +147,9 @@ const pl = {
     networkError: 'Błąd sieci',
     requestHint: 'Wpisz URL API, a następnie wyślij zapytanie.',
     responseHint: 'Treść odpowiedzi, nagłówki i czasy pojawią się tutaj.',
+    missingContentType: 'Brak nagłówka content-type.',
+    invalidJson: 'Wykryto nieprawidłowy JSON.',
+    invalidXml: 'Wykryto nieprawidłowy XML.',
   },
 
   // cURL

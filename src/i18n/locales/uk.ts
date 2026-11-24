@@ -147,6 +147,9 @@ const uk = {
     networkError: 'Помилка мережі',
     requestHint: 'Введіть URL API, а потім надішліть запит.',
     responseHint: "Тіло відповіді, заголовки та час виконання з'являться тут.",
+    missingContentType: 'Відсутній заголовок content-type.',
+    invalidJson: 'Виявлено некоректний JSON.',
+    invalidXml: 'Виявлено некоректний XML.',
   },
 
   // cURL

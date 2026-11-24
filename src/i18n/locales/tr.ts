@@ -145,6 +145,9 @@ const tr = {
     networkError: 'Ağ Hatası',
     requestHint: "Bir API URL'si girin, ardından isteğinizi gönderin.",
     responseHint: 'Yanıt gövdesi, başlıklar ve süre bilgileri burada görünecek.',
+    missingContentType: 'content-type başlığı eksik.',
+    invalidJson: 'Geçersiz JSON algılandı.',
+    invalidXml: 'Geçersiz XML algılandı.',
   },
 
   // cURL

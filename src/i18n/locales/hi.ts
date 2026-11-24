@@ -145,6 +145,9 @@ const hi = {
     networkError: 'नेटवर्क त्रुटि',
     requestHint: 'API URL दर्ज करें, फिर अपना अनुरोध भेजें।',
     responseHint: 'प्रतिक्रिया का बॉडी, हैडर और समय यहाँ दिखाई देंगे।',
+    missingContentType: 'content-type हैडर मौजूद नहीं है।',
+    invalidJson: 'अमान्य JSON पाया गया।',
+    invalidXml: 'अमान्य XML पाया गया।',
   },
 
   // cURL

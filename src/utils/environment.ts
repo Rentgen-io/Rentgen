@@ -52,9 +52,9 @@ export function stringifyExtractedValue(value: unknown): string | null {
 /** Warning for the dynamic variables that failed to extract; the reason is shown only for a single failure. */
 export function formatExtractionWarning(failures: ExtractionFailure[]): string | null {
   if (failures.length === 0) return null;
-  if (failures.length === 1) return `Failed to extract {{${failures[0].variableName}}}: ${failures[0].reason}`;
+  if (failures.length === 1) return `Failed to extract {{${failures[0].variableName}}}: ${failures[0].reason}.`;
 
-  return `Failed to extract: ${failures.map(({ variableName }) => `{{${variableName}}}`).join(', ')}`;
+  return `Failed to extract: ${failures.map(({ variableName }) => `{{${variableName}}}`).join(', ')}.`;
 }
 
 // ---------- Variable substitution ----------

@@ -144,6 +144,9 @@ const th = {
     networkError: 'ข้อผิดพลาดเครือข่าย',
     requestHint: 'ป้อน URL ของ API แล้วส่งคำขอของคุณ',
     responseHint: 'บอดี้ของการตอบกลับ เฮดเดอร์ และเวลาจะแสดงที่นี่',
+    missingContentType: 'ไม่มีเฮดเดอร์ content-type',
+    invalidJson: 'ตรวจพบ JSON ที่ไม่ถูกต้อง',
+    invalidXml: 'ตรวจพบ XML ที่ไม่ถูกต้อง',
   },
 
   // cURL

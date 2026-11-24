@@ -145,6 +145,9 @@ const de = {
     networkError: 'Netzwerkfehler',
     requestHint: 'Geben Sie eine API-URL ein und senden Sie dann Ihre Anfrage.',
     responseHint: 'Antworttext, Header und Zeitmessung werden hier angezeigt.',
+    missingContentType: 'Content-Type-Header fehlt.',
+    invalidJson: 'Ungültiges JSON erkannt.',
+    invalidXml: 'Ungültiges XML erkannt.',
   },
 
   // cURL

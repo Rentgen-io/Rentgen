@@ -145,6 +145,9 @@ const id = {
     networkError: 'Galat Jaringan',
     requestHint: 'Masukkan URL API, lalu kirim permintaan Anda.',
     responseHint: 'Body respons, headers, dan waktu akan muncul di sini.',
+    missingContentType: 'Header content-type tidak ada.',
+    invalidJson: 'JSON tidak valid terdeteksi.',
+    invalidXml: 'XML tidak valid terdeteksi.',
   },
 
   // cURL

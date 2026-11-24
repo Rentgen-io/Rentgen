@@ -147,6 +147,9 @@ const ru = {
     networkError: 'Ошибка сети',
     requestHint: 'Введите URL API, затем отправьте запрос.',
     responseHint: 'Тело ответа, заголовки и время выполнения появятся здесь.',
+    missingContentType: 'Отсутствует заголовок content-type.',
+    invalidJson: 'Обнаружен некорректный JSON.',
+    invalidXml: 'Обнаружен некорректный XML.',
   },
 
   // cURL

@@ -147,6 +147,9 @@ const lt = {
     networkError: 'Tinklo klaida',
     requestHint: 'Įveskite API URL, tada išsiųskite užklausą.',
     responseHint: 'Atsakymo turinys, antraštės ir laikas bus rodomi čia.',
+    missingContentType: 'Trūksta content-type antraštės.',
+    invalidJson: 'Aptiktas netinkamas JSON.',
+    invalidXml: 'Aptiktas netinkamas XML.',
   },
 
   // cURL

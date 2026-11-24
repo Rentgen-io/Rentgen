@@ -145,6 +145,9 @@ const ja = {
     networkError: 'ネットワークエラー',
     requestHint: 'API の URL を入力して、リクエストを送信してください。',
     responseHint: 'レスポンスのボディ、ヘッダー、タイミングがここに表示されます。',
+    missingContentType: 'content-type ヘッダーがありません。',
+    invalidJson: '無効な JSON が検出されました。',
+    invalidXml: '無効な XML が検出されました。',
   },
 
   // cURL

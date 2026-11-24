@@ -144,6 +144,9 @@ const zhCN = {
     networkError: '网络错误',
     requestHint: '输入 API URL，然后发送请求。',
     responseHint: '响应正文、响应头和耗时信息将显示在这里。',
+    missingContentType: '缺少 content-type 响应头。',
+    invalidJson: '检测到无效的 JSON。',
+    invalidXml: '检测到无效的 XML。',
   },
 
   // cURL

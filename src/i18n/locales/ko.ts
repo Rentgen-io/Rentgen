@@ -144,6 +144,9 @@ const ko = {
     networkError: '네트워크 오류',
     requestHint: 'API URL을 입력한 후 요청을 보내세요.',
     responseHint: '응답 본문, 헤더 및 소요 시간이 여기에 표시됩니다.',
+    missingContentType: 'content-type 헤더가 없습니다.',
+    invalidJson: '잘못된 JSON이 감지되었습니다.',
+    invalidXml: '잘못된 XML이 감지되었습니다.',
   },
 
   // cURL

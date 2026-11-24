@@ -144,6 +144,9 @@ const en = {
     networkError: 'Network Error',
     requestHint: 'Enter an API URL, then send your request.',
     responseHint: 'The response body, headers and timing will appear here.',
+    missingContentType: 'Missing content-type header.',
+    invalidJson: 'Invalid JSON detected.',
+    invalidXml: 'Invalid XML detected.',
   },
 
   // cURL

@@ -145,6 +145,9 @@ const it = {
     networkError: 'Errore di rete',
     requestHint: "Inserisci un URL dell'API, quindi invia la richiesta.",
     responseHint: 'Il corpo della risposta, le intestazioni e le tempistiche appariranno qui.',
+    missingContentType: 'Intestazione content-type mancante.',
+    invalidJson: 'Rilevato JSON non valido.',
+    invalidXml: 'Rilevato XML non valido.',
   },
 
   // cURL

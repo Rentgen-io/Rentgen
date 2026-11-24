@@ -144,6 +144,9 @@ const vi = {
     networkError: 'Lỗi mạng',
     requestHint: 'Nhập URL API, sau đó gửi yêu cầu của bạn.',
     responseHint: 'Nội dung phản hồi, tiêu đề và thời gian sẽ hiển thị ở đây.',
+    missingContentType: 'Thiếu tiêu đề content-type.',
+    invalidJson: 'Phát hiện JSON không hợp lệ.',
+    invalidXml: 'Phát hiện XML không hợp lệ.',
   },
 
   // cURL

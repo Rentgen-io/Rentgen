@@ -145,6 +145,9 @@ const fr = {
     networkError: 'Erreur réseau',
     requestHint: "Saisissez une URL d'API, puis envoyez votre requête.",
     responseHint: 'Le corps de la réponse, les en-têtes et les temps de réponse apparaîtront ici.',
+    missingContentType: 'En-tête content-type manquant.',
+    invalidJson: 'JSON invalide détecté.',
+    invalidXml: 'XML invalide détecté.',
   },
 
   // cURL

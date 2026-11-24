@@ -145,6 +145,9 @@ const ptBR = {
     networkError: 'Erro de rede',
     requestHint: 'Digite a URL de uma API e envie sua requisição.',
     responseHint: 'O corpo da resposta, os cabeçalhos e os tempos aparecerão aqui.',
+    missingContentType: 'Cabeçalho content-type ausente.',
+    invalidJson: 'JSON inválido detectado.',
+    invalidXml: 'XML inválido detectado.',
   },
 
   // cURL

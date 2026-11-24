@@ -145,6 +145,9 @@ const es = {
     networkError: 'Error de red',
     requestHint: 'Introduce una URL de API y luego envía tu solicitud.',
     responseHint: 'El cuerpo de la respuesta, las cabeceras y los tiempos aparecerán aquí.',
+    missingContentType: 'Falta la cabecera content-type.',
+    invalidJson: 'Se detectó JSON no válido.',
+    invalidXml: 'Se detectó XML no válido.',
   },
 
   // cURL

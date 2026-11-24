@@ -145,6 +145,9 @@ const nl = {
     networkError: 'Netwerkfout',
     requestHint: 'Voer een API-URL in en verstuur daarna je verzoek.',
     responseHint: 'De body, headers en timing van de reactie verschijnen hier.',
+    missingContentType: 'Content-type-header ontbreekt.',
+    invalidJson: 'Ongeldige JSON gedetecteerd.',
+    invalidXml: 'Ongeldige XML gedetecteerd.',
   },
 
   // cURL
