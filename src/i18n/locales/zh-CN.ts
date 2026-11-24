@@ -340,6 +340,12 @@ const zhCN = {
       apiKey: 'API 密钥',
       apiKeyStorageNotice: 'API 密钥仅保存在本地，Rentgen 不会接收它们。',
       howToRunOllamaLocally: '如何在本地运行 Ollama？',
+      advancedTitle: '高级',
+      advancedDescription:
+        '为 AI 分析提供更多上下文，例如 API 的功能、业务规则，以及希望 AI 重点调查的具体方面。Rentgen 已包含你的原始请求、字段映射和测试结果。',
+      apiContext: '附加 API 上下文',
+      apiContextPlaceholder:
+        '例如：30 天内允许退款。\n只有管理员可以审批超过 €500 的金额。\n重点关注校验漏洞。',
     },
     cli: {
       name: 'CLI',

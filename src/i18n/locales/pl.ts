@@ -353,6 +353,12 @@ const pl = {
       apiKey: 'Klucz API',
       apiKeyStorageNotice: 'Klucze API są przechowywane lokalnie. Rentgen ich nie otrzymuje.',
       howToRunOllamaLocally: 'Jak uruchomić Ollama lokalnie?',
+      advancedTitle: 'Zaawansowane',
+      advancedDescription:
+        'Podaj dodatkowy kontekst do analizy AI, np. co robi API, jakie ma reguły biznesowe i które konkretne obszary ma zbadać AI. Rentgen już dołącza Twoje oryginalne żądanie, mapowania pól i wyniki testów.',
+      apiContext: 'Dodatkowy kontekst API',
+      apiContextPlaceholder:
+        'np. Zwroty są możliwe w ciągu 30 dni.\nTylko administratorzy mogą zatwierdzać kwoty powyżej 500 €.\nSkup się na lukach w walidacji.',
     },
     cli: {
       name: 'CLI',

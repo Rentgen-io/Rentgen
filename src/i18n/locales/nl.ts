@@ -349,6 +349,12 @@ const nl = {
       apiKey: 'API-sleutel',
       apiKeyStorageNotice: 'API-sleutels worden lokaal opgeslagen. Rentgen ontvangt ze niet.',
       howToRunOllamaLocally: 'Hoe voer je Ollama lokaal uit?',
+      advancedTitle: 'Geavanceerd',
+      advancedDescription:
+        'Geef extra context voor de analyse van de AI, zoals wat de API doet, de bedrijfsregels en specifieke gebieden die de AI moet onderzoeken. Rentgen voegt je oorspronkelijke verzoek, veldkoppelingen en testresultaten al toe.',
+      apiContext: 'Aanvullende API-context',
+      apiContextPlaceholder:
+        'bijv. Terugbetalingen zijn toegestaan binnen 30 dagen.\nAlleen beheerders mogen bedragen boven € 500 goedkeuren.\nFocus op validatiegaten.',
     },
     cli: {
       name: 'CLI',

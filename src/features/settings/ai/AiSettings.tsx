@@ -5,6 +5,7 @@ import { useLicense } from 'src/hooks/useLicense';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectLicense, selectShowLicenseSettings } from 'src/store/selectors';
 import { uiActions } from 'src/store/slices/uiSlice';
+import { AiAdvancedSettings } from './AiAdvancedSettings';
 import { AiLicenseSettings } from './AiLicenseSettings';
 import { AiProviderSettings } from './AiProviderSettings';
 
@@ -38,7 +39,14 @@ export function AiSettings() {
   if (isLicenseValid === null) return null;
   return (
     <div className="flex-1 flex flex-col justify-between gap-4">
-      {!isLicenseValid || showLicenseSettings ? <AiLicenseSettings /> : <AiProviderSettings />}
+      {!isLicenseValid || showLicenseSettings ? (
+        <AiLicenseSettings />
+      ) : (
+        <div className="flex flex-col gap-8">
+          <AiProviderSettings />
+          <AiAdvancedSettings />
+        </div>
+      )}
       <LicenseFooter
         manage={!showLicenseSettings}
         onClick={() => dispatch(uiActions.setShowLicenseSettings(!showLicenseSettings))}

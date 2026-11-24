@@ -345,6 +345,12 @@ const en = {
       apiKey: 'API key',
       apiKeyStorageNotice: 'API keys are stored locally. Rentgen does not receive them.',
       howToRunOllamaLocally: 'How to run Ollama locally?',
+      advancedTitle: 'Advanced',
+      advancedDescription:
+        "Provide additional context for the AI's analysis, such as what the API does, its business rules, and any specific areas you would like the AI to investigate. Rentgen already includes your original request, field mappings, and test results.",
+      apiContext: 'Additional API context',
+      apiContextPlaceholder:
+        'e.g. Refunds are allowed within 30 days.\nOnly admins can approve amounts above €500.\nFocus on validation gaps.',
     },
     cli: {
       name: 'CLI',

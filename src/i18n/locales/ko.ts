@@ -346,6 +346,12 @@ const ko = {
       apiKey: 'API 키',
       apiKeyStorageNotice: 'API 키는 로컬에 저장됩니다. Rentgen은 이를 수신하지 않습니다.',
       howToRunOllamaLocally: 'Ollama를 로컬에서 실행하는 방법은?',
+      advancedTitle: '고급',
+      advancedDescription:
+        'API가 하는 일, 비즈니스 규칙, AI가 조사해 주길 원하는 특정 영역 등 AI 분석을 위한 추가 컨텍스트를 제공하세요. Rentgen은 이미 원본 요청, 필드 매핑, 테스트 결과를 포함합니다.',
+      apiContext: '추가 API 컨텍스트',
+      apiContextPlaceholder:
+        '예: 환불은 30일 이내에만 가능합니다.\n€500을 초과하는 금액은 관리자만 승인할 수 있습니다.\n검증 누락에 집중하세요.',
     },
     cli: {
       name: 'CLI',

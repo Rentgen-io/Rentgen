@@ -44,6 +44,8 @@ export type Language = (typeof LANGUAGES)[number]['code'];
 
 export type HistoryRetention = '1w' | '1m' | '3m' | '6m' | '1y' | 'none';
 
+export const AI_API_CONTEXT_MAX_LENGTH = 5000;
+
 export type AiProviderType = 'anthropic' | 'ollama' | 'openai';
 
 export type AiProvider = {
@@ -72,6 +74,9 @@ export interface SettingsState {
     };
   };
   ai: {
+    advanced: {
+      apiContext: string;
+    };
     license: License;
     providers: AiProvider[];
   };

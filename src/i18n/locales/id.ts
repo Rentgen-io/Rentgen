@@ -347,6 +347,12 @@ const id = {
       apiKey: 'Kunci API',
       apiKeyStorageNotice: 'Kunci API disimpan secara lokal. Rentgen tidak menerimanya.',
       howToRunOllamaLocally: 'Cara menjalankan Ollama secara lokal?',
+      advancedTitle: 'Lanjutan',
+      advancedDescription:
+        'Berikan konteks tambahan untuk analisis AI, seperti apa yang dilakukan API, aturan bisnisnya, dan area tertentu yang ingin Anda selidiki oleh AI. Rentgen sudah menyertakan permintaan asli, pemetaan field, dan hasil pengujian Anda.',
+      apiContext: 'Konteks API tambahan',
+      apiContextPlaceholder:
+        'mis. Pengembalian dana diizinkan dalam 30 hari.\nHanya admin yang dapat menyetujui jumlah di atas €500.\nFokus pada celah validasi.',
     },
     cli: {
       name: 'CLI',

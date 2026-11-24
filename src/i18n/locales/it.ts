@@ -350,6 +350,12 @@ const it = {
       apiKey: 'Chiave API',
       apiKeyStorageNotice: 'Le chiavi API sono archiviate localmente. Rentgen non le riceve.',
       howToRunOllamaLocally: 'Come eseguire Ollama in locale?',
+      advancedTitle: 'Avanzate',
+      advancedDescription:
+        'Fornisci un contesto aggiuntivo per l\'analisi dell\'IA, ad esempio cosa fa l\'API, le sue regole di business e le aree specifiche che vuoi far analizzare all\'IA. Rentgen include già la tua richiesta originale, le mappature dei campi e i risultati dei test.',
+      apiContext: 'Contesto aggiuntivo dell\'API',
+      apiContextPlaceholder:
+        'es. I rimborsi sono consentiti entro 30 giorni.\nSolo gli amministratori possono approvare importi superiori a 500 €.\nConcentrati sulle lacune di validazione.',
     },
     cli: {
       name: 'CLI',

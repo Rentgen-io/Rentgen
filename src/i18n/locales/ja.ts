@@ -349,6 +349,12 @@ const ja = {
       apiKey: 'APIキー',
       apiKeyStorageNotice: 'APIキーはローカルに保存されます。Rentgenが受け取ることはありません。',
       howToRunOllamaLocally: 'Ollamaをローカルで実行するには？',
+      advancedTitle: '詳細設定',
+      advancedDescription:
+        'APIの機能、ビジネスルール、AIに調査してほしい特定の領域など、AIの分析に役立つ追加のコンテキストを入力してください。元のリクエスト、フィールドマッピング、テスト結果はRentgenがすでに含めています。',
+      apiContext: '追加のAPIコンテキスト',
+      apiContextPlaceholder:
+        '例: 返金は30日以内に限り可能。\n€500を超える金額は管理者のみが承認できる。\nバリデーションの抜けを重点的に確認。',
     },
     cli: {
       name: 'CLI',

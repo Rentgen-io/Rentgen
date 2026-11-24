@@ -347,6 +347,12 @@ const vi = {
       apiKey: 'Khóa API',
       apiKeyStorageNotice: 'Khóa API được lưu cục bộ. Rentgen không nhận chúng.',
       howToRunOllamaLocally: 'Cách chạy Ollama cục bộ?',
+      advancedTitle: 'Nâng cao',
+      advancedDescription:
+        'Cung cấp thêm ngữ cảnh cho phân tích của AI, chẳng hạn API làm gì, các quy tắc nghiệp vụ và những phần cụ thể bạn muốn AI điều tra. Rentgen đã bao gồm yêu cầu gốc, ánh xạ trường và kết quả kiểm thử của bạn.',
+      apiContext: 'Ngữ cảnh API bổ sung',
+      apiContextPlaceholder:
+        'vd. Hoàn tiền được phép trong vòng 30 ngày.\nChỉ quản trị viên mới được duyệt số tiền trên €500.\nTập trung vào các lỗ hổng xác thực.',
     },
     cli: {
       name: 'CLI',

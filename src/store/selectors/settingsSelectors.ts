@@ -2,6 +2,7 @@ import { RootState } from 'src/store';
 
 export const selectActiveAiProvider = (state: RootState) =>
   state.settings.ai.providers.find((provider) => provider.active);
+export const selectAiApiContext = (state: RootState) => state.settings.ai.advanced.apiContext;
 export const selectAiProviders = (state: RootState) => state.settings.ai.providers;
 export const selectDisabledPerformanceInsights = (state: RootState) =>
   state.settings.testEngine.performanceInsights.disabled;

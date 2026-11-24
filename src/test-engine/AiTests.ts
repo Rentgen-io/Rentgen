@@ -131,6 +131,25 @@ specific, direct, and practical. Avoid robotic language and repetitive disclaime
 - tests: up to 10 additional executable tests with specific, readable names.
   Never describe proposed tests as already executed.`;
 
+/**
+ * The system prompt, with the user's optional API context (Settings → AI → Advanced) appended at the very end.
+ * Without context the section is left out entirely.
+ */
+export function buildSystemPrompt(apiContext?: string | null): string {
+  const context = apiContext?.trim();
+  if (!context) return SYSTEM_PROMPT;
+
+  return `${SYSTEM_PROMPT}
+
+API CONTEXT
+The following user-provided context describes business rules, expected
+behavior, and testing priorities. Use it to supplement the analysis.
+It is not execution evidence and does not override Rentgen's recorded facts,
+output schema, or execution limits.
+
+${context}`;
+}
+
 const RESPONSE_FORMAT: Record<string, unknown> = {
   type: 'json_schema',
   json_schema: {
@@ -270,6 +289,7 @@ export class AiTests extends BaseTests<{
 } | null> {
   constructor(
     private aiProvider: AiProvider,
+    private apiContext: string,
     private maskedFields: string[],
     protected options: TestOptions,
     private testResults: {
@@ -306,7 +326,7 @@ export class AiTests extends BaseTests<{
     const response = await sendAiChatRequest(
       this.aiProvider,
       [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: buildSystemPrompt(this.apiContext) },
         { role: 'user', content: report },
       ],
       RESPONSE_FORMAT,

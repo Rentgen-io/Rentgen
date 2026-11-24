@@ -348,6 +348,12 @@ const tr = {
       apiKey: 'API anahtarı',
       apiKeyStorageNotice: 'API anahtarları yerel olarak saklanır. Rentgen bunları almaz.',
       howToRunOllamaLocally: 'Ollama yerel olarak nasıl çalıştırılır?',
+      advancedTitle: 'Gelişmiş',
+      advancedDescription:
+        'Yapay zekânın analizi için ek bağlam sağlayın; örneğin API\'nin ne yaptığı, iş kuralları ve yapay zekânın incelemesini istediğiniz belirli alanlar. Rentgen orijinal isteğinizi, alan eşlemelerini ve test sonuçlarını zaten ekler.',
+      apiContext: 'Ek API bağlamı',
+      apiContextPlaceholder:
+        'ör. İadeler 30 gün içinde yapılabilir.\n500 €\'nun üzerindeki tutarları yalnızca yöneticiler onaylayabilir.\nDoğrulama açıklarına odaklanın.',
     },
     cli: {
       name: 'CLI',

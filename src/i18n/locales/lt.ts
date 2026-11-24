@@ -351,6 +351,12 @@ const lt = {
       apiKey: 'API raktas',
       apiKeyStorageNotice: 'API raktai saugomi vietiniame įrenginyje. Rentgen jų negauna.',
       howToRunOllamaLocally: 'Kaip paleisti Ollama vietoje?',
+      advancedTitle: 'Išplėstiniai',
+      advancedDescription:
+        'Pateikite papildomo konteksto DI analizei, pvz., ką daro API, jos verslo taisykles ir konkrečias sritis, kurias norite, kad DI ištirtų. Rentgen jau įtraukia jūsų pradinę užklausą, laukų susiejimus ir testų rezultatus.',
+      apiContext: 'Papildomas API kontekstas',
+      apiContextPlaceholder:
+        'pvz. Pinigai grąžinami per 30 dienų.\nTik administratoriai gali patvirtinti didesnes nei 500 € sumas.\nSutelkite dėmesį į validavimo spragas.',
     },
     cli: {
       name: 'CLI',

@@ -350,6 +350,12 @@ const de = {
       apiKey: 'API-Schlüssel',
       apiKeyStorageNotice: 'API-Schlüssel werden lokal gespeichert. Rentgen erhält sie nicht.',
       howToRunOllamaLocally: 'Wie führe ich Ollama lokal aus?',
+      advancedTitle: 'Erweitert',
+      advancedDescription:
+        'Gib der KI zusätzlichen Kontext für ihre Analyse, z. B. was die API macht, ihre Geschäftsregeln und bestimmte Bereiche, die die KI untersuchen soll. Rentgen fügt deine ursprüngliche Anfrage, Feldzuordnungen und Testergebnisse bereits hinzu.',
+      apiContext: 'Zusätzlicher API-Kontext',
+      apiContextPlaceholder:
+        'z. B. Rückerstattungen sind innerhalb von 30 Tagen möglich.\nNur Admins dürfen Beträge über 500 € genehmigen.\nKonzentriere dich auf Validierungslücken.',
     },
     cli: {
       name: 'CLI',

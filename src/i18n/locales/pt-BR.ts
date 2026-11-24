@@ -350,6 +350,12 @@ const ptBR = {
       apiKey: 'Chave de API',
       apiKeyStorageNotice: 'As chaves de API são armazenadas localmente. O Rentgen não as recebe.',
       howToRunOllamaLocally: 'Como executar o Ollama localmente?',
+      advancedTitle: 'Avançado',
+      advancedDescription:
+        'Forneça contexto adicional para a análise da IA, como o que a API faz, suas regras de negócio e quaisquer áreas específicas que você queira que a IA investigue. O Rentgen já inclui sua requisição original, os mapeamentos de campos e os resultados dos testes.',
+      apiContext: 'Contexto adicional da API',
+      apiContextPlaceholder:
+        'ex. Reembolsos são permitidos em até 30 dias.\nApenas administradores podem aprovar valores acima de €500.\nFoque em falhas de validação.',
     },
     cli: {
       name: 'CLI',

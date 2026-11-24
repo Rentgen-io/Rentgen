@@ -2,7 +2,14 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import merge from 'deepmerge';
 import { defaultSettings } from 'shared/defaults';
 import { MEDIAN_RESPONSE_TIME_TEST_NAME, NETWORK_SHARE_TEST_NAME, PING_LATENCY_TEST_NAME } from 'shared/testNames';
-import { AiProvider, HistoryRetention, Language, LicenseResult, SettingsState } from 'shared/types/settings';
+import {
+  AI_API_CONTEXT_MAX_LENGTH,
+  AiProvider,
+  HistoryRetention,
+  Language,
+  LicenseResult,
+  SettingsState,
+} from 'shared/types/settings';
 import { loadSettings as loadSettingsFile } from 'src/api/storage';
 import i18n from 'src/i18n';
 
@@ -27,6 +34,9 @@ export const settingsSlice = createSlice({
       state.ai.providers.forEach((provider) => {
         provider.active = provider.id === action.payload;
       });
+    },
+    setAiApiContext: (state, action: PayloadAction<string>) => {
+      state.ai.advanced.apiContext = action.payload.slice(0, AI_API_CONTEXT_MAX_LENGTH);
     },
     setAiProvider: (state, action: PayloadAction<AiProvider>) => {
       if (state.ai.providers.length === 0) action.payload.active = true;
