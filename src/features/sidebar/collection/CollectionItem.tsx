@@ -213,10 +213,15 @@ function CollectionItem({ depth, item, searchTerm }: Props) {
           >
             {!isAnyFolderRunning &&
               (isRequestRunning ? (
-                <StopIcon className="size-4 text-red-500 hover:text-red-600 cursor-pointer" onClick={handlePlayClick} />
+                <StopIcon
+                  className="size-4 text-red-500 hover:text-red-600 cursor-pointer"
+                  title={t('common.stop')}
+                  onClick={handlePlayClick}
+                />
               ) : (
                 <PlayIcon
                   className="size-4 text-green-500 hover:text-green-600 cursor-pointer"
+                  title={t('common.run')}
                   onClick={handlePlayClick}
                 />
               ))}

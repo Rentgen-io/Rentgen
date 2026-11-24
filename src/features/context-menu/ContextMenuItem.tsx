@@ -23,11 +23,12 @@ export default function ContextMenuItem({
       {divider && <div className="my-1 border-t border-border" role="separator" />}
       <button
         className={cn(
-          'w-full px-3 py-1.5 text-left text-xs hover:bg-accent-soft focus-visible:bg-accent-soft outline-none border-none bg-transparent cursor-pointer',
+          'w-full px-3 py-1.5 text-left text-xs bg-transparent focus-visible:bg-accent-soft outline-none border-none',
           {
+            'hover:bg-accent-soft cursor-pointer': !disabled,
             'text-foreground': !destructive,
             'text-destructive': destructive,
-            'opacity-50 hover:bg-transparent cursor-not-allowed': disabled,
+            'opacity-50 cursor-not-allowed': disabled,
           },
         )}
         disabled={disabled}

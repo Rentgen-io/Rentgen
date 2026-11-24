@@ -151,10 +151,12 @@ export default function CollectionsPanel() {
         <div className="flex items-center gap-2 pr-2">
           <ImportIcon
             className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
+            title={t('common.import')}
             onClick={handleImport}
           />
           <ExportIcon
             className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
+            title={t('common.export')}
             onClick={handleExport}
           />
         </div>

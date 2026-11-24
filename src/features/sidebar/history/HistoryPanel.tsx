@@ -46,11 +46,7 @@ export default function HistoryPanel() {
           />
         )}
       </div>
-
-      {entries.length > 0 && (
-        <SideBarSearch value={searchTerm} onChange={setSearchTerm} placeholder={t('history.searchHistory')} />
-      )}
-
+      <SideBarSearch placeholder={t('history.searchHistory')} value={searchTerm} onChange={setSearchTerm} />
       {groups.length > 0 ? (
         <div className="h-full p-1 overflow-x-hidden overflow-y-auto">
           {groups.map((group) => (
