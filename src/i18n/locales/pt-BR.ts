@@ -47,6 +47,8 @@ const ptBR = {
     back: 'Voltar',
     stop: 'Parar',
     rename: 'Renomear',
+    mute: 'Silenciar',
+    unmute: 'Reativar',
     moreActions: 'Mais ações',
     noOptions: 'Sem opções',
     resizeHint: 'Arraste para redimensionar, clique duas vezes para redefinir',

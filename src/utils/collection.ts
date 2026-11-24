@@ -48,6 +48,7 @@ export interface CollectionItemData {
   type: 'request';
   id: string;
   method: string;
+  muted: boolean;
   url: string;
   name: string;
   folderId: string;
@@ -135,6 +136,15 @@ export function renameRequestInCollection(
   newName: string,
 ): PostmanCollection {
   return updateRequestItem(collection, requestId, (item) => ({ ...item, name: newName }));
+}
+
+export function setRequestMutedInCollection(
+  collection: PostmanCollection,
+  requestId: string,
+  muted: boolean,
+): PostmanCollection {
+  // Unmuted is saved without the property (undefined is dropped when written as JSON)
+  return updateRequestItem(collection, requestId, (item) => ({ ...item, muted: muted || undefined }));
 }
 
 export function removeRequestFromCollection(collection: PostmanCollection, requestId: string): PostmanCollection {
@@ -297,6 +307,7 @@ export function collectionToGroupedSidebarData(collection: PostmanCollection): C
       previous &&
       previous.name === item.name &&
       previous.method === item.request.method &&
+      previous.muted === Boolean(item.muted) &&
       previous.url === item.request.url &&
       previous.folderId === folderId
         ? previous
@@ -304,6 +315,7 @@ export function collectionToGroupedSidebarData(collection: PostmanCollection): C
             type: 'request',
             id: item.id,
             method: item.request.method,
+            muted: Boolean(item.muted),
             url: item.request.url,
             name: item.name,
             folderId,
@@ -606,7 +618,12 @@ function replaceFolder(existingFolder: PostmanFolder, importedFolder: PostmanFol
       );
 
       return existingRequest
-        ? { ...importedNode, id: existingRequest.id, preEvaluation: existingRequest.preEvaluation }
+        ? {
+            ...importedNode,
+            id: existingRequest.id,
+            preEvaluation: existingRequest.preEvaluation,
+            ...(existingRequest.muted && { muted: true }),
+          }
         : { ...importedNode, id: generateRequestId() };
     }),
   };

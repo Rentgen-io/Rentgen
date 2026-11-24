@@ -47,6 +47,8 @@ const vi = {
     back: 'Quay lại',
     stop: 'Dừng',
     rename: 'Đổi tên',
+    mute: 'Tắt tiếng',
+    unmute: 'Bật tiếng',
     moreActions: 'Thao tác khác',
     noOptions: 'Không có tùy chọn',
     resizeHint: 'Kéo để thay đổi kích thước, nhấp đúp để đặt lại',

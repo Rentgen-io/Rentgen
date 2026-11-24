@@ -20,6 +20,7 @@ import {
   renameFolderInCollection,
   renameRequestInCollection,
   replaceFolders,
+  setRequestMutedInCollection,
   updateRequestInCollection,
   withNewIds,
 } from 'src/utils/collection';
@@ -127,6 +128,10 @@ export const collectionSlice = createSlice({
     },
     selectRequest: (state, action: PayloadAction<string | null>) => {
       state.selectedRequestId = action.payload;
+    },
+    setRequestMuted: (state, action: PayloadAction<{ requestId: string; muted: boolean }>) => {
+      const { requestId, muted } = action.payload;
+      state.data = setRequestMutedInCollection(state.data, requestId, muted);
     },
     setCollection: (state, action: PayloadAction<PostmanCollection>) => {
       state.data = action.payload;

@@ -47,6 +47,8 @@ const id = {
     back: 'Kembali',
     stop: 'Hentikan',
     rename: 'Ganti nama',
+    mute: 'Bisukan',
+    unmute: 'Batalkan bisu',
     moreActions: 'Tindakan lainnya',
     noOptions: 'Tidak ada opsi',
     resizeHint: 'Seret untuk mengubah ukuran, klik dua kali untuk mengatur ulang',

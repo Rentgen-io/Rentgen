@@ -47,6 +47,8 @@ const de = {
     back: 'Zurück',
     stop: 'Stopp',
     rename: 'Umbenennen',
+    mute: 'Stummschalten',
+    unmute: 'Stummschaltung aufheben',
     moreActions: 'Weitere Aktionen',
     noOptions: 'Keine Optionen',
     resizeHint: 'Ziehen, um die Größe zu ändern, Doppelklick zum Zurücksetzen',

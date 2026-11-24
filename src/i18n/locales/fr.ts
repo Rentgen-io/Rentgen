@@ -47,6 +47,8 @@ const fr = {
     back: 'Retour',
     stop: 'Arrêter',
     rename: 'Renommer',
+    mute: 'Mettre en sourdine',
+    unmute: 'Réactiver',
     moreActions: "Plus d'actions",
     noOptions: 'Aucune option',
     resizeHint: 'Faites glisser pour redimensionner, double-cliquez pour réinitialiser',

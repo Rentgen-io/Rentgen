@@ -47,6 +47,8 @@ const en = {
     back: 'Back',
     stop: 'Stop',
     rename: 'Rename',
+    mute: 'Mute',
+    unmute: 'Unmute',
     moreActions: 'More actions',
     noOptions: 'No options',
     resizeHint: 'Drag to resize, double-click to reset',

@@ -47,6 +47,8 @@ const ja = {
     back: '戻る',
     stop: '停止',
     rename: '名前を変更',
+    mute: 'ミュート',
+    unmute: 'ミュート解除',
     moreActions: 'その他の操作',
     noOptions: 'オプションなし',
     resizeHint: 'ドラッグでサイズ変更、ダブルクリックでリセット',

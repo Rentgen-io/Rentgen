@@ -47,6 +47,8 @@ const lt = {
     back: 'Atgal',
     stop: 'Sustabdyti',
     rename: 'Pervadinti',
+    mute: 'Nutildyti',
+    unmute: 'Atšaukti nutildymą',
     moreActions: 'Daugiau veiksmų',
     noOptions: 'Nėra parinkčių',
     resizeHint: 'Vilkite, kad pakeistumėte dydį, dukart spustelėkite, kad atkurtumėte',

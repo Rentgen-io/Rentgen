@@ -47,6 +47,8 @@ const tr = {
     back: 'Geri',
     stop: 'Durdur',
     rename: 'Yeniden adlandır',
+    mute: 'Sessize al',
+    unmute: 'Sesi aç',
     moreActions: 'Diğer işlemler',
     noOptions: 'Seçenek yok',
     resizeHint: 'Yeniden boyutlandırmak için sürükleyin, sıfırlamak için çift tıklayın',

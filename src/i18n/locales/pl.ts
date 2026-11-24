@@ -47,6 +47,8 @@ const pl = {
     back: 'Wstecz',
     stop: 'Zatrzymaj',
     rename: 'Zmień nazwę',
+    mute: 'Wycisz',
+    unmute: 'Wyłącz wyciszenie',
     moreActions: 'Więcej akcji',
     noOptions: 'Brak opcji',
     resizeHint: 'Przeciągnij, aby zmienić rozmiar, kliknij dwukrotnie, aby przywrócić',

@@ -25,6 +25,8 @@ export interface PostmanRequest {
 
 export interface PostmanItem {
   id: string;
+  /** A muted request is skipped when running its folder. */
+  muted?: boolean;
   name: string;
   preEvaluation?: PreEvaluation;
   request: PostmanRequest;

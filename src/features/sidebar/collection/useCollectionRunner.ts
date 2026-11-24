@@ -142,15 +142,17 @@ export function useCollectionRunner() {
   const runFolder = useCallback(
     async (folderId: string) => {
       const folder = findFolderById(selectCollectionData(store.getState()), folderId);
-      const requests = folder ? collectRequests(folder.item) : [];
+      const folderRequests = folder ? collectRequests(folder.item) : [];
+      const requests = folderRequests.filter((item) => !item.muted);
 
       if (requests.length === 0) return;
+
+      // Also the muted requests' results are cleared: their status doesn't belong to this run
+      dispatch(collectionRunActions.clearFolderResults(folderRequests.map((item) => item.id)));
 
       const requestIds = requests.map((item) => item.id);
       const run = { cancelled: false, requestIds };
       activeFolderRun = run;
-
-      dispatch(collectionRunActions.clearFolderResults(requestIds));
 
       dispatch(
         collectionRunActions.startFolderRun({
@@ -161,6 +163,7 @@ export function useCollectionRunner() {
 
       for (const request of requests) {
         if (run.cancelled) break;
+        if (findRequestById(selectCollectionData(store.getState()), request.id)?.muted) continue;
 
         await executeRequest(request);
       }

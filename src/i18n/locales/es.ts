@@ -47,6 +47,8 @@ const es = {
     back: 'Atrás',
     stop: 'Detener',
     rename: 'Renombrar',
+    mute: 'Silenciar',
+    unmute: 'Quitar silencio',
     moreActions: 'Más acciones',
     noOptions: 'Sin opciones',
     resizeHint: 'Arrastra para cambiar el tamaño, haz doble clic para restablecer',

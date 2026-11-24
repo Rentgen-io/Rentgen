@@ -47,6 +47,8 @@ const it = {
     back: 'Indietro',
     stop: 'Interrompi',
     rename: 'Rinomina',
+    mute: 'Silenzia',
+    unmute: 'Riattiva',
     moreActions: 'Altre azioni',
     noOptions: 'Nessuna opzione',
     resizeHint: 'Trascina per ridimensionare, fai doppio clic per ripristinare',

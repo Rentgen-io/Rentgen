@@ -47,6 +47,8 @@ const nl = {
     back: 'Terug',
     stop: 'Stoppen',
     rename: 'Hernoemen',
+    mute: 'Dempen',
+    unmute: 'Dempen opheffen',
     moreActions: 'Meer acties',
     noOptions: 'Geen opties',
     resizeHint: 'Sleep om het formaat te wijzigen, dubbelklik om te herstellen',

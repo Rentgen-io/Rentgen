@@ -202,7 +202,7 @@ function CollectionItem({ depth, item, searchTerm }: Props) {
       )}
       {!isEditing && (
         <>
-          <span className="flex-1 text-xs truncate" title={item.name}>
+          <span className={cn('flex-1 text-xs truncate', { 'opacity-75': item.muted })} title={item.name}>
             {searchTerm ? <SearchHighlighter text={item.name} term={searchTerm} /> : item.name}
           </span>
           <div
@@ -231,6 +231,11 @@ function CollectionItem({ depth, item, searchTerm }: Props) {
                   label: isRequestRunning ? t('common.stop') : t('common.run'),
                   disabled: isAnyFolderRunning,
                   onClick: toggleRun,
+                },
+                {
+                  label: item.muted ? t('common.unmute') : t('common.mute'),
+                  onClick: () =>
+                    dispatch(collectionActions.setRequestMuted({ requestId: item.id, muted: !item.muted })),
                 },
                 { label: t('common.rename'), divider: true, onClick: () => setIsEditing(true) },
                 {

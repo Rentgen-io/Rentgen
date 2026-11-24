@@ -47,6 +47,8 @@ const zhCN = {
     back: '返回',
     stop: '停止',
     rename: '重命名',
+    mute: '静音',
+    unmute: '取消静音',
     moreActions: '更多操作',
     noOptions: '无选项',
     resizeHint: '拖动以调整大小，双击以重置',
