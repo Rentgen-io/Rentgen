@@ -170,12 +170,12 @@ function CollectionItem({ depth, item, searchTerm }: Props) {
           <span className="size-1.75 rounded-full shrink-0 bg-muted-foreground" title={runResult.response?.status} />
         ) : (
           <span
-            title={runResult.warning || undefined}
+            title={runResult.warnings[0]}
             className={cn('size-1.75 rounded-full shrink-0', {
               'bg-metric-warning':
-                runResult.warning && runResult.status && runResult.status >= 200 && runResult.status < 400,
+                runResult.warnings.length > 0 && runResult.status && runResult.status >= 200 && runResult.status < 400,
               'bg-metric-pass':
-                !runResult.warning && runResult.status && runResult.status >= 200 && runResult.status < 400,
+                !runResult.warnings.length && runResult.status && runResult.status >= 200 && runResult.status < 400,
               'bg-primary': runResult.status && runResult.status >= 400 && runResult.status < 500,
               'bg-metric-fail': !runResult.status || runResult.status < 200 || runResult.status >= 500,
             })}

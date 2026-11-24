@@ -10,6 +10,7 @@ import ResizeHandler from 'src/components/panels/ResizeHandler';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import { useElementHeight } from 'src/hooks/useElementHeight';
 import { useResizableSize } from 'src/hooks/useResizableSize';
+import { getResponseWarnings } from 'src/services/response';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBodyMode,
@@ -23,7 +24,7 @@ import {
 } from 'src/store/selectors';
 import { modalsActions } from 'src/store/slices/modalsSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
-import { getResponseFormatWarning, isAbortedResponse } from 'src/utils/http';
+import { isAbortedResponse } from 'src/utils/http';
 import ParametersPanel from '../parameters/ParametersPanel';
 
 const MIN_RESPONSE_HEIGHT = 160;
@@ -74,8 +75,10 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
     [requestWithFolder, selectedRequestId, dispatch],
   );
 
-  const formatWarning = useMemo(() => getResponseFormatWarning(httpResponse), [httpResponse]);
-  const warning = formatWarning ? t(`response.${formatWarning}`) : runResult?.warning;
+  const warning = useMemo(
+    () => (runResult ? runResult.warnings[0] : getResponseWarnings(httpResponse)[0]),
+    [httpResponse, runResult],
+  );
 
   const isNetworkError = httpResponse?.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
   const hasBodyParameters = Object.keys(bodyParameters).length > 0;

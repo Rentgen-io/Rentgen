@@ -252,7 +252,7 @@ function getFolderStatusClassName(
 
   const hasRed = itemResults.some((r) => !r.status || r.status < 200 || r.status >= 500);
   const hasOrange = itemResults.some((r) => r.status && r.status >= 400 && r.status < 500);
-  const hasYellow = itemResults.some((r) => r.warning && r.status && r.status >= 200 && r.status < 400);
+  const hasYellow = itemResults.some((r) => r.warnings.length > 0 && r.status && r.status >= 200 && r.status < 400);
 
   if (hasRed) return 'bg-metric-fail';
   if (hasOrange) return 'bg-primary';

@@ -3,6 +3,7 @@ import { RESPONSE_STATUS_LABEL, isSuccessStatus } from 'shared/responseStatus';
 import { RequestParameters } from 'shared/types/testing';
 import { generateHistoryId } from 'shared/utils/id';
 import { sendHttp } from 'src/api/network';
+import { getResponseWarnings } from 'src/services/response';
 import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
 import {
@@ -115,7 +116,10 @@ export function useSendHttpRequest() {
             bodyParameters,
             queryParameters,
             error: null,
-            warning: formatExtractionWarning(extractDynamicVariables(dynamicVariables, selectedRequestId, response)),
+            warnings: getResponseWarnings(
+              response,
+              formatExtractionWarning(extractDynamicVariables(dynamicVariables, selectedRequestId, response)),
+            ),
           }),
         );
     } catch (error) {

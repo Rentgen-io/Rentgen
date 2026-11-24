@@ -3,6 +3,7 @@ import { isSuccessStatus } from 'shared/responseStatus';
 import { PostmanItem } from 'shared/types/postman';
 import { collectRequests } from 'shared/utils/collection';
 import { sendHttp } from 'src/api/network';
+import { getResponseWarnings } from 'src/services/response';
 import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
 import {
@@ -111,11 +112,14 @@ export function useCollectionRunner() {
             bodyParameters,
             queryParameters,
             error: null,
-            warning: isAbortedResponse(response)
-              ? null
-              : formatExtractionWarning(
-                  extractDynamicVariables(selectDynamicVariables(latestState), item.id, response, (variable, value) =>
-                    dispatch(environmentActions.updateDynamicVariableValue({ id: variable.id, value })),
+            warnings: isAbortedResponse(response)
+              ? []
+              : getResponseWarnings(
+                  response,
+                  formatExtractionWarning(
+                    extractDynamicVariables(selectDynamicVariables(latestState), item.id, response, (variable, value) =>
+                      dispatch(environmentActions.updateDynamicVariableValue({ id: variable.id, value })),
+                    ),
                   ),
                 ),
           }),
@@ -129,7 +133,7 @@ export function useCollectionRunner() {
             bodyParameters: {},
             queryParameters: {},
             error: String(error),
-            warning: null,
+            warnings: [],
           }),
         );
       } finally {

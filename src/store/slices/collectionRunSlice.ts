@@ -9,7 +9,7 @@ export interface CollectionRunResult {
   response: HttpResponse | null;
   requestId: string;
   status: number | null;
-  warning?: string | null;
+  warnings: string[];
 }
 
 interface CollectionRunState {
