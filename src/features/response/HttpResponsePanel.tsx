@@ -10,7 +10,7 @@ import ResizeHandler from 'src/components/panels/ResizeHandler';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import { useElementHeight } from 'src/hooks/useElementHeight';
 import { useResizableSize } from 'src/hooks/useResizableSize';
-import { getResponseWarnings } from 'src/services/response';
+import { formatResponseWarning, getResponseWarnings } from 'src/services/warnings';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBodyMode,
@@ -75,10 +75,11 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
     [requestWithFolder, selectedRequestId, dispatch],
   );
 
-  const warning = useMemo(
-    () => (runResult ? runResult.warnings[0] : getResponseWarnings(httpResponse)[0]),
+  const warnings = useMemo(
+    () => (runResult ? runResult.warnings : getResponseWarnings(httpResponse)),
     [httpResponse, runResult],
   );
+  const warning = warnings[0] && formatResponseWarning(warnings[0]);
 
   const isNetworkError = httpResponse?.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
   const hasBodyParameters = Object.keys(bodyParameters).length > 0;
@@ -134,7 +135,7 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
     >
       {warning && (
         <div className="px-4 py-2 text-xs bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border-y border-yellow-200 dark:border-yellow-800">
-          <span className="font-medium">{t('common.warning')}:</span> {warning}
+          <span className="font-bold">{t('common.warning')}!</span> {warning}
         </div>
       )}
       {httpResponse ? (

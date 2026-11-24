@@ -3,7 +3,7 @@ import { isSuccessStatus } from 'shared/responseStatus';
 import { PostmanItem } from 'shared/types/postman';
 import { collectRequests } from 'shared/utils/collection';
 import { sendHttp } from 'src/api/network';
-import { getResponseWarnings } from 'src/services/response';
+import { getResponseWarnings } from 'src/services/warnings';
 import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
 import {
@@ -21,7 +21,7 @@ import { responseActions } from 'src/store/slices/responseSlice';
 import { extractRequestParameters } from 'src/test-engine/parameters';
 import { findFolderById, findRequestById } from 'src/utils/collection';
 import { extractDynamicVariables } from 'src/utils/dynamicVariable';
-import { formatExtractionWarning, substituteRequestVariables } from 'src/utils/environment';
+import { substituteRequestVariables } from 'src/utils/environment';
 import { createHttpRequest, extractStatusCode, isAbortedResponse } from 'src/utils/http';
 
 const activeControllers = new Map<string, AbortController>();
@@ -116,10 +116,8 @@ export function useCollectionRunner() {
               ? []
               : getResponseWarnings(
                   response,
-                  formatExtractionWarning(
-                    extractDynamicVariables(selectDynamicVariables(latestState), item.id, response, (variable, value) =>
-                      dispatch(environmentActions.updateDynamicVariableValue({ id: variable.id, value })),
-                    ),
+                  extractDynamicVariables(selectDynamicVariables(latestState), item.id, response, (variable, value) =>
+                    dispatch(environmentActions.updateDynamicVariableValue({ id: variable.id, value })),
                   ),
                 ),
           }),

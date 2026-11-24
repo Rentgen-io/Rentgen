@@ -150,6 +150,16 @@ const ru = {
     missingContentType: 'Отсутствует заголовок content-type.',
     invalidJson: 'Обнаружен некорректный JSON.',
     invalidXml: 'Обнаружен некорректный XML.',
+    extraction: {
+      failed: 'Не удалось извлечь {{variable}}: {{reason}}.',
+      failedMany: 'Не удалось извлечь: {{variables}}.',
+      emptyBody: 'тело ответа пустое',
+      selectorNotFound: "селектор '{{selector}}' не найден в ответе",
+      noHeaders: 'в ответе нет заголовков',
+      headerNotFound: "заголовок '{{selector}}' не найден в ответе",
+      nullValue: 'извлечённое значение равно null или undefined',
+      invalidVariable: 'сохранённая переменная некорректна',
+    },
   },
 
   // cURL

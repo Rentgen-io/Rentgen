@@ -147,6 +147,16 @@ const ko = {
     missingContentType: 'content-type 헤더가 없습니다.',
     invalidJson: '잘못된 JSON이 감지되었습니다.',
     invalidXml: '잘못된 XML이 감지되었습니다.',
+    extraction: {
+      failed: '{{variable}}을(를) 추출하지 못했습니다: {{reason}}.',
+      failedMany: '추출 실패: {{variables}}.',
+      emptyBody: '응답 본문이 비어 있습니다',
+      selectorNotFound: "응답에서 선택자 '{{selector}}'을(를) 찾을 수 없습니다",
+      noHeaders: '응답에 헤더가 없습니다',
+      headerNotFound: "응답에서 헤더 '{{selector}}'을(를) 찾을 수 없습니다",
+      nullValue: '추출된 값이 null 또는 undefined입니다',
+      invalidVariable: '저장된 변수가 올바르지 않습니다',
+    },
   },
 
   // cURL

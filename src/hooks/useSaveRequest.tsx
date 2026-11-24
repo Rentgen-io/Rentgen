@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { notify } from 'src/services/notify';
-import { getResponseWarnings } from 'src/services/response';
+import { getResponseWarnings } from 'src/services/warnings';
 import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
 import {

@@ -6,6 +6,7 @@ import MethodBadge from 'src/components/badges/MethodBadge';
 import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
 import { useContextMenu } from 'src/features/context-menu';
 import { useReset } from 'src/hooks/useReset';
+import { formatResponseWarning } from 'src/services/warnings';
 import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -170,7 +171,7 @@ function CollectionItem({ depth, item, searchTerm }: Props) {
           <span className="size-1.75 rounded-full shrink-0 bg-muted-foreground" title={runResult.response?.status} />
         ) : (
           <span
-            title={runResult.warnings[0]}
+            title={runResult.warnings[0] && formatResponseWarning(runResult.warnings[0])}
             className={cn('size-1.75 rounded-full shrink-0', {
               'bg-metric-warning':
                 runResult.warnings.length > 0 && runResult.status && runResult.status >= 200 && runResult.status < 400,

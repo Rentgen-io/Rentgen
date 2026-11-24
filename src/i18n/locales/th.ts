@@ -147,6 +147,16 @@ const th = {
     missingContentType: 'ไม่มีเฮดเดอร์ content-type',
     invalidJson: 'ตรวจพบ JSON ที่ไม่ถูกต้อง',
     invalidXml: 'ตรวจพบ XML ที่ไม่ถูกต้อง',
+    extraction: {
+      failed: 'ไม่สามารถดึง {{variable}}: {{reason}}',
+      failedMany: 'ดึงค่าไม่สำเร็จ: {{variables}}',
+      emptyBody: 'บอดี้ของการตอบกลับว่างเปล่า',
+      selectorNotFound: "ไม่พบตัวเลือก '{{selector}}' ในการตอบกลับ",
+      noHeaders: 'การตอบกลับไม่มีเฮดเดอร์',
+      headerNotFound: "ไม่พบเฮดเดอร์ '{{selector}}' ในการตอบกลับ",
+      nullValue: 'ค่าที่ดึงได้เป็น null หรือ undefined',
+      invalidVariable: 'ตัวแปรที่บันทึกไว้ไม่ถูกต้อง',
+    },
   },
 
   // cURL

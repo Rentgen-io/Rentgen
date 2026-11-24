@@ -148,6 +148,16 @@ const it = {
     missingContentType: 'Intestazione content-type mancante.',
     invalidJson: 'Rilevato JSON non valido.',
     invalidXml: 'Rilevato XML non valido.',
+    extraction: {
+      failed: 'Impossibile estrarre {{variable}}: {{reason}}.',
+      failedMany: 'Estrazione non riuscita: {{variables}}.',
+      emptyBody: 'il corpo della risposta è vuoto',
+      selectorNotFound: "selettore '{{selector}}' non trovato nella risposta",
+      noHeaders: 'la risposta non ha intestazioni',
+      headerNotFound: "intestazione '{{selector}}' non trovata nella risposta",
+      nullValue: 'il valore estratto è null o undefined',
+      invalidVariable: 'la variabile salvata non è valida',
+    },
   },
 
   // cURL

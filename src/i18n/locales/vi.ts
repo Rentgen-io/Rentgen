@@ -147,6 +147,16 @@ const vi = {
     missingContentType: 'Thiếu tiêu đề content-type.',
     invalidJson: 'Phát hiện JSON không hợp lệ.',
     invalidXml: 'Phát hiện XML không hợp lệ.',
+    extraction: {
+      failed: 'Không thể trích xuất {{variable}}: {{reason}}.',
+      failedMany: 'Trích xuất thất bại: {{variables}}.',
+      emptyBody: 'nội dung phản hồi trống',
+      selectorNotFound: "không tìm thấy bộ chọn '{{selector}}' trong phản hồi",
+      noHeaders: 'phản hồi không có tiêu đề',
+      headerNotFound: "không tìm thấy tiêu đề '{{selector}}' trong phản hồi",
+      nullValue: 'giá trị trích xuất là null hoặc undefined',
+      invalidVariable: 'biến đã lưu không hợp lệ',
+    },
   },
 
   // cURL

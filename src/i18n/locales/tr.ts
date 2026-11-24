@@ -148,6 +148,16 @@ const tr = {
     missingContentType: 'content-type başlığı eksik.',
     invalidJson: 'Geçersiz JSON algılandı.',
     invalidXml: 'Geçersiz XML algılandı.',
+    extraction: {
+      failed: '{{variable}} çıkarılamadı: {{reason}}.',
+      failedMany: 'Çıkarma başarısız: {{variables}}.',
+      emptyBody: 'yanıt gövdesi boş',
+      selectorNotFound: "yanıtta '{{selector}}' seçicisi bulunamadı",
+      noHeaders: 'yanıtta başlık yok',
+      headerNotFound: "yanıtta '{{selector}}' başlığı bulunamadı",
+      nullValue: 'çıkarılan değer null veya undefined',
+      invalidVariable: 'kaydedilen değişken geçersiz',
+    },
   },
 
   // cURL

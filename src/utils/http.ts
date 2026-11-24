@@ -1,6 +1,6 @@
 import { Method } from 'axios';
 import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
-import { FormEntry, HttpRequest, HttpResponse, RequestBody } from 'shared/types/http';
+import { FormEntry, HttpRequest, HttpResponse, RequestBody, ResponseWarning } from 'shared/types/http';
 import { PostmanBody } from 'shared/types/postman';
 import { getHeaderValue } from 'shared/utils/headers';
 import { buildFieldsBody } from 'shared/utils/http';
@@ -61,8 +61,6 @@ export function isAbortedResponse(response: HttpResponse | null | undefined): bo
 const JSON_CONTENT_TYPE_REGEX = /\bapplication\/([\w.-]+\+)?json\b/i;
 const XML_CONTENT_TYPE_REGEX = /\b(text\/xml|application\/([\w.-]+\+)?xml)\b/i;
 
-export type ResponseFormatWarning = 'missingContentType' | 'invalidJson' | 'invalidXml';
-
 function isValidJson(text: string): boolean {
   try {
     JSON.parse(text);
@@ -80,7 +78,7 @@ function isValidXml(text: string): boolean {
  * The first problem with how a response declares its body: no Content-Type, then a body that doesn't match a JSON or
  * XML Content-Type. Responses without a body (e.g. 204) or without a status (network error, aborted) have none.
  */
-export function getResponseFormatWarning(response: HttpResponse | null | undefined): ResponseFormatWarning | null {
+export function getResponseFormatWarning(response: HttpResponse | null | undefined): ResponseWarning | null {
   if (!response || !extractStatusCode(response)) return null;
 
   const { body } = response;

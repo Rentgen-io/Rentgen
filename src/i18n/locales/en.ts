@@ -147,6 +147,16 @@ const en = {
     missingContentType: 'Missing content-type header.',
     invalidJson: 'Invalid JSON detected.',
     invalidXml: 'Invalid XML detected.',
+    extraction: {
+      failed: 'Failed to extract {{variable}}: {{reason}}.',
+      failedMany: 'Failed to extract: {{variables}}.',
+      emptyBody: 'response body is empty',
+      selectorNotFound: "selector '{{selector}}' not found in response",
+      noHeaders: 'response has no headers',
+      headerNotFound: "header '{{selector}}' not found in response",
+      nullValue: 'extracted value is null or undefined',
+      invalidVariable: 'the saved variable is invalid',
+    },
   },
 
   // cURL

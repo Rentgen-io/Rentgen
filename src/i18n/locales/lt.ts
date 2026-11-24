@@ -150,6 +150,16 @@ const lt = {
     missingContentType: 'Trūksta content-type antraštės.',
     invalidJson: 'Aptiktas netinkamas JSON.',
     invalidXml: 'Aptiktas netinkamas XML.',
+    extraction: {
+      failed: 'Nepavyko išgauti {{variable}}: {{reason}}.',
+      failedMany: 'Nepavyko išgauti: {{variables}}.',
+      emptyBody: 'atsakymo turinys tuščias',
+      selectorNotFound: "selektorius '{{selector}}' atsakyme nerastas",
+      noHeaders: 'atsakymas neturi antraščių',
+      headerNotFound: "antraštė '{{selector}}' atsakyme nerasta",
+      nullValue: 'išgauta reikšmė yra null arba undefined',
+      invalidVariable: 'išsaugotas kintamasis netinkamas',
+    },
   },
 
   // cURL

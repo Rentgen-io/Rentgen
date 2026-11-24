@@ -148,6 +148,16 @@ const hi = {
     missingContentType: 'content-type हैडर मौजूद नहीं है।',
     invalidJson: 'अमान्य JSON पाया गया।',
     invalidXml: 'अमान्य XML पाया गया।',
+    extraction: {
+      failed: '{{variable}} निकाला नहीं जा सका: {{reason}}।',
+      failedMany: 'निकालना विफल: {{variables}}।',
+      emptyBody: 'प्रतिक्रिया का बॉडी खाली है',
+      selectorNotFound: "प्रतिक्रिया में सेलेक्टर '{{selector}}' नहीं मिला",
+      noHeaders: 'प्रतिक्रिया में कोई हैडर नहीं है',
+      headerNotFound: "प्रतिक्रिया में हैडर '{{selector}}' नहीं मिला",
+      nullValue: 'निकाला गया मान null या undefined है',
+      invalidVariable: 'सहेजा गया वेरिएबल अमान्य है',
+    },
   },
 
   // cURL

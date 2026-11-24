@@ -150,6 +150,16 @@ const uk = {
     missingContentType: 'Відсутній заголовок content-type.',
     invalidJson: 'Виявлено некоректний JSON.',
     invalidXml: 'Виявлено некоректний XML.',
+    extraction: {
+      failed: 'Не вдалося витягти {{variable}}: {{reason}}.',
+      failedMany: 'Не вдалося витягти: {{variables}}.',
+      emptyBody: 'тіло відповіді порожнє',
+      selectorNotFound: "селектор '{{selector}}' не знайдено у відповіді",
+      noHeaders: 'відповідь не має заголовків',
+      headerNotFound: "заголовок '{{selector}}' не знайдено у відповіді",
+      nullValue: 'витягнуте значення дорівнює null або undefined',
+      invalidVariable: 'збережена змінна некоректна',
+    },
   },
 
   // cURL

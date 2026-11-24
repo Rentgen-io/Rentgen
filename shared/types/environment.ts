@@ -73,7 +73,18 @@ export interface VariableSuggestion {
 /**
  * Result of extracting a dynamic variable from a response
  */
-export type ExtractionResult = { success: true; value: string } | { success: false; error: string };
+export type ExtractionResult = { success: true; value: string } | { success: false; error: ExtractionError };
+
+/**
+ * Why a dynamic variable couldn't be extracted (a translation key, `response.extraction.*`)
+ */
+export type ExtractionError =
+  | 'emptyBody'
+  | 'selectorNotFound'
+  | 'noHeaders'
+  | 'headerNotFound'
+  | 'nullValue'
+  | 'invalidVariable';
 
 /**
  * Details about a failed dynamic variable extraction
@@ -82,5 +93,5 @@ export interface ExtractionFailure {
   variableName: string;
   selector: string;
   source: 'body' | 'header';
-  reason: string;
+  reason: ExtractionError;
 }

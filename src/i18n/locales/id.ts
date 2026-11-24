@@ -148,6 +148,16 @@ const id = {
     missingContentType: 'Header content-type tidak ada.',
     invalidJson: 'JSON tidak valid terdeteksi.',
     invalidXml: 'XML tidak valid terdeteksi.',
+    extraction: {
+      failed: 'Gagal mengekstrak {{variable}}: {{reason}}.',
+      failedMany: 'Gagal mengekstrak: {{variables}}.',
+      emptyBody: 'body respons kosong',
+      selectorNotFound: "selector '{{selector}}' tidak ditemukan dalam respons",
+      noHeaders: 'respons tidak memiliki header',
+      headerNotFound: "header '{{selector}}' tidak ditemukan dalam respons",
+      nullValue: 'nilai yang diekstrak null atau undefined',
+      invalidVariable: 'variabel yang disimpan tidak valid',
+    },
   },
 
   // cURL

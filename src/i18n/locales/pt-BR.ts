@@ -148,6 +148,16 @@ const ptBR = {
     missingContentType: 'Cabeçalho content-type ausente.',
     invalidJson: 'JSON inválido detectado.',
     invalidXml: 'XML inválido detectado.',
+    extraction: {
+      failed: 'Falha ao extrair {{variable}}: {{reason}}.',
+      failedMany: 'Falha ao extrair: {{variables}}.',
+      emptyBody: 'o corpo da resposta está vazio',
+      selectorNotFound: "seletor '{{selector}}' não encontrado na resposta",
+      noHeaders: 'a resposta não tem cabeçalhos',
+      headerNotFound: "cabeçalho '{{selector}}' não encontrado na resposta",
+      nullValue: 'o valor extraído é null ou undefined',
+      invalidVariable: 'a variável salva é inválida',
+    },
   },
 
   // cURL

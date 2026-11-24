@@ -150,6 +150,16 @@ const pl = {
     missingContentType: 'Brak nagłówka content-type.',
     invalidJson: 'Wykryto nieprawidłowy JSON.',
     invalidXml: 'Wykryto nieprawidłowy XML.',
+    extraction: {
+      failed: 'Nie udało się wyodrębnić {{variable}}: {{reason}}.',
+      failedMany: 'Nie udało się wyodrębnić: {{variables}}.',
+      emptyBody: 'treść odpowiedzi jest pusta',
+      selectorNotFound: "nie znaleziono selektora '{{selector}}' w odpowiedzi",
+      noHeaders: 'odpowiedź nie ma nagłówków',
+      headerNotFound: "nie znaleziono nagłówka '{{selector}}' w odpowiedzi",
+      nullValue: 'wyodrębniona wartość to null lub undefined',
+      invalidVariable: 'zapisana zmienna jest nieprawidłowa',
+    },
   },
 
   // cURL

@@ -148,6 +148,16 @@ const fr = {
     missingContentType: 'En-tête content-type manquant.',
     invalidJson: 'JSON invalide détecté.',
     invalidXml: 'XML invalide détecté.',
+    extraction: {
+      failed: "Impossible d'extraire {{variable}} : {{reason}}.",
+      failedMany: "Échec de l'extraction : {{variables}}.",
+      emptyBody: 'le corps de la réponse est vide',
+      selectorNotFound: "sélecteur '{{selector}}' introuvable dans la réponse",
+      noHeaders: "la réponse n'a pas d'en-têtes",
+      headerNotFound: "en-tête '{{selector}}' introuvable dans la réponse",
+      nullValue: 'la valeur extraite est null ou undefined',
+      invalidVariable: "la variable enregistrée n'est pas valide",
+    },
   },
 
   // cURL

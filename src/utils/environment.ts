@@ -1,4 +1,4 @@
-import { DynamicVariable, Environment, EnvironmentVariable, ExtractionFailure } from 'shared/types/environment';
+import { DynamicVariable, Environment, EnvironmentVariable } from 'shared/types/environment';
 import { RequestBody } from 'shared/types/http';
 import { PostmanBody, PostmanHeader } from 'shared/types/postman';
 import { TestEngineConfiguration } from 'shared/types/settings';
@@ -47,14 +47,6 @@ export function stringifyExtractedValue(value: unknown): string | null {
   if (typeof value === 'number' || typeof value === 'boolean') return String(value);
 
   return JSON.stringify(value);
-}
-
-/** Warning for the dynamic variables that failed to extract; the reason is shown only for a single failure. */
-export function formatExtractionWarning(failures: ExtractionFailure[]): string | null {
-  if (failures.length === 0) return null;
-  if (failures.length === 1) return `Failed to extract {{${failures[0].variableName}}}: ${failures[0].reason}.`;
-
-  return `Failed to extract: ${failures.map(({ variableName }) => `{{${variableName}}}`).join(', ')}.`;
 }
 
 // ---------- Variable substitution ----------

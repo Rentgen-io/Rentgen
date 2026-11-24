@@ -148,6 +148,16 @@ const es = {
     missingContentType: 'Falta la cabecera content-type.',
     invalidJson: 'Se detectó JSON no válido.',
     invalidXml: 'Se detectó XML no válido.',
+    extraction: {
+      failed: 'No se pudo extraer {{variable}}: {{reason}}.',
+      failedMany: 'No se pudo extraer: {{variables}}.',
+      emptyBody: 'el cuerpo de la respuesta está vacío',
+      selectorNotFound: "selector '{{selector}}' no encontrado en la respuesta",
+      noHeaders: 'la respuesta no tiene cabeceras',
+      headerNotFound: "cabecera '{{selector}}' no encontrada en la respuesta",
+      nullValue: 'el valor extraído es null o undefined',
+      invalidVariable: 'la variable guardada no es válida',
+    },
   },
 
   // cURL

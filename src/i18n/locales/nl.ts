@@ -148,6 +148,16 @@ const nl = {
     missingContentType: 'Content-type-header ontbreekt.',
     invalidJson: 'Ongeldige JSON gedetecteerd.',
     invalidXml: 'Ongeldige XML gedetecteerd.',
+    extraction: {
+      failed: 'Kan {{variable}} niet extraheren: {{reason}}.',
+      failedMany: 'Extraheren mislukt: {{variables}}.',
+      emptyBody: 'de body van de reactie is leeg',
+      selectorNotFound: "selector '{{selector}}' niet gevonden in de reactie",
+      noHeaders: 'de reactie heeft geen headers',
+      headerNotFound: "header '{{selector}}' niet gevonden in de reactie",
+      nullValue: 'de geëxtraheerde waarde is null of undefined',
+      invalidVariable: 'de opgeslagen variabele is ongeldig',
+    },
   },
 
   // cURL

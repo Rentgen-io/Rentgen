@@ -148,6 +148,16 @@ const de = {
     missingContentType: 'Content-Type-Header fehlt.',
     invalidJson: 'Ungültiges JSON erkannt.',
     invalidXml: 'Ungültiges XML erkannt.',
+    extraction: {
+      failed: '{{variable}} konnte nicht extrahiert werden: {{reason}}.',
+      failedMany: 'Extraktion fehlgeschlagen: {{variables}}.',
+      emptyBody: 'Antworttext ist leer',
+      selectorNotFound: "Selektor '{{selector}}' in der Antwort nicht gefunden",
+      noHeaders: 'Antwort hat keine Header',
+      headerNotFound: "Header '{{selector}}' in der Antwort nicht gefunden",
+      nullValue: 'extrahierter Wert ist null oder undefined',
+      invalidVariable: 'die gespeicherte Variable ist ungültig',
+    },
   },
 
   // cURL

@@ -3,7 +3,7 @@ import { RESPONSE_STATUS_LABEL, isSuccessStatus } from 'shared/responseStatus';
 import { RequestParameters } from 'shared/types/testing';
 import { generateHistoryId } from 'shared/utils/id';
 import { sendHttp } from 'src/api/network';
-import { getResponseWarnings } from 'src/services/response';
+import { getResponseWarnings } from 'src/services/warnings';
 import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
 import {
@@ -25,7 +25,7 @@ import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { extractRequestParameters } from 'src/test-engine/parameters';
 import { extractDynamicVariables } from 'src/utils/dynamicVariable';
-import { formatExtractionWarning, substituteRequestVariables } from 'src/utils/environment';
+import { substituteRequestVariables } from 'src/utils/environment';
 import { createHttpRequest, extractStatusCode } from 'src/utils/http';
 
 let activeController: AbortController | null = null;
@@ -118,7 +118,7 @@ export function useSendHttpRequest() {
             error: null,
             warnings: getResponseWarnings(
               response,
-              formatExtractionWarning(extractDynamicVariables(dynamicVariables, selectedRequestId, response)),
+              extractDynamicVariables(dynamicVariables, selectedRequestId, response),
             ),
           }),
         );

@@ -147,6 +147,16 @@ const zhCN = {
     missingContentType: '缺少 content-type 响应头。',
     invalidJson: '检测到无效的 JSON。',
     invalidXml: '检测到无效的 XML。',
+    extraction: {
+      failed: '无法提取 {{variable}}：{{reason}}。',
+      failedMany: '提取失败：{{variables}}。',
+      emptyBody: '响应正文为空',
+      selectorNotFound: "响应中未找到选择器 '{{selector}}'",
+      noHeaders: '响应没有响应头',
+      headerNotFound: "响应中未找到响应头 '{{selector}}'",
+      nullValue: '提取的值为 null 或 undefined',
+      invalidVariable: '保存的变量无效',
+    },
   },
 
   // cURL

@@ -148,6 +148,16 @@ const ja = {
     missingContentType: 'content-type ヘッダーがありません。',
     invalidJson: '無効な JSON が検出されました。',
     invalidXml: '無効な XML が検出されました。',
+    extraction: {
+      failed: '{{variable}} を抽出できませんでした: {{reason}}。',
+      failedMany: '抽出に失敗しました: {{variables}}。',
+      emptyBody: 'レスポンスのボディが空です',
+      selectorNotFound: "レスポンスにセレクター '{{selector}}' が見つかりません",
+      noHeaders: 'レスポンスにヘッダーがありません',
+      headerNotFound: "レスポンスにヘッダー '{{selector}}' が見つかりません",
+      nullValue: '抽出された値が null または undefined です',
+      invalidVariable: '保存された変数が無効です',
+    },
   },
 
   // cURL
