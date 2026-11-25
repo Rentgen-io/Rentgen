@@ -62,7 +62,6 @@ const id = {
     environments: 'Lingkungan',
     history: 'Riwayat',
     settings: 'Pengaturan',
-    checkForUpdates: 'Periksa pembaruan',
     reportFeedback: 'Laporkan masukan',
   },
 
@@ -320,12 +319,13 @@ const id = {
     update: {
       name: 'Pembaruan',
       check: 'Periksa pembaruan',
+      checkManually: 'Periksa secara manual',
       currentVersion: 'Anda menggunakan Rentgen v{{version}}.',
       checking: 'Memeriksa pembaruan...',
       upToDate: 'Anda sudah menggunakan versi terbaru!',
       latestVersion: 'Rentgen v{{version}} adalah versi terbaru.',
       updateAvailable: 'Versi baru tersedia!',
-      newVersionAvailable: 'Rentgen v{{latest}} tersedia. Anda menggunakan v{{current}}.',
+      newVersionAvailable: 'Rentgen v{{latest}} tersedia.\nAnda menggunakan v{{current}}.',
       download: 'Unduh',
       checkFailed: 'Tidak dapat memeriksa pembaruan. Silakan coba lagi nanti.',
       lastChecked: 'Terakhir diperiksa pada {{date, datetime(dateStyle: medium; timeStyle: short)}}.',

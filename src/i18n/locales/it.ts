@@ -62,7 +62,6 @@ const it = {
     environments: 'Ambienti',
     history: 'Cronologia',
     settings: 'Impostazioni',
-    checkForUpdates: 'Verifica aggiornamenti',
     reportFeedback: 'Invia un feedback',
   },
 
@@ -323,12 +322,13 @@ const it = {
     update: {
       name: 'Aggiornamento',
       check: 'Verifica aggiornamenti',
+      checkManually: 'Verifica manualmente',
       currentVersion: 'Stai usando Rentgen v{{version}}.',
       checking: 'Verifica degli aggiornamenti...',
       upToDate: 'Sei aggiornato!',
       latestVersion: 'Rentgen v{{version}} è la versione più recente.',
       updateAvailable: 'È disponibile una nuova versione!',
-      newVersionAvailable: 'Rentgen v{{latest}} è disponibile. Stai usando la v{{current}}.',
+      newVersionAvailable: 'Rentgen v{{latest}} è disponibile.\nStai usando la v{{current}}.',
       download: 'Scarica',
       checkFailed: 'Impossibile verificare gli aggiornamenti. Riprova più tardi.',
       lastChecked: 'Ultimo controllo: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
@@ -378,8 +378,8 @@ const it = {
       howToRunOllamaLocally: 'Come eseguire Ollama in locale?',
       advancedTitle: 'Avanzate',
       advancedDescription:
-        'Fornisci un contesto aggiuntivo per l\'analisi dell\'IA, ad esempio cosa fa l\'API, le sue regole di business e le aree specifiche che vuoi far analizzare all\'IA. Rentgen include già la tua richiesta originale, le mappature dei campi e i risultati dei test.',
-      apiContext: 'Contesto aggiuntivo dell\'API',
+        "Fornisci un contesto aggiuntivo per l'analisi dell'IA, ad esempio cosa fa l'API, le sue regole di business e le aree specifiche che vuoi far analizzare all'IA. Rentgen include già la tua richiesta originale, le mappature dei campi e i risultati dei test.",
+      apiContext: "Contesto aggiuntivo dell'API",
       apiContextPlaceholder:
         'es. I rimborsi sono consentiti entro 30 giorni.\nSolo gli amministratori possono approvare importi superiori a 500 €.\nConcentrati sulle lacune di validazione.',
     },

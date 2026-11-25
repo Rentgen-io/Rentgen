@@ -62,7 +62,6 @@ const lt = {
     environments: 'Aplinkos',
     history: 'Istorija',
     settings: 'Nustatymai',
-    checkForUpdates: 'Tikrinti atnaujinimus',
     reportFeedback: 'Pranešti apie klaidą',
   },
 
@@ -322,12 +321,13 @@ const lt = {
     update: {
       name: 'Atnaujinimas',
       check: 'Tikrinti atnaujinimus',
+      checkManually: 'Tikrinti rankiniu būdu',
       currentVersion: 'Naudojate Rentgen v{{version}}.',
       checking: 'Tikrinami atnaujinimai...',
       upToDate: 'Naudojate naujausią versiją!',
       latestVersion: 'Rentgen v{{version}} yra naujausia versija.',
       updateAvailable: 'Yra nauja versija!',
-      newVersionAvailable: 'Galima Rentgen v{{latest}}. Naudojate v{{current}}.',
+      newVersionAvailable: 'Galima Rentgen v{{latest}}.\nNaudojate v{{current}}.',
       download: 'Atsisiųsti',
       checkFailed: 'Nepavyko patikrinti atnaujinimų. Bandykite vėliau.',
       lastChecked: 'Paskutinį kartą tikrinta {{date, datetime(dateStyle: medium; timeStyle: short)}}.',

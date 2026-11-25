@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { appConfig } from 'shared/constants';
 import { openExternal } from 'src/api/system';
-import { checkForUpdate } from 'src/api/update';
+import { checkForUpdate, getUpdateDownloadUrl } from 'src/api/update';
 import Button, { ButtonSize } from 'src/components/buttons/Button';
 import LoaderWithText from 'src/components/loaders/LoaderWithText';
 import { UpdateCheckResult } from 'src/types/update';
@@ -31,14 +30,13 @@ export function UpdateSettings() {
   }
 
   const getStatusText = (): { title: string; description: string } => {
-    if (result.status === 'error') {
+    if (result.status === 'error')
       return {
         title: t('settings.update.checkFailed'),
         description: t('settings.update.currentVersion', { version: result.currentVersion }),
       };
-    }
 
-    if (result.status === 'updateAvailable') {
+    if (result.status === 'updateAvailable')
       return {
         title: t('settings.update.updateAvailable'),
         description: t('settings.update.newVersionAvailable', {
@@ -46,7 +44,6 @@ export function UpdateSettings() {
           latest: result.latestVersion,
         }),
       };
-    }
 
     return {
       title: t('settings.update.upToDate'),
@@ -65,6 +62,21 @@ export function UpdateSettings() {
     );
   };
 
+  const renderAction = () => {
+    if (result.status === 'error' || result.status === 'updateAvailable')
+      return (
+        <Button buttonSize={ButtonSize.SMALL} onClick={() => openExternal(getUpdateDownloadUrl(result.currentVersion))}>
+          {result.status === 'error' ? t('settings.update.checkManually') : t('settings.update.download')}
+        </Button>
+      );
+
+    return (
+      <Button buttonSize={ButtonSize.SMALL} onClick={handleCheck}>
+        {t('settings.update.check')}
+      </Button>
+    );
+  };
+
   return (
     <div className="flex items-center justify-between gap-2">
       <div className="flex flex-col gap-1">
@@ -73,20 +85,7 @@ export function UpdateSettings() {
           {t('settings.update.lastChecked', { date: new Date(result.checkedAt) })}
         </span>
       </div>
-      {result.status === 'updateAvailable' ? (
-        <Button
-          buttonSize={ButtonSize.SMALL}
-          onClick={() =>
-            openExternal(`${appConfig.origin}/check-for-update.html?current_version=${result.currentVersion}`)
-          }
-        >
-          {t('settings.update.download')}
-        </Button>
-      ) : (
-        <Button buttonSize={ButtonSize.SMALL} onClick={handleCheck}>
-          {t('settings.update.check')}
-        </Button>
-      )}
+      {renderAction()}
     </div>
   );
 }

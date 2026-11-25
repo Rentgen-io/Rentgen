@@ -23,7 +23,7 @@ import EngineIcon from 'src/assets/icons/engine-icon.svg';
 import GearIcon from 'src/assets/icons/gear-icon.svg';
 import LanguageIcon from 'src/assets/icons/language-icon.svg';
 import ThemeIcon from 'src/assets/icons/theme-icon.svg';
-import UpgradeStarIcon from 'src/assets/icons/upgrade-star-icon.svg';
+import UpdateIcon from 'src/assets/icons/update-icon.svg';
 
 export default function SettingsModal() {
   const dispatch = useAppDispatch();
@@ -81,7 +81,7 @@ export default function SettingsModal() {
     },
     {
       component: <UpdateSettings />,
-      icon: <UpgradeStarIcon className="size-4" />,
+      icon: <UpdateIcon className="size-4" />,
       id: 'update',
       name: t('settings.update.name'),
     },

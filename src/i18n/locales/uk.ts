@@ -62,7 +62,6 @@ const uk = {
     environments: 'Середовища',
     history: 'Історія',
     settings: 'Налаштування',
-    checkForUpdates: 'Перевірити оновлення',
     reportFeedback: 'Надіслати відгук',
   },
 
@@ -322,12 +321,13 @@ const uk = {
     update: {
       name: 'Оновлення',
       check: 'Перевірити оновлення',
+      checkManually: 'Перевірити вручну',
       currentVersion: 'Ви використовуєте Rentgen v{{version}}.',
       checking: 'Перевірка оновлень...',
       upToDate: 'У вас остання версія!',
       latestVersion: 'Rentgen v{{version}} — остання версія.',
       updateAvailable: 'Доступна нова версія!',
-      newVersionAvailable: 'Доступний Rentgen v{{latest}}. Ви використовуєте v{{current}}.',
+      newVersionAvailable: 'Доступний Rentgen v{{latest}}.\nВи використовуєте v{{current}}.',
       download: 'Завантажити',
       checkFailed: 'Не вдалося перевірити оновлення. Спробуйте пізніше.',
       lastChecked: 'Остання перевірка: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',

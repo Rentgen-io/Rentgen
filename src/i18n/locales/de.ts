@@ -62,7 +62,6 @@ const de = {
     environments: 'Umgebungen',
     history: 'Verlauf',
     settings: 'Einstellungen',
-    checkForUpdates: 'Nach Updates suchen',
     reportFeedback: 'Feedback senden',
   },
 
@@ -323,12 +322,13 @@ const de = {
     update: {
       name: 'Update',
       check: 'Nach Updates suchen',
+      checkManually: 'Manuell prüfen',
       currentVersion: 'Sie verwenden Rentgen v{{version}}.',
       checking: 'Suche nach Updates...',
       upToDate: 'Sie sind auf dem neuesten Stand!',
       latestVersion: 'Rentgen v{{version}} ist die neueste Version.',
       updateAvailable: 'Eine neue Version ist verfügbar!',
-      newVersionAvailable: 'Rentgen v{{latest}} ist verfügbar. Sie verwenden v{{current}}.',
+      newVersionAvailable: 'Rentgen v{{latest}} ist verfügbar.\nSie verwenden v{{current}}.',
       download: 'Herunterladen',
       checkFailed: 'Updates konnten nicht geprüft werden. Bitte versuchen Sie es später erneut.',
       lastChecked: 'Zuletzt geprüft am {{date, datetime(dateStyle: medium; timeStyle: short)}}.',

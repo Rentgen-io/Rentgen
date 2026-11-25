@@ -62,7 +62,6 @@ const ptBR = {
     environments: 'Ambientes',
     history: 'Histórico',
     settings: 'Configurações',
-    checkForUpdates: 'Verificar atualizações',
     reportFeedback: 'Enviar feedback',
   },
 
@@ -323,12 +322,13 @@ const ptBR = {
     update: {
       name: 'Atualização',
       check: 'Verificar atualizações',
+      checkManually: 'Verificar manualmente',
       currentVersion: 'Você está usando o Rentgen v{{version}}.',
       checking: 'Verificando atualizações...',
       upToDate: 'Você está atualizado!',
       latestVersion: 'Rentgen v{{version}} é a versão mais recente.',
       updateAvailable: 'Uma nova versão está disponível!',
-      newVersionAvailable: 'Rentgen v{{latest}} está disponível. Você está usando a v{{current}}.',
+      newVersionAvailable: 'Rentgen v{{latest}} está disponível.\nVocê está usando a v{{current}}.',
       download: 'Baixar',
       checkFailed: 'Não foi possível verificar atualizações. Tente novamente mais tarde.',
       lastChecked: 'Última verificação em {{date, datetime(dateStyle: medium; timeStyle: short)}}.',

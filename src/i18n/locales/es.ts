@@ -62,7 +62,6 @@ const es = {
     environments: 'Entornos',
     history: 'Historial',
     settings: 'Ajustes',
-    checkForUpdates: 'Buscar actualizaciones',
     reportFeedback: 'Enviar comentarios',
   },
 
@@ -323,12 +322,13 @@ const es = {
     update: {
       name: 'Actualización',
       check: 'Buscar actualizaciones',
+      checkManually: 'Comprobar manualmente',
       currentVersion: 'Estás usando Rentgen v{{version}}.',
       checking: 'Buscando actualizaciones...',
       upToDate: '¡Estás al día!',
       latestVersion: 'Rentgen v{{version}} es la versión más reciente.',
       updateAvailable: '¡Hay una nueva versión disponible!',
-      newVersionAvailable: 'Rentgen v{{latest}} está disponible. Estás usando v{{current}}.',
+      newVersionAvailable: 'Rentgen v{{latest}} está disponible.\nEstás usando v{{current}}.',
       download: 'Descargar',
       checkFailed: 'No se pudieron buscar actualizaciones. Inténtalo de nuevo más tarde.',
       lastChecked: 'Última comprobación: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',

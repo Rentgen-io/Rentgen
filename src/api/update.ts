@@ -7,6 +7,9 @@ import { getAppVersion } from './system';
 
 const normalizeVersion = (version: string): string => version.trim().replace(/^v/i, '');
 
+export const getUpdateDownloadUrl = (currentVersion: string): string =>
+  `${appConfig.origin}/check-for-update.html?current_version=${encodeURIComponent(currentVersion)}`;
+
 /**
  * Compares dotted numeric versions (`3.0.0`, `v1.2.0.9`). Pre-release/build suffixes are ignored —
  * `/releases/latest` never returns drafts or pre-releases anyway.
@@ -45,9 +48,8 @@ export async function checkForUpdate(): Promise<UpdateCheckResult> {
     });
 
     const tagName = (response.body as { tag_name?: unknown } | null)?.tag_name;
-    if (!isSuccessStatus(extractStatusCode(response)) || typeof tagName !== 'string') {
+    if (!isSuccessStatus(extractStatusCode(response)) || typeof tagName !== 'string')
       throw new Error(`Unexpected response: ${response.status}`);
-    }
 
     const latestVersion = normalizeVersion(tagName);
 
@@ -57,8 +59,7 @@ export async function checkForUpdate(): Promise<UpdateCheckResult> {
       latestVersion,
       checkedAt,
     };
-  } catch (error) {
-    console.error('Failed to check for updates:', error);
+  } catch {
     return { status: 'error', currentVersion, checkedAt };
   }
 }

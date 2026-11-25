@@ -62,7 +62,6 @@ const vi = {
     environments: 'Môi trường',
     history: 'Lịch sử',
     settings: 'Cài đặt',
-    checkForUpdates: 'Kiểm tra cập nhật',
     reportFeedback: 'Gửi phản hồi',
   },
 
@@ -320,12 +319,13 @@ const vi = {
     update: {
       name: 'Cập nhật',
       check: 'Kiểm tra cập nhật',
+      checkManually: 'Kiểm tra thủ công',
       currentVersion: 'Bạn đang dùng Rentgen v{{version}}.',
       checking: 'Đang kiểm tra cập nhật...',
       upToDate: 'Bạn đang dùng phiên bản mới nhất!',
       latestVersion: 'Rentgen v{{version}} là phiên bản mới nhất.',
       updateAvailable: 'Đã có phiên bản mới!',
-      newVersionAvailable: 'Rentgen v{{latest}} đã có. Bạn đang dùng v{{current}}.',
+      newVersionAvailable: 'Rentgen v{{latest}} đã có.\nBạn đang dùng v{{current}}.',
       download: 'Tải xuống',
       checkFailed: 'Không thể kiểm tra cập nhật. Vui lòng thử lại sau.',
       lastChecked: 'Kiểm tra lần cuối lúc {{date, datetime(dateStyle: medium; timeStyle: short)}}.',

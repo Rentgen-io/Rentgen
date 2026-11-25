@@ -62,7 +62,6 @@ const fr = {
     environments: 'Environnements',
     history: 'Historique',
     settings: 'Paramètres',
-    checkForUpdates: 'Vérifier les mises à jour',
     reportFeedback: 'Signaler un retour',
   },
 
@@ -323,12 +322,13 @@ const fr = {
     update: {
       name: 'Mise à jour',
       check: 'Vérifier les mises à jour',
+      checkManually: 'Vérifier manuellement',
       currentVersion: 'Vous utilisez Rentgen v{{version}}.',
       checking: 'Recherche de mises à jour...',
       upToDate: 'Vous êtes à jour !',
       latestVersion: 'Rentgen v{{version}} est la dernière version.',
       updateAvailable: 'Une nouvelle version est disponible !',
-      newVersionAvailable: 'Rentgen v{{latest}} est disponible. Vous utilisez la v{{current}}.',
+      newVersionAvailable: 'Rentgen v{{latest}} est disponible.\nVous utilisez la v{{current}}.',
       download: 'Télécharger',
       checkFailed: 'Impossible de vérifier les mises à jour. Veuillez réessayer plus tard.',
       lastChecked: 'Dernière vérification le {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
@@ -378,8 +378,8 @@ const fr = {
       howToRunOllamaLocally: 'Comment exécuter Ollama en local ?',
       advancedTitle: 'Avancé',
       advancedDescription:
-        'Fournissez un contexte supplémentaire pour l\'analyse de l\'IA, comme ce que fait l\'API, ses règles métier et les points précis que l\'IA doit examiner. Rentgen inclut déjà votre requête d\'origine, les mappages de champs et les résultats des tests.',
-      apiContext: 'Contexte supplémentaire de l\'API',
+        "Fournissez un contexte supplémentaire pour l'analyse de l'IA, comme ce que fait l'API, ses règles métier et les points précis que l'IA doit examiner. Rentgen inclut déjà votre requête d'origine, les mappages de champs et les résultats des tests.",
+      apiContext: "Contexte supplémentaire de l'API",
       apiContextPlaceholder:
         'p. ex. Les remboursements sont autorisés sous 30 jours.\nSeuls les administrateurs peuvent approuver les montants supérieurs à 500 €.\nConcentrez-vous sur les failles de validation.',
     },

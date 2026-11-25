@@ -62,7 +62,6 @@ const zhCN = {
     environments: '环境',
     history: '历史',
     settings: '设置',
-    checkForUpdates: '检查更新',
     reportFeedback: '反馈问题',
   },
 
@@ -313,12 +312,13 @@ const zhCN = {
     update: {
       name: '更新',
       check: '检查更新',
+      checkManually: '手动检查',
       currentVersion: '您正在使用 Rentgen v{{version}}。',
       checking: '正在检查更新...',
       upToDate: '已是最新版本！',
       latestVersion: 'Rentgen v{{version}} 是最新版本。',
       updateAvailable: '有新版本可用！',
-      newVersionAvailable: 'Rentgen v{{latest}} 已发布。您正在使用 v{{current}}。',
+      newVersionAvailable: 'Rentgen v{{latest}} 已发布。\n您正在使用 v{{current}}。',
       download: '下载',
       checkFailed: '无法检查更新，请稍后重试。',
       lastChecked: '上次检查时间：{{date, datetime(dateStyle: medium; timeStyle: short)}}。',
@@ -370,8 +370,7 @@ const zhCN = {
       advancedDescription:
         '为 AI 分析提供更多上下文，例如 API 的功能、业务规则，以及希望 AI 重点调查的具体方面。Rentgen 已包含你的原始请求、字段映射和测试结果。',
       apiContext: '附加 API 上下文',
-      apiContextPlaceholder:
-        '例如：30 天内允许退款。\n只有管理员可以审批超过 €500 的金额。\n重点关注校验漏洞。',
+      apiContextPlaceholder: '例如：30 天内允许退款。\n只有管理员可以审批超过 €500 的金额。\n重点关注校验漏洞。',
     },
     cli: {
       name: 'CLI',

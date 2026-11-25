@@ -62,7 +62,6 @@ const ja = {
     environments: '環境',
     history: '履歴',
     settings: '設定',
-    checkForUpdates: 'アップデートを確認',
     reportFeedback: 'フィードバックを送信',
   },
 
@@ -322,12 +321,13 @@ const ja = {
     update: {
       name: 'アップデート',
       check: 'アップデートを確認',
+      checkManually: '手動で確認',
       currentVersion: 'Rentgen v{{version}} を使用しています。',
       checking: 'アップデートを確認しています...',
       upToDate: '最新の状態です！',
       latestVersion: 'Rentgen v{{version}} が最新バージョンです。',
       updateAvailable: '新しいバージョンがあります！',
-      newVersionAvailable: 'Rentgen v{{latest}} が利用可能です。現在 v{{current}} を使用しています。',
+      newVersionAvailable: 'Rentgen v{{latest}} が利用可能です。\n現在 v{{current}} を使用しています。',
       download: 'ダウンロード',
       checkFailed: 'アップデートを確認できませんでした。後でもう一度お試しください。',
       lastChecked: '最終確認：{{date, datetime(dateStyle: medium; timeStyle: short)}}',

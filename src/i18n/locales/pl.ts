@@ -62,7 +62,6 @@ const pl = {
     environments: 'Środowiska',
     history: 'Historia',
     settings: 'Ustawienia',
-    checkForUpdates: 'Sprawdź aktualizacje',
     reportFeedback: 'Zgłoś opinię',
   },
 
@@ -324,12 +323,13 @@ const pl = {
     update: {
       name: 'Aktualizacja',
       check: 'Sprawdź aktualizacje',
+      checkManually: 'Sprawdź ręcznie',
       currentVersion: 'Używasz Rentgen v{{version}}.',
       checking: 'Sprawdzanie aktualizacji...',
       upToDate: 'Masz najnowszą wersję!',
       latestVersion: 'Rentgen v{{version}} to najnowsza wersja.',
       updateAvailable: 'Dostępna jest nowa wersja!',
-      newVersionAvailable: 'Dostępny jest Rentgen v{{latest}}. Używasz v{{current}}.',
+      newVersionAvailable: 'Dostępny jest Rentgen v{{latest}}.\nUżywasz v{{current}}.',
       download: 'Pobierz',
       checkFailed: 'Nie udało się sprawdzić aktualizacji. Spróbuj ponownie później.',
       lastChecked: 'Ostatnio sprawdzono {{date, datetime(dateStyle: medium; timeStyle: short)}}.',

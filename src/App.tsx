@@ -20,6 +20,7 @@ import TestRunnerBar from 'src/features/tests/TestRunnerBar';
 import { useCtrlS } from 'src/hooks/useCtrlS';
 import { useInitialDataLoad } from 'src/hooks/useInitialDataLoad';
 import { useSaveRequest } from 'src/hooks/useSaveRequest';
+import { useStartupUpdateCheck } from 'src/hooks/useStartupUpdateCheck';
 import { useWssEventBridge } from 'src/hooks/useWebSocket';
 import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -53,6 +54,7 @@ export default function App() {
 
   useInitialDataLoad();
   useWssEventBridge();
+  useStartupUpdateCheck();
   useCtrlS(saveRequestShortcut);
 
   return (

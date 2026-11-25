@@ -62,7 +62,6 @@ const ru = {
     environments: 'Окружения',
     history: 'История',
     settings: 'Настройки',
-    checkForUpdates: 'Проверить обновления',
     reportFeedback: 'Оставить отзыв',
   },
 
@@ -323,12 +322,13 @@ const ru = {
     update: {
       name: 'Обновление',
       check: 'Проверить обновления',
+      checkManually: 'Проверить вручную',
       currentVersion: 'Вы используете Rentgen v{{version}}.',
       checking: 'Проверка обновлений...',
       upToDate: 'У вас последняя версия!',
       latestVersion: 'Rentgen v{{version}} — последняя версия.',
       updateAvailable: 'Доступна новая версия!',
-      newVersionAvailable: 'Доступен Rentgen v{{latest}}. Вы используете v{{current}}.',
+      newVersionAvailable: 'Доступен Rentgen v{{latest}}.\nВы используете v{{current}}.',
       download: 'Скачать',
       checkFailed: 'Не удалось проверить обновления. Попробуйте позже.',
       lastChecked: 'Последняя проверка: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',

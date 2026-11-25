@@ -62,7 +62,6 @@ const tr = {
     environments: 'Ortamlar',
     history: 'Geçmiş',
     settings: 'Ayarlar',
-    checkForUpdates: 'Güncellemeleri kontrol et',
     reportFeedback: 'Geri bildirim gönder',
   },
 
@@ -321,12 +320,13 @@ const tr = {
     update: {
       name: 'Güncelleme',
       check: 'Güncellemeleri kontrol et',
+      checkManually: 'Elle kontrol et',
       currentVersion: 'Rentgen v{{version}} kullanıyorsunuz.',
       checking: 'Güncellemeler kontrol ediliyor...',
       upToDate: 'Güncelsiniz!',
       latestVersion: 'Rentgen v{{version}} en son sürümdür.',
       updateAvailable: 'Yeni bir sürüm mevcut!',
-      newVersionAvailable: 'Rentgen v{{latest}} mevcut. v{{current}} kullanıyorsunuz.',
+      newVersionAvailable: 'Rentgen v{{latest}} mevcut.\nv{{current}} kullanıyorsunuz.',
       download: 'İndir',
       checkFailed: 'Güncellemeler kontrol edilemedi. Lütfen daha sonra tekrar deneyin.',
       lastChecked: 'Son kontrol: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
@@ -376,10 +376,10 @@ const tr = {
       howToRunOllamaLocally: 'Ollama yerel olarak nasıl çalıştırılır?',
       advancedTitle: 'Gelişmiş',
       advancedDescription:
-        'Yapay zekânın analizi için ek bağlam sağlayın; örneğin API\'nin ne yaptığı, iş kuralları ve yapay zekânın incelemesini istediğiniz belirli alanlar. Rentgen orijinal isteğinizi, alan eşlemelerini ve test sonuçlarını zaten ekler.',
+        "Yapay zekânın analizi için ek bağlam sağlayın; örneğin API'nin ne yaptığı, iş kuralları ve yapay zekânın incelemesini istediğiniz belirli alanlar. Rentgen orijinal isteğinizi, alan eşlemelerini ve test sonuçlarını zaten ekler.",
       apiContext: 'Ek API bağlamı',
       apiContextPlaceholder:
-        'ör. İadeler 30 gün içinde yapılabilir.\n500 €\'nun üzerindeki tutarları yalnızca yöneticiler onaylayabilir.\nDoğrulama açıklarına odaklanın.',
+        "ör. İadeler 30 gün içinde yapılabilir.\n500 €'nun üzerindeki tutarları yalnızca yöneticiler onaylayabilir.\nDoğrulama açıklarına odaklanın.",
     },
     cli: {
       name: 'CLI',

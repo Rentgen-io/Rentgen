@@ -62,7 +62,6 @@ const th = {
     environments: 'เอนไวรอนเมนต์',
     history: 'ประวัติ',
     settings: 'การตั้งค่า',
-    checkForUpdates: 'ตรวจสอบอัปเดต',
     reportFeedback: 'รายงานข้อเสนอแนะ',
   },
 
@@ -318,12 +317,13 @@ const th = {
     update: {
       name: 'อัปเดต',
       check: 'ตรวจสอบอัปเดต',
+      checkManually: 'ตรวจสอบด้วยตนเอง',
       currentVersion: 'คุณกำลังใช้ Rentgen v{{version}}',
       checking: 'กำลังตรวจสอบอัปเดต...',
       upToDate: 'คุณใช้เวอร์ชันล่าสุดแล้ว!',
       latestVersion: 'Rentgen v{{version}} เป็นเวอร์ชันล่าสุด',
       updateAvailable: 'มีเวอร์ชันใหม่!',
-      newVersionAvailable: 'Rentgen v{{latest}} พร้อมใช้งานแล้ว คุณกำลังใช้ v{{current}}',
+      newVersionAvailable: 'Rentgen v{{latest}} พร้อมใช้งานแล้ว\nคุณกำลังใช้ v{{current}}',
       download: 'ดาวน์โหลด',
       checkFailed: 'ไม่สามารถตรวจสอบอัปเดตได้ โปรดลองอีกครั้งในภายหลัง',
       lastChecked: 'ตรวจสอบล่าสุดเมื่อ {{date, datetime(dateStyle: medium; timeStyle: short)}}',
