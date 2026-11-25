@@ -322,7 +322,6 @@ const ptBR = {
     update: {
       name: 'Atualização',
       check: 'Verificar atualizações',
-      checkManually: 'Verificar manualmente',
       currentVersion: 'Você está usando o Rentgen v{{version}}.',
       checking: 'Verificando atualizações...',
       upToDate: 'Você está atualizado!',

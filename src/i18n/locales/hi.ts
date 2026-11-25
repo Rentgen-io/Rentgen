@@ -319,7 +319,6 @@ const hi = {
     update: {
       name: 'अपडेट',
       check: 'अपडेट जाँचें',
-      checkManually: 'मैन्युअल रूप से जाँचें',
       currentVersion: 'आप Rentgen v{{version}} का उपयोग कर रहे हैं।',
       checking: 'अपडेट की जाँच हो रही है...',
       upToDate: 'आप नवीनतम संस्करण पर हैं!',

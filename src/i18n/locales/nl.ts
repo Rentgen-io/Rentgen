@@ -321,7 +321,6 @@ const nl = {
     update: {
       name: 'Update',
       check: 'Controleren op updates',
-      checkManually: 'Handmatig controleren',
       currentVersion: 'Je gebruikt Rentgen v{{version}}.',
       checking: 'Controleren op updates...',
       upToDate: 'Je bent up-to-date!',

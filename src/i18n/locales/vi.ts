@@ -319,7 +319,6 @@ const vi = {
     update: {
       name: 'Cập nhật',
       check: 'Kiểm tra cập nhật',
-      checkManually: 'Kiểm tra thủ công',
       currentVersion: 'Bạn đang dùng Rentgen v{{version}}.',
       checking: 'Đang kiểm tra cập nhật...',
       upToDate: 'Bạn đang dùng phiên bản mới nhất!',

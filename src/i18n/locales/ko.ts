@@ -318,7 +318,6 @@ const ko = {
     update: {
       name: '업데이트',
       check: '업데이트 확인',
-      checkManually: '직접 확인',
       currentVersion: 'Rentgen v{{version}}을(를) 사용 중입니다.',
       checking: '업데이트 확인 중...',
       upToDate: '최신 버전입니다!',

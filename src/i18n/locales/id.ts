@@ -319,7 +319,6 @@ const id = {
     update: {
       name: 'Pembaruan',
       check: 'Periksa pembaruan',
-      checkManually: 'Periksa secara manual',
       currentVersion: 'Anda menggunakan Rentgen v{{version}}.',
       checking: 'Memeriksa pembaruan...',
       upToDate: 'Anda sudah menggunakan versi terbaru!',

@@ -321,7 +321,6 @@ const lt = {
     update: {
       name: 'Atnaujinimas',
       check: 'Tikrinti atnaujinimus',
-      checkManually: 'Tikrinti rankiniu būdu',
       currentVersion: 'Naudojate Rentgen v{{version}}.',
       checking: 'Tikrinami atnaujinimai...',
       upToDate: 'Naudojate naujausią versiją!',

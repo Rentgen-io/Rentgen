@@ -322,7 +322,6 @@ const it = {
     update: {
       name: 'Aggiornamento',
       check: 'Verifica aggiornamenti',
-      checkManually: 'Verifica manualmente',
       currentVersion: 'Stai usando Rentgen v{{version}}.',
       checking: 'Verifica degli aggiornamenti...',
       upToDate: 'Sei aggiornato!',

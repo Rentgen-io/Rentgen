@@ -66,7 +66,7 @@ export function UpdateSettings() {
     if (result.status === 'error' || result.status === 'updateAvailable')
       return (
         <Button buttonSize={ButtonSize.SMALL} onClick={() => openExternal(getUpdateDownloadUrl(result.currentVersion))}>
-          {result.status === 'error' ? t('settings.update.checkManually') : t('settings.update.download')}
+          {result.status === 'error' ? t('settings.update.check') : t('settings.update.download')}
         </Button>
       );
 

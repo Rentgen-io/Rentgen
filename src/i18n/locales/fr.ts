@@ -322,7 +322,6 @@ const fr = {
     update: {
       name: 'Mise à jour',
       check: 'Vérifier les mises à jour',
-      checkManually: 'Vérifier manuellement',
       currentVersion: 'Vous utilisez Rentgen v{{version}}.',
       checking: 'Recherche de mises à jour...',
       upToDate: 'Vous êtes à jour !',

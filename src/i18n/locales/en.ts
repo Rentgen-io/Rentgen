@@ -317,7 +317,6 @@ const en = {
     update: {
       name: 'Update',
       check: 'Check for updates',
-      checkManually: 'Check manually',
       currentVersion: 'You are using Rentgen v{{version}}.',
       checking: 'Checking for updates...',
       upToDate: 'You are up to date!',

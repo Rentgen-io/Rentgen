@@ -322,7 +322,6 @@ const ru = {
     update: {
       name: 'Обновление',
       check: 'Проверить обновления',
-      checkManually: 'Проверить вручную',
       currentVersion: 'Вы используете Rentgen v{{version}}.',
       checking: 'Проверка обновлений...',
       upToDate: 'У вас последняя версия!',

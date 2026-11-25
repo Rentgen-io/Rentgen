@@ -317,7 +317,6 @@ const th = {
     update: {
       name: 'อัปเดต',
       check: 'ตรวจสอบอัปเดต',
-      checkManually: 'ตรวจสอบด้วยตนเอง',
       currentVersion: 'คุณกำลังใช้ Rentgen v{{version}}',
       checking: 'กำลังตรวจสอบอัปเดต...',
       upToDate: 'คุณใช้เวอร์ชันล่าสุดแล้ว!',

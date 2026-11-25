@@ -321,7 +321,6 @@ const ja = {
     update: {
       name: 'アップデート',
       check: 'アップデートを確認',
-      checkManually: '手動で確認',
       currentVersion: 'Rentgen v{{version}} を使用しています。',
       checking: 'アップデートを確認しています...',
       upToDate: '最新の状態です！',

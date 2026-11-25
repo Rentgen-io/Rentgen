@@ -320,7 +320,6 @@ const tr = {
     update: {
       name: 'Güncelleme',
       check: 'Güncellemeleri kontrol et',
-      checkManually: 'Elle kontrol et',
       currentVersion: 'Rentgen v{{version}} kullanıyorsunuz.',
       checking: 'Güncellemeler kontrol ediliyor...',
       upToDate: 'Güncelsiniz!',

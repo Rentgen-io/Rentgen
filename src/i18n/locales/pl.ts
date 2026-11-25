@@ -323,7 +323,6 @@ const pl = {
     update: {
       name: 'Aktualizacja',
       check: 'Sprawdź aktualizacje',
-      checkManually: 'Sprawdź ręcznie',
       currentVersion: 'Używasz Rentgen v{{version}}.',
       checking: 'Sprawdzanie aktualizacji...',
       upToDate: 'Masz najnowszą wersję!',

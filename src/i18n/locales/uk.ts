@@ -321,7 +321,6 @@ const uk = {
     update: {
       name: 'Оновлення',
       check: 'Перевірити оновлення',
-      checkManually: 'Перевірити вручну',
       currentVersion: 'Ви використовуєте Rentgen v{{version}}.',
       checking: 'Перевірка оновлень...',
       upToDate: 'У вас остання версія!',

@@ -312,7 +312,6 @@ const zhCN = {
     update: {
       name: '更新',
       check: '检查更新',
-      checkManually: '手动检查',
       currentVersion: '您正在使用 Rentgen v{{version}}。',
       checking: '正在检查更新...',
       upToDate: '已是最新版本！',
