@@ -1,8 +1,8 @@
 import cn from 'classnames';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appConfig } from 'shared/constants';
-import { getAppVersion, openExternal } from 'src/api/system';
+import { openExternal } from 'src/api/system';
 import ResizeHandler from 'src/components/panels/ResizeHandler';
 import { useResizableSize } from 'src/hooks/useResizableSize';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -20,7 +20,6 @@ import CollectionIcon from 'src/assets/icons/collection-icon.svg';
 import EnvironmentIcon from 'src/assets/icons/environment-icon.svg';
 import GearIcon from 'src/assets/icons/gear-icon.svg';
 import HistoryIcon from 'src/assets/icons/history-icon.svg';
-import UpgradeStarIcon from 'src/assets/icons/upgrade-star-icon.svg';
 
 // Width of the panel next to the icon rail; its natural width (w-75) applies until the user resizes it.
 // The minimum keeps the search field and item names usable, the maximum leaves the request area the larger part
@@ -45,8 +44,6 @@ export default function Sidebar() {
   const activeTab = useAppSelector(selectSidebarActiveTab);
   const historyEnabled = useAppSelector(selectHistoryEnabled);
 
-  const [appVersion, setAppVersion] = useState<string>('');
-
   const { handleProps, size, targetRef } = useResizableSize<HTMLDivElement>({
     dimension: 'width',
     maxSize: MAX_PANEL_WIDTH,
@@ -57,11 +54,6 @@ export default function Sidebar() {
   useEffect(() => {
     if (!historyEnabled && activeTab === 'history') dispatch(uiActions.toggleSidebarTab('history'));
   }, [historyEnabled, activeTab, dispatch]);
-
-  useEffect(() => {
-    const fetchAppVersion = async () => setAppVersion(await getAppVersion());
-    fetchAppVersion();
-  }, []);
 
   const handleCollectionClick = () => {
     dispatch(uiActions.toggleSidebarTab('collections'));
@@ -108,14 +100,8 @@ export default function Sidebar() {
             <GearIcon className="size-4" />
           </SidebarButton>
           <SidebarButton
-            label={t('sidebar.checkForUpdates')}
-            onClick={() => openExternal(`${appConfig.origin}/check-for-update.html?current_version=${appVersion}`)}
-          >
-            <UpgradeStarIcon className="size-4" />
-          </SidebarButton>
-          <SidebarButton
             label={t('sidebar.reportFeedback')}
-            onClick={() => openExternal('https://github.com/Rentgen-io/Rentgen/issues/new')}
+            onClick={() => openExternal(appConfig.github.newIssueUrl)}
           >
             <BugIcon className="size-4" />
           </SidebarButton>

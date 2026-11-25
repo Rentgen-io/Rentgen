@@ -14,6 +14,7 @@ import { MappingSettings } from './test-engine/MappingSettings';
 import { PerformanceInsightsSettings } from './test-engine/PerformanceInsightsSettings';
 import { SecurityTestsSettings } from './test-engine/SecurityTestsSettings';
 import { ThemeSettings } from './theme/ThemeSettings';
+import { UpdateSettings } from './update/UpdateSettings';
 
 import AiIcon from 'src/assets/icons/ai-icon.svg';
 import ClearCrossIcon from 'src/assets/icons/clear-cross-icon.svg';
@@ -22,6 +23,7 @@ import EngineIcon from 'src/assets/icons/engine-icon.svg';
 import GearIcon from 'src/assets/icons/gear-icon.svg';
 import LanguageIcon from 'src/assets/icons/language-icon.svg';
 import ThemeIcon from 'src/assets/icons/theme-icon.svg';
+import UpgradeStarIcon from 'src/assets/icons/upgrade-star-icon.svg';
 
 export default function SettingsModal() {
   const dispatch = useAppDispatch();
@@ -76,6 +78,12 @@ export default function SettingsModal() {
       icon: <CliIcon className="size-4" />,
       id: 'cli',
       name: t('settings.cli.name'),
+    },
+    {
+      component: <UpdateSettings />,
+      icon: <UpgradeStarIcon className="size-4" />,
+      id: 'update',
+      name: t('settings.update.name'),
     },
   ];
 

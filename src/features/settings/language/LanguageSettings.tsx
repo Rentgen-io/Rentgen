@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { appConfig } from 'shared/constants';
 import { Language, LANGUAGES } from 'shared/types/settings';
 import { openExternal } from 'src/api/system';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -38,7 +39,7 @@ export function LanguageSettings() {
         {t('settings.languageSection.feedback')}{' '}
         <span
           className="text-blue-500 hover:underline cursor-pointer"
-          onClick={() => openExternal('https://github.com/Rentgen-io/Rentgen/issues/new')}
+          onClick={() => openExternal(appConfig.github.newIssueUrl)}
         >
           {t('settings.languageSection.feedbackLink')}
         </span>

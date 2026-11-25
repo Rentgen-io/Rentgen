@@ -317,6 +317,19 @@ const id = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Pembaruan',
+      check: 'Periksa pembaruan',
+      currentVersion: 'Anda menggunakan Rentgen v{{version}}.',
+      checking: 'Memeriksa pembaruan...',
+      upToDate: 'Anda sudah menggunakan versi terbaru!',
+      latestVersion: 'Rentgen v{{version}} adalah versi terbaru.',
+      updateAvailable: 'Versi baru tersedia!',
+      newVersionAvailable: 'Rentgen v{{latest}} tersedia. Anda menggunakan v{{current}}.',
+      download: 'Unduh',
+      checkFailed: 'Tidak dapat memeriksa pembaruan. Silakan coba lagi nanti.',
+      lastChecked: 'Terakhir diperiksa pada {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Mesin Tes',
     general: 'Umum',
     themes: 'Tema',

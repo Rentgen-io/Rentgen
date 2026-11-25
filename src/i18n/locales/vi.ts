@@ -317,6 +317,19 @@ const vi = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Cập nhật',
+      check: 'Kiểm tra cập nhật',
+      currentVersion: 'Bạn đang dùng Rentgen v{{version}}.',
+      checking: 'Đang kiểm tra cập nhật...',
+      upToDate: 'Bạn đang dùng phiên bản mới nhất!',
+      latestVersion: 'Rentgen v{{version}} là phiên bản mới nhất.',
+      updateAvailable: 'Đã có phiên bản mới!',
+      newVersionAvailable: 'Rentgen v{{latest}} đã có. Bạn đang dùng v{{current}}.',
+      download: 'Tải xuống',
+      checkFailed: 'Không thể kiểm tra cập nhật. Vui lòng thử lại sau.',
+      lastChecked: 'Kiểm tra lần cuối lúc {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Công cụ kiểm thử',
     general: 'Chung',
     themes: 'Giao diện',

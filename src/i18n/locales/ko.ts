@@ -316,6 +316,19 @@ const ko = {
 
   // Settings
   settings: {
+    update: {
+      name: '업데이트',
+      check: '업데이트 확인',
+      currentVersion: 'Rentgen v{{version}}을(를) 사용 중입니다.',
+      checking: '업데이트 확인 중...',
+      upToDate: '최신 버전입니다!',
+      latestVersion: 'Rentgen v{{version}}이(가) 최신 버전입니다.',
+      updateAvailable: '새 버전을 사용할 수 있습니다!',
+      newVersionAvailable: 'Rentgen v{{latest}}을(를) 사용할 수 있습니다. 현재 v{{current}}을(를) 사용 중입니다.',
+      download: '다운로드',
+      checkFailed: '업데이트를 확인할 수 없습니다. 나중에 다시 시도하세요.',
+      lastChecked: '마지막 확인: {{date, datetime(dateStyle: medium; timeStyle: short)}}',
+    },
     testEngine: '테스트 엔진',
     general: '일반',
     themes: '테마',

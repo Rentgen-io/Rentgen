@@ -320,6 +320,19 @@ const de = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Update',
+      check: 'Nach Updates suchen',
+      currentVersion: 'Sie verwenden Rentgen v{{version}}.',
+      checking: 'Suche nach Updates...',
+      upToDate: 'Sie sind auf dem neuesten Stand!',
+      latestVersion: 'Rentgen v{{version}} ist die neueste Version.',
+      updateAvailable: 'Eine neue Version ist verfügbar!',
+      newVersionAvailable: 'Rentgen v{{latest}} ist verfügbar. Sie verwenden v{{current}}.',
+      download: 'Herunterladen',
+      checkFailed: 'Updates konnten nicht geprüft werden. Bitte versuchen Sie es später erneut.',
+      lastChecked: 'Zuletzt geprüft am {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Test-Engine',
     general: 'Allgemein',
     themes: 'Designs',

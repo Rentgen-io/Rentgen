@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { appConfig } from 'shared/constants';
 import PromptModal from 'src/components/modals/PromptModal';
 import { DAY_MS } from 'src/services/prompts';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -16,7 +17,7 @@ export default function GitHubModal() {
   return (
     <PromptModal
       actionLabel={t('modals.gitHub.starOnGitHub')}
-      actionUrl="https://github.com/Rentgen-io/Rentgen"
+      actionUrl={appConfig.github.url}
       isOpen={isOpen}
       laterLabel={t('modals.gitHub.later')}
       messages={[t('modals.gitHub.message')]}

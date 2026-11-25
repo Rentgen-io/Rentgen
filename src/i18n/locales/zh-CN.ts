@@ -310,6 +310,19 @@ const zhCN = {
 
   // Settings
   settings: {
+    update: {
+      name: '更新',
+      check: '检查更新',
+      currentVersion: '您正在使用 Rentgen v{{version}}。',
+      checking: '正在检查更新...',
+      upToDate: '已是最新版本！',
+      latestVersion: 'Rentgen v{{version}} 是最新版本。',
+      updateAvailable: '有新版本可用！',
+      newVersionAvailable: 'Rentgen v{{latest}} 已发布。您正在使用 v{{current}}。',
+      download: '下载',
+      checkFailed: '无法检查更新，请稍后重试。',
+      lastChecked: '上次检查时间：{{date, datetime(dateStyle: medium; timeStyle: short)}}。',
+    },
     testEngine: '测试引擎',
     general: '通用',
     themes: '主题',

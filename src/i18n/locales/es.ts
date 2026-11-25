@@ -320,6 +320,19 @@ const es = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Actualización',
+      check: 'Buscar actualizaciones',
+      currentVersion: 'Estás usando Rentgen v{{version}}.',
+      checking: 'Buscando actualizaciones...',
+      upToDate: '¡Estás al día!',
+      latestVersion: 'Rentgen v{{version}} es la versión más reciente.',
+      updateAvailable: '¡Hay una nueva versión disponible!',
+      newVersionAvailable: 'Rentgen v{{latest}} está disponible. Estás usando v{{current}}.',
+      download: 'Descargar',
+      checkFailed: 'No se pudieron buscar actualizaciones. Inténtalo de nuevo más tarde.',
+      lastChecked: 'Última comprobación: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Motor de pruebas',
     general: 'General',
     themes: 'Temas',

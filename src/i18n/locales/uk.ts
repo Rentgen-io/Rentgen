@@ -319,6 +319,19 @@ const uk = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Оновлення',
+      check: 'Перевірити оновлення',
+      currentVersion: 'Ви використовуєте Rentgen v{{version}}.',
+      checking: 'Перевірка оновлень...',
+      upToDate: 'У вас остання версія!',
+      latestVersion: 'Rentgen v{{version}} — остання версія.',
+      updateAvailable: 'Доступна нова версія!',
+      newVersionAvailable: 'Доступний Rentgen v{{latest}}. Ви використовуєте v{{current}}.',
+      download: 'Завантажити',
+      checkFailed: 'Не вдалося перевірити оновлення. Спробуйте пізніше.',
+      lastChecked: 'Остання перевірка: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Рушій тестів',
     general: 'Загальні',
     themes: 'Теми',

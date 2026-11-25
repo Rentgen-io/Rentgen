@@ -315,6 +315,19 @@ const en = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Update',
+      check: 'Check for updates',
+      currentVersion: 'You are using Rentgen v{{version}}.',
+      checking: 'Checking for updates...',
+      upToDate: 'You are up to date!',
+      latestVersion: 'Rentgen v{{version}} is the latest version.',
+      updateAvailable: 'A new version is available!',
+      newVersionAvailable: 'Rentgen v{{latest}} is available. You are using v{{current}}.',
+      download: 'Download',
+      checkFailed: 'Could not check for updates. Please try again later.',
+      lastChecked: 'Last checked on {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Test Engine',
     general: 'General',
     themes: 'Themes',

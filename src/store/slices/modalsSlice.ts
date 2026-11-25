@@ -3,7 +3,7 @@ import { PostmanCollection } from 'shared/types/postman';
 import { IntegrityStatus, ProjectData, ProjectMeta } from 'shared/types/project';
 import { ImportConflictSummary } from 'src/utils/collection';
 
-export type SettingsTab = 'testEngine' | 'general' | 'ai' | 'themes' | 'language' | 'cli';
+export type SettingsTab = 'testEngine' | 'general' | 'ai' | 'themes' | 'language' | 'cli' | 'update';
 
 export interface ImportConflictModalState {
   isOpen: boolean;

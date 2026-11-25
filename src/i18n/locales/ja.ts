@@ -319,6 +319,19 @@ const ja = {
 
   // Settings
   settings: {
+    update: {
+      name: 'アップデート',
+      check: 'アップデートを確認',
+      currentVersion: 'Rentgen v{{version}} を使用しています。',
+      checking: 'アップデートを確認しています...',
+      upToDate: '最新の状態です！',
+      latestVersion: 'Rentgen v{{version}} が最新バージョンです。',
+      updateAvailable: '新しいバージョンがあります！',
+      newVersionAvailable: 'Rentgen v{{latest}} が利用可能です。現在 v{{current}} を使用しています。',
+      download: 'ダウンロード',
+      checkFailed: 'アップデートを確認できませんでした。後でもう一度お試しください。',
+      lastChecked: '最終確認：{{date, datetime(dateStyle: medium; timeStyle: short)}}',
+    },
     testEngine: 'テストエンジン',
     general: '一般',
     themes: 'テーマ',

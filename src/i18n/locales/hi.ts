@@ -317,6 +317,19 @@ const hi = {
 
   // Settings
   settings: {
+    update: {
+      name: 'अपडेट',
+      check: 'अपडेट जाँचें',
+      currentVersion: 'आप Rentgen v{{version}} का उपयोग कर रहे हैं।',
+      checking: 'अपडेट की जाँच हो रही है...',
+      upToDate: 'आप नवीनतम संस्करण पर हैं!',
+      latestVersion: 'Rentgen v{{version}} नवीनतम संस्करण है।',
+      updateAvailable: 'नया संस्करण उपलब्ध है!',
+      newVersionAvailable: 'Rentgen v{{latest}} उपलब्ध है। आप v{{current}} का उपयोग कर रहे हैं।',
+      download: 'डाउनलोड करें',
+      checkFailed: 'अपडेट की जाँच नहीं हो सकी। कृपया बाद में पुनः प्रयास करें।',
+      lastChecked: 'अंतिम जाँच: {{date, datetime(dateStyle: medium; timeStyle: short)}}।',
+    },
     testEngine: 'टेस्ट इंजन',
     general: 'सामान्य',
     themes: 'थीम',

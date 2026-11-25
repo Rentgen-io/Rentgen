@@ -3,6 +3,7 @@ import { app, BrowserWindow, ipcMain, Menu, nativeTheme, shell } from 'electron'
 import { installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
 import { existsSync, unlinkSync } from 'fs';
 import path from 'path';
+import { appConfig } from 'shared/constants';
 import {
   loadSettings,
   registerCertificateHandlers,
@@ -89,15 +90,15 @@ const createHelpMenu = (): void => {
   const helpSubmenu = Menu.buildFromTemplate([
     {
       label: 'API Stories',
-      click: () => shell.openExternal('https://rentgen.io/api-stories/'),
+      click: () => shell.openExternal(`${appConfig.origin}/api-stories/`),
     },
     {
       label: 'GitHub Wiki',
-      click: () => shell.openExternal('https://github.com/Rentgen-io/Rentgen/wiki'),
+      click: () => shell.openExternal(appConfig.github.wikiUrl),
     },
     {
       label: 'Report an Issue',
-      click: () => shell.openExternal('https://github.com/Rentgen-io/Rentgen/issues/new'),
+      click: () => shell.openExternal(appConfig.github.newIssueUrl),
     },
   ]);
 

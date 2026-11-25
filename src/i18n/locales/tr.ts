@@ -318,6 +318,19 @@ const tr = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Güncelleme',
+      check: 'Güncellemeleri kontrol et',
+      currentVersion: 'Rentgen v{{version}} kullanıyorsunuz.',
+      checking: 'Güncellemeler kontrol ediliyor...',
+      upToDate: 'Güncelsiniz!',
+      latestVersion: 'Rentgen v{{version}} en son sürümdür.',
+      updateAvailable: 'Yeni bir sürüm mevcut!',
+      newVersionAvailable: 'Rentgen v{{latest}} mevcut. v{{current}} kullanıyorsunuz.',
+      download: 'İndir',
+      checkFailed: 'Güncellemeler kontrol edilemedi. Lütfen daha sonra tekrar deneyin.',
+      lastChecked: 'Son kontrol: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Test Motoru',
     general: 'Genel',
     themes: 'Temalar',

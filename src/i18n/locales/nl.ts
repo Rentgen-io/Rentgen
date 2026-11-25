@@ -319,6 +319,19 @@ const nl = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Update',
+      check: 'Controleren op updates',
+      currentVersion: 'Je gebruikt Rentgen v{{version}}.',
+      checking: 'Controleren op updates...',
+      upToDate: 'Je bent up-to-date!',
+      latestVersion: 'Rentgen v{{version}} is de nieuwste versie.',
+      updateAvailable: 'Er is een nieuwe versie beschikbaar!',
+      newVersionAvailable: 'Rentgen v{{latest}} is beschikbaar. Je gebruikt v{{current}}.',
+      download: 'Downloaden',
+      checkFailed: 'Kan niet controleren op updates. Probeer het later opnieuw.',
+      lastChecked: 'Laatst gecontroleerd op {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Testengine',
     general: 'Algemeen',
     themes: "Thema's",

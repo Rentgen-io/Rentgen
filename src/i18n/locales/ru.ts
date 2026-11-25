@@ -320,6 +320,19 @@ const ru = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Обновление',
+      check: 'Проверить обновления',
+      currentVersion: 'Вы используете Rentgen v{{version}}.',
+      checking: 'Проверка обновлений...',
+      upToDate: 'У вас последняя версия!',
+      latestVersion: 'Rentgen v{{version}} — последняя версия.',
+      updateAvailable: 'Доступна новая версия!',
+      newVersionAvailable: 'Доступен Rentgen v{{latest}}. Вы используете v{{current}}.',
+      download: 'Скачать',
+      checkFailed: 'Не удалось проверить обновления. Попробуйте позже.',
+      lastChecked: 'Последняя проверка: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Движок тестов',
     general: 'Общие',
     themes: 'Темы',

@@ -319,6 +319,19 @@ const lt = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Atnaujinimas',
+      check: 'Tikrinti atnaujinimus',
+      currentVersion: 'Naudojate Rentgen v{{version}}.',
+      checking: 'Tikrinami atnaujinimai...',
+      upToDate: 'Naudojate naujausią versiją!',
+      latestVersion: 'Rentgen v{{version}} yra naujausia versija.',
+      updateAvailable: 'Yra nauja versija!',
+      newVersionAvailable: 'Galima Rentgen v{{latest}}. Naudojate v{{current}}.',
+      download: 'Atsisiųsti',
+      checkFailed: 'Nepavyko patikrinti atnaujinimų. Bandykite vėliau.',
+      lastChecked: 'Paskutinį kartą tikrinta {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Testų variklis',
     general: 'Bendra',
     themes: 'Temos',

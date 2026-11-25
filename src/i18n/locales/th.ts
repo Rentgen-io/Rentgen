@@ -315,6 +315,19 @@ const th = {
 
   // Settings
   settings: {
+    update: {
+      name: 'อัปเดต',
+      check: 'ตรวจสอบอัปเดต',
+      currentVersion: 'คุณกำลังใช้ Rentgen v{{version}}',
+      checking: 'กำลังตรวจสอบอัปเดต...',
+      upToDate: 'คุณใช้เวอร์ชันล่าสุดแล้ว!',
+      latestVersion: 'Rentgen v{{version}} เป็นเวอร์ชันล่าสุด',
+      updateAvailable: 'มีเวอร์ชันใหม่!',
+      newVersionAvailable: 'Rentgen v{{latest}} พร้อมใช้งานแล้ว คุณกำลังใช้ v{{current}}',
+      download: 'ดาวน์โหลด',
+      checkFailed: 'ไม่สามารถตรวจสอบอัปเดตได้ โปรดลองอีกครั้งในภายหลัง',
+      lastChecked: 'ตรวจสอบล่าสุดเมื่อ {{date, datetime(dateStyle: medium; timeStyle: short)}}',
+    },
     testEngine: 'เทสต์เอนจิน',
     general: 'ทั่วไป',
     themes: 'ธีม',
