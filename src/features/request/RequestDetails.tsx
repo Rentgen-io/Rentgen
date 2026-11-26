@@ -10,7 +10,7 @@ export default function RequestDetails() {
   const selectedRequest = useAppSelector(selectSelectedRequestWithFolder);
 
   return (
-    <div className="flex items-center gap-2 py-3 px-4 text-xs bg-surface">
+    <div className="flex items-center gap-2 py-3.5 px-4 text-xs bg-surface">
       <MethodBadge method={mode === 'HTTP' ? method : mode} />
       <span className="flex-auto truncate">{selectedRequest?.request.name || t('request.untitledRequest')}</span>
       {selectedRequest && (
