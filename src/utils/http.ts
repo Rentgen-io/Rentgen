@@ -6,7 +6,7 @@ import { getHeaderValue } from 'shared/utils/headers';
 import { buildFieldsBody } from 'shared/utils/http';
 import { tryParseJsonObject } from './object';
 
-const METHODS_WITHOUT_BODY = new Set(['GET', 'HEAD']);
+export const METHODS_WITHOUT_BODY = new Set(['GET', 'HEAD']);
 
 // ---------- Requests ----------
 
