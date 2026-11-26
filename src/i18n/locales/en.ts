@@ -46,6 +46,10 @@ const en = {
     add: 'Add',
     back: 'Back',
     stop: 'Stop',
+    rename: 'Rename',
+    mute: 'Mute',
+    unmute: 'Unmute',
+    moreActions: 'More actions',
     noOptions: 'No options',
     resizeHint: 'Drag to resize, double-click to reset',
     toggleTheme: 'Toggle theme',
@@ -58,13 +62,13 @@ const en = {
     environments: 'Environments',
     history: 'History',
     settings: 'Settings',
-    checkForUpdates: 'Check for updates',
     reportFeedback: 'Report feedback',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'New Folder',
+    addFolder: 'Add Folder',
     searchRequests: 'Search requests...',
     noMatchingRequests: 'No matching requests',
     noSavedRequests: 'No saved requests',
@@ -139,6 +143,19 @@ const en = {
     networkError: 'Network Error',
     requestHint: 'Enter an API URL, then send your request.',
     responseHint: 'The response body, headers and timing will appear here.',
+    missingContentType: 'Missing content-type header.',
+    invalidJson: 'Invalid JSON detected.',
+    invalidXml: 'Invalid XML detected.',
+    extraction: {
+      failed: 'Failed to extract {{variable}}: {{reason}}.',
+      failedMany: 'Failed to extract: {{variables}}.',
+      emptyBody: 'response body is empty',
+      selectorNotFound: "selector '{{selector}}' not found in response",
+      noHeaders: 'response has no headers',
+      headerNotFound: "header '{{selector}}' not found in response",
+      nullValue: 'extracted value is null or undefined',
+      invalidVariable: 'the saved variable is invalid',
+    },
   },
 
   // cURL
@@ -229,8 +246,8 @@ const en = {
       doNotShowAgain: 'Do not show again',
     },
     deleteFolder: {
-      title: 'Delete Folder',
-      description: 'This folder contains requests. Are you sure you want to delete it?',
+      title: 'Delete "{{name}}"',
+      description: 'This folder is not empty. Are you sure you want to delete it?',
     },
     importConflict: {
       title: 'Import Conflicts Detected',
@@ -297,6 +314,19 @@ const en = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Update',
+      check: 'Check for updates',
+      currentVersion: 'You are using Rentgen v{{version}}.',
+      checking: 'Checking for updates...',
+      upToDate: 'You are up to date!',
+      latestVersion: 'Rentgen v{{version}} is the latest version.',
+      updateAvailable: 'A new version is available!',
+      newVersionAvailable: 'Rentgen v{{latest}} is available.\nYou are using v{{current}}.',
+      download: 'Download',
+      checkFailed: 'Could not check for updates. Please try again later.',
+      lastChecked: 'Last checked on {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Test Engine',
     general: 'General',
     themes: 'Themes',
@@ -340,6 +370,12 @@ const en = {
       apiKey: 'API key',
       apiKeyStorageNotice: 'API keys are stored locally. Rentgen does not receive them.',
       howToRunOllamaLocally: 'How to run Ollama locally?',
+      advancedTitle: 'Advanced',
+      advancedDescription:
+        "Provide additional context for the AI's analysis, such as what the API does, its business rules, and any specific areas you would like the AI to investigate. Rentgen already includes your original request, field mappings, and test results.",
+      apiContext: 'Additional API context',
+      apiContextPlaceholder:
+        'e.g. Refunds are allowed within 30 days.\nOnly admins can approve amounts above €500.\nFocus on validation gaps.',
     },
     cli: {
       name: 'CLI',

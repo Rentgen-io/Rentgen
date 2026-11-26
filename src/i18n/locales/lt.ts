@@ -46,6 +46,10 @@ const lt = {
     add: 'Pridėti',
     back: 'Atgal',
     stop: 'Sustabdyti',
+    rename: 'Pervadinti',
+    mute: 'Nutildyti',
+    unmute: 'Atšaukti nutildymą',
+    moreActions: 'Daugiau veiksmų',
     noOptions: 'Nėra parinkčių',
     resizeHint: 'Vilkite, kad pakeistumėte dydį, dukart spustelėkite, kad atkurtumėte',
     toggleTheme: 'Perjungti temą',
@@ -58,13 +62,13 @@ const lt = {
     environments: 'Aplinkos',
     history: 'Istorija',
     settings: 'Nustatymai',
-    checkForUpdates: 'Tikrinti atnaujinimus',
     reportFeedback: 'Pranešti apie klaidą',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'Naujas aplankas',
+    addFolder: 'Pridėti aplanką',
     searchRequests: 'Ieškoti užklausų...',
     noMatchingRequests: 'Nerasta atitinkančių užklausų',
     noSavedRequests: 'Nėra išsaugotų užklausų',
@@ -142,6 +146,19 @@ const lt = {
     networkError: 'Tinklo klaida',
     requestHint: 'Įveskite API URL, tada išsiųskite užklausą.',
     responseHint: 'Atsakymo turinys, antraštės ir laikas bus rodomi čia.',
+    missingContentType: 'Trūksta content-type antraštės.',
+    invalidJson: 'Aptiktas netinkamas JSON.',
+    invalidXml: 'Aptiktas netinkamas XML.',
+    extraction: {
+      failed: 'Nepavyko išgauti {{variable}}: {{reason}}.',
+      failedMany: 'Nepavyko išgauti: {{variables}}.',
+      emptyBody: 'atsakymo turinys tuščias',
+      selectorNotFound: "selektorius '{{selector}}' atsakyme nerastas",
+      noHeaders: 'atsakymas neturi antraščių',
+      headerNotFound: "antraštė '{{selector}}' atsakyme nerasta",
+      nullValue: 'išgauta reikšmė yra null arba undefined',
+      invalidVariable: 'išsaugotas kintamasis netinkamas',
+    },
   },
 
   // cURL
@@ -233,8 +250,8 @@ const lt = {
       doNotShowAgain: 'Daugiau nerodyti',
     },
     deleteFolder: {
-      title: 'Ištrinti aplanką',
-      description: 'Šiame aplanke yra užklausų. Ar tikrai norite jį ištrinti?',
+      title: 'Ištrinti „{{name}}“',
+      description: 'Šis aplankas nėra tuščias. Ar tikrai norite jį ištrinti?',
     },
     importConflict: {
       title: 'Aptikti importavimo konfliktai',
@@ -301,6 +318,19 @@ const lt = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Atnaujinimas',
+      check: 'Tikrinti atnaujinimus',
+      currentVersion: 'Naudojate Rentgen v{{version}}.',
+      checking: 'Tikrinami atnaujinimai...',
+      upToDate: 'Naudojate naujausią versiją!',
+      latestVersion: 'Rentgen v{{version}} yra naujausia versija.',
+      updateAvailable: 'Yra nauja versija!',
+      newVersionAvailable: 'Galima Rentgen v{{latest}}.\nNaudojate v{{current}}.',
+      download: 'Atsisiųsti',
+      checkFailed: 'Nepavyko patikrinti atnaujinimų. Bandykite vėliau.',
+      lastChecked: 'Paskutinį kartą tikrinta {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Testų variklis',
     general: 'Bendra',
     themes: 'Temos',
@@ -346,6 +376,12 @@ const lt = {
       apiKey: 'API raktas',
       apiKeyStorageNotice: 'API raktai saugomi vietiniame įrenginyje. Rentgen jų negauna.',
       howToRunOllamaLocally: 'Kaip paleisti Ollama vietoje?',
+      advancedTitle: 'Išplėstiniai',
+      advancedDescription:
+        'Pateikite papildomo konteksto DI analizei, pvz., ką daro API, jos verslo taisykles ir konkrečias sritis, kurias norite, kad DI ištirtų. Rentgen jau įtraukia jūsų pradinę užklausą, laukų susiejimus ir testų rezultatus.',
+      apiContext: 'Papildomas API kontekstas',
+      apiContextPlaceholder:
+        'pvz. Pinigai grąžinami per 30 dienų.\nTik administratoriai gali patvirtinti didesnes nei 500 € sumas.\nSutelkite dėmesį į validavimo spragas.',
     },
     cli: {
       name: 'CLI',

@@ -46,6 +46,10 @@ const hi = {
     add: 'जोड़ें',
     back: 'वापस',
     stop: 'रोकें',
+    rename: 'नाम बदलें',
+    mute: 'म्यूट करें',
+    unmute: 'अनम्यूट करें',
+    moreActions: 'अधिक क्रियाएँ',
     noOptions: 'कोई विकल्प नहीं',
     resizeHint: 'आकार बदलने के लिए खींचें, रीसेट करने के लिए डबल-क्लिक करें',
     toggleTheme: 'थीम बदलें',
@@ -58,13 +62,13 @@ const hi = {
     environments: 'एनवायरनमेंट',
     history: 'इतिहास',
     settings: 'सेटिंग्स',
-    checkForUpdates: 'अपडेट जाँचें',
     reportFeedback: 'फीडबैक रिपोर्ट करें',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'नया फ़ोल्डर',
+    addFolder: 'फ़ोल्डर जोड़ें',
     searchRequests: 'अनुरोध खोजें...',
     noMatchingRequests: 'कोई मेल खाने वाला अनुरोध नहीं',
     noSavedRequests: 'कोई सहेजा गया अनुरोध नहीं',
@@ -140,6 +144,19 @@ const hi = {
     networkError: 'नेटवर्क त्रुटि',
     requestHint: 'API URL दर्ज करें, फिर अपना अनुरोध भेजें।',
     responseHint: 'प्रतिक्रिया का बॉडी, हैडर और समय यहाँ दिखाई देंगे।',
+    missingContentType: 'content-type हैडर मौजूद नहीं है।',
+    invalidJson: 'अमान्य JSON पाया गया।',
+    invalidXml: 'अमान्य XML पाया गया।',
+    extraction: {
+      failed: '{{variable}} निकाला नहीं जा सका: {{reason}}।',
+      failedMany: 'निकालना विफल: {{variables}}।',
+      emptyBody: 'प्रतिक्रिया का बॉडी खाली है',
+      selectorNotFound: "प्रतिक्रिया में सेलेक्टर '{{selector}}' नहीं मिला",
+      noHeaders: 'प्रतिक्रिया में कोई हैडर नहीं है',
+      headerNotFound: "प्रतिक्रिया में हैडर '{{selector}}' नहीं मिला",
+      nullValue: 'निकाला गया मान null या undefined है',
+      invalidVariable: 'सहेजा गया वेरिएबल अमान्य है',
+    },
   },
 
   // cURL
@@ -231,8 +248,8 @@ const hi = {
       doNotShowAgain: 'फिर से न दिखाएँ',
     },
     deleteFolder: {
-      title: 'फ़ोल्डर हटाएँ',
-      description: 'इस फ़ोल्डर में अनुरोध हैं। क्या आप वाकई इसे हटाना चाहते हैं?',
+      title: '"{{name}}" हटाएँ',
+      description: 'यह फ़ोल्डर खाली नहीं है। क्या आप वाकई इसे हटाना चाहते हैं?',
     },
     importConflict: {
       title: 'आयात विरोध मिले',
@@ -299,6 +316,19 @@ const hi = {
 
   // Settings
   settings: {
+    update: {
+      name: 'अपडेट',
+      check: 'अपडेट जाँचें',
+      currentVersion: 'आप Rentgen v{{version}} का उपयोग कर रहे हैं।',
+      checking: 'अपडेट की जाँच हो रही है...',
+      upToDate: 'आप नवीनतम संस्करण पर हैं!',
+      latestVersion: 'Rentgen v{{version}} नवीनतम संस्करण है।',
+      updateAvailable: 'नया संस्करण उपलब्ध है!',
+      newVersionAvailable: 'Rentgen v{{latest}} उपलब्ध है।\nआप v{{current}} का उपयोग कर रहे हैं।',
+      download: 'डाउनलोड करें',
+      checkFailed: 'अपडेट की जाँच नहीं हो सकी। कृपया बाद में पुनः प्रयास करें।',
+      lastChecked: 'अंतिम जाँच: {{date, datetime(dateStyle: medium; timeStyle: short)}}।',
+    },
     testEngine: 'टेस्ट इंजन',
     general: 'सामान्य',
     themes: 'थीम',
@@ -342,6 +372,12 @@ const hi = {
       apiKey: 'API कुंजी',
       apiKeyStorageNotice: 'API कुंजियाँ स्थानीय रूप से संग्रहीत होती हैं। Rentgen उन्हें प्राप्त नहीं करता।',
       howToRunOllamaLocally: 'Ollama को स्थानीय रूप से कैसे चलाएँ?',
+      advancedTitle: 'उन्नत',
+      advancedDescription:
+        'AI के विश्लेषण के लिए अतिरिक्त संदर्भ दें, जैसे यह API क्या करता है, इसके व्यावसायिक नियम और वे विशिष्ट क्षेत्र जिनकी आप AI से जाँच करवाना चाहते हैं। Rentgen पहले से आपका मूल अनुरोध, फ़ील्ड मैपिंग और परीक्षण परिणाम शामिल करता है।',
+      apiContext: 'अतिरिक्त API संदर्भ',
+      apiContextPlaceholder:
+        'उदा. रिफ़ंड 30 दिनों के भीतर मान्य हैं।\nकेवल एडमिन €500 से अधिक की राशि स्वीकृत कर सकते हैं।\nसत्यापन की कमियों पर ध्यान दें।',
     },
     cli: {
       name: 'CLI',

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
@@ -10,6 +10,7 @@ import ResizeHandler from 'src/components/panels/ResizeHandler';
 import { JsonViewer } from 'src/components/viewers/JsonViewer';
 import { useElementHeight } from 'src/hooks/useElementHeight';
 import { useResizableSize } from 'src/hooks/useResizableSize';
+import { formatResponseWarning, getResponseWarnings } from 'src/services/warnings';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
   selectBodyMode,
@@ -74,10 +75,17 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
     [requestWithFolder, selectedRequestId, dispatch],
   );
 
+  const warnings = useMemo(
+    () => (runResult ? runResult.warnings : getResponseWarnings(httpResponse)),
+    [httpResponse, runResult],
+  );
+  const warning = warnings[0] && formatResponseWarning(warnings[0]);
+
   const isNetworkError = httpResponse?.status === RESPONSE_STATUS_LABEL.NETWORK_ERROR;
   const hasBodyParameters = Object.keys(bodyParameters).length > 0;
   const hasQueryParameters = Object.keys(queryParameters).length > 0;
   const hideParameters = isNetworkError || !showParameters || (!hasBodyParameters && !hasQueryParameters);
+
   const isFixedHeight = size !== null;
   const panelStyle = isFixedHeight ? { height: size } : undefined;
   const viewerMaxHeight = isFixedHeight ? viewerHeight : Math.max(AUTO_VIEWER_MAX_HEIGHT, viewerHeight);
@@ -106,9 +114,8 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
                 ) : (
                   <span
                     className={cn('py-px px-2 text-xs rounded', {
-                      'text-metric-pass bg-metric-pass/10': httpResponse?.status.startsWith('2') && !runResult?.warning,
-                      'text-metric-warning bg-metric-warning/10':
-                        httpResponse?.status.startsWith('2') && runResult?.warning,
+                      'text-metric-pass bg-metric-pass/10': httpResponse?.status.startsWith('2') && !warning,
+                      'text-metric-warning bg-metric-warning/10': httpResponse?.status.startsWith('2') && warning,
                       'text-blue-500 bg-blue-500/10': httpResponse?.status.startsWith('3'),
                       'text-primary bg-primary/10':
                         httpResponse?.status.startsWith('4') || isAbortedResponse(httpResponse),
@@ -126,16 +133,16 @@ export default function HttpResponsePanel({ showParameters = true }: Props) {
         </div>
       }
     >
-      {runResult?.warning && (
+      {warning && (
         <div className="px-4 py-2 text-xs bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 border-y border-yellow-200 dark:border-yellow-800">
-          <span className="font-medium">{t('common.warning')}:</span> {runResult.warning}
+          <span className="font-bold">{t('common.warning')}!</span> {warning}
         </div>
       )}
       {httpResponse ? (
         <div
           className={cn({
             '@2xl:grid @2xl:grid-cols-2 divide-y @2xl:divide-y-0 @2xl:divide-x divide-border': !hideParameters,
-            'not-empty:border-t border-border': !runResult?.warning,
+            'not-empty:border-t border-border': !warning,
           })}
         >
           <div ref={targetRef} className="box-border flex flex-col gap-4 py-3 px-4" style={panelStyle}>

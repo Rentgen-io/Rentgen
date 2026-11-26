@@ -46,6 +46,10 @@ const th = {
     add: 'เพิ่ม',
     back: 'ย้อนกลับ',
     stop: 'หยุด',
+    rename: 'เปลี่ยนชื่อ',
+    mute: 'ปิดเสียง',
+    unmute: 'เปิดเสียง',
+    moreActions: 'การดำเนินการเพิ่มเติม',
     noOptions: 'ไม่มีตัวเลือก',
     resizeHint: 'ลากเพื่อปรับขนาด ดับเบิลคลิกเพื่อรีเซ็ต',
     toggleTheme: 'สลับธีม',
@@ -58,13 +62,13 @@ const th = {
     environments: 'เอนไวรอนเมนต์',
     history: 'ประวัติ',
     settings: 'การตั้งค่า',
-    checkForUpdates: 'ตรวจสอบอัปเดต',
     reportFeedback: 'รายงานข้อเสนอแนะ',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'โฟลเดอร์ใหม่',
+    addFolder: 'เพิ่มโฟลเดอร์',
     searchRequests: 'ค้นหาคำขอ...',
     noMatchingRequests: 'ไม่มีคำขอที่ตรงกัน',
     noSavedRequests: 'ยังไม่มีคำขอที่บันทึกไว้',
@@ -139,6 +143,19 @@ const th = {
     networkError: 'ข้อผิดพลาดเครือข่าย',
     requestHint: 'ป้อน URL ของ API แล้วส่งคำขอของคุณ',
     responseHint: 'บอดี้ของการตอบกลับ เฮดเดอร์ และเวลาจะแสดงที่นี่',
+    missingContentType: 'ไม่มีเฮดเดอร์ content-type',
+    invalidJson: 'ตรวจพบ JSON ที่ไม่ถูกต้อง',
+    invalidXml: 'ตรวจพบ XML ที่ไม่ถูกต้อง',
+    extraction: {
+      failed: 'ไม่สามารถดึง {{variable}}: {{reason}}',
+      failedMany: 'ดึงค่าไม่สำเร็จ: {{variables}}',
+      emptyBody: 'บอดี้ของการตอบกลับว่างเปล่า',
+      selectorNotFound: "ไม่พบตัวเลือก '{{selector}}' ในการตอบกลับ",
+      noHeaders: 'การตอบกลับไม่มีเฮดเดอร์',
+      headerNotFound: "ไม่พบเฮดเดอร์ '{{selector}}' ในการตอบกลับ",
+      nullValue: 'ค่าที่ดึงได้เป็น null หรือ undefined',
+      invalidVariable: 'ตัวแปรที่บันทึกไว้ไม่ถูกต้อง',
+    },
   },
 
   // cURL
@@ -229,8 +246,8 @@ const th = {
       doNotShowAgain: 'ไม่ต้องแสดงอีก',
     },
     deleteFolder: {
-      title: 'ลบโฟลเดอร์',
-      description: 'โฟลเดอร์นี้มีคำขออยู่ คุณแน่ใจหรือไม่ว่าต้องการลบ?',
+      title: 'ลบ "{{name}}"',
+      description: 'โฟลเดอร์นี้ไม่ว่างเปล่า คุณแน่ใจหรือไม่ว่าต้องการลบ?',
     },
     importConflict: {
       title: 'ตรวจพบความขัดแย้งในการนำเข้า',
@@ -297,6 +314,19 @@ const th = {
 
   // Settings
   settings: {
+    update: {
+      name: 'อัปเดต',
+      check: 'ตรวจสอบอัปเดต',
+      currentVersion: 'คุณกำลังใช้ Rentgen v{{version}}',
+      checking: 'กำลังตรวจสอบอัปเดต...',
+      upToDate: 'คุณใช้เวอร์ชันล่าสุดแล้ว!',
+      latestVersion: 'Rentgen v{{version}} เป็นเวอร์ชันล่าสุด',
+      updateAvailable: 'มีเวอร์ชันใหม่!',
+      newVersionAvailable: 'Rentgen v{{latest}} พร้อมใช้งานแล้ว\nคุณกำลังใช้ v{{current}}',
+      download: 'ดาวน์โหลด',
+      checkFailed: 'ไม่สามารถตรวจสอบอัปเดตได้ โปรดลองอีกครั้งในภายหลัง',
+      lastChecked: 'ตรวจสอบล่าสุดเมื่อ {{date, datetime(dateStyle: medium; timeStyle: short)}}',
+    },
     testEngine: 'เทสต์เอนจิน',
     general: 'ทั่วไป',
     themes: 'ธีม',
@@ -340,6 +370,12 @@ const th = {
       apiKey: 'คีย์ API',
       apiKeyStorageNotice: 'คีย์ API ถูกจัดเก็บไว้ในเครื่อง Rentgen ไม่ได้รับคีย์เหล่านี้',
       howToRunOllamaLocally: 'วิธีรัน Ollama บนเครื่อง?',
+      advancedTitle: 'ขั้นสูง',
+      advancedDescription:
+        'ให้บริบทเพิ่มเติมสำหรับการวิเคราะห์ของ AI เช่น API นี้ทำอะไร กฎทางธุรกิจ และส่วนเฉพาะที่คุณต้องการให้ AI ตรวจสอบ Rentgen รวมคำขอเดิม การแมปฟิลด์ และผลการทดสอบของคุณไว้แล้ว',
+      apiContext: 'บริบท API เพิ่มเติม',
+      apiContextPlaceholder:
+        'เช่น คืนเงินได้ภายใน 30 วัน\nเฉพาะผู้ดูแลระบบเท่านั้นที่อนุมัติยอดเกิน €500 ได้\nเน้นช่องโหว่ด้านการตรวจสอบความถูกต้อง',
     },
     cli: {
       name: 'CLI',

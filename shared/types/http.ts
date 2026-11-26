@@ -2,6 +2,8 @@ import { Method } from 'axios';
 
 export type ResponseBody = string | number | boolean | Record<string, unknown> | unknown[] | null;
 
+export type ResponseWarning = 'missingContentType' | 'invalidJson' | 'invalidXml';
+
 /** A form field as [name, value], or a form-data file as [name, path]. */
 export type FormEntry = [string, string];
 

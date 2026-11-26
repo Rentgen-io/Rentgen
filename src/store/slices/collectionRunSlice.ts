@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HttpResponse } from 'shared/types/http';
+import { ExtractionFailure } from 'shared/types/environment';
+import { HttpResponse, ResponseWarning } from 'shared/types/http';
 import { RequestParameters } from 'shared/types/testing';
 
 export interface CollectionRunResult {
@@ -9,8 +10,12 @@ export interface CollectionRunResult {
   response: HttpResponse | null;
   requestId: string;
   status: number | null;
-  warning?: string | null;
+  warnings: RunWarning[];
 }
+
+export type RunWarning =
+  | { type: 'format'; warning: ResponseWarning }
+  | { type: 'extraction'; failures: ExtractionFailure[] };
 
 interface CollectionRunState {
   results: Record<string, CollectionRunResult>;

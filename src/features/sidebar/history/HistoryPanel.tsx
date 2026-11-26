@@ -37,7 +37,7 @@ export default function HistoryPanel() {
 
   return (
     <>
-      <div className="h-9 shrink-0 flex items-center justify-between gap-2 px-3 py-2 border-b border-border box-border">
+      <div className="h-8 shrink-0 flex items-center justify-between gap-2 py-2 px-3 box-border">
         <span className="text-xs text-muted-foreground">{t('history.title')}</span>
         {entries.length > 0 && (
           <TrashIcon
@@ -46,13 +46,9 @@ export default function HistoryPanel() {
           />
         )}
       </div>
-
-      {entries.length > 0 && (
-        <SideBarSearch value={searchTerm} onChange={setSearchTerm} placeholder={t('history.searchHistory')} />
-      )}
-
+      <SideBarSearch placeholder={t('history.searchHistory')} value={searchTerm} onChange={setSearchTerm} />
       {groups.length > 0 ? (
-        <div className="h-full overflow-x-hidden overflow-y-auto">
+        <div className="h-full p-1 overflow-x-hidden overflow-y-auto">
           {groups.map((group) => (
             <HistoryDateGroup key={group.date} label={group.label} entries={group.entries} searchTerm={searchTerm} />
           ))}

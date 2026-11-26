@@ -46,6 +46,10 @@ const uk = {
     add: 'Додати',
     back: 'Назад',
     stop: 'Зупинити',
+    rename: 'Перейменувати',
+    mute: 'Заглушити',
+    unmute: 'Увімкнути',
+    moreActions: 'Інші дії',
     noOptions: 'Немає варіантів',
     resizeHint: 'Перетягніть, щоб змінити розмір, двічі клацніть для скидання',
     toggleTheme: 'Змінити тему',
@@ -58,13 +62,13 @@ const uk = {
     environments: 'Середовища',
     history: 'Історія',
     settings: 'Налаштування',
-    checkForUpdates: 'Перевірити оновлення',
     reportFeedback: 'Надіслати відгук',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'Нова тека',
+    addFolder: 'Додати теку',
     searchRequests: 'Пошук запитів...',
     noMatchingRequests: 'Немає відповідних запитів',
     noSavedRequests: 'Немає збережених запитів',
@@ -142,6 +146,19 @@ const uk = {
     networkError: 'Помилка мережі',
     requestHint: 'Введіть URL API, а потім надішліть запит.',
     responseHint: "Тіло відповіді, заголовки та час виконання з'являться тут.",
+    missingContentType: 'Відсутній заголовок content-type.',
+    invalidJson: 'Виявлено некоректний JSON.',
+    invalidXml: 'Виявлено некоректний XML.',
+    extraction: {
+      failed: 'Не вдалося витягти {{variable}}: {{reason}}.',
+      failedMany: 'Не вдалося витягти: {{variables}}.',
+      emptyBody: 'тіло відповіді порожнє',
+      selectorNotFound: "селектор '{{selector}}' не знайдено у відповіді",
+      noHeaders: 'відповідь не має заголовків',
+      headerNotFound: "заголовок '{{selector}}' не знайдено у відповіді",
+      nullValue: 'витягнуте значення дорівнює null або undefined',
+      invalidVariable: 'збережена змінна некоректна',
+    },
   },
 
   // cURL
@@ -233,8 +250,8 @@ const uk = {
       doNotShowAgain: 'Більше не показувати',
     },
     deleteFolder: {
-      title: 'Видалити теку',
-      description: 'Ця тека містить запити. Ви впевнені, що хочете її видалити?',
+      title: 'Видалити "{{name}}"',
+      description: 'Ця тека не порожня. Ви впевнені, що хочете її видалити?',
     },
     importConflict: {
       title: 'Виявлено конфлікти імпорту',
@@ -301,6 +318,19 @@ const uk = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Оновлення',
+      check: 'Перевірити оновлення',
+      currentVersion: 'Ви використовуєте Rentgen v{{version}}.',
+      checking: 'Перевірка оновлень...',
+      upToDate: 'У вас остання версія!',
+      latestVersion: 'Rentgen v{{version}} — остання версія.',
+      updateAvailable: 'Доступна нова версія!',
+      newVersionAvailable: 'Доступний Rentgen v{{latest}}.\nВи використовуєте v{{current}}.',
+      download: 'Завантажити',
+      checkFailed: 'Не вдалося перевірити оновлення. Спробуйте пізніше.',
+      lastChecked: 'Остання перевірка: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Рушій тестів',
     general: 'Загальні',
     themes: 'Теми',
@@ -346,6 +376,12 @@ const uk = {
       apiKey: 'API-ключ',
       apiKeyStorageNotice: 'API-ключі зберігаються локально. Rentgen їх не отримує.',
       howToRunOllamaLocally: 'Як запустити Ollama локально?',
+      advancedTitle: 'Додатково',
+      advancedDescription:
+        'Додайте контекст для аналізу ШІ: що робить API, його бізнес-правила та конкретні області, які має дослідити ШІ. Rentgen уже додає ваш початковий запит, зіставлення полів і результати тестів.',
+      apiContext: 'Додатковий контекст API',
+      apiContextPlaceholder:
+        'напр. Повернення коштів можливе протягом 30 днів.\nЛише адміністратори можуть схвалювати суми понад 500 €.\nЗосередьтеся на прогалинах у валідації.',
     },
     cli: {
       name: 'CLI',

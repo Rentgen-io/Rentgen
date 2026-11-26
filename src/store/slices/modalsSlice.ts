@@ -3,7 +3,7 @@ import { PostmanCollection } from 'shared/types/postman';
 import { IntegrityStatus, ProjectData, ProjectMeta } from 'shared/types/project';
 import { ImportConflictSummary } from 'src/utils/collection';
 
-export type SettingsTab = 'testEngine' | 'general' | 'ai' | 'themes' | 'language' | 'cli';
+export type SettingsTab = 'testEngine' | 'general' | 'ai' | 'themes' | 'language' | 'cli' | 'update';
 
 export interface ImportConflictModalState {
   isOpen: boolean;
@@ -31,8 +31,9 @@ export interface ProjectImportConfirmModalState {
 
 interface ModalsState {
   deleteFolderModal: {
-    folderId: string | null;
+    id: string | null;
     isOpen: boolean;
+    name: string | null;
   };
   importConflictModal: ImportConflictModalState;
   openFollowModal: boolean;
@@ -73,7 +74,11 @@ const emptyProjectImportConfirmModal: ProjectImportConfirmModalState = {
 };
 
 const initialState: ModalsState = {
-  deleteFolderModal: { isOpen: false, folderId: null },
+  deleteFolderModal: {
+    id: null,
+    isOpen: false,
+    name: null,
+  },
   importConflictModal: emptyImportConflictModal,
   openFollowModal: false,
   openImportResourceModal: false,
@@ -90,7 +95,11 @@ export const modalsSlice = createSlice({
   initialState,
   reducers: {
     closeDeleteFolderModal: (state) => {
-      state.deleteFolderModal = { folderId: null, isOpen: false };
+      state.deleteFolderModal = {
+        id: null,
+        isOpen: false,
+        name: null,
+      };
     },
     closeFollowModal: (state) => {
       state.openFollowModal = false;
@@ -119,8 +128,12 @@ export const modalsSlice = createSlice({
     closeSettingsModal: (state) => {
       state.settingsModal = { activeTab: 'testEngine', isOpen: false };
     },
-    openDeleteFolderModal: (state, action: PayloadAction<string>) => {
-      state.deleteFolderModal = { folderId: action.payload, isOpen: true };
+    openDeleteFolderModal: (state, action: PayloadAction<{ id: string; name: string }>) => {
+      state.deleteFolderModal = {
+        id: action.payload.id,
+        isOpen: true,
+        name: action.payload.name,
+      };
     },
     openFollowModal: (state) => {
       if (!state.openGitHubModal) state.openFollowModal = true;

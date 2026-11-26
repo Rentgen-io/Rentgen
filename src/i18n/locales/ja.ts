@@ -46,6 +46,10 @@ const ja = {
     add: '追加',
     back: '戻る',
     stop: '停止',
+    rename: '名前を変更',
+    mute: 'ミュート',
+    unmute: 'ミュート解除',
+    moreActions: 'その他の操作',
     noOptions: 'オプションなし',
     resizeHint: 'ドラッグでサイズ変更、ダブルクリックでリセット',
     toggleTheme: 'テーマを切り替え',
@@ -58,13 +62,13 @@ const ja = {
     environments: '環境',
     history: '履歴',
     settings: '設定',
-    checkForUpdates: 'アップデートを確認',
     reportFeedback: 'フィードバックを送信',
   },
 
   // Collections Panel
   collections: {
     newFolder: '新規フォルダ',
+    addFolder: 'フォルダを追加',
     searchRequests: 'リクエストを検索...',
     noMatchingRequests: '一致するリクエストはありません',
     noSavedRequests: '保存されたリクエストはありません',
@@ -140,6 +144,19 @@ const ja = {
     networkError: 'ネットワークエラー',
     requestHint: 'API の URL を入力して、リクエストを送信してください。',
     responseHint: 'レスポンスのボディ、ヘッダー、タイミングがここに表示されます。',
+    missingContentType: 'content-type ヘッダーがありません。',
+    invalidJson: '無効な JSON が検出されました。',
+    invalidXml: '無効な XML が検出されました。',
+    extraction: {
+      failed: '{{variable}} を抽出できませんでした: {{reason}}。',
+      failedMany: '抽出に失敗しました: {{variables}}。',
+      emptyBody: 'レスポンスのボディが空です',
+      selectorNotFound: "レスポンスにセレクター '{{selector}}' が見つかりません",
+      noHeaders: 'レスポンスにヘッダーがありません',
+      headerNotFound: "レスポンスにヘッダー '{{selector}}' が見つかりません",
+      nullValue: '抽出された値が null または undefined です',
+      invalidVariable: '保存された変数が無効です',
+    },
   },
 
   // cURL
@@ -231,8 +248,8 @@ const ja = {
       doNotShowAgain: '次回から表示しない',
     },
     deleteFolder: {
-      title: 'フォルダを削除',
-      description: 'このフォルダにはリクエストが含まれています。削除してもよろしいですか?',
+      title: '"{{name}}" を削除',
+      description: 'このフォルダは空ではありません。削除してもよろしいですか?',
     },
     importConflict: {
       title: 'インポートの競合が検出されました',
@@ -301,6 +318,19 @@ const ja = {
 
   // Settings
   settings: {
+    update: {
+      name: 'アップデート',
+      check: 'アップデートを確認',
+      currentVersion: 'Rentgen v{{version}} を使用しています。',
+      checking: 'アップデートを確認しています...',
+      upToDate: '最新の状態です！',
+      latestVersion: 'Rentgen v{{version}} が最新バージョンです。',
+      updateAvailable: '新しいバージョンがあります！',
+      newVersionAvailable: 'Rentgen v{{latest}} が利用可能です。\n現在 v{{current}} を使用しています。',
+      download: 'ダウンロード',
+      checkFailed: 'アップデートを確認できませんでした。後でもう一度お試しください。',
+      lastChecked: '最終確認：{{date, datetime(dateStyle: medium; timeStyle: short)}}',
+    },
     testEngine: 'テストエンジン',
     general: '一般',
     themes: 'テーマ',
@@ -344,6 +374,12 @@ const ja = {
       apiKey: 'APIキー',
       apiKeyStorageNotice: 'APIキーはローカルに保存されます。Rentgenが受け取ることはありません。',
       howToRunOllamaLocally: 'Ollamaをローカルで実行するには？',
+      advancedTitle: '詳細設定',
+      advancedDescription:
+        'APIの機能、ビジネスルール、AIに調査してほしい特定の領域など、AIの分析に役立つ追加のコンテキストを入力してください。元のリクエスト、フィールドマッピング、テスト結果はRentgenがすでに含めています。',
+      apiContext: '追加のAPIコンテキスト',
+      apiContextPlaceholder:
+        '例: 返金は30日以内に限り可能。\n€500を超える金額は管理者のみが承認できる。\nバリデーションの抜けを重点的に確認。',
     },
     cli: {
       name: 'CLI',

@@ -46,6 +46,10 @@ const ko = {
     add: '추가',
     back: '뒤로',
     stop: '중지',
+    rename: '이름 바꾸기',
+    mute: '음소거',
+    unmute: '음소거 해제',
+    moreActions: '추가 작업',
     noOptions: '옵션 없음',
     resizeHint: '드래그하여 크기 조정, 두 번 클릭하여 초기화',
     toggleTheme: '테마 전환',
@@ -58,13 +62,13 @@ const ko = {
     environments: '환경',
     history: '기록',
     settings: '설정',
-    checkForUpdates: '업데이트 확인',
     reportFeedback: '피드백 보내기',
   },
 
   // Collections Panel
   collections: {
     newFolder: '새 폴더',
+    addFolder: '폴더 추가',
     searchRequests: '요청 검색...',
     noMatchingRequests: '일치하는 요청이 없습니다',
     noSavedRequests: '저장된 요청이 없습니다',
@@ -139,6 +143,19 @@ const ko = {
     networkError: '네트워크 오류',
     requestHint: 'API URL을 입력한 후 요청을 보내세요.',
     responseHint: '응답 본문, 헤더 및 소요 시간이 여기에 표시됩니다.',
+    missingContentType: 'content-type 헤더가 없습니다.',
+    invalidJson: '잘못된 JSON이 감지되었습니다.',
+    invalidXml: '잘못된 XML이 감지되었습니다.',
+    extraction: {
+      failed: '{{variable}}을(를) 추출하지 못했습니다: {{reason}}.',
+      failedMany: '추출 실패: {{variables}}.',
+      emptyBody: '응답 본문이 비어 있습니다',
+      selectorNotFound: "응답에서 선택자 '{{selector}}'을(를) 찾을 수 없습니다",
+      noHeaders: '응답에 헤더가 없습니다',
+      headerNotFound: "응답에서 헤더 '{{selector}}'을(를) 찾을 수 없습니다",
+      nullValue: '추출된 값이 null 또는 undefined입니다',
+      invalidVariable: '저장된 변수가 올바르지 않습니다',
+    },
   },
 
   // cURL
@@ -230,8 +247,8 @@ const ko = {
       doNotShowAgain: '다시 표시하지 않기',
     },
     deleteFolder: {
-      title: '폴더 삭제',
-      description: '이 폴더에는 요청이 포함되어 있습니다. 정말 삭제하시겠어요?',
+      title: '"{{name}}" 삭제',
+      description: '이 폴더는 비어 있지 않습니다. 정말 삭제하시겠어요?',
     },
     importConflict: {
       title: '가져오기 충돌이 감지되었습니다',
@@ -298,6 +315,19 @@ const ko = {
 
   // Settings
   settings: {
+    update: {
+      name: '업데이트',
+      check: '업데이트 확인',
+      currentVersion: 'Rentgen v{{version}}을(를) 사용 중입니다.',
+      checking: '업데이트 확인 중...',
+      upToDate: '최신 버전입니다!',
+      latestVersion: 'Rentgen v{{version}}이(가) 최신 버전입니다.',
+      updateAvailable: '새 버전을 사용할 수 있습니다!',
+      newVersionAvailable: 'Rentgen v{{latest}}을(를) 사용할 수 있습니다.\n현재 v{{current}}을(를) 사용 중입니다.',
+      download: '다운로드',
+      checkFailed: '업데이트를 확인할 수 없습니다. 나중에 다시 시도하세요.',
+      lastChecked: '마지막 확인: {{date, datetime(dateStyle: medium; timeStyle: short)}}',
+    },
     testEngine: '테스트 엔진',
     general: '일반',
     themes: '테마',
@@ -341,6 +371,12 @@ const ko = {
       apiKey: 'API 키',
       apiKeyStorageNotice: 'API 키는 로컬에 저장됩니다. Rentgen은 이를 수신하지 않습니다.',
       howToRunOllamaLocally: 'Ollama를 로컬에서 실행하는 방법은?',
+      advancedTitle: '고급',
+      advancedDescription:
+        'API가 하는 일, 비즈니스 규칙, AI가 조사해 주길 원하는 특정 영역 등 AI 분석을 위한 추가 컨텍스트를 제공하세요. Rentgen은 이미 원본 요청, 필드 매핑, 테스트 결과를 포함합니다.',
+      apiContext: '추가 API 컨텍스트',
+      apiContextPlaceholder:
+        '예: 환불은 30일 이내에만 가능합니다.\n€500을 초과하는 금액은 관리자만 승인할 수 있습니다.\n검증 누락에 집중하세요.',
     },
     cli: {
       name: 'CLI',

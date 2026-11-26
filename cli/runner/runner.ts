@@ -1,9 +1,10 @@
 import type { Environment } from '../../shared/types/environment';
 import type { FieldsBody } from '../../shared/types/http';
 import type { PostmanBody, PostmanFolder, PostmanItem } from '../../shared/types/postman';
+import { collectRequests } from '../../shared/utils/collection';
 import { buildFieldsBody, isFieldsBody, withBodyContentType } from '../../shared/utils/http';
-import { HttpClient, type HttpResponse } from '../http/client';
 import { VariableStore } from '../config/variables';
+import { HttpClient, type HttpResponse } from '../http/client';
 import { extractDynamicVariable } from './extractor';
 import type { DynamicVarDetail, RequestResult, RunResult } from './types';
 
@@ -44,7 +45,8 @@ export class SequentialRunner {
 
   async run(): Promise<RunResult> {
     const startTime = performance.now();
-    const items = this.folder.item;
+    // Like in the app (and Postman): also the requests in subfolders, in the order they are listed
+    const items = collectRequests(this.folder.item);
     const total = items.length;
 
     for (let i = 0; i < items.length; i++) {

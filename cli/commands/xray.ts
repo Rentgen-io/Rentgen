@@ -1,15 +1,12 @@
 import { confirm } from '@inquirer/prompts';
+import type { IntegrityStatus } from '../../shared/types/project';
+import { collectRequests } from '../../shared/utils/collection';
 import { loadProject } from '../config/projectLoader';
-import {
-  VariableStore,
-  parseVarOverrides,
-  filterDynamicVarsForFolder,
-} from '../config/variables';
 import { resolveSelection } from '../config/selection';
-import { SequentialRunner } from '../runner/runner';
+import { VariableStore, filterDynamicVarsForFolder, parseVarOverrides } from '../config/variables';
 import { ConsoleReporter, type HeaderContext } from '../reporter/console';
 import { JsonReporter } from '../reporter/json';
-import type { IntegrityStatus } from '../../shared/types/project';
+import { SequentialRunner } from '../runner/runner';
 
 export interface XrayOptions {
   collection?: string;
@@ -47,7 +44,7 @@ export async function xrayCommand(projectFile: string, options: XrayOptions): Pr
     projectName: file.data.collection.info.name,
     folderName: selection.folder.name,
     environmentTitle: selection.environment?.title ?? null,
-    totalRequests: selection.folder.item.length,
+    totalRequests: collectRequests(selection.folder.item).length,
   };
 
   const reporter: Reporter = jsonMode
@@ -117,8 +114,7 @@ async function enforceIntegrity(
       ciError: 'Checksum missing. Pass --skip-integrity-check to proceed.',
     },
     modified: {
-      prompt:
-        'Checksum mismatch — this project file has been modified since it was exported. Continue?',
+      prompt: 'Checksum mismatch — this project file has been modified since it was exported. Continue?',
       ciError: 'Checksum mismatch. Pass --skip-integrity-check to proceed.',
     },
   };

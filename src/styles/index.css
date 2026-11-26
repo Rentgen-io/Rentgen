@@ -149,7 +149,7 @@
   }
 
   .Toastify__toast {
-    @apply gap-2! min-h-12! font-segoe-ui! text-xs rounded! overflow-hidden;
+    @apply gap-4! min-h-12! font-segoe-ui! text-xs rounded! shadow-default! overflow-hidden;
   }
 
   .Toastify__toast-icon {
@@ -162,6 +162,10 @@
 
   .Toastify__progress-bar--wrp {
     @apply rounded-none!;
+  }
+
+  .Toastify__toast-theme--dark {
+    @apply bg-background! text-foreground!;
   }
 
   .rdt_headRow {
@@ -198,7 +202,13 @@
     @apply bg-transparent!;
   }
 
-  :is(.environment-data-table, .form-data-data-table, .headers-data-table, .pre-evaluation-data-table, .urlencoded-data-table) {
+  :is(
+    .environment-data-table,
+    .form-data-data-table,
+    .headers-data-table,
+    .pre-evaluation-data-table,
+    .urlencoded-data-table
+  ) {
     @apply border border-border rounded!;
 
     :is(.rdt_wrapper, .rdt_Table) {

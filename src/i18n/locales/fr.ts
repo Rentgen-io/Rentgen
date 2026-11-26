@@ -46,6 +46,10 @@ const fr = {
     add: 'Ajouter',
     back: 'Retour',
     stop: 'Arrêter',
+    rename: 'Renommer',
+    mute: 'Mettre en sourdine',
+    unmute: 'Réactiver',
+    moreActions: "Plus d'actions",
     noOptions: 'Aucune option',
     resizeHint: 'Faites glisser pour redimensionner, double-cliquez pour réinitialiser',
     toggleTheme: 'Changer de thème',
@@ -58,13 +62,13 @@ const fr = {
     environments: 'Environnements',
     history: 'Historique',
     settings: 'Paramètres',
-    checkForUpdates: 'Vérifier les mises à jour',
     reportFeedback: 'Signaler un retour',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'Nouveau dossier',
+    addFolder: 'Ajouter un dossier',
     searchRequests: 'Rechercher des requêtes...',
     noMatchingRequests: 'Aucune requête correspondante',
     noSavedRequests: 'Aucune requête enregistrée',
@@ -140,6 +144,19 @@ const fr = {
     networkError: 'Erreur réseau',
     requestHint: "Saisissez une URL d'API, puis envoyez votre requête.",
     responseHint: 'Le corps de la réponse, les en-têtes et les temps de réponse apparaîtront ici.',
+    missingContentType: 'En-tête content-type manquant.',
+    invalidJson: 'JSON invalide détecté.',
+    invalidXml: 'XML invalide détecté.',
+    extraction: {
+      failed: "Impossible d'extraire {{variable}} : {{reason}}.",
+      failedMany: "Échec de l'extraction : {{variables}}.",
+      emptyBody: 'le corps de la réponse est vide',
+      selectorNotFound: "sélecteur '{{selector}}' introuvable dans la réponse",
+      noHeaders: "la réponse n'a pas d'en-têtes",
+      headerNotFound: "en-tête '{{selector}}' introuvable dans la réponse",
+      nullValue: 'la valeur extraite est null ou undefined',
+      invalidVariable: "la variable enregistrée n'est pas valide",
+    },
   },
 
   // cURL
@@ -232,8 +249,8 @@ const fr = {
       doNotShowAgain: 'Ne plus afficher',
     },
     deleteFolder: {
-      title: 'Supprimer le dossier',
-      description: 'Ce dossier contient des requêtes. Êtes-vous sûr de vouloir le supprimer ?',
+      title: 'Supprimer "{{name}}"',
+      description: "Ce dossier n'est pas vide. Êtes-vous sûr de vouloir le supprimer ?",
     },
     importConflict: {
       title: "Conflits d'import détectés",
@@ -302,6 +319,19 @@ const fr = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Mise à jour',
+      check: 'Vérifier les mises à jour',
+      currentVersion: 'Vous utilisez Rentgen v{{version}}.',
+      checking: 'Recherche de mises à jour...',
+      upToDate: 'Vous êtes à jour !',
+      latestVersion: 'Rentgen v{{version}} est la dernière version.',
+      updateAvailable: 'Une nouvelle version est disponible !',
+      newVersionAvailable: 'Rentgen v{{latest}} est disponible.\nVous utilisez la v{{current}}.',
+      download: 'Télécharger',
+      checkFailed: 'Impossible de vérifier les mises à jour. Veuillez réessayer plus tard.',
+      lastChecked: 'Dernière vérification le {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Moteur de test',
     general: 'Général',
     themes: 'Thèmes',
@@ -345,6 +375,12 @@ const fr = {
       apiKey: 'Clé API',
       apiKeyStorageNotice: 'Les clés API sont stockées localement. Rentgen ne les reçoit pas.',
       howToRunOllamaLocally: 'Comment exécuter Ollama en local ?',
+      advancedTitle: 'Avancé',
+      advancedDescription:
+        "Fournissez un contexte supplémentaire pour l'analyse de l'IA, comme ce que fait l'API, ses règles métier et les points précis que l'IA doit examiner. Rentgen inclut déjà votre requête d'origine, les mappages de champs et les résultats des tests.",
+      apiContext: "Contexte supplémentaire de l'API",
+      apiContextPlaceholder:
+        'p. ex. Les remboursements sont autorisés sous 30 jours.\nSeuls les administrateurs peuvent approuver les montants supérieurs à 500 €.\nConcentrez-vous sur les failles de validation.',
     },
     cli: {
       name: 'CLI',

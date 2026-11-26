@@ -46,6 +46,10 @@ const id = {
     add: 'Tambah',
     back: 'Kembali',
     stop: 'Hentikan',
+    rename: 'Ganti nama',
+    mute: 'Bisukan',
+    unmute: 'Batalkan bisu',
+    moreActions: 'Tindakan lainnya',
     noOptions: 'Tidak ada opsi',
     resizeHint: 'Seret untuk mengubah ukuran, klik dua kali untuk mengatur ulang',
     toggleTheme: 'Ganti tema',
@@ -58,13 +62,13 @@ const id = {
     environments: 'Lingkungan',
     history: 'Riwayat',
     settings: 'Pengaturan',
-    checkForUpdates: 'Periksa pembaruan',
     reportFeedback: 'Laporkan masukan',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'Folder Baru',
+    addFolder: 'Tambah Folder',
     searchRequests: 'Cari permintaan...',
     noMatchingRequests: 'Tidak ada permintaan yang cocok',
     noSavedRequests: 'Tidak ada permintaan tersimpan',
@@ -140,6 +144,19 @@ const id = {
     networkError: 'Galat Jaringan',
     requestHint: 'Masukkan URL API, lalu kirim permintaan Anda.',
     responseHint: 'Body respons, headers, dan waktu akan muncul di sini.',
+    missingContentType: 'Header content-type tidak ada.',
+    invalidJson: 'JSON tidak valid terdeteksi.',
+    invalidXml: 'XML tidak valid terdeteksi.',
+    extraction: {
+      failed: 'Gagal mengekstrak {{variable}}: {{reason}}.',
+      failedMany: 'Gagal mengekstrak: {{variables}}.',
+      emptyBody: 'body respons kosong',
+      selectorNotFound: "selector '{{selector}}' tidak ditemukan dalam respons",
+      noHeaders: 'respons tidak memiliki header',
+      headerNotFound: "header '{{selector}}' tidak ditemukan dalam respons",
+      nullValue: 'nilai yang diekstrak null atau undefined',
+      invalidVariable: 'variabel yang disimpan tidak valid',
+    },
   },
 
   // cURL
@@ -231,8 +248,8 @@ const id = {
       doNotShowAgain: 'Jangan tampilkan lagi',
     },
     deleteFolder: {
-      title: 'Hapus Folder',
-      description: 'Folder ini berisi permintaan. Yakin ingin menghapusnya?',
+      title: 'Hapus "{{name}}"',
+      description: 'Folder ini tidak kosong. Yakin ingin menghapusnya?',
     },
     importConflict: {
       title: 'Konflik Impor Terdeteksi',
@@ -299,6 +316,19 @@ const id = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Pembaruan',
+      check: 'Periksa pembaruan',
+      currentVersion: 'Anda menggunakan Rentgen v{{version}}.',
+      checking: 'Memeriksa pembaruan...',
+      upToDate: 'Anda sudah menggunakan versi terbaru!',
+      latestVersion: 'Rentgen v{{version}} adalah versi terbaru.',
+      updateAvailable: 'Versi baru tersedia!',
+      newVersionAvailable: 'Rentgen v{{latest}} tersedia.\nAnda menggunakan v{{current}}.',
+      download: 'Unduh',
+      checkFailed: 'Tidak dapat memeriksa pembaruan. Silakan coba lagi nanti.',
+      lastChecked: 'Terakhir diperiksa pada {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Mesin Tes',
     general: 'Umum',
     themes: 'Tema',
@@ -342,6 +372,12 @@ const id = {
       apiKey: 'Kunci API',
       apiKeyStorageNotice: 'Kunci API disimpan secara lokal. Rentgen tidak menerimanya.',
       howToRunOllamaLocally: 'Cara menjalankan Ollama secara lokal?',
+      advancedTitle: 'Lanjutan',
+      advancedDescription:
+        'Berikan konteks tambahan untuk analisis AI, seperti apa yang dilakukan API, aturan bisnisnya, dan area tertentu yang ingin Anda selidiki oleh AI. Rentgen sudah menyertakan permintaan asli, pemetaan field, dan hasil pengujian Anda.',
+      apiContext: 'Konteks API tambahan',
+      apiContextPlaceholder:
+        'mis. Pengembalian dana diizinkan dalam 30 hari.\nHanya admin yang dapat menyetujui jumlah di atas €500.\nFokus pada celah validasi.',
     },
     cli: {
       name: 'CLI',

@@ -1,7 +1,9 @@
 import { useCallback } from 'react';
 import { isSuccessStatus } from 'shared/responseStatus';
 import { PostmanItem } from 'shared/types/postman';
+import { collectRequests } from 'shared/utils/collection';
 import { sendHttp } from 'src/api/network';
+import { getResponseWarnings } from 'src/services/warnings';
 import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
 import {
@@ -17,9 +19,9 @@ import { environmentActions } from 'src/store/slices/environmentSlice';
 import { requestActions } from 'src/store/slices/requestSlice';
 import { responseActions } from 'src/store/slices/responseSlice';
 import { extractRequestParameters } from 'src/test-engine/parameters';
-import { findRequestById } from 'src/utils/collection';
+import { findFolderById, findRequestById } from 'src/utils/collection';
 import { extractDynamicVariables } from 'src/utils/dynamicVariable';
-import { formatExtractionWarning, substituteRequestVariables } from 'src/utils/environment';
+import { substituteRequestVariables } from 'src/utils/environment';
 import { createHttpRequest, extractStatusCode, isAbortedResponse } from 'src/utils/http';
 
 const activeControllers = new Map<string, AbortController>();
@@ -110,9 +112,10 @@ export function useCollectionRunner() {
             bodyParameters,
             queryParameters,
             error: null,
-            warning: isAbortedResponse(response)
-              ? null
-              : formatExtractionWarning(
+            warnings: isAbortedResponse(response)
+              ? []
+              : getResponseWarnings(
+                  response,
                   extractDynamicVariables(selectDynamicVariables(latestState), item.id, response, (variable, value) =>
                     dispatch(environmentActions.updateDynamicVariableValue({ id: variable.id, value })),
                   ),
@@ -128,7 +131,7 @@ export function useCollectionRunner() {
             bodyParameters: {},
             queryParameters: {},
             error: String(error),
-            warning: null,
+            warnings: [],
           }),
         );
       } finally {
@@ -140,26 +143,31 @@ export function useCollectionRunner() {
 
   const runFolder = useCallback(
     async (folderId: string) => {
-      const folder = selectCollectionData(store.getState()).item.find((f) => f.id === folderId);
-      if (!folder || folder.item.length === 0) return;
+      const folder = findFolderById(selectCollectionData(store.getState()), folderId);
+      const folderRequests = folder ? collectRequests(folder.item) : [];
+      const requests = folderRequests.filter((item) => !item.muted);
 
-      const requestIds = folder.item.map((item) => item.id);
+      if (requests.length === 0) return;
+
+      // Also the muted requests' results are cleared: their status doesn't belong to this run
+      dispatch(collectionRunActions.clearFolderResults(folderRequests.map((item) => item.id)));
+
+      const requestIds = requests.map((item) => item.id);
       const run = { cancelled: false, requestIds };
       activeFolderRun = run;
-
-      dispatch(collectionRunActions.clearFolderResults(requestIds));
 
       dispatch(
         collectionRunActions.startFolderRun({
           folderId,
-          totalRequests: folder.item.length,
+          totalRequests: requests.length,
         }),
       );
 
-      for (let i = 0; i < folder.item.length; i++) {
+      for (const request of requests) {
         if (run.cancelled) break;
+        if (findRequestById(selectCollectionData(store.getState()), request.id)?.muted) continue;
 
-        await executeRequest(folder.item[i]);
+        await executeRequest(request);
       }
 
       // When cancelled, cancelFolderRun already finished the run (and a newer run may be in progress meanwhile)

@@ -46,6 +46,10 @@ const tr = {
     add: 'Ekle',
     back: 'Geri',
     stop: 'Durdur',
+    rename: 'Yeniden adlandır',
+    mute: 'Sessize al',
+    unmute: 'Sesi aç',
+    moreActions: 'Diğer işlemler',
     noOptions: 'Seçenek yok',
     resizeHint: 'Yeniden boyutlandırmak için sürükleyin, sıfırlamak için çift tıklayın',
     toggleTheme: 'Temayı değiştir',
@@ -58,13 +62,13 @@ const tr = {
     environments: 'Ortamlar',
     history: 'Geçmiş',
     settings: 'Ayarlar',
-    checkForUpdates: 'Güncellemeleri kontrol et',
     reportFeedback: 'Geri bildirim gönder',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'Yeni Klasör',
+    addFolder: 'Klasör Ekle',
     searchRequests: 'İstekleri ara...',
     noMatchingRequests: 'Eşleşen istek yok',
     noSavedRequests: 'Kaydedilmiş istek yok',
@@ -140,6 +144,19 @@ const tr = {
     networkError: 'Ağ Hatası',
     requestHint: "Bir API URL'si girin, ardından isteğinizi gönderin.",
     responseHint: 'Yanıt gövdesi, başlıklar ve süre bilgileri burada görünecek.',
+    missingContentType: 'content-type başlığı eksik.',
+    invalidJson: 'Geçersiz JSON algılandı.',
+    invalidXml: 'Geçersiz XML algılandı.',
+    extraction: {
+      failed: '{{variable}} çıkarılamadı: {{reason}}.',
+      failedMany: 'Çıkarma başarısız: {{variables}}.',
+      emptyBody: 'yanıt gövdesi boş',
+      selectorNotFound: "yanıtta '{{selector}}' seçicisi bulunamadı",
+      noHeaders: 'yanıtta başlık yok',
+      headerNotFound: "yanıtta '{{selector}}' başlığı bulunamadı",
+      nullValue: 'çıkarılan değer null veya undefined',
+      invalidVariable: 'kaydedilen değişken geçersiz',
+    },
   },
 
   // cURL
@@ -231,8 +248,8 @@ const tr = {
       doNotShowAgain: 'Tekrar gösterme',
     },
     deleteFolder: {
-      title: 'Klasörü Sil',
-      description: 'Bu klasör istekler içeriyor. Silmek istediğinizden emin misiniz?',
+      title: '"{{name}}" Sil',
+      description: 'Bu klasör boş değil. Silmek istediğinizden emin misiniz?',
     },
     importConflict: {
       title: 'İçe Aktarma Çakışmaları Tespit Edildi',
@@ -300,6 +317,19 @@ const tr = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Güncelleme',
+      check: 'Güncellemeleri kontrol et',
+      currentVersion: 'Rentgen v{{version}} kullanıyorsunuz.',
+      checking: 'Güncellemeler kontrol ediliyor...',
+      upToDate: 'Güncelsiniz!',
+      latestVersion: 'Rentgen v{{version}} en son sürümdür.',
+      updateAvailable: 'Yeni bir sürüm mevcut!',
+      newVersionAvailable: 'Rentgen v{{latest}} mevcut.\nv{{current}} kullanıyorsunuz.',
+      download: 'İndir',
+      checkFailed: 'Güncellemeler kontrol edilemedi. Lütfen daha sonra tekrar deneyin.',
+      lastChecked: 'Son kontrol: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Test Motoru',
     general: 'Genel',
     themes: 'Temalar',
@@ -343,6 +373,12 @@ const tr = {
       apiKey: 'API anahtarı',
       apiKeyStorageNotice: 'API anahtarları yerel olarak saklanır. Rentgen bunları almaz.',
       howToRunOllamaLocally: 'Ollama yerel olarak nasıl çalıştırılır?',
+      advancedTitle: 'Gelişmiş',
+      advancedDescription:
+        "Yapay zekânın analizi için ek bağlam sağlayın; örneğin API'nin ne yaptığı, iş kuralları ve yapay zekânın incelemesini istediğiniz belirli alanlar. Rentgen orijinal isteğinizi, alan eşlemelerini ve test sonuçlarını zaten ekler.",
+      apiContext: 'Ek API bağlamı',
+      apiContextPlaceholder:
+        "ör. İadeler 30 gün içinde yapılabilir.\n500 €'nun üzerindeki tutarları yalnızca yöneticiler onaylayabilir.\nDoğrulama açıklarına odaklanın.",
     },
     cli: {
       name: 'CLI',

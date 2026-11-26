@@ -46,6 +46,10 @@ const ru = {
     add: 'Добавить',
     back: 'Назад',
     stop: 'Остановить',
+    rename: 'Переименовать',
+    mute: 'Заглушить',
+    unmute: 'Включить',
+    moreActions: 'Другие действия',
     noOptions: 'Нет вариантов',
     resizeHint: 'Перетащите, чтобы изменить размер, дважды щёлкните для сброса',
     toggleTheme: 'Сменить тему',
@@ -58,13 +62,13 @@ const ru = {
     environments: 'Окружения',
     history: 'История',
     settings: 'Настройки',
-    checkForUpdates: 'Проверить обновления',
     reportFeedback: 'Оставить отзыв',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'Новая папка',
+    addFolder: 'Добавить папку',
     searchRequests: 'Поиск запросов...',
     noMatchingRequests: 'Нет подходящих запросов',
     noSavedRequests: 'Нет сохраненных запросов',
@@ -142,6 +146,19 @@ const ru = {
     networkError: 'Ошибка сети',
     requestHint: 'Введите URL API, затем отправьте запрос.',
     responseHint: 'Тело ответа, заголовки и время выполнения появятся здесь.',
+    missingContentType: 'Отсутствует заголовок content-type.',
+    invalidJson: 'Обнаружен некорректный JSON.',
+    invalidXml: 'Обнаружен некорректный XML.',
+    extraction: {
+      failed: 'Не удалось извлечь {{variable}}: {{reason}}.',
+      failedMany: 'Не удалось извлечь: {{variables}}.',
+      emptyBody: 'тело ответа пустое',
+      selectorNotFound: "селектор '{{selector}}' не найден в ответе",
+      noHeaders: 'в ответе нет заголовков',
+      headerNotFound: "заголовок '{{selector}}' не найден в ответе",
+      nullValue: 'извлечённое значение равно null или undefined',
+      invalidVariable: 'сохранённая переменная некорректна',
+    },
   },
 
   // cURL
@@ -233,8 +250,8 @@ const ru = {
       doNotShowAgain: 'Больше не показывать',
     },
     deleteFolder: {
-      title: 'Удалить папку',
-      description: 'Эта папка содержит запросы. Вы уверены, что хотите ее удалить?',
+      title: 'Удалить "{{name}}"',
+      description: 'Эта папка не пуста. Вы уверены, что хотите ее удалить?',
     },
     importConflict: {
       title: 'Обнаружены конфликты импорта',
@@ -302,6 +319,19 @@ const ru = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Обновление',
+      check: 'Проверить обновления',
+      currentVersion: 'Вы используете Rentgen v{{version}}.',
+      checking: 'Проверка обновлений...',
+      upToDate: 'У вас последняя версия!',
+      latestVersion: 'Rentgen v{{version}} — последняя версия.',
+      updateAvailable: 'Доступна новая версия!',
+      newVersionAvailable: 'Доступен Rentgen v{{latest}}.\nВы используете v{{current}}.',
+      download: 'Скачать',
+      checkFailed: 'Не удалось проверить обновления. Попробуйте позже.',
+      lastChecked: 'Последняя проверка: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Движок тестов',
     general: 'Общие',
     themes: 'Темы',
@@ -347,6 +377,12 @@ const ru = {
       apiKey: 'API-ключ',
       apiKeyStorageNotice: 'API-ключи хранятся локально. Rentgen их не получает.',
       howToRunOllamaLocally: 'Как запустить Ollama локально?',
+      advancedTitle: 'Дополнительно',
+      advancedDescription:
+        'Добавьте контекст для анализа ИИ: что делает API, его бизнес-правила и конкретные области, которые должен исследовать ИИ. Rentgen уже включает ваш исходный запрос, сопоставления полей и результаты тестов.',
+      apiContext: 'Дополнительный контекст API',
+      apiContextPlaceholder:
+        'напр. Возврат средств возможен в течение 30 дней.\nТолько администраторы могут одобрять суммы свыше 500 €.\nСосредоточьтесь на пробелах в валидации.',
     },
     cli: {
       name: 'CLI',

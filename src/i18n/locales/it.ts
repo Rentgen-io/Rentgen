@@ -46,6 +46,10 @@ const it = {
     add: 'Aggiungi',
     back: 'Indietro',
     stop: 'Interrompi',
+    rename: 'Rinomina',
+    mute: 'Silenzia',
+    unmute: 'Riattiva',
+    moreActions: 'Altre azioni',
     noOptions: 'Nessuna opzione',
     resizeHint: 'Trascina per ridimensionare, fai doppio clic per ripristinare',
     toggleTheme: 'Cambia tema',
@@ -58,13 +62,13 @@ const it = {
     environments: 'Ambienti',
     history: 'Cronologia',
     settings: 'Impostazioni',
-    checkForUpdates: 'Verifica aggiornamenti',
     reportFeedback: 'Invia un feedback',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'Nuova cartella',
+    addFolder: 'Aggiungi cartella',
     searchRequests: 'Cerca richieste...',
     noMatchingRequests: 'Nessuna richiesta corrispondente',
     noSavedRequests: 'Nessuna richiesta salvata',
@@ -140,6 +144,19 @@ const it = {
     networkError: 'Errore di rete',
     requestHint: "Inserisci un URL dell'API, quindi invia la richiesta.",
     responseHint: 'Il corpo della risposta, le intestazioni e le tempistiche appariranno qui.',
+    missingContentType: 'Intestazione content-type mancante.',
+    invalidJson: 'Rilevato JSON non valido.',
+    invalidXml: 'Rilevato XML non valido.',
+    extraction: {
+      failed: 'Impossibile estrarre {{variable}}: {{reason}}.',
+      failedMany: 'Estrazione non riuscita: {{variables}}.',
+      emptyBody: 'il corpo della risposta è vuoto',
+      selectorNotFound: "selettore '{{selector}}' non trovato nella risposta",
+      noHeaders: 'la risposta non ha intestazioni',
+      headerNotFound: "intestazione '{{selector}}' non trovata nella risposta",
+      nullValue: 'il valore estratto è null o undefined',
+      invalidVariable: 'la variabile salvata non è valida',
+    },
   },
 
   // cURL
@@ -232,8 +249,8 @@ const it = {
       doNotShowAgain: 'Non mostrare più',
     },
     deleteFolder: {
-      title: 'Elimina cartella',
-      description: 'Questa cartella contiene richieste. Sei sicuro di volerla eliminare?',
+      title: 'Elimina "{{name}}"',
+      description: 'Questa cartella non è vuota. Sei sicuro di volerla eliminare?',
     },
     importConflict: {
       title: 'Rilevati conflitti di importazione',
@@ -302,6 +319,19 @@ const it = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Aggiornamento',
+      check: 'Verifica aggiornamenti',
+      currentVersion: 'Stai usando Rentgen v{{version}}.',
+      checking: 'Verifica degli aggiornamenti...',
+      upToDate: 'Sei aggiornato!',
+      latestVersion: 'Rentgen v{{version}} è la versione più recente.',
+      updateAvailable: 'È disponibile una nuova versione!',
+      newVersionAvailable: 'Rentgen v{{latest}} è disponibile.\nStai usando la v{{current}}.',
+      download: 'Scarica',
+      checkFailed: 'Impossibile verificare gli aggiornamenti. Riprova più tardi.',
+      lastChecked: 'Ultimo controllo: {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Motore di test',
     general: 'Generale',
     themes: 'Temi',
@@ -345,6 +375,12 @@ const it = {
       apiKey: 'Chiave API',
       apiKeyStorageNotice: 'Le chiavi API sono archiviate localmente. Rentgen non le riceve.',
       howToRunOllamaLocally: 'Come eseguire Ollama in locale?',
+      advancedTitle: 'Avanzate',
+      advancedDescription:
+        "Fornisci un contesto aggiuntivo per l'analisi dell'IA, ad esempio cosa fa l'API, le sue regole di business e le aree specifiche che vuoi far analizzare all'IA. Rentgen include già la tua richiesta originale, le mappature dei campi e i risultati dei test.",
+      apiContext: "Contesto aggiuntivo dell'API",
+      apiContextPlaceholder:
+        'es. I rimborsi sono consentiti entro 30 giorni.\nSolo gli amministratori possono approvare importi superiori a 500 €.\nConcentrati sulle lacune di validazione.',
     },
     cli: {
       name: 'CLI',

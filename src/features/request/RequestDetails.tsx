@@ -2,6 +2,7 @@ import { t } from 'i18next';
 import MethodBadge from 'src/components/badges/MethodBadge';
 import { useAppSelector } from 'src/store/hooks';
 import { selectMethod, selectMode, selectSelectedRequestWithFolder } from 'src/store/selectors';
+import { FOLDER_PATH_SEPARATOR } from 'src/utils/collection';
 
 export default function RequestDetails() {
   const method = useAppSelector(selectMethod);
@@ -9,12 +10,12 @@ export default function RequestDetails() {
   const selectedRequest = useAppSelector(selectSelectedRequestWithFolder);
 
   return (
-    <div className="flex items-center gap-2 py-3 px-4 text-xs bg-surface">
+    <div className="flex items-center gap-2 py-3.5 px-4 text-xs bg-surface">
       <MethodBadge method={mode === 'HTTP' ? method : mode} />
       <span className="flex-auto truncate">{selectedRequest?.request.name || t('request.untitledRequest')}</span>
       {selectedRequest && (
         <span className="hidden @lg:block text-xs text-muted-foreground whitespace-nowrap">
-          {selectedRequest.folder.name}
+          {selectedRequest.path.map((folder) => folder.name).join(FOLDER_PATH_SEPARATOR)}
         </span>
       )}
     </div>

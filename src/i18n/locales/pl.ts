@@ -46,6 +46,10 @@ const pl = {
     add: 'Dodaj',
     back: 'Wstecz',
     stop: 'Zatrzymaj',
+    rename: 'Zmień nazwę',
+    mute: 'Wycisz',
+    unmute: 'Wyłącz wyciszenie',
+    moreActions: 'Więcej akcji',
     noOptions: 'Brak opcji',
     resizeHint: 'Przeciągnij, aby zmienić rozmiar, kliknij dwukrotnie, aby przywrócić',
     toggleTheme: 'Przełącz motyw',
@@ -58,13 +62,13 @@ const pl = {
     environments: 'Środowiska',
     history: 'Historia',
     settings: 'Ustawienia',
-    checkForUpdates: 'Sprawdź aktualizacje',
     reportFeedback: 'Zgłoś opinię',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'Nowy folder',
+    addFolder: 'Dodaj folder',
     searchRequests: 'Szukaj zapytań...',
     noMatchingRequests: 'Brak pasujących zapytań',
     noSavedRequests: 'Brak zapisanych zapytań',
@@ -142,6 +146,19 @@ const pl = {
     networkError: 'Błąd sieci',
     requestHint: 'Wpisz URL API, a następnie wyślij zapytanie.',
     responseHint: 'Treść odpowiedzi, nagłówki i czasy pojawią się tutaj.',
+    missingContentType: 'Brak nagłówka content-type.',
+    invalidJson: 'Wykryto nieprawidłowy JSON.',
+    invalidXml: 'Wykryto nieprawidłowy XML.',
+    extraction: {
+      failed: 'Nie udało się wyodrębnić {{variable}}: {{reason}}.',
+      failedMany: 'Nie udało się wyodrębnić: {{variables}}.',
+      emptyBody: 'treść odpowiedzi jest pusta',
+      selectorNotFound: "nie znaleziono selektora '{{selector}}' w odpowiedzi",
+      noHeaders: 'odpowiedź nie ma nagłówków',
+      headerNotFound: "nie znaleziono nagłówka '{{selector}}' w odpowiedzi",
+      nullValue: 'wyodrębniona wartość to null lub undefined',
+      invalidVariable: 'zapisana zmienna jest nieprawidłowa',
+    },
   },
 
   // cURL
@@ -234,8 +251,8 @@ const pl = {
       doNotShowAgain: 'Nie pokazuj ponownie',
     },
     deleteFolder: {
-      title: 'Usuń folder',
-      description: 'Ten folder zawiera zapytania. Czy na pewno chcesz go usunąć?',
+      title: 'Usuń "{{name}}"',
+      description: 'Ten folder nie jest pusty. Czy na pewno chcesz go usunąć?',
     },
     importConflict: {
       title: 'Wykryto konflikty importu',
@@ -303,6 +320,19 @@ const pl = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Aktualizacja',
+      check: 'Sprawdź aktualizacje',
+      currentVersion: 'Używasz Rentgen v{{version}}.',
+      checking: 'Sprawdzanie aktualizacji...',
+      upToDate: 'Masz najnowszą wersję!',
+      latestVersion: 'Rentgen v{{version}} to najnowsza wersja.',
+      updateAvailable: 'Dostępna jest nowa wersja!',
+      newVersionAvailable: 'Dostępny jest Rentgen v{{latest}}.\nUżywasz v{{current}}.',
+      download: 'Pobierz',
+      checkFailed: 'Nie udało się sprawdzić aktualizacji. Spróbuj ponownie później.',
+      lastChecked: 'Ostatnio sprawdzono {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Silnik testów',
     general: 'Ogólne',
     themes: 'Motywy',
@@ -348,6 +378,12 @@ const pl = {
       apiKey: 'Klucz API',
       apiKeyStorageNotice: 'Klucze API są przechowywane lokalnie. Rentgen ich nie otrzymuje.',
       howToRunOllamaLocally: 'Jak uruchomić Ollama lokalnie?',
+      advancedTitle: 'Zaawansowane',
+      advancedDescription:
+        'Podaj dodatkowy kontekst do analizy AI, np. co robi API, jakie ma reguły biznesowe i które konkretne obszary ma zbadać AI. Rentgen już dołącza Twoje oryginalne żądanie, mapowania pól i wyniki testów.',
+      apiContext: 'Dodatkowy kontekst API',
+      apiContextPlaceholder:
+        'np. Zwroty są możliwe w ciągu 30 dni.\nTylko administratorzy mogą zatwierdzać kwoty powyżej 500 €.\nSkup się na lukach w walidacji.',
     },
     cli: {
       name: 'CLI',

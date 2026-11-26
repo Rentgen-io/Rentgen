@@ -8,15 +8,17 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   orientation?: 'horizontal' | 'vertical';
 }
 
-// While dragging, index.css applies the cursor to the whole page (.is-resizing-row / -col): keep both in sync
+// While dragging, index.css applies the cursor to the whole page (.is-resizing-row / -col): keep both in sync.
+// The 1px line ends at the handle's middle, i.e. it is the parent's last pixel row / column: exactly over its
+// border-b / border-r, and on whole pixels (centering it with a translate would blur it over two)
 const ORIENTATION_CLASSES = {
   horizontal: {
     handle: 'inset-x-0 -bottom-1 h-2 cursor-ns-resize',
-    line: 'inset-x-0 top-1/2 h-0.5 -translate-y-1/2',
+    line: 'inset-x-0 bottom-1/2 h-px',
   },
   vertical: {
     handle: 'inset-y-0 -right-1 w-2 cursor-ew-resize',
-    line: 'inset-y-0 left-1/2 w-0.5 -translate-x-1/2',
+    line: 'inset-y-0 right-1/2 w-px',
   },
 };
 

@@ -1,11 +1,12 @@
 import { Method } from 'axios';
 import { RESPONSE_STATUS_LABEL } from 'shared/responseStatus';
-import { FormEntry, HttpRequest, HttpResponse, RequestBody } from 'shared/types/http';
+import { FormEntry, HttpRequest, HttpResponse, RequestBody, ResponseWarning } from 'shared/types/http';
 import { PostmanBody } from 'shared/types/postman';
+import { getHeaderValue } from 'shared/utils/headers';
 import { buildFieldsBody } from 'shared/utils/http';
 import { tryParseJsonObject } from './object';
 
-const METHODS_WITHOUT_BODY = new Set(['GET', 'HEAD']);
+export const METHODS_WITHOUT_BODY = new Set(['GET', 'HEAD']);
 
 // ---------- Requests ----------
 
@@ -54,4 +55,41 @@ export function extractStatusCode(response: HttpResponse | null): number {
 /** Whether the request was cancelled by the user (the HTTP handler resolves it with this status, it doesn't throw). */
 export function isAbortedResponse(response: HttpResponse | null | undefined): boolean {
   return response?.status === RESPONSE_STATUS_LABEL.ABORTED;
+}
+
+// Same media types the HTTP handler parses as JSON or keeps as XML text, also with parameters such as `; charset=utf-8`
+const JSON_CONTENT_TYPE_REGEX = /\bapplication\/([\w.-]+\+)?json\b/i;
+const XML_CONTENT_TYPE_REGEX = /\b(text\/xml|application\/([\w.-]+\+)?xml)\b/i;
+
+function isValidJson(text: string): boolean {
+  try {
+    JSON.parse(text);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function isValidXml(text: string): boolean {
+  return !new DOMParser().parseFromString(text, 'application/xml').getElementsByTagName('parsererror').length;
+}
+
+/**
+ * The first problem with how a response declares its body: no Content-Type, then a body that doesn't match a JSON or
+ * XML Content-Type. Responses without a body (e.g. 204) or without a status (network error, aborted) have none.
+ */
+export function getResponseFormatWarning(response: HttpResponse | null | undefined): ResponseWarning | null {
+  if (!response || !extractStatusCode(response)) return null;
+
+  const { body } = response;
+  if (body === null || body === undefined || body === '') return null;
+
+  const contentType = getHeaderValue(response.headers ?? {}, 'content-type').trim();
+  if (!contentType) return 'missingContentType';
+
+  // The HTTP handler parses JSON bodies, so a JSON one still left as text didn't parse
+  if (JSON_CONTENT_TYPE_REGEX.test(contentType) && typeof body === 'string' && !isValidJson(body)) return 'invalidJson';
+  if (XML_CONTENT_TYPE_REGEX.test(contentType) && (typeof body !== 'string' || !isValidXml(body))) return 'invalidXml';
+
+  return null;
 }

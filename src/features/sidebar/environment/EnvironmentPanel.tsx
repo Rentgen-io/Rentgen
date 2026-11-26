@@ -44,15 +44,17 @@ export default function EnvironmentPanel() {
 
   return (
     <>
-      <div
-        className="h-9 shrink-0 flex items-center gap-2 px-3 py-2 border-b border-border hover:bg-muted box-border cursor-pointer outline-none"
-        onClick={() => dispatch(environmentActions.startAddEnvironment())}
-      >
-        <AddIcon className="size-4 text-muted-foreground" />
-        <span className="text-xs text-muted-foreground">{t('environment.newEnvironment')}</span>
+      <div className="h-8 shrink-0 flex items-center justify-between gap-2 p-1 box-border">
+        <div
+          className="h-full flex items-center gap-2 w-full py-1 px-2 rounded hover:bg-muted box-border cursor-pointer outline-none"
+          onClick={() => dispatch(environmentActions.startAddEnvironment())}
+        >
+          <AddIcon className="size-3.5 text-muted-foreground" />
+          <span className="text-xs text-muted-foreground">{t('environment.newEnvironment')}</span>
+        </div>
       </div>
       {environments.length > 0 ? (
-        <div className="h-full overflow-x-hidden overflow-y-auto">
+        <div className="h-full p-1 border-t border-border overflow-x-hidden overflow-y-auto">
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext items={environmentIds} strategy={verticalListSortingStrategy}>
               {environments.map((env) => (
@@ -62,7 +64,7 @@ export default function EnvironmentPanel() {
           </DndContext>
         </div>
       ) : (
-        <div className="flex items-center justify-center h-full w-full p-4 text-xs text-muted-foreground">
+        <div className="flex items-center justify-center h-full w-full p-4 text-xs text-muted-foreground border-t border-border">
           {t('environment.noEnvironmentsCreated')}
         </div>
       )}

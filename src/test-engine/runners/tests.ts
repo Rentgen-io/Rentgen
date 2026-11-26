@@ -5,6 +5,7 @@ import { getDatasets } from 'src/constants/datasets';
 import { store } from 'src/store';
 import {
   selectActiveAiProvider,
+  selectAiApiContext,
   selectAiOverview,
   selectAiTests,
   selectAiUsage,
@@ -216,13 +217,14 @@ export function cancelAiTestsGeneration() {
 export async function executeAiTestsGeneration(options: TestOptions | null, maskedFields: string[]) {
   const state = store.getState();
   const activeAiProvider = selectActiveAiProvider(state);
+  const apiContext = selectAiApiContext(state);
   const selectedRequestId = selectSelectedRequestId(state);
 
   if (!options || !activeAiProvider) return;
 
   dispatch(testsActions.setAiRunning(true));
 
-  aiTestsInstance = new AiTests(activeAiProvider, maskedFields, options, {
+  aiTestsInstance = new AiTests(activeAiProvider, apiContext, maskedFields, options, {
     crudTests: selectCrudTests(state),
     dataDrivenTests: selectDataDrivenTests(state),
     performanceTests: selectPerformanceTests(state),

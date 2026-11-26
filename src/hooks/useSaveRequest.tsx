@@ -1,12 +1,14 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { notify } from 'src/services/notify';
+import { getResponseWarnings } from 'src/services/warnings';
 import { store } from 'src/store';
 import { useAppDispatch } from 'src/store/hooks';
 import {
   selectBody,
   selectBodyParameters,
   selectCollectionData,
+  selectCollectionRunResults,
   selectCurrentTestResults,
   selectHeaders,
   selectHttpResponse,
@@ -62,7 +64,9 @@ export function useSaveRequest() {
         if (requestId && testResults) dispatch(testsActions.addResults({ requestId, results: testResults }));
       }
 
-      if (requestId && httpResponse)
+      if (requestId && httpResponse) {
+        const runResult = selectCollectionRunResults(state)[requestId];
+
         dispatch(
           collectionRunActions.addResult({
             bodyParameters: selectBodyParameters(state),
@@ -71,8 +75,10 @@ export function useSaveRequest() {
             requestId,
             response: httpResponse,
             status: extractStatusCode(httpResponse),
+            warnings: runResult?.response === httpResponse ? runResult.warnings : getResponseWarnings(httpResponse),
           }),
         );
+      }
 
       if (!silent) notify.success(t('common.saved'), { toastId: 'success-save-request' });
     },

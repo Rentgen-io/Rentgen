@@ -55,7 +55,7 @@ function HistoryItem({ entry, searchTerm }: Props) {
 
   return (
     <div
-      className="h-9 relative flex items-center gap-2 px-3 py-1.5 hover:bg-muted box-border group cursor-pointer outline-none"
+      className="h-6 relative flex items-center gap-2 py-1 pl-7 pr-2 rounded hover:bg-muted box-border group cursor-pointer outline-none"
       onClick={handleClick}
     >
       <MethodBadge method={entry.method} />
@@ -63,7 +63,7 @@ function HistoryItem({ entry, searchTerm }: Props) {
         {searchTerm ? <SearchHighlighter text={displayUrl} term={searchTerm} /> : displayUrl}
       </span>
       <span className="text-xs text-muted-foreground shrink-0">{time}</span>
-      <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center bg-muted opacity-0 group-hover:opacity-100">
+      <div className="absolute top-0 bottom-0 right-0 px-2 flex items-center rounded bg-muted opacity-0 group-hover:opacity-100">
         <TrashIcon
           className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
           onClick={(event: MouseEvent) => {

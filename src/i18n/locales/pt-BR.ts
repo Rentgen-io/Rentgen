@@ -46,6 +46,10 @@ const ptBR = {
     add: 'Adicionar',
     back: 'Voltar',
     stop: 'Parar',
+    rename: 'Renomear',
+    mute: 'Silenciar',
+    unmute: 'Reativar',
+    moreActions: 'Mais ações',
     noOptions: 'Sem opções',
     resizeHint: 'Arraste para redimensionar, clique duas vezes para redefinir',
     toggleTheme: 'Alternar tema',
@@ -58,13 +62,13 @@ const ptBR = {
     environments: 'Ambientes',
     history: 'Histórico',
     settings: 'Configurações',
-    checkForUpdates: 'Verificar atualizações',
     reportFeedback: 'Enviar feedback',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'Nova pasta',
+    addFolder: 'Adicionar pasta',
     searchRequests: 'Buscar requisições...',
     noMatchingRequests: 'Nenhuma requisição correspondente',
     noSavedRequests: 'Nenhuma requisição salva',
@@ -140,6 +144,19 @@ const ptBR = {
     networkError: 'Erro de rede',
     requestHint: 'Digite a URL de uma API e envie sua requisição.',
     responseHint: 'O corpo da resposta, os cabeçalhos e os tempos aparecerão aqui.',
+    missingContentType: 'Cabeçalho content-type ausente.',
+    invalidJson: 'JSON inválido detectado.',
+    invalidXml: 'XML inválido detectado.',
+    extraction: {
+      failed: 'Falha ao extrair {{variable}}: {{reason}}.',
+      failedMany: 'Falha ao extrair: {{variables}}.',
+      emptyBody: 'o corpo da resposta está vazio',
+      selectorNotFound: "seletor '{{selector}}' não encontrado na resposta",
+      noHeaders: 'a resposta não tem cabeçalhos',
+      headerNotFound: "cabeçalho '{{selector}}' não encontrado na resposta",
+      nullValue: 'o valor extraído é null ou undefined',
+      invalidVariable: 'a variável salva é inválida',
+    },
   },
 
   // cURL
@@ -232,8 +249,8 @@ const ptBR = {
       doNotShowAgain: 'Não mostrar novamente',
     },
     deleteFolder: {
-      title: 'Excluir pasta',
-      description: 'Esta pasta contém requisições. Tem certeza de que deseja excluí-la?',
+      title: 'Excluir "{{name}}"',
+      description: 'Esta pasta não está vazia. Tem certeza de que deseja excluí-la?',
     },
     importConflict: {
       title: 'Conflitos de importação detectados',
@@ -302,6 +319,19 @@ const ptBR = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Atualização',
+      check: 'Verificar atualizações',
+      currentVersion: 'Você está usando o Rentgen v{{version}}.',
+      checking: 'Verificando atualizações...',
+      upToDate: 'Você está atualizado!',
+      latestVersion: 'Rentgen v{{version}} é a versão mais recente.',
+      updateAvailable: 'Uma nova versão está disponível!',
+      newVersionAvailable: 'Rentgen v{{latest}} está disponível.\nVocê está usando a v{{current}}.',
+      download: 'Baixar',
+      checkFailed: 'Não foi possível verificar atualizações. Tente novamente mais tarde.',
+      lastChecked: 'Última verificação em {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Motor de testes',
     general: 'Geral',
     themes: 'Temas',
@@ -345,6 +375,12 @@ const ptBR = {
       apiKey: 'Chave de API',
       apiKeyStorageNotice: 'As chaves de API são armazenadas localmente. O Rentgen não as recebe.',
       howToRunOllamaLocally: 'Como executar o Ollama localmente?',
+      advancedTitle: 'Avançado',
+      advancedDescription:
+        'Forneça contexto adicional para a análise da IA, como o que a API faz, suas regras de negócio e quaisquer áreas específicas que você queira que a IA investigue. O Rentgen já inclui sua requisição original, os mapeamentos de campos e os resultados dos testes.',
+      apiContext: 'Contexto adicional da API',
+      apiContextPlaceholder:
+        'ex. Reembolsos são permitidos em até 30 dias.\nApenas administradores podem aprovar valores acima de €500.\nFoque em falhas de validação.',
     },
     cli: {
       name: 'CLI',

@@ -24,7 +24,7 @@ import type { TestEngineConfiguration } from 'shared/types/settings';
 import { type TestOptions, type TestResult, TestStatus } from 'shared/types/testing';
 import { getHeaderValue } from 'shared/utils/headers';
 import { sendHttp } from 'src/api/network';
-import { createHttpRequest } from 'src/utils/http';
+import { createHttpRequest, METHODS_WITHOUT_BODY } from 'src/utils/http';
 import { uppercaseDomain, uppercasePath } from 'src/utils/url';
 import {
   BaseTests,
@@ -735,7 +735,7 @@ function validateCacheControl(
   if (!cacheControl)
     return {
       actual: MISSING_ACTUAL,
-      status: ['GET', 'HEAD'].includes(method.toUpperCase()) ? TestStatus.Fail : TestStatus.Warning,
+      status: METHODS_WITHOUT_BODY.has(method.toUpperCase()) ? TestStatus.Fail : TestStatus.Warning,
     };
 
   return {

@@ -3,21 +3,32 @@ import { MouseEvent } from 'react';
 
 interface Props {
   label: string;
+  destructive?: boolean;
   disabled?: boolean;
   divider?: boolean;
   title?: string;
   onClick: (event: MouseEvent) => void;
 }
 
-export default function ContextMenuItem({ label, disabled = false, divider = false, title, onClick }: Props) {
+export default function ContextMenuItem({
+  label,
+  destructive = false,
+  disabled = false,
+  divider = false,
+  title,
+  onClick,
+}: Props) {
   return (
     <>
       {divider && <div className="my-1 border-t border-border" role="separator" />}
       <button
         className={cn(
-          'w-full px-3 py-1.5 text-left text-xs text-foreground hover:bg-accent-soft focus-visible:bg-accent-soft outline-none border-none bg-transparent cursor-pointer',
+          'w-full px-3 py-1.5 text-left text-xs bg-transparent focus-visible:bg-accent-soft outline-none border-none',
           {
-            'opacity-50 hover:bg-transparent cursor-not-allowed': disabled,
+            'hover:bg-accent-soft cursor-pointer': !disabled,
+            'text-foreground': !destructive,
+            'text-destructive': destructive,
+            'opacity-50 cursor-not-allowed': disabled,
           },
         )}
         disabled={disabled}

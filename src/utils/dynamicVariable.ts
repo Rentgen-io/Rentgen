@@ -1,4 +1,4 @@
-import { DynamicVariable, ExtractionFailure, ExtractionResult } from 'shared/types/environment';
+import { DynamicVariable, ExtractionError, ExtractionFailure, ExtractionResult } from 'shared/types/environment';
 import { HttpResponse } from 'shared/types/http';
 import { getHeaderKey } from 'shared/utils/headers';
 import { extractValue, stringifyExtractedValue } from './environment';
@@ -20,7 +20,6 @@ export function extractDynamicVariables(
     if (!variable) continue;
 
     const result = extractFromResponse(variable, response);
-
     if (result.success) onExtracted?.(variable, result.value);
     else
       failures.push({
@@ -42,7 +41,6 @@ function resolveForRequest(variable: DynamicVariable, requestId: string): Dynami
   if (variable.requestId === requestId) return variable;
 
   const previousRequest = variable.previousRequests?.find((entry) => entry.requestId === requestId);
-
   return previousRequest ? { ...variable, selector: previousRequest.selector, source: previousRequest.source } : null;
 }
 
@@ -53,31 +51,30 @@ function extractFromResponse(variable: DynamicVariable, response: HttpResponse):
 
     switch (variable.source) {
       case 'body':
-        if (!response.body) return failure('response body is empty');
+        if (!response.body) return failure('emptyBody');
 
         extractedValue = extractValue(response.body, variable.selector);
-        if (extractedValue === undefined) return failure(`selector '${variable.selector}' not found in response`);
+        if (extractedValue === undefined) return failure('selectorNotFound');
         break;
 
       case 'header': {
-        if (!response.headers) return failure('response has no headers');
+        if (!response.headers) return failure('noHeaders');
 
         const headerKey = getHeaderKey(response.headers, variable.selector);
         extractedValue = headerKey ? response.headers[headerKey] : undefined;
-        if (extractedValue === undefined) return failure(`header '${variable.selector}' not found in response`);
+        if (extractedValue === undefined) return failure('headerNotFound');
         break;
       }
     }
 
     const value = stringifyExtractedValue(extractedValue);
-
-    return value === null ? failure('extracted value is null or undefined') : { success: true, value };
-  } catch (error) {
+    return value === null ? failure('nullValue') : { success: true, value };
+  } catch {
     // Malformed saved variables (e.g. without a selector) must not break handling the response
-    return failure(String(error));
+    return failure('invalidVariable');
   }
 }
 
-function failure(error: string): ExtractionResult {
+function failure(error: ExtractionError): ExtractionResult {
   return { success: false, error };
 }

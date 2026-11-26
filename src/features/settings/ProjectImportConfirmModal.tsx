@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { HistoryEntry } from 'shared/types/history';
 import { MappingsState } from 'shared/types/mappings';
 import { SettingsState } from 'shared/types/settings';
+import { countNodes } from 'shared/utils/collection';
 import { exportProject } from 'src/api/files';
 import IntegrityBadge from 'src/components/badges/IntegrityBadge';
 import Button, { ButtonSize, ButtonType } from 'src/components/buttons/Button';
@@ -32,8 +33,8 @@ export default function ProjectImportConfirmModal() {
 
   if (!isOpen || !data || !meta || !integrityStatus) return null;
 
-  const folderCount = data.collection?.item?.length ?? 0;
-  const requestCount = data.collection?.item?.reduce((acc, folder) => acc + (folder.item?.length ?? 0), 0) ?? 0;
+  // Also the subfolders and the requests in them (countNodes is safe on the unvalidated file data)
+  const { folders: folderCount, requests: requestCount } = countNodes(data.collection?.item);
   const environmentCount = data.environments?.length ?? 0;
   const dynamicVariableCount = data.dynamicVariables?.length ?? 0;
   const historyCount = data.history?.length ?? 0;

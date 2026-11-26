@@ -1,5 +1,6 @@
 import { BrowserWindow, dialog, ipcMain } from 'electron';
 import * as fs from 'fs';
+import { appConfig } from 'shared/constants';
 import {
   ARRAY_LIST_WITHOUT_PAGINATION_TEST_NAME,
   AUTHORIZATION_TEST_NAME,
@@ -488,7 +489,7 @@ export function registerCertificateHandlers(): void {
           <section class="certificate">
             <header class="cert-header">
               <div class="brand">
-                <img class="brand-logo" src="https://rentgen.io/assets/rentgen-logo.png" alt="Rentgen logo" />
+                <img class="brand-logo" src="${appConfig.origin}/assets/rentgen-logo.png" alt="Rentgen logo" />
                 <div class="brand-text">
                   <div class="brand-title">RENTGEN CERTIFICATE</div>
                   <div class="brand-subtitle">Local-first API quality signal</div>

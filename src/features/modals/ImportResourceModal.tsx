@@ -121,8 +121,8 @@ export default function ImportResourceModal() {
           {!value && (
             <div
               className={cn(
-                'flex flex-auto flex-col items-center justify-center gap-1 border border-dashed text-xs leading-normal select-none',
-                isDragging ? 'bg-gray-500/10 dark:bg-gray-500/20' : 'border-border',
+                'flex flex-auto flex-col items-center justify-center gap-1 border border-dashed rounded text-xs leading-normal select-none',
+                isDragging ? 'bg-accent-soft border-primary' : 'border-border',
               )}
               onDragEnter={handleDragOver}
               onDragLeave={handleDragLeave}

@@ -1,12 +1,12 @@
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import { Method } from 'axios';
 import cn from 'classnames';
 import { memo, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import MethodBadge from 'src/components/badges/MethodBadge';
 import SearchHighlighter from 'src/components/highlighters/SearchHighlighter';
 import { useContextMenu } from 'src/features/context-menu';
 import { useReset } from 'src/hooks/useReset';
+import { formatResponseWarning } from 'src/services/warnings';
 import { store } from 'src/store';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
@@ -26,14 +26,16 @@ import { responseActions } from 'src/store/slices/responseSlice';
 import { testsActions } from 'src/store/slices/testsSlice';
 import { CollectionItemData, findFolderIdByRequestId, findRequestById } from 'src/utils/collection';
 import { isAbortedResponse } from 'src/utils/http';
+import RowActionsMenu from './RowActionsMenu';
+import { DropIndicator, getIndent, useTreeNodeDnd } from './treeDnd';
 import { useCollectionRunner } from './useCollectionRunner';
 
-import EditIcon from 'src/assets/icons/edit-icon.svg';
 import PlayIcon from 'src/assets/icons/play-icon.svg';
 import StopIcon from 'src/assets/icons/stop-icon.svg';
-import TrashIcon from 'src/assets/icons/trash-icon.svg';
 
 interface Props {
+  /** Nesting level: 1 for a request directly in a top-level folder. */
+  depth: number;
   item: CollectionItemData;
   searchTerm?: string;
 }
@@ -42,8 +44,9 @@ interface Props {
  * A request in the sidebar. Subscribes only to what this row shows (its own selection / run state), and data only
  * needed when it's clicked is read from the store then: a change of another request doesn't re-render it (memo).
  */
-function CollectionItem({ item, searchTerm }: Props) {
+function CollectionItem({ depth, item, searchTerm }: Props) {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { cancelRequestRun, runRequest } = useCollectionRunner();
   const { isOpen } = useContextMenu();
   const reset = useReset();
@@ -56,10 +59,13 @@ function CollectionItem({ item, searchTerm }: Props) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editingName, setEditingName] = useState<string>(item.name);
 
-  const { attributes, isDragging, listeners, transform, transition, setNodeRef } = useSortable({
-    id: item.id,
-    data: { type: 'item', folderId: item.folderId },
-  });
+  const indent = getIndent(depth);
+  // Not draggable while searching: the list then shows only the matches, so drop positions would be misleading
+  const { attributes, dropPosition, isDragging, listeners, setNodeRef } = useTreeNodeDnd(
+    item.id,
+    { type: 'request', name: item.name, method: item.method },
+    Boolean(searchTerm),
+  );
 
   useEffect(() => setEditingName(item.name), [isEditing, item.name]);
 
@@ -127,11 +133,14 @@ function CollectionItem({ item, searchTerm }: Props) {
     if (isComparingTestResults) dispatch(testsActions.clearResultsToCompare());
   };
 
-  const handlePlayClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
-
+  const toggleRun = () => {
     if (isRequestRunning) cancelRequestRun(item.id);
     else runRequest(item.id);
+  };
+
+  const handlePlayClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    toggleRun();
   };
 
   const onSaveEdit = () => {
@@ -144,15 +153,13 @@ function CollectionItem({ item, searchTerm }: Props) {
   return (
     <div
       ref={setNodeRef}
-      style={{
-        transform: CSS.Transform.toString(transform),
-        transition,
-      }}
+      style={{ paddingLeft: indent }}
       className={cn(
-        'relative h-9 flex items-center gap-2 px-3 py-1.5 hover:bg-muted box-border group cursor-pointer outline-none',
+        'relative h-6 flex items-center gap-2 py-1 pr-2 rounded',
+        'hover:bg-muted has-aria-expanded:bg-muted box-border group cursor-pointer outline-none',
         {
           'bg-muted': isSelected,
-          'opacity-50 shadow-lg z-50': isDragging,
+          'opacity-50': isDragging,
         },
       )}
       onClick={handleClick}
@@ -164,12 +171,12 @@ function CollectionItem({ item, searchTerm }: Props) {
           <span className="size-1.75 rounded-full shrink-0 bg-muted-foreground" title={runResult.response?.status} />
         ) : (
           <span
-            title={runResult.warning || undefined}
+            title={runResult.warnings[0] && formatResponseWarning(runResult.warnings[0])}
             className={cn('size-1.75 rounded-full shrink-0', {
               'bg-metric-warning':
-                runResult.warning && runResult.status && runResult.status >= 200 && runResult.status < 400,
+                runResult.warnings.length > 0 && runResult.status && runResult.status >= 200 && runResult.status < 400,
               'bg-metric-pass':
-                !runResult.warning && runResult.status && runResult.status >= 200 && runResult.status < 400,
+                !runResult.warnings.length && runResult.status && runResult.status >= 200 && runResult.status < 400,
               'bg-primary': runResult.status && runResult.status >= 400 && runResult.status < 500,
               'bg-metric-fail': !runResult.status || runResult.status < 200 || runResult.status >= 500,
             })}
@@ -196,36 +203,53 @@ function CollectionItem({ item, searchTerm }: Props) {
       )}
       {!isEditing && (
         <>
-          <span className="flex-1 text-xs truncate" title={item.name}>
+          <span className={cn('flex-1 text-xs truncate', { 'opacity-75': item.muted })} title={item.name}>
             {searchTerm ? <SearchHighlighter text={item.name} term={searchTerm} /> : item.name}
           </span>
-          <div className="absolute top-0 bottom-0 right-0 px-3 flex items-center gap-2 bg-muted opacity-0 group-hover:opacity-100">
+          <div
+            className={cn(
+              'absolute top-0 bottom-0 right-0 px-2 flex items-center gap-1 rounded bg-muted',
+              'opacity-0 group-hover:opacity-100 has-focus-visible:opacity-100 has-aria-expanded:opacity-100',
+            )}
+          >
             {!isAnyFolderRunning &&
               (isRequestRunning ? (
-                <StopIcon className="size-4 text-red-500 hover:text-red-600 cursor-pointer" onClick={handlePlayClick} />
+                <StopIcon
+                  className="size-4 text-red-500 hover:text-red-600 cursor-pointer"
+                  title={t('common.stop')}
+                  onClick={handlePlayClick}
+                />
               ) : (
                 <PlayIcon
                   className="size-4 text-green-500 hover:text-green-600 cursor-pointer"
+                  title={t('common.run')}
                   onClick={handlePlayClick}
                 />
               ))}
-            <EditIcon
-              className="size-4 text-muted-foreground hover:text-blue-600 cursor-pointer"
-              onClick={(event: React.MouseEvent) => {
-                event.stopPropagation();
-                setIsEditing(true);
-              }}
-            />
-            <TrashIcon
-              className="size-3 text-muted-foreground hover:text-red-600 cursor-pointer"
-              onClick={(event: MouseEvent) => {
-                event.stopPropagation();
-                dispatch(collectionActions.removeRequest(item.id));
-              }}
+            <RowActionsMenu
+              actions={[
+                {
+                  label: isRequestRunning ? t('common.stop') : t('common.run'),
+                  disabled: isAnyFolderRunning,
+                  onClick: toggleRun,
+                },
+                {
+                  label: item.muted ? t('common.unmute') : t('common.mute'),
+                  onClick: () =>
+                    dispatch(collectionActions.setRequestMuted({ requestId: item.id, muted: !item.muted })),
+                },
+                { label: t('common.rename'), divider: true, onClick: () => setIsEditing(true) },
+                {
+                  label: t('common.delete'),
+                  destructive: true,
+                  onClick: () => dispatch(collectionActions.removeRequest(item.id)),
+                },
+              ]}
             />
           </div>
         </>
       )}
+      <DropIndicator position={dropPosition} />
     </div>
   );
 }

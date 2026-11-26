@@ -46,6 +46,10 @@ const zhCN = {
     add: '添加',
     back: '返回',
     stop: '停止',
+    rename: '重命名',
+    mute: '静音',
+    unmute: '取消静音',
+    moreActions: '更多操作',
     noOptions: '无选项',
     resizeHint: '拖动以调整大小，双击以重置',
     toggleTheme: '切换主题',
@@ -58,13 +62,13 @@ const zhCN = {
     environments: '环境',
     history: '历史',
     settings: '设置',
-    checkForUpdates: '检查更新',
     reportFeedback: '反馈问题',
   },
 
   // Collections Panel
   collections: {
     newFolder: '新建文件夹',
+    addFolder: '添加文件夹',
     searchRequests: '搜索请求...',
     noMatchingRequests: '没有匹配的请求',
     noSavedRequests: '没有已保存的请求',
@@ -139,6 +143,19 @@ const zhCN = {
     networkError: '网络错误',
     requestHint: '输入 API URL，然后发送请求。',
     responseHint: '响应正文、响应头和耗时信息将显示在这里。',
+    missingContentType: '缺少 content-type 响应头。',
+    invalidJson: '检测到无效的 JSON。',
+    invalidXml: '检测到无效的 XML。',
+    extraction: {
+      failed: '无法提取 {{variable}}：{{reason}}。',
+      failedMany: '提取失败：{{variables}}。',
+      emptyBody: '响应正文为空',
+      selectorNotFound: "响应中未找到选择器 '{{selector}}'",
+      noHeaders: '响应没有响应头',
+      headerNotFound: "响应中未找到响应头 '{{selector}}'",
+      nullValue: '提取的值为 null 或 undefined',
+      invalidVariable: '保存的变量无效',
+    },
   },
 
   // cURL
@@ -225,8 +242,8 @@ const zhCN = {
       doNotShowAgain: '不再显示',
     },
     deleteFolder: {
-      title: '删除文件夹',
-      description: '此文件夹包含请求。确定要删除吗？',
+      title: '删除「{{name}}」',
+      description: '此文件夹不为空。确定要删除吗？',
     },
     importConflict: {
       title: '检测到导入冲突',
@@ -292,6 +309,19 @@ const zhCN = {
 
   // Settings
   settings: {
+    update: {
+      name: '更新',
+      check: '检查更新',
+      currentVersion: '您正在使用 Rentgen v{{version}}。',
+      checking: '正在检查更新...',
+      upToDate: '已是最新版本！',
+      latestVersion: 'Rentgen v{{version}} 是最新版本。',
+      updateAvailable: '有新版本可用！',
+      newVersionAvailable: 'Rentgen v{{latest}} 已发布。\n您正在使用 v{{current}}。',
+      download: '下载',
+      checkFailed: '无法检查更新，请稍后重试。',
+      lastChecked: '上次检查时间：{{date, datetime(dateStyle: medium; timeStyle: short)}}。',
+    },
     testEngine: '测试引擎',
     general: '通用',
     themes: '主题',
@@ -335,6 +365,11 @@ const zhCN = {
       apiKey: 'API 密钥',
       apiKeyStorageNotice: 'API 密钥仅保存在本地，Rentgen 不会接收它们。',
       howToRunOllamaLocally: '如何在本地运行 Ollama？',
+      advancedTitle: '高级',
+      advancedDescription:
+        '为 AI 分析提供更多上下文，例如 API 的功能、业务规则，以及希望 AI 重点调查的具体方面。Rentgen 已包含你的原始请求、字段映射和测试结果。',
+      apiContext: '附加 API 上下文',
+      apiContextPlaceholder: '例如：30 天内允许退款。\n只有管理员可以审批超过 €500 的金额。\n重点关注校验漏洞。',
     },
     cli: {
       name: 'CLI',

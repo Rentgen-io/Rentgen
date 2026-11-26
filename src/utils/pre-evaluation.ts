@@ -3,6 +3,7 @@ import { EvaluationQuestion, MatchMode, PreEvaluation } from 'shared/types/pre-e
 import { MAX_ITERATIONS, MIN_ITERATIONS } from 'src/constants/pre-evaluation';
 import { v4 as uuidv4 } from 'uuid';
 import { isObject, toJsonPointer } from './object';
+import { METHODS_WITHOUT_BODY } from './http';
 
 const CSV_HEADERS = ['prompt', 'contains', 'containsMode', 'notContains', 'notContainsMode'];
 
@@ -34,7 +35,7 @@ export function getPreEvaluationError(
   preEvaluation: PreEvaluation,
   promptPointers: string[],
 ): PreEvaluationMessage | null {
-  if (!url || ['GET', 'HEAD'].includes(method.toUpperCase()) || body.mode === 'formdata' || body.mode === 'urlencoded')
+  if (!url || METHODS_WITHOUT_BODY.has(method.toUpperCase()) || body.mode === 'formdata' || body.mode === 'urlencoded')
     return { key: 'preEvaluation.useRequestMethodWithJsonBody' };
 
   if (!preEvaluation.promptPath || !promptPointers.includes(preEvaluation.promptPath))

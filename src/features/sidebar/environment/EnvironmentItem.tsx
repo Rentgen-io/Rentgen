@@ -43,7 +43,7 @@ function EnvironmentItem({ environment }: Props) {
         transition,
       }}
       className={cn(
-        'h-9 flex items-center gap-2 px-3 py-1.5 hover:bg-muted box-border group cursor-pointer outline-none',
+        'h-6 flex items-center gap-2 py-1 px-2 rounded hover:bg-muted box-border group cursor-pointer outline-none',
         {
           'bg-muted': isHighlighted,
           'opacity-50 shadow-lg z-50': isDragging,
@@ -53,7 +53,7 @@ function EnvironmentItem({ environment }: Props) {
       {...attributes}
       {...listeners}
     >
-      <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: environment.color }} />
+      <div className="size-1.75 rounded-full shrink-0" style={{ backgroundColor: environment.color }} />
       <span className="flex-1 text-xs truncate" title={environment.title}>
         {environment.title}
       </span>

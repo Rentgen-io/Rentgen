@@ -46,6 +46,10 @@ const nl = {
     add: 'Toevoegen',
     back: 'Terug',
     stop: 'Stoppen',
+    rename: 'Hernoemen',
+    mute: 'Dempen',
+    unmute: 'Dempen opheffen',
+    moreActions: 'Meer acties',
     noOptions: 'Geen opties',
     resizeHint: 'Sleep om het formaat te wijzigen, dubbelklik om te herstellen',
     toggleTheme: 'Thema wisselen',
@@ -58,13 +62,13 @@ const nl = {
     environments: 'Omgevingen',
     history: 'Geschiedenis',
     settings: 'Instellingen',
-    checkForUpdates: 'Controleren op updates',
     reportFeedback: 'Feedback geven',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'Nieuwe map',
+    addFolder: 'Map toevoegen',
     searchRequests: 'Verzoeken zoeken...',
     noMatchingRequests: 'Geen overeenkomende verzoeken',
     noSavedRequests: 'Geen opgeslagen verzoeken',
@@ -140,6 +144,19 @@ const nl = {
     networkError: 'Netwerkfout',
     requestHint: 'Voer een API-URL in en verstuur daarna je verzoek.',
     responseHint: 'De body, headers en timing van de reactie verschijnen hier.',
+    missingContentType: 'Content-type-header ontbreekt.',
+    invalidJson: 'Ongeldige JSON gedetecteerd.',
+    invalidXml: 'Ongeldige XML gedetecteerd.',
+    extraction: {
+      failed: 'Kan {{variable}} niet extraheren: {{reason}}.',
+      failedMany: 'Extraheren mislukt: {{variables}}.',
+      emptyBody: 'de body van de reactie is leeg',
+      selectorNotFound: "selector '{{selector}}' niet gevonden in de reactie",
+      noHeaders: 'de reactie heeft geen headers',
+      headerNotFound: "header '{{selector}}' niet gevonden in de reactie",
+      nullValue: 'de geëxtraheerde waarde is null of undefined',
+      invalidVariable: 'de opgeslagen variabele is ongeldig',
+    },
   },
 
   // cURL
@@ -232,8 +249,8 @@ const nl = {
       doNotShowAgain: 'Niet meer tonen',
     },
     deleteFolder: {
-      title: 'Map verwijderen',
-      description: 'Deze map bevat verzoeken. Weet je zeker dat je hem wilt verwijderen?',
+      title: '"{{name}}" verwijderen',
+      description: 'Deze map is niet leeg. Weet je zeker dat je hem wilt verwijderen?',
     },
     importConflict: {
       title: 'Importconflicten gedetecteerd',
@@ -301,6 +318,19 @@ const nl = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Update',
+      check: 'Controleren op updates',
+      currentVersion: 'Je gebruikt Rentgen v{{version}}.',
+      checking: 'Controleren op updates...',
+      upToDate: 'Je bent up-to-date!',
+      latestVersion: 'Rentgen v{{version}} is de nieuwste versie.',
+      updateAvailable: 'Er is een nieuwe versie beschikbaar!',
+      newVersionAvailable: 'Rentgen v{{latest}} is beschikbaar.\nJe gebruikt v{{current}}.',
+      download: 'Downloaden',
+      checkFailed: 'Kan niet controleren op updates. Probeer het later opnieuw.',
+      lastChecked: 'Laatst gecontroleerd op {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Testengine',
     general: 'Algemeen',
     themes: "Thema's",
@@ -344,6 +374,12 @@ const nl = {
       apiKey: 'API-sleutel',
       apiKeyStorageNotice: 'API-sleutels worden lokaal opgeslagen. Rentgen ontvangt ze niet.',
       howToRunOllamaLocally: 'Hoe voer je Ollama lokaal uit?',
+      advancedTitle: 'Geavanceerd',
+      advancedDescription:
+        'Geef extra context voor de analyse van de AI, zoals wat de API doet, de bedrijfsregels en specifieke gebieden die de AI moet onderzoeken. Rentgen voegt je oorspronkelijke verzoek, veldkoppelingen en testresultaten al toe.',
+      apiContext: 'Aanvullende API-context',
+      apiContextPlaceholder:
+        'bijv. Terugbetalingen zijn toegestaan binnen 30 dagen.\nAlleen beheerders mogen bedragen boven € 500 goedkeuren.\nFocus op validatiegaten.',
     },
     cli: {
       name: 'CLI',

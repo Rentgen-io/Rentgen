@@ -5,9 +5,10 @@ import {
   PostmanFolder,
   PostmanHeader,
   PostmanItem,
+  PostmanNode,
   PostmanRequest,
 } from 'shared/types/postman';
-import { COLLECTION_SCHEMA, uniqueFolderName } from 'shared/utils/collection';
+import { COLLECTION_SCHEMA, DEFAULT_COLLECTION_DESCRIPTION, isFolder, uniqueFolderName } from 'shared/utils/collection';
 import { generateFolderId, generateRequestId } from 'shared/utils/id';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -79,6 +80,8 @@ interface PostmanFileFolder {
 
 interface PostmanFileCollectionInfo {
   _postman_id?: string;
+  /** Set on files exported by Rentgen: their top-level folders are Rentgen's top-level folders (see postmanToRentgen). */
+  _rentgen_export?: boolean;
   name: string;
   description?: string;
   schema: string;
@@ -91,7 +94,6 @@ export interface PostmanFileCollection {
 }
 
 const DEFAULT_IMPORTED_COLLECTION_NAME = 'Imported Collection';
-const FOLDER_PATH_SEPARATOR = ' / ';
 
 // ---------- Export: Rentgen -> Postman ----------
 
@@ -100,6 +102,7 @@ export function rentgenToPostman(collection: PostmanCollection): PostmanFileColl
   return {
     info: {
       _postman_id: uuidv4(),
+      _rentgen_export: true,
       name: collection.info.name,
       description: collection.info.description || '',
       schema: COLLECTION_SCHEMA,
@@ -112,7 +115,7 @@ function toPostmanFolder(folder: PostmanFolder): PostmanFileFolder {
   return {
     name: folder.name,
     _postman_id: folder.id || uuidv4(),
-    item: folder.item.map(toPostmanItem),
+    item: folder.item.map((node) => (isFolder(node) ? toPostmanFolder(node) : toPostmanItem(node))),
   };
 }
 
@@ -174,53 +177,81 @@ function detectRawLanguage(content: string): string {
 // ---------- Import: Postman -> Rentgen ----------
 
 /**
- * Converts a Postman collection to the Rentgen format. Nested folders are flattened into "Parent / Child" folders,
- * and requests outside any folder go to a folder named after the collection.
+ * Converts a Postman collection to the Rentgen format, keeping its folders and subfolders.
+ *
+ * A Postman collection becomes one top-level folder named after it, holding its folders and requests in their order:
+ * a top-level folder in Rentgen is what a collection is in Postman. Files exported by Rentgen are not wrapped: their
+ * top-level folders are restored as top-level folders (requests outside any folder, not written by Rentgen, then go to
+ * a folder named after the collection, as the top level holds only folders).
  */
 export function postmanToRentgen(postmanCollection: PostmanFileCollection): PostmanCollection {
   const collectionName = postmanCollection.info.name || DEFAULT_IMPORTED_COLLECTION_NAME;
-  const flattenedFolders: PostmanFolder[] = [];
+  const info = {
+    name: collectionName,
+    description: postmanCollection.info.description || '',
+    schema: COLLECTION_SCHEMA,
+  };
+
+  if (!isRentgenExport(postmanCollection))
+    return {
+      info,
+      item: [
+        {
+          id: postmanCollection.info._postman_id || generateFolderId(),
+          name: collectionName,
+          item: fromPostmanItems(postmanCollection.item),
+        },
+      ],
+    };
+
+  const importedFolders: PostmanFolder[] = [];
   const rootRequests: PostmanItem[] = [];
 
   for (const item of postmanCollection.item) {
-    if (isPostmanFolder(item)) flattenFolder(item, '', flattenedFolders);
-    else if (isPostmanRequest(item)) rootRequests.push(fromPostmanItem(item));
+    if (isFolder(item)) importedFolders.push(fromPostmanFolder(item));
+    else if (isRequest(item)) rootRequests.push(fromPostmanItem(item));
   }
 
   // The root folder comes first, and is kept even when empty if it is the only folder
   const folders: PostmanFolder[] =
-    rootRequests.length > 0 || flattenedFolders.length === 0
+    rootRequests.length > 0 || importedFolders.length === 0
       ? [{ id: generateFolderId(), name: collectionName, item: rootRequests }]
       : [];
 
-  // On a name clash the flattened folder gets a counter, e.g. "Users (2)"
-  for (const folder of flattenedFolders) folders.push({ ...folder, name: uniqueFolderName(folders, folder.name) });
+  // On a name clash the folder gets a counter, e.g. "Users (2)"
+  for (const folder of importedFolders) folders.push({ ...folder, name: uniqueFolderName(folders, folder.name) });
 
-  return {
-    info: {
-      name: collectionName,
-      description: postmanCollection.info.description || '',
-      schema: COLLECTION_SCHEMA,
-    },
-    item: folders,
-  };
+  return { info, item: folders };
 }
 
 /**
- * Adds a folder and its subfolders as single-level folders named by their path, e.g. "Users / Admin".
- * Subfolders come before their parent, and a folder without direct requests is not added.
+ * A file exported by Rentgen: marked as such, or (exported before the mark existed) with the description Rentgen gives
+ * its collection.
  */
-function flattenFolder(folder: PostmanFileFolder, parentPath: string, folders: PostmanFolder[]): void {
-  const path = parentPath ? `${parentPath}${FOLDER_PATH_SEPARATOR}${folder.name}` : folder.name;
-  for (const child of folder.item) if (isPostmanFolder(child)) flattenFolder(child, path, folders);
+function isRentgenExport(postmanCollection: PostmanFileCollection): boolean {
+  return (
+    postmanCollection.info._rentgen_export === true ||
+    postmanCollection.info.description === DEFAULT_COLLECTION_DESCRIPTION
+  );
+}
 
-  const requests = folder.item.filter(isPostmanRequest);
-  if (requests.length > 0)
-    folders.push({
-      id: folder._postman_id || generateFolderId(),
-      name: path,
-      item: requests.map(fromPostmanItem),
-    });
+/** A folder with its requests and subfolders, in their order. Empty folders are kept, like in Postman. */
+function fromPostmanFolder(folder: PostmanFileFolder): PostmanFolder {
+  return { id: folder._postman_id || generateFolderId(), name: folder.name, item: fromPostmanItems(folder.item) };
+}
+
+/** Requests and folders in their order; a folder gets a counter in its name when a sibling folder already has it. */
+function fromPostmanItems(items: (PostmanFileItem | PostmanFileFolder)[]): PostmanNode[] {
+  const nodes: PostmanNode[] = [];
+
+  for (const item of items) {
+    if (isFolder(item)) {
+      const folder = fromPostmanFolder(item);
+      nodes.push({ ...folder, name: uniqueFolderName(nodes, folder.name) });
+    } else if (isRequest(item)) nodes.push(fromPostmanItem(item));
+  }
+
+  return nodes;
 }
 
 function fromPostmanItem(item: PostmanFileItem): PostmanItem {
@@ -276,12 +307,8 @@ function fromPostmanBody(body: PostmanFileBody): PostmanBody | undefined {
   return undefined;
 }
 
-/** A folder has nested items and no request. */
-function isPostmanFolder(item: PostmanFileItem | PostmanFileFolder): item is PostmanFileFolder {
-  return 'item' in item && !('request' in item);
-}
-
-function isPostmanRequest(item: PostmanFileItem | PostmanFileFolder): item is PostmanFileItem {
+// Folders are recognized with isFolder (shared/utils/collection); anything else without a request is skipped
+function isRequest(item: PostmanFileItem | PostmanFileFolder): item is PostmanFileItem {
   return 'request' in item;
 }
 

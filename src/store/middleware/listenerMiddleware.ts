@@ -1,5 +1,6 @@
 import { createListenerMiddleware, isAnyOf, isFulfilled } from '@reduxjs/toolkit';
 import { PostmanFolder } from 'shared/types/postman';
+import { collectRequests } from 'shared/utils/collection';
 import {
   saveCollection,
   saveDynamicVariables,
@@ -78,9 +79,9 @@ startAppListening({
   predicate: (action, currentState, originalState) =>
     !isHydration(action) && currentState.collection.data !== originalState.collection.data,
   effect: (_, { dispatch, getOriginalState, getState }) => {
-    const { collection, environment } = getState();
-    const requestIds = (folders: PostmanFolder[]) => folders.flatMap((folder) => folder.item.map(({ id }) => id));
+    const requestIds = (folders: PostmanFolder[]) => collectRequests(folders).map(({ id }) => id);
 
+    const { collection, environment } = getState();
     const remainingIds = new Set(requestIds(collection.data.item));
     const removedIds = new Set(
       requestIds(getOriginalState().collection.data.item).filter((id) => !remainingIds.has(id)),

@@ -14,6 +14,9 @@ export const defaultSettings: SettingsState = {
     },
   },
   ai: {
+    advanced: {
+      apiContext: '',
+    },
     license: {
       key: null,
       trialUsed: false,

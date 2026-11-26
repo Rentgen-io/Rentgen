@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { appConfig } from 'shared/constants';
 import type { CliActionResult, CliStatus } from 'shared/types/cli';
 import { exportProject } from 'src/api/files';
 import { getCliStatus, installCli, openExternal, uninstallCli } from 'src/api/system';
@@ -280,7 +281,7 @@ export function CliSettings() {
           {t('settings.cli.fullDocumentation')}{' '}
           <button
             type="button"
-            onClick={() => openExternal('https://rentgen.io/cli')}
+            onClick={() => openExternal(`${appConfig.origin}/cli`)}
             className="p-0 bg-transparent border-0 text-blue-500 hover:underline cursor-pointer"
           >
             rentgen.io/cli

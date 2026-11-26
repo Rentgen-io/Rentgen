@@ -46,6 +46,10 @@ const vi = {
     add: 'Thêm',
     back: 'Quay lại',
     stop: 'Dừng',
+    rename: 'Đổi tên',
+    mute: 'Tắt tiếng',
+    unmute: 'Bật tiếng',
+    moreActions: 'Thao tác khác',
     noOptions: 'Không có tùy chọn',
     resizeHint: 'Kéo để thay đổi kích thước, nhấp đúp để đặt lại',
     toggleTheme: 'Chuyển giao diện',
@@ -58,13 +62,13 @@ const vi = {
     environments: 'Môi trường',
     history: 'Lịch sử',
     settings: 'Cài đặt',
-    checkForUpdates: 'Kiểm tra cập nhật',
     reportFeedback: 'Gửi phản hồi',
   },
 
   // Collections Panel
   collections: {
     newFolder: 'Thư mục mới',
+    addFolder: 'Thêm thư mục',
     searchRequests: 'Tìm kiếm yêu cầu...',
     noMatchingRequests: 'Không có yêu cầu phù hợp',
     noSavedRequests: 'Không có yêu cầu nào được lưu',
@@ -139,6 +143,19 @@ const vi = {
     networkError: 'Lỗi mạng',
     requestHint: 'Nhập URL API, sau đó gửi yêu cầu của bạn.',
     responseHint: 'Nội dung phản hồi, tiêu đề và thời gian sẽ hiển thị ở đây.',
+    missingContentType: 'Thiếu tiêu đề content-type.',
+    invalidJson: 'Phát hiện JSON không hợp lệ.',
+    invalidXml: 'Phát hiện XML không hợp lệ.',
+    extraction: {
+      failed: 'Không thể trích xuất {{variable}}: {{reason}}.',
+      failedMany: 'Trích xuất thất bại: {{variables}}.',
+      emptyBody: 'nội dung phản hồi trống',
+      selectorNotFound: "không tìm thấy bộ chọn '{{selector}}' trong phản hồi",
+      noHeaders: 'phản hồi không có tiêu đề',
+      headerNotFound: "không tìm thấy tiêu đề '{{selector}}' trong phản hồi",
+      nullValue: 'giá trị trích xuất là null hoặc undefined',
+      invalidVariable: 'biến đã lưu không hợp lệ',
+    },
   },
 
   // cURL
@@ -230,8 +247,8 @@ const vi = {
       doNotShowAgain: 'Không hiển thị lại',
     },
     deleteFolder: {
-      title: 'Xóa thư mục',
-      description: 'Thư mục này chứa các yêu cầu. Bạn có chắc chắn muốn xóa nó không?',
+      title: 'Xóa "{{name}}"',
+      description: 'Thư mục này không trống. Bạn có chắc chắn muốn xóa nó không?',
     },
     importConflict: {
       title: 'Đã phát hiện xung đột khi nhập',
@@ -299,6 +316,19 @@ const vi = {
 
   // Settings
   settings: {
+    update: {
+      name: 'Cập nhật',
+      check: 'Kiểm tra cập nhật',
+      currentVersion: 'Bạn đang dùng Rentgen v{{version}}.',
+      checking: 'Đang kiểm tra cập nhật...',
+      upToDate: 'Bạn đang dùng phiên bản mới nhất!',
+      latestVersion: 'Rentgen v{{version}} là phiên bản mới nhất.',
+      updateAvailable: 'Đã có phiên bản mới!',
+      newVersionAvailable: 'Rentgen v{{latest}} đã có.\nBạn đang dùng v{{current}}.',
+      download: 'Tải xuống',
+      checkFailed: 'Không thể kiểm tra cập nhật. Vui lòng thử lại sau.',
+      lastChecked: 'Kiểm tra lần cuối lúc {{date, datetime(dateStyle: medium; timeStyle: short)}}.',
+    },
     testEngine: 'Công cụ kiểm thử',
     general: 'Chung',
     themes: 'Giao diện',
@@ -342,6 +372,12 @@ const vi = {
       apiKey: 'Khóa API',
       apiKeyStorageNotice: 'Khóa API được lưu cục bộ. Rentgen không nhận chúng.',
       howToRunOllamaLocally: 'Cách chạy Ollama cục bộ?',
+      advancedTitle: 'Nâng cao',
+      advancedDescription:
+        'Cung cấp thêm ngữ cảnh cho phân tích của AI, chẳng hạn API làm gì, các quy tắc nghiệp vụ và những phần cụ thể bạn muốn AI điều tra. Rentgen đã bao gồm yêu cầu gốc, ánh xạ trường và kết quả kiểm thử của bạn.',
+      apiContext: 'Ngữ cảnh API bổ sung',
+      apiContextPlaceholder:
+        'vd. Hoàn tiền được phép trong vòng 30 ngày.\nChỉ quản trị viên mới được duyệt số tiền trên €500.\nTập trung vào các lỗ hổng xác thực.',
     },
     cli: {
       name: 'CLI',
